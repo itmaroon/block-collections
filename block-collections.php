@@ -1,14 +1,14 @@
 <?php
 /**
  * Plugin Name:       Block Collections
- * Description:       Example block scaffolded with Create Block tool.
+ * Description:       複数のブロックを集めたプラグインです。
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Version:           0.1.0
- * Author:            The WordPress Contributors
+ * Author:            WebクリエイターITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       block-collections
+ * Text Domain:       block-location
  *
  * @package           create-block
  */
@@ -21,6 +21,22 @@
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 function create_block_block_collections_block_init() {
-	register_block_type( __DIR__ . '/build' );
+	foreach ( glob( plugin_dir_path( __FILE__ ) . 'build/blocks/*' ) as $block ) {
+		if ( file_exists( $block . '/index.php' ) ) {
+			// Dynamic block
+			require_once( $block . '/index.php' );
+
+			register_block_type(
+					$block,
+					array(
+							'render_callback' => 'itmar_render_callback_' . str_replace( '-', '_', basename( $block ) ),
+					)
+			);
+
+		} else {
+				// Static block
+				register_block_type( $block );
+		}
+	}
 }
 add_action( 'init', 'create_block_block_collections_block_init' );

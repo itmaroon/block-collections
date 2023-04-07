@@ -18,7 +18,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 export default function save() {
 	return (
 		<p { ...useBlockProps.save() }>
-			{ 'drag-resize – hello from the saved content!' }
+			{ 'Swiper Masonry – hello from the saved content!' }
 		</p>
 	);
 }

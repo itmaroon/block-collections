@@ -1,12 +1,12 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
-	"name": "itmar/drag-resize",
+	"name": "itmar/swiper-masonry",
 	"version": "0.1.0",
-	"title": "Drag Resize",
+	"title": "Swiper Masonry",
 	"category": "widgets",
-	"icon": "fullscreen-alt",
-	"description": "ドラッグによる位置決めができて、サイズ変更ができるブロックです。",
+	"icon": "schedule",
+	"description": "マソンリー形式で配置して、クリックしたらスライダー表示させるブロックです。",
 	"supports": {
 		"html": false
 	},

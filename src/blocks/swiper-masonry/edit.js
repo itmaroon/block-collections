@@ -32,9 +32,7 @@ import './editor.scss';
 export default function Edit() {
 	return (
 		<p { ...useBlockProps() }>
-			{ __(
-				'drag-resize – hello from the editor!','block-location'
-			) }
+			{ __( 'Swiper Masonry – hello from the editor!', 'swiper-masonry' ) }
 		</p>
 	);
 }
