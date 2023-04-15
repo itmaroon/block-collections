@@ -28,14 +28,24 @@ import {
 	Button, 
 	Toolbar
 } from '@wordpress/components';
-import { Fragment, useEffect } from '@wordpress/element';
+import { useEffect } from '@wordpress/element';
 
 import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
+	const blockProps = useBlockProps();
+
+	//モードが切り替わって再レンダリングが完了したら呼出し
+	useEffect(() => {
+		if(typeof PR !== "undefined"){
+			PR.prettyPrint();
+		}
+	}, [attributes.isEditMode]);
+
 	//テキストエリア（TextareaControl）の行数
   let codeAreaRows = attributes.codeArea.split(/\r|\r\n|\n/).length > 3 ? attributes.codeArea.split(/\r|\r\n|\n/).length : 3;
-
+	
+	
 	//プレビュー表示
 	const getPreview = () => {
 		//テキストエリアに入力がなければ何も表示しない
@@ -195,7 +205,7 @@ export default function Edit({ attributes, setAttributes }) {
 			</BlockControls>
 
 			{ attributes.isEditMode && // isEditMode が true の場合（編集モード）
-				<div { ...useBlockProps() }>
+				<div { ...blockProps }>
 					<TextControl 
 						label="File Name"
 						type="string"
@@ -219,8 +229,9 @@ export default function Edit({ attributes, setAttributes }) {
 						icon="edit"
 					>編集モード
 					</Button>
-					{getPreview()}
+					{	getPreview() }
 				</div>
+				
       }
 		</>
 		

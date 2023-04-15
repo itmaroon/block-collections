@@ -44,6 +44,15 @@ function Edit(_ref) {
     attributes,
     setAttributes
   } = _ref;
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
+
+  //モードが切り替わって再レンダリングが完了したら呼出し
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (typeof PR !== "undefined") {
+      PR.prettyPrint();
+    }
+  }, [attributes.isEditMode]);
+
   //テキストエリア（TextareaControl）の行数
   let codeAreaRows = attributes.codeArea.split(/\r|\r\n|\n/).length > 3 ? attributes.codeArea.split(/\r|\r\n|\n/).length : 3;
 
@@ -208,7 +217,7 @@ function Edit(_ref) {
     }
   }))), attributes.isEditMode &&
   // isEditMode が true の場合（編集モード）
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
     label: "File Name",
     type: "string",
     className: "filename",
@@ -280,13 +289,7 @@ __webpack_require__.r(__webpack_exports__);
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-  /**
-   * @see ./edit.js
-   */
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
-  /**
-   * @see ./save.js
-   */
   save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 
@@ -459,7 +462,7 @@ module.exports = window["wp"]["i18n"];
   \**********************************************/
 /***/ (function(module) {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/code-highlight","version":"0.1.0","title":"Code HighLight","category":"widgets","icon":"embed-generic","description":"コードをハイライト表示するブロックです","supports":{"html":false},"attributes":{"codeArea":{"type":"string","default":""},"linenums":{"type":"boolean","default":true},"linenumsStart":{"type":"number","default":1},"lang":{"type":"string","default":""},"align":{"type":"string","default":""},"maxWidthEnable":{"type":"boolean","default":false},"maxWidth":{"type":"number","default":0},"skin":{"type":"string","default":"desert"},"fileName":{"type":"string","default":""},"isEditMode":{"type":"boolean","default":true}},"textdomain":"block-location","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/code-highlight","version":"0.1.0","title":"Code HighLight","category":"widgets","icon":"embed-generic","description":"コードをハイライト表示するブロックです","example":{},"supports":{"html":false},"attributes":{"codeArea":{"type":"string","default":""},"linenums":{"type":"boolean","default":true},"linenumsStart":{"type":"number","default":1},"lang":{"type":"string","default":""},"align":{"type":"string","default":""},"maxWidthEnable":{"type":"boolean","default":false},"maxWidth":{"type":"number","default":0},"skin":{"type":"string","default":"desert"},"fileName":{"type":"string","default":""},"isEditMode":{"type":"boolean","default":true}},"textdomain":"block-location","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 

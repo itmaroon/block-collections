@@ -7,6 +7,7 @@
   "category": "widgets",
   "icon": "embed-generic",
   "description": "コードをハイライト表示するブロックです",
+  "example": {},
   "supports": {
     "html": false
   },

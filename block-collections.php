@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name:       Block Collections
  * Description:       複数のブロックを集めたプラグインです。
@@ -20,65 +21,66 @@
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
-function itmar_block_collections_block_init() {
-	foreach ( glob( plugin_dir_path( __FILE__ ) . 'build/blocks/*' ) as $block ) {
-		if ( file_exists( $block . '/index.php' ) ) {
+function itmar_block_collections_block_init()
+{
+	foreach (glob(plugin_dir_path(__FILE__) . 'build/blocks/*') as $block) {
+		if (file_exists($block . '/index.php')) {
 			// Dynamic block
-			require_once( $block . '/index.php' );
+			require_once($block . '/index.php');
 
 			register_block_type(
-					$block,
-					array(
-							'render_callback' => 'itmar_render_callback_' . str_replace( '-', '_', basename( $block ) ),
-					)
+				$block,
+				array(
+					'render_callback' => 'itmar_render_callback_' . str_replace('-', '_', basename($block)),
+				)
 			);
-
 		} else {
-				// Static block
-				register_block_type( $block );
+			// Static block
+			register_block_type($block);
 		}
 	}
 }
-add_action( 'init', 'itmar_block_collections_block_init' );
+add_action('init', 'itmar_block_collections_block_init');
 
-function add_itmar_highlight_scripts_and_styles() {
-  $dir = dirname( __FILE__ );
-  
+function add_itmar_highlight_scripts_and_styles()
+{
+	$dir = dirname(__FILE__);
+
 	//Code-Prettify の JavaScript ファイルの読み込み（エンキュー）
-	wp_enqueue_script( 
-		'code-prettify', 
-		plugins_url( '/code-prettify/prettify.js', __FILE__ ), 
+	wp_enqueue_script(
+		'code-prettify',
+		plugins_url('/code-prettify/prettify.js', __FILE__),
 		array(),
-		filemtime( "$dir/code-prettify/prettify.js" ),
-		true
-	);
-	
-	//CSS 用言語ハンドラーの JavaScript ファイルの読み込み（エンキュー）
-	wp_enqueue_script( 
-		'code-prettify-css-lang', 
-		plugins_url( '/code-prettify/lang-css.js', __FILE__ ), 
-		array('code-prettify'),
-		filemtime( "$dir/code-prettify/lang-css.js" ),
+		filemtime("$dir/code-prettify/prettify.js"),
 		true
 	);
 
-  //管理画面以外（フロントエンド側でのみ読み込む）
-  if(! is_admin()) {   
-    //PR.prettyPrint() を実行する JavaScript ファイルの読み込み（エンキュー）
-    wp_enqueue_script( 
-      'code-prettify-init', 
-      plugins_url( '/code-prettify/init-prettify.js', __FILE__ ), 
-      array('code-prettify'),
-      filemtime( "$dir/code-prettify/init-prettify.js" ),
-      true
-    );
-  }
+	//CSS 用言語ハンドラーの JavaScript ファイルの読み込み（エンキュー）
+	wp_enqueue_script(
+		'code-prettify-css-lang',
+		plugins_url('/code-prettify/lang-css.js', __FILE__),
+		array('code-prettify'),
+		filemtime("$dir/code-prettify/lang-css.js"),
+		true
+	);
+
+	//管理画面以外（フロントエンド側でのみ読み込む）
+	if (!is_admin()) {
+		//PR.prettyPrint() を実行する JavaScript ファイルの読み込み（エンキュー）
+		wp_enqueue_script(
+			'code-prettify-init',
+			plugins_url('/code-prettify/init-prettify.js', __FILE__),
+			array('code-prettify'),
+			filemtime("$dir/code-prettify/init-prettify.js"),
+			true
+		);
+	}
 	//Code-Prettify の基本スタイルの読み込み（エンキュー）
-  wp_enqueue_style(
-    'code-prettify-style',
-    plugins_url( '/code-prettify/prettify.css', __FILE__ ), 
-    array(),
-    filemtime( "$dir/code-prettify/prettify.css" )
-  );
+	wp_enqueue_style(
+		'code-prettify-style',
+		plugins_url('/code-prettify/prettify.css', __FILE__),
+		array(),
+		filemtime("$dir/code-prettify/prettify.css")
+	);
 }
 add_action('enqueue_block_assets', 'add_itmar_highlight_scripts_and_styles');

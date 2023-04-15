@@ -2,6 +2,111 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/blocks/drag-resize/borderControl.jsx":
+/*!**************************************************!*\
+  !*** ./src/blocks/drag-resize/borderControl.jsx ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const edit = props => {
+  const {
+    setAttributes,
+    attributes,
+    label
+  } = props;
+  const resetValues = {
+    top: '0px',
+    left: '0px',
+    right: '0px',
+    bottom: '0px'
+  };
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.__experimentalBorderBoxControl, {
+    colors: [{
+      color: '#72aee6',
+      name: 'Blue 20'
+    }, {
+      color: '#3582c4',
+      name: 'Blue 40'
+    }, {
+      color: '#e65054',
+      name: 'Red 40'
+    }, {
+      color: '#8a2424',
+      name: 'Red 70'
+    }, {
+      color: '#f2d675',
+      name: 'Yellow 10'
+    }, {
+      color: '#bd8600',
+      name: 'Yellow 40'
+    }],
+    value: attributes,
+    onChange: value => setAttributes({
+      borderBoxValues: value
+    }) // 保存処理
+    ,
+    popoverPlacement: "left-end",
+    size: "__unstable-large",
+    style: {
+      width: "100%"
+    }
+  });
+};
+/* harmony default export */ __webpack_exports__["default"] = (edit);
+
+/***/ }),
+
+/***/ "./src/blocks/drag-resize/boxControl.jsx":
+/*!***********************************************!*\
+  !*** ./src/blocks/drag-resize/boxControl.jsx ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const edit = props => {
+  const {
+    setAttributes,
+    attributes,
+    label,
+    sizeName
+  } = props;
+  const resetValues = {
+    top: '0px',
+    left: '0px',
+    right: '0px',
+    bottom: '0px'
+  };
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.__experimentalBoxControl, {
+    label: label // ラベル
+    ,
+    values: attributes,
+    onChange: value => setAttributes({
+      [sizeName]: value
+    }) // 保存処理
+    ,
+    allowReset: true // リセットの可否
+    ,
+    resetValues: resetValues // リセット時の値
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (edit);
+
+/***/ }),
+
 /***/ "./src/blocks/drag-resize/edit.js":
 /*!****************************************!*\
   !*** ./src/blocks/drag-resize/edit.js ***!
@@ -12,13 +117,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ Edit; }
 /* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/drag-resize/editor.scss");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _borderControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./borderControl */ "./src/blocks/drag-resize/borderControl.jsx");
+/* harmony import */ var _boxControl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./boxControl */ "./src/blocks/drag-resize/boxControl.jsx");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/drag-resize/editor.scss");
+
 
 /**
  * Retrieves the translation of text.
@@ -35,24 +146,154 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {WPElement} Element to render.
- */
-function Edit() {
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('drag-resize – hello from the editor!', 'block-location'));
+
+
+
+function Edit(_ref) {
+  let {
+    attributes,
+    setAttributes
+  } = _ref;
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
+
+  //選択された画像の情報（alt 属性、URL、ID）を更新する関数
+  const onSelectImage = media => {
+    const media_ID = media.id;
+    const imageUrl = media.url;
+    const imageAlt = media.alt;
+    const imageCaption = media.caption;
+    setAttributes({
+      imageAlt: imageAlt,
+      imageUrl: imageUrl,
+      mediaID: media_ID,
+      imageCaption: imageCaption
+    });
+  };
+
+  //URLの配列から画像を生成
+  const getImages = (url, caption) => {
+    //BorderRadiusのスタイル取得
+    let borderRadiusStyleObj = {};
+    const BRval = attributes.borderRadiusValues;
+    if (Object.keys(BRval).length == 1) {
+      Object.entries(BRval).map(radius => {
+        if (radius[0] == 'value') {
+          borderRadiusStyleObj = {
+            borderRadius: radius[1]
+          };
+        }
+      });
+    } else {
+      Object.entries(BRval).filter(radius => radius[0] != 'value').map(radius => {
+        let property = `border${radius[0].charAt(0).toUpperCase() + radius[0].slice(1)}Radius`;
+        borderRadiusStyleObj[property] = radius[1];
+      });
+    }
+
+    //marginのスタイル取得
+    let boxStyleObj = {};
+    const marginval = attributes.marginValues;
+    Object.entries(marginval).map(margin => {
+      let property = `margin${margin[0].charAt(0).toUpperCase() + margin[0].slice(1)}`;
+      boxStyleObj[property] = margin[1];
+    });
+    const paddingval = attributes.paddingValues;
+    Object.entries(paddingval).map(padding => {
+      let property = `padding${padding[0].charAt(0).toUpperCase() + padding[0].slice(1)}`;
+      boxStyleObj[property] = padding[1];
+    });
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("figure", {
+      style: boxStyleObj
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", {
+      src: url,
+      className: "image",
+      alt: "\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u753B\u50CF",
+      style: borderRadiusStyleObj
+    }), attributes.showCaption && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("figcaption", {
+      className: "block-image-caption"
+    }, caption));
+  };
+  //メディアライブラリを開くボタンをレンダリングする関数
+  const getImageButton = open => {
+    if (attributes.imageUrl) {
+      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+        onClick: open,
+        className: "image-card"
+      }, getImages(attributes.imageUrl, attributes.imageCaption));
+    } else {
+      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+        className: "button-container"
+      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Button, {
+        onClick: open,
+        className: "button button-large"
+      }, "\u753B\u50CF\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9"));
+    }
+  };
+
+  //画像を削除する（メディアをリセットする）関数
+  const removeMedia = () => {
+    setAttributes({
+      mediaID: 0,
+      imageUrl: "",
+      imageAlt: "",
+      imageCaption: ""
+    });
+  };
+  const onCahngeBorderRadiusVal = newBrVal => {
+    setAttributes({
+      borderRadiusValues: typeof newBrVal === 'string' ? {
+        "value": newBrVal
+      } : newBrVal
+    });
+  };
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Image Settings', 'sw_location'),
+    initialOpen: true
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Show Caption', 'sw_location'),
+    checked: attributes.showCaption,
+    onChange: val => setAttributes({
+      showCaption: val
+    })
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_borderControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    label: "Border Size & Color",
+    attributes: attributes.borderBoxValues,
+    setAttributes: setAttributes
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.__experimentalBorderRadiusControl, {
+    values: attributes.borderRadiusValues,
+    onChange: onCahngeBorderRadiusVal
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_boxControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    label: "Margin Size",
+    sizeName: "marginValues",
+    attributes: attributes.marginValues,
+    setAttributes: setAttributes
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_boxControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    label: "Padding Size",
+    sizeName: "paddingValues",
+    attributes: attributes.paddingValues,
+    setAttributes: setAttributes
+  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, {
+    __experimentalGroup: "border,dimensions"
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    className: true
+  }, blockProps), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.MediaUpload, {
+    onSelect: onSelectImage,
+    allowedTypes: ['image'],
+    value: attributes.mediaID,
+    render: _ref2 => {
+      let {
+        open
+      } = _ref2;
+      return getImageButton(open);
+    }
+  })), attributes.imageUrl !== "" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Button, {
+    onClick: removeMedia,
+    variant: "link",
+    isDestructive: true,
+    className: "removeImage"
+  }, "\u753B\u50CF\u3092\u524A\u9664"))));
 }
 
 /***/ }),
@@ -193,6 +434,16 @@ module.exports = window["wp"]["blocks"];
 
 /***/ }),
 
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["components"];
+
+/***/ }),
+
 /***/ "@wordpress/element":
 /*!*********************************!*\
   !*** external ["wp","element"] ***!
@@ -213,13 +464,40 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/esm/extends.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/extends.js ***!
+  \************************************************************/
+/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ _extends; }
+/* harmony export */ });
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
+
+/***/ }),
+
 /***/ "./src/blocks/drag-resize/block.json":
 /*!*******************************************!*\
   !*** ./src/blocks/drag-resize/block.json ***!
   \*******************************************/
 /***/ (function(module) {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/drag-resize","version":"0.1.0","title":"Drag Resize","category":"widgets","icon":"fullscreen-alt","description":"ドラッグによる位置決めができて、サイズ変更ができるブロックです。","supports":{"html":false},"textdomain":"block-location","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/drag-resize","version":"0.1.0","title":"Drag Resize","category":"widgets","icon":"fullscreen-alt","description":"ドラッグによる位置決めができて、サイズ変更ができるブロックです。","supports":{"html":false},"attributes":{"mediaID":{"type":"number","default":0},"imageUrl":{"type":"string","default":""},"imageAlt":{"type":"string","default":""},"imageCaption":{"type":"string","default":""},"showCaption":{"type":"boolean","default":true},"borderBoxValues":{"type":"object","default":{}},"borderRadiusValues":{"type":"object","default":{"value":"0px"}},"marginValues":{"type":"object","default":{"top":"0px","left":"0px","right":"0px","bottom":"0px"}},"paddingValues":{"type":"object","default":{"top":"0px","left":"0px","right":"0px","bottom":"0px"}}},"textdomain":"block-location","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 
