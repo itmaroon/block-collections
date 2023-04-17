@@ -29,7 +29,7 @@ import {
 } from '@wordpress/components';
 
 import './editor.scss';
-
+import Figure from "./getStyle";
 
 export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps();
@@ -49,55 +49,12 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	//URLの配列から画像を生成
-	const getImages = (url, caption) =>{
-		
-		//BorderRadiusのスタイル取得
-		let borderRadiusStyleObj={};
-		const BRval=attributes.borderRadiusValues;
-		if(Object.keys( BRval ).length==1){
-			Object.entries( BRval ).map( radius => {
-				if ( radius[0] == 'value' ) {
-					borderRadiusStyleObj = {borderRadius:radius[1]}
-				}
-			} )
-		}else{
-			Object.entries( BRval )
-			.filter(radius => radius[0]!='value')
-			.map( radius => {
-					let property=`border${ radius[0].charAt(0).toUpperCase() + radius[0].slice(1) }Radius`
-					borderRadiusStyleObj[property]= radius[1]
-			} )
-		}
-
-		//marginのスタイル取得
-		let boxStyleObj={};
-		const marginval=attributes.marginValues;
-		Object.entries( marginval )
-		.map( margin => {
-				let property=`margin${ margin[0].charAt(0).toUpperCase() + margin[0].slice(1) }`
-				boxStyleObj[property]= margin[1]
-		} );
-		const paddingval=attributes.paddingValues;
-		Object.entries( paddingval )
-		.map( padding => {
-				let property=`padding${ padding[0].charAt(0).toUpperCase() + padding[0].slice(1) }`
-				boxStyleObj[property]= padding[1]
-		} )
+	const getImages = (attributes) =>{
 
 		return(
-			<figure style={ boxStyleObj } >
-				<img
-					src={ url }
-					className='image'
-					alt="アップロード画像"
-					style={ borderRadiusStyleObj } 
-				/>
-				{ attributes.showCaption && 
-					<figcaption className='block-image-caption'>
-						{caption}
-					</figcaption>	
-				}				
-			</figure>
+			<div { ...useBlockProps }>
+				<Figure attributes={ attributes } />
+			</div>
 		);
 	}
 	//メディアライブラリを開くボタンをレンダリングする関数
@@ -109,7 +66,7 @@ export default function Edit({ attributes, setAttributes }) {
 					className="image-card"
 				>
 					{
-						getImages(attributes.imageUrl, attributes.imageCaption)
+						getImages(attributes)
 					}
 				</div>
 				

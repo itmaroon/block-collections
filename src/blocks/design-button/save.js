@@ -5,7 +5,6 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps } from '@wordpress/block-editor';
-import Figure from "./getStyle";
 
 /**
  * The save function defines the way in which the different attributes should
@@ -17,10 +16,9 @@ import Figure from "./getStyle";
  * @return {WPElement} Element to render.
  */
 export default function save({ attributes }) {
-
 	return (
 		<div { ...useBlockProps.save() }>
-			<Figure attributes={ attributes } />
+			
 		</div>
 	);
 }

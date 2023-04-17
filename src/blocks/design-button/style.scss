@@ -5,12 +5,11 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-itmar-drag-resize {
-	background-color: transparent;
-	color: #000;
+.wp-block-itmar-design-button {
+	background-color: #21759b;
+	color: #fff;
 	padding: 2px;
-	img{
-		max-width: 100%;
-		height: auto;
+	&.is-style-newmor{
+		background-color: #ac4d4d;
 	}
 }

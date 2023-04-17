@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "itmar/design-button",
+  "version": "0.1.0",
+  "title": "Design Button",
+  "category": "widgets",
+  "icon": "button",
+  "description": "いくつかのデザインを集めたボタンです。",
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "newmor",
+      "label": "Neumorphism"
+    }
+  ],
+  "example": {},
+  "attributes": {
+    "content": {
+      "type": "string",
+      "selector": "p"
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "textdomain": "design-button",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

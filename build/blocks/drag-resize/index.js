@@ -129,6 +129,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/drag-resize/editor.scss");
+/* harmony import */ var _getStyle__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./getStyle */ "./src/blocks/drag-resize/getStyle.jsx");
 
 
 /**
@@ -144,6 +145,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+
 
 
 
@@ -173,47 +175,10 @@ function Edit(_ref) {
   };
 
   //URLの配列から画像を生成
-  const getImages = (url, caption) => {
-    //BorderRadiusのスタイル取得
-    let borderRadiusStyleObj = {};
-    const BRval = attributes.borderRadiusValues;
-    if (Object.keys(BRval).length == 1) {
-      Object.entries(BRval).map(radius => {
-        if (radius[0] == 'value') {
-          borderRadiusStyleObj = {
-            borderRadius: radius[1]
-          };
-        }
-      });
-    } else {
-      Object.entries(BRval).filter(radius => radius[0] != 'value').map(radius => {
-        let property = `border${radius[0].charAt(0).toUpperCase() + radius[0].slice(1)}Radius`;
-        borderRadiusStyleObj[property] = radius[1];
-      });
-    }
-
-    //marginのスタイル取得
-    let boxStyleObj = {};
-    const marginval = attributes.marginValues;
-    Object.entries(marginval).map(margin => {
-      let property = `margin${margin[0].charAt(0).toUpperCase() + margin[0].slice(1)}`;
-      boxStyleObj[property] = margin[1];
-    });
-    const paddingval = attributes.paddingValues;
-    Object.entries(paddingval).map(padding => {
-      let property = `padding${padding[0].charAt(0).toUpperCase() + padding[0].slice(1)}`;
-      boxStyleObj[property] = padding[1];
-    });
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("figure", {
-      style: boxStyleObj
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", {
-      src: url,
-      className: "image",
-      alt: "\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u753B\u50CF",
-      style: borderRadiusStyleObj
-    }), attributes.showCaption && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("figcaption", {
-      className: "block-image-caption"
-    }, caption));
+  const getImages = attributes => {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_getStyle__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      attributes: attributes
+    }));
   };
   //メディアライブラリを開くボタンをレンダリングする関数
   const getImageButton = open => {
@@ -221,7 +186,7 @@ function Edit(_ref) {
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
         onClick: open,
         className: "image-card"
-      }, getImages(attributes.imageUrl, attributes.imageCaption));
+      }, getImages(attributes));
     } else {
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
         className: "button-container"
@@ -298,6 +263,82 @@ function Edit(_ref) {
 
 /***/ }),
 
+/***/ "./src/blocks/drag-resize/getStyle.jsx":
+/*!*********************************************!*\
+  !*** ./src/blocks/drag-resize/getStyle.jsx ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getBorderRadius": function() { return /* binding */ getBorderRadius; },
+/* harmony export */   "getSpaceStyle": function() { return /* binding */ getSpaceStyle; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+const getBorderRadius = BRval => {
+  //BorderRadiusのスタイル取得
+  let borderRadiusStyleObj = {};
+  if (Object.keys(BRval).length == 1) {
+    Object.entries(BRval).map(radius => {
+      if (radius[0] == 'value') {
+        borderRadiusStyleObj = {
+          borderRadius: radius[1]
+        };
+      }
+    });
+  } else {
+    Object.entries(BRval).filter(radius => radius[0] != 'value').map(radius => {
+      let property = `border${radius[0].charAt(0).toUpperCase() + radius[0].slice(1)}Radius`;
+      borderRadiusStyleObj[property] = radius[1];
+    });
+  }
+  return borderRadiusStyleObj;
+};
+const getSpaceStyle = (marginval, paddingval) => {
+  //marginのスタイル取得
+  let boxStyleObj = {};
+  if (marginval) {
+    Object.entries(marginval).map(margin => {
+      let property = `margin${margin[0].charAt(0).toUpperCase() + margin[0].slice(1)}`;
+      boxStyleObj[property] = margin[1];
+    });
+  }
+  if (paddingval) {
+    Object.entries(paddingval).map(padding => {
+      let property = `padding${padding[0].charAt(0).toUpperCase() + padding[0].slice(1)}`;
+      boxStyleObj[property] = padding[1];
+    });
+  }
+  return boxStyleObj;
+};
+/* harmony default export */ __webpack_exports__["default"] = (_ref => {
+  let {
+    attributes
+  } = _ref;
+  const {
+    imageUrl,
+    showCaption,
+    imageCaption,
+    borderRadiusValues,
+    marginValues,
+    paddingValues
+  } = attributes;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("figure", {
+    style: getSpaceStyle(marginValues, paddingValues)
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: imageUrl,
+    className: "image",
+    alt: "\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u753B\u50CF",
+    style: getBorderRadius(borderRadiusValues)
+  }), showCaption && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("figcaption", {
+    className: "block-image-caption"
+  }, imageCaption));
+});
+
+/***/ }),
+
 /***/ "./src/blocks/drag-resize/index.js":
 /*!*****************************************!*\
   !*** ./src/blocks/drag-resize/index.js ***!
@@ -366,6 +407,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _getStyle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getStyle */ "./src/blocks/drag-resize/getStyle.jsx");
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -373,6 +415,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+
 
 
 /**
@@ -384,8 +427,13 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {WPElement} Element to render.
  */
-function save() {
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save(), 'drag-resize – hello from the saved content!');
+function save(_ref) {
+  let {
+    attributes
+  } = _ref;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_getStyle__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    attributes: attributes
+  }));
 }
 
 /***/ }),
