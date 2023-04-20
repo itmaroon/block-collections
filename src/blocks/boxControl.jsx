@@ -11,6 +11,13 @@ const edit = props => {
 		right: '0px',
 		bottom: '0px',
 	}
+  const retrunval=<BoxControl
+  label={label}	// ラベル
+  values={ attributes }
+  onChange={ value => setAttributes( { [sizeName]: value } ) }	// 保存処理
+  allowReset={ true }	// リセットの可否
+  resetValues={ resetValues }	// リセット時の値
+/>
   
   return(
     <BoxControl

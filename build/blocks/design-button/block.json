@@ -20,9 +20,53 @@
   ],
   "example": {},
   "attributes": {
-    "content": {
+    "btnalign": {
       "type": "string",
+      "default": "none"
+    },
+    "btnContent": {
+      "type": "string",
+      "source": "html",
       "selector": "p"
+    },
+    "backgroundColor": {
+      "type": "string"
+    },
+    "backgroundgradient": {
+      "type": "string"
+    },
+    "btnTextColor": {
+      "type": "string"
+    },
+    "btnbackgroundColor": {
+      "type": "string"
+    },
+    "btngradient": {
+      "type": "string"
+    },
+    "borderRadiusValues": {
+      "type": "object",
+      "default": {
+        "value": "0px"
+      }
+    },
+    "marginValues": {
+      "type": "object",
+      "default": {
+        "top": "0px",
+        "left": "0px",
+        "right": "0px",
+        "bottom": "0px"
+      }
+    },
+    "paddingValues": {
+      "type": "object",
+      "default": {
+        "top": "0px",
+        "left": "0px",
+        "right": "0px",
+        "bottom": "0px"
+      }
     }
   },
   "supports": {

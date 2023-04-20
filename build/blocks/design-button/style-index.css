@@ -7,10 +7,8 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-button {
-  background-color: #21759b;
-  color: #fff;
-  padding: 2px;
+.wp-block-itmar-design-button button {
+  display: block;
 }
 .wp-block-itmar-design-button.is-style-newmor {
   background-color: #ac4d4d;

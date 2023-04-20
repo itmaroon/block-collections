@@ -1,6 +1,6 @@
 import { __experimentalBorderBoxControl as BorderBoxControl } from '@wordpress/components';
 
-const edit = props => {
+const ctrl = props => {
   const{
     setAttributes,attributes,label
   }=props
@@ -44,9 +44,11 @@ const edit = props => {
       onChange={ value => setAttributes( { borderBoxValues: value } ) }	// 保存処理
       popoverPlacement="left-end"
       size="__unstable-large"
-      style={{width:"100%"}}
+      label = { label }
+      allowReset={ true }	// リセットの可否
+			resetValues={ resetValues }	// リセット時の値
     />
   );
 }
 
-export default edit
+export default ctrl

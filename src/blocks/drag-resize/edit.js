@@ -19,8 +19,8 @@ import {
 	MediaUploadCheck 
 } from '@wordpress/block-editor';
 import { __experimentalBorderRadiusControl as BorderRadiusControl } from '@wordpress/block-editor';
-import  BorderControl from './borderControl';
-import  BoxControl from './boxControl';
+import  BorderControl from '../borderControl';
+import  BoxControl from '../boxControl';
 import { 
 	Button,
 	PanelBody, 
@@ -29,7 +29,7 @@ import {
 } from '@wordpress/components';
 
 import './editor.scss';
-import Figure from "./getStyle";
+import Figure from "../getStyle";
 
 export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps();

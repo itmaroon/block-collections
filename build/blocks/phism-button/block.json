@@ -1,0 +1,100 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "itmar/phism-button",
+  "version": "0.1.0",
+  "title": "Phism Button",
+  "category": "widgets",
+  "icon": "editor-removeformatting",
+  "description": "〇〇フィズムのデザインを作出できるボタンのブロックです",
+  "attributes": {
+    "btnalign": {
+      "type": "string",
+      "default": "none"
+    },
+    "btnContent": {
+      "type": "string",
+      "source": "html",
+      "selector": "p"
+    },
+    "distance": {
+      "type": "number",
+      "default": 5
+    },
+    "intensity": {
+      "type": "number",
+      "default": 5
+    },
+    "blur": {
+      "type": "number",
+      "default": 5
+    },
+    "direction": {
+      "type": "string",
+      "default": "top_left"
+    },
+    "embos": {
+      "type": "string",
+      "default": "swell"
+    },
+    "boxShadowStyle": {
+      "type": "object"
+    }
+  },
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "newmor",
+      "label": "Neumorphism"
+    }
+  ],
+  "example": {},
+  "supports": {
+    "color": {
+      "gradients": true,
+      "__experimentalDefaultControls": {
+        "background": true,
+        "text": true
+      }
+    },
+    "spacing": {
+      "blockGap": false,
+      "padding": true,
+      "margin": true
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "radius": true,
+        "style": true,
+        "width": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
+    },
+    "html": false
+  },
+  "textdomain": "phism-button",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}
