@@ -25,17 +25,49 @@
       "type": "number",
       "default": 5
     },
+    "opacity": {
+      "type": "number",
+      "default": 0.5
+    },
+    "depth": {
+      "type": "number",
+      "default": 5
+    },
     "blur": {
       "type": "number",
       "default": 5
     },
-    "direction": {
+    "bdBlur": {
+      "type": "number",
+      "default": 5
+    },
+    "expand": {
+      "type": "number",
+      "default": 5
+    },
+    "glassblur": {
+      "type": "number",
+      "default": 5
+    },
+    "glassopa": {
+      "type": "number",
+      "default": 0.5
+    },
+    "newDirection": {
       "type": "string",
       "default": "top_left"
+    },
+    "clayDirection": {
+      "type": "string",
+      "default": "top"
     },
     "embos": {
       "type": "string",
       "default": "swell"
+    },
+    "hasOutline": {
+      "type": "boolean",
+      "default": true
     },
     "boxShadowStyle": {
       "type": "object"
@@ -50,16 +82,23 @@
     {
       "name": "newmor",
       "label": "Neumorphism"
+    },
+    {
+      "name": "claymor",
+      "label": "Claymorphism"
+    },
+    {
+      "name": "glassmor",
+      "label": "Glassmorphism"
     }
   ],
   "example": {},
   "supports": {
     "color": {
+      "background": true,
       "gradients": true,
-      "__experimentalDefaultControls": {
-        "background": true,
-        "text": true
-      }
+      "link": false,
+      "text": true
     },
     "spacing": {
       "blockGap": false,

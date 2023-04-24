@@ -13,7 +13,8 @@ import { __ } from '@wordpress/i18n';
  */
 
 import {
-	useBlockProps, 
+	useBlockProps,
+	RichText,
 	InspectorControls, 
 	MediaUpload, 
 	MediaUploadCheck 
@@ -25,152 +26,52 @@ import {
 	Button,
 	PanelBody, 
 	PanelRow, 
-	ToggleControl
+	ToggleControl,
+	ResizableBox
 } from '@wordpress/components';
 
 import './editor.scss';
-import Figure from "../getStyle";
 
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit( props ) {
 	const blockProps = useBlockProps();
+	const {
+		attributes,
+		setAttributes
+	} = props;
 
-	//選択された画像の情報（alt 属性、URL、ID）を更新する関数
-	const onSelectImage = ( media ) => {
-		const media_ID = media.id;
-		const imageUrl = media.url;
-		const imageAlt = media.alt;
-		const imageCaption = media.caption;
-		setAttributes( {
-			imageAlt: imageAlt, 
-			imageUrl: imageUrl, 
-			mediaID: media_ID ,
-			imageCaption: imageCaption
-		} );
-	};
-
-	//URLの配列から画像を生成
-	const getImages = (attributes) =>{
-
-		return(
-			<div { ...useBlockProps }>
-				<Figure attributes={ attributes } />
-			</div>
-		);
-	}
-	//メディアライブラリを開くボタンをレンダリングする関数
-	const getImageButton = ( open ) => {
-		if(attributes.imageUrl) {
-			return (
-				<div
-					onClick={ open }
-					className="image-card"
-				>
-					{
-						getImages(attributes)
-					}
-				</div>
-				
-			);
-		}
-		else {
-			return (
-				<div className="button-container">
-					<Button 
-						onClick={ open }
-						className="button button-large"
-					>
-						画像をアップロード
-					</Button>
-				</div>
-			);
-		}
-	};
-
-	//画像を削除する（メディアをリセットする）関数
-	const removeMedia = () => {
-		setAttributes({
-			mediaID: 0,
-			imageUrl: "",
-			imageAlt: "",
-			imageCaption:"",
-		});
-	};
-
-	
-	const onCahngeBorderRadiusVal = (newBrVal)=>{
-		setAttributes( { borderRadiusValues: typeof newBrVal==='string' ? {"value": newBrVal} : newBrVal } );
-	}
-
+	const {
+		height,
+		width,
+		textContent,
+	} = attributes;
 	return (
 		<>
-			<InspectorControls>
-				
-				<PanelBody 
-					title={ __( 'Image Settings', 'sw_location')}
-					initialOpen={true}
+			<div {...blockProps}>
+				<ResizableBox 
+					__experimentalShowTooltip
+					onResizeStop={( event, direction, elt, delta ) => {
+						setAttributes( {
+								height: height + delta.height,
+								width: width + delta.width,
+						});}
+					}
+					showHandle
+					size={{
+						height: `${height}px`,
+						width: `${width}px`
+					}}
+					minHeight="50"
+          minWidth="50"
 				>
-					<PanelRow>
-						<ToggleControl
-								label={ __( 'Show Caption', 'sw_location')}
-								checked={ attributes.showCaption }
-								onChange={ (val) => setAttributes({ showCaption: val }) }
-							/>
-					</PanelRow>
-					<PanelRow>
-						<BorderControl
-							label='Border Size & Color'
-							attributes={ attributes.borderBoxValues }
-							setAttributes={setAttributes}
-						/>
-					</PanelRow>
-					<PanelRow>
-						<BorderRadiusControl
-							 values={ attributes.borderRadiusValues }
-							 onChange={ onCahngeBorderRadiusVal }	
-						/>
-					</PanelRow>
-					<PanelRow>
-						<BoxControl
-							label='Margin Size'
-							sizeName='marginValues'
-							attributes={attributes.marginValues}
-							setAttributes={setAttributes}
-						/>
-					</PanelRow>
-					<PanelRow>
-						<BoxControl
-							label='Padding Size'
-							sizeName='paddingValues'
-							attributes={attributes.paddingValues}
-							setAttributes={setAttributes}
-						/>
-					</PanelRow>
-				</PanelBody>
-			</InspectorControls>
-
-			<InspectorControls __experimentalGroup="border,dimensions">
-			</InspectorControls>
-			
-			<div className { ...blockProps }>
-				<MediaUploadCheck>
-					<MediaUpload
-						onSelect={ onSelectImage }
-						allowedTypes={ ['image'] }
-						value={ attributes.mediaID }
-						render={ ({ open }) => getImageButton( open ) }
+        	<RichText
+						tagName="p"
+						onChange={ (newContent) => setAttributes( {textContent:newContent} ) }
+						allowedFormats={ [ 'core/bold', 'core/italic', 'core/text-color' ] }
+						value={ textContent }
+						placeholder={ __( 'Write your text...' ) }
 					/>
-				</MediaUploadCheck>
-				{ attributes.imageUrl!==""  && 
-					<MediaUploadCheck>
-						<Button 
-							onClick={removeMedia} 
-							variant="link"
-							isDestructive 
-							className="removeImage">画像を削除
-						</Button>
-					</MediaUploadCheck>
-				}
-			</div>
+				</ResizableBox>
+			</div>		
 		</>
 			
 	);

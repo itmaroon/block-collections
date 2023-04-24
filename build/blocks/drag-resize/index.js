@@ -132,20 +132,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ Edit; }
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _borderControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../borderControl */ "./src/blocks/borderControl.jsx");
-/* harmony import */ var _boxControl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../boxControl */ "./src/blocks/boxControl.jsx");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/drag-resize/editor.scss");
-/* harmony import */ var _getStyle__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../getStyle */ "./src/blocks/getStyle.jsx");
-
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _borderControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../borderControl */ "./src/blocks/borderControl.jsx");
+/* harmony import */ var _boxControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../boxControl */ "./src/blocks/boxControl.jsx");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/drag-resize/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -167,113 +164,41 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-function Edit(_ref) {
-  let {
+function Edit(props) {
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
+  const {
     attributes,
     setAttributes
-  } = _ref;
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
-
-  //選択された画像の情報（alt 属性、URL、ID）を更新する関数
-  const onSelectImage = media => {
-    const media_ID = media.id;
-    const imageUrl = media.url;
-    const imageAlt = media.alt;
-    const imageCaption = media.caption;
-    setAttributes({
-      imageAlt: imageAlt,
-      imageUrl: imageUrl,
-      mediaID: media_ID,
-      imageCaption: imageCaption
-    });
-  };
-
-  //URLの配列から画像を生成
-  const getImages = attributes => {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_getStyle__WEBPACK_IMPORTED_MODULE_8__["default"], {
-      attributes: attributes
-    }));
-  };
-  //メディアライブラリを開くボタンをレンダリングする関数
-  const getImageButton = open => {
-    if (attributes.imageUrl) {
-      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-        onClick: open,
-        className: "image-card"
-      }, getImages(attributes));
-    } else {
-      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-        className: "button-container"
-      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Button, {
-        onClick: open,
-        className: "button button-large"
-      }, "\u753B\u50CF\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9"));
-    }
-  };
-
-  //画像を削除する（メディアをリセットする）関数
-  const removeMedia = () => {
-    setAttributes({
-      mediaID: 0,
-      imageUrl: "",
-      imageAlt: "",
-      imageCaption: ""
-    });
-  };
-  const onCahngeBorderRadiusVal = newBrVal => {
-    setAttributes({
-      borderRadiusValues: typeof newBrVal === 'string' ? {
-        "value": newBrVal
-      } : newBrVal
-    });
-  };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Image Settings', 'sw_location'),
-    initialOpen: true
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Show Caption', 'sw_location'),
-    checked: attributes.showCaption,
-    onChange: val => setAttributes({
-      showCaption: val
-    })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_borderControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    label: "Border Size & Color",
-    attributes: attributes.borderBoxValues,
-    setAttributes: setAttributes
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.__experimentalBorderRadiusControl, {
-    values: attributes.borderRadiusValues,
-    onChange: onCahngeBorderRadiusVal
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_boxControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    label: "Margin Size",
-    sizeName: "marginValues",
-    attributes: attributes.marginValues,
-    setAttributes: setAttributes
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_boxControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    label: "Padding Size",
-    sizeName: "paddingValues",
-    attributes: attributes.paddingValues,
-    setAttributes: setAttributes
-  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, {
-    __experimentalGroup: "border,dimensions"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    className: true
-  }, blockProps), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.MediaUpload, {
-    onSelect: onSelectImage,
-    allowedTypes: ['image'],
-    value: attributes.mediaID,
-    render: _ref2 => {
-      let {
-        open
-      } = _ref2;
-      return getImageButton(open);
-    }
-  })), attributes.imageUrl !== "" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Button, {
-    onClick: removeMedia,
-    variant: "link",
-    isDestructive: true,
-    className: "removeImage"
-  }, "\u753B\u50CF\u3092\u524A\u9664"))));
+  } = props;
+  const {
+    height,
+    width,
+    textContent
+  } = attributes;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.ResizableBox, {
+    __experimentalShowTooltip: true,
+    onResizeStop: (event, direction, elt, delta) => {
+      setAttributes({
+        height: height + delta.height,
+        width: width + delta.width
+      });
+    },
+    showHandle: true,
+    size: {
+      height: `${height}px`,
+      width: `${width}px`
+    },
+    minHeight: "50",
+    minWidth: "50"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
+    tagName: "p",
+    onChange: newContent => setAttributes({
+      textContent: newContent
+    }),
+    allowedFormats: ['core/bold', 'core/italic', 'core/text-color'],
+    value: textContent,
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Write your text...')
+  }))));
 }
 
 /***/ }),
@@ -346,7 +271,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _getStyle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../getStyle */ "./src/blocks/getStyle.jsx");
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -354,7 +278,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-
 
 
 /**
@@ -370,86 +293,22 @@ function save(_ref) {
   let {
     attributes
   } = _ref;
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_getStyle__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    attributes: attributes
+  const {
+    textContent,
+    height,
+    width
+  } = attributes;
+  const newStyle = {
+    style: {
+      width: width,
+      height: height
+    }
+  };
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save(newStyle), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
+    tagName: "p",
+    value: textContent
   }));
 }
-
-/***/ }),
-
-/***/ "./src/blocks/getStyle.jsx":
-/*!*********************************!*\
-  !*** ./src/blocks/getStyle.jsx ***!
-  \*********************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getBorderRadius": function() { return /* binding */ getBorderRadius; },
-/* harmony export */   "getSpaceStyle": function() { return /* binding */ getSpaceStyle; }
-/* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-
-const getBorderRadius = BRval => {
-  //BorderRadiusのスタイル取得
-  let borderRadiusStyleObj = {};
-  if (Object.keys(BRval).length == 1) {
-    Object.entries(BRval).map(radius => {
-      if (radius[0] == 'value') {
-        borderRadiusStyleObj = {
-          borderRadius: radius[1]
-        };
-      }
-    });
-  } else {
-    Object.entries(BRval).filter(radius => radius[0] != 'value').map(radius => {
-      let property = `border${radius[0].charAt(0).toUpperCase() + radius[0].slice(1)}Radius`;
-      borderRadiusStyleObj[property] = radius[1];
-    });
-  }
-  return borderRadiusStyleObj;
-};
-const getSpaceStyle = (marginval, paddingval) => {
-  //marginのスタイル取得
-  let boxStyleObj = {};
-  if (marginval) {
-    Object.entries(marginval).map(margin => {
-      let property = `margin${margin[0].charAt(0).toUpperCase() + margin[0].slice(1)}`;
-      boxStyleObj[property] = margin[1];
-    });
-  }
-  if (paddingval) {
-    Object.entries(paddingval).map(padding => {
-      let property = `padding${padding[0].charAt(0).toUpperCase() + padding[0].slice(1)}`;
-      boxStyleObj[property] = padding[1];
-    });
-  }
-  return boxStyleObj;
-};
-/* harmony default export */ __webpack_exports__["default"] = (_ref => {
-  let {
-    attributes
-  } = _ref;
-  const {
-    imageUrl,
-    showCaption,
-    imageCaption,
-    borderRadiusValues,
-    marginValues,
-    paddingValues
-  } = attributes;
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("figure", {
-    style: getSpaceStyle(marginValues, paddingValues)
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: imageUrl,
-    className: "image",
-    alt: "\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u753B\u50CF",
-    style: getBorderRadius(borderRadiusValues)
-  }), showCaption && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("figcaption", {
-    className: "block-image-caption"
-  }, imageCaption));
-});
 
 /***/ }),
 
@@ -527,40 +386,13 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/extends.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/extends.js ***!
-  \************************************************************/
-/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": function() { return /* binding */ _extends; }
-/* harmony export */ });
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-    return target;
-  };
-  return _extends.apply(this, arguments);
-}
-
-/***/ }),
-
 /***/ "./src/blocks/drag-resize/block.json":
 /*!*******************************************!*\
   !*** ./src/blocks/drag-resize/block.json ***!
   \*******************************************/
 /***/ (function(module) {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/drag-resize","version":"0.1.0","title":"Drag Resize","category":"widgets","icon":"fullscreen-alt","description":"ドラッグによる位置決めができて、サイズ変更ができるブロックです。","supports":{"html":false},"attributes":{"mediaID":{"type":"number","default":0},"imageUrl":{"type":"string","default":""},"imageAlt":{"type":"string","default":""},"imageCaption":{"type":"string","default":""},"showCaption":{"type":"boolean","default":true},"borderBoxValues":{"type":"object","default":{}},"borderRadiusValues":{"type":"object","default":{"value":"0px"}},"marginValues":{"type":"object","default":{"top":"0px","left":"0px","right":"0px","bottom":"0px"}},"paddingValues":{"type":"object","default":{"top":"0px","left":"0px","right":"0px","bottom":"0px"}}},"textdomain":"block-location","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/drag-resize","version":"0.1.0","title":"Drag Resize","category":"widgets","icon":"fullscreen-alt","description":"ドラッグによる位置決めができて、サイズ変更ができるブロックです。","supports":{"html":false},"attributes":{"textContent":{"type":"string","source":"html","selector":"p"},"height":{"type":"number","default":100},"width":{"type":"number","default":200}},"textdomain":"block-location","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 

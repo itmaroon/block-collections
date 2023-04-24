@@ -4,9 +4,12 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-phism-button {
-  background-color: #dddfe4;
-  color: #fff;
-  padding: 2px;
+.wp-block-itmar-drag-resize {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 /*# sourceMappingURL=style.css.map */

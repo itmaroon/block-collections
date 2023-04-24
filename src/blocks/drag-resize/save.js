@@ -4,8 +4,8 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps } from '@wordpress/block-editor';
-import Figure from "../getStyle";
+import { useBlockProps, RichText } from '@wordpress/block-editor';
+
 
 /**
  * The save function defines the way in which the different attributes should
@@ -17,10 +17,18 @@ import Figure from "../getStyle";
  * @return {WPElement} Element to render.
  */
 export default function save({ attributes }) {
-
+	const { 
+		textContent, 
+		height,
+		width
+	} = attributes;
+	const newStyle={ style: {width: width, height: height}}
 	return (
-		<div { ...useBlockProps.save() }>
-			<Figure attributes={ attributes } />
+		<div  { ...useBlockProps.save(newStyle) }>
+			<RichText.Content
+					tagName="p"
+					value={ textContent }		
+				/>
 		</div>
 	);
 }

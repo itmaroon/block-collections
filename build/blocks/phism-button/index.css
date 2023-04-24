@@ -82,6 +82,16 @@
 .light_direction .components-radio-control__option:nth-child(4) label::after {
   transform: translate(-50%, -50%) rotate(45deg);
 }
+.light_direction.claymor {
+  width: 50%;
+  margin: 0 auto;
+}
+.light_direction.claymor .components-radio-control .components-flex {
+  flex-wrap: nowrap;
+}
+.light_direction.claymor .components-radio-control__option:nth-child(3) label::after {
+  transform: translate(-50%, -50%) rotate(270deg);
+}
 
 .embos {
   width: 100%;

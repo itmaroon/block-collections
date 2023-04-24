@@ -45,7 +45,7 @@ export function hslToRgb16(hue, saturation, lightness) {
 			blue  = hueToRgb(p, q, hue - 1 / 3);
 		}
 
-    result = `#${Math.round(red * 255).toString(16)}${Math.round(green * 255).toString(16)}${Math.round(blue * 255).toString(16)}`;
+    result = `#${Math.round(red * 255).toString(16).padStart( 2, '0')}${Math.round(green * 255).toString(16).padStart( 2, '0')}${Math.round(blue * 255).toString(16).padStart( 2, '0')}`;
 	
 	}
 
@@ -100,6 +100,31 @@ export function rgb16ToHsl(strRgb16) {
 			hue        : Math.round(hue        * 360),
 			saturation : Math.round(saturation * 100),
 			lightness  : Math.round(lightness  * 100)
+		};
+	}
+
+	return result;
+};
+
+export function HexToRGB(strRgb16) {
+  let rgb = strRgb16.match(/\#([a-fA-F0-9]{2})([a-fA-Z0-9]{2})([a-fA-F0-9]{2})/);
+  let red = rgb[1];
+  let green = rgb[2];
+  let blue = rgb[3];
+	let result = false;
+
+	if (((red || red === 0) && String(red).match(/^[0-9a-f]{2}$/i)) && ((green || green === 0) && String(green).match(/^[0-9a-f]{2}$/i)) && ((blue || blue === 0) && String(blue).match(/^[0-9a-f]{2}$/i))) {
+		
+
+		red       = parseInt(red,   16);
+		green     = parseInt(green, 16);
+		blue      = parseInt(blue,  16);
+		
+
+		result = {
+			red   : Math.round(red),
+			green : Math.round(green),
+			blue  : Math.round(blue)
 		};
 	}
 

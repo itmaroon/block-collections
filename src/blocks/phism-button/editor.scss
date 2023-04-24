@@ -4,9 +4,10 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-itmar-phism-button {
+ 
+//.wp-block-itmar-phism-button {
 	
-}
+//}
 .btn_design_ctrl{
 	padding: 16px 0 !important;
 	grid-column: 1 / -1;
@@ -96,10 +97,29 @@
 						transform: translate(-50%, -50%)  rotate(135deg);
 					}
 				}
-			}&:nth-child(4){
+			}
+			&:nth-child(4){
 				label{
 					&::after{
 						transform: translate(-50%, -50%)  rotate(45deg);
+					}
+				}
+			}
+		}
+	}
+	&.claymor{
+		width: 50%;
+		margin: 0 auto;
+		.components-radio-control {
+			.components-flex {
+				flex-wrap:nowrap;
+			}
+			&__option {
+				&:nth-child(3){
+					label{
+						&::after{
+							transform: translate(-50%, -50%)  rotate(270deg);
+						}
 					}
 				}
 			}

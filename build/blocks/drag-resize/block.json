@@ -11,53 +11,18 @@
     "html": false
   },
   "attributes": {
-    "mediaID": {
+    "textContent": {
+      "type": "string",
+      "source": "html",
+      "selector": "p"
+    },
+    "height": {
       "type": "number",
-      "default": 0
+      "default": 100
     },
-    "imageUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "imageAlt": {
-      "type": "string",
-      "default": ""
-    },
-    "imageCaption": {
-      "type": "string",
-      "default": ""
-    },
-    "showCaption": {
-      "type": "boolean",
-      "default": true
-    },
-    "borderBoxValues": {
-      "type": "object",
-      "default": {}
-    },
-    "borderRadiusValues": {
-      "type": "object",
-      "default": {
-        "value": "0px"
-      }
-    },
-    "marginValues": {
-      "type": "object",
-      "default": {
-        "top": "0px",
-        "left": "0px",
-        "right": "0px",
-        "bottom": "0px"
-      }
-    },
-    "paddingValues": {
-      "type": "object",
-      "default": {
-        "top": "0px",
-        "left": "0px",
-        "right": "0px",
-        "bottom": "0px"
-      }
+    "width": {
+      "type": "number",
+      "default": 200
     }
   },
   "textdomain": "block-location",
