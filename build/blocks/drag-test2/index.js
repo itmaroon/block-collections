@@ -2,130 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/blocks/borderControl.jsx":
-/*!**************************************!*\
-  !*** ./src/blocks/borderControl.jsx ***!
-  \**************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-
-
-const ctrl = props => {
-  const {
-    setAttributes,
-    attributes,
-    label
-  } = props;
-  const resetValues = {
-    top: '0px',
-    left: '0px',
-    right: '0px',
-    bottom: '0px'
-  };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.__experimentalBorderBoxControl, {
-    colors: [{
-      color: '#72aee6',
-      name: 'Blue 20'
-    }, {
-      color: '#3582c4',
-      name: 'Blue 40'
-    }, {
-      color: '#e65054',
-      name: 'Red 40'
-    }, {
-      color: '#8a2424',
-      name: 'Red 70'
-    }, {
-      color: '#f2d675',
-      name: 'Yellow 10'
-    }, {
-      color: '#bd8600',
-      name: 'Yellow 40'
-    }],
-    value: attributes,
-    onChange: value => setAttributes({
-      borderBoxValues: value
-    }) // 保存処理
-    ,
-    popoverPlacement: "left-end",
-    size: "__unstable-large",
-    label: label,
-    allowReset: true // リセットの可否
-    ,
-    resetValues: resetValues // リセット時の値
-  });
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (ctrl);
-
-/***/ }),
-
-/***/ "./src/blocks/boxControl.jsx":
-/*!***********************************!*\
-  !*** ./src/blocks/boxControl.jsx ***!
-  \***********************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-
-
-const edit = props => {
-  const {
-    setAttributes,
-    attributes,
-    label,
-    sizeName
-  } = props;
-  const resetValues = {
-    top: '0px',
-    left: '0px',
-    right: '0px',
-    bottom: '0px'
-  };
-  const retrunval = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.__experimentalBoxControl, {
-    label: label // ラベル
-    ,
-    values: attributes,
-    onChange: value => setAttributes({
-      [sizeName]: value
-    }) // 保存処理
-    ,
-    allowReset: true // リセットの可否
-    ,
-    resetValues: resetValues // リセット時の値
-  });
-
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.__experimentalBoxControl, {
-    label: label // ラベル
-    ,
-    values: attributes,
-    onChange: value => setAttributes({
-      [sizeName]: value
-    }) // 保存処理
-    ,
-    allowReset: true // リセットの可否
-    ,
-    resetValues: resetValues // リセット時の値
-  });
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (edit);
-
-/***/ }),
-
-/***/ "./src/blocks/drag-resize/edit.js":
-/*!****************************************!*\
-  !*** ./src/blocks/drag-resize/edit.js ***!
-  \****************************************/
+/***/ "./src/blocks/drag-test2/edit.js":
+/*!***************************************!*\
+  !*** ./src/blocks/drag-test2/edit.js ***!
+  \***************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -134,30 +14,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _borderControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../borderControl */ "./src/blocks/borderControl.jsx");
-/* harmony import */ var _boxControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../boxControl */ "./src/blocks/boxControl.jsx");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/drag-resize/editor.scss");
-
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/drag-test2/editor.scss");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
 
 
 
@@ -165,16 +26,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Edit(props) {
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
   const {
     attributes,
     setAttributes
   } = props;
   const {
-    height,
-    width,
-    textContent,
-    showHandle,
     isDragging,
     position,
     mousePosition
@@ -219,7 +75,7 @@ function Edit(props) {
       left: position.x
     }
   };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(dragProps), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(dragProps), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       width: '100%',
       height: '100%'
@@ -227,53 +83,24 @@ function Edit(props) {
     onMouseDown: handleMouseDown,
     onMouseMove: handleMouseMove,
     onMouseUp: handleMouseUp
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.ResizableBox, {
-    __experimentalShowTooltip: true,
-    onResizeStop: (event, direction, elt, delta) => {
-      setAttributes({
-        height: height + delta.height,
-        width: width + delta.width
-      });
-    },
-    showHandle: showHandle,
-    onMouseEnter: () => setAttributes({
-      showHandle: true
-    }),
-    onMouseLeave: () => setAttributes({
-      showHandle: false
-    }),
-    size: {
-      height: `${height}px`,
-      width: `${width}px`
-    },
-    minHeight: "50",
-    minWidth: "50"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
-    tagName: "p",
-    onChange: newContent => setAttributes({
-      textContent: newContent
-    }),
-    allowedFormats: ['core/bold', 'core/italic', 'core/text-color'],
-    value: textContent,
-    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Write your text...')
-  })))));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Drag me!")));
 }
 
 /***/ }),
 
-/***/ "./src/blocks/drag-resize/index.js":
-/*!*****************************************!*\
-  !*** ./src/blocks/drag-resize/index.js ***!
-  \*****************************************/
+/***/ "./src/blocks/drag-test2/index.js":
+/*!****************************************!*\
+  !*** ./src/blocks/drag-test2/index.js ***!
+  \****************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/drag-resize/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/blocks/drag-resize/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/blocks/drag-resize/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/blocks/drag-resize/block.json");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/drag-test2/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/blocks/drag-test2/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/blocks/drag-test2/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/blocks/drag-test2/block.json");
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -315,10 +142,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/blocks/drag-resize/save.js":
-/*!****************************************!*\
-  !*** ./src/blocks/drag-resize/save.js ***!
-  \****************************************/
+/***/ "./src/blocks/drag-test2/save.js":
+/*!***************************************!*\
+  !*** ./src/blocks/drag-test2/save.js ***!
+  \***************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -352,32 +179,24 @@ function save(_ref) {
     attributes
   } = _ref;
   const {
-    textContent,
-    height,
-    width,
     position
   } = attributes;
-  const newStyle = {
+  const dragProps = {
     style: {
-      width: width,
-      height: height,
       position: 'absolute',
       top: position.y,
       left: position.x
     }
   };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save(newStyle), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
-    tagName: "p",
-    value: textContent
-  }));
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save(dragProps), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Drag me!"));
 }
 
 /***/ }),
 
-/***/ "./src/blocks/drag-resize/editor.scss":
-/*!********************************************!*\
-  !*** ./src/blocks/drag-resize/editor.scss ***!
-  \********************************************/
+/***/ "./src/blocks/drag-test2/editor.scss":
+/*!*******************************************!*\
+  !*** ./src/blocks/drag-test2/editor.scss ***!
+  \*******************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -386,10 +205,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/blocks/drag-resize/style.scss":
-/*!*******************************************!*\
-  !*** ./src/blocks/drag-resize/style.scss ***!
-  \*******************************************/
+/***/ "./src/blocks/drag-test2/style.scss":
+/*!******************************************!*\
+  !*** ./src/blocks/drag-test2/style.scss ***!
+  \******************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -438,23 +257,13 @@ module.exports = window["wp"]["element"];
 
 /***/ }),
 
-/***/ "@wordpress/i18n":
-/*!******************************!*\
-  !*** external ["wp","i18n"] ***!
-  \******************************/
+/***/ "./src/blocks/drag-test2/block.json":
+/*!******************************************!*\
+  !*** ./src/blocks/drag-test2/block.json ***!
+  \******************************************/
 /***/ (function(module) {
 
-module.exports = window["wp"]["i18n"];
-
-/***/ }),
-
-/***/ "./src/blocks/drag-resize/block.json":
-/*!*******************************************!*\
-  !*** ./src/blocks/drag-resize/block.json ***!
-  \*******************************************/
-/***/ (function(module) {
-
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/drag-resize","version":"0.1.0","title":"Drag Resize","category":"widgets","icon":"fullscreen-alt","description":"ドラッグによる位置決めができて、サイズ変更ができるブロックです。","supports":{"color":{"background":true,"gradients":true,"link":false,"text":true},"spacing":{"blockGap":false,"padding":true,"margin":true},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"html":false},"attributes":{"textContent":{"type":"string","source":"html","selector":"p"},"height":{"type":"number","default":100},"width":{"type":"number","default":200},"showHandle":{"type":"boolean","default":false},"isDragging":{"type":"boolean","default":false},"position":{"type":"object","default":{"x":0,"y":0}},"mousePosition":{"type":"object","default":{"x":0,"y":0}}},"textdomain":"block-location","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/drag-test2","version":"0.1.0","title":"Drag Test2","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false},"attributes":{"isDragging":{"type":"boolean","default":false},"position":{"type":"object","default":{"x":0,"y":0}},"mousePosition":{"type":"object","default":{"x":0,"y":0}}},"textdomain":"drag-test2","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 
@@ -570,8 +379,8 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"blocks/drag-resize/index": 0,
-/******/ 			"blocks/drag-resize/style-index": 0
+/******/ 			"blocks/drag-test2/index": 0,
+/******/ 			"blocks/drag-test2/style-index": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -623,7 +432,7 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["blocks/drag-resize/style-index"], function() { return __webpack_require__("./src/blocks/drag-resize/index.js"); })
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["blocks/drag-test2/style-index"], function() { return __webpack_require__("./src/blocks/drag-test2/index.js"); })
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

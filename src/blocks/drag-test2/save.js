@@ -4,8 +4,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, RichText } from '@wordpress/block-editor';
-
+import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -18,25 +17,18 @@ import { useBlockProps, RichText } from '@wordpress/block-editor';
  */
 export default function save({ attributes }) {
 	const { 
-		textContent, 
-		height,
-		width,
 		position
 	} = attributes;
-	const newStyle={ 
-		style: {
-			width: width, 
-			height: height,
-			position: 'absolute',
-			top: position.y,
-			left: position.x,}
+	const dragProps={
+		style:{position: 'absolute',
+		top: position.y,
+		left: position.x,
+		},
+		
 	}
 	return (
-		<div  { ...useBlockProps.save(newStyle) }>
-			<RichText.Content
-					tagName="p"
-					value={ textContent }		
-				/>
+		<div { ...useBlockProps.save(dragProps) }>
+			<p>Drag me!</p>
 		</div>
 	);
 }
