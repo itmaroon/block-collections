@@ -1,11 +1,15 @@
 
 import { useBlockProps } from '@wordpress/block-editor';
-import { Icon, more } from '@wordpress/icons';
 import './editor.scss';
-import { Draggable } from '@wordpress/components';
+import { InnerBlocks, MediaPlaceholder } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
 
 export default function Edit(props) {
+	const [media, setMedia] = useState();
+
+  const onSelectMedia = (newMedia) => {
+    setMedia(newMedia);
+  };
 	const {
 		attributes,
 		setAttributes
@@ -15,6 +19,7 @@ export default function Edit(props) {
 		isDragging,
 		position,
 		mousePosition,
+		mediaID
 	} = attributes;
 
   const handleMouseDown = (event) => {
@@ -41,9 +46,10 @@ export default function Edit(props) {
 		top: position.y,
 		left: position.x,
 		},
-		
 	}
   return (
+		<>
+			
 		<div { ...useBlockProps(dragProps) }>
 			<div
 				style = {{width: '100%', height: '100%'}}
@@ -51,9 +57,31 @@ export default function Edit(props) {
 				onMouseMove={handleMouseMove}
 				onMouseUp={handleMouseUp}
 			>
-				<p>Drag me!</p>
+				 {media ? (
+        <img src={media.url} alt={media.alt} />
+      ) : (
+				<MediaPlaceholder
+					icon="format-image"
+					labels={{
+						title: 'Image',
+						instructions: 'Drag an image, upload a new one or select a file from your library.'
+					}}
+					accept="image/*"
+					allowedTypes={['image']}
+					value={media}
+					onSelect={onSelectMedia}
+					onError={(message) => {
+						console.log(message);
+					}}
+
+				/>)}
 			</div>
+
+			
       
     </div> 
+		</>
+		
+		
   );
 }

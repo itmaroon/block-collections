@@ -68,6 +68,10 @@
 			"type":"boolean",
 			"default":false
 		},
+		"isResizing":{
+			"type":"boolean",
+			"default":false
+		},
 		"position":{
 			"type":"object",
 			"default":{ "x": 0, "y": 0 }

@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "itmar/inner-block",
+	"version": "0.1.0",
+	"title": "Inner Block",
+	"category": "design",
+	"icon": "excerpt-view",
+	"description": "複数のブロックを抱えるインナーブロックです",
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"isResizing":{
+		"type":"boolean",
+		"default":false
+		},
+		"position":{
+			"type":"object",
+			"default":{ "x": 0, "y": 0 }
+		}
+	},
+	
+	"textdomain": "inner-block",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

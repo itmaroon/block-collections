@@ -1,39 +1,19 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
+
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-
 import {
 	useBlockProps,
 	RichText,
-	InspectorControls, 
-	MediaUpload, 
-	MediaUploadCheck 
+	
 } from '@wordpress/block-editor';
-import { __experimentalBorderRadiusControl as BorderRadiusControl } from '@wordpress/block-editor';
-import  BorderControl from '../borderControl';
-import  BoxControl from '../boxControl';
+
 import { 
-	Button,
-	PanelBody, 
-	PanelRow, 
-	ToggleControl,
 	ResizableBox,
 } from '@wordpress/components';
 
 import './editor.scss';
+import DraggableBox from '../DraggableBox';
 
 export default function Edit( props ) {
-	const blockProps = useBlockProps();
 	const {
 		attributes,
 		setAttributes
@@ -44,53 +24,30 @@ export default function Edit( props ) {
 		width,
 		textContent,
 		showHandle,
-		isDragging,
 		position,
-		mousePosition,
+		isResizing
 	} = attributes;
-	const handleMouseDown = (event) => {
-    setAttributes({isDragging:true});
-    setAttributes({mousePosition: { x: event.clientX, y: event.clientY }});
-  };
-
-  const handleMouseMove = (event) => {
-    if (!isDragging) return;
-    const dx = event.clientX - mousePosition.x;
-    const dy = event.clientY - mousePosition.y;
-    setAttributes({position: {
-      x: position.x + dx,
-      y: position.y + dy,
-    }});
-    setAttributes({mousePosition:{ x: event.clientX, y: event.clientY }});
-  };
-
-  const handleMouseUp = () => {
-    setAttributes({isDragging:false});
-  };
-	const dragProps={
-		style:{position: 'absolute',
-		top: position.y,
-		left: position.x,
-		},
-		
-	}
+	
+	const blockProps=useBlockProps();
 
 	return (
 		<>
-			<div {...useBlockProps(dragProps)}>
-				<div
-					style = {{width: '100%', height: '100%'}}
-					onMouseDown={handleMouseDown}
-					onMouseMove={handleMouseMove}
-					onMouseUp={handleMouseUp}
+			<div {...useBlockProps()}>
+				<DraggableBox  
+					position={position}
+					isResizing = {isResizing}
+					onPositionChange={(position) => setAttributes({position: position})}
 				>
 					<ResizableBox 
 						__experimentalShowTooltip
+						onResizeStart={ () =>setAttributes({isResizing:true})}
 						onResizeStop={( event, direction, elt, delta ) => {
 							setAttributes( {
 									height: height + delta.height,
 									width: width + delta.width,
-							});}
+							});
+							setAttributes({isResizing:false})}
+							
 						}
 						showHandle={showHandle}
 						onMouseEnter={() => setAttributes({showHandle:true})}
@@ -111,7 +68,7 @@ export default function Edit( props ) {
 							placeholder={ __( 'Write your text...' ) }
 						/>
 					</ResizableBox>
-				</div>
+				</DraggableBox>
 			</div>
 		</>
 			

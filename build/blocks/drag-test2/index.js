@@ -17,15 +17,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/drag-test2/editor.scss");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-
 
 
 
 
 
 function Edit(props) {
+  const [media, setMedia] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)();
+  const onSelectMedia = newMedia => {
+    setMedia(newMedia);
+  };
   const {
     attributes,
     setAttributes
@@ -33,7 +34,8 @@ function Edit(props) {
   const {
     isDragging,
     position,
-    mousePosition
+    mousePosition,
+    mediaID
   } = attributes;
   const handleMouseDown = event => {
     setAttributes({
@@ -75,7 +77,7 @@ function Edit(props) {
       left: position.x
     }
   };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(dragProps), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(dragProps), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       width: '100%',
       height: '100%'
@@ -83,7 +85,23 @@ function Edit(props) {
     onMouseDown: handleMouseDown,
     onMouseMove: handleMouseMove,
     onMouseUp: handleMouseUp
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Drag me!")));
+  }, media ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: media.url,
+    alt: media.alt
+  }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaPlaceholder, {
+    icon: "format-image",
+    labels: {
+      title: 'Image',
+      instructions: 'Drag an image, upload a new one or select a file from your library.'
+    },
+    accept: "image/*",
+    allowedTypes: ['image'],
+    value: media,
+    onSelect: onSelectMedia,
+    onError: message => {
+      console.log(message);
+    }
+  }))));
 }
 
 /***/ }),
@@ -237,16 +255,6 @@ module.exports = window["wp"]["blocks"];
 
 /***/ }),
 
-/***/ "@wordpress/components":
-/*!************************************!*\
-  !*** external ["wp","components"] ***!
-  \************************************/
-/***/ (function(module) {
-
-module.exports = window["wp"]["components"];
-
-/***/ }),
-
 /***/ "@wordpress/element":
 /*!*********************************!*\
   !*** external ["wp","element"] ***!
@@ -263,7 +271,7 @@ module.exports = window["wp"]["element"];
   \******************************************/
 /***/ (function(module) {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/drag-test2","version":"0.1.0","title":"Drag Test2","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false},"attributes":{"isDragging":{"type":"boolean","default":false},"position":{"type":"object","default":{"x":0,"y":0}},"mousePosition":{"type":"object","default":{"x":0,"y":0}}},"textdomain":"drag-test2","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/drag-test2","version":"0.1.0","title":"Drag Test2","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false},"attributes":{"isDragging":{"type":"boolean","default":false},"position":{"type":"object","default":{"x":0,"y":0}},"mousePosition":{"type":"object","default":{"x":0,"y":0}},"mediaID":{"type":"number","default":0},"imageUrl":{"type":"string"},"imageAlt":{"type":"string"}},"textdomain":"drag-test2","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 

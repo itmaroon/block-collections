@@ -22,7 +22,18 @@
 		"mousePosition":{
 			"type":"object",
 			"default":{ "x": 0, "y": 0 }
-		}
+		},
+		"mediaID": {
+      "type": "number",
+      "default": 0
+    },
+    "imageUrl": {
+      "type": "string"
+    },
+    "imageAlt": {
+      "type": "string"
+     
+    }
 	},
 	"textdomain": "drag-test2",
 	"editorScript": "file:./index.js",
