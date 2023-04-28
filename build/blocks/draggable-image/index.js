@@ -2,10 +2,83 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/blocks/inner-block/edit.js":
-/*!****************************************!*\
-  !*** ./src/blocks/inner-block/edit.js ***!
-  \****************************************/
+/***/ "./src/blocks/DraggableBox.js":
+/*!************************************!*\
+  !*** ./src/blocks/DraggableBox.js ***!
+  \************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ DraggableBox; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+//import React, { useState } from 'react';
+
+function DraggableBox(props) {
+  const {
+    position,
+    isResizing
+  } = props;
+  const [elmposition, setPosition] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(position);
+  const [isDragging, setIsDragging] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [mousePosition, setMousePosition] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    x: 0,
+    y: 0
+  });
+  const handleMouseDown = event => {
+    setIsDragging(true);
+    setMousePosition({
+      x: event.clientX,
+      y: event.clientY
+    });
+  };
+  const handleMouseMove = event => {
+    if (!isDragging || isResizing) return; //ドラッグ中でないかリサイズ中の時は処理を中止
+    const dx = event.clientX - mousePosition.x;
+    const dy = event.clientY - mousePosition.y;
+    setPosition(prevElmposition => ({
+      x: prevElmposition.x + dx,
+      y: prevElmposition.y + dy
+    }));
+    setMousePosition({
+      x: event.clientX,
+      y: event.clientY
+    });
+    props.onPositionChange(elmposition);
+  };
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "draggablebox",
+    style: {
+      width: 'fit-content',
+      height: 'fit-content'
+      //position: 'absolute',
+      //top: elmposition.y,
+      //left: elmposition.x
+      //transform: `translate(${elmposition.x}px, ${elmposition.y}px)`,
+    },
+
+    onMouseDown: handleMouseDown,
+    onMouseMove: handleMouseMove,
+    onMouseUp: handleMouseUp,
+    onMouseLeave: handleMouseLeave
+  }, props.children);
+}
+
+/***/ }),
+
+/***/ "./src/blocks/draggable-image/edit.js":
+/*!********************************************!*\
+  !*** ./src/blocks/draggable-image/edit.js ***!
+  \********************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -16,17 +89,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/inner-block/editor.scss");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/blocks/inner-block/block.json");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__);
-
-
-
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/draggable-image/editor.scss");
+/* harmony import */ var _DraggableBox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DraggableBox */ "./src/blocks/DraggableBox.js");
 
 
 
@@ -37,77 +103,47 @@ function Edit(props) {
     attributes,
     setAttributes
   } = props;
-  const [viewportSize, setViewportSize] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)({
-    width: window.innerWidth,
-    height: window.innerHeight
+  const {
+    position
+  } = attributes;
+  const newStyle = {
+    style: {
+      width: 'fit-content',
+      height: 'fit-content',
+      // left: position.x,
+      transform: `translate(${position.x}px, ${position.y}px)`
+    }
+  };
+  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)({
+    // 要素の追加/削除を可能にする
+    allowedBlocks: ['core/image', 'core/paragraph']
   });
-  let blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__.useBlockProps)();
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    const handleResize = () => {
-      setViewportSize({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-      if (viewportSize.width < 768) {
-        (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.unregisterBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, 'left');
-        (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.unregisterBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, 'right');
-        (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.unregisterBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, 'float_left');
-        (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.unregisterBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, 'float_right');
-        setAttributes({
-          className: 'is-style-top'
-        });
-      } else {
-        (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-          name: 'float_right',
-          label: '画像を右フロート'
-        });
-        (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-          name: 'float_left',
-          label: '画像を左フロート'
-        });
-        (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-          name: 'right',
-          label: '画像を右'
-        });
-        (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-          name: 'left',
-          label: '画像を左'
-        });
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [viewportSize]);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Viewport width: ", viewportSize.width), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Viewport height: ", viewportSize.height), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__.InnerBlocks, {
-    template: [['core/heading', {
-      placeholder: '小見出しを入れてください。',
-      level: 2
-    }], ['core/column', {
-      className: 'image_text'
-    }, [['itmar/draggable-image', {}], ['core/paragraph', {
-      placeholder: 'ブログ本文を入れてください'
-    }]]]],
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(newStyle), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DraggableBox__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    position: position,
+    onPositionChange: position => setAttributes({
+      position: position
+    })
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
+    template: [['core/image', {}]],
     templateLock: "all"
-  })));
+  }))));
 }
 
 /***/ }),
 
-/***/ "./src/blocks/inner-block/index.js":
-/*!*****************************************!*\
-  !*** ./src/blocks/inner-block/index.js ***!
-  \*****************************************/
+/***/ "./src/blocks/draggable-image/index.js":
+/*!*********************************************!*\
+  !*** ./src/blocks/draggable-image/index.js ***!
+  \*********************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/inner-block/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/blocks/inner-block/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/blocks/inner-block/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/blocks/inner-block/block.json");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/draggable-image/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/blocks/draggable-image/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/blocks/draggable-image/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/blocks/draggable-image/block.json");
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -146,40 +182,13 @@ __webpack_require__.r(__webpack_exports__);
    */
   save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-  name: 'top',
-  label: '画像を上',
-  isDefault: true
-});
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-  name: 'bottom',
-  label: '画像を下'
-});
-if (window.innerWidth > 767) {
-  (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-    name: 'float_right',
-    label: '画像を右フロート'
-  });
-  (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-    name: 'float_left',
-    label: '画像を左フロート'
-  });
-  (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-    name: 'right',
-    label: '画像を右'
-  });
-  (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockStyle)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-    name: 'left',
-    label: '画像を左'
-  });
-}
 
 /***/ }),
 
-/***/ "./src/blocks/inner-block/save.js":
-/*!****************************************!*\
-  !*** ./src/blocks/inner-block/save.js ***!
-  \****************************************/
+/***/ "./src/blocks/draggable-image/save.js":
+/*!********************************************!*\
+  !*** ./src/blocks/draggable-image/save.js ***!
+  \********************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -196,16 +205,27 @@ function save(_ref) {
   let {
     attributes
   } = _ref;
-  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
+  const {
+    position
+  } = attributes;
+  const newStyle = {
+    style: {
+      width: 'fit-content',
+      height: 'fit-content',
+      // left: position.x,
+      transform: `translate(${position.x}px, ${position.y}px)`
+    }
+  };
+  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save(newStyle);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, null)));
 }
 
 /***/ }),
 
-/***/ "./src/blocks/inner-block/editor.scss":
-/*!********************************************!*\
-  !*** ./src/blocks/inner-block/editor.scss ***!
-  \********************************************/
+/***/ "./src/blocks/draggable-image/editor.scss":
+/*!************************************************!*\
+  !*** ./src/blocks/draggable-image/editor.scss ***!
+  \************************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -214,10 +234,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/blocks/inner-block/style.scss":
-/*!*******************************************!*\
-  !*** ./src/blocks/inner-block/style.scss ***!
-  \*******************************************/
+/***/ "./src/blocks/draggable-image/style.scss":
+/*!***********************************************!*\
+  !*** ./src/blocks/draggable-image/style.scss ***!
+  \***********************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -246,16 +266,6 @@ module.exports = window["wp"]["blocks"];
 
 /***/ }),
 
-/***/ "@wordpress/components":
-/*!************************************!*\
-  !*** external ["wp","components"] ***!
-  \************************************/
-/***/ (function(module) {
-
-module.exports = window["wp"]["components"];
-
-/***/ }),
-
 /***/ "@wordpress/element":
 /*!*********************************!*\
   !*** external ["wp","element"] ***!
@@ -276,13 +286,13 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
-/***/ "./src/blocks/inner-block/block.json":
-/*!*******************************************!*\
-  !*** ./src/blocks/inner-block/block.json ***!
-  \*******************************************/
+/***/ "./src/blocks/draggable-image/block.json":
+/*!***********************************************!*\
+  !*** ./src/blocks/draggable-image/block.json ***!
+  \***********************************************/
 /***/ (function(module) {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/inner-block","version":"0.1.0","title":"Inner Block","category":"design","icon":"excerpt-view","description":"複数のブロックを抱えるインナーブロックです","example":{"attributes":{"content":"プレビュー表示"}},"supports":{"color":{"text":false,"link":false},"spacing":{"padding":true},"html":false},"attributes":{},"textdomain":"inner-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/draggable-image","version":"0.1.0","title":"Draggable Image","category":"widgets","icon":"tickets","description":"ドラッグできるcore/imageブロックです","supports":{"html":false},"attributes":{"position":{"type":"object","default":{"x":0,"y":0}}},"textdomain":"draggable-image","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 
@@ -398,8 +408,8 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"blocks/inner-block/index": 0,
-/******/ 			"blocks/inner-block/style-index": 0
+/******/ 			"blocks/draggable-image/index": 0,
+/******/ 			"blocks/draggable-image/style-index": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -451,7 +461,7 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["blocks/inner-block/style-index"], function() { return __webpack_require__("./src/blocks/inner-block/index.js"); })
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["blocks/draggable-image/style-index"], function() { return __webpack_require__("./src/blocks/draggable-image/index.js"); })
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

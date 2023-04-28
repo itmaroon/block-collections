@@ -3,10 +3,12 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+
 .wp-block-itmar-draggable-image {
-  border: 1px dotted #f00;
+	border: 1px dotted #f00;
+	.draggablebox{
+		&:hover{
+			cursor: move;
+		}
+	}
 }
-.wp-block-itmar-draggable-image .draggablebox:hover {
-  cursor: move;
-}
-/*# sourceMappingURL=editor.css.map */

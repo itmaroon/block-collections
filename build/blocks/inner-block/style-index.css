@@ -8,9 +8,41 @@
  * Replace them with your own styles or remove the file completely.
  */
 .wp-block-itmar-inner-block {
-  background-color: #21759b;
-  color: #fff;
+  background-color: inherit;
+  color: #000000;
   padding: 2px;
+}
+.wp-block-itmar-inner-block .image_text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.wp-block-itmar-inner-block.is-style-bottom .image_text {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+.wp-block-itmar-inner-block.is-style-left .image_text {
+  display: flex;
+  flex-direction: row;
+}
+.wp-block-itmar-inner-block.is-style-right .image_text {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.wp-block-itmar-inner-block.is-style-float_left .image_text {
+  display: block;
+}
+.wp-block-itmar-inner-block.is-style-float_left .image_text .wp-block-itmar-draggable-image {
+  float: left;
+  z-index: 10;
+}
+.wp-block-itmar-inner-block.is-style-float_right .image_text {
+  display: block;
+}
+.wp-block-itmar-inner-block.is-style-float_right .image_text .wp-block-itmar-draggable-image {
+  float: right;
+  z-index: 10;
 }
 
 /*# sourceMappingURL=style-index.css.map*/

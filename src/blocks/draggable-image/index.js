@@ -3,7 +3,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-import { registerBlockType, registerBlockStyle } from '@wordpress/blocks';
+import { registerBlockType } from '@wordpress/blocks';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -37,33 +37,3 @@ registerBlockType( metadata.name, {
 	 */
 	save,
 } );
-
-registerBlockStyle( metadata.name, {
-	name: 'top',
-	label: '画像を上',
-	isDefault:true	
-});
-registerBlockStyle( metadata.name, {
-	name: 'bottom',
-	label: '画像を下',	
-});
-
-if(window.innerWidth > 767){
-	registerBlockStyle( metadata.name, {
-		name: 'float_right',
-		label: '画像を右フロート',	
-	});
-	registerBlockStyle( metadata.name, {
-		name: 'float_left',
-		label: '画像を左フロート',	
-	});
-	registerBlockStyle( metadata.name, {
-		name: 'right',
-		label: '画像を右',	
-	});
-	registerBlockStyle( metadata.name, {
-		name: 'left',
-		label: '画像を左',	
-	});
-}
-

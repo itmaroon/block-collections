@@ -7,22 +7,22 @@
   "category": "design",
   "icon": "excerpt-view",
   "description": "複数のブロックを抱えるインナーブロックです",
-  "supports": {
-    "html": false
-  },
-  "attributes": {
-    "isResizing": {
-      "type": "boolean",
-      "default": false
-    },
-    "position": {
-      "type": "object",
-      "default": {
-        "x": 0,
-        "y": 0
-      }
+  "example": {
+    "attributes": {
+      "content": "プレビュー表示"
     }
   },
+  "supports": {
+    "color": {
+      "text": false,
+      "link": false
+    },
+    "spacing": {
+      "padding": true
+    },
+    "html": false
+  },
+  "attributes": {},
   "textdomain": "inner-block",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

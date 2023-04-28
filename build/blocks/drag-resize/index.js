@@ -1,4 +1,5 @@
 /******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/blocks/DraggableBox.js":
@@ -7,29 +8,23 @@
   \************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ DraggableBox; }
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_2__);
 
-
+//import React, { useState } from 'react';
 
 function DraggableBox(props) {
   const {
     position,
     isResizing
   } = props;
-  const [elmposition, setPosition] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(position);
-  const [isDragging, setIsDragging] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
-  const [isMouseOver, setIsMouseOver] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
-  const [mousePosition, setMousePosition] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+  const [elmposition, setPosition] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(position);
+  const [isDragging, setIsDragging] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [mousePosition, setMousePosition] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)({
     x: 0,
     y: 0
   });
@@ -59,31 +54,22 @@ function DraggableBox(props) {
   };
   const handleMouseLeave = () => {
     setIsDragging(false);
-    setIsMouseOver(false);
   };
-  const handleMouseEnter = () => {
-    setIsMouseOver(true);
-  };
-
-  //isMouseOverフラグによってクラス名をつける
-  const classes = classnames__WEBPACK_IMPORTED_MODULE_2___default()({
-    'on_moving': isMouseOver
-  });
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "draggablebox",
     style: {
       width: 'fit-content',
-      height: 'fit-content',
+      height: 'fit-content'
       //position: 'absolute',
       //top: elmposition.y,
       //left: elmposition.x
-      transform: `translate(${elmposition.x}px, ${elmposition.y}px)`
+      //transform: `translate(${elmposition.x}px, ${elmposition.y}px)`,
     },
+
     onMouseDown: handleMouseDown,
     onMouseMove: handleMouseMove,
     onMouseUp: handleMouseUp,
-    onMouseLeave: handleMouseLeave,
-    onMouseEnter: handleMouseEnter
+    onMouseLeave: handleMouseLeave
   }, props.children);
 }
 
@@ -95,7 +81,6 @@ function DraggableBox(props) {
   \****************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ Edit; }
@@ -182,7 +167,6 @@ function Edit(props) {
   \*****************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
@@ -237,7 +221,6 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ save; }
@@ -291,82 +274,12 @@ function save(_ref) {
 
 /***/ }),
 
-/***/ "./node_modules/classnames/index.js":
-/*!******************************************!*\
-  !*** ./node_modules/classnames/index.js ***!
-  \******************************************/
-/***/ (function(module, exports) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	Copyright (c) 2018 Jed Watson.
-	Licensed under the MIT License (MIT), see
-	http://jedwatson.github.io/classnames
-*/
-/* global define */
-
-(function () {
-	'use strict';
-
-	var hasOwn = {}.hasOwnProperty;
-	var nativeCodeString = '[native code]';
-
-	function classNames() {
-		var classes = [];
-
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
-
-			var argType = typeof arg;
-
-			if (argType === 'string' || argType === 'number') {
-				classes.push(arg);
-			} else if (Array.isArray(arg)) {
-				if (arg.length) {
-					var inner = classNames.apply(null, arg);
-					if (inner) {
-						classes.push(inner);
-					}
-				}
-			} else if (argType === 'object') {
-				if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
-					classes.push(arg.toString());
-					continue;
-				}
-
-				for (var key in arg) {
-					if (hasOwn.call(arg, key) && arg[key]) {
-						classes.push(key);
-					}
-				}
-			}
-		}
-
-		return classes.join(' ');
-	}
-
-	if ( true && module.exports) {
-		classNames.default = classNames;
-		module.exports = classNames;
-	} else if (true) {
-		// register as 'classnames', consistent with npm package name
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
-			return classNames;
-		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {}
-}());
-
-
-/***/ }),
-
 /***/ "./src/blocks/drag-resize/editor.scss":
 /*!********************************************!*\
   !*** ./src/blocks/drag-resize/editor.scss ***!
   \********************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
@@ -379,21 +292,9 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
-
-/***/ }),
-
-/***/ "react":
-/*!************************!*\
-  !*** external "React" ***!
-  \************************/
-/***/ (function(module) {
-
-"use strict";
-module.exports = window["React"];
 
 /***/ }),
 
@@ -403,7 +304,6 @@ module.exports = window["React"];
   \*************************************/
 /***/ (function(module) {
 
-"use strict";
 module.exports = window["wp"]["blockEditor"];
 
 /***/ }),
@@ -414,7 +314,6 @@ module.exports = window["wp"]["blockEditor"];
   \********************************/
 /***/ (function(module) {
 
-"use strict";
 module.exports = window["wp"]["blocks"];
 
 /***/ }),
@@ -425,7 +324,6 @@ module.exports = window["wp"]["blocks"];
   \************************************/
 /***/ (function(module) {
 
-"use strict";
 module.exports = window["wp"]["components"];
 
 /***/ }),
@@ -436,7 +334,6 @@ module.exports = window["wp"]["components"];
   \*********************************/
 /***/ (function(module) {
 
-"use strict";
 module.exports = window["wp"]["element"];
 
 /***/ }),
@@ -447,7 +344,6 @@ module.exports = window["wp"]["element"];
   \******************************/
 /***/ (function(module) {
 
-"use strict";
 module.exports = window["wp"]["i18n"];
 
 /***/ }),
@@ -458,7 +354,6 @@ module.exports = window["wp"]["i18n"];
   \*******************************************/
 /***/ (function(module) {
 
-"use strict";
 module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/drag-resize","version":"0.1.0","title":"Drag Resize","category":"widgets","icon":"fullscreen-alt","description":"ドラッグによる位置決めができて、サイズ変更ができるブロックです。","supports":{"color":{"background":true,"gradients":true,"link":false,"text":true},"spacing":{"blockGap":false,"padding":true,"margin":true},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"html":false},"attributes":{"textContent":{"type":"string","source":"html","selector":"p"},"height":{"type":"number","default":100},"width":{"type":"number","default":200},"showHandle":{"type":"boolean","default":false},"isDragging":{"type":"boolean","default":false},"isResizing":{"type":"boolean","default":false},"position":{"type":"object","default":{"x":0,"y":0}},"mousePosition":{"type":"object","default":{"x":0,"y":0}}},"textdomain":"block-location","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
