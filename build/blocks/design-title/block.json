@@ -1,0 +1,115 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "itmar/design-title",
+  "version": "0.1.0",
+  "title": "Design Title",
+  "category": "design",
+  "icon": "tag",
+  "description": "見出しタグに様々なスタイルを適用したブロックです",
+  "supports": {
+    "color": {
+      "background": true,
+      "gradients": true,
+      "link": false,
+      "text": false
+    },
+    "spacing": {
+      "padding": true
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "radius": true,
+        "style": true,
+        "width": true
+      }
+    },
+    "html": false
+  },
+  "styles": [
+    {
+      "name": "nomal",
+      "label": "デザインなし",
+      "isDefault": true
+    },
+    {
+      "name": "virtical_line",
+      "label": "ライン入り"
+    },
+    {
+      "name": "sub_copy",
+      "label": "サブコピー付き"
+    }
+  ],
+  "example": {
+    "attributes": {
+      "content": "プレビュー表示"
+    }
+  },
+  "attributes": {
+    "colorVal_border": {
+      "type": "string"
+    },
+    "gradientVal_border": {
+      "type": "string"
+    },
+    "barWidth": {
+      "type": "string",
+      "default": "5px"
+    },
+    "barSpace": {
+      "type": "string",
+      "default": "10px"
+    },
+    "color_text_copy": {
+      "type": "string"
+    },
+    "color_background_copy": {
+      "type": "string"
+    },
+    "gradient_background_copy": {
+      "type": "string"
+    },
+    "copy_content": {
+      "type": "string",
+      "default": ""
+    },
+    "font_style_copy": {
+      "type": "object",
+      "default": {
+        "fontSize": "16px",
+        "fontFamily": "Arial, sans-serif",
+        "fontWeight": "500",
+        "isItalic": false
+      }
+    },
+    "radius_copy": {
+      "type": "object",
+      "default": {
+        "topLeft": "10px",
+        "topRight": "10px",
+        "bottomRight": "0px",
+        "bottomLeft": "0px",
+        "value": "0px"
+      }
+    },
+    "padding_copy": {
+      "type": "object",
+      "default": {
+        "top": "10px",
+        "left": "10px",
+        "bottom": "10px",
+        "right": "10px"
+      }
+    }
+  },
+  "textdomain": "design-title",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

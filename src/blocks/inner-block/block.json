@@ -23,6 +23,33 @@
 		},
 		"html": false
 	},
+	"styles": [
+		{
+			"name": "top",
+			"label": "画像を上",
+			"isDefault":true	
+		},
+		{
+			"name": "bottom",
+			"label": "画像を下"
+		},
+		{
+			"name": "right",
+			"label": "画像を右"	
+		},
+		{
+			"name": "left",
+			"label": "画像を左"	
+		},
+		{
+			"name": "float_right",
+			"label": "画像を右フロート"
+		},
+		{
+			"name": "float_left",
+			"label": "画像を左フロート"
+		}
+	],	
 	"attributes": {
 		
 	},

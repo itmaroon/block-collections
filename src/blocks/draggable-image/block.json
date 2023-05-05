@@ -8,12 +8,23 @@
 	"icon": "tickets",
 	"description": "ドラッグできるcore/imageブロックです",
 	"supports": {
+		"spacing": {
+			"padding":true
+		},
 		"html": false
 	},
 	"attributes": {
 		"position":{
 			"type":"object",
 			"default":{ "x": 0, "y": 0 }
+		},
+		"unit_x":{
+			"type":"string",
+			"default":"px"
+		},
+		"unit_y":{
+			"type":"string",
+			"default":"px"
 		}
 	},
 	"textdomain": "draggable-image",

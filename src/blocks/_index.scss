@@ -1,0 +1,23 @@
+// レイアウト幅
+$layout-screen-inner: 1440px;
+$layout-width-inner: 1000px;
+
+// ブレークポイント
+$breakpoints: (
+	"sp": "(max-width: 767px)",
+  "tab": "(min-width: 768px) and (max-width: #{$layout-width-inner - 1px})", //タブレットサイズからスマホまで
+  "tab-down": "(max-width: #{$layout-width-inner - 1px})", //タブレットサイズより小さいものすべて
+  "pc": "(min-width: #{$layout-width-inner}) and (max-width: #{$layout-screen-inner })", //カンプの指定サイズからタブレットサイズまで
+	"pc-up": "(min-width:  #{$layout-width-inner + 1px})", //インナーの指定サイズより大きい
+  "sr-up": "(min-width:  #{$layout-screen-inner + 1px})", //スクリーンの指定サイズより大きい
+	"retina": "only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx)",
+);
+
+// メディアクエリー
+@mixin mq($breakpoint: sp) {
+	@media #{map-get($breakpoints, $breakpoint)} {
+		@content;
+	}
+}
+
+
