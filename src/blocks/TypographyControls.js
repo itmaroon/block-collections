@@ -57,6 +57,7 @@ const TypographyControls = ({ title, fontStyle, setAttributes }) => {
       <UnitControl
         dragDirection="e"
         onChange={(newValue) =>{
+          newValue = newValue != '' ? newValue : '0px'
           const newStyle = { ...fontStyle, fontSize: newValue};
           setAttributes({font_style_copy: newStyle});
         }} 
@@ -74,6 +75,7 @@ const TypographyControls = ({ title, fontStyle, setAttributes }) => {
         }}
       />
 
+      <label className="components-base-control__label">フォントウエイト</label>
       <PanelRow className='itmar_weight_row'>
         <RadioControl
           selected={ fontWeight }
@@ -81,7 +83,7 @@ const TypographyControls = ({ title, fontStyle, setAttributes }) => {
             { label: 'LIGHT', value: "300" },
             { label: 'REGULAR', value: "400" },
             { label: 'MEDIUM', value: "500" },
-            { label: 'SEMI BOLD', value: "600" },
+            { label: 'S-BOLD', value: "600" },
             { label: 'BOLD', value: "700" },
             { label: 'BLACK', value: "900" },
           ] }
@@ -92,9 +94,8 @@ const TypographyControls = ({ title, fontStyle, setAttributes }) => {
         />
       </PanelRow>
 
-
+      <label className="components-base-control__label">斜体表示</label>
       <ToggleControl
-        label="Italic"
         checked={isItalic}
         onChange={(newValue) =>{
           const newStyle = { ...fontStyle, isItalic: newValue};

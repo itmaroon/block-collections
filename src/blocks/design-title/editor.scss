@@ -6,7 +6,9 @@
 
 .wp-block-itmar-design-title {
 	border: 1px dotted #f00;
-	
+	[data-rich-text-placeholder]{
+		opacity: 0.5;
+	}
 }
 
 .title_design_ctrl{
@@ -24,8 +26,9 @@
 }
 
 // ラジオボタンをボタンのような表示にする
-.itmar_weight_row {
+.itmar_weight_row, .itmar_position_row {
 	.components-radio-control {
+		width: 100%;
 		.components-flex {
 			display: flex;
 			flex-wrap: wrap;
@@ -35,7 +38,7 @@
 		}
 
 		&__option {
-			width: 100%;
+			width: 30%;
 
 			input {
 				display: none;
@@ -50,7 +53,7 @@
 			label {
 				display: block;
 				cursor: pointer;
-				width: 30%;
+				width: 100%;
 				margin: 0;
 				padding: 9px 5px;
 				background: #f7f7f7;
@@ -61,7 +64,7 @@
 				border: solid 1px #ccc;
 				border-left-style: none;
 				box-shadow: inset 0 -1px 0 #ccc;
-
+				max-width: 100%;
 				&:hover {
 					background: #fafafa;
 					border-color: #999;

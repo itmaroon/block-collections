@@ -2,6 +2,7 @@
 import { __ } from '@wordpress/i18n';
 import {StyleComp} from './StyleWapper'
 import TypographyControls from '../TypographyControls'
+import IconSelectControl from '../IconSelectControl';
 
 import { 
 	Button,
@@ -29,7 +30,6 @@ import {
 
 import './editor.scss';
 
-
 export default function Edit({ attributes, setAttributes }) {
 	const { 
 		barWidth, 
@@ -43,6 +43,8 @@ export default function Edit({ attributes, setAttributes }) {
 		font_style_copy,
 		radius_copy,
 		padding_copy,
+		isIcon,
+		icon_style,
 		className,
 	} = attributes;
 
@@ -132,36 +134,49 @@ export default function Edit({ attributes, setAttributes }) {
 
 						<TypographyControls title='コーピーのタイポグラフィー' fontStyle={ font_style_copy } setAttributes={ setAttributes }/>
 
-						<BorderRadiusControl
-							values={ radius_copy }
-							onChange={ (newBrVal)=>
-							setAttributes( { radius_copy: typeof newBrVal==='string' ? {"value": newBrVal} : newBrVal } ) }	
-						/>
+						<PanelBody title="ボーダー設定" initialOpen={ true }>
+							<BorderRadiusControl
+								values={ radius_copy }
+								onChange={ (newBrVal)=>
+								setAttributes( { radius_copy: typeof newBrVal==='string' ? {"value": newBrVal} : newBrVal } ) }	
+							/>
 
-						<BoxControl
-							label="パティング設定"
-							values={ padding_copy }
-							onChange={ value => setAttributes( { padding_copy: value } ) }	
-							units={ units }	// 許可する単位
-							allowReset={ true }	// リセットの可否
-							resetValues={ padding_resetValues }	// リセット時の値
-							
-						/>
+							<BoxControl
+								label="パティング設定"
+								values={ padding_copy }
+								onChange={ value => setAttributes( { padding_copy: value } ) }	
+								units={ units }	// 許可する単位
+								allowReset={ true }	// リセットの可否
+								resetValues={ padding_resetValues }	// リセット時の値
+								
+							/>
+						</PanelBody>
+						<PanelBody title="アイコン設定" initialOpen={ true }>
+							<ToggleControl
+								label = 'アイコンを付加する'
+								checked={isIcon}
+								onChange={(newValue) =>setAttributes({isIcon: newValue })}
+							/>
+							{ isIcon &&
+								<IconSelectControl iconStyle={ icon_style } setAttributes={ setAttributes }/>
+							}
+						</PanelBody>
 					</>
 					}
 				</PanelBody>
 			</InspectorControls>
-
-			<div { ...useBlockProps() }>
-				<StyleComp attributes = { attributes }>
+			
+			<StyleComp attributes = { attributes }>
+				<div { ...useBlockProps() }>
 					<InnerBlocks
 						template={[
 							['core/heading',{ placeholder: '小見出しを入れてください。' , level: 2}],
 						]}
 						templateLock="all"
 					/>
-				</StyleComp>
-			</div>		
+				
+				</div>
+			</StyleComp>		
 		</>
 	);
 }

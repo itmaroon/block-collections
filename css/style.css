@@ -6,6 +6,7 @@
  */
 .wp-block-itmar-design-title {
   display: inline-block;
+  box-sizing: border-box;
 }
 .wp-block-itmar-design-title .wp-block-heading {
   margin: 0;

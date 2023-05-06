@@ -8,11 +8,11 @@ export default function save({ attributes }) {
 	const blockProps = useBlockProps.save();
 	const sheet = new ServerStyleSheet();
   const html = renderToString(sheet.collectStyles(
-    <div { ...blockProps }>
-      <StyleComp attributes = { attributes }>
+    <StyleComp attributes = { attributes }>
+      <div { ...blockProps }>
         <InnerBlocks.Content />
-      </StyleComp>   
-		</div>
+      </div>
+    </StyleComp>   
   ));
   const styleTags = sheet.getStyleTags();
   return (

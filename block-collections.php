@@ -107,9 +107,15 @@ function itmar_block_collections_colorsuport_init()
 
 add_action('plugins_loaded', 'itmar_block_collections_colorsuport_init');
 
-//Googleフォントの読み込み
+//Googleフォント,FontAwesomeの読み込み
 function itmar_block_collections_font_init()
 {
 	wp_enqueue_style('itmar_google_fonts', 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Texturina:wght@300;400;500;600&display=swap', array(), null);
+	wp_enqueue_style(
+		'font-awesome', // Handle
+		'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', // URL
+		array(), // Dependencies
+		'5.15.4' // Version
+	);
 }
 add_action('enqueue_block_assets', 'itmar_block_collections_font_init');
