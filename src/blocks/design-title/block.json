@@ -48,6 +48,24 @@
 	],
 	"example": {},
 	"attributes": {
+		"headingContent": {
+			"type": "string",
+			"source": "html",
+			"selector": "div"
+		},
+		"align": {
+			"type": "string",
+			"default": "none"
+		},
+		"backgroundColor": {
+			"type": "string"
+		},
+		"backgroundGradient": {
+			"type": "string"
+		},	 	 
+		"textColor": {
+			"type": "string"
+		},
 		"colorVal_border":{
 			"type":"string"
 		},

@@ -32,6 +32,11 @@ import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
 	const { 
+		headingContent,
+		align,
+		backgroundColor,
+		backgroundGradient,
+		textColor,
 		barWidth, 
 		colorVal_border, 
 		barSpace, 
@@ -174,7 +179,6 @@ export default function Edit({ attributes, setAttributes }) {
 						]}
 						templateLock="all"
 					/>
-				
 				</div>
 			</StyleComp>		
 		</>
