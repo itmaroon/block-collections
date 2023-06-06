@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 
-export const StyleComp = ({ attributes, children  }) => {
+export const StyleComp = ({ attributes, children }) => {
   return (
-    <StyledDiv attributes = { attributes }>
+    <StyledDiv attributes={attributes}>
       {children}
     </StyledDiv>
   );
@@ -10,10 +10,10 @@ export const StyleComp = ({ attributes, children  }) => {
 
 const StyledDiv = styled.div`
   ${({ attributes }) => {
-    const { 
-      barWidth, 
-      colorVal_border, 
-      barSpace, 
+    const {
+      barWidth,
+      colorVal_border,
+      barSpace,
       gradientVal_border,
       color_text_copy,
       color_background_copy,
@@ -29,13 +29,13 @@ const StyledDiv = styled.div`
 
     switch (className) {
       //縦棒を入れる
-      case 'is-style-virtical_line': 
-        if(colorVal_border!==undefined) {
+      case 'is-style-virtical_line':
+        if (colorVal_border !== undefined) {
           return css`
             border-left: ${barWidth} ${colorVal_border} solid !important;
             padding-left: ${barSpace};
           `
-        }else{
+        } else {
           return css`
             border-left: ${barWidth} solid;
             border-image: ${gradientVal_border};
@@ -43,22 +43,22 @@ const StyledDiv = styled.div`
             padding-left: ${barSpace}; 
           `
         }
-      case 'is-style-sub_copy': 
+      case 'is-style-sub_copy':
         //背景色の設定
-        const bgColor = color_background_copy===undefined ? gradient_background_copy : color_background_copy;
+        const bgColor = color_background_copy === undefined ? gradient_background_copy : color_background_copy;
         //斜体の設定
         const fontStyle = font_style_copy.isItalic ? "italic" : "nomal";
         //角丸の設定
         const radius_prm = radius_copy.length == 1 ? radius_copy.value : `${radius_copy.topLeft} ${radius_copy.topRight} ${radius_copy.bottomRight} ${radius_copy.bottomLeft}`
         //パディングの設定（アイコン幅の確保）
-        const getPadding = (isIcon, icon_style)=>{
-          if( !isIcon){
+        const getPadding = (isIcon, icon_style) => {
+          if (!isIcon) {
             return `${padding_copy.top} ${padding_copy.right} ${padding_copy.bottom} ${padding_copy.left}`
           }
-          if(icon_style.icon_pos==="left"){
+          if (icon_style.icon_pos === "left") {
             return `${padding_copy.top} ${padding_copy.right} ${padding_copy.bottom} calc(${padding_copy.left} + ${icon_style.icon_size} +  ${icon_style.icon_space})`
           }
-          if(icon_style.icon_pos==="right"){
+          if (icon_style.icon_pos === "right") {
             return `${padding_copy.top} calc(${padding_copy.right} + ${icon_style.icon_size} +  ${icon_style.icon_space}) ${padding_copy.bottom} ${padding_copy.left}`
           }
         }
@@ -77,11 +77,10 @@ const StyledDiv = styled.div`
 
         //アイコンの位置計算
         const tranceX = icon_style.icon_pos !== 'left' ?
-         `calc(${padding_copy.left} + ${padding_copy.right} + ${textWidth} )`:
-         ` ${icon_style.icon_space}`;
+          `calc(${padding_copy.left} + ${padding_copy.right} + ${textWidth} )` :
+          ` ${icon_style.icon_space}`;
         const tranceY = `calc((${padding_copy.top} + ${padding_copy.bottom} + ${font_style_copy.fontSize} - ${icon_style.icon_size}) / 2 * -1)`
-        console.log(tranceX);
-        console.log(tranceY);
+
         return css`
         position: relative;
         &::before{
@@ -116,9 +115,9 @@ const StyledDiv = styled.div`
         return css`
           padding: 0;
         `
-    }  
+    }
   }}
 `;
-  
- 
+
+
 

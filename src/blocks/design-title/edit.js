@@ -1,14 +1,17 @@
 
 import { __ } from '@wordpress/i18n';
-import {StyleComp} from './StyleWapper'
+import styled, { css } from 'styled-components';
 import TypographyControls from '../TypographyControls'
 import IconSelectControl from '../IconSelectControl';
+import { ServerStyleSheet } from 'styled-components';
+import { renderToString } from 'react-dom/server';
+import { StyleComp } from './StyleWapper';
 
-import { 
+import {
 	Button,
 	Panel,
-	PanelBody, 
-	PanelRow, 
+	PanelBody,
+	PanelRow,
 	ToggleControl,
 	RangeControl,
 	RadioControl,
@@ -16,8 +19,8 @@ import {
 	__experimentalBoxControl as BoxControl,
 	__experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
-import { 
-	useBlockProps, 
+import {
+	useBlockProps,
 	RichText,
 	BlockAlignmentControl,
 	BlockControls,
@@ -29,17 +32,18 @@ import {
 } from '@wordpress/block-editor';
 
 import './editor.scss';
+import { useDeepCompareEffect } from '../CustomFooks';
 
 export default function Edit({ attributes, setAttributes }) {
-	const { 
+	const {
 		headingContent,
 		align,
 		backgroundColor,
 		backgroundGradient,
 		textColor,
-		barWidth, 
-		colorVal_border, 
-		barSpace, 
+		barWidth,
+		colorVal_border,
+		barSpace,
 		gradientVal_border,
 		color_text_copy,
 		color_background_copy,
@@ -61,126 +65,147 @@ export default function Edit({ attributes, setAttributes }) {
 	}
 
 	const units = [
-    { value: 'px', label: 'px' },
-    { value: 'em', label: 'em' },
-    { value: 'rem', label: 'rem' },
-  ];
+		{ value: 'px', label: 'px' },
+		{ value: 'em', label: 'em' },
+		{ value: 'rem', label: 'rem' },
+	];
+	//サイトエディタの場合はiframeにスタイルをわたす。
+	useDeepCompareEffect(() => {
+		const iframeInstance = document.getElementsByName('editor-canvas')[0];
+
+		if (iframeInstance) {
+			const iframeDocument = iframeInstance.contentDocument || iframeInstance.contentWindow.document;
+			const sheet = new ServerStyleSheet();
+			renderToString(sheet.collectStyles(<StyleComp attributes={attributes} />));
+			const styleTags = sheet.getStyleTags();
+			const styleContent = styleTags.replace(/<style[^>]*>|<\/style>/g, '');
+
+			const iframeStyleTag = iframeDocument.createElement('style');
+			iframeStyleTag.innerHTML = styleContent;
+
+			// Append the new style tag to the iframe's document head
+			iframeDocument.head.appendChild(iframeStyleTag);
+		}
+	}, [attributes]);
+
+
 
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title="スタイル別設定" initialOpen={ true } className="title_design_ctrl">
-					
-					{ className==='is-style-virtical_line' &&
-					<>
-						<PanelColorGradientSettings
-							title={__("Bar Color Setting") }
-							settings={ [ {
-								colorValue: colorVal_border,
-								gradientValue: gradientVal_border,
-								
-								label:__("Choose Line Background"),
-								onColorChange:(newValue) => setAttributes({colorVal_border: newValue }),
-								onGradientChange:(newValue) => setAttributes({gradientVal_border: newValue }),
-							},
-						] }
-						/>
+				<PanelBody title="スタイル別設定" initialOpen={true} className="title_design_ctrl">
 
-						<PanelRow
-							className='sizing_row'
-						>
-							<UnitControl
-								dragDirection="e"
-								onChange={(newValue)=>setAttributes({barWidth: newValue})}
-								label='ラインの幅' 
-								value={ barWidth } 
+					{className === 'is-style-virtical_line' &&
+						<>
+							<PanelColorGradientSettings
+								title={__("Bar Color Setting")}
+								settings={[{
+									colorValue: colorVal_border,
+									gradientValue: gradientVal_border,
+
+									label: __("Choose Line Background"),
+									onColorChange: (newValue) => setAttributes({ colorVal_border: newValue }),
+									onGradientChange: (newValue) => setAttributes({ gradientVal_border: newValue }),
+								},
+								]}
 							/>
-							<UnitControl
-								dragDirection="e"
-								onChange={(newValue)=>setAttributes({barSpace: newValue})} 
-								label='文字との間隔' 
-								value={ barSpace } 
-							/>
-						</PanelRow>
-					</>
+
+							<PanelRow
+								className='sizing_row'
+							>
+								<UnitControl
+									dragDirection="e"
+									onChange={(newValue) => setAttributes({ barWidth: newValue })}
+									label='ラインの幅'
+									value={barWidth}
+								/>
+								<UnitControl
+									dragDirection="e"
+									onChange={(newValue) => setAttributes({ barSpace: newValue })}
+									label='文字との間隔'
+									value={barSpace}
+								/>
+							</PanelRow>
+						</>
 					}
 
-					{ className==='is-style-sub_copy' &&
-					<>
-						<PanelColorGradientSettings
-							title={__("Copy Color Setting") }
-							settings={ [ {
-								colorValue: color_text_copy,
-								label:__("Choose Text color"),
-								onColorChange:(newValue) => setAttributes({color_text_copy: newValue }),		
-							},
-							{
-								colorValue: color_background_copy,
-								gradientValue: gradient_background_copy,
-								
-								label:__("Choose Background color"),
-								onColorChange:(newValue) => setAttributes({color_background_copy: newValue }),
-								onGradientChange:(newValue) => setAttributes({gradient_background_copy: newValue }),
-							},
-						] }
-						/>
+					{className === 'is-style-sub_copy' &&
+						<>
+							<PanelColorGradientSettings
+								title={__("Copy Color Setting")}
+								settings={[{
+									colorValue: color_text_copy,
+									label: __("Choose Text color"),
+									onColorChange: (newValue) => setAttributes({ color_text_copy: newValue }),
+								},
+								{
+									colorValue: color_background_copy,
+									gradientValue: gradient_background_copy,
 
-						<PanelRow
-							className='copyInfo_row'
-						>
-							<TextControl
-								label="コピーテキスト"
-								labelPosition="top"
-								value={copy_content}
-								isPressEnterToChange
-								onChange={ ( newValue ) => setAttributes({copy_content: newValue }) }
-							/>
-						</PanelRow>
-
-						<TypographyControls title='コーピーのタイポグラフィー' fontStyle={ font_style_copy } setAttributes={ setAttributes }/>
-
-						<PanelBody title="ボーダー設定" initialOpen={ true }>
-							<BorderRadiusControl
-								values={ radius_copy }
-								onChange={ (newBrVal)=>
-								setAttributes( { radius_copy: typeof newBrVal==='string' ? {"value": newBrVal} : newBrVal } ) }	
+									label: __("Choose Background color"),
+									onColorChange: (newValue) => setAttributes({ color_background_copy: newValue }),
+									onGradientChange: (newValue) => setAttributes({ gradient_background_copy: newValue }),
+								},
+								]}
 							/>
 
-							<BoxControl
-								label="パティング設定"
-								values={ padding_copy }
-								onChange={ value => setAttributes( { padding_copy: value } ) }	
-								units={ units }	// 許可する単位
-								allowReset={ true }	// リセットの可否
-								resetValues={ padding_resetValues }	// リセット時の値
-								
-							/>
-						</PanelBody>
-						<PanelBody title="アイコン設定" initialOpen={ true }>
-							<ToggleControl
-								label = 'アイコンを付加する'
-								checked={isIcon}
-								onChange={(newValue) =>setAttributes({isIcon: newValue })}
-							/>
-							{ isIcon &&
-								<IconSelectControl iconStyle={ icon_style } setAttributes={ setAttributes }/>
-							}
-						</PanelBody>
-					</>
+							<PanelRow
+								className='copyInfo_row'
+							>
+								<TextControl
+									label="コピーテキスト"
+									labelPosition="top"
+									value={copy_content}
+									isPressEnterToChange
+									onChange={(newValue) => setAttributes({ copy_content: newValue })}
+								/>
+							</PanelRow>
+
+							<TypographyControls title='コーピーのタイポグラフィー' fontStyle={font_style_copy} setAttributes={setAttributes} />
+
+							<PanelBody title="ボーダー設定" initialOpen={true}>
+								<BorderRadiusControl
+									values={radius_copy}
+									onChange={(newBrVal) =>
+										setAttributes({ radius_copy: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
+								/>
+
+								<BoxControl
+									label="パティング設定"
+									values={padding_copy}
+									onChange={value => setAttributes({ padding_copy: value })}
+									units={units}	// 許可する単位
+									allowReset={true}	// リセットの可否
+									resetValues={padding_resetValues}	// リセット時の値
+
+								/>
+							</PanelBody>
+							<PanelBody title="アイコン設定" initialOpen={true}>
+								<ToggleControl
+									label='アイコンを付加する'
+									checked={isIcon}
+									onChange={(newValue) => setAttributes({ isIcon: newValue })}
+								/>
+								{isIcon &&
+									<IconSelectControl iconStyle={icon_style} setAttributes={setAttributes} />
+								}
+							</PanelBody>
+						</>
 					}
 				</PanelBody>
 			</InspectorControls>
-			
-			<StyleComp attributes = { attributes }>
-				<div { ...useBlockProps() }>
+
+			<div {...useBlockProps()}>
+				<StyleComp attributes={attributes}>
 					<InnerBlocks
 						template={[
-							['core/heading',{ placeholder: '小見出しを入れてください。' , level: 2}],
+							['core/heading', { placeholder: '小見出しを入れてください。', level: 2 }],
 						]}
 						templateLock="all"
 					/>
-				</div>
-			</StyleComp>		
+				</StyleComp>
+			</div>
+
 		</>
 	);
 }
