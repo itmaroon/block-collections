@@ -12,11 +12,13 @@ export default function save({ attributes }) {
     textColor, } = attributes;
   const sheet = new ServerStyleSheet();
   const html = renderToString(sheet.collectStyles(
-    <StyleComp attributes={attributes}>
-      <div {...blockProps}>
-        <InnerBlocks.Content />
-      </div>
-    </StyleComp>
+    <div {...blockProps}>
+      <StyleComp attributes={attributes}>
+        <RichText.Content
+          value={headingContent}
+        />
+      </StyleComp>
+    </div>
   ));
   const styleTags = sheet.getStyleTags();
   return (

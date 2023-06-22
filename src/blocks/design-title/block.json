@@ -10,12 +10,12 @@
 	"supports": {
 		"color": {
 			"background": true,
-      "gradients": true,
-      "link": false,
-      "text": false
+			"gradients": true,
+			"link": false,
+			"text": false
 		},
 		"spacing": {
-			"padding":true
+			"padding": true
 		},
 		"__experimentalBorder": {
 			"color": true,
@@ -35,7 +35,7 @@
 		{
 			"name": "nomal",
 			"label": "デザインなし",
-			"isDefault":true	
+			"isDefault": true
 		},
 		{
 			"name": "virtical_line",
@@ -49,9 +49,7 @@
 	"example": {},
 	"attributes": {
 		"headingContent": {
-			"type": "string",
-			"source": "html",
-			"selector": "div"
+			"type": "string"
 		},
 		"align": {
 			"type": "string",
@@ -62,50 +60,50 @@
 		},
 		"backgroundGradient": {
 			"type": "string"
-		},	 	 
+		},
 		"textColor": {
 			"type": "string"
 		},
-		"colorVal_border":{
-			"type":"string"
+		"colorVal_border": {
+			"type": "string"
 		},
-		"gradientVal_border":{
-			"type":"string"
+		"gradientVal_border": {
+			"type": "string"
 		},
-		"barWidth":{
-			"type":"string",
-			"default":"5px"
+		"barWidth": {
+			"type": "string",
+			"default": "5px"
 		},
-		"barSpace":{
-			"type":"string",
-			"default":"10px"
+		"barSpace": {
+			"type": "string",
+			"default": "10px"
 		},
-		"color_text_copy":{
-			"type":"string"
+		"color_text_copy": {
+			"type": "string"
 		},
-		"color_background_copy":{
-			"type":"string",
-			"default":"#d1cece"
+		"color_background_copy": {
+			"type": "string",
+			"default": "#d1cece"
 		},
-		"gradient_background_copy":{
-			"type":"string"
+		"gradient_background_copy": {
+			"type": "string"
 		},
-		"copy_content":{
-			"type":"string",
-			"default":"SAMPLE COPY"
+		"copy_content": {
+			"type": "string",
+			"default": "SAMPLE COPY"
 		},
-		"font_style_copy":{
-			"type":"object",
-			"default":{
+		"font_style_copy": {
+			"type": "object",
+			"default": {
 				"fontSize": "16px",
 				"fontFamily": "Arial, sans-serif",
 				"fontWeight": "500",
 				"isItalic": false
 			}
 		},
-		"radius_copy":{
-			"type":"object",
-			"default":{
+		"radius_copy": {
+			"type": "object",
+			"default": {
 				"topLeft": "10px",
 				"topRight": "10px",
 				"bottomRight": "0px",
@@ -113,22 +111,22 @@
 				"value": "0px"
 			}
 		},
-		"padding_copy":{
-			"type":"object",
-			"default":{
+		"padding_copy": {
+			"type": "object",
+			"default": {
 				"top": "10px",
 				"left": "10px",
 				"bottom": "10px",
 				"right": "10px"
 			}
 		},
-		"isIcon":{
-			"type":"boolean",
-			"default":false
+		"isIcon": {
+			"type": "boolean",
+			"default": false
 		},
-		"icon_style":{
-			"type":"object",
-			"default":{
+		"icon_style": {
+			"type": "object",
+			"default": {
 				"icon_name": "f030",
 				"icon_pos": "left",
 				"icon_size": "24px",
@@ -136,7 +134,7 @@
 				"icon_space": "5px"
 			}
 		}
-	},	
+	},
 	"textdomain": "design-title",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

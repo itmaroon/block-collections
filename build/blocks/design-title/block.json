@@ -49,9 +49,7 @@
   "example": {},
   "attributes": {
     "headingContent": {
-      "type": "string",
-      "source": "html",
-      "selector": "div"
+      "type": "string"
     },
     "align": {
       "type": "string",

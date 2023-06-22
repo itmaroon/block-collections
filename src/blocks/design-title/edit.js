@@ -1,6 +1,5 @@
 
 import { __ } from '@wordpress/i18n';
-import styled, { css } from 'styled-components';
 import TypographyControls from '../TypographyControls'
 import IconSelectControl from '../IconSelectControl';
 import { ServerStyleSheet } from 'styled-components';
@@ -197,11 +196,14 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<div {...useBlockProps()}>
 				<StyleComp attributes={attributes}>
-					<InnerBlocks
-						template={[
-							['core/heading', { placeholder: '小見出しを入れてください。', level: 2 }],
-						]}
-						templateLock="all"
+					<RichText
+						onChange={
+							(newContent) => {
+								setAttributes({ headingContent: newContent })
+							}
+						}
+						value={headingContent}
+						placeholder={__('Write your text...')}
 					/>
 				</StyleComp>
 			</div>
