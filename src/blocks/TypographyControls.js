@@ -1,28 +1,28 @@
-import { 
-  PanelBody, 
-  PanelRow, 
+import {
+  PanelBody,
+  PanelRow,
   RadioControl,
-  ToggleControl, 
-  __experimentalUnitControl as UnitControl, 
+  ToggleControl,
+  __experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
 
 import Select from 'react-select';
 
 
-const TypographyControls = ({ title, fontStyle, setAttributes }) => {
+const TypographyControls = ({ title, fontStyle, fontStyleName, initialOpen, setAttributes }) => {
   const {
     fontSize,
     fontFamily,
     fontWeight,
     isItalic
-  }=fontStyle;
+  } = fontStyle;
 
   const fontFamilyOptions = [
     { value: 'Arial, sans-serif', label: 'Arial', fontFamily: 'Arial, sans-serif' },
     { value: 'Courier New, monospace', label: 'Courier New', fontFamily: 'Courier New, monospace' },
     { value: 'Georgia, serif', label: 'Georgia', fontFamily: 'Georgia, serif' },
-    { label: 'Noto Sans JP', value: 'Noto Sans JP, sans-serif', fontFamily: 'Noto Sans JP, sans-serif'},
-    { label: 'Texturina', value: 'Texturina, serif',fontFamily: 'Texturina, serif' },
+    { label: 'Noto Sans JP', value: 'Noto Sans JP, sans-serif', fontFamily: 'Noto Sans JP, sans-serif' },
+    { label: 'Texturina', value: 'Texturina, serif', fontFamily: 'Texturina, serif' },
   ];
 
   const units = [
@@ -37,8 +37,8 @@ const TypographyControls = ({ title, fontStyle, setAttributes }) => {
       fontFamily: state.data.fontFamily,
     }),
   };
-  
-  const FontSelect = ({label, value, onChange }) => (
+
+  const FontSelect = ({ label, value, onChange }) => (
     <>
       {label && <label className="components-base-control__label">{label}</label>}
       <Select
@@ -53,43 +53,43 @@ const TypographyControls = ({ title, fontStyle, setAttributes }) => {
   );
 
   return (
-    <PanelBody title={ title }>
+    <PanelBody title={title} initialOpen={initialOpen} >
       <UnitControl
         dragDirection="e"
-        onChange={(newValue) =>{
+        onChange={(newValue) => {
           newValue = newValue != '' ? newValue : '0px'
-          const newStyle = { ...fontStyle, fontSize: newValue};
-          setAttributes({font_style_copy: newStyle});
-        }} 
-        label='サイズ' 
-        value={ fontSize }
-        units={units} 
+          const newStyle = { ...fontStyle, fontSize: newValue };
+          setAttributes({ [fontStyleName]: newStyle });
+        }}
+        label='サイズ'
+        value={fontSize}
+        units={units}
       />
 
       <FontSelect
-        label = "フォントファミリー"
+        label="フォントファミリー"
         value={fontFamily}
-        onChange={ (newValue) =>{
-          const newStyle = { ...fontStyle, fontFamily: newValue};
-          setAttributes({font_style_copy: newStyle});
+        onChange={(newValue) => {
+          const newStyle = { ...fontStyle, fontFamily: newValue };
+          setAttributes({ [fontStyleName]: newStyle });
         }}
       />
 
       <label className="components-base-control__label">フォントウエイト</label>
       <PanelRow className='itmar_weight_row'>
         <RadioControl
-          selected={ fontWeight }
-          options={ [
+          selected={fontWeight}
+          options={[
             { label: 'LIGHT', value: "300" },
             { label: 'REGULAR', value: "400" },
             { label: 'MEDIUM', value: "500" },
             { label: 'S-BOLD', value: "600" },
             { label: 'BOLD', value: "700" },
             { label: 'BLACK', value: "900" },
-          ] }
-          onChange={(newValue) =>{
-            const newStyle = { ...fontStyle, fontWeight: newValue};
-            setAttributes({font_style_copy: newStyle});
+          ]}
+          onChange={(newValue) => {
+            const newStyle = { ...fontStyle, fontWeight: newValue };
+            setAttributes({ [fontStyleName]: newStyle });
           }}
         />
       </PanelRow>
@@ -97,9 +97,9 @@ const TypographyControls = ({ title, fontStyle, setAttributes }) => {
       <label className="components-base-control__label">斜体表示</label>
       <ToggleControl
         checked={isItalic}
-        onChange={(newValue) =>{
-          const newStyle = { ...fontStyle, isItalic: newValue};
-          setAttributes({font_style_copy: newStyle});
+        onChange={(newValue) => {
+          const newStyle = { ...fontStyle, isItalic: newValue };
+          setAttributes({ [fontStyleName]: newStyle });
         }}
       />
     </PanelBody>

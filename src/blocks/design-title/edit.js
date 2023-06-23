@@ -36,6 +36,8 @@ import { useDeepCompareEffect } from '../CustomFooks';
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		headingContent,
+		font_style_heading,
+		padding_heading,
 		align,
 		backgroundColor,
 		backgroundGradient,
@@ -55,6 +57,10 @@ export default function Edit({ attributes, setAttributes }) {
 		icon_style,
 		className,
 	} = attributes;
+	//単色かグラデーションかの選択
+	const bgColor = backgroundColor || backgroundGradient;
+	//斜体の設定
+	const fontStyle_header = font_style_heading.isItalic ? "italic" : "normal";
 
 	const padding_resetValues = {
 		top: '10px',
@@ -91,7 +97,38 @@ export default function Edit({ attributes, setAttributes }) {
 
 	return (
 		<>
-			<InspectorControls group="settings">
+			<InspectorControls group="styles">
+				<PanelBody title="ヘディングスタイル設定" initialOpen={true} className="title_design_ctrl">
+					<TypographyControls title='タイポグラフィー' fontStyle={font_style_heading} fontStyleName='font_style_heading' setAttributes={setAttributes} initialOpen={false} />
+
+					<PanelColorGradientSettings
+						title={__("Heading Color Setting")}
+						settings={[{
+							colorValue: textColor,
+							label: __("Choose Text color"),
+							onColorChange: (newValue) => setAttributes({ textColor: newValue }),
+						},
+						{
+							colorValue: backgroundColor,
+							gradientValue: backgroundGradient,
+
+							label: __("Choose Background color"),
+							onColorChange: (newValue) => setAttributes({ backgroundColor: newValue }),
+							onGradientChange: (newValue) => setAttributes({ backgroundGradient: newValue }),
+						},
+						]}
+					/>
+
+					<BoxControl
+						label="パティング設定"
+						values={padding_heading}
+						onChange={value => setAttributes({ padding_heading: value })}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
+
+					/>
+				</PanelBody>
 				<PanelBody title="スタイル別設定" initialOpen={true} className="title_design_ctrl">
 
 					{className === 'is-style-virtical_line' &&
@@ -160,7 +197,7 @@ export default function Edit({ attributes, setAttributes }) {
 								/>
 							</PanelRow>
 
-							<TypographyControls title='コーピーのタイポグラフィー' fontStyle={font_style_copy} setAttributes={setAttributes} />
+							<TypographyControls title='コーピーのタイポグラフィー' fontStyle={font_style_copy} fontStyleName='font_style_copy' setAttributes={setAttributes} />
 
 							<PanelBody title="ボーダー設定" initialOpen={true}>
 								<BorderRadiusControl

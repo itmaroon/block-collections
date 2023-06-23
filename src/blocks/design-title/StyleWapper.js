@@ -11,6 +11,11 @@ export const StyleComp = ({ attributes, children }) => {
 const StyledDiv = styled.div`
   ${({ attributes }) => {
     const {
+      font_style_heading,
+      padding_heading,
+      backgroundColor,
+      backgroundGradient,
+      textColor,
       barWidth,
       colorVal_border,
       barSpace,
@@ -27,27 +32,49 @@ const StyledDiv = styled.div`
       className,
     } = attributes;
 
+    //単色かグラデーションかの選択
+    const bgColor = backgroundColor || backgroundGradient;
+    //斜体の設定
+    const fontStyle_header = font_style_heading.isItalic ? "italic" : "normal";
+
+    // 共通のスタイルをここで定義します
+    const commonStyle = css`
+      background: ${bgColor};
+      > div{
+        color: ${textColor};
+        font-size: ${font_style_heading.fontSize};
+        font-family: ${font_style_heading.fontFamily};
+        font-weight: ${font_style_heading.fontWeight};
+        font-style: ${fontStyle_header};
+        padding: ${padding_heading.top} ${padding_heading.right} ${padding_heading.bottom} ${padding_heading.left};
+      }
+      `;
+
+    // classNameに基づいて特定のスタイルを定義します
+    let specificStyle = null;
+
     switch (className) {
       //縦棒を入れる
       case 'is-style-virtical_line':
         if (colorVal_border !== undefined) {
-          return css`
+          specificStyle = css`
             border-left: ${barWidth} ${colorVal_border} solid !important;
             padding-left: ${barSpace};
           `
         } else {
-          return css`
+          specificStyle = css`
             border-left: ${barWidth} solid;
             border-image: ${gradientVal_border};
             border-image-slice: 1; 
             padding-left: ${barSpace}; 
           `
         }
+        break;
       case 'is-style-sub_copy':
         //背景色の設定
         const bgColor = color_background_copy === undefined ? gradient_background_copy : color_background_copy;
         //斜体の設定
-        const fontStyle = font_style_copy.isItalic ? "italic" : "nomal";
+        const fontStyle = font_style_copy.isItalic ? "italic" : "normal";
         //角丸の設定
         const radius_prm = radius_copy.length == 1 ? radius_copy.value : `${radius_copy.topLeft} ${radius_copy.topRight} ${radius_copy.bottomRight} ${radius_copy.bottomLeft}`
         //パディングの設定（アイコン幅の確保）
@@ -81,7 +108,7 @@ const StyledDiv = styled.div`
           ` ${icon_style.icon_space}`;
         const tranceY = `calc((${padding_copy.top} + ${padding_copy.bottom} + ${font_style_copy.fontSize} - ${icon_style.icon_size}) / 2 * -1)`
 
-        return css`
+        specificStyle = css`
         position: relative;
         &::before{
           font-size: ${font_style_copy.fontSize};
@@ -110,12 +137,15 @@ const StyledDiv = styled.div`
             transform: translate(${tranceX}, ${tranceY});
           }
         `}
-      `
-      default:
-        return css`
-          padding: 0;
         `
+        break
+
     }
+    // 共通のスタイルと特定のスタイルを組み合わせて返します
+    return css`
+      ${commonStyle}
+      ${specificStyle}
+    `;
   }}
 `;
 

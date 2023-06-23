@@ -8,27 +8,6 @@
   "icon": "tag",
   "description": "見出しタグに様々なスタイルを適用したブロックです",
   "supports": {
-    "color": {
-      "background": true,
-      "gradients": true,
-      "link": false,
-      "text": false
-    },
-    "spacing": {
-      "padding": true
-    },
-    "__experimentalBorder": {
-      "color": true,
-      "radius": true,
-      "style": true,
-      "width": true,
-      "__experimentalDefaultControls": {
-        "color": true,
-        "radius": true,
-        "style": true,
-        "width": true
-      }
-    },
     "html": false
   },
   "styles": [
@@ -50,6 +29,28 @@
   "attributes": {
     "headingContent": {
       "type": "string"
+    },
+    "headingType": {
+      "type": "string",
+      "default": "H2"
+    },
+    "font_style_heading": {
+      "type": "object",
+      "default": {
+        "fontSize": "16px",
+        "fontFamily": "Noto Sans JP, sans-serif",
+        "fontWeight": "500",
+        "isItalic": false
+      }
+    },
+    "padding_heading": {
+      "type": "object",
+      "default": {
+        "top": "10px",
+        "left": "10px",
+        "bottom": "10px",
+        "right": "10px"
+      }
     },
     "align": {
       "type": "string",
