@@ -5,7 +5,9 @@
  */
 
 .wp-block-itmar-design-title {
-	border: 1px dotted #f00;
+	&.is-selected {
+		border: 1px dotted #f00;
+	}
 
 	[data-rich-text-placeholder] {
 		opacity: 0.5;

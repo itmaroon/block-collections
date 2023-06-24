@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import BorderProperty from '../borderProperty';
 
 export const StyleComp = ({ attributes, children }) => {
   return (
@@ -40,16 +41,15 @@ const StyledDiv = styled.div`
     //斜体の設定
     const fontStyle_header = font_style_heading.isItalic ? "italic" : "normal";
     //角丸の設定
-    const radius_prm = radius_heading.length == 1 ? radius_heading.value : `${radius_heading.topLeft} ${radius_heading.topRight} ${radius_heading.bottomRight} ${radius_heading.bottomLeft}`
-    //ボーダーの設定
-    const border_prm = border_heading.length == 1 ? border_heading.value : `${border_heading.topLeft} ${border_heading.topRight} ${border_heading.bottomRight} ${border_heading.bottomLeft}`
+    const header_radius_prm = (radius_heading && Object.keys(radius_heading).length === 1) ? radius_heading.value : `${(radius_heading && radius_heading.topLeft) || ''} ${(radius_heading && radius_heading.topRight) || ''} ${(radius_heading && radius_heading.bottomRight) || ''} ${(radius_heading && radius_heading.bottomLeft) || ''}`
 
+    console.log(border_heading);
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       background: ${bgColor};
       margin: ${margin_heading.top} ${margin_heading.right} ${margin_heading.bottom} ${margin_heading.left};
-      border-radius: ${radius_prm};
-      border:border_prm;
+      border-radius: ${header_radius_prm};
+      ${BorderProperty(border_heading)};
       > div{
         color: ${textColor};
         font-size: ${font_style_heading.fontSize};
@@ -86,7 +86,8 @@ const StyledDiv = styled.div`
         //斜体の設定
         const fontStyle = font_style_copy.isItalic ? "italic" : "normal";
         //角丸の設定
-        const radius_prm = radius_copy.length == 1 ? radius_copy.value : `${radius_copy.topLeft} ${radius_copy.topRight} ${radius_copy.bottomRight} ${radius_copy.bottomLeft}`
+        //角丸の設定
+        const radius_prm = (radius_copy && Object.keys(radius_copy).length === 1) ? radius_copy.value : `${(radius_copy && radius_copy.topLeft) || ''} ${(radius_copy && radius_copy.topRight) || ''} ${(radius_copy && radius_copy.bottomRight) || ''} ${(radius_copy && radius_copy.bottomLeft) || ''}`
         //パディングの設定（アイコン幅の確保）
         const getPadding = (isIcon, icon_style) => {
           if (!isIcon) {

@@ -85,8 +85,7 @@
       }
     },
     "border_heading": {
-      "type": "object",
-      "default": {}
+      "type": "object"
     },
     "colorVal_border": {
       "type": "string"
