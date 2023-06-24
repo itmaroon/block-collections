@@ -7,8 +7,11 @@
 .wp-block-itmar-design-title {
   display: inline-block;
   box-sizing: border-box;
+  width: 100%;
 }
-.wp-block-itmar-design-title .wp-block-heading {
-  margin: 0;
+.wp-block-itmar-design-title > div {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 /*# sourceMappingURL=style.css.map */

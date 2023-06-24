@@ -12,10 +12,13 @@ const StyledDiv = styled.div`
   ${({ attributes }) => {
     const {
       font_style_heading,
+      margin_heading,
       padding_heading,
       backgroundColor,
       backgroundGradient,
       textColor,
+      radius_heading,
+      border_heading,
       barWidth,
       colorVal_border,
       barSpace,
@@ -36,10 +39,17 @@ const StyledDiv = styled.div`
     const bgColor = backgroundColor || backgroundGradient;
     //斜体の設定
     const fontStyle_header = font_style_heading.isItalic ? "italic" : "normal";
+    //角丸の設定
+    const radius_prm = radius_heading.length == 1 ? radius_heading.value : `${radius_heading.topLeft} ${radius_heading.topRight} ${radius_heading.bottomRight} ${radius_heading.bottomLeft}`
+    //ボーダーの設定
+    const border_prm = border_heading.length == 1 ? border_heading.value : `${border_heading.topLeft} ${border_heading.topRight} ${border_heading.bottomRight} ${border_heading.bottomLeft}`
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       background: ${bgColor};
+      margin: ${margin_heading.top} ${margin_heading.right} ${margin_heading.bottom} ${margin_heading.left};
+      border-radius: ${radius_prm};
+      border:border_prm;
       > div{
         color: ${textColor};
         font-size: ${font_style_heading.fontSize};

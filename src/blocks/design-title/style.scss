@@ -8,10 +8,10 @@
 .wp-block-itmar-design-title {
 	display: inline-block;
 	box-sizing: border-box;
-	.wp-block-heading{
-		margin: 0;
+	width: 100%;
+
+	>div {
+		width: fit-content;
 	}
-	
+
 }
-
-

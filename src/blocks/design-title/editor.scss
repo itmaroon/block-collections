@@ -6,29 +6,40 @@
 
 .wp-block-itmar-design-title {
 	border: 1px dotted #f00;
-	[data-rich-text-placeholder]{
+
+	[data-rich-text-placeholder] {
 		opacity: 0.5;
 	}
 }
 
-.title_design_ctrl{
-	.sizing_row{
+.title_design_ctrl {
+	.sizing_row {
 		align-items: baseline;
 		column-gap: 10px;
-		.components-base-control{
+
+		.components-base-control {
 			margin-bottom: 0;
 		}
-	}	
+	}
 }
-.components-base-control__label{
+
+.border_design_ctrl {
+	.components-panel__body-title {
+		margin-bottom: 20px !important;
+	}
+}
+
+.components-base-control__label {
 	font-size: 11px;
 	padding-bottom: 10px;
 }
 
 // ラジオボタンをボタンのような表示にする
-.itmar_weight_row, .itmar_position_row {
+.itmar_weight_row,
+.itmar_position_row {
 	.components-radio-control {
 		width: 100%;
+
 		.components-flex {
 			display: flex;
 			flex-wrap: wrap;
@@ -44,7 +55,7 @@
 				display: none;
 			}
 
-			input[type="radio"]:checked + label {
+			input[type="radio"]:checked+label {
 				background-color: #0085ba;
 				color: #fff;
 				text-shadow: 0 -1px 1px #005d82, 1px 0 1px #005d82, 0 1px 1px #005d82, -1px 0 1px #005d82;
@@ -65,6 +76,7 @@
 				border-left-style: none;
 				box-shadow: inset 0 -1px 0 #ccc;
 				max-width: 100%;
+
 				&:hover {
 					background: #fafafa;
 					border-color: #999;
@@ -72,10 +84,12 @@
 					color: #23282d;
 				}
 			}
+
 			&:first-child label {
 				border-radius: 3px 0 0 3px;
 				border-left-style: solid;
 			}
+
 			&:last-child label {
 				border-radius: 0 3px 3px 0;
 			}

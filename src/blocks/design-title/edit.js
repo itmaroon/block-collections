@@ -17,6 +17,7 @@ import {
 	TextControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalUnitControl as UnitControl,
+	__experimentalBorderBoxControl as BorderBoxControl
 } from '@wordpress/components';
 import {
 	useBlockProps,
@@ -37,11 +38,14 @@ export default function Edit({ attributes, setAttributes }) {
 	const {
 		headingContent,
 		font_style_heading,
+		margin_heading,
 		padding_heading,
 		align,
 		backgroundColor,
 		backgroundGradient,
 		textColor,
+		radius_heading,
+		border_heading,
 		barWidth,
 		colorVal_border,
 		barSpace,
@@ -57,16 +61,21 @@ export default function Edit({ attributes, setAttributes }) {
 		icon_style,
 		className,
 	} = attributes;
-	//単色かグラデーションかの選択
-	const bgColor = backgroundColor || backgroundGradient;
-	//斜体の設定
-	const fontStyle_header = font_style_heading.isItalic ? "italic" : "normal";
 
+	//スペースのリセットバリュー
 	const padding_resetValues = {
 		top: '10px',
 		left: '10px',
 		right: '10px',
 		bottom: '10px',
+	}
+
+	//ボーダーのリセットバリュー
+	const border_resetValues = {
+		top: '0px',
+		left: '0px',
+		right: '0px',
+		bottom: '0px',
 	}
 
 	const units = [
@@ -98,7 +107,7 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls group="styles">
-				<PanelBody title="ヘディングスタイル設定" initialOpen={true} className="title_design_ctrl">
+				<PanelBody title="ヘディングスタイル設定" initialOpen={false} className="title_design_ctrl">
 					<TypographyControls title='タイポグラフィー' fontStyle={font_style_heading} fontStyleName='font_style_heading' setAttributes={setAttributes} initialOpen={false} />
 
 					<PanelColorGradientSettings
@@ -118,6 +127,15 @@ export default function Edit({ attributes, setAttributes }) {
 						},
 						]}
 					/>
+					<BoxControl
+						label="マージン設定"
+						values={margin_heading}
+						onChange={value => setAttributes({ margin_heading: value })}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
+
+					/>
 
 					<BoxControl
 						label="パティング設定"
@@ -128,8 +146,22 @@ export default function Edit({ attributes, setAttributes }) {
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
+					<PanelBody title="ボーダー設定" initialOpen={false} className="border_design_ctrl">
+						<BorderBoxControl
+							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
+							onChange={(newValue) => setAttributes({ border_heading: newValue })}
+							value={border_heading}
+							allowReset={true}	// リセットの可否
+							resetValues={border_resetValues}	// リセット時の値
+						/>
+						<BorderRadiusControl
+							values={radius_heading}
+							onChange={(newBrVal) =>
+								setAttributes({ radius_heading: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
+						/>
+					</PanelBody>
 				</PanelBody>
-				<PanelBody title="スタイル別設定" initialOpen={true} className="title_design_ctrl">
+				<PanelBody title="スタイル別設定" initialOpen={false} className="title_design_ctrl">
 
 					{className === 'is-style-virtical_line' &&
 						<>

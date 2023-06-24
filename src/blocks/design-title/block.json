@@ -43,6 +43,15 @@
 				"isItalic": false
 			}
 		},
+		"margin_heading": {
+			"type": "object",
+			"default": {
+				"top": "10px",
+				"left": "10px",
+				"bottom": "10px",
+				"right": "10px"
+			}
+		},
 		"padding_heading": {
 			"type": "object",
 			"default": {
@@ -64,6 +73,20 @@
 		},
 		"textColor": {
 			"type": "string"
+		},
+		"radius_heading": {
+			"type": "object",
+			"default": {
+				"topLeft": "0px",
+				"topRight": "0px",
+				"bottomRight": "0px",
+				"bottomLeft": "0px",
+				"value": "0px"
+			}
+		},
+		"border_heading": {
+			"type": "object",
+			"default": {}
 		},
 		"colorVal_border": {
 			"type": "string"
