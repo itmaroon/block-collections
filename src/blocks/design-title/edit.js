@@ -32,6 +32,7 @@ import {
 } from '@wordpress/block-editor';
 
 import './editor.scss';
+import { useEffect, useState, useRef } from '@wordpress/element';
 import { useDeepCompareEffect } from '../CustomFooks';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -46,19 +47,7 @@ export default function Edit({ attributes, setAttributes }) {
 		textColor,
 		radius_heading,
 		border_heading,
-		barWidth,
-		colorVal_border,
-		barSpace,
-		gradientVal_border,
-		color_text_copy,
-		color_background_copy,
-		gradient_background_copy,
-		copy_content,
-		font_style_copy,
-		radius_copy,
-		padding_copy,
-		isIcon,
-		icon_style,
+		optionStyle,
 		className,
 	} = attributes;
 
@@ -83,6 +72,75 @@ export default function Edit({ attributes, setAttributes }) {
 		{ value: 'em', label: 'em' },
 		{ value: 'rem', label: 'rem' },
 	];
+
+	//最初の状態
+	const renderFlgRef = useRef(false);
+
+	// ローカル状態の作成
+	const [localOptionStyle, setLocalOptionStyle] = useState(optionStyle);
+
+	// localOptionStyle の変更があるたびに setAttributes を呼び出す
+	useEffect(() => {
+		setAttributes({ optionStyle: localOptionStyle });
+	}, [localOptionStyle]);
+
+	//スタイル変更によるoptionStyleの初期化
+	useEffect(() => {
+		if (renderFlgRef.current) {//最初のレンダリングでは初期化しない
+			let reset_style;
+			switch (className) {
+				case 'is-style-virtical_line':
+					reset_style = {
+						colorVal_border: '#000',
+						barWidth: '5px',
+						barSpace: '10px'
+					}
+					break;
+				case 'is-style-sub_copy':
+					reset_style = {
+						color_text_copy: '#000',
+						color_background_copy: '#d1cece',
+						copy_content: 'SAMPLE',
+						font_style_copy: {
+							fontSize: "16px",
+							fontFamily: "Arial, sans-serif",
+							fontWeight: "500",
+							isItalic: false
+						},
+						radius_copy: {
+							topLeft: "10px",
+							topRight: "10px",
+							bottomRight: "0px",
+							bottomLeft: "0px",
+							value: "0px"
+
+						},
+						padding_copy: {
+							top: "10px",
+							left: "10px",
+							bottom: "10px",
+							right: "10px"
+
+						},
+						isIcon: false,
+						icon_style: {
+							icon_name: "f030",
+							icon_pos: "left",
+							icon_size: "24px",
+							icon_color: "#000",
+							icon_space: "5px"
+
+						}
+					}
+					break;
+			}
+			setLocalOptionStyle(reset_style);
+		}
+		else {
+			renderFlgRef.current = true
+		}
+	}, [className])
+
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useDeepCompareEffect(() => {
 		const iframeInstance = document.getElementsByName('editor-canvas')[0];
@@ -102,13 +160,18 @@ export default function Edit({ attributes, setAttributes }) {
 		}
 	}, [attributes]);
 
-
-
 	return (
 		<>
 			<InspectorControls group="styles">
 				<PanelBody title="ヘディングスタイル設定" initialOpen={false} className="title_design_ctrl">
-					<TypographyControls title='タイポグラフィー' fontStyle={font_style_heading} fontStyleName='font_style_heading' setAttributes={setAttributes} initialOpen={false} />
+					<TypographyControls
+						title='タイポグラフィー'
+						fontStyle={font_style_heading}
+						onChange={(newStyle) => {
+							setAttributes({ font_style_heading: newStyle })
+						}}
+						initialOpen={false}
+					/>
 
 					<PanelColorGradientSettings
 						title={__("Heading Color Setting")}
@@ -168,12 +231,16 @@ export default function Edit({ attributes, setAttributes }) {
 							<PanelColorGradientSettings
 								title={__("Bar Color Setting")}
 								settings={[{
-									colorValue: colorVal_border,
-									gradientValue: gradientVal_border,
+									colorValue: (optionStyle && optionStyle.colorVal_border) ? optionStyle.colorVal_border : '#000',
+									gradientValue: (optionStyle && optionStyle.gradientVal_border) ? optionStyle.gradientVal_border : undefined,
 
 									label: __("Choose Line Background"),
-									onColorChange: (newValue) => setAttributes({ colorVal_border: newValue }),
-									onGradientChange: (newValue) => setAttributes({ gradientVal_border: newValue }),
+									onColorChange: (newValue) => {
+										setLocalOptionStyle(prev => ({ ...prev, colorVal_border: newValue }));
+									},
+									onGradientChange: (newValue) => {
+										setLocalOptionStyle(prev => ({ ...prev, gradientVal_border: newValue }));
+									},
 								},
 								]}
 							/>
@@ -183,15 +250,19 @@ export default function Edit({ attributes, setAttributes }) {
 							>
 								<UnitControl
 									dragDirection="e"
-									onChange={(newValue) => setAttributes({ barWidth: newValue })}
+									onChange={(newValue) => {
+										setLocalOptionStyle(prev => ({ ...prev, barWidth: newValue }));
+									}}
 									label='ラインの幅'
-									value={barWidth}
+									value={(optionStyle && optionStyle.barWidth) ? optionStyle.barWidth : '5px'}
 								/>
 								<UnitControl
 									dragDirection="e"
-									onChange={(newValue) => setAttributes({ barSpace: newValue })}
+									onChange={(newValue) => {
+										setLocalOptionStyle(prev => ({ ...prev, barSpace: newValue }));
+									}}
 									label='文字との間隔'
-									value={barSpace}
+									value={(optionStyle && optionStyle.barSpace) ? optionStyle.barSpace : '10px'}
 								/>
 							</PanelRow>
 						</>
@@ -202,17 +273,24 @@ export default function Edit({ attributes, setAttributes }) {
 							<PanelColorGradientSettings
 								title={__("Copy Color Setting")}
 								settings={[{
-									colorValue: color_text_copy,
+									colorValue: (optionStyle && optionStyle.color_text_copy) ? optionStyle.color_text_copy : '#000',
 									label: __("Choose Text color"),
-									onColorChange: (newValue) => setAttributes({ color_text_copy: newValue }),
+									onColorChange: (newValue) => {
+										setLocalOptionStyle(prev => ({ ...prev, color_text_copy: newValue }));
+									},
 								},
 								{
-									colorValue: color_background_copy,
-									gradientValue: gradient_background_copy,
+									colorValue: (optionStyle && optionStyle.color_background_copy) ? optionStyle.color_background_copy : '#d1cece',
+									gradientValue: (optionStyle && optionStyle.gradient_background_copy) ? optionStyle.gradient_background_copy : undefined,
 
 									label: __("Choose Background color"),
-									onColorChange: (newValue) => setAttributes({ color_background_copy: newValue }),
-									onGradientChange: (newValue) => setAttributes({ gradient_background_copy: newValue }),
+									onColorChange: (newValue) => {
+										setLocalOptionStyle(prev => ({ ...prev, color_background_copy: newValue }));
+									},
+									onGradientChange: (newValue) => {
+
+										setLocalOptionStyle(prev => ({ ...prev, gradient_background_copy: newValue }));
+									},
 								},
 								]}
 							/>
@@ -223,25 +301,53 @@ export default function Edit({ attributes, setAttributes }) {
 								<TextControl
 									label="コピーテキスト"
 									labelPosition="top"
-									value={copy_content}
+									value={(optionStyle && optionStyle.copy_content) ? optionStyle.copy_content : 'SAMPLE'}
 									isPressEnterToChange
-									onChange={(newValue) => setAttributes({ copy_content: newValue })}
+									onChange={(newValue) => {
+										setLocalOptionStyle(prev => ({ ...prev, copy_content: newValue }));
+									}}
 								/>
 							</PanelRow>
 
-							<TypographyControls title='コーピーのタイポグラフィー' fontStyle={font_style_copy} fontStyleName='font_style_copy' setAttributes={setAttributes} />
+							<TypographyControls
+								title='コーピーのタイポグラフィー'
+								fontStyle={(optionStyle && optionStyle.font_style_copy) ? optionStyle.font_style_copy : {
+									fontSize: "16px",
+									fontFamily: "Arial, sans-serif",
+									fontWeight: "500",
+									isItalic: false
+								}}
+								initialOpen={false}
+								onChange={(newValue) => {
+									setLocalOptionStyle(prev => ({ ...prev, font_style_copy: newValue }));
+								}}
+							/>
 
 							<PanelBody title="ボーダー設定" initialOpen={true}>
 								<BorderRadiusControl
-									values={radius_copy}
-									onChange={(newBrVal) =>
-										setAttributes({ radius_copy: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
+									values={(optionStyle && optionStyle.radius_copy) ? optionStyle.radius_copy : {
+										topLeft: "10px",
+										topRight: "10px",
+										bottomRight: "0px",
+										bottomLeft: "0px",
+										value: "0px"
+									}}
+									onChange={(newBrVal) => {
+										setLocalOptionStyle(prev => ({ ...prev, radius_copy: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal }));
+									}}
 								/>
 
 								<BoxControl
 									label="パティング設定"
-									values={padding_copy}
-									onChange={value => setAttributes({ padding_copy: value })}
+									values={(optionStyle && optionStyle.padding_copy) ? optionStyle.padding_copy : {
+										top: "10px",
+										left: "10px",
+										bottom: "10px",
+										right: "10px"
+									}}
+									onChange={(newValue) => {
+										setLocalOptionStyle(prev => ({ ...prev, padding_copy: newValue }));
+									}}
 									units={units}	// 許可する単位
 									allowReset={true}	// リセットの可否
 									resetValues={padding_resetValues}	// リセット時の値
@@ -251,16 +357,32 @@ export default function Edit({ attributes, setAttributes }) {
 							<PanelBody title="アイコン設定" initialOpen={true}>
 								<ToggleControl
 									label='アイコンを付加する'
-									checked={isIcon}
-									onChange={(newValue) => setAttributes({ isIcon: newValue })}
+									checked={(optionStyle && optionStyle.isIcon) ? optionStyle.isIcon : false}
+									onChange={(newValue) => {
+										setLocalOptionStyle(prev => ({ ...prev, isIcon: newValue }));
+									}}
 								/>
-								{isIcon &&
-									<IconSelectControl iconStyle={icon_style} setAttributes={setAttributes} />
+								{((optionStyle && optionStyle.isIcon) ? optionStyle.isIcon : false) &&
+									<IconSelectControl
+										iconStyle={(optionStyle && optionStyle.icon_style) ? optionStyle.icon_style : {
+											icon_name: "f030",
+											icon_pos: "left",
+											icon_size: "24px",
+											icon_color: "#000",
+											icon_space: "5px"
+										}}
+										onChange={(newValue) => {
+											setLocalOptionStyle(prev => ({ ...prev, icon_style: newValue }));
+										}}
+									/>
 								}
 							</PanelBody>
+
 						</>
 					}
 				</PanelBody>
+
+
 			</InspectorControls>
 
 			<div {...useBlockProps()}>

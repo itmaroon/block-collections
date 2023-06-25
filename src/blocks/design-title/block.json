@@ -87,75 +87,8 @@
 		"border_heading": {
 			"type": "object"
 		},
-		"colorVal_border": {
-			"type": "string"
-		},
-		"gradientVal_border": {
-			"type": "string"
-		},
-		"barWidth": {
-			"type": "string",
-			"default": "5px"
-		},
-		"barSpace": {
-			"type": "string",
-			"default": "10px"
-		},
-		"color_text_copy": {
-			"type": "string"
-		},
-		"color_background_copy": {
-			"type": "string",
-			"default": "#d1cece"
-		},
-		"gradient_background_copy": {
-			"type": "string"
-		},
-		"copy_content": {
-			"type": "string",
-			"default": "SAMPLE COPY"
-		},
-		"font_style_copy": {
-			"type": "object",
-			"default": {
-				"fontSize": "16px",
-				"fontFamily": "Arial, sans-serif",
-				"fontWeight": "500",
-				"isItalic": false
-			}
-		},
-		"radius_copy": {
-			"type": "object",
-			"default": {
-				"topLeft": "10px",
-				"topRight": "10px",
-				"bottomRight": "0px",
-				"bottomLeft": "0px",
-				"value": "0px"
-			}
-		},
-		"padding_copy": {
-			"type": "object",
-			"default": {
-				"top": "10px",
-				"left": "10px",
-				"bottom": "10px",
-				"right": "10px"
-			}
-		},
-		"isIcon": {
-			"type": "boolean",
-			"default": false
-		},
-		"icon_style": {
-			"type": "object",
-			"default": {
-				"icon_name": "f030",
-				"icon_pos": "left",
-				"icon_size": "24px",
-				"icon_color": "#000",
-				"icon_space": "5px"
-			}
+		"optionStyle": {
+			"type": "object"
 		}
 	},
 	"textdomain": "design-title",

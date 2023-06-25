@@ -9,7 +9,7 @@ import {
 import Select from 'react-select';
 
 
-const TypographyControls = ({ title, fontStyle, fontStyleName, initialOpen, setAttributes }) => {
+const TypographyControls = ({ title, fontStyle, initialOpen, onChange }) => {
   const {
     fontSize,
     fontFamily,
@@ -59,7 +59,7 @@ const TypographyControls = ({ title, fontStyle, fontStyleName, initialOpen, setA
         onChange={(newValue) => {
           newValue = newValue != '' ? newValue : '0px'
           const newStyle = { ...fontStyle, fontSize: newValue };
-          setAttributes({ [fontStyleName]: newStyle });
+          onChange(newStyle);
         }}
         label='サイズ'
         value={fontSize}
@@ -71,7 +71,7 @@ const TypographyControls = ({ title, fontStyle, fontStyleName, initialOpen, setA
         value={fontFamily}
         onChange={(newValue) => {
           const newStyle = { ...fontStyle, fontFamily: newValue };
-          setAttributes({ [fontStyleName]: newStyle });
+          onChange(newStyle);
         }}
       />
 
@@ -89,7 +89,7 @@ const TypographyControls = ({ title, fontStyle, fontStyleName, initialOpen, setA
           ]}
           onChange={(newValue) => {
             const newStyle = { ...fontStyle, fontWeight: newValue };
-            setAttributes({ [fontStyleName]: newStyle });
+            onChange(newStyle);
           }}
         />
       </PanelRow>
@@ -99,7 +99,7 @@ const TypographyControls = ({ title, fontStyle, fontStyleName, initialOpen, setA
         checked={isItalic}
         onChange={(newValue) => {
           const newStyle = { ...fontStyle, isItalic: newValue };
-          setAttributes({ [fontStyleName]: newStyle });
+          onChange(newStyle);
         }}
       />
     </PanelBody>
