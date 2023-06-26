@@ -3,14 +3,15 @@ import BorderProperty from '../borderProperty';
 
 export const StyleComp = ({ attributes, children }) => {
   return (
-    <StyledDiv attributes={attributes}>
+    < StyledDiv id={attributes.headingID} attributes={attributes} >
       {children}
-    </StyledDiv>
+    </StyledDiv >
   );
 }
 
 const StyledDiv = styled.div`
   ${({ attributes }) => {
+
     const {
       font_style_heading,
       margin_heading,
@@ -150,6 +151,8 @@ const StyledDiv = styled.div`
     `;
   }}
 `;
+
+
 
 
 
