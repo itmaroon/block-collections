@@ -91,6 +91,7 @@ export default function Edit({ attributes, setAttributes }) {
 			switch (className) {
 				case 'is-style-virtical_line':
 					reset_style = {
+						styleName: 'is-style-virtical_line',
 						colorVal_border: '#000',
 						barWidth: '5px',
 						barSpace: '10px'
@@ -98,6 +99,7 @@ export default function Edit({ attributes, setAttributes }) {
 					break;
 				case 'is-style-sub_copy':
 					reset_style = {
+						styleName: 'is-style-sub_copy',
 						color_text_copy: '#000',
 						color_background_copy: '#d1cece',
 						copy_content: 'SAMPLE',
@@ -157,8 +159,26 @@ export default function Edit({ attributes, setAttributes }) {
 
 			// Append the new style tag to the iframe's document head
 			iframeDocument.head.appendChild(iframeStyleTag);
+			// Return a cleanup function to remove the style tag
+			return () => {
+				iframeDocument.head.removeChild(iframeStyleTag);
+			};
 		}
 	}, [attributes]);
+
+	//iframeにfontawesomeを読み込む
+	useEffect(() => {
+		const iframeInstance = document.getElementsByName('editor-canvas')[0];
+
+		if (iframeInstance) {
+			const iframeDocument = iframeInstance.contentDocument || iframeInstance.contentWindow.document;
+			const scriptElement = iframeDocument.createElement("script");
+			scriptElement.setAttribute("src", "https://kit.fontawesome.com/3e425ac06b.js");
+			scriptElement.setAttribute("crossorigin", "anonymous");
+
+			iframeDocument.body.appendChild(scriptElement);
+		}
+	}, []);
 
 	return (
 		<>
@@ -301,7 +321,7 @@ export default function Edit({ attributes, setAttributes }) {
 								<TextControl
 									label="コピーテキスト"
 									labelPosition="top"
-									value={(optionStyle && optionStyle.copy_content) ? optionStyle.copy_content : 'SAMPLE'}
+									value={(optionStyle && optionStyle.copy_content !== undefined) ? optionStyle.copy_content : 'SAMPLE'}
 									isPressEnterToChange
 									onChange={(newValue) => {
 										setLocalOptionStyle(prev => ({ ...prev, copy_content: newValue }));

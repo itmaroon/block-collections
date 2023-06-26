@@ -50,7 +50,7 @@ const StyledDiv = styled.div`
     // classNameに基づいて特定のスタイルを定義します
     let specificStyle = null;
 
-    if (optionStyle) {//optionStyleが初期化されているとき
+    if (optionStyle && (className === optionStyle.styleName)) {//optionStyleが初期化されていてスタイル名とclassNameが一致する
       switch (className) {
         //縦棒を入れる
         case 'is-style-virtical_line':
@@ -121,6 +121,7 @@ const StyledDiv = styled.div`
               border-radius: ${radius_prm};
               background: ${bgColor};
               padding:${padding_prm};
+              line-height: 1
             }
             ${optionStyle.isIcon && css`
               &::after{
