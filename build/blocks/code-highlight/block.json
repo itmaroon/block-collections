@@ -28,18 +28,6 @@
       "type": "string",
       "default": ""
     },
-    "align": {
-      "type": "string",
-      "default": ""
-    },
-    "maxWidthEnable": {
-      "type": "boolean",
-      "default": false
-    },
-    "maxWidth": {
-      "type": "number",
-      "default": 0
-    },
     "skin": {
       "type": "string",
       "default": "desert"
@@ -50,7 +38,7 @@
     },
     "isEditMode": {
       "type": "boolean",
-      "default": true
+      "default": false
     }
   },
   "textdomain": "block-location",

@@ -82,6 +82,15 @@ function add_itmar_highlight_scripts_and_styles()
 		array(),
 		filemtime("$dir/code-prettify/prettify.css")
 	);
+
+	//独自jsのエンキュー
+	wp_enqueue_script(
+		'itmar_block_collection_js',
+		plugins_url('/assets/block_collection.js?'.date('YmdHis'), __FILE__),
+		array('jquery'),
+		'1.0.0',
+		true
+	);
 }
 add_action('enqueue_block_assets', 'add_itmar_highlight_scripts_and_styles');
 

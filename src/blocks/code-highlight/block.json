@@ -16,41 +16,29 @@
 			"type": "string",
 			"default": ""
 		},
-		"linenums" : {
-			"type" : "boolean", 
-			"default" : true 
+		"linenums": {
+			"type": "boolean",
+			"default": true
 		},
-		"linenumsStart" : {
-			"type" : "number", 
-			"default" : 1 
+		"linenumsStart": {
+			"type": "number",
+			"default": 1
 		},
-		"lang" : {
-			"type" : "string", 
-			"default" : "" 
+		"lang": {
+			"type": "string",
+			"default": ""
 		},
-		"align" : {
-			"type" : "string", 
-			"default" : "" 
-		},
-		"maxWidthEnable" : {
-			"type" : "boolean", 
-			"default" : false 
-		},
-		"maxWidth" : {
-			"type" : "number", 
-			"default" : 0 
-		},
-		"skin" : {
-			"type" : "string", 
-			"default" : "desert" 
+		"skin": {
+			"type": "string",
+			"default": "desert"
 		},
 		"fileName": {
-			"type" : "string", 
-			"default" : ""
+			"type": "string",
+			"default": ""
 		},
 		"isEditMode": {
-			"type" : "boolean", 
-			"default" : true 
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"textdomain": "block-location",

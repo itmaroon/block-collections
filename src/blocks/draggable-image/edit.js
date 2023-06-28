@@ -1,10 +1,10 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps,InnerBlocks ,InspectorControls} from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
 
-import { 
+import {
 	Button,
-	PanelBody, 
-	PanelRow, 
+	PanelBody,
+	PanelRow,
 	__experimentalUnitControl as UnitControl
 } from '@wordpress/components';
 
@@ -26,43 +26,43 @@ export default function Edit(props) {
 
 	//インスペクター内のコントロールからの操作
 	//横移動
-	const chagePositionX=(value)=>{
-		if(value===""){
-			const newPos = {...position, x: 0}
-			setAttributes({position: newPos});
-		}else{
-			const unit_value=value.match(/(-*[0-9]+)([^0-9]+)/);
-			const newPos = {...position, x: parseInt(unit_value[1])};
-			setAttributes({position: newPos});
-			setAttributes({unit_x: unit_value[2]});
+	const chagePositionX = (value) => {
+		if (value === "") {
+			const newPos = { ...position, x: 0 }
+			setAttributes({ position: newPos });
+		} else {
+			const unit_value = value.match(/(-*[0-9]+)([^0-9]+)/);
+			const newPos = { ...position, x: parseInt(unit_value[1]) };
+			setAttributes({ position: newPos });
+			setAttributes({ unit_x: unit_value[2] });
 		}
 	}
 	//縦移動
-	const chagePositionY=(value)=>{
-		if(value===""){
-			const newPos = {...position, y: 0}
-			setAttributes({position: newPos});
-		}else{
-			const unit_value=value.match(/(-*[0-9]+)([^0-9]+)/);
-			const newPos = {...position, y: parseInt(unit_value[1])};
-			setAttributes({position: newPos});
-			setAttributes({unit_y: unit_value[2]});
+	const chagePositionY = (value) => {
+		if (value === "") {
+			const newPos = { ...position, y: 0 }
+			setAttributes({ position: newPos });
+		} else {
+			const unit_value = value.match(/(-*[0-9]+)([^0-9]+)/);
+			const newPos = { ...position, y: parseInt(unit_value[1]) };
+			setAttributes({ position: newPos });
+			setAttributes({ unit_y: unit_value[2] });
 		}
 	}
 	//リセット
-	const resetPos=()=>{
+	const resetPos = () => {
 		const newPos = { "x": 0, "y": 0 };
-		setAttributes({position: newPos});
-		setAttributes({unit_x: 'px',unit_y: 'px'});
+		setAttributes({ position: newPos });
+		setAttributes({ unit_x: 'px', unit_y: 'px' });
 	}
 
 	//移動後の位置
-	const movePosition = {x :`${position.x}${unit_x}`, y :`${position.y}${unit_y}` }
-	
-	const newStyle={ 
+	const movePosition = { x: `${position.x}${unit_x}`, y: `${position.y}${unit_y}` }
+
+	const newStyle = {
 		style: {
-			width: 'fit-content', 
-      height: 'fit-content',
+			width: 'fit-content',
+			height: 'fit-content',
 			// left: position.x,
 			transform: `translate(${position.x}${unit_x}, ${position.y}${unit_y})`
 		}
@@ -71,8 +71,8 @@ export default function Edit(props) {
 	return (
 		<>
 			<InspectorControls >
-				<PanelBody 
-					title={ __( '移動距離', 'cb_location')}
+				<PanelBody
+					title={__('移動距離', 'cb_location')}
 					initialOpen={true}
 				>
 					<PanelRow
@@ -80,21 +80,21 @@ export default function Edit(props) {
 					>
 						<UnitControl
 							dragDirection="e"
-							onChange={(value)=>chagePositionX(value)}
-							label='横方向' 
-							value={ movePosition.x } 
+							onChange={(value) => chagePositionX(value)}
+							label='横方向'
+							value={movePosition.x}
 						/>
 						<UnitControl
 							dragDirection="e"
-							onChange={(value)=>chagePositionY(value)} 
-							label='縦方向' 
-							value={ movePosition.y } 
+							onChange={(value) => chagePositionY(value)}
+							label='縦方向'
+							value={movePosition.y}
 						/>
 					</PanelRow>
 					<PanelRow
 						className='reset_row'
 					>
-						<Button 
+						<Button
 							variant="secondary"
 							onClick={() => resetPos()}
 						>
@@ -102,12 +102,12 @@ export default function Edit(props) {
 						</Button>
 					</PanelRow>
 				</PanelBody>
-				
+
 			</InspectorControls>
-			<div { ...useBlockProps( newStyle) }>
-				<DraggableBox  
+			<div {...useBlockProps(newStyle)}>
+				<DraggableBox
 					position={position}
-					onPositionChange={(position) => setAttributes({position: position})}
+					onPositionChange={(position) => setAttributes({ position: position })}
 				>
 					<InnerBlocks
 						template={[
@@ -116,7 +116,7 @@ export default function Edit(props) {
 						templateLock="all"
 					/>
 				</DraggableBox>
-			
+
 			</div>
 		</>
 	);
