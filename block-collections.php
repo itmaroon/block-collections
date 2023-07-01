@@ -91,6 +91,20 @@ function add_itmar_highlight_scripts_and_styles()
 		'1.0.0',
 		true
 	);
+	//コアブロックカスタマイズスクリプトのエンキュー
+	wp_enqueue_script(
+		'itmar-gutenberg-extensions-script',
+		plugins_url('build/gutenberg-ex.js', __FILE__),
+		array(
+				'wp-blocks',
+				'wp-i18n',
+				'wp-element',
+				'wp-editor',
+				'wp-plugins',
+				'wp-edit-post',
+				'wp-compose'
+		)
+	);
 }
 add_action('enqueue_block_assets', 'add_itmar_highlight_scripts_and_styles');
 
