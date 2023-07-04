@@ -26,7 +26,8 @@ import {
 	RangeControl,
 	CheckboxControl,
 	Button,
-	Toolbar
+	Toolbar,
+	__experimentalBoxControl as BoxControl,
 } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 
@@ -34,6 +35,21 @@ import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps();
+
+	//スペースのリセットバリュー
+	const padding_resetValues = {
+		top: '10px',
+		left: '10px',
+		right: '10px',
+		bottom: '10px',
+	}
+
+	const units = [
+		{ value: 'px', label: 'px' },
+		{ value: 'em', label: 'em' },
+		{ value: 'rem', label: 'rem' },
+	];
+
 
 	//モードが切り替わって再レンダリングが完了したら呼出し
 	useEffect(() => {
@@ -152,6 +168,31 @@ export default function Edit({ attributes, setAttributes }) {
 							onChange={(val) => setAttributes({ skin: val })}
 						/>
 					</PanelRow>
+				</PanelBody>
+				<PanelBody
+					title={__('Spacing Settings', 'block-location')}
+					initialOpen={true}
+				>
+					<BoxControl
+						label="マージン設定"
+						values={attributes.margin_value}
+						onChange={value => setAttributes({ margin_value: value })}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
+
+					/>
+
+					<BoxControl
+						label="パティング設定"
+						values={attributes.padding_value}
+						onChange={value => setAttributes({ padding_value: value })}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
+
+					/>
+
 				</PanelBody>
 			</InspectorControls>
 
