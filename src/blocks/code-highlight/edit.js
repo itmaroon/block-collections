@@ -34,7 +34,27 @@ import { useEffect } from '@wordpress/element';
 import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
-	const blockProps = useBlockProps();
+	const {
+		codeArea,
+		linenums,
+		linenumsStart,
+		lang,
+		skin,
+		fileName,
+		isEditMode,
+		margin_value,
+		padding_value,
+		align,
+		add_style
+	} = attributes
+
+	//拡張したスタイル
+	const extraStyle = {
+		margin: `${margin_value.top} ${margin_value.right} ${margin_value.bottom} ${margin_value.left}`,
+		padding: `${padding_value.top} ${padding_value.right} ${padding_value.bottom} ${padding_value.left}`,
+	}
+
+	const blockProps = useBlockProps({ style: extraStyle });
 
 	//スペースのリセットバリュー
 	const padding_resetValues = {
@@ -56,50 +76,46 @@ export default function Edit({ attributes, setAttributes }) {
 		if (typeof PR !== "undefined") {
 			PR.prettyPrint();
 		}
-	}, [attributes.isEditMode]);
+	}, [isEditMode]);
 
 	//テキストエリア（TextareaControl）の行数
-	let codeAreaRows = attributes.codeArea.split(/\r|\r\n|\n/).length > 3 ? attributes.codeArea.split(/\r|\r\n|\n/).length : 3;
+	let codeAreaRows = codeArea.split(/\r|\r\n|\n/).length > 3 ? codeArea.split(/\r|\r\n|\n/).length : 3;
 
 
 	//プレビュー表示
 	const getPreview = () => {
 		//テキストエリアに入力がなければ何も表示しない
-		if (attributes.codeArea === '') {
+		if (codeArea === '') {
 			return null;
 		}
 		//ブロックに追加するクラス
 		let add_block_class = '';
 		//配置                  
-		if (attributes.align) {
-			add_block_class += ' align' + attributes.align;
+		if (align) {
+			add_block_class += ' align' + align;
 		}
 		//スキン
-		if (attributes.skin) {
-			add_block_class += ' ' + attributes.skin;
+		if (skin) {
+			add_block_class += ' ' + skin;
 		}
 		//ファイル名が指定されていれば filename_wrapper クラスを追加
-		if (attributes.fileName) {
+		if (fileName) {
 			add_block_class += ' filename_wrapper';
 		}
-		//ブロックに指定するインラインスタイル
-		let add_style = {};
-		if (attributes.maxWidthEnable) {
-			add_style = { maxWidth: attributes.maxWidth };
-		}
+
 
 		//pre 要素に追加するクラス
 		let add_pre_class = '';
-		if (attributes.linenums) {
+		if (linenums) {
 			add_pre_class = ' linenums';
 			//行の開始番号が指定されていればその値を設定
-			if (attributes.linenumsStart !== 1) {
-				add_pre_class += ':' + attributes.linenumsStart;
+			if (linenumsStart !== 1) {
+				add_pre_class += ':' + linenumsStart;
 			}
 		}
 		// 言語が指定されていればそのクラス（lang-xxxx）を設定
-		if (attributes.lang) {
-			add_pre_class += ' lang-' + (attributes.lang);
+		if (lang) {
+			add_pre_class += ' lang-' + (lang);
 		}
 
 		return (
@@ -107,11 +123,11 @@ export default function Edit({ attributes, setAttributes }) {
 				className={"wp-block-itmar-code-highlight" + add_block_class}
 				style={add_style}
 			>
-				{attributes.fileName &&
-					<p className="file_name">{attributes.fileName}</p>
+				{fileName &&
+					<p className="file_name">{fileName}</p>
 				}
 				<pre className={"prettyprint" + add_pre_class} style={{ overflow: "auto", whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
-					{attributes.codeArea}
+					{codeArea}
 				</pre>
 			</div>
 		);
@@ -126,17 +142,17 @@ export default function Edit({ attributes, setAttributes }) {
 				>
 					<PanelRow>
 						<ToggleControl
-							label={attributes.linenums ? __('Line Number(display)', 'block-location') : __('Line Number(hidden)', 'block-location')}
-							checked={attributes.linenums}
+							label={linenums ? __('Line Number(display)', 'block-location') : __('Line Number(hidden)', 'block-location')}
+							checked={linenums}
 							onChange={(val) => setAttributes({ linenums: val })}
 						/>
 					</PanelRow>
-					{attributes.linenums &&  //上記が true の場合に表示
+					{linenums &&  //上記が true の場合に表示
 						<PanelRow>
 							<TextControl
 								label={__('Starting Line Number', 'block-location')}
 								type="number"
-								value={attributes.linenumsStart}
+								value={linenumsStart}
 								onChange={(val) => setAttributes({ linenumsStart: parseInt(val) })}
 							/>
 						</PanelRow>
@@ -145,7 +161,7 @@ export default function Edit({ attributes, setAttributes }) {
 					<PanelRow>
 						<SelectControl
 							label="lang"
-							value={attributes.lang}
+							value={lang}
 							options={[
 								{ label: "Default", value: '' },
 								{ label: "CSS", value: 'css' },
@@ -157,7 +173,7 @@ export default function Edit({ attributes, setAttributes }) {
 					<PanelRow>
 						<SelectControl
 							label="skin"
-							value={attributes.skin}
+							value={skin}
 							options={[
 								{ label: "Basic", value: '' },
 								{ label: "Desert", value: 'desert' },
@@ -175,7 +191,7 @@ export default function Edit({ attributes, setAttributes }) {
 				>
 					<BoxControl
 						label="マージン設定"
-						values={attributes.margin_value}
+						values={margin_value}
 						onChange={value => setAttributes({ margin_value: value })}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
@@ -185,7 +201,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 					<BoxControl
 						label="パティング設定"
-						values={attributes.padding_value}
+						values={padding_value}
 						onChange={value => setAttributes({ padding_value: value })}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
@@ -200,36 +216,36 @@ export default function Edit({ attributes, setAttributes }) {
 				<Toolbar>
 					<Button
 						//属性 isEditMode の値により表示するラベルを切り替え
-						label={attributes.isEditMode ? "Preview" : "Edit"}
+						label={isEditMode ? "Preview" : "Edit"}
 						//属性 isEditMode の値により表示するアイコンを切り替え
-						icon={attributes.isEditMode ? "format-image" : "edit"}
+						icon={isEditMode ? "format-image" : "edit"}
 						className="edit_mode"
 						//setAttributes を使って属性の値を更新（真偽値を反転）
 						onClick={() => {
-							setAttributes({ isEditMode: !attributes.isEditMode })
+							setAttributes({ isEditMode: !isEditMode })
 						}}
 					/>
 				</Toolbar>
 			</BlockControls>
 
-			{attributes.isEditMode && // isEditMode が true の場合（編集モード）
+			{isEditMode && // isEditMode が true の場合（編集モード）
 				<div {...blockProps}>
 					<TextControl
 						label="File Name"
 						type="string"
 						className="filename"
-						value={attributes.fileName}
+						value={fileName}
 						onChange={(val) => setAttributes({ fileName: val })}
 					/>
 					<TextareaControl
 						label="Code:"
-						value={attributes.codeArea}
+						value={codeArea}
 						onChange={(code) => setAttributes({ codeArea: code })}
 						rows={codeAreaRows}
 					/>
 				</div>
 			}
-			{!attributes.isEditMode && // isEditMode が false の場合（プレビューモード）
+			{!isEditMode && // isEditMode が false の場合（プレビューモード）
 				<div {...blockProps}>
 					<div className='preview_wrapper'>
 						<Button
