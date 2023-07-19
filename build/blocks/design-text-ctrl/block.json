@@ -1,0 +1,68 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "itmar/design-text-ctrl",
+  "version": "0.1.0",
+  "title": "Design Text Control",
+  "category": "design",
+  "description": "スタイリングしたテキストコントロールです",
+  "styles": [
+    {
+      "name": "nomal",
+      "label": "デフォルト",
+      "isDefault": true
+    },
+    {
+      "name": "line",
+      "label": "ラインのみ"
+    }
+  ],
+  "supports": {
+    "html": false
+  },
+  "example": {},
+  "attributes": {
+    "labelContent": {
+      "type": "string"
+    },
+    "font_style_label": {
+      "type": "object",
+      "default": {
+        "fontSize": "16px",
+        "fontFamily": "Noto Sans JP, sans-serif",
+        "fontWeight": "500",
+        "isItalic": false
+      }
+    },
+    "bgColor_label": {
+      "type": "string"
+    },
+    "bgGradient_label": {
+      "type": "string"
+    },
+    "textColor_label": {
+      "type": "string"
+    },
+    "radius_label": {
+      "type": "object",
+      "default": {
+        "topLeft": "0px",
+        "topRight": "0px",
+        "bottomRight": "0px",
+        "bottomLeft": "0px",
+        "value": "0px"
+      }
+    },
+    "border_label": {
+      "type": "object"
+    },
+    "labelSpace": {
+      "type": "string",
+      "default": "10px"
+    }
+  },
+  "textdomain": "design-text-ctrl",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}
