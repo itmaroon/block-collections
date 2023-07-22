@@ -1,6 +1,10 @@
 
 import { __ } from '@wordpress/i18n';
 import TypographyControls from '../TypographyControls'
+import { ServerStyleSheet } from 'styled-components';
+import { renderToString } from 'react-dom/server';
+import { StyleComp } from './StyleInput';
+import { useEffect, useRef } from '@wordpress/element';
 
 import {
 	Button,
@@ -51,8 +55,16 @@ const units = [
 	{ value: 'rem', label: 'rem' },
 ];
 
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit(props) {
 	const {
+		attributes,
+		setAttributes
+	} = props;
+
+	const {
+		inputName,
+		inputType,
+		rowNum,
 		labelContent,
 		font_style_label,
 		bgColor_label,
@@ -60,26 +72,100 @@ export default function Edit({ attributes, setAttributes }) {
 		textColor_label,
 		radius_label,
 		border_label,
+		padding_label,
 		labelSpace,
+		required,
 		className
 	} = attributes;
 
+	//必須項目の表示
+	//const dispLabel = required.flg ? `${labelContent}<span>(${required.display})<span>` : labelContent;
+	const dispLabel = required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent;
+	const label_width = props.context['itmar/label_width'] || 'auto';
+
+	useEffect(() => {
+		setAttributes({ labelWidth: label_width });
+	}, [label_width]);
 
 	return (
 		<>
-			<InspectorControls group="styles">
-				<PanelBody title="ラベルスタイル設定" initialOpen={false} className="title_design_ctrl">
+			<InspectorControls group="settings">
+				<PanelBody title="入力欄情報" initialOpen={true} className="title_design_ctrl">
+					<PanelRow>
+						<TextControl
+							label="入力要素のname属性"
+							value={inputName}
+							isPressEnterToChange
+							onChange={(newVal) => setAttributes({ inputName: newVal })}
+						/>
+					</PanelRow>
+					<PanelRow className='itmar_weight_row'>
+						<RadioControl
+							selected={inputType}
+							label="テキストボックスの種類"
+							options={[
+								{ label: 'TEXT', value: "text" },
+								{ label: 'E-MAIL', value: "email" },
+								{ label: 'AREA', value: "textarea" },
+							]}
+							onChange={(changeOption) => { setAttributes({ inputType: changeOption }); }}
+						/>
+					</PanelRow>
+					{inputType === 'textarea' &&
+						<PanelRow className='areaNum_row'>
+							<RangeControl
+								value={rowNum}
+								label="テキストエリアの行数"
+								max={20}
+								min={3}
+								step={1}
+								onChange={(val) => setAttributes({ rowNum: val })}
+								withInputField={true}
+							/>
+						</PanelRow>
+					}
+					<PanelRow className='labelRequierd_row'>
+						<ToggleControl
+							label='必須入力'
+							checked={required.flg}
+							onChange={(newVal) => {
+								const newObj = { ...required, flg: newVal }
+								setAttributes({ required: newObj })
+							}}
+						/>
+						{required.flg &&
+							<TextControl
+								label="必須の表示"
+								value={required.display}
+								isPressEnterToChange
+								onChange={(newVal) => {
+									const newObj = { ...required, display: newVal }
+									setAttributes({ required: newObj })
+								}}
+							/>
+						}
+					</PanelRow>
+
+
+				</PanelBody>
+				<PanelBody title="ラベル情報" initialOpen={true} className="title_design_ctrl">
 					<PanelRow
 						className='labelInfo_row'
 					>
 						<TextControl
 							label="ラベルのテキスト"
 							labelPosition="top"
-							value={(labelContent !== undefined) ? labelContent : 'Lable Name'}
+							value={labelContent}
 							isPressEnterToChange
 							onChange={(newValue) => setAttributes({ labelContent: newValue })}
 						/>
 					</PanelRow>
+				</PanelBody>
+
+			</InspectorControls>
+			<InspectorControls group="styles">
+				<PanelBody title="ラベルスタイル設定" initialOpen={false} className="title_design_ctrl">
+
 					<TypographyControls
 						title='タイポグラフィー'
 						fontStyle={font_style_label}
@@ -115,9 +201,19 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 						<BorderRadiusControl
 							values={radius_label}
-							onChange={(newValue) => setAttributes({ radius_label: newValue })}
+							onChange={(newBrVal) =>
+								setAttributes({ radius_label: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
 						/>
 					</PanelBody>
+					<BoxControl
+						label="パティング設定"
+						values={padding_label}
+						onChange={value => setAttributes({ padding_label: value })}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
+
+					/>
 					<UnitControl
 						dragDirection="e"
 						onChange={(newValue) => setAttributes({ labelSpace: newValue })}
@@ -128,10 +224,23 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 
 			<div {...useBlockProps()}>
-				<label class="fit-label">
-					{labelContent}
-					<input type="email" name="email" className="contact_text" />
-				</label>
+				<StyleComp attributes={attributes}>
+					<label class="fit-label">
+						{dispLabel}
+					</label>
+
+					{inputType === 'text' &&
+						<input type="text" name={inputName} className="contact_text" />
+					}
+					{inputType === 'email' &&
+						<input type="email" name={inputName} className="contact_text" />
+					}
+					{inputType === 'textarea' &&
+						<textarea name={inputName} rows={rowNum} className="contact_text" />
+					}
+
+				</StyleComp>
+
 			</div>
 		</>
 

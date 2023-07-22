@@ -3,12 +3,15 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-code-highlight.is-selected {
+.wp-block-itmar-design-text-ctrl {
   border: 1px dotted #f00;
 }
-.wp-block-itmar-code-highlight .filename input {
-  max-width: 300px;
-  margin-left: 10px;
-  font-size: 16px;
+
+.labelRequierd_row .components-base-control:last-child {
+  width: 50%;
+}
+
+.areaNum_row .components-range-control {
+  width: 100%;
 }
 /*# sourceMappingURL=editor.css.map */

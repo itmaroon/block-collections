@@ -7,3 +7,18 @@
 .wp-block-itmar-design-text-ctrl {
 	border: 1px dotted #f00;
 }
+
+.labelRequierd_row {
+	.components-base-control {
+		&:last-child {
+			width: 50%;
+		}
+	}
+
+}
+
+.areaNum_row {
+	.components-range-control {
+		width: 100%;
+	}
+}
