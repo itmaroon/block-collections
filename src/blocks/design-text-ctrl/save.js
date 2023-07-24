@@ -21,7 +21,7 @@ export default function save({ attributes }) {
 	const html = renderToString(sheet.collectStyles(
 		<div {...blockProps}>
 			<StyleComp attributes={attributes}>
-				<label class="fit-label">
+				<label class="fit-label" data-required={required.flg}>
 					{dispLabel}
 				</label>
 				{inputType === 'text' &&

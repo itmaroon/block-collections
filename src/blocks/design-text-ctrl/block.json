@@ -40,6 +40,56 @@
 				"display": "*"
 			}
 		},
+		"font_style_input": {
+			"type": "object",
+			"default": {
+				"fontSize": "16px",
+				"fontFamily": "Noto Sans JP, sans-serif",
+				"fontWeight": "500",
+				"isItalic": false
+			}
+		},
+		"bgColor_input": {
+			"type": "string"
+		},
+		"bgGradient_input": {
+			"type": "string"
+		},
+		"textColor_input": {
+			"type": "string",
+			"default": "#000"
+		},
+		"radius_input": {
+			"type": "object",
+			"default": {
+				"topLeft": "0px",
+				"topRight": "0px",
+				"bottomRight": "0px",
+				"bottomLeft": "0px",
+				"value": "0px"
+			}
+		},
+		"border_input": {
+			"type": "object"
+		},
+		"margin_input": {
+			"type": "object",
+			"default": {
+				"top": "1em",
+				"left": "2em",
+				"bottom": "1em",
+				"right": "2em"
+			}
+		},
+		"padding_input": {
+			"type": "object",
+			"default": {
+				"top": "0",
+				"left": "0",
+				"bottom": "0",
+				"right": "0"
+			}
+		},
 		"labelContent": {
 			"type": "string",
 			"default": "Label Name"

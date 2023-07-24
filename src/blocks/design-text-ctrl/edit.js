@@ -65,6 +65,14 @@ export default function Edit(props) {
 		inputName,
 		inputType,
 		rowNum,
+		font_style_input,
+		bgColor_input,
+		bgGradient_input,
+		textColor_input,
+		radius_input,
+		border_input,
+		margin_input,
+		padding_input,
 		labelContent,
 		font_style_label,
 		bgColor_label,
@@ -164,6 +172,67 @@ export default function Edit(props) {
 
 			</InspectorControls>
 			<InspectorControls group="styles">
+				<PanelBody title="インプットボックススタイル設定" initialOpen={false} className="title_design_ctrl">
+
+					<TypographyControls
+						title='タイポグラフィー'
+						fontStyle={font_style_input}
+						onChange={(newStyle) => {
+							setAttributes({ font_style_input: newStyle })
+						}}
+						initialOpen={false}
+					/>
+					<PanelColorGradientSettings
+						title={__("Color Setting")}
+						settings={[{
+							colorValue: textColor_input,
+							label: __("Choose Text color"),
+							onColorChange: (newValue) => setAttributes({ textColor_input: newValue }),
+						},
+						{
+							colorValue: bgColor_input,
+							gradientValue: bgGradient_input,
+
+							label: __("Choose Background color"),
+							onColorChange: (newValue) => setAttributes({ bgColor_input: newValue }),
+							onGradientChange: (newValue) => setAttributes({ bgGradient_input: newValue }),
+						},
+						]}
+					/>
+					<PanelBody title="ボーダー設定" initialOpen={false} className="border_design_ctrl">
+						<BorderBoxControl
+
+							onChange={(newValue) => setAttributes({ border_input: newValue })}
+							value={border_input}
+							allowReset={true}	// リセットの可否
+							resetValues={border_resetValues}	// リセット時の値
+						/>
+						<BorderRadiusControl
+							values={radius_input}
+							onChange={(newBrVal) =>
+								setAttributes({ radius_input: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
+						/>
+					</PanelBody>
+					<BoxControl
+						label="マージン設定"
+						values={margin_input}
+						onChange={value => setAttributes({ margin_input: value })}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
+
+					/>
+					<BoxControl
+						label="パティング設定"
+						values={padding_input}
+						onChange={value => setAttributes({ padding_input: value })}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
+
+					/>
+
+				</PanelBody>
 				<PanelBody title="ラベルスタイル設定" initialOpen={false} className="title_design_ctrl">
 
 					<TypographyControls
