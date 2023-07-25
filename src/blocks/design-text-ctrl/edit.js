@@ -4,7 +4,7 @@ import TypographyControls from '../TypographyControls'
 import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
 import { StyleComp } from './StyleInput';
-import { useEffect, useRef } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 
 import {
 	Button,
@@ -63,6 +63,8 @@ export default function Edit(props) {
 
 	const {
 		inputName,
+		inputValue,
+		placeFolder,
 		inputType,
 		rowNum,
 		font_style_input,
@@ -87,13 +89,16 @@ export default function Edit(props) {
 	} = attributes;
 
 	//必須項目の表示
-	//const dispLabel = required.flg ? `${labelContent}<span>(${required.display})<span>` : labelContent;
 	const dispLabel = required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent;
-	const label_width = props.context['itmar/label_width'] || 'auto';
 
+	//親コンポーネントからのラベル幅の指定があればそれを採用して記録する
+	const label_width = props.context['itmar/label_width'] || 'auto';
 	useEffect(() => {
 		setAttributes({ labelWidth: label_width });
 	}, [label_width]);
+
+	//入力値の確保
+	const [stateValue, setInputValue] = useState(inputValue);
 
 	return (
 		<>
@@ -105,6 +110,14 @@ export default function Edit(props) {
 							value={inputName}
 							isPressEnterToChange
 							onChange={(newVal) => setAttributes({ inputName: newVal })}
+						/>
+					</PanelRow>
+					<PanelRow>
+						<TextControl
+							label="プレースフォルダ"
+							value={placeFolder}
+							isPressEnterToChange
+							onChange={(newVal) => setAttributes({ placeFolder: newVal })}
 						/>
 					</PanelRow>
 					<PanelRow className='itmar_weight_row'>
@@ -299,13 +312,45 @@ export default function Edit(props) {
 					</label>
 
 					{inputType === 'text' &&
-						<input type="text" name={inputName} className="contact_text" />
+						<input
+							type="text"
+							name={inputName}
+							placeholder={placeFolder}
+							className="contact_text"
+							value={stateValue} // ここでstateを読み込みます
+							onChange={(event) => { // onChangeイベントを使ってstateと属性を更新します
+								const newValue = event.target.value;
+								setInputValue(newValue);
+								setAttributes({ inputValue: newValue });
+							}}
+						/>
 					}
 					{inputType === 'email' &&
-						<input type="email" name={inputName} className="contact_text" />
+						<input
+							type="email"
+							placeholder={placeFolder}
+							className="contact_text"
+							value={stateValue} // ここでstateを読み込みます
+							onChange={(event) => { // onChangeイベントを使ってstateと属性を更新します
+								const newValue = event.target.value;
+								setInputValue(newValue);
+								setAttributes({ inputValue: newValue });
+							}}
+						/>
 					}
 					{inputType === 'textarea' &&
-						<textarea name={inputName} rows={rowNum} className="contact_text" />
+						<textarea
+							name={inputName}
+							rows={rowNum}
+							placeholder={placeFolder}
+							className="contact_text"
+							value={stateValue} // ここでstateを読み込みます
+							onChange={(event) => { // onChangeイベントを使ってstateと属性を更新します
+								const newValue = event.target.value;
+								setInputValue(newValue);
+								setAttributes({ inputValue: newValue });
+							}}
+						/>
 					}
 
 				</StyleComp>
