@@ -31,6 +31,7 @@ import {
 } from '@wordpress/components';
 
 import { useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -72,8 +73,6 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	//ステージの状態を親ブロックから取得
 	const state_process = context['itmar/state_process'];
 
-
-
 	// 兄弟ブロックの取得
 	const figureBlocks = useSelect((select) => {
 		const { getBlockRootClientId, getBlocks } = select('core/block-editor');
@@ -85,6 +84,18 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		siblingBlocks = siblingBlocks.filter(block => block.clientId !== clientId);
 		return siblingBlocks; //ブロックを返す
 	}, [clientId]); // clientIdが変わるたびに監視対象のstateを更新する
+
+	//属性にブロック情報を格納
+	useEffect(() => {
+		const blocks = figureBlocks.map((block) => {
+			return {
+				block_name: block.name,
+				stage_info: block.attributes.stage_info
+			};
+		});
+		setAttributes({ figure_blocks: blocks })
+	}, [figureBlocks]);
+
 	//現在のステージはどこにあるか
 	const stage_index = figureBlocks.findIndex(block => block.name.includes(state_process));
 

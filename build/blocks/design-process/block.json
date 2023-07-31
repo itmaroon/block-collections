@@ -21,9 +21,9 @@
     }
   ],
   "attributes": {
-    "progress_count": {
-      "type": "number",
-      "default": 0
+    "figure_blocks": {
+      "type": "array",
+      "default": []
     },
     "bgColor_form": {
       "type": "string"

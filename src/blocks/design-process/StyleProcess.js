@@ -105,7 +105,7 @@ const StyledUL = styled.ul`
           position: absolute;
           left: -50%;
           font-size: ${font_style_num.fontSize};
-          top: 0.8em;
+          top: 0.75em;
           background-image: linear-gradient(to right, ${textColor_num} 50%, ${bgColor_num} 50%);
           background-position: 0 0;
           background-size: 200% auto;
