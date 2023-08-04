@@ -38,7 +38,6 @@ const StyledUL = styled.ul`
       bgColor_num,
       font_style_process,
       textColor_process,
-
       className,
     } = attributes;
 
@@ -65,6 +64,8 @@ const StyledUL = styled.ul`
       background: ${bgFormColor};
       border-radius: ${form_radius_prm};
       ${BorderProperty(border_form)};
+    `;
+    const barStyle = css`
       li {
         color: ${textColor_process};
         text-transform: uppercase;
@@ -136,9 +137,104 @@ const StyledUL = styled.ul`
       }  
     `;
 
+    const cardStyle = css`
+      display:flex;
+      li {
+        color: ${textColor_process};
+        text-transform: uppercase;
+        font-size: ${font_style_process.fontSize};
+        font-family: ${font_style_process.fontFamily};
+        font-weight: ${font_style_process.fontWeight};
+        font-style: ${fontStyle_process};
+        width: 20%;
+        height: 3em;
+        line-height: 3em;
+        position: relative;
+        letter-spacing: 1px;
+        text-align: center;
+        border: solid 2px ${textColor_process};
+        border-radius: 15px;
+        transition: all 0.3s ease 0s;
+        background-image: linear-gradient(to right, rgba(255, 255, 255) 50%, ${bgColor_num} 50%);
+        background-position: 0 0;
+        background-size: 200% auto;
+        &:not(:first-child){
+          margin-left: 2em;
+        }
+        
+        &::before {
+          position: absolute;
+          content: counter(step);
+          counter-increment: step;
+          left:20px;
+          top:50%;
+          transform: translateY(-50%);
+          width: 1.5em;
+          height: 1.5em;
+          line-height: 1.3em;
+          text-align: center;
+          display: block;
+          font-size: ${font_style_num.fontSize};
+          font-family: ${font_style_num.fontFamily};
+          font-weight: ${font_style_num.fontWeight};
+          font-style: ${fontStyle_num};
+          color: ${textColor_num};
+          background: white;
+          border: ${textColor_num} solid 1px;
+          border-radius: 50%;
+          margin: 0 auto;
+        }
+
+        &::after {
+          content: " ";
+          position: absolute;
+          font-size: ${font_style_num.fontSize};
+          top: 50%;
+          transform: translateY(-50%);
+          left: -25px;
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-top: 1.5em solid transparent;
+          border-bottom: 1.5em solid transparent;
+          border-left: 1em solid  ${textColor_process};
+          border-right: 0;
+        }
+
+        &:first-child {
+          &::after {
+            /*connector not needed before the first step*/
+            content: none;
+          }
+        }
+
+        &.ready {
+          background-position: -100% 0;
+          border: none;
+          color: #fff;
+          &::before {
+            background: #fff;
+            color: ${bgColor_num};
+            border: none;
+          }
+
+          &::after {
+            border-left: 1em solid ${bgColor_num};
+          }
+        }
+      }  
+    `;
+    console.log(className)
+    const cssMap = {
+      'is-style-progress': barStyle,
+      'is-style-card': cardStyle,
+    };
+    const defaultStyle = barStyle;
+    const optionStyle = cssMap[className] || defaultStyle;
     // 共通のスタイルを組み合わせて返します
     return css`
       ${commonStyle}
+      ${optionStyle}
     `;
   }}
 `;
