@@ -224,7 +224,7 @@ const StyledUL = styled.ul`
         }
       }  
     `;
-    console.log(className)
+
     const cssMap = {
       'is-style-progress': barStyle,
       'is-style-card': cardStyle,

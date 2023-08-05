@@ -1,0 +1,84 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "itmar/design-checkbox",
+  "version": "0.1.0",
+  "title": "Dsign CheckBox",
+  "category": "design",
+  "description": "デザインをあしらったチェックボックス作成用のブロックです",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "inputName": {
+      "type": "string"
+    },
+    "inputValue": {
+      "type": "boolean",
+      "default": false
+    },
+    "labelContent": {
+      "type": "string",
+      "selector": "p"
+    },
+    "font_style_label": {
+      "type": "object",
+      "default": {
+        "fontSize": "16px",
+        "fontFamily": "Noto Sans JP, sans-serif",
+        "fontWeight": "500",
+        "isItalic": false
+      }
+    },
+    "lebelColor": {
+      "type": "string"
+    },
+    "margin_value": {
+      "type": "object",
+      "default": {
+        "top": "10px",
+        "left": "10px",
+        "bottom": "10px",
+        "right": "10px"
+      }
+    },
+    "padding_value": {
+      "type": "object",
+      "default": {
+        "top": "10px",
+        "left": "10px",
+        "bottom": "10px",
+        "right": "10px"
+      }
+    },
+    "backgroundColor": {
+      "type": "string"
+    },
+    "backgroundGradient": {
+      "type": "string"
+    },
+    "boxColor": {
+      "type": "string"
+    },
+    "boxBgColor": {
+      "type": "string"
+    },
+    "radius_heading": {
+      "type": "object",
+      "default": {
+        "topLeft": "0px",
+        "topRight": "0px",
+        "bottomRight": "0px",
+        "bottomLeft": "0px",
+        "value": "0px"
+      }
+    },
+    "border_heading": {
+      "type": "object"
+    }
+  },
+  "textdomain": "design-checkbox",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

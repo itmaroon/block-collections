@@ -2,9 +2,8 @@
 import { __ } from '@wordpress/i18n';
 import TypographyControls from '../TypographyControls'
 import IconSelectControl from '../IconSelectControl';
-import { ServerStyleSheet } from 'styled-components';
-import { renderToString } from 'react-dom/server';
 import { StyleComp } from './StyleWapper';
+import { useStyleIframe, useFontawesomeIframe } from '../iframeFooks';
 
 import {
 	Button,
@@ -33,7 +32,6 @@ import {
 
 import './editor.scss';
 import { useEffect, useState, useRef } from '@wordpress/element';
-import { useDeepCompareEffect } from '../CustomFooks';
 
 export default function Edit({ attributes, setAttributes }) {
 	const {
@@ -144,41 +142,12 @@ export default function Edit({ attributes, setAttributes }) {
 	}, [className])
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
-	useDeepCompareEffect(() => {
-		const iframeInstance = document.getElementsByName('editor-canvas')[0];
-
-		if (iframeInstance) {
-			const iframeDocument = iframeInstance.contentDocument || iframeInstance.contentWindow.document;
-			const sheet = new ServerStyleSheet();
-			renderToString(sheet.collectStyles(<StyleComp attributes={attributes} />));
-			const styleTags = sheet.getStyleTags();
-			const styleContent = styleTags.replace(/<style[^>]*>|<\/style>/g, '');
-
-			const iframeStyleTag = iframeDocument.createElement('style');
-			iframeStyleTag.innerHTML = styleContent;
-
-			// Append the new style tag to the iframe's document head
-			iframeDocument.head.appendChild(iframeStyleTag);
-			// Return a cleanup function to remove the style tag
-			return () => {
-				iframeDocument.head.removeChild(iframeStyleTag);
-			};
-		}
-	}, [attributes]);
-
+	useStyleIframe(StyleComp, attributes);
 	//iframeにfontawesomeを読み込む
-	useEffect(() => {
-		const iframeInstance = document.getElementsByName('editor-canvas')[0];
+	useFontawesomeIframe();
 
-		if (iframeInstance) {
-			const iframeDocument = iframeInstance.contentDocument || iframeInstance.contentWindow.document;
-			const scriptElement = iframeDocument.createElement("script");
-			scriptElement.setAttribute("src", "https://kit.fontawesome.com/3e425ac06b.js");
-			scriptElement.setAttribute("crossorigin", "anonymous");
-
-			iframeDocument.body.appendChild(scriptElement);
-		}
-	}, []);
+	//TextControlの表示用変数
+	const [copyInputValue, setCopyInputValue] = useState((optionStyle && optionStyle.copy_content !== undefined) ? optionStyle.copy_content : 'SAMPLE');
 
 	return (
 		<>
@@ -321,9 +290,9 @@ export default function Edit({ attributes, setAttributes }) {
 								<TextControl
 									label="コピーテキスト"
 									labelPosition="top"
-									value={(optionStyle && optionStyle.copy_content !== undefined) ? optionStyle.copy_content : 'SAMPLE'}
-									isPressEnterToChange
+									value={copyInputValue}
 									onChange={(newValue) => {
+										setCopyInputValue(newValue);
 										setLocalOptionStyle(prev => ({ ...prev, copy_content: newValue }));
 									}}
 								/>

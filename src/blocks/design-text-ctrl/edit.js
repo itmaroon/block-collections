@@ -1,10 +1,10 @@
 
 import { __ } from '@wordpress/i18n';
 import TypographyControls from '../TypographyControls'
-import { ServerStyleSheet } from 'styled-components';
-import { renderToString } from 'react-dom/server';
+
 import { StyleComp } from './StyleInput';
-import { useState, useEffect, useRef } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
+import { useStyleIframe } from '../iframeFooks';
 
 import {
 	Button,
@@ -87,6 +87,9 @@ export default function Edit(props) {
 		required,
 		className
 	} = attributes;
+
+	//サイトエディタの場合はiframeにスタイルをわたす。
+	useStyleIframe(StyleComp, attributes);
 
 	//必須項目の表示
 	const dispLabel = required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent;

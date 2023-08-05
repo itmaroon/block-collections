@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n';
 import './editor.scss';
 import { StyleComp } from './StyleProcess';
 import TypographyControls from '../TypographyControls'
+import { useStyleIframe } from '../iframeFooks';
 
 import {
 	useBlockProps,
@@ -69,6 +70,9 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		font_style_process,
 		textColor_process
 	} = attributes;
+
+	//サイトエディタの場合はiframeにスタイルをわたす。
+	useStyleIframe(StyleComp, attributes);
 
 	//ステージの状態を親ブロックから取得
 	const state_process = context['itmar/state_process'];
