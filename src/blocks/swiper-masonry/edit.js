@@ -17,7 +17,7 @@ export default function Edit(props) {
 				onChange={onChangeContent}
 				allowedFormats={['core/bold', 'core/italic', 'core/link']}
 				value={content}
-				placeholder={__('Write your text...')}
+				placeholder={__('Write your text...', 'itmar_block_collections')}
 			/>
 		</div>
 	);

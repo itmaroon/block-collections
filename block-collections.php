@@ -10,7 +10,7 @@
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       itmar_block_collections
- *
+ * Domain Path:  			/languages
  * @package           create-block
  */
 
@@ -98,8 +98,6 @@ function add_itmar_highlight_scripts_and_styles()
 
 	//翻訳ファイルの関連付け
 	wp_set_script_translations( 'itmar_block_collection_js', 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages/' );
-
-	
 }
 add_action('enqueue_block_assets', 'add_itmar_highlight_scripts_and_styles');
 

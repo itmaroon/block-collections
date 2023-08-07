@@ -1,2 +1,828 @@
-!function(){"use strict";var e,t={4370:function(e,t,n){n.d(t,{Z:function(){return c}});var o=n(9307),r=n(5736),a=n(2175),l=n(5609),i=n(2571);const s=(e,t)=>{let n,o,r,a;switch(e){case"top_left":n=t,o=t,r=-1*t,a=-1*t;break;case"top_right":n=-1*t,o=t,r=-1*t,a=t;break;case"bottom_left":n=t,o=-1*t,r=t,a=-1*t;break;case"bottom_right":n=-1*t,o=-1*t,r=t,a=t;break;case"right_bottom":n=t,o=-1*t,r=-1*t,a=t;break;case"top":n=0,o=0,r=-1*t,a=t}return{topLeft:n,topRight:o,bottomLeft:r,bottmRight:a}};function c(e){const t=(0,o.useRef)(!1),{attributes:n,setAttributes:c}=e;let u=(0,a.useBlockProps)();const{btnContent:p,btnalign:d,blur:m,intensity:b,distance:h,newDirection:g,clayDirection:f,embos:x,opacity:v,depth:w,bdBlur:y,expand:$,boxShadowStyle:C,glassblur:E,glassopa:_,hasOutline:k,backgroundColor:S,className:R}=n;return(0,o.useEffect)((()=>{if(t.current)if("is-style-newmor"===R||"is-style-claymor"===R||"is-style-glassmor"===R){const e=void 0===u.style.backgroundColor?"#dddfe4":u.style.backgroundColor;if("is-style-newmor"===R){const t=(0,i.vc)(e),n=t.lightness+b<100?t.lightness+b:100,o=t.lightness-b>0?t.lightness-b:0,r=(0,i.Pr)(t.hue,t.saturation,n),a=(0,i.Pr)(t.hue,t.saturation,o),l=s(g,h),u="swell"===x?{style:{boxShadow:`${l.topLeft}px ${l.topRight}px ${m}px ${a}, ${l.bottomLeft}px ${l.bottmRight}px ${m}px ${r}`}}:{style:{boxShadow:`inset ${l.topLeft}px ${l.topRight}px ${m}px ${a}, inset ${l.bottomLeft}px ${l.bottmRight}px ${m}px ${r}`}};c({boxShadowStyle:u})}else if("is-style-claymor"===R){const t=(0,i.MM)(e),n=s(f,$),o=s(f,w),r={style:{boxShadow:`${n.topLeft}px ${n.bottmRight}px ${2*$}px 0px rgba(${t.red}, ${t.green}, ${t.blue}, 0.5), inset ${o.topRight}px ${o.bottomLeft}px 16px 0px rgba(${t.red}, ${t.green}, ${t.blue}, 0.6), inset 0px 11px 28px 0px rgb(255, 255, 255)`,backgroundColor:`rgba(255, 255, 255, ${v})`,backdropFilter:`blur(${y}px)`}};c({boxShadowStyle:r})}else if("is-style-glassmor"===R){const t=(0,i.MM)(e);let n={style:{backgroundColor:`rgba( ${t.red}, ${t.green}, ${t.blue}, ${_} )`,boxShadow:"0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",backdropFilter:`blur( ${E}px )`,WebkitBackdropFilter:`blur( ${E}px )`}};k&&(n.style.border="1px solid rgba( 255, 255, 255, 0.18 )"),c({boxShadowStyle:n})}}else c({boxShadowStyle:void 0});else t.current=!0}),[R,S,m,b,h,v,w,$,y,g,f,k,x,E,_]),(0,o.createElement)(o.Fragment,null,"is-style-newmor"===R&&(0,o.createElement)(a.InspectorControls,{__experimentalGroup:"border"},(0,o.createElement)(l.PanelBody,{title:"ニューモフィズム設定",initialOpen:!1,className:"btn_design_ctrl"},(0,o.createElement)(l.RangeControl,{value:h,label:"Distanse",max:50,min:0,onChange:e=>c({distance:e}),withInputField:!1}),(0,o.createElement)(l.RangeControl,{value:b,label:"Intensity",max:100,min:0,onChange:e=>c({intensity:e}),withInputField:!1}),(0,o.createElement)(l.RangeControl,{value:m,label:"Blur",max:20,min:0,onChange:e=>c({blur:e}),withInputField:!1}),(0,o.createElement)(l.PanelRow,null,(0,o.createElement)("div",{className:"light_direction"},(0,o.createElement)(l.RadioControl,{selected:g,options:[{value:"top_left"},{value:"top_right"},{value:"bottom_left"},{value:"bottom_right"}],onChange:e=>{c({newDirection:e})}})),(0,o.createElement)("div",{className:"embos"},(0,o.createElement)(l.RadioControl,{selected:x,options:[{value:"swell"},{value:"dent"}],onChange:e=>{c({embos:e})}}))))),"is-style-claymor"===R&&(0,o.createElement)(a.InspectorControls,{__experimentalGroup:"border"},(0,o.createElement)(l.PanelBody,{title:"クレイモフィズム設定",initialOpen:!1,className:"btn_design_ctrl"},(0,o.createElement)(l.RangeControl,{value:v,label:"Opacity",max:1,min:0,step:.1,onChange:e=>c({opacity:e}),withInputField:!1}),(0,o.createElement)(l.RangeControl,{value:w,label:"Depth",max:20,min:0,onChange:e=>c({depth:e}),withInputField:!1}),(0,o.createElement)(l.RangeControl,{value:$,label:"Expand",max:50,min:0,onChange:e=>c({expand:e}),withInputField:!1}),(0,o.createElement)(l.RangeControl,{value:y,label:"Background Blur",max:10,min:0,onChange:e=>c({bdBlur:e}),withInputField:!1}),(0,o.createElement)("div",{className:"light_direction claymor"},(0,o.createElement)(l.RadioControl,{selected:f,options:[{value:"right_bottom"},{value:"top_right"},{value:"top"}],onChange:e=>{c({clayDirection:e})}})))),"is-style-glassmor"===R&&(0,o.createElement)(a.InspectorControls,{__experimentalGroup:"border"},(0,o.createElement)(l.PanelBody,{title:"グラスモフィズム設定",initialOpen:!1,className:"btn_design_ctrl"},(0,o.createElement)(l.RangeControl,{value:E,label:"Glass blur",max:20,min:0,onChange:e=>c({glassblur:e}),withInputField:!1}),(0,o.createElement)(l.RangeControl,{value:_,label:"Glass Opacity",max:1,min:0,step:.1,onChange:e=>c({glassopa:e}),withInputField:!1}),(0,o.createElement)("fieldset",null,(0,o.createElement)(l.ToggleControl,{label:"Show outline",checked:k,onChange:()=>{c({hasOutline:!k})}})))),(0,o.createElement)("div",(0,a.useBlockProps)(C),(0,o.createElement)(a.RichText,{tagName:"p",onChange:e=>c({btnContent:e}),allowedFormats:["core/bold","core/italic","core/text-color"],value:p,placeholder:(0,r.__)("Write your text..."),style:{textAlign:"center"}})))}},2571:function(e,t,n){function o(e,t,n){var o=!1;if((e||0===e)&&e<=360&&(t||0===t)&&t<=100&&(n||0===n)&&n<=100){var r,a=0,l=0,i=0,s=0,c=0;e=Number(e)/360,t=Number(t)/100,n=Number(n)/100,0===t?(a=n,l=n,i=n):(r=function(e,t,n){return n<0&&(n+=1),n>1&&(n-=1),n<1/6?e+=6*(t-e)*n:n<.5?e=t:n<2/3&&(e+=(t-e)*(2/3-n)*6),e},a=r(c=2*n-(s=n<.5?n*(1+t):n+t-n*t),s,e+1/3),l=r(c,s,e),i=r(c,s,e-1/3)),o=`#${Math.round(255*a).toString(16).padStart(2,"0")}${Math.round(255*l).toString(16).padStart(2,"0")}${Math.round(255*i).toString(16).padStart(2,"0")}`}return o}function r(e){let t=e.match(/\#([a-fA-F0-9]{2})([a-fA-Z0-9]{2})([a-fA-F0-9]{2})/),n=t[1],o=t[2],r=t[3],a=!1;if((n||0===n)&&String(n).match(/^[0-9a-f]{2}$/i)&&(o||0===o)&&String(o).match(/^[0-9a-f]{2}$/i)&&(r||0===r)&&String(r).match(/^[0-9a-f]{2}$/i)){let e=0,t=0,l=0,i=0,s=0,c=0;n=parseInt(n,16)/255,o=parseInt(o,16)/255,r=parseInt(r,16)/255,i=Math.max(n,o,r),s=Math.min(n,o,r),l=(i+s)/2,i!==s&&(c=i-s,t=l>.5?c/(2-i-s):c/(i+s),e=i===n?(o-r)/c:i===o?2+(r-n)/c:4+(n-o)/c,e/=6),a={hue:Math.round(360*e),saturation:Math.round(100*t),lightness:Math.round(100*l)}}return a}function a(e){let t=e.match(/\#([a-fA-F0-9]{2})([a-fA-Z0-9]{2})([a-fA-F0-9]{2})/),n=t[1],o=t[2],r=t[3],a=!1;return(n||0===n)&&String(n).match(/^[0-9a-f]{2}$/i)&&(o||0===o)&&String(o).match(/^[0-9a-f]{2}$/i)&&(r||0===r)&&String(r).match(/^[0-9a-f]{2}$/i)&&(n=parseInt(n,16),o=parseInt(o,16),r=parseInt(r,16),a={red:Math.round(n),green:Math.round(o),blue:Math.round(r)}),a}n.d(t,{MM:function(){return a},Pr:function(){return o},vc:function(){return r}})},1563:function(e,t,n){var o=n(4981),r=n(4370),a=n(7092),l=n(9292);(0,o.registerBlockType)(l.u2,{edit:r.Z,save:a.Z})},7092:function(e,t,n){n.d(t,{Z:function(){return a}});var o=n(9307),r=n(2175);function a(e){let{attributes:t}=e;r.useBlockProps.save();const{btnContent:n,boxShadowStyle:a}=t;return(0,o.createElement)("div",r.useBlockProps.save(a),(0,o.createElement)(r.RichText.Content,{tagName:"p",value:n,style:{textAlign:"center"}}))}},2175:function(e){e.exports=window.wp.blockEditor},4981:function(e){e.exports=window.wp.blocks},5609:function(e){e.exports=window.wp.components},9307:function(e){e.exports=window.wp.element},5736:function(e){e.exports=window.wp.i18n},9292:function(e){e.exports=JSON.parse('{"u2":"itmar/phism-button"}')}},n={};function o(e){var r=n[e];if(void 0!==r)return r.exports;var a=n[e]={exports:{}};return t[e](a,a.exports,o),a.exports}o.m=t,e=[],o.O=function(t,n,r,a){if(!n){var l=1/0;for(u=0;u<e.length;u++){n=e[u][0],r=e[u][1],a=e[u][2];for(var i=!0,s=0;s<n.length;s++)(!1&a||l>=a)&&Object.keys(o.O).every((function(e){return o.O[e](n[s])}))?n.splice(s--,1):(i=!1,a<l&&(l=a));if(i){e.splice(u--,1);var c=r();void 0!==c&&(t=c)}}return t}a=a||0;for(var u=e.length;u>0&&e[u-1][2]>a;u--)e[u]=e[u-1];e[u]=[n,r,a]},o.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return o.d(t,{a:t}),t},o.d=function(e,t){for(var n in t)o.o(t,n)&&!o.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},o.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},function(){var e={329:0,880:0};o.O.j=function(t){return 0===e[t]};var t=function(t,n){var r,a,l=n[0],i=n[1],s=n[2],c=0;if(l.some((function(t){return 0!==e[t]}))){for(r in i)o.o(i,r)&&(o.m[r]=i[r]);if(s)var u=s(o)}for(t&&t(n);c<l.length;c++)a=l[c],o.o(e,a)&&e[a]&&e[a][0](),e[a]=0;return o.O(u)},n=self.webpackChunkblock_collections=self.webpackChunkblock_collections||[];n.forEach(t.bind(null,0)),n.push=t.bind(null,n.push.bind(n))}();var r=o.O(void 0,[880],(function(){return o(1563)}));r=o.O(r)}();
+/******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/blocks/phism-button/edit.js":
+/*!*****************************************!*\
+  !*** ./src/blocks/phism-button/edit.js ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ Edit; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/phism-button/editor.scss");
+/* harmony import */ var _hslToRgb__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./hslToRgb */ "./src/blocks/phism-button/hslToRgb.js");
+
+
+
+
+
+
+
+
+//方向と距離
+const dirctionDigit = (direction, distance) => {
+  let destTopLeft, destTopRight, destBottomLeft, destBottomRight;
+  switch (direction) {
+    case "top_left":
+      destTopLeft = distance;
+      destTopRight = distance;
+      destBottomLeft = distance * -1;
+      destBottomRight = distance * -1;
+      break;
+    case "top_right":
+      destTopLeft = distance * -1;
+      destTopRight = distance;
+      destBottomLeft = distance * -1;
+      destBottomRight = distance;
+      break;
+    case "bottom_left":
+      destTopLeft = distance;
+      destTopRight = distance * -1;
+      destBottomLeft = distance;
+      destBottomRight = distance * -1;
+      break;
+    case "bottom_right":
+      destTopLeft = distance * -1;
+      destTopRight = distance * -1;
+      destBottomLeft = distance;
+      destBottomRight = distance;
+      break;
+    case "right_bottom":
+      destTopLeft = distance;
+      destTopRight = distance * -1;
+      destBottomLeft = distance * -1;
+      destBottomRight = distance;
+      break;
+    case "top":
+      destTopLeft = 0;
+      destTopRight = 0;
+      destBottomLeft = distance * -1;
+      destBottomRight = distance;
+      break;
+  }
+  return {
+    topLeft: destTopLeft,
+    topRight: destTopRight,
+    bottomLeft: destBottomLeft,
+    bottmRight: destBottomRight
+  };
+};
+function Edit(props) {
+  const renderFlgRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
+  const {
+    attributes,
+    setAttributes
+  } = props;
+  let blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
+  const {
+    btnContent,
+    btnalign,
+    blur,
+    intensity,
+    distance,
+    newDirection,
+    clayDirection,
+    embos,
+    opacity,
+    depth,
+    bdBlur,
+    expand,
+    boxShadowStyle,
+    glassblur,
+    glassopa,
+    hasOutline,
+    backgroundColor,
+    className
+  } = attributes;
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (renderFlgRef.current) {
+      if (className === 'is-style-newmor' || className === 'is-style-claymor' || className === 'is-style-glassmor') {
+        //バックグランドカラーの設定がないときはデフォルトカラーで影をつける
+        const baseColor = blockProps.style.backgroundColor === undefined ? '#dddfe4' : blockProps.style.backgroundColor;
+
+        //ニューモフィズム
+        if (className === 'is-style-newmor') {
+          //ボタン背景色のHSL値
+          const hslValue = (0,_hslToRgb__WEBPACK_IMPORTED_MODULE_5__.rgb16ToHsl)(baseColor);
+          //影の明るさを変更
+          const lightVal = hslValue.lightness + intensity < 100 ? hslValue.lightness + intensity : 100;
+          const darkVal = hslValue.lightness - intensity > 0 ? hslValue.lightness - intensity : 0;
+          const lightValue = (0,_hslToRgb__WEBPACK_IMPORTED_MODULE_5__.hslToRgb16)(hslValue.hue, hslValue.saturation, lightVal);
+          const darkValue = (0,_hslToRgb__WEBPACK_IMPORTED_MODULE_5__.hslToRgb16)(hslValue.hue, hslValue.saturation, darkVal);
+          //boxshadowの生成
+          //立体の方向
+          const dircObj = dirctionDigit(newDirection, distance);
+          const ShadowStyle = embos === 'swell' ? {
+            style: {
+              boxShadow: `${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}`
+            }
+          } : {
+            style: {
+              boxShadow: `inset ${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, inset ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}`
+            }
+          };
+
+          //attributesに保存
+          setAttributes({
+            boxShadowStyle: ShadowStyle
+          });
+        }
+
+        //クレイモーフィズム
+        else if (className === 'is-style-claymor') {
+          const rgbValue = (0,_hslToRgb__WEBPACK_IMPORTED_MODULE_5__.HexToRGB)(baseColor);
+          const outsetObj = dirctionDigit(clayDirection, expand);
+          const insetObj = dirctionDigit(clayDirection, depth);
+          const claymorStyle = {
+            style: {
+              boxShadow: `${outsetObj.topLeft}px ${outsetObj.bottmRight}px ${expand * 2}px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.5), inset ${insetObj.topRight}px ${insetObj.bottomLeft}px 16px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.6), inset 0px 11px 28px 0px rgb(255, 255, 255)`,
+              backgroundColor: `rgba(255, 255, 255, ${opacity})`,
+              backdropFilter: `blur(${bdBlur}px)`
+            }
+          };
+          //attributesに保存
+          setAttributes({
+            boxShadowStyle: claymorStyle
+          });
+        }
+
+        //グラスモーフィズム
+        else if (className === 'is-style-glassmor') {
+          const rgbValue = (0,_hslToRgb__WEBPACK_IMPORTED_MODULE_5__.HexToRGB)(baseColor);
+          let glassmorStyle = {
+            style: {
+              backgroundColor: `rgba( ${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, ${glassopa} )`,
+              boxShadow: `0 8px 32px 0 rgba( 31, 38, 135, 0.37 )`,
+              backdropFilter: `blur( ${glassblur}px )`,
+              WebkitBackdropFilter: `blur( ${glassblur}px )`
+            }
+          };
+          if (hasOutline) {
+            glassmorStyle.style.border = '1px solid rgba( 255, 255, 255, 0.18 )';
+          }
+          //attributesに保存
+          setAttributes({
+            boxShadowStyle: glassmorStyle
+          });
+        }
+      } else {
+        //スタイルを削除
+        setAttributes({
+          boxShadowStyle: undefined
+        });
+      }
+    } else {
+      renderFlgRef.current = true;
+    }
+  }, [className, backgroundColor, blur, intensity, distance, opacity, depth, expand, bdBlur, newDirection, clayDirection, hasOutline, embos, glassblur, glassopa]);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, className === 'is-style-newmor' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
+    __experimentalGroup: "border"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: "\u30CB\u30E5\u30FC\u30E2\u30D5\u30A3\u30BA\u30E0\u8A2D\u5B9A",
+    initialOpen: false,
+    className: "btn_design_ctrl"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    value: distance,
+    label: "Distanse",
+    max: 50,
+    min: 0,
+    onChange: val => setAttributes({
+      distance: val
+    }),
+    withInputField: false
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    value: intensity,
+    label: "Intensity",
+    max: 100,
+    min: 0,
+    onChange: val => setAttributes({
+      intensity: val
+    }),
+    withInputField: false
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    value: blur,
+    label: "Blur",
+    max: 20,
+    min: 0,
+    onChange: val => setAttributes({
+      blur: val
+    }),
+    withInputField: false
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "light_direction"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RadioControl, {
+    selected: newDirection,
+    options: [{
+      value: 'top_left'
+    }, {
+      value: 'top_right'
+    }, {
+      value: 'bottom_left'
+    }, {
+      value: 'bottom_right'
+    }],
+    onChange: changeOption => {
+      setAttributes({
+        newDirection: changeOption
+      });
+    }
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "embos"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RadioControl, {
+    selected: embos,
+    options: [{
+      value: 'swell'
+    }, {
+      value: 'dent'
+    }],
+    onChange: changeOption => {
+      setAttributes({
+        embos: changeOption
+      });
+    }
+  }))))), className === 'is-style-claymor' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
+    __experimentalGroup: "border"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: "\u30AF\u30EC\u30A4\u30E2\u30D5\u30A3\u30BA\u30E0\u8A2D\u5B9A",
+    initialOpen: false,
+    className: "btn_design_ctrl"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    value: opacity,
+    label: "Opacity",
+    max: 1,
+    min: 0,
+    step: .1,
+    onChange: val => setAttributes({
+      opacity: val
+    }),
+    withInputField: false
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    value: depth,
+    label: "Depth",
+    max: 20,
+    min: 0,
+    onChange: val => setAttributes({
+      depth: val
+    }),
+    withInputField: false
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    value: expand,
+    label: "Expand",
+    max: 50,
+    min: 0,
+    onChange: val => setAttributes({
+      expand: val
+    }),
+    withInputField: false
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    value: bdBlur,
+    label: "Background Blur",
+    max: 10,
+    min: 0,
+    onChange: val => setAttributes({
+      bdBlur: val
+    }),
+    withInputField: false
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "light_direction claymor"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RadioControl, {
+    selected: clayDirection,
+    options: [{
+      value: 'right_bottom'
+    }, {
+      value: 'top_right'
+    }, {
+      value: 'top'
+    }],
+    onChange: changeOption => {
+      setAttributes({
+        clayDirection: changeOption
+      });
+    }
+  })))), className === 'is-style-glassmor' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
+    __experimentalGroup: "border"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: "\u30B0\u30E9\u30B9\u30E2\u30D5\u30A3\u30BA\u30E0\u8A2D\u5B9A",
+    initialOpen: false,
+    className: "btn_design_ctrl"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    value: glassblur,
+    label: "Glass blur",
+    max: 20,
+    min: 0,
+    onChange: val => setAttributes({
+      glassblur: val
+    }),
+    withInputField: false
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    value: glassopa,
+    label: "Glass Opacity",
+    max: 1,
+    min: 0,
+    step: .1,
+    onChange: val => setAttributes({
+      glassopa: val
+    }),
+    withInputField: false
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("fieldset", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    label: "Show outline",
+    checked: hasOutline,
+    onChange: () => {
+      setAttributes({
+        hasOutline: !hasOutline
+      });
+    }
+  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(boxShadowStyle), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
+    tagName: "p",
+    onChange: newContent => setAttributes({
+      btnContent: newContent
+    }),
+    allowedFormats: ['core/bold', 'core/italic', 'core/text-color'],
+    value: btnContent,
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Write your text...'),
+    style: {
+      textAlign: "center"
+    }
+  })));
+}
+
+/***/ }),
+
+/***/ "./src/blocks/phism-button/hslToRgb.js":
+/*!*********************************************!*\
+  !*** ./src/blocks/phism-button/hslToRgb.js ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "HexToRGB": function() { return /* binding */ HexToRGB; },
+/* harmony export */   "hslToRgb16": function() { return /* binding */ hslToRgb16; },
+/* harmony export */   "rgb16ToHsl": function() { return /* binding */ rgb16ToHsl; }
+/* harmony export */ });
+function hslToRgb16(hue, saturation, lightness) {
+  var result = false;
+  if ((hue || hue === 0) && hue <= 360 && (saturation || saturation === 0) && saturation <= 100 && (lightness || lightness === 0) && lightness <= 100) {
+    var red = 0,
+      green = 0,
+      blue = 0,
+      q = 0,
+      p = 0,
+      hueToRgb;
+    hue = Number(hue) / 360;
+    saturation = Number(saturation) / 100;
+    lightness = Number(lightness) / 100;
+    if (saturation === 0) {
+      red = lightness;
+      green = lightness;
+      blue = lightness;
+    } else {
+      hueToRgb = function (p, q, t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) {
+          p += (q - p) * 6 * t;
+        } else if (t < 1 / 2) {
+          p = q;
+        } else if (t < 2 / 3) {
+          p += (q - p) * (2 / 3 - t) * 6;
+        }
+        return p;
+      };
+      if (lightness < 0.5) {
+        q = lightness * (1 + saturation);
+      } else {
+        q = lightness + saturation - lightness * saturation;
+      }
+      p = 2 * lightness - q;
+      red = hueToRgb(p, q, hue + 1 / 3);
+      green = hueToRgb(p, q, hue);
+      blue = hueToRgb(p, q, hue - 1 / 3);
+    }
+    result = `#${Math.round(red * 255).toString(16).padStart(2, '0')}${Math.round(green * 255).toString(16).padStart(2, '0')}${Math.round(blue * 255).toString(16).padStart(2, '0')}`;
+  }
+  return result;
+}
+;
+function rgb16ToHsl(strRgb16) {
+  let rgb = strRgb16.match(/\#([a-fA-F0-9]{2})([a-fA-Z0-9]{2})([a-fA-F0-9]{2})/);
+  let red = rgb[1];
+  let green = rgb[2];
+  let blue = rgb[3];
+  let result = false;
+  if ((red || red === 0) && String(red).match(/^[0-9a-f]{2}$/i) && (green || green === 0) && String(green).match(/^[0-9a-f]{2}$/i) && (blue || blue === 0) && String(blue).match(/^[0-9a-f]{2}$/i)) {
+    let hue = 0,
+      saturation = 0,
+      lightness = 0,
+      max = 0,
+      min = 0,
+      diff = 0;
+    red = parseInt(red, 16) / 255;
+    green = parseInt(green, 16) / 255;
+    blue = parseInt(blue, 16) / 255;
+    max = Math.max(red, green, blue);
+    min = Math.min(red, green, blue);
+    lightness = (max + min) / 2;
+    if (max !== min) {
+      diff = max - min;
+      if (lightness > 0.5) {
+        saturation = diff / (2 - max - min);
+      } else {
+        saturation = diff / (max + min);
+      }
+      if (max === red) {
+        hue = (green - blue) / diff;
+      } else if (max === green) {
+        hue = 2 + (blue - red) / diff;
+      } else {
+        hue = 4 + (red - green) / diff;
+      }
+      hue /= 6;
+    }
+    result = {
+      hue: Math.round(hue * 360),
+      saturation: Math.round(saturation * 100),
+      lightness: Math.round(lightness * 100)
+    };
+  }
+  return result;
+}
+;
+function HexToRGB(strRgb16) {
+  let rgb = strRgb16.match(/\#([a-fA-F0-9]{2})([a-fA-Z0-9]{2})([a-fA-F0-9]{2})/);
+  let red = rgb[1];
+  let green = rgb[2];
+  let blue = rgb[3];
+  let result = false;
+  if ((red || red === 0) && String(red).match(/^[0-9a-f]{2}$/i) && (green || green === 0) && String(green).match(/^[0-9a-f]{2}$/i) && (blue || blue === 0) && String(blue).match(/^[0-9a-f]{2}$/i)) {
+    red = parseInt(red, 16);
+    green = parseInt(green, 16);
+    blue = parseInt(blue, 16);
+    result = {
+      red: Math.round(red),
+      green: Math.round(green),
+      blue: Math.round(blue)
+    };
+  }
+  return result;
+}
+;
+
+/***/ }),
+
+/***/ "./src/blocks/phism-button/index.js":
+/*!******************************************!*\
+  !*** ./src/blocks/phism-button/index.js ***!
+  \******************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/phism-button/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/blocks/phism-button/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/blocks/phism-button/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/blocks/phism-button/block.json");
+/**
+ * Registers a new block provided a unique name and an object defining its behavior.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
+
+
+/**
+ * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
+ * All files containing `style` keyword are bundled together. The code used
+ * gets applied both to the front of your site and to the editor.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+/**
+ * Every block starts by registering a new block type definition.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
+  /**
+   * @see ./edit.js
+   */
+  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
+  /**
+   * @see ./save.js
+   */
+  save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
+});
+
+/***/ }),
+
+/***/ "./src/blocks/phism-button/save.js":
+/*!*****************************************!*\
+  !*** ./src/blocks/phism-button/save.js ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ save; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function save(_ref) {
+  let {
+    attributes
+  } = _ref;
+  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
+  const {
+    btnContent,
+    boxShadowStyle
+  } = attributes;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save(boxShadowStyle), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
+    tagName: "p",
+    value: btnContent,
+    style: {
+      textAlign: "center"
+    }
+  }));
+}
+
+/***/ }),
+
+/***/ "./src/blocks/phism-button/editor.scss":
+/*!*********************************************!*\
+  !*** ./src/blocks/phism-button/editor.scss ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/blocks/phism-button/style.scss":
+/*!********************************************!*\
+  !*** ./src/blocks/phism-button/style.scss ***!
+  \********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "@wordpress/block-editor":
+/*!*************************************!*\
+  !*** external ["wp","blockEditor"] ***!
+  \*************************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["blockEditor"];
+
+/***/ }),
+
+/***/ "@wordpress/blocks":
+/*!********************************!*\
+  !*** external ["wp","blocks"] ***!
+  \********************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/element":
+/*!*********************************!*\
+  !*** external ["wp","element"] ***!
+  \*********************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["element"];
+
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["i18n"];
+
+/***/ }),
+
+/***/ "./src/blocks/phism-button/block.json":
+/*!********************************************!*\
+  !*** ./src/blocks/phism-button/block.json ***!
+  \********************************************/
+/***/ (function(module) {
+
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"itmar/phism-button","version":"0.1.0","title":"Phism Button","category":"widgets","icon":"editor-removeformatting","description":"〇〇フィズムのデザインを作出できるボタンのブロックです","attributes":{"btnalign":{"type":"string","default":"none"},"btnContent":{"type":"string","source":"html","selector":"p"},"distance":{"type":"number","default":5},"intensity":{"type":"number","default":5},"opacity":{"type":"number","default":0.5},"depth":{"type":"number","default":5},"blur":{"type":"number","default":5},"bdBlur":{"type":"number","default":5},"expand":{"type":"number","default":5},"glassblur":{"type":"number","default":5},"glassopa":{"type":"number","default":0.5},"newDirection":{"type":"string","default":"top_left"},"clayDirection":{"type":"string","default":"top"},"embos":{"type":"string","default":"swell"},"hasOutline":{"type":"boolean","default":true},"boxShadowStyle":{"type":"object"}},"styles":[{"name":"default","label":"Default","isDefault":true},{"name":"newmor","label":"Neumorphism"},{"name":"claymor","label":"Claymorphism"},{"name":"glassmor","label":"Glassmorphism"}],"example":{},"supports":{"color":{"background":true,"gradients":true,"link":false,"text":true},"spacing":{"blockGap":false,"padding":true,"margin":true},"__experimentalBorder":{"color":true,"radius":true,"style":true,"width":true,"__experimentalDefaultControls":{"color":true,"radius":true,"style":true,"width":true}},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true}},"html":false},"textdomain":"phism-button","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	!function() {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = function(result, chunkIds, fn, priority) {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every(function(key) { return __webpack_require__.O[key](chunkIds[j]); })) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	!function() {
+/******/ 		// no baseURI
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"blocks/phism-button/index": 0,
+/******/ 			"blocks/phism-button/style-index": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = function(chunkId) { return installedChunks[chunkId] === 0; };
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some(function(id) { return installedChunks[id] !== 0; })) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunkblock_collections"] = self["webpackChunkblock_collections"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["blocks/phism-button/style-index"], function() { return __webpack_require__("./src/blocks/phism-button/index.js"); })
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
 //# sourceMappingURL=index.js.map

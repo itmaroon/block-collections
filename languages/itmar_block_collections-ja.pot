@@ -1,56 +1,43 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: ja\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.2\n"
-
 #: block-collections.php:111
 msgid "Custom Color 1"
-msgstr "カスタムカラー１"
+msgstr ""
 
 #: block-collections.php:116
 msgid "Custom Color 2"
-msgstr "カスタムカラー２"
+msgstr ""
 
 #: src/blocks/IconSelectControl.js:83
 msgid "Color settings"
-msgstr "カラー設定"
+msgstr ""
 
 #: src/blocks/IconSelectControl.js:92
 msgid "Icon color"
-msgstr "アイコン色"
+msgstr ""
 
 #: src/blocks/code-highlight/edit.js:140
 msgid "SyntaxHighLight Settings"
-msgstr "シンタックスハイライト設定"
+msgstr ""
 
 #: src/blocks/code-highlight/edit.js:145
 msgid "Line Number(display)"
-msgstr "行番号（表示）"
+msgstr ""
 
 #: src/blocks/code-highlight/edit.js:145
 msgid "Line Number(hidden)"
-msgstr "行番号（非表示）"
+msgstr ""
 
 #: src/blocks/code-highlight/edit.js:153
 msgid "Starting Line Number"
-msgstr "始まりの行番号"
+msgstr ""
 
 #: src/blocks/code-highlight/edit.js:189
 msgid "Spacing Settings"
-msgstr "空白設定"
+msgstr ""
 
 #: src/blocks/design-checkbox/edit.js:94 src/blocks/design-select/edit.js:89
 #: src/blocks/design-title/edit.js:166
 msgid "Heading Color Setting"
-msgstr "ヘディング色設定"
+msgstr ""
 
 #: src/blocks/design-checkbox/edit.js:97 src/blocks/design-checkbox/edit.js:175
 #: src/blocks/design-process/edit.js:174 src/blocks/design-process/edit.js:200
@@ -58,81 +45,81 @@ msgstr "ヘディング色設定"
 #: src/blocks/design-text-ctrl/edit.js:266 src/blocks/design-title/edit.js:169
 #: src/blocks/design-title/edit.js:266
 msgid "Choose Text color"
-msgstr "テキストの色を選択"
+msgstr ""
 
 #: src/blocks/design-checkbox/edit.js:104 src/blocks/design-process/edit.js:118
 #: src/blocks/design-select/edit.js:95 src/blocks/design-text-ctrl/edit.js:212
 #: src/blocks/design-text-ctrl/edit.js:273 src/blocks/design-title/edit.js:176
 #: src/blocks/design-title/edit.js:275
 msgid "Choose Background color"
-msgstr "背景色を選択"
+msgstr ""
 
 #: src/blocks/design-checkbox/edit.js:146
 msgid "Input Color Setting"
-msgstr "インプット要素の色設定"
+msgstr ""
 
 #: src/blocks/design-checkbox/edit.js:149
 msgid "Choose Input color"
-msgstr "インプット要素色選択"
+msgstr ""
 
 #: src/blocks/design-checkbox/edit.js:154
 msgid "Choose Input Background color"
-msgstr "インプット要素背景色選択"
+msgstr ""
 
 #: src/blocks/design-checkbox/edit.js:172
 msgid "Label Color Setting"
-msgstr "ラベル色設定"
+msgstr ""
 
 #: src/blocks/design-checkbox/edit.js:197
 msgid "Write Checkbox Label..."
-msgstr "チェックボックスのラベルを入力・・・"
+msgstr ""
 
 #: src/blocks/design-process/edit.js:112
 msgid " Background Color Setting"
-msgstr "背景色設定"
+msgstr ""
 
 #: src/blocks/design-process/edit.js:170 src/blocks/design-process/edit.js:196
 #: src/blocks/design-text-ctrl/edit.js:202
 #: src/blocks/design-text-ctrl/edit.js:263
 msgid "Color Setting"
-msgstr "文字色設定"
+msgstr ""
 
 #: src/blocks/design-process/edit.js:179
 msgid "Choose background color"
-msgstr "背景色を選択してください"
+msgstr ""
 
 #: src/blocks/design-select/edit.js:72
 msgid "Select Element Settings"
-msgstr "セレクト要素設定"
+msgstr ""
 
 #: src/blocks/design-select/edit.js:78
 msgid "Place Folder Display"
-msgstr "プレイスフォルダの表示"
+msgstr ""
 
 #: src/blocks/design-select/edit.js:102
 msgid "Margin Setting"
-msgstr "マージン設定"
+msgstr ""
 
 #: src/blocks/design-select/edit.js:147
 msgid "Option Color Setting"
-msgstr "オプション色設定"
+msgstr ""
 
 #: src/blocks/design-title/edit.js:221
 msgid "Bar Color Setting"
-msgstr "バーの色設定"
+msgstr ""
 
 #: src/blocks/design-title/edit.js:226
 msgid "Choose Line Background"
-msgstr "バーの背景色を選択"
+msgstr ""
 
 #: src/blocks/design-title/edit.js:263
 msgid "Copy Color Setting"
-msgstr "コピーの文字色設定"
+msgstr ""
 
 #: src/blocks/design-title/edit.js:386 src/blocks/phism-button/edit.js:328
 #: src/blocks/swiper-masonry/edit.js:20
 msgid "Write your text..."
-msgstr "テキストを入力してください。"
+msgstr ""
 
 #: src/blocks/draggable-image/edit.js:75
 msgid "移動距離"
@@ -140,20 +127,20 @@ msgstr ""
 
 #: src/blocks/pickup-posts/edit.js:46
 msgid "Content Settings"
-msgstr "内容の設定"
+msgstr ""
 
 #: src/blocks/pickup-posts/edit.js:59
 msgid "Show Featured Image"
-msgstr "注目の画像を表示"
+msgstr ""
 
 #: src/blocks/pickup-posts/edit.js:68
 msgid "Show Date"
-msgstr "日付の表示"
+msgstr ""
 
 #: src/blocks/pickup-posts/index.php:17
 msgid "No title"
-msgstr "タイトルなし"
+msgstr ""
 
 #: src/blocks/pickup-posts/index.php:36
 msgid "Sorry. No posts matching your criteria!"
-msgstr "すいません。 条件に一致する投稿はありません。"
+msgstr ""

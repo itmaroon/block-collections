@@ -1,3 +1,28 @@
-.wp-block-itmar-draggable-image{border:1px dotted red}.wp-block-itmar-draggable-image .draggablebox:hover{cursor:move}.components-panel__row.distance_row{align-items:baseline;-moz-column-gap:10px;column-gap:10px}.components-panel__row.distance_row .components-base-control{margin-bottom:0}.components-panel__row.reset_row{justify-content:end}
+/*!***************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/blocks/draggable-image/editor.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-itmar-draggable-image {
+  border: 1px dotted #f00;
+}
+.wp-block-itmar-draggable-image .draggablebox:hover {
+  cursor: move;
+}
+
+.components-panel__row.distance_row {
+  align-items: baseline;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+.components-panel__row.distance_row .components-base-control {
+  margin-bottom: 0;
+}
+.components-panel__row.reset_row {
+  justify-content: end;
+}
 
 /*# sourceMappingURL=index.css.map*/
