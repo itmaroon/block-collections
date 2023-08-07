@@ -16,13 +16,10 @@ export default function save({ attributes }) {
 				<label>
 					<input type="checkbox" name={inputName} />
 					<span></span>
+					<RichText.Content
+						value={labelContent}
+					/>
 				</label>
-
-				<RichText.Content
-					tagName="p"
-					value={labelContent}
-
-				/>
 
 			</StyleComp>
 		</div>

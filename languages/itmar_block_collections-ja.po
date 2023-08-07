@@ -1,0 +1,168 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ITmaroon Block Collections\n"
+"POT-Creation-Date: 2023-08-06 21:25+0900\n"
+"PO-Revision-Date: 2023-08-06 21:34+0900\n"
+"Last-Translator: \n"
+"Language-Team: ITmaroon\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.3.2\n"
+"X-Poedit-Basepath: ../src/blocks\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: IconSelectControl.js:83
+msgid "Color settings"
+msgstr "文字色設定"
+
+#: IconSelectControl.js:92
+msgid "Icon color"
+msgstr "アイコンの色"
+
+#: code-highlight/edit.js:140
+msgid "SyntaxHighLight Settings"
+msgstr "シンタックスハイライト設定"
+
+#: code-highlight/edit.js:145
+msgid "Line Number(display)"
+msgstr "ライン番号（表示）"
+
+#: code-highlight/edit.js:145
+msgid "Line Number(hidden)"
+msgstr "ライン番号（非表示）"
+
+#: code-highlight/edit.js:153
+msgid "Starting Line Number"
+msgstr "始まりのライン番号"
+
+#: code-highlight/edit.js:189
+msgid "Spacing Settings"
+msgstr "空白設定"
+
+#: design-checkbox/edit.js:94 design-select/edit.js:89 design-title/edit.js:166
+msgid "Heading Color Setting"
+msgstr "ヘッダー文字色設定"
+
+#: design-checkbox/edit.js:97 design-checkbox/edit.js:175
+#: design-process/edit.js:174 design-process/edit.js:200
+#: design-select/edit.js:150 design-text-ctrl/edit.js:205
+#: design-text-ctrl/edit.js:266 design-title/edit.js:169
+#: design-title/edit.js:266
+msgid "Choose Text color"
+msgstr "テキストの色を選択してください。"
+
+#: design-checkbox/edit.js:104 design-process/edit.js:118
+#: design-select/edit.js:95 design-text-ctrl/edit.js:212
+#: design-text-ctrl/edit.js:273 design-title/edit.js:176
+#: design-title/edit.js:275
+msgid "Choose Background color"
+msgstr "背景色を選択してください"
+
+#: design-checkbox/edit.js:146
+msgid "Input Color Setting"
+msgstr "インプット要素文字色設定"
+
+#: design-checkbox/edit.js:149
+#, fuzzy
+#| msgid "Choose Text color"
+msgid "Choose Input color"
+msgstr "テキストの色を選択してください"
+
+#: design-checkbox/edit.js:154
+#, fuzzy
+#| msgid "Choose Background color"
+msgid "Choose Input Background color"
+msgstr "背景色を選択してください"
+
+#: design-checkbox/edit.js:172
+msgid "Label Color Setting"
+msgstr "ラベルの色設定"
+
+#: design-checkbox/edit.js:197
+msgid "Write Checkbox Label..."
+msgstr "チェックボックスのラベルを入力してください"
+
+#: design-process/edit.js:112
+msgid " Background Color Setting"
+msgstr "オプション文字色設定"
+
+#: design-process/edit.js:170 design-process/edit.js:196
+#: design-text-ctrl/edit.js:202 design-text-ctrl/edit.js:263
+#, fuzzy
+#| msgid "Option Color Setting"
+msgid "Color Setting"
+msgstr "オプション文字色設定"
+
+#: design-process/edit.js:179
+#, fuzzy
+#| msgid "Choose Background color"
+msgid "Choose background color"
+msgstr "背景色を選択してください"
+
+#: design-select/edit.js:72
+msgid "Select Element Settings"
+msgstr "セレクト要素設定"
+
+#: design-select/edit.js:78
+msgid "Place Folder Display"
+msgstr "プレイスフォルダ表示"
+
+#: design-select/edit.js:102
+msgid "Margin Setting"
+msgstr "マージン設定"
+
+#: design-select/edit.js:147
+msgid "Option Color Setting"
+msgstr "オプション文字色設定"
+
+#: design-title/edit.js:221
+#, fuzzy
+#| msgid "Heading Color Setting"
+msgid "Bar Color Setting"
+msgstr "ヘッダー文字色設定"
+
+#: design-title/edit.js:226
+#, fuzzy
+#| msgid "Choose Background color"
+msgid "Choose Line Background"
+msgstr "背景色を選択してください"
+
+#: design-title/edit.js:263
+#, fuzzy
+#| msgid "Option Color Setting"
+msgid "Copy Color Setting"
+msgstr "オプション文字色設定"
+
+#: design-title/edit.js:386 phism-button/edit.js:328 swiper-masonry/edit.js:20
+msgid "Write your text..."
+msgstr "テキストを入力してください。"
+
+#: draggable-image/edit.js:75
+msgid "移動距離"
+msgstr ""
+
+#: pickup-posts/edit.js:46
+#, fuzzy
+#| msgid "Select Element Settings"
+msgid "Content Settings"
+msgstr "セレクト要素設定"
+
+#: pickup-posts/edit.js:59
+msgid "Show Featured Image"
+msgstr ""
+
+#: pickup-posts/edit.js:68
+msgid "Show Date"
+msgstr ""
+
+#: pickup-posts/index.php:17
+msgid "No title"
+msgstr ""
+
+#: pickup-posts/index.php:36
+msgid "Sorry. No posts matching your criteria!"
+msgstr ""

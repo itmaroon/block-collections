@@ -1,26 +1,24 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 2,
-  "name": "itmar/design-checkbox",
+  "name": "itmar/design-select",
   "version": "0.1.0",
-  "title": "Dsign CheckBox",
+  "title": "Design Select",
   "category": "design",
-  "description": "デザインをあしらったチェックボックス作成用のブロックです",
+  "description": "HTMLのセレクト要素にデザインをあしらうためのブロックです",
   "supports": {
     "html": false
   },
   "attributes": {
-    "inputName": {
-      "type": "string"
+    "folder_val": {
+      "type": "string",
+      "default": "選択して下さい"
     },
-    "inputValue": {
-      "type": "boolean",
-      "default": false
+    "selectValue": {
+      "type": "string",
+      "default": ""
     },
-    "labelContent": {
-      "type": "string"
-    },
-    "font_style_label": {
+    "font_style_option": {
       "type": "object",
       "default": {
         "fontSize": "16px",
@@ -29,7 +27,7 @@
         "isItalic": false
       }
     },
-    "lebelColor": {
+    "optionColor": {
       "type": "string"
     },
     "margin_value": {
@@ -57,14 +55,6 @@
     "backgroundGradient": {
       "type": "string"
     },
-    "boxColor": {
-      "type": "string",
-      "default": "#D5D7D8"
-    },
-    "boxBgColor": {
-      "type": "string",
-      "default": "#078758"
-    },
     "radius_heading": {
       "type": "object",
       "default": {
@@ -79,7 +69,7 @@
       "type": "object"
     }
   },
-  "textdomain": "design-checkbox",
+  "textdomain": "design-select",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"

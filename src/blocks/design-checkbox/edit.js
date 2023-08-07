@@ -188,7 +188,6 @@ export default function Edit({ attributes, setAttributes }) {
 						<span></span>
 					</label>
 					<RichText
-						tagName="p"
 						onChange={
 							(newContent) => {
 								setAttributes({ labelContent: newContent })

@@ -61,7 +61,7 @@ const StyledDiv = styled.div`
       input[type='checkbox'] {
         display: none;
       }
-      p{
+      div{
         font-size: ${font_style_label.fontSize};
         font-family: ${font_style_label.fontFamily};
         font-weight: ${font_style_label.fontWeight};
@@ -83,7 +83,9 @@ const StyledDiv = styled.div`
           100% { height: 1.2em; }
       }
       
-      span {
+      label{
+        display: flex;
+        span {
         font-size: ${font_style_label.fontSize};
         border: 0.2em solid ${boxColor};
         height: 1.2em;
@@ -113,10 +115,10 @@ const StyledDiv = styled.div`
         }
     
         &::before {
-            top:.72em;
-            left: .41em;
-            box-shadow: 0 0 0 .05em ${bgColor};
-            transform: rotate(-135deg);
+          top:.72em;
+          left: .41em;
+          box-shadow: 0 0 0 .05em ${bgColor};
+          transform: rotate(-135deg);
         }
     
         &::after {
@@ -125,6 +127,7 @@ const StyledDiv = styled.div`
             transform: rotate(-45deg);
         }
       }
+
       input[type=checkbox]:checked + span{
         border-color: ${boxBgColor};
         
@@ -138,7 +141,7 @@ const StyledDiv = styled.div`
             animation: dothatopcheck 0.4s ease 0s forwards;
         }
       }
-        
+    }  
     `;
 
 

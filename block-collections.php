@@ -9,7 +9,7 @@
  * Author:            WebクリエイターITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       block-location
+ * Text Domain:       itmar_block_collections
  *
  * @package           create-block
  */
@@ -23,6 +23,7 @@
  */
 function itmar_block_collections_block_init()
 {
+	//ブロックの登録
 	foreach (glob(plugin_dir_path(__FILE__) . 'build/blocks/*') as $block) {
 		if (file_exists($block . '/index.php')) {
 			// Dynamic block
@@ -39,6 +40,9 @@ function itmar_block_collections_block_init()
 			register_block_type($block);
 		}
 	}
+
+	//テキストドメインの設定（国際化）
+	load_plugin_textdomain( 'itmar_block_collections', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 add_action('init', 'itmar_block_collections_block_init');
 
@@ -91,6 +95,10 @@ function add_itmar_highlight_scripts_and_styles()
 		'1.0.0',
 		true
 	);
+
+	//翻訳ファイルの関連付け
+	wp_set_script_translations( 'itmar_block_collection_js', 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages/' );
+
 	
 }
 add_action('enqueue_block_assets', 'add_itmar_highlight_scripts_and_styles');
