@@ -95,7 +95,7 @@
     }
   },
   "textdomain": "design-title",
-  "editorScript": "file:./index.js",
+  "editorScript": "itmar-handle-design-title",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"
 }

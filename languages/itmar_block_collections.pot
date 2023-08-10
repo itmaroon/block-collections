@@ -30,7 +30,7 @@ msgstr ""
 #: src/blocks/design-checkbox/edit.js:197
 #: build/blocks/design-checkbox/index.js:3160
 msgid "Write Checkbox Label..."
-msgstr "チェックボックスのラベルを入力..."
+msgstr ""
 
 #: build/blocks/design-select/index.js:1
 #: src/blocks/design-select/edit.js:72

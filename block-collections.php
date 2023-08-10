@@ -25,6 +25,14 @@ function itmar_block_collections_block_init()
 {
 	//ブロックの登録
 	foreach (glob(plugin_dir_path(__FILE__) . 'build/blocks/*') as $block) {
+		$block_name = basename($block);
+		$script_handle = 'itmar-handle-' . $block_name;
+		// スクリプトの登録
+		wp_register_script(
+			$script_handle,
+			plugins_url( 'build/blocks/'.$block_name.'/index.js', __FILE__ ),
+			array( 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor' )
+		);
 		if (file_exists($block . '/index.php')) {
 			// Dynamic block
 			require_once($block . '/index.php');
@@ -39,9 +47,11 @@ function itmar_block_collections_block_init()
 			// Static block
 			register_block_type($block);
 		}
+		// その後、このハンドルを使用してスクリプトの翻訳をセット
+		wp_set_script_translations( $script_handle, 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages' );
 	}
 
-	//テキストドメインの設定（国際化）
+	//PHP用のテキストドメインの読込（国際化）
 	load_plugin_textdomain( 'itmar_block_collections', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 add_action('init', 'itmar_block_collections_block_init');
@@ -95,9 +105,6 @@ function add_itmar_highlight_scripts_and_styles()
 		'1.0.0',
 		true
 	);
-
-	//翻訳ファイルの関連付け
-	wp_set_script_translations( 'itmar_block_collection_js', 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages/' );
 }
 add_action('enqueue_block_assets', 'add_itmar_highlight_scripts_and_styles');
 

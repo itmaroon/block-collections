@@ -194,7 +194,7 @@ export default function Edit({ attributes, setAttributes }) {
 							}
 						}
 						value={labelContent}
-						placeholder={__('Write Checkbox Label...')}
+						placeholder={__('Write Checkbox Label...', 'itmar_block_collections')}
 					/>
 
 				</StyleComp>
