@@ -45,7 +45,12 @@ function itmar_block_collections_block_init()
 			);
 		} else {
 			// Static block
-			register_block_type($block);
+			register_block_type(
+				$block,
+				array(
+					'editor_script' => $script_handle
+				)
+			);
 		}
 		// その後、このハンドルを使用してスクリプトの翻訳をセット
 		wp_set_script_translations( $script_handle, 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages' );

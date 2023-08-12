@@ -109,13 +109,13 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 				<PanelBody title="共通設定" initialOpen={false} className="form_design_ctrl">
 
 					<PanelColorGradientSettings
-						title={__(" Background Color Setting")}
+						title={__(" Background Color Setting", 'itmar_block_collections')}
 						settings={[
 							{
 								colorValue: bgColor_form,
 								gradientValue: bgGradient_form,
 
-								label: __("Choose Background color"),
+								label: __("Choose Background color", 'itmar_block_collections'),
 								onColorChange: (newValue) => setAttributes({ bgColor_form: newValue }),
 								onGradientChange: (newValue) => setAttributes({ bgGradient_form: newValue }),
 							},
@@ -167,16 +167,16 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 							initialOpen={false}
 						/>
 						<PanelColorGradientSettings
-							title={__("Color Setting")}
+							title={__("Color Setting", 'itmar_block_collections')}
 							settings={[
 								{
 									colorValue: textColor_num,
-									label: __("Choose Text color"),
+									label: __("Choose Text color", 'itmar_block_collections'),
 									onColorChange: (newValue) => setAttributes({ textColor_num: newValue }),
 								},
 								{
 									colorValue: bgColor_num,
-									label: __("Choose background color"),
+									label: __("Choose background color", 'itmar_block_collections'),
 									onColorChange: (newValue) => setAttributes({ bgColor_num: newValue }),
 								}
 							]}
@@ -193,11 +193,11 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 							initialOpen={false}
 						/>
 						<PanelColorGradientSettings
-							title={__("Color Setting")}
+							title={__("Color Setting", 'itmar_block_collections')}
 							settings={[
 								{
 									colorValue: textColor_process,
-									label: __("Choose Text color"),
+									label: __("Choose Text color", 'itmar_block_collections'),
 									onColorChange: (newValue) => setAttributes({ textColor_process: newValue }),
 								}
 							]}
