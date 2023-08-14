@@ -1,16 +1,5 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-import { __ } from '@wordpress/i18n';
 
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
+import { __ } from '@wordpress/i18n';
 import {
 	useBlockProps,
 	InspectorControls,
@@ -23,8 +12,6 @@ import {
 	ToggleControl,
 	SelectControl,
 	TextControl,
-	RangeControl,
-	CheckboxControl,
 	Button,
 	Toolbar,
 	__experimentalBoxControl as BoxControl,
@@ -137,12 +124,12 @@ export default function Edit({ attributes, setAttributes }) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={__('SyntaxHighLight Settings', 'block-location')}
+					title={__('SyntaxHighLight Settings', 'itmar_block_collections')}
 					initialOpen={true}
 				>
 					<PanelRow>
 						<ToggleControl
-							label={linenums ? __('Line Number(display)', 'block-location') : __('Line Number(hidden)', 'block-location')}
+							label={linenums ? __('Line Number(display)', 'itmar_block_collections') : __('Line Number(hidden)', 'itmar_block_collections')}
 							checked={linenums}
 							onChange={(val) => setAttributes({ linenums: val })}
 						/>
@@ -150,7 +137,7 @@ export default function Edit({ attributes, setAttributes }) {
 					{linenums &&  //上記が true の場合に表示
 						<PanelRow>
 							<TextControl
-								label={__('Starting Line Number', 'block-location')}
+								label={__('Starting Line Number', 'itmar_block_collections')}
 								type="number"
 								value={linenumsStart}
 								onChange={(val) => setAttributes({ linenumsStart: parseInt(val) })}
@@ -186,11 +173,11 @@ export default function Edit({ attributes, setAttributes }) {
 					</PanelRow>
 				</PanelBody>
 				<PanelBody
-					title={__('Spacing Settings', 'block-location')}
+					title={__('Spacing Settings', 'itmar_block_collections')}
 					initialOpen={true}
 				>
 					<BoxControl
-						label="マージン設定"
+						label={__("Margin settings", 'itmar_block_collections')}
 						values={margin_value}
 						onChange={value => setAttributes({ margin_value: value })}
 						units={units}	// 許可する単位
@@ -200,7 +187,7 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 
 					<BoxControl
-						label="パティング設定"
+						label={__("Padding settings", 'itmar_block_collections')}
 						values={padding_value}
 						onChange={value => setAttributes({ padding_value: value })}
 						units={units}	// 許可する単位
@@ -216,7 +203,7 @@ export default function Edit({ attributes, setAttributes }) {
 				<Toolbar>
 					<Button
 						//属性 isEditMode の値により表示するラベルを切り替え
-						label={isEditMode ? "Preview" : "Edit"}
+						label={isEditMode ? __('Preview', 'itmar_block_collections') : __('Edit', 'itmar_block_collections')}
 						//属性 isEditMode の値により表示するアイコンを切り替え
 						icon={isEditMode ? "format-image" : "edit"}
 						className="edit_mode"
@@ -231,14 +218,14 @@ export default function Edit({ attributes, setAttributes }) {
 			{isEditMode && // isEditMode が true の場合（編集モード）
 				<div {...blockProps}>
 					<TextControl
-						label="File Name"
+						label={__("File Name", 'itmar_block_collections')}
 						type="string"
 						className="filename"
 						value={fileName}
 						onChange={(val) => setAttributes({ fileName: val })}
 					/>
 					<TextareaControl
-						label="Code:"
+						label={__("Code:", 'itmar_block_collections')}
 						value={codeArea}
 						onChange={(code) => setAttributes({ codeArea: code })}
 						rows={codeAreaRows}
@@ -252,7 +239,7 @@ export default function Edit({ attributes, setAttributes }) {
 							onClick={() => setAttributes({ isEditMode: true })}
 							variant="link"
 							icon="edit"
-						>編集モード
+						>{__("edit mode", 'itmar_block_collections')}
 						</Button>
 						{getPreview()}
 					</div>

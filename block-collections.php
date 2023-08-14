@@ -2,11 +2,11 @@
 
 /**
  * Plugin Name:       Block Collections
- * Description:       複数のブロックを集めたプラグインです。
+ * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Version:           0.1.0
- * Author:            WebクリエイターITmaroon
+ * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       itmar_block_collections
@@ -103,13 +103,16 @@ function add_itmar_highlight_scripts_and_styles()
 	);
 
 	//独自jsのエンキュー
+	$script_path = plugin_dir_path(__FILE__) . 'assets/block_collection.js';
 	wp_enqueue_script(
 		'itmar_block_collection_js',
-		plugins_url('/assets/block_collection.js?'.date('YmdHis'), __FILE__),
-		array('jquery'),
-		'1.0.0',
+		plugins_url('/assets/block_collection.js', __FILE__),
+		array('jquery','wp-i18n'),
+		filemtime($script_path),
 		true
 	);
+	// その後、このハンドルを使用してスクリプトの翻訳をセット
+	wp_set_script_translations( 'itmar_block_collection_js', 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages' );
 }
 add_action('enqueue_block_assets', 'add_itmar_highlight_scripts_and_styles');
 

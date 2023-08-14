@@ -5,21 +5,9 @@
 	"version": "0.1.0",
 	"title": "Design Process",
 	"category": "design",
-	"description": "プロセスの進捗状況をスタイリッシュに表示するためのブロックです",
 	"supports": {
 		"html": false
 	},
-	"styles": [
-		{
-			"name": "progress",
-			"label": "デフォルト",
-			"isDefault": true
-		},
-		{
-			"name": "card",
-			"label": "カード形式"
-		}
-	],
 	"attributes": {
 		"figure_blocks": {
 			"type": "array",

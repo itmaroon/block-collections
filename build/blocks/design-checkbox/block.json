@@ -5,7 +5,6 @@
   "version": "0.1.0",
   "title": "Dsign CheckBox",
   "category": "design",
-  "description": "デザインをあしらったチェックボックス作成用のブロックです",
   "supports": {
     "html": false
   },
@@ -29,7 +28,7 @@
         "isItalic": false
       }
     },
-    "lebelColor": {
+    "labelColor": {
       "type": "string"
     },
     "margin_value": {

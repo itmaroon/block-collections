@@ -27,6 +27,7 @@ const StyledUL = styled.ul`
   ${({ attributes }) => {
 
     const {
+      figure_blocks,
       bgColor_form,
       bgGradient_form,
       radius_form,
@@ -73,7 +74,7 @@ const StyledUL = styled.ul`
         font-family: ${font_style_process.fontFamily};
         font-weight: ${font_style_process.fontWeight};
         font-style: ${fontStyle_process};
-        width: 33.33%;
+        width: ${Math.round(100 / figure_blocks.length)}%;
         float: left;
         position: relative;
         letter-spacing: 1px;
@@ -146,7 +147,7 @@ const StyledUL = styled.ul`
         font-family: ${font_style_process.fontFamily};
         font-weight: ${font_style_process.fontWeight};
         font-style: ${fontStyle_process};
-        width: 20%;
+        width: ${Math.round(80 / figure_blocks.length)}%;
         height: 3em;
         line-height: 3em;
         position: relative;

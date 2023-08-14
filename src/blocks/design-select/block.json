@@ -5,11 +5,14 @@
 	"version": "0.1.0",
 	"title": "Design Select",
 	"category": "design",
-	"description": "HTMLのセレクト要素にデザインをあしらうためのブロックです",
 	"supports": {
 		"html": false
 	},
 	"attributes": {
+		"selectedValues": {
+			"type": "array",
+			"default": []
+		},
 		"folder_val": {
 			"type": "string",
 			"default": "選択して下さい"
@@ -55,7 +58,7 @@
 		"backgroundGradient": {
 			"type": "string"
 		},
-		"radius_heading": {
+		"radius_value": {
 			"type": "object",
 			"default": {
 				"topLeft": "0px",
@@ -65,7 +68,7 @@
 				"value": "0px"
 			}
 		},
-		"border_heading": {
+		"border_value": {
 			"type": "object"
 		}
 	},

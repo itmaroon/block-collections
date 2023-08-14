@@ -7,7 +7,7 @@ import {
 } from '@wordpress/components';
 
 import Select from 'react-select';
-
+import { __ } from '@wordpress/i18n';
 
 const TypographyControls = ({ title, fontStyle, initialOpen, onChange }) => {
   const {
@@ -61,13 +61,13 @@ const TypographyControls = ({ title, fontStyle, initialOpen, onChange }) => {
           const newStyle = { ...fontStyle, fontSize: newValue };
           onChange(newStyle);
         }}
-        label='サイズ'
+        label={__('Size', 'itmar_block_collections')}
         value={fontSize}
         units={units}
       />
 
       <FontSelect
-        label="フォントファミリー"
+        label={__("font family", 'itmar_block_collections')}
         value={fontFamily}
         onChange={(newValue) => {
           const newStyle = { ...fontStyle, fontFamily: newValue };
@@ -75,7 +75,7 @@ const TypographyControls = ({ title, fontStyle, initialOpen, onChange }) => {
         }}
       />
 
-      <label className="components-base-control__label">フォントウエイト</label>
+      <label className="components-base-control__label">{__('font weight', 'itmar_block_collections')}</label>
       <PanelRow className='itmar_weight_row'>
         <RadioControl
           selected={fontWeight}
@@ -94,7 +94,7 @@ const TypographyControls = ({ title, fontStyle, initialOpen, onChange }) => {
         />
       </PanelRow>
 
-      <label className="components-base-control__label">斜体表示</label>
+      <label className="components-base-control__label">{__('Italic display', 'itmar_block_collections')}</label>
       <ToggleControl
         checked={isItalic}
         onChange={(newValue) => {

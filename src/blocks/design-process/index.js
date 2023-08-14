@@ -1,7 +1,7 @@
 
 import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
-
+import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
@@ -12,6 +12,18 @@ import { ReactComponent as Process } from './process.svg';
 
 
 registerBlockType(metadata.name, {
+	styles: [
+		{
+			name: "progress",
+			label: __("Default", 'itmar_block_collections'),
+			isDefault: true
+		},
+		{
+			name: "card",
+			label: __("Card", 'itmar_block_collections'),
+		}
+	],
+	description: __("A block for stylish display of process progress", 'itmar_block_collections'),
 	icon: <Process />,
 	edit: Edit,
 	save,

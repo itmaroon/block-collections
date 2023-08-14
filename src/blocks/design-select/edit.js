@@ -1,6 +1,10 @@
 
 import { __ } from '@wordpress/i18n';
 import TypographyControls from '../TypographyControls'
+import { StyleComp } from './StyleSelect';
+import { NomalSelect } from './initSelect';
+import { useStyleIframe } from '../iframeFooks';
+
 
 import {
 	Button,
@@ -53,6 +57,7 @@ const units = [
 
 export default function Edit({ attributes, setAttributes }) {
 	const {
+		selectedValues,
 		folder_val,
 		optionColor,
 		font_style_option,
@@ -60,8 +65,8 @@ export default function Edit({ attributes, setAttributes }) {
 		padding_value,
 		backgroundColor,
 		backgroundGradient,
-		radius_heading,
-		border_heading,
+		radius_value,
+		border_value,
 		className,
 	} = attributes;
 
@@ -84,9 +89,9 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<InspectorControls group="styles">
 
-				<PanelBody title="全体設定" initialOpen={false} className="select_design_ctrl">
+				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="select_design_ctrl">
 					<PanelColorGradientSettings
-						title={__("Heading Color Setting", 'itmar_block_collections')}
+						title={__("Background Color Setting", 'itmar_block_collections')}
 						settings={[
 							{
 								colorValue: backgroundColor,
@@ -109,7 +114,7 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 
 					<BoxControl
-						label="パティング設定"
+						label={__("Padding settings", 'itmar_block_collections')}
 						values={padding_value}
 						onChange={value => setAttributes({ padding_value: value })}
 						units={units}	// 許可する単位
@@ -117,25 +122,25 @@ export default function Edit({ attributes, setAttributes }) {
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
-					<PanelBody title="ボーダー設定" initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
-							onChange={(newValue) => setAttributes({ border_heading: newValue })}
-							value={border_heading}
+							onChange={(newValue) => setAttributes({ border_value: newValue })}
+							value={border_value}
 							allowReset={true}	// リセットの可否
 							resetValues={border_resetValues}	// リセット時の値
 						/>
 						<BorderRadiusControl
-							values={radius_heading}
+							values={radius_value}
 							onChange={(newBrVal) =>
-								setAttributes({ radius_heading: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
+								setAttributes({ radius_value: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
 						/>
 					</PanelBody>
 				</PanelBody>
 
-				<PanelBody title="オプションスタイル設定" initialOpen={false} className="select_design_ctrl">
+				<PanelBody title={__("Option Style Settings", 'itmar_block_collections')} initialOpen={false} className="select_design_ctrl">
 					<TypographyControls
-						title='タイポグラフィー'
+						title={__('Typography', 'itmar_block_collections')}
 						fontStyle={font_style_option}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_label: newStyle })
@@ -157,18 +162,33 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 
 			<div {...useBlockProps()}>
-				<select name="category" class="nomal" id="id_category" multiple data-placeholder="カテゴリを選択してください">
-					<option class="catg_item" value="cat_1">カテゴリー１</option>
-					<option class="catg_item" value="cat_2">カテゴリー２</option>
-					<option class="catg_item" value="cat_3">カテゴリー３</option>
-					<option class="term_item" value="term_1">ターム１</option>
-					<option class="term_item" value="term_2">ターム２</option>
-					<option class="term_item" value="term_3">ターム３</option>
-					<option class="tag_item" value="tag_1">タグ１</option>
-					<option class="tag_item" value="tag_2">タグ２</option>
-					<option class="tag_item" value="tag_3">タグ３</option>
-				</select>
-
+				<StyleComp attributes={attributes} >
+					<NomalSelect
+						onOptionSelect={(selIndex) => {
+							if (selectedValues.includes(selIndex)) {
+								return; // 既に選択されている場合はそのまま
+							}
+							const newArray = [...selectedValues, selIndex]
+							setAttributes({ selectedValues: newArray })
+						}}
+						onOptionDeselect={(selIndex) => {
+							const newArray = selectedValues.filter(index => index !== selIndex);
+							setAttributes({ selectedValues: newArray });
+						}}
+					>
+						<select name="category" class="nomal" multiple data-placeholder={folder_val}>
+							<option class="catg_item" value="cat_1" selected={selectedValues.includes(0)}>カテゴリー１</option>
+							<option class="catg_item" value="cat_2" selected={selectedValues.includes(1)}>カテゴリー２</option>
+							<option class="catg_item" value="cat_3" selected={selectedValues.includes(2)}>カテゴリー３</option>
+							<option class="term_item" value="term_1" selected={selectedValues.includes(3)}>ターム１</option>
+							<option class="term_item" value="term_2" selected={selectedValues.includes(4)}>ターム２</option>
+							<option class="term_item" value="term_3" selected={selectedValues.includes(5)}>ターム３</option>
+							<option class="tag_item" value="tag_1" selected={selectedValues.includes(6)}>タグ１</option>
+							<option class="tag_item" value="tag_2" selected={selectedValues.includes(7)}>タグ２</option>
+							<option class="tag_item" value="tag_3" selected={selectedValues.includes(8)}>タグ３</option>
+						</select>
+					</NomalSelect>
+				</StyleComp>
 			</div >
 		</>
 	);

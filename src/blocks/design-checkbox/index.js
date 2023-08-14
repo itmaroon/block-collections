@@ -1,4 +1,4 @@
-
+import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 
@@ -13,6 +13,7 @@ import { ReactComponent as CheckBox } from './square-check-regular.svg';
 
 registerBlockType(metadata.name, {
 	icon: <CheckBox />,
+	description: __("A block for creating check boxes with designs", 'itmar_block_collections'),
 	edit: Edit,
 	save,
 });

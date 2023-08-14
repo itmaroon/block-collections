@@ -6,7 +6,18 @@
  */
 
 .wp-block-itmar-design-select {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+
+	.slide-entering,
+	.slide-exiting,
+	.slide-exited {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 400ms ease-in-out;
+	}
+
+	.slide-entered {
+		max-height: 100px;
+		/* or whatever your max height is */
+		transition: max-height 400ms ease-in-out;
+	}
 }

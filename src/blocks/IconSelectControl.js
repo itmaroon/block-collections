@@ -3,7 +3,6 @@ import { __ } from '@wordpress/i18n';
 
 import {
   TextControl,
-  PanelBody,
   PanelRow,
   RadioControl,
   __experimentalUnitControl as UnitControl,
@@ -24,7 +23,7 @@ const helpText = createElement(
   'span',
   {},
   helpLink,
-  ' からアイコンを選んでUnicode(選択ダイアログの右上４桁）を入力してください。'
+  __('Select the icon from and enter Unicode (the upper right four digits of the selection dialog). ', 'itmar_block_collections')
 );
 
 const units = [
@@ -45,7 +44,7 @@ export default ({ iconStyle, onChange }) => {
   return (
     <>
       <TextControl
-        label="アイコン名"
+        label={__("icon name", 'itmar_block_collections')}
         help={helpText}
         labelPosition="top"
         value={icon_name}
@@ -63,7 +62,7 @@ export default ({ iconStyle, onChange }) => {
             const newStyle = { ...iconStyle, icon_size: newValue };
             onChange(newStyle);
           }}
-          label='サイズ'
+          label={__("Size", 'itmar_block_collections')}
           value={icon_size}
           units={units}
         />
@@ -73,7 +72,7 @@ export default ({ iconStyle, onChange }) => {
             const newStyle = { ...iconStyle, icon_space: newValue };
             onChange(newStyle);
           }}
-          label='終端までの間隔'
+          label={__('spacing to end', 'itmar_block_collections')}
           value={icon_space}
           units={units}
         />
@@ -94,13 +93,13 @@ export default ({ iconStyle, onChange }) => {
 
         ]}
       />
-      <label className="components-base-control__label">配置</label>
+      <label className="components-base-control__label">{__("Arrangement", 'itmar_block_collections')}</label>
       <PanelRow className='itmar_position_row'>
         <RadioControl
           selected={icon_pos}
           options={[
-            { label: '左', value: "left" },
-            { label: '右', value: "right" },
+            { label: __("left", 'itmar_block_collections'), value: "left" },
+            { label: __("right", 'itmar_block_collections'), value: "right" },
           ]}
           onChange={(newValue) => {
             const newStyle = { ...iconStyle, icon_pos: newValue };

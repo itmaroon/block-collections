@@ -5,26 +5,15 @@ import { StyleComp } from './StyleCheckbox';
 import { useStyleIframe } from '../iframeFooks';
 
 import {
-	Button,
-	Panel,
 	PanelBody,
-	PanelRow,
-	ToggleControl,
-	RangeControl,
-	RadioControl,
 	TextControl,
 	__experimentalBoxControl as BoxControl,
-	__experimentalUnitControl as UnitControl,
 	__experimentalBorderBoxControl as BorderBoxControl
 } from '@wordpress/components';
 import {
 	useBlockProps,
 	RichText,
-	BlockAlignmentControl,
-	BlockControls,
-	InnerBlocks,
 	InspectorControls,
-	PanelColorSettings,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
 } from '@wordpress/block-editor';
@@ -46,7 +35,6 @@ export default function Edit({ attributes, setAttributes }) {
 		boxBgColor,
 		radius_heading,
 		border_heading,
-		className,
 	} = attributes;
 
 	//スペースのリセットバリュー
@@ -77,11 +65,11 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title="Input要素情報設定" initialOpen={true} className="form_setteing_ctrl">
+				<PanelBody title={__("Input element information setting", 'itmar_block_collections')} initialOpen={true} className="form_setteing_ctrl">
 					<TextControl
-						label="name属性の名称"
+						label={__("name attribute name", 'itmar_block_collections')}
 						value={inputName}
-						help="他のdesign-checkboxとインナーブロックとして選択肢の一つにするときは同じ名称に併せて下さい。"
+						help={__("When using another design-checkbox as one of the options as an inner block, please use the same name.", 'itmar_block_collections')}
 						onChange={(newVal) => setAttributes({ inputName: newVal })}
 					/>
 
@@ -89,26 +77,22 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 			<InspectorControls group="styles">
 
-				<PanelBody title="全体設定" initialOpen={false} className="check_design_ctrl">
+				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
 					<PanelColorGradientSettings
-						title={__("Heading Color Setting")}
-						settings={[{
-							colorValue: labelColor,
-							label: __("Choose Text color"),
-							onColorChange: (newValue) => setAttributes({ labelColor: newValue }),
-						},
-						{
-							colorValue: backgroundColor,
-							gradientValue: backgroundGradient,
+						title={__("Background Color Setting", 'itmar_block_collections')}
+						settings={[
+							{
+								colorValue: backgroundColor,
+								gradientValue: backgroundGradient,
 
-							label: __("Choose Background color"),
-							onColorChange: (newValue) => setAttributes({ backgroundColor: newValue }),
-							onGradientChange: (newValue) => setAttributes({ backgroundGradient: newValue }),
-						},
+								label: __("Choose Background color", 'itmar_block_collections'),
+								onColorChange: (newValue) => setAttributes({ backgroundColor: newValue }),
+								onGradientChange: (newValue) => setAttributes({ backgroundGradient: newValue }),
+							},
 						]}
 					/>
 					<BoxControl
-						label="マージン設定"
+						label={__("Margin settings", 'itmar_block_collections')}
 						values={margin_value}
 						onChange={value => setAttributes({ margin_value: value })}
 						units={units}	// 許可する単位
@@ -118,7 +102,7 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 
 					<BoxControl
-						label="パティング設定"
+						label={__("Padding settings", 'itmar_block_collections')}
 						values={padding_value}
 						onChange={value => setAttributes({ padding_value: value })}
 						units={units}	// 許可する単位
@@ -126,7 +110,7 @@ export default function Edit({ attributes, setAttributes }) {
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
-					<PanelBody title="ボーダー設定" initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
 							onChange={(newValue) => setAttributes({ border_heading: newValue })}
@@ -141,26 +125,26 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 					</PanelBody>
 				</PanelBody>
-				<PanelBody title="インプットスタイル設定" initialOpen={false} className="check_design_ctrl">
+				<PanelBody title={__("Input style settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
 					<PanelColorGradientSettings
-						title={__("Input Color Setting")}
+						title={__("Input Color Setting", 'itmar_block_collections')}
 						settings={[{
 							colorValue: boxColor,
-							label: __("Choose Input color"),
+							label: __("Choose Input color", 'itmar_block_collections'),
 							onColorChange: (newValue) => setAttributes({ boxColor: newValue }),
 						},
 						{
 							colorValue: boxBgColor,
-							label: __("Choose Input Background color"),
+							label: __("Choose Input Background color", 'itmar_block_collections'),
 							onColorChange: (newValue) => setAttributes({ boxBgColor: newValue }),
 						},
 						]}
 					/>
 
 				</PanelBody>
-				<PanelBody title="ラベルスタイル設定" initialOpen={false} className="check_design_ctrl">
+				<PanelBody title={__("Label style settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
 					<TypographyControls
-						title='タイポグラフィー'
+						title={__('Typography', 'itmar_block_collections')}
 						fontStyle={font_style_label}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_label: newStyle })
@@ -169,10 +153,10 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 
 					<PanelColorGradientSettings
-						title={__("Label Color Setting")}
+						title={__("Label Color Setting", 'itmar_block_collections')}
 						settings={[{
 							colorValue: labelColor,
-							label: __("Choose Text color"),
+							label: __("Choose Text color", 'itmar_block_collections'),
 							onColorChange: (newValue) => setAttributes({ labelColor: newValue }),
 						},
 						]}

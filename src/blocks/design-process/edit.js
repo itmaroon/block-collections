@@ -7,31 +7,18 @@ import { useStyleIframe } from '../iframeFooks';
 
 import {
 	useBlockProps,
-	InnerBlocks,
-	RichText,
-	useInnerBlocksProps,
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
 } from '@wordpress/block-editor';
 
 import {
-	Button,
-	Panel,
 	PanelBody,
-	PanelRow,
-	ToggleControl,
-	TextareaControl,
-	Notice,
-	RangeControl,
-	RadioControl,
-	TextControl,
 	__experimentalBoxControl as BoxControl,
-	__experimentalUnitControl as UnitControl,
 	__experimentalBorderBoxControl as BorderBoxControl
 } from '@wordpress/components';
 
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 
 //スペースのリセットバリュー
@@ -84,10 +71,29 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		const parentClientId = getBlockRootClientId(clientId);
 		// 兄弟ブロックを取得
 		let siblingBlocks = getBlocks(parentClientId);
+		// 特定のブロック名のリスト
+		const allowedBlocks = [
+			'itmar/confirm-figure-block',
+			'itmar/input-figure-block',
+			'itmar/thanks-figure-block'
+		];
 		//自分を抜く
-		siblingBlocks = siblingBlocks.filter(block => block.clientId !== clientId);
+		siblingBlocks = siblingBlocks.filter(block => block.clientId !== clientId && allowedBlocks.includes(block.name));
 		return siblingBlocks; //ブロックを返す
 	}, [clientId]); // clientIdが変わるたびに監視対象のstateを更新する
+
+	// noticeの表示
+	const { removeBlock } = useDispatch('core/block-editor');
+	const { createNotice } = useDispatch('core/notices');
+	if (figureBlocks.length === 0) {
+		createNotice(
+			'error',
+			__('This block will not work unless the Form Send plugin block is a sibling block.', 'itmar_block_collections'),
+			{ type: 'snackbar', isDismissible: true, }
+		);
+		// メッセージ表示後、ブロックを削除
+		removeBlock(clientId);
+	}
 
 	//属性にブロック情報を格納
 	useEffect(() => {
@@ -106,10 +112,10 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	return (
 		<>
 			<InspectorControls group="styles">
-				<PanelBody title="共通設定" initialOpen={false} className="form_design_ctrl">
+				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
 
 					<PanelColorGradientSettings
-						title={__(" Background Color Setting", 'itmar_block_collections')}
+						title={__("Background Color Setting", 'itmar_block_collections')}
 						settings={[
 							{
 								colorValue: bgColor_form,
@@ -121,7 +127,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 							},
 						]}
 					/>
-					<PanelBody title="ボーダー設定" initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 
 							onChange={(newValue) => setAttributes({ border_form: newValue })}
@@ -136,7 +142,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 						/>
 					</PanelBody>
 					<BoxControl
-						label="マージン設定"
+						label={__("Margin settings", 'itmar_block_collections')}
 						values={margin_form}
 						onChange={value => setAttributes({ margin_form: value })}
 						units={units}	// 許可する単位
@@ -145,7 +151,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 
 					/>
 					<BoxControl
-						label="パティング設定"
+						label={__("Padding settings", 'itmar_block_collections')}
 						values={padding_form}
 						onChange={value => setAttributes({ padding_form: value })}
 						units={units}	// 許可する単位
@@ -156,10 +162,10 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 
 				</PanelBody>
 
-				<PanelBody title="スタイル別設定" initialOpen={false} className="form_design_ctrl">
-					<PanelBody title="プロセス番号" initialOpen={false} className="form_design_ctrl">
+				<PanelBody title={__("Settings by style", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
+					<PanelBody title={__("process number", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
 						<TypographyControls
-							title='タイポグラフィー'
+							title={__("Typography", 'itmar_block_collections')}
 							fontStyle={font_style_num}
 							onChange={(newStyle) => {
 								setAttributes({ font_style_num: newStyle })
@@ -183,9 +189,9 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 						/>
 					</PanelBody>
 
-					<PanelBody title="プロセス表示" initialOpen={false} className="form_design_ctrl">
+					<PanelBody title={__("Process Display", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
 						<TypographyControls
-							title='タイポグラフィー'
+							title={__("Typography", 'itmar_block_collections')}
 							fontStyle={font_style_process}
 							onChange={(newStyle) => {
 								setAttributes({ font_style_process: newStyle })
@@ -210,7 +216,8 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			</InspectorControls>
 
 			<div {...useBlockProps()} >
-				<StyleComp attributes={attributes}>
+
+				<StyleComp attributes={attributes} >
 					{figureBlocks.map((block, index) =>
 						<li key={index} className={stage_index >= index ? "ready" : ""}>
 							{block.attributes.stage_info}
