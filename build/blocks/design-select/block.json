@@ -31,7 +31,12 @@
       }
     },
     "optionColor": {
-      "type": "string"
+      "type": "string",
+      "default": "#000"
+    },
+    "hoverBgColor": {
+      "type": "string",
+      "default": "#ded3d3"
     },
     "margin_value": {
       "type": "object",

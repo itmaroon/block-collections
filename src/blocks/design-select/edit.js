@@ -60,6 +60,7 @@ export default function Edit({ attributes, setAttributes }) {
 		selectedValues,
 		folder_val,
 		optionColor,
+		hoverBgColor,
 		font_style_option,
 		margin_value,
 		padding_value,
@@ -155,8 +156,14 @@ export default function Edit({ attributes, setAttributes }) {
 							label: __("Choose Text color", 'itmar_block_collections'),
 							onColorChange: (newValue) => setAttributes({ optionColor: newValue }),
 						},
+						{
+							colorValue: hoverBgColor,
+							label: __("Choose Background color on mouse hover", 'itmar_block_collections'),
+							onColorChange: (newValue) => setAttributes({ hoverBgColor: newValue }),
+						},
 						]}
 					/>
+
 
 				</PanelBody>
 			</InspectorControls>
@@ -179,13 +186,11 @@ export default function Edit({ attributes, setAttributes }) {
 						<select name="category" class="nomal" multiple data-placeholder={folder_val}>
 							<option class="catg_item" value="cat_1" selected={selectedValues.includes(0)}>カテゴリー１</option>
 							<option class="catg_item" value="cat_2" selected={selectedValues.includes(1)}>カテゴリー２</option>
-							<option class="catg_item" value="cat_3" selected={selectedValues.includes(2)}>カテゴリー３</option>
-							<option class="term_item" value="term_1" selected={selectedValues.includes(3)}>ターム１</option>
-							<option class="term_item" value="term_2" selected={selectedValues.includes(4)}>ターム２</option>
-							<option class="term_item" value="term_3" selected={selectedValues.includes(5)}>ターム３</option>
-							<option class="tag_item" value="tag_1" selected={selectedValues.includes(6)}>タグ１</option>
-							<option class="tag_item" value="tag_2" selected={selectedValues.includes(7)}>タグ２</option>
-							<option class="tag_item" value="tag_3" selected={selectedValues.includes(8)}>タグ３</option>
+							<option class="term_item" value="term_1" selected={selectedValues.includes(2)}>ターム１</option>
+							<option class="term_item" value="term_2" selected={selectedValues.includes(3)}>ターム２</option>
+							<option class="tag_item" value="tag_1" selected={selectedValues.includes(4)}>タグ１</option>
+							<option class="tag_item" value="tag_2" selected={selectedValues.includes(5)}>タグ２</option>
+
 						</select>
 					</NomalSelect>
 				</StyleComp>

@@ -4,16 +4,9 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-select .slide-entering,
-.wp-block-itmar-design-select .slide-exiting,
-.wp-block-itmar-design-select .slide-exited {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 400ms ease-in-out;
-}
-.wp-block-itmar-design-select .slide-entered {
-  max-height: 100px;
-  /* or whatever your max height is */
-  transition: max-height 400ms ease-in-out;
+.wp-block-itmar-design-select {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 /*# sourceMappingURL=style.css.map */

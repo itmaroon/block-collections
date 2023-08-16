@@ -28,6 +28,7 @@ const StyledDiv = styled.div`
 
     const {
       optionColor,
+      hoverBgColor,
       font_style_option,
       margin_value,
       padding_value,
@@ -52,34 +53,34 @@ const StyledDiv = styled.div`
     const commonStyle = css`
       margin: ${heading_margin_prm};
       padding: ${heading_padding_prm};
-      background: ${bgColor};
-      border-radius: ${heading_radius_prm};
-      ${BorderProperty(border_value)};
-      font-size: ${font_style_option.fontSize};
-      font-family: ${font_style_option.fontFamily};
-      font-weight: ${font_style_option.fontWeight};
-      font-style: ${fontStyle_option};
-      color: ${optionColor};
 
-      .custom_select {
+      .itmar_block_select {
         position: relative;
+        border-radius: ${heading_radius_prm};
+        ${BorderProperty(border_value)};
+        font-size: ${font_style_option.fontSize};
+        font-family: ${font_style_option.fontFamily};
+        font-weight: ${font_style_option.fontWeight};
+        font-style: ${fontStyle_option};
+        color: ${optionColor};
     
         &>div {
           position: relative;
+          background: ${bgColor};
           z-index: 2;
           padding: 0.4em 0.6em;
           border-radius: 8px;
           background: #fff;
-          font-size: 2em;
+          font-size: ${font_style_option.fontSize};
           min-height: 2.2em;
-          box-shadow: 0 4px 16px 0 rgba(#162A5A, .12);
+          box-shadow: 0 4px 16px 0 rgba(22, 42, 90, 0.12);
           transition: box-shadow .3s ease;
     
           &:hover {
-            box-shadow: 0 4px 24px -1px rgba(#162A5A, .16);
+            box-shadow: 0 4px 24px -1px rgba(22, 42, 90, 0.12);
           }
     
-          .arrow {
+          .itmar_block_opener {
             right: 1px;
             top: 0;
             bottom: 0;
@@ -124,61 +125,19 @@ const StyledDiv = styled.div`
             position: relative;
             padding: 0 24px 6px 8px;
             line-height: 1.4em;
-            color: root.$textColor;
+            text-decoration-line: none;
+            color: ${optionColor};
             display: inline-block;
             vertical-align: top;
             margin: 6px 6px 0 0;
-    
-            .wp-menu-image {
-              margin-right: 0.25em;
-    
-              &::before {
-                width: 1.25em;
-                height: 1.25em;
-                vertical-align: middle;
-              }
-            }
+            cursor: pointer;
     
             em {
               font-style: normal;
               display: block;
               white-space: nowrap;
-              padding-left: 2em;
+              padding: 0.1em 0.5em 0.1em 0.5em;
               position: relative;
-    
-    
-              //img要素を入れる
-              &.catg_item,
-              &.term_item,
-              &.tag_item {
-                &::after {
-                  content: "";
-                  position: absolute;
-                  top: 50%;
-                  transform: translateY(-50%);
-                  left: 0.25em;
-                  width: 1.25em;
-                  height: 1.25em;
-                }
-              }
-    
-              &.catg_item {
-                &::after {
-                  background: transparent url('../img/category.png') no-repeat center center / cover;
-                }
-              }
-    
-              &.term_item {
-                &::after {
-                  background: transparent url('../img/taxsonomy.png') no-repeat center center / cover;
-                }
-              }
-    
-              &.tag_item {
-                &::after {
-                  background: transparent url('../img/tag.png') no-repeat center center / cover;
-                }
-              }
             }
     
             &:before {
@@ -189,7 +148,7 @@ const StyledDiv = styled.div`
               width: 100%;
               position: absolute;
               display: block;
-              background: rgba(#E4ECFA, .7);
+              background: ${hoverBgColor};
               z-index: -1;
               border-radius: 4px;
             }
@@ -198,7 +157,7 @@ const StyledDiv = styled.div`
               cursor: pointer;
               position: absolute;
               top: 0;
-              right: 0;
+              right: 0.3em;
               width: 1.2em;
               height: 1.4em;
               display: block;
@@ -212,7 +171,7 @@ const StyledDiv = styled.div`
                 position: absolute;
                 left: 50%;
                 top: 50%;
-                background: root.$primary;
+                background: rgb(153, 163, 186);
                 border-radius: 1px;
               }
     
@@ -249,9 +208,6 @@ const StyledDiv = styled.div`
                 opacity: 1;
                 margin-top: 6px;
     
-                // &:first-of-type{
-                //   margin-top: 6px;
-                // }
                 &:before {
                   width: 100%;
                 }
@@ -295,6 +251,7 @@ const StyledDiv = styled.div`
         &>ul {
           margin: 0;
           padding: 0;
+          
           list-style: none;
           font-size: 0.8em;
           max-height: 40vh;
@@ -306,67 +263,22 @@ const StyledDiv = styled.div`
           right: 0;
           visibility: hidden;
           opacity: 0;
-          //height: 0;
           max-height: 0;
           border-radius: 8px;
           transform: translate(0, 20px) scale(.8);
           transform-origin: 0 0;
-          filter: drop-shadow(0 12px 20px rgba(#162A5A, .08));
+          filter: drop-shadow(0 12px 20px rgba(22, 42, 90, 0.08));
           transition: all .4s ease, transform .4s cubic-bezier(.87, -.41, .19, 1.44), filter .3s ease .2s;
     
           li {
-            color: root.$textColor;
+            color: ${optionColor};
             background: #fff;
-            padding: 0.5em 0.7em 0.5em 2.8em;
-            font-size: 2.5em;
+            padding: 0.5em 0.7em 0.5em 1.7em;
+            font-size: ${font_style_option.fontSize};
             cursor: pointer;
             overflow: hidden;
             position: relative;
             transition: background .3s ease, color .3s ease, transform .3s ease .3s, opacity .5s ease .3s, border-radius .3s ease .3s;
-    
-            .wp-menu-image {
-              margin-right: 0.2em;
-    
-              &::before {
-                width: 1em;
-                height: 1em;
-                vertical-align: middle;
-              }
-            }
-    
-            //img要素を入れる
-            &.catg_item,
-            &.term_item,
-            &.tag_item {
-              &::before {
-                content: "";
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                left: 1em;
-                width: 1em;
-                height: 1em;
-              }
-            }
-    
-            &.catg_item {
-              &::before {
-                background: transparent url('../img/category.png') no-repeat center center / cover;
-              }
-            }
-    
-            &.term_item {
-              &::before {
-                background: transparent url('../img/taxsonomy.png') no-repeat center center / cover;
-              }
-            }
-    
-            &.tag_item {
-              &::before {
-                background: transparent url('../img/tag.png') no-repeat center center / cover;
-              }
-            }
-    
     
             &:first-child {
               border-radius: 8px 8px 0 0;
@@ -385,7 +297,7 @@ const StyledDiv = styled.div`
             }
     
             &:hover {
-              background: root.$primary;
+              background: ${hoverBgColor};
               color: #fff;
             }
     
@@ -396,7 +308,7 @@ const StyledDiv = styled.div`
               left: 50%;
               width: 6px;
               height: 6px;
-              background: rgba(#000, .4);
+              background: rgba(0,0,0, .4);
               opacity: 0;
               border-radius: 100%;
               transform: scale(1, 1) translate(-50%, -50%);
@@ -429,7 +341,6 @@ const StyledDiv = styled.div`
             }
     
             &.notShown {
-              display: none;
               transform: scale(0);
               opacity: 0;
               transition: transform .35s ease, opacity .4s ease;
@@ -444,9 +355,9 @@ const StyledDiv = styled.div`
     
         &.open {
           &>div {
-            box-shadow: 0 4px 20px -1px rgba(#162A5A, .12);
+            box-shadow: 0 4px 20px -1px rgba(22, 42, 90, .12);
     
-            .arrow {
+            .itmar_block_opener {
               &:after {
                 top: 40%;
                 transform: rotate(135deg);
@@ -462,20 +373,19 @@ const StyledDiv = styled.div`
             //height: auto;
             max-height: 30vh;
             overflow: hidden visible;
-            filter: drop-shadow(0 16px 24px rgba(#162A5A, .16));
+            filter: drop-shadow(0 16px 24px rgba(22, 42, 90, .16));
           }
         }
       }
     
-      .custom_select.selectMultiple {
+      .itmar_block_select.itmar_block_selectMultiple {
         width: 50em;
     
         &>div {
           padding: 0.8em 3em 0.8em 1.2em;
         }
-      }
-      
-		  
+      }  
+	  
     `;
 
 

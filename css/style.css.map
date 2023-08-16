@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/blocks/design-select/style.scss","style.css"],"names":[],"mappings":"AAAA;;;;;EAAA;AASC;;;EAGC,aAAA;EACA,gBAAA;EACA,wCAAA;ACFF;ADKC;EACC,iBAAA;EACA,mCAAA;EACA,wCAAA;ACHF","file":"style.css"}
+{"version":3,"sources":["../src/blocks/design-select/style.scss","style.css"],"names":[],"mappings":"AAAA;;;;;EAAA;AAOA;EAEC,0BAAA;EAAA,uBAAA;EAAA,kBAAA;ACDD","file":"style.css"}
