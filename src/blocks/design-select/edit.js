@@ -4,13 +4,16 @@ import TypographyControls from '../TypographyControls'
 import { StyleComp } from './StyleSelect';
 import { NomalSelect } from './initSelect';
 import { useStyleIframe } from '../iframeFooks';
-
+import { useState } from '@wordpress/element';
+import { nanoid } from 'nano-id';
 
 import {
 	Button,
 	Panel,
 	PanelBody,
 	PanelRow,
+	Notice,
+	Modal,
 	ToggleControl,
 	RangeControl,
 	RadioControl,
@@ -57,7 +60,7 @@ const units = [
 
 export default function Edit({ attributes, setAttributes }) {
 	const {
-		selectedValues,
+		selectValues,
 		folder_val,
 		optionColor,
 		hoverBgColor,
@@ -70,6 +73,73 @@ export default function Edit({ attributes, setAttributes }) {
 		border_value,
 		className,
 	} = attributes;
+
+	//選択された要素のキー配列
+	const [selectedValues, setSelectedValues] = useState([]);
+
+	//オプション要素の情報編集モーダルの操作
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedOption, setSelectedOption] = useState(null);
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+	const [optionToDelete, setOptionToDelete] = useState(null);
+	const openModal = () => setIsModalOpen(true);
+	const closeModal = () => setIsModalOpen(false);
+	const openDeleteModal = (item) => {
+		setOptionToDelete(item);
+		setIsDeleteModalOpen(true);
+	};
+	const closeDeleteModal = () => {
+		setIsDeleteModalOpen(false);
+		setOptionToDelete(null);
+	};
+	const confirmDelete = () => {
+		if (optionToDelete) {
+			handleOptionDelete(optionToDelete.id);
+		}
+		closeDeleteModal();
+	};
+	//オプション値の編集ハンドラ
+	const handleOptionChange = (key, value) => {
+		setSelectedOption(prevData => ({ ...prevData, [key]: value }));
+	};
+
+	//オプション新規追加
+	const handleOptionAddNew = () => {
+		const id = nanoid(10);
+		setSelectedOption({ id: id, value: '', label: '', classname: '' });
+		openModal();
+	};
+	//オプションの更新
+	const handleNoticeClick = (item) => {
+		setSelectedOption(item);
+		openModal();
+	};
+
+	// オプション要素の削除
+	const handleOptionDelete = (idToDelete) => {
+		// IDをもとに該当する要素を削除
+		const updatedValues = selectValues.filter(item => item.id !== idToDelete);
+		setAttributes({ selectValues: updatedValues });
+	};
+
+	//オプション値の保存
+	const handleOptionSave = () => {
+		if (selectedOption && selectValues.some(item => item.id === selectedOption.id)) {
+			// Update existing item
+			const updatedValues = selectValues.map(item => {
+				if (item.id === selectedOption.id) {
+					return selectedOption;
+				}
+				return item;
+			});
+			setAttributes({ selectValues: updatedValues });
+		} else {
+			// Add new item
+			setAttributes({ selectValues: [...selectValues, selectedOption] });
+		}
+
+		closeModal()
+	};
 
 	return (
 		<>
@@ -85,7 +155,25 @@ export default function Edit({ attributes, setAttributes }) {
 						value={folder_val}
 						onChange={(newVal) => setAttributes({ folder_val: newVal })}
 					/>
+					<PanelBody title={__("Option info Setting", 'itmar_block_collections')}>
+						<Button
+							label={__('add', 'itmar_block_collections')}
+							icon={"insert"}
+							onClick={handleOptionAddNew}
+						/>
+						{selectValues.map((item) => (
+							<Notice
+								key={item.id}
+								status="info"
+								onRemove={() => openDeleteModal(item)}
+							>
+								<span onClick={() => handleNoticeClick(item)}>{item.label}</span>
+							</Notice>
+						))}
+					</PanelBody>
+
 				</PanelBody>
+
 			</InspectorControls>
 
 			<InspectorControls group="styles">
@@ -168,6 +256,43 @@ export default function Edit({ attributes, setAttributes }) {
 				</PanelBody>
 			</InspectorControls>
 
+			{isModalOpen && (
+				<Modal
+					title={__("Option Info Edit", 'itmar_block_collections')}
+					onRequestClose={closeModal}
+				>
+					<TextControl
+						label={__("Display Label", 'itmar_block_collections')}
+						value={selectedOption.label}
+						onChange={(newVal) => handleOptionChange('label', newVal)}
+					/>
+					<TextControl
+						label={__("Option Value", 'itmar_block_collections')}
+						value={selectedOption.value}
+						onChange={(newVal) => handleOptionChange('value', newVal)}
+					/>
+					<TextControl
+						label={__("Class Name", 'itmar_block_collections')}
+						value={selectedOption.classname}
+						onChange={(newVal) => handleOptionChange('classname', newVal)}
+					/>
+					<Button variant="primary" onClick={handleOptionSave}>
+						{__("Save Changes", 'itmar_block_collections')}
+					</Button>
+				</Modal>
+			)}
+
+			{isDeleteModalOpen && (
+				<Modal
+					title={__("Confirm Deletion", 'itmar_block_collections')}
+					onRequestClose={closeDeleteModal}
+				>
+					<p>{__("Are you sure you want to delete this item?", 'itmar_block_collections')}</p>
+					<Button variant="primary" onClick={confirmDelete}>{__("Yes, Delete", 'itmar_block_collections')}</Button>
+					<Button variant="secondary" onClick={closeDeleteModal}>{__("Cancel", 'itmar_block_collections')}</Button>
+				</Modal>
+			)}
+
 			<div {...useBlockProps()}>
 				<StyleComp attributes={attributes} >
 					<NomalSelect
@@ -176,21 +301,19 @@ export default function Edit({ attributes, setAttributes }) {
 								return; // 既に選択されている場合はそのまま
 							}
 							const newArray = [...selectedValues, selIndex]
-							setAttributes({ selectedValues: newArray })
+							setSelectedValues(newArray)
 						}}
 						onOptionDeselect={(selIndex) => {
 							const newArray = selectedValues.filter(index => index !== selIndex);
-							setAttributes({ selectedValues: newArray });
+							setSelectedValues(newArray);
 						}}
 					>
 						<select name="category" class="nomal" multiple data-placeholder={folder_val}>
-							<option class="catg_item" value="cat_1" selected={selectedValues.includes(0)}>カテゴリー１</option>
-							<option class="catg_item" value="cat_2" selected={selectedValues.includes(1)}>カテゴリー２</option>
-							<option class="term_item" value="term_1" selected={selectedValues.includes(2)}>ターム１</option>
-							<option class="term_item" value="term_2" selected={selectedValues.includes(3)}>ターム２</option>
-							<option class="tag_item" value="tag_1" selected={selectedValues.includes(4)}>タグ１</option>
-							<option class="tag_item" value="tag_2" selected={selectedValues.includes(5)}>タグ２</option>
-
+							{
+								selectValues.map((option_item, index) => {
+									return (<option id={option_item.id} className={option_item.classname} value={option_item.value} selected={selectedValues.includes(index)}>{option_item.label}</option>)
+								})
+							}
 						</select>
 					</NomalSelect>
 				</StyleComp>

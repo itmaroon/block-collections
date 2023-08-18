@@ -9,17 +9,30 @@
     "html": false
   },
   "attributes": {
-    "selectedValues": {
-      "type": "array",
-      "default": []
-    },
     "folder_val": {
       "type": "string",
       "default": "選択して下さい"
     },
-    "selectValue": {
-      "type": "string",
-      "default": ""
+    "selectValues": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "value": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "classname": {
+            "type": "string"
+          }
+        }
+      }
     },
     "font_style_option": {
       "type": "object",

@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/blocks/design-text-ctrl/editor.scss","editor.css"],"names":[],"mappings":"AAAA;;;;EAAA;AAMA;EACC,uBAAA;ACAD;;ADKE;EACC,UAAA;ACFH;;ADSC;EACC,WAAA;ACNF","file":"editor.css"}
+{"version":3,"sources":["../src/blocks/design-select/editor.scss","editor.css"],"names":[],"mappings":"AAAA;;;;EAAA;AAMC;EACC,gBAAA;ACAF;ADGC;EACC,SAAA;ACDF;;ADKA;EACC,uBAAA;ACFD","file":"editor.css"}

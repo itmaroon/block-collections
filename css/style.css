@@ -9,4 +9,7 @@
   width: -moz-fit-content;
   width: fit-content;
 }
+.wp-block-itmar-design-select select {
+  display: none;
+}
 /*# sourceMappingURL=style.css.map */

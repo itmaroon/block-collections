@@ -3,15 +3,14 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-text-ctrl {
+.components-notice.is-dismissible {
+  padding-right: 0;
+}
+.components-notice .components-notice__content {
+  margin: 0;
+}
+
+.wp-block-itmar-design-select {
   border: 1px dotted #f00;
-}
-
-.labelRequierd_row .components-base-control:last-child {
-  width: 50%;
-}
-
-.areaNum_row .components-range-control {
-  width: 100%;
 }
 /*# sourceMappingURL=editor.css.map */
