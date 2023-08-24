@@ -5,6 +5,7 @@ import TypographyControls from '../TypographyControls'
 import { StyleComp } from './StyleInput';
 import { useState, useEffect } from '@wordpress/element';
 import { useStyleIframe } from '../iframeFooks';
+import ShadowStyle from '../ShadowStyle';
 
 import {
 	Button,
@@ -67,6 +68,9 @@ export default function Edit(props) {
 		placeFolder,
 		inputType,
 		rowNum,
+		required,
+		focusColor,
+		bgColor,
 		font_style_input,
 		bgColor_input,
 		bgGradient_input,
@@ -84,7 +88,8 @@ export default function Edit(props) {
 		border_label,
 		padding_label,
 		labelSpace,
-		required,
+		shadow_element,
+		is_shadow,
 		className
 	} = attributes;
 
@@ -100,24 +105,31 @@ export default function Edit(props) {
 		setAttributes({ labelWidth: label_width });
 	}, [label_width]);
 
+	//スタイルの変更
+	useEffect(() => {
+		if (className === 'is-style-line') {
+			setAttributes({ is_shadow: false });//ラインスタイルの時はシャドーをつけない
+		}
+	}, [className]);
+
 	//入力値の確保
 	const [stateValue, setInputValue] = useState(inputValue);
+
 
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title="入力欄情報" initialOpen={true} className="title_design_ctrl">
+				<PanelBody title={__("Input element information setting", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
 					<PanelRow>
 						<TextControl
-							label="入力要素のname属性"
+							label={__("name attribute name", 'itmar_block_collections')}
 							value={inputName}
-							isPressEnterToChange
 							onChange={(newVal) => setAttributes({ inputName: newVal })}
 						/>
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label="プレースフォルダ"
+							label={__("PlaceHolder", 'itmar_block_collections')}
 							value={placeFolder}
 							isPressEnterToChange
 							onChange={(newVal) => setAttributes({ placeFolder: newVal })}
@@ -126,7 +138,7 @@ export default function Edit(props) {
 					<PanelRow className='itmar_weight_row'>
 						<RadioControl
 							selected={inputType}
-							label="テキストボックスの種類"
+							label={__("Kind of Input Element", 'itmar_block_collections')}
 							options={[
 								{ label: 'TEXT', value: "text" },
 								{ label: 'E-MAIL', value: "email" },
@@ -139,7 +151,7 @@ export default function Edit(props) {
 						<PanelRow className='areaNum_row'>
 							<RangeControl
 								value={rowNum}
-								label="テキストエリアの行数"
+								label={__("Number of lines in Text Area", 'itmar_block_collections')}
 								max={20}
 								min={3}
 								step={1}
@@ -150,7 +162,7 @@ export default function Edit(props) {
 					}
 					<PanelRow className='labelRequierd_row'>
 						<ToggleControl
-							label='必須入力'
+							label={__('Required input', 'itmar_block_collections')}
 							checked={required.flg}
 							onChange={(newVal) => {
 								const newObj = { ...required, flg: newVal }
@@ -159,7 +171,7 @@ export default function Edit(props) {
 						/>
 						{required.flg &&
 							<TextControl
-								label="必須の表示"
+								label={__("Show 'required'", 'itmar_block_collections')}
 								value={required.display}
 								isPressEnterToChange
 								onChange={(newVal) => {
@@ -172,12 +184,12 @@ export default function Edit(props) {
 
 
 				</PanelBody>
-				<PanelBody title="ラベル情報" initialOpen={true} className="title_design_ctrl">
+				<PanelBody title={__("Label Settings", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
 					<PanelRow
 						className='labelInfo_row'
 					>
 						<TextControl
-							label="ラベルのテキスト"
+							label={__("Text of Label", 'itmar_block_collections')}
 							labelPosition="top"
 							value={labelContent}
 							isPressEnterToChange
@@ -188,10 +200,58 @@ export default function Edit(props) {
 
 			</InspectorControls>
 			<InspectorControls group="styles">
-				<PanelBody title="インプットボックススタイル設定" initialOpen={false} className="title_design_ctrl">
+				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
+					<PanelColorGradientSettings
+						title={__("Background Color Setting", 'itmar_block_collections')}
+						settings={[
+							{
+								colorValue: bgColor,
+								label: __("Choose Background color", 'itmar_block_collections'),
+								onColorChange: (newValue) => setAttributes({ bgColor: newValue }),
+							},
+						]}
+					/>
+					<PanelColorGradientSettings
+						title={__("Focus Color Setting", 'itmar_block_collections')}
+						settings={[
+							{
+								colorValue: focusColor,
+								label: __("Choose Focus color", 'itmar_block_collections'),
+								onColorChange: (newValue) => setAttributes({ focusColor: newValue }),
+							},
+						]}
+					/>
+					<BoxControl
+						label={__("Margin settings", 'itmar_block_collections')}
+						values={margin_input}
+						onChange={value => setAttributes({ margin_input: value })}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
+					/>
+					<BoxControl
+						label={__("Padding settings", 'itmar_block_collections')}
+						values={padding_input}
+						onChange={value => setAttributes({ padding_input: value })}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
+
+					/>
+					{className != 'is-style-line' &&
+						<ToggleControl
+							label={__('Is Shadow', 'itmar_block_collections')}
+							checked={is_shadow}
+							onChange={(newVal) => {
+								setAttributes({ is_shadow: newVal })
+							}}
+						/>
+					}
+				</PanelBody>
+				<PanelBody title={__("Input Box style settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
 
 					<TypographyControls
-						title='タイポグラフィー'
+						title={__('Typography', 'itmar_block_collections')}
 						fontStyle={font_style_input}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_input: newStyle })
@@ -199,23 +259,23 @@ export default function Edit(props) {
 						initialOpen={false}
 					/>
 					<PanelColorGradientSettings
-						title={__("Color Setting")}
+						title={__("Color Settings", 'itmar_block_collections')}
 						settings={[{
 							colorValue: textColor_input,
-							label: __("Choose Text color"),
+							label: __("Choose Text color", 'itmar_block_collections'),
 							onColorChange: (newValue) => setAttributes({ textColor_input: newValue }),
 						},
 						{
 							colorValue: bgColor_input,
 							gradientValue: bgGradient_input,
 
-							label: __("Choose Background color"),
+							label: __("Choose Background color", 'itmar_block_collections'),
 							onColorChange: (newValue) => setAttributes({ bgColor_input: newValue }),
 							onGradientChange: (newValue) => setAttributes({ bgGradient_input: newValue }),
 						},
 						]}
 					/>
-					<PanelBody title="ボーダー設定" initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 
 							onChange={(newValue) => setAttributes({ border_input: newValue })}
@@ -229,30 +289,12 @@ export default function Edit(props) {
 								setAttributes({ radius_input: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
 						/>
 					</PanelBody>
-					<BoxControl
-						label="マージン設定"
-						values={margin_input}
-						onChange={value => setAttributes({ margin_input: value })}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
-					/>
-					<BoxControl
-						label="パティング設定"
-						values={padding_input}
-						onChange={value => setAttributes({ padding_input: value })}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
-					/>
 
 				</PanelBody>
-				<PanelBody title="ラベルスタイル設定" initialOpen={false} className="title_design_ctrl">
+				<PanelBody title={__("Label style settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
 
 					<TypographyControls
-						title='タイポグラフィー'
+						title={__('Typography', 'itmar_block_collections')}
 						fontStyle={font_style_label}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_label: newStyle })
@@ -260,23 +302,23 @@ export default function Edit(props) {
 						initialOpen={false}
 					/>
 					<PanelColorGradientSettings
-						title={__("Color Setting")}
+						title={__("Label Color Setting", 'itmar_block_collections')}
 						settings={[{
 							colorValue: textColor_label,
-							label: __("Choose Text color"),
+							label: __("Choose Text color", 'itmar_block_collections'),
 							onColorChange: (newValue) => setAttributes({ textColor_label: newValue }),
 						},
 						{
 							colorValue: bgColor_label,
 							gradientValue: bgGradient_label,
 
-							label: __("Choose Background color"),
+							label: __("Choose Background color", 'itmar_block_collections'),
 							onColorChange: (newValue) => setAttributes({ bgColor_label: newValue }),
 							onGradientChange: (newValue) => setAttributes({ bgGradient_label: newValue }),
 						},
 						]}
 					/>
-					<PanelBody title="ボーダー設定" initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 
 							onChange={(newValue) => setAttributes({ border_label: newValue })}
@@ -291,7 +333,7 @@ export default function Edit(props) {
 						/>
 					</PanelBody>
 					<BoxControl
-						label="パティング設定"
+						label={__("Padding settings", 'itmar_block_collections')}
 						values={padding_label}
 						onChange={value => setAttributes({ padding_label: value })}
 						units={units}	// 許可する単位
@@ -302,7 +344,7 @@ export default function Edit(props) {
 					<UnitControl
 						dragDirection="e"
 						onChange={(newValue) => setAttributes({ labelSpace: newValue })}
-						label='テキストボックスとの間隔'
+						label={__('Spacing with textbox', 'itmar_block_collections')}
 						value={labelSpace}
 					/>
 				</PanelBody>
@@ -310,54 +352,114 @@ export default function Edit(props) {
 
 			<div {...useBlockProps()}>
 				<StyleComp attributes={attributes}>
-					<label class="fit-label">
-						{dispLabel}
-					</label>
+					{is_shadow ? (
+						<ShadowStyle
+							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result: newStyle.style });
+								setAttributes({ shadow_element: newState })
+							}}
+						>
+							<>
+								{inputType === 'text' &&
+									<input
+										type="text"
+										name={inputName}
+										placeholder={placeFolder}
+										className={`contact_text ${stateValue ? "" : "empty"}`}
+										value={stateValue}
+										onChange={(event) => {
+											const newValue = event.target.value;
+											setInputValue(newValue);
+											setAttributes({ inputValue: newValue });
+										}}
 
-					{inputType === 'text' &&
-						<input
-							type="text"
-							name={inputName}
-							placeholder={placeFolder}
-							className="contact_text"
-							value={stateValue} // ここでstateを読み込みます
-							onChange={(event) => { // onChangeイベントを使ってstateと属性を更新します
-								const newValue = event.target.value;
-								setInputValue(newValue);
-								setAttributes({ inputValue: newValue });
-							}}
-						/>
-					}
-					{inputType === 'email' &&
-						<input
-							type="email"
-							placeholder={placeFolder}
-							className="contact_text"
-							value={stateValue} // ここでstateを読み込みます
-							onChange={(event) => { // onChangeイベントを使ってstateと属性を更新します
-								const newValue = event.target.value;
-								setInputValue(newValue);
-								setAttributes({ inputValue: newValue });
-							}}
-						/>
-					}
-					{inputType === 'textarea' &&
-						<textarea
-							name={inputName}
-							rows={rowNum}
-							placeholder={placeFolder}
-							className="contact_text"
-							value={stateValue} // ここでstateを読み込みます
-							onChange={(event) => { // onChangeイベントを使ってstateと属性を更新します
-								const newValue = event.target.value;
-								setInputValue(newValue);
-								setAttributes({ inputValue: newValue });
-							}}
-						/>
-					}
+									/>
+								}
+								{inputType === 'email' &&
+									<input
+										type="email"
+										placeholder={placeFolder}
+										className={`contact_text ${stateValue ? "" : "empty"}`}
+										value={stateValue}
+										onChange={(event) => {
+											const newValue = event.target.value;
+											setInputValue(newValue);
+											setAttributes({ inputValue: newValue });
+										}}
+									/>
+								}
+								{inputType === 'textarea' &&
+									<textarea
+										name={inputName}
+										rows={rowNum}
+										placeholder={placeFolder}
+										className={`contact_text ${stateValue ? "" : "empty"}`}
+										value={stateValue}
+										onChange={(event) => {
+											const newValue = event.target.value;
+											setInputValue(newValue);
+											setAttributes({ inputValue: newValue });
+										}}
+									/>
+								}
 
+								<label className="fit-label">
+									{dispLabel}
+								</label>
+							</>
+						</ShadowStyle>
+					) : (
+						<>
+							{inputType === 'text' &&
+								<input
+									type="text"
+									name={inputName}
+									placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
+									className={`contact_text ${stateValue ? "" : "empty"}`}
+									value={stateValue}
+									onChange={(event) => {
+										const newValue = event.target.value;
+										setInputValue(newValue);
+										setAttributes({ inputValue: newValue });
+									}}
+
+								/>
+							}
+							{inputType === 'email' &&
+								<input
+									type="email"
+									placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
+									className={`contact_text ${stateValue ? "" : "empty"}`}
+									value={stateValue}
+									onChange={(event) => {
+										const newValue = event.target.value;
+										setInputValue(newValue);
+										setAttributes({ inputValue: newValue });
+									}}
+								/>
+							}
+							{inputType === 'textarea' &&
+								<textarea
+									name={inputName}
+									rows={rowNum}
+									placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
+									className={`contact_text ${stateValue ? "" : "empty"}`}
+									value={stateValue}
+									onChange={(event) => {
+										const newValue = event.target.value;
+										setInputValue(newValue);
+										setAttributes({ inputValue: newValue });
+									}}
+								/>
+							}
+
+							<label className="fit-label">
+								{dispLabel}
+							</label>
+						</>
+					)}
 				</StyleComp>
-
 			</div>
 		</>
 

@@ -20,8 +20,9 @@ const BorderProperty = (borderObj) => {
       return ret_prop;
     } else {//同一のボーダー
       const startsWithZero = String(borderObj.width || '').match(/^0/);
-      if (startsWithZero) {//widthが０ならnullを返す
-        return null;
+
+      if (startsWithZero) {//widthが０ならnoneを返す
+        return css`border:none`;
       }
       const border_style = borderObj.style || 'solid';
       ret_prop = css`
@@ -29,7 +30,8 @@ const BorderProperty = (borderObj) => {
       `
       return ret_prop;
     }
-  } else {
+  }
+  else {
     return null;
   }
 

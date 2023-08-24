@@ -46,8 +46,9 @@ export function NomalSelect({ onOptionSelect, onOptionDeselect, ...props }) {
       return (
         <a
           key={index}
+          id={child.props.id}
           data-value={child.props.value}
-          onClick={(event) => handleItemClick(child.props.id, event)}
+          onClick={isMultiple ? (event) => handleItemClick(child.props.id, event) : undefined}
         >
           <em className={child.props.className}>{child.props.children}</em>
           <i></i>
@@ -59,6 +60,7 @@ export function NomalSelect({ onOptionSelect, onOptionDeselect, ...props }) {
       return (
         <li
           key={index}
+          id={child.props.id}
           data-value={child.props.value}
           className={child.props.className}
           onClick={() => handleLiClick(child.props.id)}

@@ -4,8 +4,8 @@ import TypographyControls from '../TypographyControls'
 import { StyleComp } from './StyleSelect';
 import { NomalSelect } from './initSelect';
 import { useStyleIframe } from '../iframeFooks';
-import { useState } from '@wordpress/element';
-import { nanoid } from 'nano-id';
+import { useState, useEffect } from '@wordpress/element';
+import { nanoid } from 'nanoid';
 
 import {
 	Button,
@@ -60,6 +60,7 @@ const units = [
 
 export default function Edit({ attributes, setAttributes }) {
 	const {
+		selPattern,
 		selectValues,
 		folder_val,
 		optionColor,
@@ -74,8 +75,16 @@ export default function Edit({ attributes, setAttributes }) {
 		className,
 	} = attributes;
 
+	// selPatternがtrueの場合、multiple属性を持つオブジェクトを返す
+	const selectAttributes = selPattern === 'multi' ? { multiple: true } : {};
+
 	//選択された要素のキー配列
 	const [selectedValues, setSelectedValues] = useState([]);
+
+	//選択要素のクリア
+	useEffect(() => {
+		setSelectedValues([]);
+	}, [selPattern]);
 
 	//オプション要素の情報編集モーダルの操作
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -105,7 +114,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 	//オプション新規追加
 	const handleOptionAddNew = () => {
-		const id = nanoid(10);
+		const id = nanoid(5);
 		setSelectedOption({ id: id, value: '', label: '', classname: '' });
 		openModal();
 	};
@@ -150,12 +159,29 @@ export default function Edit({ attributes, setAttributes }) {
 					initialOpen={true}
 					className="select_design_ctrl"
 				>
+					<label className="components-base-control__label">{__("Select Pattern", 'itmar_block_collections')}</label>
+					<PanelRow className='itmar_select_row'>
+						<RadioControl
+							selected={selPattern}
+							options={[
+								{ label: __("Single Select", 'itmar_block_collections'), value: 'single' },
+								{ label: __("Nulti Select", 'itmar_block_collections'), value: 'multi' },
+
+							]}
+							onChange={(changeOption) => { setAttributes({ selPattern: changeOption }); }
+							}
+						/>
+					</PanelRow>
+
 					<TextControl
 						label={__("Place Folder Display", 'itmar_block_collections')}
 						value={folder_val}
 						onChange={(newVal) => setAttributes({ folder_val: newVal })}
 					/>
-					<PanelBody title={__("Option info Setting", 'itmar_block_collections')}>
+					<PanelBody
+						className={'itmar_notice_select_panel'}
+						title={__("Option info Setting", 'itmar_block_collections')}
+					>
 						<Button
 							label={__('add', 'itmar_block_collections')}
 							icon={"insert"}
@@ -296,22 +322,27 @@ export default function Edit({ attributes, setAttributes }) {
 			<div {...useBlockProps()}>
 				<StyleComp attributes={attributes} >
 					<NomalSelect
-						onOptionSelect={(selIndex) => {
-							if (selectedValues.includes(selIndex)) {
+						onOptionSelect={(selID) => {
+							if (selectedValues.includes(selID)) {
 								return; // 既に選択されている場合はそのまま
 							}
-							const newArray = [...selectedValues, selIndex]
+							//複数選択のときは複数配列、単数選択の時は単数配列
+							const newArray = selPattern === 'multi' ? [...selectedValues, selID] : [selID];
 							setSelectedValues(newArray)
 						}}
-						onOptionDeselect={(selIndex) => {
-							const newArray = selectedValues.filter(index => index !== selIndex);
+						onOptionDeselect={(selID) => {
+							const newArray = selectedValues.filter(index => index !== selID);
 							setSelectedValues(newArray);
 						}}
 					>
-						<select name="category" class="nomal" multiple data-placeholder={folder_val}>
+						<select
+							class="nomal"
+							{...selectAttributes}
+							data-placeholder={folder_val}
+						>
 							{
-								selectValues.map((option_item, index) => {
-									return (<option id={option_item.id} className={option_item.classname} value={option_item.value} selected={selectedValues.includes(index)}>{option_item.label}</option>)
+								selectValues.map((option_item) => {
+									return (<option id={option_item.id} className={option_item.classname} value={option_item.value} selected={selectedValues.includes(option_item.id)}>{option_item.label}</option>)
 								})
 							}
 						</select>

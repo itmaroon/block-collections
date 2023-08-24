@@ -3,15 +3,26 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.components-notice {
-	&.is-dismissible {
-		padding-right: 0;
-	}
 
-	.components-notice__content {
-		margin: 0;
+
+.itmar_notice_select_panel {
+	.components-notice {
+		&.is-dismissible {
+			padding-right: 0;
+
+		}
+
+		.components-notice__content {
+			margin: 0;
+
+			span {
+				cursor: pointer;
+			}
+		}
 	}
 }
+
+
 
 .wp-block-itmar-design-select {
 	border: 1px dotted #f00;

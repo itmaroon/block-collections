@@ -7,22 +7,25 @@ import { StyleComp } from './StyleSelect';
 
 export default function save({ attributes }) {
 	const {
+		selPattern,
 		selectValues,
 		folder_val,
 
 		className,
 	} = attributes;
 	const blockProps = useBlockProps.save();
+	// selPatternがtrueの場合、multiple属性を持つオブジェクトを返す
+	const selectAttributes = selPattern === 'multi' ? { multiple: true } : {};
 
 	const sheet = new ServerStyleSheet();
 	const html = renderToString(sheet.collectStyles(
 		<div {...blockProps}>
 			<StyleComp attributes={attributes}>
 				<NomalSelect>
-					<select name="category" class="nomal" multiple data-placeholder={folder_val}>
+					<select class="nomal" {...selectAttributes} data-placeholder={folder_val}>
 						{
-							selectValues.map((option_item, index) => {
-								return (<option className={option_item.classname} value={option_item.value}>{option_item.label}</option>)
+							selectValues.map((option_item) => {
+								return (<option id={option_item.id} className={option_item.classname} value={option_item.value}>{option_item.label}</option>)
 							})
 						}
 					</select>

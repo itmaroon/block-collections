@@ -53,6 +53,7 @@ const StyledDiv = styled.div`
     const commonStyle = css`
       margin: ${heading_margin_prm};
       padding: ${heading_padding_prm};
+      width: 50em;
 
       .itmar_block_select {
         position: relative;
@@ -68,7 +69,7 @@ const StyledDiv = styled.div`
           position: relative;
           background: ${bgColor};
           z-index: 2;
-          padding: 0.4em 0.6em;
+          padding: 0.8em 3em 0.8em 1.2em;
           border-radius: 8px;
           background: #fff;
           font-size: ${font_style_option.fontSize};
@@ -141,13 +142,14 @@ const StyledDiv = styled.div`
             }
     
             &:before {
+              
               content: '';
               left: 0;
               top: 0;
               bottom: 6px;
               width: 100%;
               position: absolute;
-              display: block;
+              display:block;
               background: ${hoverBgColor};
               z-index: -1;
               border-radius: 4px;
@@ -301,20 +303,6 @@ const StyledDiv = styled.div`
               color: #fff;
             }
     
-            &:after {
-              content: '';
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              width: 6px;
-              height: 6px;
-              background: rgba(0,0,0, .4);
-              opacity: 0;
-              border-radius: 100%;
-              transform: scale(1, 1) translate(-50%, -50%);
-              transform-origin: 50% 50%;
-            }
-    
             &.beforeRemove {
               border-radius: 0 0 8px 8px;
     
@@ -377,14 +365,20 @@ const StyledDiv = styled.div`
           }
         }
       }
-    
-      .itmar_block_select.itmar_block_selectMultiple {
-        width: 50em;
-    
+
+      .itmar_block_selectSingle  {
         &>div {
-          padding: 0.8em 3em 0.8em 1.2em;
+          a {
+            &:hover {
+              cursor: auto;
+            }
+    
+            i {
+              display: none;
+            }
+          }
         }
-      }  
+      }
 	  
     `;
 

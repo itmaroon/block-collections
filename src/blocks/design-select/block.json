@@ -9,6 +9,10 @@
 		"html": false
 	},
 	"attributes": {
+		"selPattern": {
+			"type": "string",
+			"default": "single"
+		},
 		"folder_val": {
 			"type": "string",
 			"default": "選択して下さい"

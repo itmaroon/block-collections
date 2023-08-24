@@ -38,7 +38,9 @@
 
 // ラジオボタンをボタンのような表示にする
 .itmar_weight_row,
-.itmar_position_row {
+.itmar_position_row,
+.itmar_select_row,
+.itmar_shadow_type {
 	.components-radio-control {
 		width: 100%;
 
@@ -95,6 +97,22 @@
 			&:last-child label {
 				border-radius: 0 3px 3px 0;
 			}
+		}
+	}
+}
+
+.itmar_select_row {
+	.components-radio-control {
+		.components-flex {
+			column-gap: 2em;
+		}
+	}
+}
+
+.itmar_shadow_type {
+	.components-radio-control {
+		&__option {
+			width: 50%;
 		}
 	}
 }

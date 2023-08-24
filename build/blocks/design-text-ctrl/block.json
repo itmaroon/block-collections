@@ -29,10 +29,6 @@
       "type": "string",
       "default": ""
     },
-    "placeFolder": {
-      "type": "string",
-      "default": ""
-    },
     "inputType": {
       "type": "string",
       "default": "text"
@@ -47,6 +43,15 @@
         "flg": false,
         "display": "*"
       }
+    },
+    "focusColor": {
+      "type": "string"
+    },
+    "bgColor": {
+      "type": "string"
+    },
+    "bgGradient": {
+      "type": "string"
     },
     "font_style_input": {
       "type": "object",
@@ -78,7 +83,12 @@
       }
     },
     "border_input": {
-      "type": "object"
+      "type": "object",
+      "default": {
+        "width": "1px",
+        "style": "solid",
+        "color": "#000"
+      }
     },
     "margin_input": {
       "type": "object",
@@ -92,10 +102,10 @@
     "padding_input": {
       "type": "object",
       "default": {
-        "top": "0",
-        "left": "0",
-        "bottom": "0",
-        "right": "0"
+        "top": "0.5em",
+        "left": "1em",
+        "bottom": "0.5em",
+        "right": "1em"
       }
     },
     "labelContent": {
@@ -150,6 +160,37 @@
     "labelSpace": {
       "type": "string",
       "default": "10px"
+    },
+    "shadow_element": {
+      "type": "object",
+      "default": {
+        "shadowType": "nomal",
+        "spread": 5,
+        "lateral": 0,
+        "longitude": 0,
+        "nomalBlur": 0,
+        "shadowColor": "#000",
+        "distance": 5,
+        "intensity": 5,
+        "opacity": 0.5,
+        "depth": 5,
+        "blur": 5,
+        "bdBlur": 5,
+        "expand": 5,
+        "glassblur": 5,
+        "glassopa": 0.5,
+        "newDirection": "top_left",
+        "clayDirection": "top",
+        "embos": "swell",
+        "hasOutline": true
+      }
+    },
+    "shadow_result": {
+      "type": "object"
+    },
+    "is_shadow": {
+      "type": "boolean",
+      "default": false
     }
   },
   "usesContext": [
