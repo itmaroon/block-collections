@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import BorderProperty from '../borderProperty';
+import { radius_prm, space_prm, convertToScss, borderProperty } from '../cssPropertes';
 
 export const StyleComp = ({ attributes, children }) => {
   return (
@@ -8,20 +8,7 @@ export const StyleComp = ({ attributes, children }) => {
     </StyledUL >
   );
 }
-//角丸のパラメータを返す
-const radius_prm = (radius) => {
-  const ret_radius_prm = (radius && Object.keys(radius).length === 1) ? radius.value : `${(radius && radius.topLeft) || ''} ${(radius && radius.topRight) || ''} ${(radius && radius.bottomRight) || ''} ${(radius && radius.bottomLeft) || ''}`
-  return (
-    ret_radius_prm
-  )
-}
-//スペースのパラメータを返す
-const space_prm = (space) => {
-  const ret_space_prm = `${space.top} ${space.right} ${space.bottom} ${space.left}`;
-  return (
-    ret_space_prm
-  )
-}
+
 
 const StyledUL = styled.ul`
   ${({ attributes }) => {
@@ -64,7 +51,7 @@ const StyledUL = styled.ul`
       padding: ${form_padding_prm};
       background: ${bgFormColor};
       border-radius: ${form_radius_prm};
-      ${BorderProperty(border_form)};
+      ${borderProperty(border_form)};
     `;
     const barStyle = css`
       li {

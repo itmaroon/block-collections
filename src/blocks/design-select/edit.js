@@ -4,32 +4,25 @@ import TypographyControls from '../TypographyControls'
 import { StyleComp } from './StyleSelect';
 import { NomalSelect } from './initSelect';
 import { useStyleIframe } from '../iframeFooks';
+import ShadowStyle from '../ShadowStyle';
 import { useState, useEffect } from '@wordpress/element';
 import { nanoid } from 'nanoid';
 
 import {
 	Button,
-	Panel,
 	PanelBody,
 	PanelRow,
 	Notice,
 	Modal,
-	ToggleControl,
-	RangeControl,
 	RadioControl,
 	TextControl,
+	ToggleControl,
 	__experimentalBoxControl as BoxControl,
-	__experimentalUnitControl as UnitControl,
 	__experimentalBorderBoxControl as BorderBoxControl
 } from '@wordpress/components';
 import {
 	useBlockProps,
-	RichText,
-	BlockAlignmentControl,
-	BlockControls,
-	InnerBlocks,
 	InspectorControls,
-	PanelColorSettings,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
 } from '@wordpress/block-editor';
@@ -80,6 +73,9 @@ export default function Edit({ attributes, setAttributes }) {
 
 	//選択された要素のキー配列
 	const [selectedValues, setSelectedValues] = useState([]);
+
+	//サイトエディタの場合はiframeにスタイルをわたす。
+	useStyleIframe(StyleComp, attributes);
 
 	//選択要素のクリア
 	useEffect(() => {
@@ -251,6 +247,13 @@ export default function Edit({ attributes, setAttributes }) {
 								setAttributes({ radius_value: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
 						/>
 					</PanelBody>
+					<ToggleControl
+						label={__('Is Shadow', 'itmar_block_collections')}
+						checked={is_shadow}
+						onChange={(newVal) => {
+							setAttributes({ is_shadow: newVal })
+						}}
+					/>
 				</PanelBody>
 
 				<PanelBody title={__("Option Style Settings", 'itmar_block_collections')} initialOpen={false} className="select_design_ctrl">

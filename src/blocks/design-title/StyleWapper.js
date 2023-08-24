@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import BorderProperty from '../borderProperty';
+import { radius_prm, space_prm, convertToScss, borderProperty } from '../cssPropertes';
 
 export const StyleComp = ({ attributes, children }) => {
   return (
@@ -30,21 +30,21 @@ const StyledDiv = styled.div`
     //斜体の設定
     const fontStyle_header = font_style_heading.isItalic ? "italic" : "normal";
     //角丸の設定
-    const header_radius_prm = (radius_heading && Object.keys(radius_heading).length === 1) ? radius_heading.value : `${(radius_heading && radius_heading.topLeft) || ''} ${(radius_heading && radius_heading.topRight) || ''} ${(radius_heading && radius_heading.bottomRight) || ''} ${(radius_heading && radius_heading.bottomLeft) || ''}`
+    const header_radius_prm = radius_prm(radius_heading);
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       background: ${bgColor};
-      margin: ${margin_heading.top} ${margin_heading.right} ${margin_heading.bottom} ${margin_heading.left};
+      margin: ${space_prm(margin_heading)};
       border-radius: ${header_radius_prm};
-      ${BorderProperty(border_heading)};
+      ${borderProperty(border_heading)};
       > div{
         color: ${textColor};
         font-size: ${font_style_heading.fontSize};
         font-family: ${font_style_heading.fontFamily};
         font-weight: ${font_style_heading.fontWeight};
         font-style: ${fontStyle_header};
-        padding: ${padding_heading.top} ${padding_heading.right} ${padding_heading.bottom} ${padding_heading.left};
+        padding: ${space_prm(padding_heading)};
       }
       `;
 

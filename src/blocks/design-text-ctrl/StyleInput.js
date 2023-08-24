@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import BorderProperty from '../borderProperty';
+import { radius_prm, space_prm, convertToScss, borderProperty } from '../cssPropertes';
 
 export const StyleComp = ({ attributes, children }) => {
   return (
@@ -8,33 +8,6 @@ export const StyleComp = ({ attributes, children }) => {
     </StyledDiv >
   );
 }
-//角丸のパラメータを返す
-const radius_prm = (radius) => {
-  const ret_radius_prm = (radius && Object.keys(radius).length === 1) ? radius.value : `${(radius && radius.topLeft) || ''} ${(radius && radius.topRight) || ''} ${(radius && radius.bottomRight) || ''} ${(radius && radius.bottomLeft) || ''}`
-  return (
-    ret_radius_prm
-  )
-}
-//スペースのパラメータを返す
-const space_prm = (space) => {
-  const ret_space_prm = `${space.top} ${space.right} ${space.bottom} ${space.left}`;
-  return (
-    ret_space_prm
-  )
-}
-
-//スタイルオブジェクト変換関数
-function convertToScss(styleObject) {
-  let scss = '';
-  for (const prop in styleObject) {
-    if (styleObject.hasOwnProperty(prop)) {
-      const scssProp = prop.replace(/([A-Z])/g, "-$1").toLowerCase();
-      scss += `${scssProp}: ${styleObject[prop]};\n`;
-    }
-  }
-  return scss;
-}
-
 
 const StyledDiv = styled.div`
   ${({ attributes }) => {
@@ -63,7 +36,6 @@ const StyledDiv = styled.div`
       is_shadow,
       className,
     } = attributes;
-    console.log(convertToScss(shadow_result));
 
     //単色かグラデーションかの選択
     const bgInputColor = bgColor_input || bgGradient_input;
@@ -78,6 +50,7 @@ const StyledDiv = styled.div`
     const input_margin_prm = space_prm(margin_input);
     const input_padding_prm = space_prm(padding_input);
     const label_padding_prm = space_prm(padding_label);
+    //ボックスシャドーの設定
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
 
 
@@ -113,7 +86,7 @@ const StyledDiv = styled.div`
         font-style: ${fontStyle_label};
         margin-right: ${labelSpace};
         padding: ${label_padding_prm};
-        ${BorderProperty(border_label)};
+        ${borderProperty(border_label)};
         ${box_shadow_style};
         span{
           color:red;
@@ -181,7 +154,7 @@ const StyledDiv = styled.div`
             display: flex;
             flex-direction: row-reverse;
             input, textarea{
-              ${BorderProperty(border_input)};
+              ${borderProperty(border_input)};
               ${box_shadow_style};
               transition: box-shadow 0.45s ease 0s;
               &:focus {

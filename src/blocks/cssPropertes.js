@@ -1,6 +1,33 @@
 import { css } from 'styled-components';
 
-const BorderProperty = (borderObj) => {
+//角丸のパラメータを返す
+export const radius_prm = (radius) => {
+  const ret_radius_prm = (radius && Object.keys(radius).length === 1) ? radius.value : `${(radius && radius.topLeft) || ''} ${(radius && radius.topRight) || ''} ${(radius && radius.bottomRight) || ''} ${(radius && radius.bottomLeft) || ''}`
+  return (
+    ret_radius_prm
+  )
+}
+//スペースのパラメータを返す
+export const space_prm = (space) => {
+  const ret_space_prm = `${space.top} ${space.right} ${space.bottom} ${space.left}`;
+  return (
+    ret_space_prm
+  )
+}
+
+//スタイルオブジェクト変換関数
+export const convertToScss = (styleObject) => {
+  let scss = '';
+  for (const prop in styleObject) {
+    if (styleObject.hasOwnProperty(prop)) {
+      const scssProp = prop.replace(/([A-Z])/g, "-$1").toLowerCase();
+      scss += `${scssProp}: ${styleObject[prop]};\n`;
+    }
+  }
+  return scss;
+}
+
+export const borderProperty = (borderObj) => {
   if (borderObj) {//borderObjがundefinedでない
     let keys = ['top', 'bottom', 'left', 'right'];
     let ret_prop = null;
@@ -36,4 +63,3 @@ const BorderProperty = (borderObj) => {
   }
 
 }
-export default BorderProperty

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import BorderProperty from '../borderProperty';
+import { radius_prm, space_prm, convertToScss, borderProperty } from '../cssPropertes';
 
 export const StyleComp = ({ attributes, children }) => {
   return (
@@ -7,20 +7,6 @@ export const StyleComp = ({ attributes, children }) => {
       {children}
     </StyledDiv >
   );
-}
-//角丸のパラメータを返す
-const radius_prm = (radius) => {
-  const ret_radius_prm = (radius && Object.keys(radius).length === 1) ? radius.value : `${(radius && radius.topLeft) || ''} ${(radius && radius.topRight) || ''} ${(radius && radius.bottomRight) || ''} ${(radius && radius.bottomLeft) || ''}`
-  return (
-    ret_radius_prm
-  )
-}
-//スペースのパラメータを返す
-const space_prm = (space) => {
-  const ret_space_prm = `${space.top} ${space.right} ${space.bottom} ${space.left}`;
-  return (
-    ret_space_prm
-  )
 }
 
 const StyledDiv = styled.div`
@@ -31,17 +17,18 @@ const StyledDiv = styled.div`
       margin_value,
       padding_value,
       backgroundColor,
-      backgroundGradient,
       labelColor,
       boxColor,
       boxBgColor,
       radius_heading,
       border_heading,
+      shadow_result,
+      is_shadow,
       className,
     } = attributes;
 
     //単色かグラデーションかの選択
-    const bgColor = backgroundColor || backgroundGradient;
+    const bgColor = backgroundColor;
     //斜体の設定
     const fontStyle_label = font_style_label.isItalic ? "italic" : "normal";
     //角丸の設定
@@ -49,6 +36,8 @@ const StyledDiv = styled.div`
     //スペースの設定
     const heading_margin_prm = space_prm(margin_value);
     const heading_padding_prm = space_prm(padding_value);
+    //ボックスシャドーの設定
+    const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
@@ -56,8 +45,9 @@ const StyledDiv = styled.div`
       padding: ${heading_padding_prm};
       background: ${bgColor};
       border-radius: ${heading_radius_prm};
-      ${BorderProperty(border_heading)};
+      ${borderProperty(border_heading)};
       display: flex;
+      ${box_shadow_style};
       input[type='checkbox'] {
         display: none;
       }

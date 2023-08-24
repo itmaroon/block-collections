@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import BorderProperty from '../borderProperty';
+import { radius_prm, space_prm, convertToScss, borderProperty } from '../cssPropertes';
 
 export const StyleComp = ({ attributes, children }) => {
   return (
@@ -8,20 +8,7 @@ export const StyleComp = ({ attributes, children }) => {
     </StyledDiv >
   );
 }
-//角丸のパラメータを返す
-const radius_prm = (radius) => {
-  const ret_radius_prm = (radius && Object.keys(radius).length === 1) ? radius.value : `${(radius && radius.topLeft) || ''} ${(radius && radius.topRight) || ''} ${(radius && radius.bottomRight) || ''} ${(radius && radius.bottomLeft) || ''}`
-  return (
-    ret_radius_prm
-  )
-}
-//スペースのパラメータを返す
-const space_prm = (space) => {
-  const ret_space_prm = `${space.top} ${space.right} ${space.bottom} ${space.left}`;
-  return (
-    ret_space_prm
-  )
-}
+
 
 const StyledDiv = styled.div`
   ${({ attributes }) => {
@@ -58,7 +45,7 @@ const StyledDiv = styled.div`
       .itmar_block_select {
         position: relative;
         border-radius: ${heading_radius_prm};
-        ${BorderProperty(border_value)};
+        ${borderProperty(border_value)};
         font-size: ${font_style_option.fontSize};
         font-family: ${font_style_option.fontFamily};
         font-weight: ${font_style_option.fontWeight};

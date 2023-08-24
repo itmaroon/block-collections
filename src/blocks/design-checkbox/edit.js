@@ -3,10 +3,11 @@ import { __ } from '@wordpress/i18n';
 import TypographyControls from '../TypographyControls'
 import { StyleComp } from './StyleCheckbox';
 import { useStyleIframe } from '../iframeFooks';
-
+import ShadowStyle from '../ShadowStyle';
 import {
 	PanelBody,
 	TextControl,
+	ToggleControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl
 } from '@wordpress/components';
@@ -20,6 +21,28 @@ import {
 
 import './editor.scss';
 
+//スペースのリセットバリュー
+const padding_resetValues = {
+	top: '10px',
+	left: '10px',
+	right: '10px',
+	bottom: '10px',
+}
+
+//ボーダーのリセットバリュー
+const border_resetValues = {
+	top: '0px',
+	left: '0px',
+	right: '0px',
+	bottom: '0px',
+}
+
+const units = [
+	{ value: 'px', label: 'px' },
+	{ value: 'em', label: 'em' },
+	{ value: 'rem', label: 'rem' },
+];
+
 
 export default function Edit({ attributes, setAttributes }) {
 	const {
@@ -29,35 +52,15 @@ export default function Edit({ attributes, setAttributes }) {
 		margin_value,
 		padding_value,
 		backgroundColor,
-		backgroundGradient,
 		labelColor,
 		boxColor,
 		boxBgColor,
 		radius_heading,
 		border_heading,
+		shadow_element,
+		is_shadow,
 	} = attributes;
 
-	//スペースのリセットバリュー
-	const padding_resetValues = {
-		top: '10px',
-		left: '10px',
-		right: '10px',
-		bottom: '10px',
-	}
-
-	//ボーダーのリセットバリュー
-	const border_resetValues = {
-		top: '0px',
-		left: '0px',
-		right: '0px',
-		bottom: '0px',
-	}
-
-	const units = [
-		{ value: 'px', label: 'px' },
-		{ value: 'em', label: 'em' },
-		{ value: 'rem', label: 'rem' },
-	];
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -83,11 +86,8 @@ export default function Edit({ attributes, setAttributes }) {
 						settings={[
 							{
 								colorValue: backgroundColor,
-								gradientValue: backgroundGradient,
-
 								label: __("Choose Background color", 'itmar_block_collections'),
-								onColorChange: (newValue) => setAttributes({ backgroundColor: newValue }),
-								onGradientChange: (newValue) => setAttributes({ backgroundGradient: newValue }),
+								onColorChange: (newValue) => setAttributes({ backgroundColor: newValue })
 							},
 						]}
 					/>
@@ -124,6 +124,13 @@ export default function Edit({ attributes, setAttributes }) {
 								setAttributes({ radius_heading: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
 						/>
 					</PanelBody>
+					<ToggleControl
+						label={__('Is Shadow', 'itmar_block_collections')}
+						checked={is_shadow}
+						onChange={(newVal) => {
+							setAttributes({ is_shadow: newVal })
+						}}
+					/>
 				</PanelBody>
 				<PanelBody title={__("Input style settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
 					<PanelColorGradientSettings
@@ -167,20 +174,47 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<div {...useBlockProps()}>
 				<StyleComp attributes={attributes}>
-					<label>
-						<input type="checkbox" name={inputName} />
-						<span></span>
-					</label>
-					<RichText
-						onChange={
-							(newContent) => {
-								setAttributes({ labelContent: newContent })
-							}
-						}
-						value={labelContent}
-						placeholder={__('Write Checkbox Label...', 'itmar_block_collections')}
-					/>
+					{is_shadow ? (
+						<ShadowStyle
+							shadowStyle={{ ...shadow_element, backgroundColor: backgroundColor }}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result: newStyle.style });
+								setAttributes({ shadow_element: newState })
+							}}
+						>
+							<label>
+								<input type="checkbox" name={inputName} />
+								<span></span>
+							</label>
+							<RichText
+								onChange={
+									(newContent) => {
+										setAttributes({ labelContent: newContent })
+									}
+								}
+								value={labelContent}
+								placeholder={__('Write Checkbox Label...', 'itmar_block_collections')}
+							/>
 
+
+						</ShadowStyle>
+					) : (
+						<>
+							<label>
+								<input type="checkbox" name={inputName} />
+								<span></span>
+							</label>
+							<RichText
+								onChange={
+									(newContent) => {
+										setAttributes({ labelContent: newContent })
+									}
+								}
+								value={labelContent}
+								placeholder={__('Write Checkbox Label...', 'itmar_block_collections')}
+							/>
+						</>
+					)}
 				</StyleComp>
 			</div >
 		</>
