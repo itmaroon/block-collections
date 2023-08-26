@@ -67,7 +67,6 @@ const dirctionDigit = (direction, distance) => {
 }
 
 const ShadowStyle = ({ shadowStyle, onChange, children }) => {
-
   const [shadowState, setShadowState] = useState(shadowStyle);
   const {
     shadowType,
@@ -89,10 +88,19 @@ const ShadowStyle = ({ shadowStyle, onChange, children }) => {
     glassblur,
     glassopa,
     hasOutline,
-    backgroundColor,
+    backgroundColor
   } = shadowState;
 
 
+  // shadowStyle backgroundColor の変更を検知する
+  useEffect(() => {
+    if (shadowStyle.backgroundColor !== shadowState.backgroundColor) {
+      setShadowState(shadowStyle);
+    }
+  }, [shadowStyle]);
+
+
+  //シャドーのスタイル変更に伴う親コンポーネントの変更
   useEffect(() => {
     //ノーマル
     if (shadowType === 'nomal') {

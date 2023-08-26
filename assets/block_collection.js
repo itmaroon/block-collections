@@ -29,11 +29,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
   });
 });
 
-/* ------------------------------
-design-selectイベントハンドラ
------------------------------- */
-jQuery(function ($) {
 
+jQuery(function ($) {
+  /* ------------------------------
+  design-text-ctrl
+  ------------------------------ */
+  let input_elm = $('.wp-block-itmar-design-text-ctrl.is-style-line').find('input, textarea');
+  input_elm.change(function () {
+    let content = $(this).val();
+    if (content) {
+      $(this).removeClass('empty');
+    } else {
+      $(this).addClass('empty');
+    }
+  })
+
+
+  /* ------------------------------
+  design-selectイベントハンドラ
+  ------------------------------ */
   //矢印かセレクトボックスを押したとき
   $(document).on('click', '.itmar_block_select > div', function (e) {
     $(this).parent().toggleClass('open');

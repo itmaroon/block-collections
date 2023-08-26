@@ -97,7 +97,7 @@ export default function Edit(props) {
 	useStyleIframe(StyleComp, attributes);
 
 	//必須項目の表示
-	const dispLabel = required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent;
+	const dispLabel = required.flg ? `${labelContent}(${required.display})` : labelContent;
 
 	//親コンポーネントからのラベル幅の指定があればそれを採用して記録する
 	const label_width = props.context['itmar/label_width'] || 'auto';
@@ -114,6 +114,58 @@ export default function Edit(props) {
 
 	//入力値の確保
 	const [stateValue, setInputValue] = useState(inputValue);
+
+	function renderContent() {
+		return (
+			<>
+				{inputType === 'text' &&
+					<input
+						type="text"
+						name={inputName}
+						placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
+						className={`contact_text ${stateValue ? "" : "empty"}`}
+						value={stateValue}
+						onChange={(event) => {
+							const newValue = event.target.value;
+							setInputValue(newValue);
+							setAttributes({ inputValue: newValue });
+						}}
+					/>
+				}
+				{inputType === 'email' &&
+					<input
+						type="email"
+						placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
+						className={`contact_text ${stateValue ? "" : "empty"}`}
+						value={stateValue}
+						onChange={(event) => {
+							const newValue = event.target.value;
+							setInputValue(newValue);
+							setAttributes({ inputValue: newValue });
+						}}
+					/>
+				}
+				{inputType === 'textarea' &&
+					<textarea
+						name={inputName}
+						rows={rowNum}
+						placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
+						className={`contact_text ${stateValue ? "" : "empty"}`}
+						value={stateValue}
+						onChange={(event) => {
+							const newValue = event.target.value;
+							setInputValue(newValue);
+							setAttributes({ inputValue: newValue });
+						}}
+					/>
+				}
+
+				<label className="fit-label">
+					{required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent}
+				</label>
+			</>
+		);
+	}
 
 
 	return (
@@ -360,104 +412,10 @@ export default function Edit(props) {
 								setAttributes({ shadow_element: newState })
 							}}
 						>
-							<>
-								{inputType === 'text' &&
-									<input
-										type="text"
-										name={inputName}
-										placeholder={placeFolder}
-										className={`contact_text ${stateValue ? "" : "empty"}`}
-										value={stateValue}
-										onChange={(event) => {
-											const newValue = event.target.value;
-											setInputValue(newValue);
-											setAttributes({ inputValue: newValue });
-										}}
-
-									/>
-								}
-								{inputType === 'email' &&
-									<input
-										type="email"
-										placeholder={placeFolder}
-										className={`contact_text ${stateValue ? "" : "empty"}`}
-										value={stateValue}
-										onChange={(event) => {
-											const newValue = event.target.value;
-											setInputValue(newValue);
-											setAttributes({ inputValue: newValue });
-										}}
-									/>
-								}
-								{inputType === 'textarea' &&
-									<textarea
-										name={inputName}
-										rows={rowNum}
-										placeholder={placeFolder}
-										className={`contact_text ${stateValue ? "" : "empty"}`}
-										value={stateValue}
-										onChange={(event) => {
-											const newValue = event.target.value;
-											setInputValue(newValue);
-											setAttributes({ inputValue: newValue });
-										}}
-									/>
-								}
-
-								<label className="fit-label">
-									{dispLabel}
-								</label>
-							</>
+							{renderContent()}
 						</ShadowStyle>
 					) : (
-						<>
-							{inputType === 'text' &&
-								<input
-									type="text"
-									name={inputName}
-									placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
-									className={`contact_text ${stateValue ? "" : "empty"}`}
-									value={stateValue}
-									onChange={(event) => {
-										const newValue = event.target.value;
-										setInputValue(newValue);
-										setAttributes({ inputValue: newValue });
-									}}
-
-								/>
-							}
-							{inputType === 'email' &&
-								<input
-									type="email"
-									placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
-									className={`contact_text ${stateValue ? "" : "empty"}`}
-									value={stateValue}
-									onChange={(event) => {
-										const newValue = event.target.value;
-										setInputValue(newValue);
-										setAttributes({ inputValue: newValue });
-									}}
-								/>
-							}
-							{inputType === 'textarea' &&
-								<textarea
-									name={inputName}
-									rows={rowNum}
-									placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
-									className={`contact_text ${stateValue ? "" : "empty"}`}
-									value={stateValue}
-									onChange={(event) => {
-										const newValue = event.target.value;
-										setInputValue(newValue);
-										setAttributes({ inputValue: newValue });
-									}}
-								/>
-							}
-
-							<label className="fit-label">
-								{dispLabel}
-							</label>
-						</>
+						renderContent()
 					)}
 				</StyleComp>
 			</div>

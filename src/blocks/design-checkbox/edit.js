@@ -65,6 +65,26 @@ export default function Edit({ attributes, setAttributes }) {
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 
+	function renderContent() {
+		return (
+			<>
+				<label>
+					<input type="checkbox" name={inputName} />
+					<span></span>
+				</label>
+				<RichText
+					onChange={
+						(newContent) => {
+							setAttributes({ labelContent: newContent })
+						}
+					}
+					value={labelContent}
+					placeholder={__('Write Checkbox Label...', 'itmar_block_collections')}
+				/>
+			</>
+		)
+	}
+
 	return (
 		<>
 			<InspectorControls group="settings">
@@ -182,38 +202,10 @@ export default function Edit({ attributes, setAttributes }) {
 								setAttributes({ shadow_element: newState })
 							}}
 						>
-							<label>
-								<input type="checkbox" name={inputName} />
-								<span></span>
-							</label>
-							<RichText
-								onChange={
-									(newContent) => {
-										setAttributes({ labelContent: newContent })
-									}
-								}
-								value={labelContent}
-								placeholder={__('Write Checkbox Label...', 'itmar_block_collections')}
-							/>
-
-
+							{renderContent()}
 						</ShadowStyle>
 					) : (
-						<>
-							<label>
-								<input type="checkbox" name={inputName} />
-								<span></span>
-							</label>
-							<RichText
-								onChange={
-									(newContent) => {
-										setAttributes({ labelContent: newContent })
-									}
-								}
-								value={labelContent}
-								placeholder={__('Write Checkbox Label...', 'itmar_block_collections')}
-							/>
-						</>
+						renderContent()
 					)}
 				</StyleComp>
 			</div >

@@ -4,6 +4,7 @@ import './editor.scss';
 import { StyleComp } from './StyleProcess';
 import TypographyControls from '../TypographyControls'
 import { useStyleIframe } from '../iframeFooks';
+import ShadowStyle from '../ShadowStyle';
 
 import {
 	useBlockProps,
@@ -14,6 +15,7 @@ import {
 
 import {
 	PanelBody,
+	ToggleControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl
 } from '@wordpress/components';
@@ -45,6 +47,7 @@ const units = [
 
 export default function Edit({ attributes, setAttributes, context, clientId }) {
 	const {
+		bgColor,
 		bgColor_form,
 		bgGradient_form,
 		radius_form,
@@ -55,8 +58,13 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		textColor_num,
 		bgColor_num,
 		font_style_process,
-		textColor_process
+		textColor_process,
+		shadow_element,
+		is_shadow
 	} = attributes;
+
+	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
+
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -118,10 +126,15 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 						title={__("Background Color Setting", 'itmar_block_collections')}
 						settings={[
 							{
+								colorValue: bgColor,
+								label: __("Choose Block Background color", 'itmar_block_collections'),
+								onColorChange: (newValue) => setAttributes({ bgColor: newValue }),
+							},
+							{
 								colorValue: bgColor_form,
 								gradientValue: bgGradient_form,
 
-								label: __("Choose Background color", 'itmar_block_collections'),
+								label: __("Choose Form Background color", 'itmar_block_collections'),
 								onColorChange: (newValue) => setAttributes({ bgColor_form: newValue }),
 								onGradientChange: (newValue) => setAttributes({ bgGradient_form: newValue }),
 							},
@@ -159,7 +172,13 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
-
+					<ToggleControl
+						label={__('Is Shadow', 'itmar_block_collections')}
+						checked={is_shadow}
+						onChange={(newVal) => {
+							setAttributes({ is_shadow: newVal })
+						}}
+					/>
 				</PanelBody>
 
 				<PanelBody title={__("Settings by style", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
@@ -208,20 +227,36 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 								}
 							]}
 						/>
-
-
 					</PanelBody>
+
 				</PanelBody>
 
 			</InspectorControls>
 
-			<div {...useBlockProps()} >
+			<div {...blockProps} >
 
 				<StyleComp attributes={attributes} >
-					{figureBlocks.map((block, index) =>
-						<li key={index} className={stage_index >= index ? "ready" : ""}>
-							{block.attributes.stage_info}
-						</li>
+
+					{is_shadow ? (
+						<ShadowStyle
+							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result: newStyle.style });
+								setAttributes({ shadow_element: newState })
+							}}
+						>
+							{figureBlocks.map((block, index) =>
+								<li key={index} className={stage_index >= index ? "ready" : ""}>
+									{block.attributes.stage_info}
+								</li>
+							)}
+						</ShadowStyle>
+					) : (
+						figureBlocks.map((block, index) =>
+							<li key={index} className={stage_index >= index ? "ready" : ""}>
+								{block.attributes.stage_info}
+							</li>
+						)
 					)}
 				</StyleComp>
 			</div>

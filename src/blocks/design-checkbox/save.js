@@ -1,4 +1,4 @@
-
+import { __ } from '@wordpress/i18n';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';

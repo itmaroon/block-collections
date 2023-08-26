@@ -26,6 +26,8 @@ const StyledUL = styled.ul`
       bgColor_num,
       font_style_process,
       textColor_process,
+      shadow_result,
+      is_shadow,
       className,
     } = attributes;
 
@@ -39,6 +41,8 @@ const StyledUL = styled.ul`
     //スペースの設定
     const form_margin_prm = space_prm(margin_form);
     const form_padding_prm = space_prm(padding_form);
+    //ボックスシャドーの設定
+    const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
@@ -52,6 +56,7 @@ const StyledUL = styled.ul`
       background: ${bgFormColor};
       border-radius: ${form_radius_prm};
       ${borderProperty(border_form)};
+      ${box_shadow_style};
     `;
     const barStyle = css`
       li {

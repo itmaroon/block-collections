@@ -13,6 +13,10 @@
 			"type": "array",
 			"default": []
 		},
+		"bgColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
 		"bgColor_form": {
 			"type": "string"
 		},

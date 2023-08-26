@@ -110,6 +110,7 @@ const StyledDiv = styled.div`
             left:5px;
             background-color: transparent;
             outline: none;
+            padding: 0 8px;
             border-style: solid;
             border-color: ${bgColor_input};
             border-width: 0px 0px 2px 0px;

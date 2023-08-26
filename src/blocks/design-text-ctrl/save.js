@@ -8,6 +8,7 @@ export default function save({ attributes }) {
 	const blockProps = useBlockProps.save();
 	const {
 		inputName,
+		placeFolder,
 		inputType,
 		rowNum,
 		required,
@@ -21,18 +22,19 @@ export default function save({ attributes }) {
 	const html = renderToString(sheet.collectStyles(
 		<div {...blockProps}>
 			<StyleComp attributes={attributes}>
+
+				{inputType === 'text' &&
+					<input type="text" name={inputName} className="contact_text empty" placeholder={className === 'is-style-line' ? dispLabel : placeFolder} />
+				}
+				{inputType === 'email' &&
+					<input type="email" name={inputName} className="contact_text empty" placeholder={className === 'is-style-line' ? dispLabel : placeFolder} />
+				}
+				{inputType === 'textarea' &&
+					<textarea name={inputName} rows={rowNum} className="contact_text empty" placeholder={className === 'is-style-line' ? dispLabel : placeFolder} />
+				}
 				<label class="fit-label" data-required={required.flg}>
 					{dispLabel}
 				</label>
-				{inputType === 'text' &&
-					<input type="text" name={inputName} className="contact_text" />
-				}
-				{inputType === 'email' &&
-					<input type="email" name={inputName} className="contact_text" />
-				}
-				{inputType === 'textarea' &&
-					<textarea name={inputName} rows={rowNum} className="contact_text" />
-				}
 
 			</StyleComp>
 		</div>

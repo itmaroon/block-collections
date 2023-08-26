@@ -5,11 +5,12 @@ import { renderToString } from 'react-dom/server';
 import { StyleComp } from './StyleProcess';
 
 export default function save({ attributes }) {
-	const blockProps = useBlockProps.save();
+
 	const {
+		bgColor,
 		figure_blocks
 	} = attributes;
-
+	const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
 	const sheet = new ServerStyleSheet();
 	const html = renderToString(sheet.collectStyles(
 		<div {...blockProps}>
