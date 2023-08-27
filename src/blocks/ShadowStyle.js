@@ -130,13 +130,13 @@ const ShadowStyle = ({ shadowStyle, onChange, children }) => {
         style: {
           boxShadow: `${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}`,
           border: 'none',
-          backgroundColor: baseColor
+          background: baseColor
         }
       } : {
         style: {
           boxShadow: `inset ${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, inset ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}`,
           border: 'none',
-          backgroundColor: baseColor
+          background: baseColor
         }
       }
 
@@ -154,10 +154,10 @@ const ShadowStyle = ({ shadowStyle, onChange, children }) => {
         style:
         {
           boxShadow: `${outsetObj.topLeft}px ${outsetObj.bottmRight}px ${expand * 2}px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.5), inset ${insetObj.topRight}px ${insetObj.bottomLeft}px 16px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.6), inset 0px 11px 28px 0px rgb(255, 255, 255)`,
-          backgroundColor: `rgba(255, 255, 255, ${opacity})`,
+          background: `rgba(255, 255, 255, ${opacity})`,
           backdropFilter: `blur(${bdBlur}px)`,
           border: 'none',
-          backgroundColor: baseColor
+
         }
       }
       //attributesに保存
@@ -176,7 +176,7 @@ const ShadowStyle = ({ shadowStyle, onChange, children }) => {
           backdropFilter: `blur( ${glassblur}px )`,
           WebkitBackdropFilter: `blur( ${glassblur}px )`,
           border: 'none',
-          backgroundColor: baseColor
+          background: baseColor
         }
       }
       if (hasOutline) {

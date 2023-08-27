@@ -73,11 +73,15 @@
 				"right": "10px"
 			}
 		},
-		"backgroundColor": {
+		"bgColor": {
 			"type": "string",
-			"default": "#fff"
+			"default": "#ffffff"
 		},
-		"backgroundGradient": {
+		"bgSelectColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"bgSelectGradient": {
 			"type": "string"
 		},
 		"radius_value": {

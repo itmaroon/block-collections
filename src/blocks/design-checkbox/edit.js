@@ -47,11 +47,12 @@ const units = [
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		inputName,
+		bgColor,
 		labelContent,
 		font_style_label,
 		margin_value,
 		padding_value,
-		backgroundColor,
+		bgColor_form,
 		labelColor,
 		boxColor,
 		boxBgColor,
@@ -61,6 +62,7 @@ export default function Edit({ attributes, setAttributes }) {
 		is_shadow,
 	} = attributes;
 
+	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -105,9 +107,14 @@ export default function Edit({ attributes, setAttributes }) {
 						title={__("Background Color Setting", 'itmar_block_collections')}
 						settings={[
 							{
-								colorValue: backgroundColor,
-								label: __("Choose Background color", 'itmar_block_collections'),
-								onColorChange: (newValue) => setAttributes({ backgroundColor: newValue })
+								colorValue: bgColor,
+								label: __("Choose Block Background color", 'itmar_block_collections'),
+								onColorChange: (newValue) => setAttributes({ bgColor: newValue })
+							},
+							{
+								colorValue: bgColor_form,
+								label: __("Choose Input Background color", 'itmar_block_collections'),
+								onColorChange: (newValue) => setAttributes({ bgColor_form: newValue })
 							},
 						]}
 					/>
@@ -192,11 +199,11 @@ export default function Edit({ attributes, setAttributes }) {
 				</PanelBody>
 			</InspectorControls>
 
-			<div {...useBlockProps()}>
+			<div {...blockProps}>
 				<StyleComp attributes={attributes}>
 					{is_shadow ? (
 						<ShadowStyle
-							shadowStyle={{ ...shadow_element, backgroundColor: backgroundColor }}
+							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
 							onChange={(newStyle, newState) => {
 								setAttributes({ shadow_result: newStyle.style });
 								setAttributes({ shadow_element: newState })

@@ -7,13 +7,15 @@ import { StyleComp } from './StyleSelect';
 
 export default function save({ attributes }) {
 	const {
+		bgColor,
 		selPattern,
 		selectValues,
 		folder_val,
-
 		className,
 	} = attributes;
-	const blockProps = useBlockProps.save();
+
+	const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
+
 	// selPatternがtrueの場合、multiple属性を持つオブジェクトを返す
 	const selectAttributes = selPattern === 'multi' ? { multiple: true } : {};
 

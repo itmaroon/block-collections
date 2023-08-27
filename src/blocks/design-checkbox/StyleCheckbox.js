@@ -16,7 +16,7 @@ const StyledDiv = styled.div`
       font_style_label,
       margin_value,
       padding_value,
-      backgroundColor,
+      bgColor_form,
       labelColor,
       boxColor,
       boxBgColor,
@@ -27,8 +27,6 @@ const StyledDiv = styled.div`
       className,
     } = attributes;
 
-    //単色かグラデーションかの選択
-    const bgColor = backgroundColor;
     //斜体の設定
     const fontStyle_label = font_style_label.isItalic ? "italic" : "normal";
     //角丸の設定
@@ -43,7 +41,7 @@ const StyledDiv = styled.div`
     const commonStyle = css`
       margin: ${heading_margin_prm};
       padding: ${heading_padding_prm};
-      background: ${bgColor};
+      background: ${bgColor_form};
       border-radius: ${heading_radius_prm};
       ${borderProperty(border_heading)};
       display: flex;
@@ -107,7 +105,7 @@ const StyledDiv = styled.div`
         &::before {
           top:.72em;
           left: .41em;
-          box-shadow: 0 0 0 .05em ${bgColor};
+          
           transform: rotate(-135deg);
         }
     

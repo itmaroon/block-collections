@@ -16,6 +16,10 @@
 			"type": "boolean",
 			"default": false
 		},
+		"bgColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
 		"labelContent": {
 			"type": "string"
 		},
@@ -49,9 +53,8 @@
 				"right": "10px"
 			}
 		},
-		"backgroundColor": {
-			"type": "string",
-			"default": "#ffffff"
+		"bgColor_form": {
+			"type": "string"
 		},
 		"boxColor": {
 			"type": "string",

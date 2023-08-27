@@ -75,7 +75,6 @@ const StyledDiv = styled.div`
       label{
         display: inline-block;
         vertical-align: top;
-        
         white-space: nowrap;
         background: ${bgLabelColor};
         border-radius: ${label_radius_prm};
@@ -84,7 +83,6 @@ const StyledDiv = styled.div`
         font-family: ${font_style_label.fontFamily};
         font-weight: ${font_style_label.fontWeight};
         font-style: ${fontStyle_label};
-        margin-right: ${labelSpace};
         padding: ${label_padding_prm};
         ${borderProperty(border_label)};
         ${box_shadow_style};
@@ -102,20 +100,23 @@ const StyledDiv = styled.div`
         specificStyle = css`
           display: flex;
           height: 4em;
+          ${box_shadow_style};
           input, textarea{
-            width: 100%;
+            width: 90%;
             height:1.5em;
             position: absolute;
             bottom:15px;
             left:5px;
             background-color: transparent;
             outline: none;
+            margin-left:2em;
             padding: 0 8px;
             border-style: solid;
             border-color: ${bgColor_input};
             border-width: 0px 0px 2px 0px;
             box-shadow: none;
             transition: border-color 0.45s ease 0s;
+            
             &:focus {
               box-shadow: none;
               border-color: ${focusColor};
@@ -140,8 +141,8 @@ const StyledDiv = styled.div`
           label{
             position: absolute;
             width: fit-content;
-            left:10px;
-            opacity: 0.1;
+            opacity: 0;
+            left: calc(2em + 10px);
 	          pointer-events: none;
             bottom:15px;
 	          z-index: 1;
@@ -165,6 +166,7 @@ const StyledDiv = styled.div`
             }
             label{
               width:${labelWidth};
+              margin-right: ${labelSpace};
             }
           `;
     }

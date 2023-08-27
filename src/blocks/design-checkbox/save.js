@@ -6,12 +6,14 @@ import { StyleComp } from './StyleCheckbox';
 
 export default function save({ attributes }) {
 	const {
+		bgColor,
 		labelContent,
 		inputName
 	} = attributes;
+	const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
 	const sheet = new ServerStyleSheet();
 	const html = renderToString(sheet.collectStyles(
-		<div {...useBlockProps.save()}>
+		<div {...blockProps}>
 			<StyleComp attributes={attributes}>
 				<label>
 					<input type="checkbox" name={inputName} />

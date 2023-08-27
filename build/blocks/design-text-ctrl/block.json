@@ -50,9 +50,6 @@
     "bgColor": {
       "type": "string"
     },
-    "bgGradient": {
-      "type": "string"
-    },
     "font_style_input": {
       "type": "object",
       "default": {
@@ -165,11 +162,11 @@
       "type": "object",
       "default": {
         "shadowType": "nomal",
-        "spread": 5,
-        "lateral": 0,
-        "longitude": 0,
-        "nomalBlur": 0,
-        "shadowColor": "#000",
+        "spread": 2,
+        "lateral": 2,
+        "longitude": 2,
+        "nomalBlur": 3,
+        "shadowColor": "#9F9F9F",
         "distance": 5,
         "intensity": 5,
         "opacity": 0.5,

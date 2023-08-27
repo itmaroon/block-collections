@@ -56,17 +56,26 @@ export default function Edit({ attributes, setAttributes }) {
 		selPattern,
 		selectValues,
 		folder_val,
+		bgColor,
 		optionColor,
 		hoverBgColor,
 		font_style_option,
 		margin_value,
 		padding_value,
-		backgroundColor,
-		backgroundGradient,
+		bgSelectColor,
+		bgSelectGradient,
 		radius_value,
 		border_value,
+		shadow_element,
+		is_shadow,
 		className,
 	} = attributes;
+
+	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
+
+	//サイトエディタの場合はiframeにスタイルをわたす。
+	useStyleIframe(StyleComp, attributes);
+
 
 	// selPatternがtrueの場合、multiple属性を持つオブジェクトを返す
 	const selectAttributes = selPattern === 'multi' ? { multiple: true } : {};
@@ -146,6 +155,37 @@ export default function Edit({ attributes, setAttributes }) {
 		closeModal()
 	};
 
+	function renderContent() {
+		return (
+			<NomalSelect
+				onOptionSelect={(selID) => {
+					if (selectedValues.includes(selID)) {
+						return; // 既に選択されている場合はそのまま
+					}
+					//複数選択のときは複数配列、単数選択の時は単数配列
+					const newArray = selPattern === 'multi' ? [...selectedValues, selID] : [selID];
+					setSelectedValues(newArray)
+				}}
+				onOptionDeselect={(selID) => {
+					const newArray = selectedValues.filter(index => index !== selID);
+					setSelectedValues(newArray);
+				}}
+			>
+				<select
+					class="nomal"
+					{...selectAttributes}
+					data-placeholder={folder_val}
+				>
+					{
+						selectValues.map((option_item) => {
+							return (<option id={option_item.id} className={option_item.classname} value={option_item.value} selected={selectedValues.includes(option_item.id)}>{option_item.label}</option>)
+						})
+					}
+				</select>
+			</NomalSelect>
+		)
+	}
+
 	return (
 		<>
 			<InspectorControls group="settings">
@@ -205,12 +245,19 @@ export default function Edit({ attributes, setAttributes }) {
 						title={__("Background Color Setting", 'itmar_block_collections')}
 						settings={[
 							{
-								colorValue: backgroundColor,
-								gradientValue: backgroundGradient,
+								colorValue: bgColor,
+								label: __("Choose Block Background color", 'itmar_block_collections'),
+								onColorChange: (newValue) => setAttributes({ bgColor: newValue }),
+							},
+							{
+								colorValue: bgSelectColor,
+								gradientValue: bgSelectGradient,
 
-								label: __("Choose Background color", 'itmar_block_collections'),
-								onColorChange: (newValue) => setAttributes({ backgroundColor: newValue }),
-								onGradientChange: (newValue) => setAttributes({ backgroundGradient: newValue }),
+								label: __("Choose Select Background color", 'itmar_block_collections'),
+								onColorChange: (newValue) => {
+									setAttributes({ bgSelectColor: newValue === undefined ? '' : newValue });
+								},
+								onGradientChange: (newValue) => setAttributes({ bgSelectGradient: newValue }),
 							},
 						]}
 					/>
@@ -322,34 +369,22 @@ export default function Edit({ attributes, setAttributes }) {
 				</Modal>
 			)}
 
-			<div {...useBlockProps()}>
+			<div {...blockProps}>
 				<StyleComp attributes={attributes} >
-					<NomalSelect
-						onOptionSelect={(selID) => {
-							if (selectedValues.includes(selID)) {
-								return; // 既に選択されている場合はそのまま
-							}
-							//複数選択のときは複数配列、単数選択の時は単数配列
-							const newArray = selPattern === 'multi' ? [...selectedValues, selID] : [selID];
-							setSelectedValues(newArray)
-						}}
-						onOptionDeselect={(selID) => {
-							const newArray = selectedValues.filter(index => index !== selID);
-							setSelectedValues(newArray);
-						}}
-					>
-						<select
-							class="nomal"
-							{...selectAttributes}
-							data-placeholder={folder_val}
+					{is_shadow ? (
+						<ShadowStyle
+							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result: newStyle.style });
+								setAttributes({ shadow_element: newState })
+							}}
 						>
-							{
-								selectValues.map((option_item) => {
-									return (<option id={option_item.id} className={option_item.classname} value={option_item.value} selected={selectedValues.includes(option_item.id)}>{option_item.label}</option>)
-								})
-							}
-						</select>
-					</NomalSelect>
+							{renderContent()}
+						</ShadowStyle>
+					) : (
+						renderContent()
+					)}
+
 				</StyleComp>
 			</div >
 		</>

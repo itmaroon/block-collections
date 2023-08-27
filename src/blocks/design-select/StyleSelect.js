@@ -19,15 +19,18 @@ const StyledDiv = styled.div`
       font_style_option,
       margin_value,
       padding_value,
-      backgroundColor,
-      backgroundGradient,
+      bgSelectColor,
+      bgSelectGradient,
       radius_value,
       border_value,
+      shadow_result,
+      is_shadow,
       className,
     } = attributes;
 
     //単色かグラデーションかの選択
-    const bgColor = backgroundColor || backgroundGradient;
+    const bgColor = bgSelectColor || bgSelectGradient;
+    console.log(bgColor);
     //斜体の設定
     const fontStyle_option = font_style_option.isItalic ? "italic" : "normal";
     //角丸の設定
@@ -35,6 +38,8 @@ const StyledDiv = styled.div`
     //スペースの設定
     const heading_margin_prm = space_prm(margin_value);
     const heading_padding_prm = space_prm(padding_value);
+    //ボックスシャドーの設定
+    const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
@@ -51,23 +56,17 @@ const StyledDiv = styled.div`
         font-weight: ${font_style_option.fontWeight};
         font-style: ${fontStyle_option};
         color: ${optionColor};
-    
+        
         &>div {
           position: relative;
           background: ${bgColor};
+          ${box_shadow_style};
           z-index: 2;
           padding: 0.8em 3em 0.8em 1.2em;
           border-radius: 8px;
-          background: #fff;
           font-size: ${font_style_option.fontSize};
           min-height: 2.2em;
-          box-shadow: 0 4px 16px 0 rgba(22, 42, 90, 0.12);
-          transition: box-shadow .3s ease;
-    
-          &:hover {
-            box-shadow: 0 4px 24px -1px rgba(22, 42, 90, 0.12);
-          }
-    
+          
           .itmar_block_opener {
             right: 1px;
             top: 0;

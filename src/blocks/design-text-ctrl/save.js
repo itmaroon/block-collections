@@ -5,9 +5,10 @@ import { renderToString } from 'react-dom/server';
 import { StyleComp } from './StyleInput';
 
 export default function save({ attributes }) {
-	const blockProps = useBlockProps.save();
+
 	const {
 		inputName,
+		bgColor,
 		placeFolder,
 		inputType,
 		rowNum,
@@ -15,6 +16,7 @@ export default function save({ attributes }) {
 		labelContent,
 		className
 	} = attributes;
+	const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
 
 	const dispLabel = required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent;
 

@@ -93,6 +93,8 @@ export default function Edit(props) {
 		className
 	} = attributes;
 
+	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
+
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 
@@ -104,13 +106,6 @@ export default function Edit(props) {
 	useEffect(() => {
 		setAttributes({ labelWidth: label_width });
 	}, [label_width]);
-
-	//スタイルの変更
-	useEffect(() => {
-		if (className === 'is-style-line') {
-			setAttributes({ is_shadow: false });//ラインスタイルの時はシャドーをつけない
-		}
-	}, [className]);
 
 	//入力値の確保
 	const [stateValue, setInputValue] = useState(inputValue);
@@ -290,15 +285,13 @@ export default function Edit(props) {
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
-					{className != 'is-style-line' &&
-						<ToggleControl
-							label={__('Is Shadow', 'itmar_block_collections')}
-							checked={is_shadow}
-							onChange={(newVal) => {
-								setAttributes({ is_shadow: newVal })
-							}}
-						/>
-					}
+					<ToggleControl
+						label={__('Is Shadow', 'itmar_block_collections')}
+						checked={is_shadow}
+						onChange={(newVal) => {
+							setAttributes({ is_shadow: newVal })
+						}}
+					/>
 				</PanelBody>
 				<PanelBody title={__("Input Box style settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
 
@@ -402,7 +395,7 @@ export default function Edit(props) {
 				</PanelBody>
 			</InspectorControls>
 
-			<div {...useBlockProps()}>
+			<div {...blockProps}>
 				<StyleComp attributes={attributes}>
 					{is_shadow ? (
 						<ShadowStyle
