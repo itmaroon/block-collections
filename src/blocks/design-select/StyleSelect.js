@@ -30,7 +30,6 @@ const StyledDiv = styled.div`
 
     //単色かグラデーションかの選択
     const bgColor = bgSelectColor || bgSelectGradient;
-    console.log(bgColor);
     //斜体の設定
     const fontStyle_option = font_style_option.isItalic ? "italic" : "normal";
     //角丸の設定
@@ -49,8 +48,6 @@ const StyledDiv = styled.div`
 
       .itmar_block_select {
         position: relative;
-        border-radius: ${heading_radius_prm};
-        ${borderProperty(border_value)};
         font-size: ${font_style_option.fontSize};
         font-family: ${font_style_option.fontFamily};
         font-weight: ${font_style_option.fontWeight};
@@ -60,6 +57,8 @@ const StyledDiv = styled.div`
         &>div {
           position: relative;
           background: ${bgColor};
+          border-radius: ${heading_radius_prm};
+          ${borderProperty(border_value)};
           ${box_shadow_style};
           z-index: 2;
           padding: 0.8em 3em 0.8em 1.2em;
@@ -118,13 +117,13 @@ const StyledDiv = styled.div`
             vertical-align: top;
             margin: 6px 6px 0 0;
             cursor: pointer;
-    
+        
             em {
-              font-style: normal;
               display: block;
               white-space: nowrap;
               padding: 0.1em 0.5em 0.1em 0.5em;
               position: relative;
+              font-style: ${fontStyle_option};
             }
     
             &:before {

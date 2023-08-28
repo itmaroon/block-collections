@@ -5,11 +5,12 @@ import { renderToString } from 'react-dom/server';
 import { StyleComp } from './StyleWapper';
 
 export default function save({ attributes }) {
-  const blockProps = useBlockProps.save();
+
   const {
-    headingContent,
-    headingID
+    bgColor,
+    headingContent
   } = attributes;
+  const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
 
   const sheet = new ServerStyleSheet();
   const html = renderToString(sheet.collectStyles(

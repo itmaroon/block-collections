@@ -87,15 +87,16 @@
 		"radius_value": {
 			"type": "object",
 			"default": {
-				"topLeft": "0px",
-				"topRight": "0px",
-				"bottomRight": "0px",
-				"bottomLeft": "0px",
-				"value": "0px"
+				"value": "5px"
 			}
 		},
 		"border_value": {
-			"type": "object"
+			"type": "object",
+			"default": {
+				"width": "1px",
+				"color": "#000000",
+				"style": "solid"
+			}
 		},
 		"shadow_element": {
 			"type": "object",

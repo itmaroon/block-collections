@@ -4,72 +4,12 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.textBox {
-  position: relative;
-  width: 100%;
-  padding-top: 10px;
-  height: 45px;
-  display: inline-flex;
-  margin-bottom: 3vh;
-  flex-direction: row-reverse;
-}
-
-.textBox .text {
-  font-weight: 500;
-  width: calc(100% - 2vw);
-  height: 27px;
-  padding-left: 0.5vw;
-  background-color: transparent;
-  color: white;
-  position: absolute;
-  bottom: 0px;
-  outline: none;
-  border-style: solid;
-  border-color: #E3E7EA;
-  border-width: 0px 0px 2px 0px;
-  font-size: 20px;
-  transition: border-color 0.45s linear;
-}
-
-.textBox > input.text:focus {
-  border-color: #B2FF59;
+.wp-block-itmar-design-select {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
-
-.textBox .label {
-  opacity: 0.1;
-  pointer-events: none;
-  z-index: 1;
-  color: #C0C0C0;
-  position: absolute;
-  padding-left: 0.5vw;
-  bottom: 3px;
-  font-size: 20px;
-  font-weight: 300;
-  transition-property: opacity bottom font-size;
-  transition-duration: 0.45s;
-  transition-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
-}
-
-.textBox .error {
-  position: absolute;
-  margin-top: 48px;
-  width: 100%;
-  color: #e74c3c;
-  text-align: center;
-}
-
-.textBox > input.text:focus ~ .label,
-.textBox > input.text:not([value=""]) ~ .label {
-  opacity: 1;
-  z-index: 1;
-  bottom: 55%;
-  font-size: 12px;
-}
-
-.textBox > input.text:focus ~ .label {
-  color: #B2FF59;
+.wp-block-itmar-design-select select {
+  display: none;
 }
 /*# sourceMappingURL=style.css.map */

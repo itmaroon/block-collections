@@ -6,27 +6,15 @@
 	"title": "Design Title",
 	"category": "design",
 	"icon": "tag",
-	"description": "見出しタグに様々なスタイルを適用したブロックです",
 	"supports": {
 		"html": false
 	},
-	"styles": [
-		{
-			"name": "nomal",
-			"label": "デザインなし",
-			"isDefault": true
-		},
-		{
-			"name": "virtical_line",
-			"label": "ライン入り"
-		},
-		{
-			"name": "sub_copy",
-			"label": "サブコピー付き"
-		}
-	],
 	"example": {},
 	"attributes": {
+		"bgColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
 		"headingContent": {
 			"type": "string"
 		},
@@ -66,12 +54,12 @@
 		},
 		"align": {
 			"type": "string",
-			"default": "none"
+			"default": "left"
 		},
-		"backgroundColor": {
+		"bg_heading": {
 			"type": "string"
 		},
-		"backgroundGradient": {
+		"gr_heading": {
 			"type": "string"
 		},
 		"textColor": {
@@ -92,6 +80,37 @@
 		},
 		"optionStyle": {
 			"type": "object"
+		},
+		"shadow_element": {
+			"type": "object",
+			"default": {
+				"shadowType": "nomal",
+				"spread": 2,
+				"lateral": 2,
+				"longitude": 2,
+				"nomalBlur": 3,
+				"shadowColor": "#9F9F9F",
+				"distance": 5,
+				"intensity": 5,
+				"opacity": 0.5,
+				"depth": 5,
+				"blur": 5,
+				"bdBlur": 5,
+				"expand": 5,
+				"glassblur": 5,
+				"glassopa": 0.5,
+				"newDirection": "top_left",
+				"clayDirection": "top",
+				"embos": "swell",
+				"hasOutline": true
+			}
+		},
+		"shadow_result": {
+			"type": "object"
+		},
+		"is_shadow": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"textdomain": "design-title",

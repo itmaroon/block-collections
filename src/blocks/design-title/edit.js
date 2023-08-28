@@ -3,16 +3,16 @@ import { __ } from '@wordpress/i18n';
 import TypographyControls from '../TypographyControls'
 import IconSelectControl from '../IconSelectControl';
 import { StyleComp } from './StyleWapper';
+import ShadowStyle from '../ShadowStyle';
 import { useStyleIframe, useFontawesomeIframe } from '../iframeFooks';
 
 import {
 	Button,
-	Panel,
 	PanelBody,
 	PanelRow,
 	ToggleControl,
 	RangeControl,
-	RadioControl,
+	Modal,
 	TextControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalUnitControl as UnitControl,
@@ -21,11 +21,9 @@ import {
 import {
 	useBlockProps,
 	RichText,
-	BlockAlignmentControl,
 	BlockControls,
-	InnerBlocks,
+	AlignmentToolbar,
 	InspectorControls,
-	PanelColorSettings,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
 } from '@wordpress/block-editor';
@@ -33,46 +31,52 @@ import {
 import './editor.scss';
 import { useEffect, useState, useRef } from '@wordpress/element';
 
+//スペースのリセットバリュー
+const padding_resetValues = {
+	top: '10px',
+	left: '10px',
+	right: '10px',
+	bottom: '10px',
+}
+
+//ボーダーのリセットバリュー
+const border_resetValues = {
+	top: '0px',
+	left: '0px',
+	right: '0px',
+	bottom: '0px',
+}
+
+const units = [
+	{ value: 'px', label: 'px' },
+	{ value: 'em', label: 'em' },
+	{ value: 'rem', label: 'rem' },
+];
+
+
 export default function Edit({ attributes, setAttributes }) {
 	const {
+		bgColor,
 		headingContent,
 		font_style_heading,
 		margin_heading,
 		padding_heading,
 		align,
-		backgroundColor,
-		backgroundGradient,
+		bg_heading,
+		gr_heading,
 		textColor,
 		radius_heading,
 		border_heading,
 		optionStyle,
+		shadow_element,
+		is_shadow,
 		className,
 	} = attributes;
 
-	//スペースのリセットバリュー
-	const padding_resetValues = {
-		top: '10px',
-		left: '10px',
-		right: '10px',
-		bottom: '10px',
-	}
-
-	//ボーダーのリセットバリュー
-	const border_resetValues = {
-		top: '0px',
-		left: '0px',
-		right: '0px',
-		bottom: '0px',
-	}
-
-	const units = [
-		{ value: 'px', label: 'px' },
-		{ value: 'em', label: 'em' },
-		{ value: 'rem', label: 'rem' },
-	];
+	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
 
 	//最初の状態
-	const renderFlgRef = useRef(false);
+	const prevClassRef = useRef('');
 
 	// ローカル状態の作成
 	const [localOptionStyle, setLocalOptionStyle] = useState(optionStyle);
@@ -82,64 +86,102 @@ export default function Edit({ attributes, setAttributes }) {
 		setAttributes({ optionStyle: localOptionStyle });
 	}, [localOptionStyle]);
 
+	//スタイル変更確認ダイアログ操作関数
+	const [isCangeModalOpen, setIsChangeModalOpen] = useState(false);
+	const [isCancelFlg, setIsCancelFlg] = useState(false);
+
 	//スタイル変更によるoptionStyleの初期化
 	useEffect(() => {
-		if (renderFlgRef.current) {//最初のレンダリングでは初期化しない
-			let reset_style;
-			switch (className) {
-				case 'is-style-virtical_line':
-					reset_style = {
-						styleName: 'is-style-virtical_line',
-						colorVal_border: '#000',
-						barWidth: '5px',
-						barSpace: '10px'
-					}
-					break;
-				case 'is-style-sub_copy':
-					reset_style = {
-						styleName: 'is-style-sub_copy',
-						color_text_copy: '#000',
-						color_background_copy: '#d1cece',
-						copy_content: 'SAMPLE',
-						font_style_copy: {
-							fontSize: "16px",
-							fontFamily: "Arial, sans-serif",
-							fontWeight: "500",
-							isItalic: false
-						},
-						radius_copy: {
-							topLeft: "10px",
-							topRight: "10px",
-							bottomRight: "0px",
-							bottomLeft: "0px",
-							value: "0px"
-
-						},
-						padding_copy: {
-							top: "10px",
-							left: "10px",
-							bottom: "10px",
-							right: "10px"
-
-						},
-						isIcon: false,
-						icon_style: {
-							icon_name: "f030",
-							icon_pos: "left",
-							icon_size: "24px",
-							icon_color: "#000",
-							icon_space: "5px"
-
-						}
-					}
-					break;
+		if (prevClassRef.current) {//最初のレンダリングでは初期化しない
+			if (isCancelFlg) {
+				//isCancelFlgがtrueのときはfalseに戻して何もしない
+				setIsCancelFlg(false);
+				return;
 			}
-			setLocalOptionStyle(reset_style);
+			if (prevClassRef.current === undefined || prevClassRef.current === 'is-style-default') {
+				execHandle();
+				return;
+			}
+			//確認ダイアログの表示
+			setIsChangeModalOpen(true);
 		}
 		else {
-			renderFlgRef.current = true
+			prevClassRef.current = className;
 		}
 	}, [className])
+
+	const execHandle = () => {
+		let reset_style;
+		switch (className) {
+			case 'is-style-circle_marker':
+				reset_style = {
+					styleName: 'is-style-circle_marker',
+					colorVal_circle: '#D1D7F2',
+					colorVal_second: '#9FAEF2',
+					circleScale: '3em',
+					secondScale: '1.5em',
+					second_opacity: 0.7,
+					first_long: 10,
+					first_lat: -5,
+					second_long: -10,
+					second_lat: 10,
+					isSecond: true
+				}
+				break;
+			case 'is-style-sub_copy':
+				reset_style = {
+					styleName: 'is-style-sub_copy',
+					color_text_copy: '#000',
+					color_background_copy: '#d1cece',
+					copy_content: 'SAMPLE',
+					font_style_copy: {
+						fontSize: "16px",
+						fontFamily: "Arial, sans-serif",
+						fontWeight: "500",
+						isItalic: false
+					},
+					radius_copy: {
+						topLeft: "10px",
+						topRight: "10px",
+						bottomRight: "0px",
+						bottomLeft: "0px",
+						value: "0px"
+
+					},
+					padding_copy: {
+						top: "10px",
+						left: "10px",
+						bottom: "10px",
+						right: "10px"
+
+					},
+					isIcon: false,
+					icon_style: {
+						icon_name: "f030",
+						icon_pos: "left",
+						icon_size: "24px",
+						icon_color: "#000",
+						icon_space: "5px"
+
+					}
+				}
+				break;
+		}
+		setLocalOptionStyle(reset_style);
+		//refの更新
+		prevClassRef.current = className;
+		//確認ダイアログを消す
+		setIsChangeModalOpen(false);
+	}
+
+	const cancelHandle = () => {
+		//キャンセルが押されたことを記録
+		setIsCancelFlg(true);
+		//classNameを元に戻す
+		setAttributes({ className: prevClassRef.current })
+		//確認ダイアログを消す
+		setIsChangeModalOpen(false);
+	}
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -149,12 +191,46 @@ export default function Edit({ attributes, setAttributes }) {
 	//TextControlの表示用変数
 	const [copyInputValue, setCopyInputValue] = useState((optionStyle && optionStyle.copy_content !== undefined) ? optionStyle.copy_content : 'SAMPLE');
 
+	function renderContent() {
+		return (
+			<RichText
+				onChange={
+					(newContent) => {
+						setAttributes({ headingContent: newContent })
+					}
+				}
+				value={headingContent}
+				placeholder={__('Write Title text...', 'itmar_block_collections')}
+			/>
+		)
+	}
+
 	return (
 		<>
 			<InspectorControls group="styles">
-				<PanelBody title="ヘディングスタイル設定" initialOpen={false} className="title_design_ctrl">
+				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
+					<PanelColorGradientSettings
+						title={__("Background Color Setting", 'itmar_block_collections')}
+						settings={[
+							{
+								colorValue: bgColor,
+								label: __("Choose Block Background color", 'itmar_block_collections'),
+								onColorChange: (newValue) => setAttributes({ bgColor: newValue })
+							}
+						]}
+					/>
+
+					<ToggleControl
+						label={__('Is Shadow', 'itmar_block_collections')}
+						checked={is_shadow}
+						onChange={(newVal) => {
+							setAttributes({ is_shadow: newVal })
+						}}
+					/>
+				</PanelBody>
+				<PanelBody title={__("Heading settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
 					<TypographyControls
-						title='タイポグラフィー'
+						title={__('Typography', 'itmar_block_collections')}
 						fontStyle={font_style_heading}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_heading: newStyle })
@@ -163,24 +239,24 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 
 					<PanelColorGradientSettings
-						title={__("Heading Color Setting")}
+						title={__("Heading Color Setting", 'itmar_block_collections')}
 						settings={[{
 							colorValue: textColor,
-							label: __("Choose Text color"),
+							label: __("Choose Text color", 'itmar_block_collections'),
 							onColorChange: (newValue) => setAttributes({ textColor: newValue }),
 						},
 						{
-							colorValue: backgroundColor,
-							gradientValue: backgroundGradient,
+							colorValue: bg_heading,
+							gradientValue: gr_heading,
 
-							label: __("Choose Background color"),
-							onColorChange: (newValue) => setAttributes({ backgroundColor: newValue }),
-							onGradientChange: (newValue) => setAttributes({ backgroundGradient: newValue }),
+							label: __("Choose Background color", 'itmar_block_collections'),
+							onColorChange: (newValue) => setAttributes({ bg_heading: newValue }),
+							onGradientChange: (newValue) => setAttributes({ gr_heading: newValue }),
 						},
 						]}
 					/>
 					<BoxControl
-						label="マージン設定"
+						label={__("Margin settings", 'itmar_block_collections')}
 						values={margin_heading}
 						onChange={value => setAttributes({ margin_heading: value })}
 						units={units}	// 許可する単位
@@ -190,7 +266,7 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 
 					<BoxControl
-						label="パティング設定"
+						label={__("Padding settings", 'itmar_block_collections')}
 						values={padding_heading}
 						onChange={value => setAttributes({ padding_heading: value })}
 						units={units}	// 許可する単位
@@ -198,7 +274,7 @@ export default function Edit({ attributes, setAttributes }) {
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
-					<PanelBody title="ボーダー設定" initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
 							onChange={(newValue) => setAttributes({ border_heading: newValue })}
@@ -213,178 +289,281 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 					</PanelBody>
 				</PanelBody>
-				<PanelBody title="スタイル別設定" initialOpen={false} className="title_design_ctrl">
 
-					{className === 'is-style-virtical_line' &&
-						<>
-							<PanelColorGradientSettings
-								title={__("Bar Color Setting")}
-								settings={[{
-									colorValue: (optionStyle && optionStyle.colorVal_border) ? optionStyle.colorVal_border : '#000',
-									gradientValue: (optionStyle && optionStyle.gradientVal_border) ? optionStyle.gradientVal_border : undefined,
 
-									label: __("Choose Line Background"),
-									onColorChange: (newValue) => {
-										setLocalOptionStyle(prev => ({ ...prev, colorVal_border: newValue }));
-									},
-									onGradientChange: (newValue) => {
-										setLocalOptionStyle(prev => ({ ...prev, gradientVal_border: newValue }));
-									},
+				{className === 'is-style-circle_marker' &&
+					<PanelBody title={__("Circle Marker Settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
+						<PanelColorGradientSettings
+							title={__("Circle Color Setting", 'itmar_block_collections')}
+							settings={[{
+								colorValue: (optionStyle && optionStyle.colorVal_circle) ? optionStyle.colorVal_circle : '#D1D7F2',
+								gradientValue: (optionStyle && optionStyle.gradientVal_circle) ? optionStyle.gradientVal_circle : undefined,
+
+								label: __("Choose Circle Background", 'itmar_block_collections'),
+								onColorChange: (newValue) => {
+									setLocalOptionStyle(prev => ({ ...prev, colorVal_circle: newValue }));
 								},
-								]}
-							/>
-
-							<PanelRow
-								className='sizing_row'
-							>
-								<UnitControl
-									dragDirection="e"
-									onChange={(newValue) => {
-										setLocalOptionStyle(prev => ({ ...prev, barWidth: newValue }));
-									}}
-									label='ラインの幅'
-									value={(optionStyle && optionStyle.barWidth) ? optionStyle.barWidth : '5px'}
-								/>
-								<UnitControl
-									dragDirection="e"
-									onChange={(newValue) => {
-										setLocalOptionStyle(prev => ({ ...prev, barSpace: newValue }));
-									}}
-									label='文字との間隔'
-									value={(optionStyle && optionStyle.barSpace) ? optionStyle.barSpace : '10px'}
-								/>
-							</PanelRow>
-						</>
-					}
-
-					{className === 'is-style-sub_copy' &&
-						<>
-							<PanelColorGradientSettings
-								title={__("Copy Color Setting")}
-								settings={[{
-									colorValue: (optionStyle && optionStyle.color_text_copy) ? optionStyle.color_text_copy : '#000',
-									label: __("Choose Text color"),
-									onColorChange: (newValue) => {
-										setLocalOptionStyle(prev => ({ ...prev, color_text_copy: newValue }));
-									},
+								onGradientChange: (newValue) => {
+									setLocalOptionStyle(prev => ({ ...prev, gradientVal_circle: newValue }));
 								},
-								{
-									colorValue: (optionStyle && optionStyle.color_background_copy) ? optionStyle.color_background_copy : '#d1cece',
-									gradientValue: (optionStyle && optionStyle.gradient_background_copy) ? optionStyle.gradient_background_copy : undefined,
+							},
+							]}
+						/>
 
-									label: __("Choose Background color"),
-									onColorChange: (newValue) => {
-										setLocalOptionStyle(prev => ({ ...prev, color_background_copy: newValue }));
-									},
-									onGradientChange: (newValue) => {
-
-										setLocalOptionStyle(prev => ({ ...prev, gradient_background_copy: newValue }));
-									},
-								},
-								]}
-							/>
-
-							<PanelRow
-								className='copyInfo_row'
-							>
-								<TextControl
-									label="コピーテキスト"
-									labelPosition="top"
-									value={copyInputValue}
-									onChange={(newValue) => {
-										setCopyInputValue(newValue);
-										setLocalOptionStyle(prev => ({ ...prev, copy_content: newValue }));
-									}}
-								/>
-							</PanelRow>
-
-							<TypographyControls
-								title='コーピーのタイポグラフィー'
-								fontStyle={(optionStyle && optionStyle.font_style_copy) ? optionStyle.font_style_copy : {
-									fontSize: "16px",
-									fontFamily: "Arial, sans-serif",
-									fontWeight: "500",
-									isItalic: false
-								}}
-								initialOpen={false}
+						<UnitControl
+							dragDirection="e"
+							onChange={(newValue) => {
+								setLocalOptionStyle(prev => ({ ...prev, circleScale: newValue }));
+							}}
+							label={__("Circle Scale Setting", 'itmar_block_collections')}
+							value={(optionStyle && optionStyle.circleScale) ? optionStyle.circleScale : '3em'}
+						/>
+						<PanelBody title={__("Position Settings", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
+							<RangeControl
+								value={(optionStyle && optionStyle.first_lat) ? optionStyle.first_lat : 10}
+								label={__("Lateral direction", 'itmar_block_collections')}
+								max={50}
+								min={-30}
+								step={1}
 								onChange={(newValue) => {
-									setLocalOptionStyle(prev => ({ ...prev, font_style_copy: newValue }));
+									setLocalOptionStyle(prev => ({ ...prev, first_lat: newValue }));
+								}}
+								withInputField={false}
+							/>
+							<RangeControl
+								value={(optionStyle && optionStyle.first_long) ? optionStyle.first_long : 10}
+								label={__("Longitudinal direction", 'itmar_block_collections')}
+								max={50}
+								min={-30}
+								step={1}
+								onChange={(newValue) => {
+									setLocalOptionStyle(prev => ({ ...prev, first_long: newValue }));
+								}}
+								withInputField={false}
+							/>
+						</PanelBody>
+						<PanelBody title={__("Second Circle Settings", 'itmar_block_collections')} initialOpen={true}>
+							<ToggleControl
+								label={__('Second Circle', 'itmar_block_collections')}
+								checked={(optionStyle && optionStyle.isSecond) ? optionStyle.isSecond : true}
+								onChange={(newValue) => {
+									setLocalOptionStyle(prev => ({ ...prev, isSecond: newValue }));
+								}}
+							/>
+						</PanelBody>
+						{((optionStyle && optionStyle.isSecond) ? optionStyle.isSecond : false) &&
+							<>
+								<PanelColorGradientSettings
+									title={__("Circle Color Setting", 'itmar_block_collections')}
+									settings={[{
+										colorValue: (optionStyle && optionStyle.colorVal_second) ? optionStyle.colorVal_second : '#9FAEF2',
+										gradientValue: (optionStyle && optionStyle.gradientVal_second) ? optionStyle.gradientVal_second : undefined,
+
+										label: __("Choose Circle Background", 'itmar_block_collections'),
+										onColorChange: (newValue) => {
+											setLocalOptionStyle(prev => ({ ...prev, colorVal_second: newValue }));
+										},
+										onGradientChange: (newValue) => {
+											setLocalOptionStyle(prev => ({ ...prev, gradientVal_second: newValue }));
+										},
+									},
+									]}
+								/>
+								<RangeControl
+									value={(optionStyle && optionStyle.second_opacity) ? optionStyle.second_opacity : 0.7}
+									label={__("Opacity", 'itmar_block_collections')}
+									max={1}
+									min={0.1}
+									step={0.1}
+									onChange={(newValue) => {
+										setLocalOptionStyle(prev => ({ ...prev, second_opacity: newValue }));
+									}}
+									withInputField={false}
+								/>
+								<UnitControl
+									dragDirection="e"
+									onChange={(newValue) => {
+										setLocalOptionStyle(prev => ({ ...prev, secondScale: newValue }));
+									}}
+									label={__("Circle Scale Setting", 'itmar_block_collections')}
+									value={(optionStyle && optionStyle.secondScale) ? optionStyle.secondScale : '1.5em'}
+								/>
+								<PanelBody title={__("Position Settings", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
+									<RangeControl
+										value={(optionStyle && optionStyle.second_lat) ? optionStyle.second_lat : 20}
+										label={__("Lateral direction", 'itmar_block_collections')}
+										max={50}
+										min={-30}
+										step={1}
+										onChange={(newValue) => {
+											setLocalOptionStyle(prev => ({ ...prev, second_lat: newValue }));
+										}}
+										withInputField={false}
+									/>
+									<RangeControl
+										value={(optionStyle && optionStyle.second_long) ? optionStyle.second_long : -10}
+										label={__("Longitudinal direction", 'itmar_block_collections')}
+										max={50}
+										min={-30}
+										step={1}
+										onChange={(newValue) => {
+											setLocalOptionStyle(prev => ({ ...prev, second_long: newValue }));
+										}}
+										withInputField={false}
+									/>
+								</PanelBody>
+							</>
+						}
+					</PanelBody>
+				}
+
+				{className === 'is-style-sub_copy' &&
+					<PanelBody title={__("Sub Copy Settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
+						<PanelColorGradientSettings
+							title={__("Copy Color Setting", 'itmar_block_collections')}
+							settings={[{
+								colorValue: (optionStyle && optionStyle.color_text_copy) ? optionStyle.color_text_copy : '#000',
+								label: __("Choose Text color", 'itmar_block_collections'),
+								onColorChange: (newValue) => {
+									setLocalOptionStyle(prev => ({ ...prev, color_text_copy: newValue }));
+								},
+							},
+							{
+								colorValue: (optionStyle && optionStyle.color_background_copy) ? optionStyle.color_background_copy : '#d1cece',
+								gradientValue: (optionStyle && optionStyle.gradient_background_copy) ? optionStyle.gradient_background_copy : undefined,
+
+								label: __("Choose Background color", 'itmar_block_collections'),
+								onColorChange: (newValue) => {
+									setLocalOptionStyle(prev => ({ ...prev, color_background_copy: newValue }));
+								},
+								onGradientChange: (newValue) => {
+
+									setLocalOptionStyle(prev => ({ ...prev, gradient_background_copy: newValue }));
+								},
+							},
+							]}
+						/>
+
+						<PanelRow className='copyInfo_row'>
+							<TextControl
+								label={__("Copy Text", 'itmar_block_collections')}
+								labelPosition="top"
+								value={copyInputValue}
+								onChange={(newValue) => {
+									setCopyInputValue(newValue);
+									setLocalOptionStyle(prev => ({ ...prev, copy_content: newValue }));
+								}}
+							/>
+						</PanelRow>
+
+						<TypographyControls
+							title={__('Typography', 'itmar_block_collections')}
+							fontStyle={(optionStyle && optionStyle.font_style_copy) ? optionStyle.font_style_copy : {
+								fontSize: "16px",
+								fontFamily: "Arial, sans-serif",
+								fontWeight: "500",
+								isItalic: false
+							}}
+							initialOpen={false}
+							onChange={(newValue) => {
+								setLocalOptionStyle(prev => ({ ...prev, font_style_copy: newValue }));
+							}}
+						/>
+
+						<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={true}>
+							<BorderRadiusControl
+								values={(optionStyle && optionStyle.radius_copy) ? optionStyle.radius_copy : {
+									topLeft: "10px",
+									topRight: "10px",
+									bottomRight: "0px",
+									bottomLeft: "0px",
+									value: "0px"
+								}}
+								onChange={(newBrVal) => {
+									setLocalOptionStyle(prev => ({ ...prev, radius_copy: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal }));
 								}}
 							/>
 
-							<PanelBody title="ボーダー設定" initialOpen={true}>
-								<BorderRadiusControl
-									values={(optionStyle && optionStyle.radius_copy) ? optionStyle.radius_copy : {
-										topLeft: "10px",
-										topRight: "10px",
-										bottomRight: "0px",
-										bottomLeft: "0px",
-										value: "0px"
-									}}
-									onChange={(newBrVal) => {
-										setLocalOptionStyle(prev => ({ ...prev, radius_copy: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal }));
-									}}
-								/>
+							<BoxControl
+								label={__("Padding settings", 'itmar_block_collections')}
+								values={(optionStyle && optionStyle.padding_copy) ? optionStyle.padding_copy : {
+									top: "10px",
+									left: "10px",
+									bottom: "10px",
+									right: "10px"
+								}}
+								onChange={(newValue) => {
+									setLocalOptionStyle(prev => ({ ...prev, padding_copy: newValue }));
+								}}
+								units={units}	// 許可する単位
+								allowReset={true}	// リセットの可否
+								resetValues={padding_resetValues}	// リセット時の値
 
-								<BoxControl
-									label="パティング設定"
-									values={(optionStyle && optionStyle.padding_copy) ? optionStyle.padding_copy : {
-										top: "10px",
-										left: "10px",
-										bottom: "10px",
-										right: "10px"
+							/>
+						</PanelBody>
+						<PanelBody title={__("Icon settings", 'itmar_block_collections')} initialOpen={true}>
+							<ToggleControl
+								label={__('Append icon', 'itmar_block_collections')}
+								checked={(optionStyle && optionStyle.isIcon) ? optionStyle.isIcon : false}
+								onChange={(newValue) => {
+									setLocalOptionStyle(prev => ({ ...prev, isIcon: newValue }));
+								}}
+							/>
+							{((optionStyle && optionStyle.isIcon) ? optionStyle.isIcon : false) &&
+								<IconSelectControl
+									iconStyle={(optionStyle && optionStyle.icon_style) ? optionStyle.icon_style : {
+										icon_name: "f030",
+										icon_pos: "left",
+										icon_size: "24px",
+										icon_color: "#000",
+										icon_space: "5px"
 									}}
 									onChange={(newValue) => {
-										setLocalOptionStyle(prev => ({ ...prev, padding_copy: newValue }));
-									}}
-									units={units}	// 許可する単位
-									allowReset={true}	// リセットの可否
-									resetValues={padding_resetValues}	// リセット時の値
-
-								/>
-							</PanelBody>
-							<PanelBody title="アイコン設定" initialOpen={true}>
-								<ToggleControl
-									label='アイコンを付加する'
-									checked={(optionStyle && optionStyle.isIcon) ? optionStyle.isIcon : false}
-									onChange={(newValue) => {
-										setLocalOptionStyle(prev => ({ ...prev, isIcon: newValue }));
+										setLocalOptionStyle(prev => ({ ...prev, icon_style: newValue }));
 									}}
 								/>
-								{((optionStyle && optionStyle.isIcon) ? optionStyle.isIcon : false) &&
-									<IconSelectControl
-										iconStyle={(optionStyle && optionStyle.icon_style) ? optionStyle.icon_style : {
-											icon_name: "f030",
-											icon_pos: "left",
-											icon_size: "24px",
-											icon_color: "#000",
-											icon_space: "5px"
-										}}
-										onChange={(newValue) => {
-											setLocalOptionStyle(prev => ({ ...prev, icon_style: newValue }));
-										}}
-									/>
-								}
-							</PanelBody>
-
-						</>
-					}
-				</PanelBody>
-
-
-			</InspectorControls>
-
-			<div {...useBlockProps()}>
-				<StyleComp attributes={attributes}>
-					<RichText
-						onChange={
-							(newContent) => {
-								setAttributes({ headingContent: newContent })
 							}
-						}
-						value={headingContent}
-						placeholder={__('Write your text...')}
-					/>
+						</PanelBody>
+					</PanelBody >
+				}
+			</InspectorControls >
+
+			<BlockControls>
+				<AlignmentToolbar
+					value={align}
+					onChange={(nextAlign) => {
+						setAttributes({ align: nextAlign });
+					}}
+				/>
+			</BlockControls>
+
+			{isCangeModalOpen && (
+				<Modal
+					title={__("Confirm Deletion", 'itmar_block_collections')}
+					onRequestClose={cancelHandle}
+				>
+					<p>{__("Changing a style resets the style-specific settings. Are you sure?", 'itmar_block_collections')}</p>
+					<Button variant="primary" onClick={execHandle}>{__("Yes, Change", 'itmar_block_collections')}</Button>
+					<Button variant="secondary" onClick={cancelHandle}>{__("Cancel", 'itmar_block_collections')}</Button>
+				</Modal>
+			)}
+
+
+			<div {...blockProps}>
+				<StyleComp attributes={attributes}>
+					{is_shadow ? (
+						<ShadowStyle
+							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result: newStyle.style });
+								setAttributes({ shadow_element: newState })
+							}}
+						>
+							{renderContent()}
+						</ShadowStyle>
+					) : (
+						renderContent()
+					)}
 				</StyleComp>
 			</div>
 

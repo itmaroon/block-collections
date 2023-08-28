@@ -308,7 +308,7 @@ export default function Edit({ attributes, setAttributes }) {
 						title={__('Typography', 'itmar_block_collections')}
 						fontStyle={font_style_option}
 						onChange={(newStyle) => {
-							setAttributes({ font_style_label: newStyle })
+							setAttributes({ font_style_option: newStyle })
 						}}
 						initialOpen={false}
 					/>
