@@ -4,12 +4,14 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-select {
+.wp-block-itmar-draggable-box {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-}
-.wp-block-itmar-design-select select {
-  display: none;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  color: #000000;
+  padding: 2px;
 }
 /*# sourceMappingURL=style.css.map */

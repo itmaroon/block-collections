@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps, InspectorControls } from '@wordpress/block-editor';
 
 import {
 	Button,
@@ -12,6 +12,12 @@ import './editor.scss';
 import DraggableBox from '../DraggableBox';
 
 export default function Edit(props) {
+	const innerBlocksProps = useInnerBlocksProps(
+		{},
+		{
+			templateLock: false
+		}
+	);
 	//ブロック属性の読み込み
 	const {
 		attributes,
@@ -72,7 +78,7 @@ export default function Edit(props) {
 		<>
 			<InspectorControls >
 				<PanelBody
-					title={__('移動距離', 'cb_location')}
+					title={__("Moving distance", 'itmar_block_collections')}
 					initialOpen={true}
 				>
 					<PanelRow
@@ -81,13 +87,13 @@ export default function Edit(props) {
 						<UnitControl
 							dragDirection="e"
 							onChange={(value) => chagePositionX(value)}
-							label='横方向'
+							label={__("Lateral direction", 'itmar_block_collections')}
 							value={movePosition.x}
 						/>
 						<UnitControl
 							dragDirection="e"
 							onChange={(value) => chagePositionY(value)}
-							label='縦方向'
+							label={__("Longitudinal direction", 'itmar_block_collections')}
 							value={movePosition.y}
 						/>
 					</PanelRow>
@@ -98,7 +104,7 @@ export default function Edit(props) {
 							variant="secondary"
 							onClick={() => resetPos()}
 						>
-							リセット
+							{__("Reset", 'itmar_block_collections')}
 						</Button>
 					</PanelRow>
 				</PanelBody>
@@ -109,12 +115,7 @@ export default function Edit(props) {
 					position={position}
 					onPositionChange={(position) => setAttributes({ position: position })}
 				>
-					<InnerBlocks
-						template={[
-							['core/image', {}],
-						]}
-						templateLock="all"
-					/>
+					<div {...innerBlocksProps}></div>
 				</DraggableBox>
 
 			</div>

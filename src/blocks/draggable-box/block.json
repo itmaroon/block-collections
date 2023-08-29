@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "itmar/draggable-box",
+	"version": "0.1.0",
+	"title": "Draggable Box",
+	"category": "widgets",
+	"icon": "tickets",
+	"supports": {
+		"spacing": {
+			"padding": true
+		},
+		"html": false
+	},
+	"attributes": {
+		"position": {
+			"type": "object",
+			"default": {
+				"x": 0,
+				"y": 0
+			}
+		},
+		"unit_x": {
+			"type": "string",
+			"default": "px"
+		},
+		"unit_y": {
+			"type": "string",
+			"default": "px"
+		}
+	},
+	"textdomain": "itmar_block_collections",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

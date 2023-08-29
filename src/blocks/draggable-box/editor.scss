@@ -4,25 +4,30 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-itmar-draggable-image {
+.wp-block-itmar-draggable-box {
 	border: 1px dotted #f00;
-	.draggablebox{
-		&:hover{
+
+	.draggablebox {
+		padding: 3px;
+
+		&:hover {
 			cursor: move;
 		}
 	}
-	
+
 }
 
-.components-panel__row{
-	&.distance_row{
+.components-panel__row {
+	&.distance_row {
 		align-items: baseline;
 		column-gap: 10px;
-		.components-base-control{
+
+		.components-base-control {
 			margin-bottom: 0;
 		}
 	}
-	&.reset_row{
+
+	&.reset_row {
 		justify-content: end;
 	}
 }

@@ -3,115 +3,25 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-title.is-selected {
+.wp-block-itmar-draggable-box {
   border: 1px dotted #f00;
 }
-.wp-block-itmar-design-title [data-rich-text-placeholder] {
-  opacity: 0.5;
+.wp-block-itmar-draggable-box .draggablebox {
+  padding: 3px;
+}
+.wp-block-itmar-draggable-box .draggablebox:hover {
+  cursor: move;
 }
 
-.title_design_ctrl .sizing_row {
+.components-panel__row.distance_row {
   align-items: baseline;
   -moz-column-gap: 10px;
        column-gap: 10px;
 }
-.title_design_ctrl .sizing_row .components-base-control {
+.components-panel__row.distance_row .components-base-control {
   margin-bottom: 0;
 }
-
-.border_design_ctrl .components-panel__body-title {
-  margin-bottom: 20px !important;
-}
-
-.components-base-control__label {
-  font-size: 11px;
-  padding-bottom: 10px;
-}
-
-.itmar_weight_row .components-radio-control,
-.itmar_position_row .components-radio-control,
-.itmar_select_row .components-radio-control,
-.itmar_shadow_type .components-radio-control {
-  width: 100%;
-}
-.itmar_weight_row .components-radio-control .components-flex,
-.itmar_position_row .components-radio-control .components-flex,
-.itmar_select_row .components-radio-control .components-flex,
-.itmar_shadow_type .components-radio-control .components-flex {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-  gap: 0;
-}
-.itmar_weight_row .components-radio-control__option,
-.itmar_position_row .components-radio-control__option,
-.itmar_select_row .components-radio-control__option,
-.itmar_shadow_type .components-radio-control__option {
-  width: 30%;
-}
-.itmar_weight_row .components-radio-control__option input,
-.itmar_position_row .components-radio-control__option input,
-.itmar_select_row .components-radio-control__option input,
-.itmar_shadow_type .components-radio-control__option input {
-  display: none;
-}
-.itmar_weight_row .components-radio-control__option input[type=radio]:checked + label,
-.itmar_position_row .components-radio-control__option input[type=radio]:checked + label,
-.itmar_select_row .components-radio-control__option input[type=radio]:checked + label,
-.itmar_shadow_type .components-radio-control__option input[type=radio]:checked + label {
-  background-color: #0085ba;
-  color: #fff;
-  text-shadow: 0 -1px 1px #005d82, 1px 0 1px #005d82, 0 1px 1px #005d82, -1px 0 1px #005d82;
-}
-.itmar_weight_row .components-radio-control__option label,
-.itmar_position_row .components-radio-control__option label,
-.itmar_select_row .components-radio-control__option label,
-.itmar_shadow_type .components-radio-control__option label {
-  display: block;
-  cursor: pointer;
-  width: 100%;
-  margin: 0;
-  padding: 9px 5px;
-  background: #f7f7f7;
-  color: #555e64;
-  text-align: center;
-  line-height: 1;
-  transition: 0.2s;
-  border: solid 1px #ccc;
-  border-left-style: none;
-  box-shadow: inset 0 -1px 0 #ccc;
-  max-width: 100%;
-}
-.itmar_weight_row .components-radio-control__option label:hover,
-.itmar_position_row .components-radio-control__option label:hover,
-.itmar_select_row .components-radio-control__option label:hover,
-.itmar_shadow_type .components-radio-control__option label:hover {
-  background: #fafafa;
-  border-color: #999;
-  box-shadow: inset 0 -1px 0 #999;
-  color: #23282d;
-}
-.itmar_weight_row .components-radio-control__option:first-child label,
-.itmar_position_row .components-radio-control__option:first-child label,
-.itmar_select_row .components-radio-control__option:first-child label,
-.itmar_shadow_type .components-radio-control__option:first-child label {
-  border-radius: 3px 0 0 3px;
-  border-left-style: solid;
-}
-.itmar_weight_row .components-radio-control__option:last-child label,
-.itmar_position_row .components-radio-control__option:last-child label,
-.itmar_select_row .components-radio-control__option:last-child label,
-.itmar_shadow_type .components-radio-control__option:last-child label {
-  border-radius: 0 3px 3px 0;
-}
-
-.itmar_select_row .components-radio-control .components-flex {
-  -moz-column-gap: 2em;
-       column-gap: 2em;
-}
-
-.itmar_shadow_type .components-radio-control__option {
-  width: 50%;
+.components-panel__row.reset_row {
+  justify-content: end;
 }
 /*# sourceMappingURL=editor.css.map */

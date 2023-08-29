@@ -1,12 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 2,
-  "name": "itmar/draggable-image",
+  "name": "itmar/draggable-box",
   "version": "0.1.0",
-  "title": "Draggable Image",
+  "title": "Draggable Box",
   "category": "widgets",
   "icon": "tickets",
-  "description": "ドラッグできるcore/imageブロックです",
   "supports": {
     "spacing": {
       "padding": true
@@ -30,7 +29,7 @@
       "default": "px"
     }
   },
-  "textdomain": "draggable-image",
+  "textdomain": "itmar_block_collections",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"

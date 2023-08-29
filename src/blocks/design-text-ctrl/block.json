@@ -193,7 +193,7 @@
 	"usesContext": [
 		"itmar/label_width"
 	],
-	"textdomain": "design-text-ctrl",
+	"textdomain": "itmar_block_collections",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css"

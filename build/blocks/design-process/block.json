@@ -119,7 +119,7 @@
   "usesContext": [
     "itmar/state_process"
   ],
-  "textdomain": "design-process",
+  "textdomain": "itmar_block_collections",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"

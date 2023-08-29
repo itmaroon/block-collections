@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Block Collections 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-"
 "collections\n"
-"POT-Creation-Date: 2023-08-28T14:29:26+02:00\n"
-"PO-Revision-Date: 2023-08-29 08:49+0900\n"
+"POT-Creation-Date: 2023-08-29T11:31:21+02:00\n"
+"PO-Revision-Date: 2023-08-29 18:34+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -219,7 +219,8 @@ msgstr "広がり"
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
 #: build/blocks/design-title/index.js:1 build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:324 src/blocks/design-title/edit.js:394
+#: build/blocks/draggable-box/index.js:1 src/blocks/design-title/edit.js:324
+#: src/blocks/design-title/edit.js:394 src/blocks/draggable-box/edit.js:90
 #: src/blocks/ShadowStyle.js:221 build/blocks/design-checkbox/index.js:2873
 #: build/blocks/design-process/index.js:2894
 #: build/blocks/design-select/index.js:2891
@@ -227,6 +228,7 @@ msgstr "広がり"
 #: build/blocks/design-title/index.js:3018
 #: build/blocks/design-title/index.js:3890
 #: build/blocks/design-title/index.js:3960
+#: build/blocks/draggable-box/index.js:185
 msgid "Lateral direction"
 msgstr "横方向"
 
@@ -234,7 +236,8 @@ msgstr "横方向"
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
 #: build/blocks/design-title/index.js:1 build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:335 src/blocks/design-title/edit.js:405
+#: build/blocks/draggable-box/index.js:1 src/blocks/design-title/edit.js:335
+#: src/blocks/design-title/edit.js:405 src/blocks/draggable-box/edit.js:96
 #: src/blocks/ShadowStyle.js:229 build/blocks/design-checkbox/index.js:2881
 #: build/blocks/design-process/index.js:2902
 #: build/blocks/design-select/index.js:2899
@@ -242,6 +245,7 @@ msgstr "横方向"
 #: build/blocks/design-title/index.js:3026
 #: build/blocks/design-title/index.js:3901
 #: build/blocks/design-title/index.js:3971
+#: build/blocks/draggable-box/index.js:191
 msgid "Longitudinal direction"
 msgstr "縦方向"
 
@@ -1056,6 +1060,78 @@ msgstr "サブコピー"
 #: build/blocks/design-title/index.js:4169
 msgid "A block with various styles applied to heading tags"
 msgstr "見出しタグにさまざまなスタイルが適用されたブロックです。"
+
+#: build/blocks/draggable-box/index.js:1 src/blocks/draggable-box/edit.js:81
+#: build/blocks/draggable-box/index.js:176
+msgid "Moving distance"
+msgstr "移動距離"
+
+#: build/blocks/draggable-box/index.js:1 src/blocks/draggable-box/edit.js:107
+#: build/blocks/draggable-box/index.js:202
+msgid "Reset"
+msgstr "リセット"
+
+#: build/blocks/draggable-box/index.js:1 src/blocks/draggable-box/index.js:14
+#: build/blocks/draggable-box/index.js:233
+msgid "It is a block that has a function to adjust the placement by dragging."
+msgstr "ドラッグで配置調整する機能をもつブロックです。"
+
+#: build/blocks/code-highlight/block.json src/blocks/code-highlight/block.json
+msgctxt "block title"
+msgid "Code HighLight"
+msgstr ""
+
+#: build/blocks/design-checkbox/block.json
+#: src/blocks/design-checkbox/block.json
+msgctxt "block title"
+msgid "Dsign CheckBox"
+msgstr ""
+
+#: build/blocks/design-process/block.json src/blocks/design-process/block.json
+msgctxt "block title"
+msgid "Design Process"
+msgstr ""
+
+#: build/blocks/design-select/block.json src/blocks/design-select/block.json
+#, fuzzy
+#| msgid "Single Select"
+msgctxt "block title"
+msgid "Design Select"
+msgstr "単一選択"
+
+#: build/blocks/design-text-ctrl/block.json
+#: src/blocks/design-text-ctrl/block.json
+msgctxt "block title"
+msgid "Design Text Control"
+msgstr ""
+
+#: build/blocks/design-text-ctrl/block.json
+#: src/blocks/design-text-ctrl/block.json
+msgctxt "block description"
+msgid "スタイリングしたテキストコントロールです"
+msgstr ""
+
+#: build/blocks/design-text-ctrl/block.json
+#: src/blocks/design-text-ctrl/block.json
+msgctxt "block style label"
+msgid "デフォルト"
+msgstr ""
+
+#: build/blocks/design-text-ctrl/block.json
+#: src/blocks/design-text-ctrl/block.json
+msgctxt "block style label"
+msgid "ラインのみ"
+msgstr ""
+
+#: build/blocks/design-title/block.json src/blocks/design-title/block.json
+msgctxt "block title"
+msgid "Design Title"
+msgstr ""
+
+#: build/blocks/draggable-box/block.json src/blocks/draggable-box/block.json
+msgctxt "block title"
+msgid "Draggable Box"
+msgstr ""
 
 #~ msgid " Background Color Setting"
 #~ msgstr "背景色設定"
