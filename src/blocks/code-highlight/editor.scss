@@ -5,9 +5,7 @@
  */
 
 .wp-block-itmar-code-highlight {
-	&.is-selected {
-		border: 1px dotted #f00;
-	}
+	border: 1px dotted #f00;
 
 	.filename input {
 		max-width: 300px;

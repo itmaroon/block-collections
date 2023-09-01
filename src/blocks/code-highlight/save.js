@@ -70,7 +70,6 @@ export default function save({ attributes }) {
 					{codeArea}
 				</pre>
 				<button className='code_copy'>{__('Copy', 'itmar_block_collections')}</button>
-
 			</div>
 		</div>
 	);

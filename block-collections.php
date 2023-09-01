@@ -54,6 +54,7 @@ function itmar_block_collections_block_init()
 		}
 		// その後、このハンドルを使用してスクリプトの翻訳をセット
 		wp_set_script_translations( $script_handle, 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages' );
+		
 	}
 
 	//PHP用のテキストドメインの読込（国際化）
@@ -90,6 +91,12 @@ function add_itmar_highlight_scripts_and_styles()
 		array(),
 		filemtime("$dir/code-prettify/prettify.css")
 	);
+
+	/** jsで使えるようにテンプレートパスとホームURLをローカライズ**/
+	$plugin_path_arr = array(
+		'plugin_uri' => $dir
+	);
+	wp_localize_script( 'code-prettify', 'plugin_path', $plugin_path_arr );
 
 
 	//管理画面以外（フロントエンド側でのみ読み込む）

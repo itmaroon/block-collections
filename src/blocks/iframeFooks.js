@@ -41,6 +41,12 @@ export function useFontawesomeIframe() {
       scriptElement.setAttribute("crossorigin", "anonymous");
 
       iframeDocument.body.appendChild(scriptElement);
+
+      // Return a cleanup function to remove the script tag
+      return () => {
+        iframeDocument.body.removeChild(scriptElement);
+      };
     }
   }, []);
 }
+

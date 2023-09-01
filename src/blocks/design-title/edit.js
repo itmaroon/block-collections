@@ -76,7 +76,7 @@ export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
 
 	//最初の状態
-	const prevClassRef = useRef('');
+	const prevClassRef = useRef(false);
 
 	// ローカル状態の作成
 	const [localOptionStyle, setLocalOptionStyle] = useState(optionStyle);
@@ -85,30 +85,6 @@ export default function Edit({ attributes, setAttributes }) {
 	useEffect(() => {
 		setAttributes({ optionStyle: localOptionStyle });
 	}, [localOptionStyle]);
-
-	//スタイル変更確認ダイアログ操作関数
-	const [isCangeModalOpen, setIsChangeModalOpen] = useState(false);
-	const [isCancelFlg, setIsCancelFlg] = useState(false);
-
-	//スタイル変更によるoptionStyleの初期化
-	useEffect(() => {
-		if (prevClassRef.current) {//最初のレンダリングでは初期化しない
-			if (isCancelFlg) {
-				//isCancelFlgがtrueのときはfalseに戻して何もしない
-				setIsCancelFlg(false);
-				return;
-			}
-			if (prevClassRef.current === undefined || prevClassRef.current === 'is-style-default') {
-				execHandle();
-				return;
-			}
-			//確認ダイアログの表示
-			setIsChangeModalOpen(true);
-		}
-		else {
-			prevClassRef.current = className;
-		}
-	}, [className])
 
 	const execHandle = () => {
 		let reset_style;
@@ -182,6 +158,30 @@ export default function Edit({ attributes, setAttributes }) {
 		//確認ダイアログを消す
 		setIsChangeModalOpen(false);
 	}
+
+	//スタイル変更確認ダイアログ操作関数
+	const [isCangeModalOpen, setIsChangeModalOpen] = useState(false);
+	const [isCancelFlg, setIsCancelFlg] = useState(false);
+
+	//スタイル変更によるoptionStyleの初期化
+	useEffect(() => {
+		if (prevClassRef.current != false) {//最初のレンダリングでは初期化しない
+			if (isCancelFlg) {
+				//isCancelFlgがtrueのときはfalseに戻して何もしない
+				setIsCancelFlg(false);
+				return;
+			}
+			if (prevClassRef.current === undefined || prevClassRef.current === 'is-style-default') {
+				execHandle();
+				return;
+			}
+			//確認ダイアログの表示
+			setIsChangeModalOpen(true);
+		}
+		else {
+			prevClassRef.current = className;
+		}
+	}, [className])
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);

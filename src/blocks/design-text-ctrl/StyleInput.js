@@ -102,20 +102,16 @@ const StyledDiv = styled.div`
           height: 4em;
           ${box_shadow_style};
           input, textarea{
-            width: 90%;
             height:1.5em;
-            position: absolute;
-            bottom:15px;
-            left:5px;
             background-color: transparent;
             outline: none;
-            margin-left:2em;
             padding: 0 8px;
             border-style: solid;
             border-color: ${bgColor_input};
             border-width: 0px 0px 2px 0px;
             box-shadow: none;
             transition: border-color 0.45s ease 0s;
+            transform: translateY(2em);
             
             &:focus {
               box-shadow: none;

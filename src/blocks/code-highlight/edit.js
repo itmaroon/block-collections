@@ -16,9 +16,24 @@ import {
 	Toolbar,
 	__experimentalBoxControl as BoxControl,
 } from '@wordpress/components';
-import { useEffect } from '@wordpress/element';
+import { useEffect, useState, useRef } from '@wordpress/element';
+
 
 import './editor.scss';
+
+//スペースのリセットバリュー
+const padding_resetValues = {
+	top: '10px',
+	left: '10px',
+	right: '10px',
+	bottom: '10px',
+}
+
+const units = [
+	{ value: 'px', label: 'px' },
+	{ value: 'em', label: 'em' },
+	{ value: 'rem', label: 'rem' },
+];
 
 export default function Edit({ attributes, setAttributes }) {
 	const {
@@ -31,43 +46,11 @@ export default function Edit({ attributes, setAttributes }) {
 		isEditMode,
 		margin_value,
 		padding_value,
-		align,
-		add_style
+		align
 	} = attributes
 
-	//拡張したスタイル
-	const extraStyle = {
-		margin: `${margin_value.top} ${margin_value.right} ${margin_value.bottom} ${margin_value.left}`,
-		padding: `${padding_value.top} ${padding_value.right} ${padding_value.bottom} ${padding_value.left}`,
-	}
-
-	const blockProps = useBlockProps({ style: extraStyle });
-
-	//スペースのリセットバリュー
-	const padding_resetValues = {
-		top: '10px',
-		left: '10px',
-		right: '10px',
-		bottom: '10px',
-	}
-
-	const units = [
-		{ value: 'px', label: 'px' },
-		{ value: 'em', label: 'em' },
-		{ value: 'rem', label: 'rem' },
-	];
-
-
-	//モードが切り替わって再レンダリングが完了したら呼出し
-	useEffect(() => {
-		if (typeof PR !== "undefined") {
-			PR.prettyPrint();
-		}
-	}, [isEditMode]);
-
-	//テキストエリア（TextareaControl）の行数
-	let codeAreaRows = codeArea.split(/\r|\r\n|\n/).length > 3 ? codeArea.split(/\r|\r\n|\n/).length : 3;
-
+	//pre要素の参照用
+	const preRef = useRef(null);
 
 	//プレビュー表示
 	const getPreview = () => {
@@ -108,17 +91,70 @@ export default function Edit({ attributes, setAttributes }) {
 		return (
 			<div
 				className={"wp-block-itmar-code-highlight" + add_block_class}
-				style={add_style}
 			>
 				{fileName &&
 					<p className="file_name">{fileName}</p>
 				}
-				<pre className={"prettyprint" + add_pre_class} style={{ overflow: "auto", whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
+				<pre ref={preRef} className={"prettyprint" + add_pre_class} style={{ overflow: "auto", whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
 					{codeArea}
 				</pre>
 			</div>
 		);
 	}
+
+	// プレビューのセット
+	const [codePreview, setCodePreview] = useState(getPreview());
+
+	//拡張したスタイル
+	const extraStyle = {
+		margin: `${margin_value.top} ${margin_value.right} ${margin_value.bottom} ${margin_value.left}`,
+		padding: `${padding_value.top} ${padding_value.right} ${padding_value.bottom} ${padding_value.left}`,
+	}
+
+	const blockProps = useBlockProps({ style: extraStyle });
+
+	//モードが切り替わって再レンダリングが完了したら呼出し
+	useEffect(() => {
+		//編集モードではリターン
+		if (preRef.current === null) return;
+
+		if (typeof PR !== "undefined") {
+			//prettyprintedクラスが付いていなければpre要素のinnerTextを書き換える
+			if (!preRef.current.classList.contains('prettyprinted')) {
+				preRef.current.innerText = codeArea;
+			}
+			//サイトエディタの場合はiframeDocumentにPRを適用
+			const iframeInstance = document.getElementsByName('editor-canvas')[0];
+
+			if (iframeInstance) {
+				const iframeDocument = iframeInstance.contentDocument || iframeInstance.contentWindow.document;
+				if (iframeDocument.readyState === 'complete') {
+					if (iframeDocument.defaultView.PR) {
+						iframeDocument.defaultView.PR.prettyPrint();
+					}
+				} else {//iframeDocumentの読込をまつ
+					iframeInstance.addEventListener('load', () => {
+						if (iframeDocument.defaultView.PR) {
+							iframeDocument.defaultView.PR.prettyPrint();
+						}
+					});
+				}
+			} else {
+				//通常のブロックエディタの処理
+				PR.prettyPrint();
+			}
+		}
+	}, [isEditMode, codePreview]);
+
+	//コード部分の要素のクラスに変更があった場合
+	useEffect(() => {
+		const newPreview = getPreview();
+		setCodePreview(newPreview);
+	}, [skin, linenums, linenumsStart, lang, fileName]);
+
+
+	//テキストエリア（TextareaControl）の行数
+	let codeAreaRows = codeArea.split(/\r|\r\n|\n/).length > 3 ? codeArea.split(/\r|\r\n|\n/).length : 3;
 
 	return (
 		<>
@@ -147,7 +183,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 					<PanelRow>
 						<SelectControl
-							label="lang"
+							label={__('languege', 'itmar_block_collections')}
 							value={lang}
 							options={[
 								{ label: "Default", value: '' },
@@ -159,7 +195,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 					<PanelRow>
 						<SelectControl
-							label="skin"
+							label={__('Skin', 'itmar_block_collections')}
 							value={skin}
 							options={[
 								{ label: "Basic", value: '' },
@@ -241,7 +277,7 @@ export default function Edit({ attributes, setAttributes }) {
 							icon="edit"
 						>{__("edit mode", 'itmar_block_collections')}
 						</Button>
-						{getPreview()}
+						{codePreview}
 					</div>
 				</div>
 			}

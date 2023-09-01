@@ -108,19 +108,24 @@ const StyledDiv = styled.div`
           const fontStyle = optionStyle.font_style_copy.isItalic ? "italic" : "normal";
           //角丸の設定
           const copy_radius_prm = radius_prm(optionStyle.radius_copy);
+          //アイコンスペースの設定
+          const icon_space = optionStyle.icon_style.icon_space || '0px'
+
           //パディングの設定（アイコン幅の確保）
           const getPadding = (isIcon, icon_style) => {
             if (!isIcon) {
               return space_prm(optionStyle.padding_copy)
             }
             if (icon_style.icon_pos === "left") {
-              return `${optionStyle.padding_copy.top} ${optionStyle.padding_copy.right} ${optionStyle.padding_copy.bottom} calc(${optionStyle.padding_copy.left} + ${icon_style.icon_size} + ${icon_style.icon_space})`
+
+              return `${optionStyle.padding_copy.top} ${optionStyle.padding_copy.right} ${optionStyle.padding_copy.bottom} calc(${optionStyle.padding_copy.left} + ${icon_style.icon_size} + ${icon_space})`
             }
             if (icon_style.icon_pos === "right") {
-              return `${optionStyle.padding_copy.top} calc(${optionStyle.padding_copy.right} + ${icon_style.icon_size} + ${icon_style.icon_space}) ${optionStyle.padding_copy.bottom} ${optionStyle.padding_copy.left} `
+              return `${optionStyle.padding_copy.top} calc(${optionStyle.padding_copy.right} + ${icon_style.icon_size} + ${icon_space}) ${optionStyle.padding_copy.bottom} ${optionStyle.padding_copy.left} `
             }
           }
           const padding_prm = getPadding(optionStyle.isIcon, optionStyle.icon_style);
+
 
           //文字列のレンダリングの長さ
           function measureTextWidth(text, fontSize, fontFamily) {
@@ -131,12 +136,12 @@ const StyledDiv = styled.div`
             return metrics.width;
           }
 
-          const textWidth = `${measureTextWidth(optionStyle.copy_content, optionStyle.font_style_copy.fontSize, optionStyle.font_style_copy.fontFamily)} px`;
+          const textWidth = `${measureTextWidth(optionStyle.copy_content, optionStyle.font_style_copy.fontSize, optionStyle.font_style_copy.fontFamily)}px`;
 
           //アイコンの位置計算
           const tranceX = optionStyle.icon_style.icon_pos !== 'left' ?
             `calc(${optionStyle.padding_copy.left} + ${optionStyle.padding_copy.right} + ${textWidth})` :
-            ` ${optionStyle.icon_style.icon_space} `;
+            ` ${icon_space} `;
           const tranceY = `calc((${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom} + ${optionStyle.font_style_copy.fontSize} - ${optionStyle.icon_style.icon_size}) / 2 * -1)`
 
           //上部マージンの確保
