@@ -3,7 +3,7 @@
 	"apiVersion": 2,
 	"name": "itmar/design-checkbox",
 	"version": "0.1.0",
-	"title": "Dsign CheckBox",
+	"title": "Design CheckBox",
 	"category": "design",
 	"supports": {
 		"html": false
