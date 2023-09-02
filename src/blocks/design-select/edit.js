@@ -71,6 +71,7 @@ export default function Edit({ attributes, setAttributes }) {
 		className,
 	} = attributes;
 
+	//背景色をブロックのルートにインラインでセット
 	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
 
 	//サイトエディタの場合はiframeにスタイルをわたす。

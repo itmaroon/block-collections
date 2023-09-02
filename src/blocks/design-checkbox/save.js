@@ -27,6 +27,7 @@ export default function save({ attributes }) {
 		</div>
 	));
 	const styleTags = sheet.getStyleTags();
+
 	return (
 		<>
 			<div dangerouslySetInnerHTML={{ __html: html }} />
