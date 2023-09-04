@@ -52,7 +52,14 @@ OR…
 
 
 == Screenshots ==
-
+1. Plugin featured image
+2. 3 types of design title blocks
+3. Two types of design text control blocks
+4. design checkbox block
+5. Two types of design selection blocks
+6. code highlighting block
+7. Two types of design process blocks
+8. A block icon registered by the plugin. Divided into design group and widget group
 
 == Changelog ==
 

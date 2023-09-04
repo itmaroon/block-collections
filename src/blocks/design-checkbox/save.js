@@ -6,11 +6,17 @@ import { StyleComp } from './StyleCheckbox';
 
 export default function save({ attributes }) {
 	const {
+		align,
 		bgColor,
 		labelContent,
 		inputName
 	} = attributes;
-	const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
+
+	//テキストの配置
+	const align_style = align === 'center' ? { marginLeft: 'auto', marginRight: 'auto' } :
+		align === 'right' ? { marginLeft: 'auto' } : null;
+	const blockProps = useBlockProps.save({ style: { ...align_style, backgroundColor: bgColor, overflow: 'hidden' } });
+
 	const sheet = new ServerStyleSheet();
 	const html = renderToString(sheet.collectStyles(
 		<div {...blockProps}>

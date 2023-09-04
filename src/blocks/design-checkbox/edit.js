@@ -15,6 +15,8 @@ import {
 import {
 	useBlockProps,
 	RichText,
+	BlockControls,
+	AlignmentToolbar,
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
@@ -49,6 +51,7 @@ export default function Edit({ attributes, setAttributes }) {
 	const {
 		inputName,
 		bgColor,
+		align,
 		labelContent,
 		font_style_label,
 		margin_value,
@@ -63,7 +66,12 @@ export default function Edit({ attributes, setAttributes }) {
 		is_shadow,
 	} = attributes;
 
-	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
+	//テキストの配置
+	const align_style = align === 'center' ? { marginLeft: 'auto', marginRight: 'auto' } :
+		align === 'right' ? { marginLeft: 'auto' } : null;
+
+
+	const blockProps = useBlockProps({ style: { ...align_style, backgroundColor: bgColor } });
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -199,6 +207,15 @@ export default function Edit({ attributes, setAttributes }) {
 
 				</PanelBody>
 			</InspectorControls>
+
+			<BlockControls>
+				<AlignmentToolbar
+					value={align}
+					onChange={(nextAlign) => {
+						setAttributes({ align: nextAlign });
+					}}
+				/>
+			</BlockControls>
 
 			<div {...blockProps}>
 				<StyleComp attributes={attributes}>
