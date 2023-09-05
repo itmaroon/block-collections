@@ -1,24 +1,40 @@
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { useBlockProps, RichText } from '@wordpress/block-editor';
+import { ServerStyleSheet } from 'styled-components';
+import { renderToString } from 'react-dom/server';
+import { StyleComp } from './StyleButton';
 
-/**
- * The save function defines the way in which the different attributes should
- * be combined into the final markup, which is then serialized by the block
- * editor into `post_content`.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
- *
- * @return {WPElement} Element to render.
- */
-export default function save() {
+export default function save({ attributes }) {
+	const {
+		align,
+		bgColor,
+		labelContent
+	} = attributes;
+
+	//テキストの配置
+	const align_style = align === 'center' ? { marginLeft: 'auto', marginRight: 'auto' } :
+		align === 'right' ? { marginLeft: 'auto' } : null;
+	const blockProps = useBlockProps.save({ style: { ...align_style, backgroundColor: bgColor, overflow: 'hidden' } });
+
+	const sheet = new ServerStyleSheet();
+	const html = renderToString(sheet.collectStyles(
+		<div {...blockProps}>
+			<StyleComp attributes={attributes}>
+				<button>
+					<RichText.Content
+						value={labelContent}
+					/>
+				</button>
+			</StyleComp>
+		</div>
+	));
+	const styleTags = sheet.getStyleTags();
+
 	return (
-		<p { ...useBlockProps.save() }>
-			{ 'Design Button – hello from the saved content!' }
-		</p>
+		<>
+			<div dangerouslySetInnerHTML={{ __html: html }} />
+			<div dangerouslySetInnerHTML={{ __html: styleTags }} />
+		</>
 	);
 }
+

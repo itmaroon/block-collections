@@ -32,16 +32,16 @@ const dirctionDigit = (direction, distance) => {
       destBottomRight = distance * -1;
       break;
     case "bottom_left":
-      destTopLeft = distance * -1;
-      destTopRight = distance;
-      destBottomLeft = distance;
-      destBottomRight = distance * -1;
+      destTopLeft = distance;
+      destTopRight = distance * -1;
+      destBottomLeft = distance * -1;
+      destBottomRight = distance;
       break;
     case "bottom_right":
-      destTopLeft = distance;
-      destTopRight = distance;
-      destBottomLeft = distance * -1;
-      destBottomRight = distance * -1;
+      destTopLeft = distance * -1;
+      destTopRight = distance * -1;
+      destBottomLeft = distance;
+      destBottomRight = distance;
       break;
     case "right_bottom":
       destTopLeft = distance;
@@ -64,6 +64,136 @@ const dirctionDigit = (direction, distance) => {
       bottmRight: destBottomRight
     }
   )
+}
+
+export const ShadowElm = (shadowState) => {
+  const {
+    shadowType,
+    spread,
+    lateral,
+    longitude,
+    nomalBlur,
+    shadowColor,
+    blur,
+    intensity,
+    distance,
+    newDirection,
+    clayDirection,
+    embos,
+    opacity,
+    depth,
+    bdBlur,
+    expand,
+    glassblur,
+    glassopa,
+    hasOutline,
+    backgroundColor
+  } = shadowState;
+  //ノーマル
+  if (shadowType === 'nomal') {
+    //boxshadowの生成
+    const ShadowStyle = embos === 'dent' ? {
+      style: {
+        boxShadow: `${lateral}px ${longitude}px ${nomalBlur}px ${spread}px transparent, inset ${lateral}px ${longitude}px ${nomalBlur}px ${spread}px ${shadowColor}`
+      }
+    } : {
+      style: {
+        boxShadow: `${lateral}px ${longitude}px ${nomalBlur}px ${spread}px ${shadowColor}, inset ${lateral}px ${longitude}px ${nomalBlur}px ${spread}px transparent`
+      }
+    }
+    //Shadowのスタイルを返す
+    return ShadowStyle;
+  }
+  //ニューモフィズム
+  else if (shadowType === 'newmor') {
+    const baseColor = backgroundColor || "#ffffff";
+    //ボタン背景色のHSL値
+    const hslValue = rgb16ToHsl(baseColor);
+    //影の明るさを変更
+    const lightVal = (hslValue.lightness + intensity) < 100 ? hslValue.lightness + intensity : 100;
+    const darkVal = (hslValue.lightness - intensity) > 0 ? hslValue.lightness - intensity : 0;
+    const lightValue = hslToRgb16(hslValue.hue, hslValue.saturation, lightVal);
+    const darkValue = hslToRgb16(hslValue.hue, hslValue.saturation, darkVal);
+    //boxshadowの生成
+    //立体の方向
+    const dircObj = dirctionDigit(newDirection, distance)
+    const newmorStyle = embos === 'swell' ? {
+      style: {
+        boxShadow: `${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}, inset ${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px transparent, inset ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px transparent`,
+        border: 'none',
+        background: baseColor
+      }
+    } : {
+      style: {
+        boxShadow: `${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px transparent, ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px transparent, inset ${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, inset ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}`,
+        border: 'none',
+        background: baseColor
+      }
+    }
+
+    //Shadowのスタイルを返す
+    return newmorStyle;
+  }
+
+  //クレイモーフィズム
+  else if (shadowType === 'claymor') {
+    const baseColor = backgroundColor || "#C0C0C0";
+    const rgbValue = HexToRGB(baseColor)
+    const outsetObj = dirctionDigit(clayDirection, expand)
+    const insetObj = dirctionDigit(clayDirection, depth)
+    const claymorStyle = embos === 'swell' ? {
+      style:
+      {
+        boxShadow: `${outsetObj.topLeft}px ${outsetObj.bottmRight}px ${expand * 2}px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.5), inset ${insetObj.topRight}px ${insetObj.bottomLeft}px 16px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.6), inset 0px 11px 28px 0px rgb(255, 255, 255)`,
+        background: `rgba(255, 255, 255, ${opacity})`,
+        backdropFilter: `blur(${bdBlur}px)`,
+        border: 'none',
+
+      }
+    } : {
+      style:
+      {
+        boxShadow: `${outsetObj.topLeft}px ${outsetObj.bottmRight}px ${expand * 2}px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.5), inset ${insetObj.topRight}px ${insetObj.bottomLeft}px 16px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.6), 0px 11px 28px 0px rgb(255, 255, 255)`,
+        background: `rgba(255, 255, 255, ${opacity})`,
+        backdropFilter: `blur(${bdBlur}px)`,
+        border: 'none',
+
+      }
+    }
+    //attributesに保存
+    return claymorStyle;
+  }
+
+  //グラスモーフィズム
+  else if (shadowType === 'glassmor') {
+    const baseColor = backgroundColor || "#C0C0C0";
+    //const rgbValue = HexToRGB(baseColor)
+    let glassmorStyle = embos === 'swell' ? {
+      style:
+      {
+        backgroundColor: `rgba(255, 255, 255, ${glassopa})`,
+        border: `1px solid rgba(255, 255, 255, 0.4)`,
+        borderRightColor: `rgba(255, 255, 255, 0.2)`,
+        borderBottomColor: `rgba(255, 255, 255, 0.2)`,
+        backdropFilter: `blur( ${glassblur}px )`,
+        boxShadow: `0 8px 12px 0 rgba( 31, 38, 135, 0.37 ), inset 0 8px 12px 0 transparent`
+      }
+    } : {
+      style:
+      {
+        backgroundColor: `rgba(255, 255, 255, ${glassopa})`,
+        border: `1px solid rgba(255, 255, 255, 0.4)`,
+        borderRightColor: `rgba(255, 255, 255, 0.2)`,
+        borderBottomColor: `rgba(255, 255, 255, 0.2)`,
+        backdropFilter: `blur( ${glassblur}px )`,
+        boxShadow: `0 8px 12px 0 transparent, inset 0 8px 12px 0 rgba( 31, 38, 135, 0.37 )`
+
+      }
+    }
+
+    //attributesに保存
+    return glassmorStyle;
+  }
 }
 
 const ShadowStyle = ({ shadowStyle, onChange, children }) => {
@@ -94,7 +224,7 @@ const ShadowStyle = ({ shadowStyle, onChange, children }) => {
 
   // shadowStyle backgroundColor の変更を検知する
   useEffect(() => {
-    if (shadowStyle.backgroundColor !== shadowState.backgroundColor) {
+    if (shadowStyle.backgroundColor !== backgroundColor) {
       setShadowState(shadowStyle);
     }
   }, [shadowStyle]);
@@ -102,90 +232,8 @@ const ShadowStyle = ({ shadowStyle, onChange, children }) => {
 
   //シャドーのスタイル変更に伴う親コンポーネントの変更
   useEffect(() => {
-    //ノーマル
-    if (shadowType === 'nomal') {
-      //boxshadowの生成
-      const ShadowStyle = {
-        style: {
-          boxShadow: `${lateral}px ${longitude}px ${nomalBlur}px ${spread}px ${shadowColor}`
-        }
-      }
-      //Shadowのスタイルを返す
-      onChange(ShadowStyle, shadowState);
-    }
-    //ニューモフィズム
-    else if (shadowType === 'newmor') {
-      const baseColor = backgroundColor || "#ffffff";
-      //ボタン背景色のHSL値
-      const hslValue = rgb16ToHsl(baseColor);
-      //影の明るさを変更
-      const lightVal = (hslValue.lightness + intensity) < 100 ? hslValue.lightness + intensity : 100;
-      const darkVal = (hslValue.lightness - intensity) > 0 ? hslValue.lightness - intensity : 0;
-      const lightValue = hslToRgb16(hslValue.hue, hslValue.saturation, lightVal);
-      const darkValue = hslToRgb16(hslValue.hue, hslValue.saturation, darkVal);
-      //boxshadowの生成
-      //立体の方向
-      const dircObj = dirctionDigit(newDirection, distance)
-      const ShadowStyle = embos === 'swell' ? {
-        style: {
-          boxShadow: `${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}`,
-          border: 'none',
-          background: baseColor
-        }
-      } : {
-        style: {
-          boxShadow: `inset ${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, inset ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}`,
-          border: 'none',
-          background: baseColor
-        }
-      }
-
-      //Shadowのスタイルを返す
-      onChange(ShadowStyle, shadowState);
-    }
-
-    //クレイモーフィズム
-    else if (shadowType === 'claymor') {
-      const baseColor = backgroundColor || "#C0C0C0";
-      const rgbValue = HexToRGB(baseColor)
-      const outsetObj = dirctionDigit(clayDirection, expand)
-      const insetObj = dirctionDigit(clayDirection, depth)
-      const claymorStyle = {
-        style:
-        {
-          boxShadow: `${outsetObj.topLeft}px ${outsetObj.bottmRight}px ${expand * 2}px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.5), inset ${insetObj.topRight}px ${insetObj.bottomLeft}px 16px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.6), inset 0px 11px 28px 0px rgb(255, 255, 255)`,
-          background: `rgba(255, 255, 255, ${opacity})`,
-          backdropFilter: `blur(${bdBlur}px)`,
-          border: 'none',
-
-        }
-      }
-      //attributesに保存
-      onChange(claymorStyle, shadowState)
-    }
-
-    //グラスモーフィズム
-    else if (shadowType === 'glassmor') {
-      const baseColor = backgroundColor || "#C0C0C0";
-      const rgbValue = HexToRGB(baseColor)
-      let glassmorStyle = {
-        style:
-        {
-          backgroundColor: `rgba( ${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, ${glassopa} )`,
-          boxShadow: `0 8px 32px 0 rgba( 31, 38, 135, 0.37 )`,
-          backdropFilter: `blur( ${glassblur}px )`,
-          WebkitBackdropFilter: `blur( ${glassblur}px )`,
-          border: 'none',
-          background: baseColor
-        }
-      }
-      if (hasOutline) {
-        glassmorStyle.style.border = '1px solid rgba( 255, 255, 255, 0.18 )'
-      }
-      //attributesに保存
-      onChange(glassmorStyle, shadowState)
-    }
-
+    const shadowElm = ShadowElm(shadowState);
+    onChange(shadowElm, shadowState)
   }, [shadowState]);
 
   return (
@@ -397,3 +445,4 @@ const ShadowStyle = ({ shadowStyle, onChange, children }) => {
   );
 };
 export default ShadowStyle;
+

@@ -18,7 +18,7 @@ export default function save({ attributes }) {
 	} = attributes;
 	const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
 
-	const dispLabel = required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent;
+	const dispLabel = required.flg ? `${labelContent}(${required.display})` : labelContent;
 
 	const sheet = new ServerStyleSheet();
 	const html = renderToString(sheet.collectStyles(
@@ -35,7 +35,7 @@ export default function save({ attributes }) {
 					<textarea name={inputName} rows={rowNum} className="contact_text empty" placeholder={className === 'is-style-line' ? dispLabel : placeFolder} />
 				}
 				<label class="fit-label" data-required={required.flg}>
-					{dispLabel}
+					{required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent}
 				</label>
 
 			</StyleComp>
