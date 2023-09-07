@@ -16,6 +16,10 @@
       "type": "boolean",
       "default": false
     },
+    "proceedCheck": {
+      "type": "boolean",
+      "default": false
+    },
     "align": {
       "type": "string",
       "default": "left"

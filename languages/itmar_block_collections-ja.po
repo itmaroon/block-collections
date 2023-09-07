@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Block Collections 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-"
 "collections\n"
-"POT-Creation-Date: 2023-09-01T04:52:16+02:00\n"
-"PO-Revision-Date: 2023-09-01 11:53+0900\n"
+"POT-Creation-Date: 2023-09-05T07:48:15+02:00\n"
+"PO-Revision-Date: 2023-09-05 14:53+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -72,37 +72,43 @@ msgid "Spacing Settings"
 msgstr "空白設定"
 
 #: build/blocks/code-highlight/index.js:1
+#: build/blocks/design-button/index.js:27
 #: build/blocks/design-checkbox/index.js:99
 #: build/blocks/design-process/index.js:176
 #: build/blocks/design-text-ctrl/index.js:108
 #: build/blocks/design-title/index.js:85 src/blocks/code-highlight/edit.js:216
-#: src/blocks/design-checkbox/edit.js:122 src/blocks/design-process/edit.js:158
+#: src/blocks/design-button/edit.js:187 src/blocks/design-checkbox/edit.js:131
+#: src/blocks/design-process/edit.js:158
 #: src/blocks/design-text-ctrl/edit.js:272 src/blocks/design-title/edit.js:259
 #: build/blocks/code-highlight/index.js:246
-#: build/blocks/design-checkbox/index.js:3501
-#: build/blocks/design-process/index.js:3644
-#: build/blocks/design-text-ctrl/index.js:3738
-#: build/blocks/design-title/index.js:3830
+#: build/blocks/design-button/index.js:3591
+#: build/blocks/design-checkbox/index.js:3572
+#: build/blocks/design-process/index.js:3706
+#: build/blocks/design-text-ctrl/index.js:3779
+#: build/blocks/design-title/index.js:3877
 msgid "Margin settings"
 msgstr "マージン設定"
 
 #: build/blocks/code-highlight/index.js:1
+#: build/blocks/design-button/index.js:27
 #: build/blocks/design-checkbox/index.js:99
 #: build/blocks/design-process/index.js:176
 #: build/blocks/design-select/index.js:331
 #: build/blocks/design-text-ctrl/index.js:108
 #: build/blocks/design-title/index.js:85 src/blocks/code-highlight/edit.js:226
-#: src/blocks/design-checkbox/edit.js:132 src/blocks/design-process/edit.js:167
-#: src/blocks/design-select/edit.js:275 src/blocks/design-text-ctrl/edit.js:280
+#: src/blocks/design-button/edit.js:197 src/blocks/design-checkbox/edit.js:141
+#: src/blocks/design-process/edit.js:167 src/blocks/design-select/edit.js:276
+#: src/blocks/design-text-ctrl/edit.js:280
 #: src/blocks/design-text-ctrl/edit.js:381 src/blocks/design-title/edit.js:269
 #: src/blocks/design-title/edit.js:488 build/blocks/code-highlight/index.js:256
-#: build/blocks/design-checkbox/index.js:3511
-#: build/blocks/design-process/index.js:3653
-#: build/blocks/design-select/index.js:3907
-#: build/blocks/design-text-ctrl/index.js:3746
-#: build/blocks/design-text-ctrl/index.js:3847
-#: build/blocks/design-title/index.js:3840
-#: build/blocks/design-title/index.js:4059
+#: build/blocks/design-button/index.js:3601
+#: build/blocks/design-checkbox/index.js:3582
+#: build/blocks/design-process/index.js:3715
+#: build/blocks/design-select/index.js:3970
+#: build/blocks/design-text-ctrl/index.js:3787
+#: build/blocks/design-text-ctrl/index.js:3888
+#: build/blocks/design-title/index.js:3887
+#: build/blocks/design-title/index.js:4106
 msgid "Padding settings"
 msgstr "パディング設定"
 
@@ -141,352 +147,579 @@ msgstr "コードをハイライト表示するブロックです。"
 msgid "Copy"
 msgstr "コピー"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:194
-#: build/blocks/design-checkbox/index.js:2846
-#: build/blocks/design-process/index.js:2867
-#: build/blocks/design-select/index.js:2864
-#: build/blocks/design-text-ctrl/index.js:2907
-#: build/blocks/design-title/index.js:2991
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:255
+#: build/blocks/design-button/index.js:2929
+#: build/blocks/design-checkbox/index.js:2907
+#: build/blocks/design-process/index.js:2928
+#: build/blocks/design-select/index.js:2925
+#: build/blocks/design-text-ctrl/index.js:2947
+#: build/blocks/design-title/index.js:3037
 msgid "Shadow Type"
 msgstr "シャドータイプ"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:199
-#: build/blocks/design-checkbox/index.js:2851
-#: build/blocks/design-process/index.js:2872
-#: build/blocks/design-select/index.js:2869
-#: build/blocks/design-text-ctrl/index.js:2912
-#: build/blocks/design-title/index.js:2996
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:260
+#: build/blocks/design-button/index.js:2934
+#: build/blocks/design-checkbox/index.js:2912
+#: build/blocks/design-process/index.js:2933
+#: build/blocks/design-select/index.js:2930
+#: build/blocks/design-text-ctrl/index.js:2952
+#: build/blocks/design-title/index.js:3042
 msgid "Nomal"
 msgstr "ノーマル"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:200
-#: build/blocks/design-checkbox/index.js:2852
-#: build/blocks/design-process/index.js:2873
-#: build/blocks/design-select/index.js:2870
-#: build/blocks/design-text-ctrl/index.js:2913
-#: build/blocks/design-title/index.js:2997
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:261
+#: build/blocks/design-button/index.js:2935
+#: build/blocks/design-checkbox/index.js:2913
+#: build/blocks/design-process/index.js:2934
+#: build/blocks/design-select/index.js:2931
+#: build/blocks/design-text-ctrl/index.js:2953
+#: build/blocks/design-title/index.js:3043
 msgid "Neumorphism"
 msgstr "ニューモフィズム"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:201
-#: build/blocks/design-checkbox/index.js:2853
-#: build/blocks/design-process/index.js:2874
-#: build/blocks/design-select/index.js:2871
-#: build/blocks/design-text-ctrl/index.js:2914
-#: build/blocks/design-title/index.js:2998
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:262
+#: build/blocks/design-button/index.js:2936
+#: build/blocks/design-checkbox/index.js:2914
+#: build/blocks/design-process/index.js:2935
+#: build/blocks/design-select/index.js:2932
+#: build/blocks/design-text-ctrl/index.js:2954
+#: build/blocks/design-title/index.js:3044
 msgid "Claymorphism "
 msgstr "クレイモフィズム"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:202
-#: build/blocks/design-checkbox/index.js:2854
-#: build/blocks/design-process/index.js:2875
-#: build/blocks/design-select/index.js:2872
-#: build/blocks/design-text-ctrl/index.js:2915
-#: build/blocks/design-title/index.js:2999
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:263
+#: build/blocks/design-button/index.js:2937
+#: build/blocks/design-checkbox/index.js:2915
+#: build/blocks/design-process/index.js:2936
+#: build/blocks/design-select/index.js:2933
+#: build/blocks/design-text-ctrl/index.js:2955
+#: build/blocks/design-title/index.js:3045
 msgid "Grassmophism"
 msgstr "グラスモフィズム"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:210
-#: build/blocks/design-checkbox/index.js:2862
-#: build/blocks/design-process/index.js:2883
-#: build/blocks/design-select/index.js:2880
-#: build/blocks/design-text-ctrl/index.js:2923
-#: build/blocks/design-title/index.js:3007
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:271
+#: build/blocks/design-button/index.js:2945
+#: build/blocks/design-checkbox/index.js:2923
+#: build/blocks/design-process/index.js:2944
+#: build/blocks/design-select/index.js:2941
+#: build/blocks/design-text-ctrl/index.js:2963
+#: build/blocks/design-title/index.js:3053
 msgid "Nomal settings"
 msgstr "ノーマルの設定"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:213
-#: build/blocks/design-checkbox/index.js:2865
-#: build/blocks/design-process/index.js:2886
-#: build/blocks/design-select/index.js:2883
-#: build/blocks/design-text-ctrl/index.js:2926
-#: build/blocks/design-title/index.js:3010
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:274
+#: build/blocks/design-button/index.js:2948
+#: build/blocks/design-checkbox/index.js:2926
+#: build/blocks/design-process/index.js:2947
+#: build/blocks/design-select/index.js:2944
+#: build/blocks/design-text-ctrl/index.js:2966
+#: build/blocks/design-title/index.js:3056
 msgid "Spread"
 msgstr "広がり"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
 #: build/blocks/design-title/index.js:1 build/blocks/design-title/index.js:85
 #: build/blocks/draggable-box/index.js:1 src/blocks/design-title/edit.js:324
 #: src/blocks/design-title/edit.js:394 src/blocks/draggable-box/edit.js:90
-#: src/blocks/ShadowStyle.js:221 build/blocks/design-checkbox/index.js:2873
-#: build/blocks/design-process/index.js:2894
-#: build/blocks/design-select/index.js:2891
-#: build/blocks/design-text-ctrl/index.js:2934
-#: build/blocks/design-title/index.js:3018
-#: build/blocks/design-title/index.js:3895
-#: build/blocks/design-title/index.js:3965
+#: src/blocks/ShadowStyle.js:282 build/blocks/design-button/index.js:2956
+#: build/blocks/design-checkbox/index.js:2934
+#: build/blocks/design-process/index.js:2955
+#: build/blocks/design-select/index.js:2952
+#: build/blocks/design-text-ctrl/index.js:2974
+#: build/blocks/design-title/index.js:3064
+#: build/blocks/design-title/index.js:3942
+#: build/blocks/design-title/index.js:4012
 #: build/blocks/draggable-box/index.js:185
 msgid "Lateral direction"
 msgstr "横方向"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
 #: build/blocks/design-title/index.js:1 build/blocks/design-title/index.js:85
 #: build/blocks/draggable-box/index.js:1 src/blocks/design-title/edit.js:335
 #: src/blocks/design-title/edit.js:405 src/blocks/draggable-box/edit.js:96
-#: src/blocks/ShadowStyle.js:229 build/blocks/design-checkbox/index.js:2881
-#: build/blocks/design-process/index.js:2902
-#: build/blocks/design-select/index.js:2899
-#: build/blocks/design-text-ctrl/index.js:2942
-#: build/blocks/design-title/index.js:3026
-#: build/blocks/design-title/index.js:3906
-#: build/blocks/design-title/index.js:3976
+#: src/blocks/ShadowStyle.js:290 build/blocks/design-button/index.js:2964
+#: build/blocks/design-checkbox/index.js:2942
+#: build/blocks/design-process/index.js:2963
+#: build/blocks/design-select/index.js:2960
+#: build/blocks/design-text-ctrl/index.js:2982
+#: build/blocks/design-title/index.js:3072
+#: build/blocks/design-title/index.js:3953
+#: build/blocks/design-title/index.js:4023
 #: build/blocks/draggable-box/index.js:191
 msgid "Longitudinal direction"
 msgstr "縦方向"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:237
-#: src/blocks/ShadowStyle.js:277 build/blocks/design-checkbox/index.js:2889
-#: build/blocks/design-checkbox/index.js:2929
-#: build/blocks/design-process/index.js:2910
-#: build/blocks/design-process/index.js:2950
-#: build/blocks/design-select/index.js:2907
-#: build/blocks/design-select/index.js:2947
-#: build/blocks/design-text-ctrl/index.js:2950
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:298
+#: src/blocks/ShadowStyle.js:338 build/blocks/design-button/index.js:2972
+#: build/blocks/design-button/index.js:3012
+#: build/blocks/design-checkbox/index.js:2950
+#: build/blocks/design-checkbox/index.js:2990
+#: build/blocks/design-process/index.js:2971
+#: build/blocks/design-process/index.js:3011
+#: build/blocks/design-select/index.js:2968
+#: build/blocks/design-select/index.js:3008
 #: build/blocks/design-text-ctrl/index.js:2990
-#: build/blocks/design-title/index.js:3034
-#: build/blocks/design-title/index.js:3074
+#: build/blocks/design-text-ctrl/index.js:3030
+#: build/blocks/design-title/index.js:3080
+#: build/blocks/design-title/index.js:3120
 msgid "Blur"
 msgstr "ぼかし"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:244
-#: build/blocks/design-checkbox/index.js:2896
-#: build/blocks/design-process/index.js:2917
-#: build/blocks/design-select/index.js:2914
-#: build/blocks/design-text-ctrl/index.js:2957
-#: build/blocks/design-title/index.js:3041
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:305
+#: build/blocks/design-button/index.js:2979
+#: build/blocks/design-checkbox/index.js:2957
+#: build/blocks/design-process/index.js:2978
+#: build/blocks/design-select/index.js:2975
+#: build/blocks/design-text-ctrl/index.js:2997
+#: build/blocks/design-title/index.js:3087
 msgid "Shadow Color Setting"
 msgstr "色設定"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:248
-#: build/blocks/design-checkbox/index.js:2900
-#: build/blocks/design-process/index.js:2921
-#: build/blocks/design-select/index.js:2918
-#: build/blocks/design-text-ctrl/index.js:2961
-#: build/blocks/design-title/index.js:3045
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:309
+#: build/blocks/design-button/index.js:2983
+#: build/blocks/design-checkbox/index.js:2961
+#: build/blocks/design-process/index.js:2982
+#: build/blocks/design-select/index.js:2979
+#: build/blocks/design-text-ctrl/index.js:3001
+#: build/blocks/design-title/index.js:3091
 msgid "Choose Shadow color"
 msgstr "影の色を選択"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:258
-#: build/blocks/design-checkbox/index.js:2910
-#: build/blocks/design-process/index.js:2931
-#: build/blocks/design-select/index.js:2928
-#: build/blocks/design-text-ctrl/index.js:2971
-#: build/blocks/design-title/index.js:3055
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:319
+#: build/blocks/design-button/index.js:2993
+#: build/blocks/design-checkbox/index.js:2971
+#: build/blocks/design-process/index.js:2992
+#: build/blocks/design-select/index.js:2989
+#: build/blocks/design-text-ctrl/index.js:3011
+#: build/blocks/design-title/index.js:3101
 msgid "Neumorphism settings"
 msgstr "ニューモフィズム設定"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:261
-#: build/blocks/design-checkbox/index.js:2913
-#: build/blocks/design-process/index.js:2934
-#: build/blocks/design-select/index.js:2931
-#: build/blocks/design-text-ctrl/index.js:2974
-#: build/blocks/design-title/index.js:3058
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:322
+#: build/blocks/design-button/index.js:2996
+#: build/blocks/design-checkbox/index.js:2974
+#: build/blocks/design-process/index.js:2995
+#: build/blocks/design-select/index.js:2992
+#: build/blocks/design-text-ctrl/index.js:3014
+#: build/blocks/design-title/index.js:3104
 msgid "Distance"
 msgstr "距離"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:269
-#: build/blocks/design-checkbox/index.js:2921
-#: build/blocks/design-process/index.js:2942
-#: build/blocks/design-select/index.js:2939
-#: build/blocks/design-text-ctrl/index.js:2982
-#: build/blocks/design-title/index.js:3066
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:330
+#: build/blocks/design-button/index.js:3004
+#: build/blocks/design-checkbox/index.js:2982
+#: build/blocks/design-process/index.js:3003
+#: build/blocks/design-select/index.js:3000
+#: build/blocks/design-text-ctrl/index.js:3022
+#: build/blocks/design-title/index.js:3112
 msgid "Intensity"
 msgstr "強度"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:315
-#: build/blocks/design-checkbox/index.js:2967
-#: build/blocks/design-process/index.js:2988
-#: build/blocks/design-select/index.js:2985
-#: build/blocks/design-text-ctrl/index.js:3028
-#: build/blocks/design-title/index.js:3112
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:376
+#: build/blocks/design-button/index.js:3050
+#: build/blocks/design-checkbox/index.js:3028
+#: build/blocks/design-process/index.js:3049
+#: build/blocks/design-select/index.js:3046
+#: build/blocks/design-text-ctrl/index.js:3068
+#: build/blocks/design-title/index.js:3158
 msgid "Claymorphism settings"
 msgstr "クレイモフィズム設定"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
 #: build/blocks/design-title/index.js:1 build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:374 src/blocks/ShadowStyle.js:318
-#: build/blocks/design-checkbox/index.js:2970
-#: build/blocks/design-process/index.js:2991
-#: build/blocks/design-select/index.js:2988
-#: build/blocks/design-text-ctrl/index.js:3031
-#: build/blocks/design-title/index.js:3115
-#: build/blocks/design-title/index.js:3945
+#: src/blocks/design-title/edit.js:374 src/blocks/ShadowStyle.js:379
+#: build/blocks/design-button/index.js:3053
+#: build/blocks/design-checkbox/index.js:3031
+#: build/blocks/design-process/index.js:3052
+#: build/blocks/design-select/index.js:3049
+#: build/blocks/design-text-ctrl/index.js:3071
+#: build/blocks/design-title/index.js:3161
+#: build/blocks/design-title/index.js:3992
 msgid "Opacity"
 msgstr "透明度"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:364
-#: build/blocks/design-checkbox/index.js:3016
-#: build/blocks/design-process/index.js:3037
-#: build/blocks/design-select/index.js:3034
-#: build/blocks/design-text-ctrl/index.js:3077
-#: build/blocks/design-title/index.js:3161
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:425
+#: build/blocks/design-button/index.js:3099
+#: build/blocks/design-checkbox/index.js:3077
+#: build/blocks/design-process/index.js:3098
+#: build/blocks/design-select/index.js:3095
+#: build/blocks/design-text-ctrl/index.js:3117
+#: build/blocks/design-title/index.js:3207
 msgid "Grassmophism settings"
 msgstr "グラスモフィズム設定"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:367
-#: build/blocks/design-checkbox/index.js:3019
-#: build/blocks/design-process/index.js:3040
-#: build/blocks/design-select/index.js:3037
-#: build/blocks/design-text-ctrl/index.js:3080
-#: build/blocks/design-title/index.js:3164
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:428
+#: build/blocks/design-button/index.js:3102
+#: build/blocks/design-checkbox/index.js:3080
+#: build/blocks/design-process/index.js:3101
+#: build/blocks/design-select/index.js:3098
+#: build/blocks/design-text-ctrl/index.js:3120
+#: build/blocks/design-title/index.js:3210
 msgid "Glass blur"
 msgstr "ぼかし"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:375
-#: build/blocks/design-checkbox/index.js:3027
-#: build/blocks/design-process/index.js:3048
-#: build/blocks/design-select/index.js:3045
-#: build/blocks/design-text-ctrl/index.js:3088
-#: build/blocks/design-title/index.js:3172
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:436
+#: build/blocks/design-button/index.js:3110
+#: build/blocks/design-checkbox/index.js:3088
+#: build/blocks/design-process/index.js:3109
+#: build/blocks/design-select/index.js:3106
+#: build/blocks/design-text-ctrl/index.js:3128
+#: build/blocks/design-title/index.js:3218
 msgid "Glass Opacity"
 msgstr "透明度"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
-#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:384
-#: build/blocks/design-checkbox/index.js:3036
-#: build/blocks/design-process/index.js:3057
-#: build/blocks/design-select/index.js:3054
-#: build/blocks/design-text-ctrl/index.js:3097
-#: build/blocks/design-title/index.js:3181
+#: build/blocks/design-title/index.js:1 src/blocks/ShadowStyle.js:445
+#: build/blocks/design-button/index.js:3119
+#: build/blocks/design-checkbox/index.js:3097
+#: build/blocks/design-process/index.js:3118
+#: build/blocks/design-select/index.js:3115
+#: build/blocks/design-text-ctrl/index.js:3137
+#: build/blocks/design-title/index.js:3227
 msgid "Show outline"
 msgstr "アウトライン"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
 #: build/blocks/design-title/index.js:1 src/blocks/IconSelectControl.js:65
-#: src/blocks/TypographyControls.js:64
-#: build/blocks/design-checkbox/index.js:3116
-#: build/blocks/design-process/index.js:3137
-#: build/blocks/design-select/index.js:3134
-#: build/blocks/design-text-ctrl/index.js:3177
-#: build/blocks/design-title/index.js:2748
-#: build/blocks/design-title/index.js:3261
+#: src/blocks/TypographyControls.js:64 build/blocks/design-button/index.js:3200
+#: build/blocks/design-checkbox/index.js:3178
+#: build/blocks/design-process/index.js:3199
+#: build/blocks/design-select/index.js:3196
+#: build/blocks/design-text-ctrl/index.js:3218
+#: build/blocks/design-title/index.js:2733
+#: build/blocks/design-title/index.js:3308
 msgid "Size"
 msgstr "サイズ"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
 #: build/blocks/design-title/index.js:1 src/blocks/TypographyControls.js:70
-#: build/blocks/design-checkbox/index.js:3122
-#: build/blocks/design-process/index.js:3143
-#: build/blocks/design-select/index.js:3140
-#: build/blocks/design-text-ctrl/index.js:3183
-#: build/blocks/design-title/index.js:3267
+#: build/blocks/design-button/index.js:3206
+#: build/blocks/design-checkbox/index.js:3184
+#: build/blocks/design-process/index.js:3205
+#: build/blocks/design-select/index.js:3202
+#: build/blocks/design-text-ctrl/index.js:3224
+#: build/blocks/design-title/index.js:3314
 msgid "font family"
 msgstr "フォントファミリー"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
 #: build/blocks/design-title/index.js:1 src/blocks/TypographyControls.js:78
-#: build/blocks/design-checkbox/index.js:3130
-#: build/blocks/design-process/index.js:3151
-#: build/blocks/design-select/index.js:3148
-#: build/blocks/design-text-ctrl/index.js:3191
-#: build/blocks/design-title/index.js:3275
+#: build/blocks/design-button/index.js:3214
+#: build/blocks/design-checkbox/index.js:3192
+#: build/blocks/design-process/index.js:3213
+#: build/blocks/design-select/index.js:3210
+#: build/blocks/design-text-ctrl/index.js:3232
+#: build/blocks/design-title/index.js:3322
 msgid "font weight"
 msgstr "フォントウェイト"
 
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1 build/blocks/design-select/index.js:1
 #: build/blocks/design-text-ctrl/index.js:1
 #: build/blocks/design-title/index.js:1 src/blocks/TypographyControls.js:97
-#: build/blocks/design-checkbox/index.js:3149
-#: build/blocks/design-process/index.js:3170
-#: build/blocks/design-select/index.js:3167
-#: build/blocks/design-text-ctrl/index.js:3210
-#: build/blocks/design-title/index.js:3294
+#: build/blocks/design-button/index.js:3233
+#: build/blocks/design-checkbox/index.js:3211
+#: build/blocks/design-process/index.js:3232
+#: build/blocks/design-select/index.js:3229
+#: build/blocks/design-text-ctrl/index.js:3251
+#: build/blocks/design-title/index.js:3341
 msgid "Italic display"
 msgstr "斜体表示"
 
+#: build/blocks/design-button/index.js:27 src/blocks/design-button/edit.js:95
+#: build/blocks/design-button/index.js:3499
+msgid "Button Name..."
+msgstr "ボタンの名前..."
+
+#: build/blocks/design-button/index.js:27 src/blocks/design-button/edit.js:143
+#: build/blocks/design-button/index.js:3547
+msgid "Button Type setting"
+msgstr "ボタンタイプ設定"
+
+#: build/blocks/design-button/index.js:27 src/blocks/design-button/edit.js:144
+#: build/blocks/design-button/index.js:3548
+msgid "Select Button Type"
+msgstr "ボタンタイプを選択"
+
+#: build/blocks/design-button/index.js:27 src/blocks/design-button/edit.js:149
+#: build/blocks/design-button/index.js:3553
+msgid "Button"
+msgstr "ボタン"
+
+#: build/blocks/design-button/index.js:27 src/blocks/design-button/edit.js:150
+#: build/blocks/design-button/index.js:3554
+msgid "Submit"
+msgstr "サブミット"
+
+#: build/blocks/design-button/index.js:27 src/blocks/design-button/edit.js:158
+#: build/blocks/design-button/index.js:3562
+msgid "Transition to static page"
+msgstr "遷移先の固定ページ"
+
+#: build/blocks/design-button/index.js:27 src/blocks/design-button/edit.js:165
+#: build/blocks/design-button/index.js:3569
+msgid "Button Label"
+msgstr "ボタンのラベル"
+
+#: build/blocks/design-button/index.js:27
 #: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:84
-#: build/blocks/design-checkbox/index.js:3463
+#: build/blocks/design-process/index.js:176
+#: build/blocks/design-select/index.js:331
+#: build/blocks/design-text-ctrl/index.js:108
+#: build/blocks/design-title/index.js:85 src/blocks/design-button/edit.js:175
+#: src/blocks/design-checkbox/edit.js:114 src/blocks/design-process/edit.js:123
+#: src/blocks/design-select/edit.js:244 src/blocks/design-text-ctrl/edit.js:250
+#: src/blocks/design-title/edit.js:211 build/blocks/design-button/index.js:3579
+#: build/blocks/design-checkbox/index.js:3555
+#: build/blocks/design-process/index.js:3671
+#: build/blocks/design-select/index.js:3938
+#: build/blocks/design-text-ctrl/index.js:3757
+#: build/blocks/design-title/index.js:3829
+msgid "Global settings"
+msgstr "全体設定"
+
+#: build/blocks/design-button/index.js:27
+#: build/blocks/design-checkbox/index.js:99
+#: build/blocks/design-process/index.js:176
+#: build/blocks/design-select/index.js:331
+#: build/blocks/design-text-ctrl/index.js:108
+#: build/blocks/design-title/index.js:85 src/blocks/design-button/edit.js:177
+#: src/blocks/design-checkbox/edit.js:116 src/blocks/design-process/edit.js:126
+#: src/blocks/design-select/edit.js:246 src/blocks/design-text-ctrl/edit.js:252
+#: src/blocks/design-title/edit.js:213 build/blocks/design-button/index.js:3581
+#: build/blocks/design-checkbox/index.js:3557
+#: build/blocks/design-process/index.js:3674
+#: build/blocks/design-select/index.js:3940
+#: build/blocks/design-text-ctrl/index.js:3759
+#: build/blocks/design-title/index.js:3831
+msgid "Background Color Setting"
+msgstr "背景色設定"
+
+#: build/blocks/design-button/index.js:27
+#: build/blocks/design-checkbox/index.js:99
+#: build/blocks/design-process/index.js:176
+#: build/blocks/design-select/index.js:331
+#: build/blocks/design-title/index.js:85 src/blocks/design-button/edit.js:181
+#: src/blocks/design-checkbox/edit.js:120 src/blocks/design-process/edit.js:130
+#: src/blocks/design-select/edit.js:250 src/blocks/design-title/edit.js:217
+#: build/blocks/design-button/index.js:3585
+#: build/blocks/design-checkbox/index.js:3561
+#: build/blocks/design-process/index.js:3678
+#: build/blocks/design-select/index.js:3944
+#: build/blocks/design-title/index.js:3835
+msgid "Choose Block Background color"
+msgstr "ブロックの背景色を選択"
+
+#: build/blocks/design-button/index.js:27
+#: build/blocks/design-checkbox/index.js:99
+#: build/blocks/design-process/index.js:176
+#: build/blocks/design-select/index.js:331
+#: build/blocks/design-text-ctrl/index.js:108
+#: build/blocks/design-title/index.js:85 src/blocks/design-button/edit.js:205
+#: src/blocks/design-checkbox/edit.js:149 src/blocks/design-process/edit.js:143
+#: src/blocks/design-select/edit.js:284 src/blocks/design-text-ctrl/edit.js:323
+#: src/blocks/design-text-ctrl/edit.js:366 src/blocks/design-title/edit.js:277
+#: src/blocks/design-title/edit.js:473 build/blocks/design-button/index.js:3609
+#: build/blocks/design-checkbox/index.js:3590
+#: build/blocks/design-process/index.js:3691
+#: build/blocks/design-select/index.js:3978
+#: build/blocks/design-text-ctrl/index.js:3830
+#: build/blocks/design-text-ctrl/index.js:3873
+#: build/blocks/design-title/index.js:3895
+#: build/blocks/design-title/index.js:4091
+msgid "Border Settings"
+msgstr "ボーダー設定"
+
+#: build/blocks/design-button/index.js:27
+#: build/blocks/design-checkbox/index.js:99
+#: build/blocks/design-process/index.js:176
+#: build/blocks/design-select/index.js:331
+#: build/blocks/design-text-ctrl/index.js:108
+#: build/blocks/design-title/index.js:85 src/blocks/design-button/edit.js:220
+#: src/blocks/design-checkbox/edit.js:164 src/blocks/design-process/edit.js:176
+#: src/blocks/design-select/edit.js:299 src/blocks/design-text-ctrl/edit.js:289
+#: src/blocks/design-title/edit.js:224 build/blocks/design-button/index.js:3624
+#: build/blocks/design-checkbox/index.js:3605
+#: build/blocks/design-process/index.js:3724
+#: build/blocks/design-select/index.js:3993
+#: build/blocks/design-text-ctrl/index.js:3796
+#: build/blocks/design-title/index.js:3842
+msgid "Is Shadow"
+msgstr "シャドーをつける"
+
+#: build/blocks/design-button/index.js:27 src/blocks/design-button/edit.js:227
+#: build/blocks/design-button/index.js:3631
+msgid "Button style settings"
+msgstr "ボタンスタイル設定"
+
+#: build/blocks/design-button/index.js:27
+#: build/blocks/design-checkbox/index.js:99
+#: build/blocks/design-process/index.js:176
+#: build/blocks/design-select/index.js:331
+#: build/blocks/design-text-ctrl/index.js:108
+#: build/blocks/design-title/index.js:85 src/blocks/design-button/edit.js:229
+#: src/blocks/design-checkbox/edit.js:190 src/blocks/design-process/edit.js:187
+#: src/blocks/design-process/edit.js:213 src/blocks/design-select/edit.js:309
+#: src/blocks/design-text-ctrl/edit.js:299
+#: src/blocks/design-text-ctrl/edit.js:342 src/blocks/design-title/edit.js:233
+#: src/blocks/design-title/edit.js:460 build/blocks/design-button/index.js:3633
+#: build/blocks/design-checkbox/index.js:3631
+#: build/blocks/design-process/index.js:3735
+#: build/blocks/design-process/index.js:3761
+#: build/blocks/design-select/index.js:4003
+#: build/blocks/design-text-ctrl/index.js:3806
+#: build/blocks/design-text-ctrl/index.js:3849
+#: build/blocks/design-title/index.js:3851
+#: build/blocks/design-title/index.js:4078
+msgid "Typography"
+msgstr "タイポグラフィー"
+
+#: build/blocks/design-button/index.js:27
+#: build/blocks/design-checkbox/index.js:99
+#: build/blocks/design-text-ctrl/index.js:108
+#: src/blocks/design-button/edit.js:237 src/blocks/design-checkbox/edit.js:199
+#: src/blocks/design-text-ctrl/edit.js:350
+#: build/blocks/design-button/index.js:3641
+#: build/blocks/design-checkbox/index.js:3640
+#: build/blocks/design-text-ctrl/index.js:3857
+msgid "Label Color Setting"
+msgstr "ラベル色設定"
+
+#: build/blocks/design-button/index.js:27
+#: build/blocks/design-checkbox/index.js:99
+#: src/blocks/design-button/edit.js:240 src/blocks/design-checkbox/edit.js:176
+#: build/blocks/design-button/index.js:3644
+#: build/blocks/design-checkbox/index.js:3617
+msgid "Choose Input color"
+msgstr "インプット要素色を選択"
+
+#: build/blocks/design-button/index.js:27 src/blocks/design-button/edit.js:246
+#: build/blocks/design-button/index.js:3650
+msgid "Choose Button Background color"
+msgstr "ボタンの背景色を選択"
+
+#: build/blocks/design-button/index.js:27 src/blocks/design-button/index.js:15
+#: build/blocks/design-button/index.js:3707
+msgid "A block that decorates buttons with designs."
+msgstr "デザインをあしらったボタンを作成するブロックです。"
+
+#: build/blocks/design-checkbox/index.js:99
+#: src/blocks/design-checkbox/edit.js:93
+#: build/blocks/design-checkbox/index.js:3534
 msgid "Write Checkbox Label..."
 msgstr "チェックボックスのラベルを入力..."
 
 #: build/blocks/design-checkbox/index.js:99
 #: build/blocks/design-text-ctrl/index.js:108
-#: src/blocks/design-checkbox/edit.js:93
+#: src/blocks/design-checkbox/edit.js:102
 #: src/blocks/design-text-ctrl/edit.js:169
-#: build/blocks/design-checkbox/index.js:3472
-#: build/blocks/design-text-ctrl/index.js:3635
+#: build/blocks/design-checkbox/index.js:3543
+#: build/blocks/design-text-ctrl/index.js:3676
 msgid "Input element information setting"
 msgstr "インプット要素情報設定"
 
 #: build/blocks/design-checkbox/index.js:99
 #: build/blocks/design-text-ctrl/index.js:108
-#: src/blocks/design-checkbox/edit.js:95
+#: src/blocks/design-checkbox/edit.js:104
 #: src/blocks/design-text-ctrl/edit.js:172
-#: build/blocks/design-checkbox/index.js:3474
-#: build/blocks/design-text-ctrl/index.js:3638
+#: build/blocks/design-checkbox/index.js:3545
+#: build/blocks/design-text-ctrl/index.js:3679
 msgid "name attribute name"
 msgstr "name属性の名称"
 
 #: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:97
-#: build/blocks/design-checkbox/index.js:3476
+#: src/blocks/design-checkbox/edit.js:106
+#: build/blocks/design-checkbox/index.js:3547
 msgid ""
 "When using another design-checkbox as one of the options as an inner block, "
 "please use the same name."
@@ -495,114 +728,31 @@ msgstr ""
 "併せて下さい。"
 
 #: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-text-ctrl/index.js:108
-#: build/blocks/design-title/index.js:85 src/blocks/design-checkbox/edit.js:105
-#: src/blocks/design-process/edit.js:123 src/blocks/design-select/edit.js:243
-#: src/blocks/design-text-ctrl/edit.js:250 src/blocks/design-title/edit.js:211
-#: build/blocks/design-checkbox/index.js:3484
-#: build/blocks/design-process/index.js:3609
-#: build/blocks/design-select/index.js:3875
-#: build/blocks/design-text-ctrl/index.js:3716
-#: build/blocks/design-title/index.js:3782
-msgid "Global settings"
-msgstr "全体設定"
-
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-text-ctrl/index.js:108
-#: build/blocks/design-title/index.js:85 src/blocks/design-checkbox/edit.js:107
-#: src/blocks/design-process/edit.js:126 src/blocks/design-select/edit.js:245
-#: src/blocks/design-text-ctrl/edit.js:252 src/blocks/design-title/edit.js:213
-#: build/blocks/design-checkbox/index.js:3486
-#: build/blocks/design-process/index.js:3612
-#: build/blocks/design-select/index.js:3877
-#: build/blocks/design-text-ctrl/index.js:3718
-#: build/blocks/design-title/index.js:3784
-msgid "Background Color Setting"
-msgstr "背景色設定"
-
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-title/index.js:85 src/blocks/design-checkbox/edit.js:111
-#: src/blocks/design-process/edit.js:130 src/blocks/design-select/edit.js:249
-#: src/blocks/design-title/edit.js:217
-#: build/blocks/design-checkbox/index.js:3490
-#: build/blocks/design-process/index.js:3616
-#: build/blocks/design-select/index.js:3881
-#: build/blocks/design-title/index.js:3788
-msgid "Choose Block Background color"
-msgstr "ブロックの背景色を選択"
-
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:116
-#: src/blocks/design-checkbox/edit.js:172
-#: build/blocks/design-checkbox/index.js:3495
-#: build/blocks/design-checkbox/index.js:3551
+#: src/blocks/design-checkbox/edit.js:125
+#: src/blocks/design-checkbox/edit.js:181
+#: build/blocks/design-checkbox/index.js:3566
+#: build/blocks/design-checkbox/index.js:3622
 msgid "Choose Input Background color"
 msgstr "インプット要素背景色を選択"
 
 #: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-text-ctrl/index.js:108
-#: build/blocks/design-title/index.js:85 src/blocks/design-checkbox/edit.js:140
-#: src/blocks/design-process/edit.js:143 src/blocks/design-select/edit.js:283
-#: src/blocks/design-text-ctrl/edit.js:323
-#: src/blocks/design-text-ctrl/edit.js:366 src/blocks/design-title/edit.js:277
-#: src/blocks/design-title/edit.js:473
-#: build/blocks/design-checkbox/index.js:3519
-#: build/blocks/design-process/index.js:3629
-#: build/blocks/design-select/index.js:3915
-#: build/blocks/design-text-ctrl/index.js:3789
-#: build/blocks/design-text-ctrl/index.js:3832
-#: build/blocks/design-title/index.js:3848
-#: build/blocks/design-title/index.js:4044
-msgid "Border Settings"
-msgstr "ボーダー設定"
-
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-text-ctrl/index.js:108
-#: build/blocks/design-title/index.js:85 src/blocks/design-checkbox/edit.js:155
-#: src/blocks/design-process/edit.js:176 src/blocks/design-select/edit.js:298
-#: src/blocks/design-text-ctrl/edit.js:289 src/blocks/design-title/edit.js:224
-#: build/blocks/design-checkbox/index.js:3534
-#: build/blocks/design-process/index.js:3662
-#: build/blocks/design-select/index.js:3930
-#: build/blocks/design-text-ctrl/index.js:3755
-#: build/blocks/design-title/index.js:3795
-msgid "Is Shadow"
-msgstr "シャドーをつける"
-
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:162
-#: build/blocks/design-checkbox/index.js:3541
+#: src/blocks/design-checkbox/edit.js:171
+#: build/blocks/design-checkbox/index.js:3612
 msgid "Input style settings"
 msgstr "インプット要素スタイル設定"
 
 #: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:164
-#: build/blocks/design-checkbox/index.js:3543
+#: src/blocks/design-checkbox/edit.js:173
+#: build/blocks/design-checkbox/index.js:3614
 msgid "Input Color Setting"
 msgstr "インプット要素色設定"
 
 #: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:167
-#: build/blocks/design-checkbox/index.js:3546
-msgid "Choose Input color"
-msgstr "インプット要素色を選択"
-
-#: build/blocks/design-checkbox/index.js:99
 #: build/blocks/design-text-ctrl/index.js:108
-#: src/blocks/design-checkbox/edit.js:179
+#: src/blocks/design-checkbox/edit.js:188
 #: src/blocks/design-text-ctrl/edit.js:339
-#: build/blocks/design-checkbox/index.js:3558
-#: build/blocks/design-text-ctrl/index.js:3805
+#: build/blocks/design-checkbox/index.js:3629
+#: build/blocks/design-text-ctrl/index.js:3846
 msgid "Label style settings"
 msgstr "ラベルスタイル設定"
 
@@ -610,60 +760,31 @@ msgstr "ラベルスタイル設定"
 #: build/blocks/design-process/index.js:176
 #: build/blocks/design-select/index.js:331
 #: build/blocks/design-text-ctrl/index.js:108
-#: build/blocks/design-title/index.js:85 src/blocks/design-checkbox/edit.js:181
-#: src/blocks/design-process/edit.js:187 src/blocks/design-process/edit.js:213
-#: src/blocks/design-select/edit.js:308 src/blocks/design-text-ctrl/edit.js:299
-#: src/blocks/design-text-ctrl/edit.js:342 src/blocks/design-title/edit.js:233
-#: src/blocks/design-title/edit.js:460
-#: build/blocks/design-checkbox/index.js:3560
-#: build/blocks/design-process/index.js:3673
-#: build/blocks/design-process/index.js:3699
-#: build/blocks/design-select/index.js:3940
-#: build/blocks/design-text-ctrl/index.js:3765
-#: build/blocks/design-text-ctrl/index.js:3808
-#: build/blocks/design-title/index.js:3804
-#: build/blocks/design-title/index.js:4031
-msgid "Typography"
-msgstr "タイポグラフィー"
-
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-text-ctrl/index.js:108
-#: src/blocks/design-checkbox/edit.js:190
-#: src/blocks/design-text-ctrl/edit.js:350
-#: build/blocks/design-checkbox/index.js:3569
-#: build/blocks/design-text-ctrl/index.js:3816
-msgid "Label Color Setting"
-msgstr "ラベル色設定"
-
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-text-ctrl/index.js:108
-#: build/blocks/design-title/index.js:85 src/blocks/design-checkbox/edit.js:193
+#: build/blocks/design-title/index.js:85 src/blocks/design-checkbox/edit.js:202
 #: src/blocks/design-process/edit.js:199 src/blocks/design-process/edit.js:225
-#: src/blocks/design-select/edit.js:320 src/blocks/design-text-ctrl/edit.js:310
+#: src/blocks/design-select/edit.js:321 src/blocks/design-text-ctrl/edit.js:310
 #: src/blocks/design-text-ctrl/edit.js:353 src/blocks/design-title/edit.js:245
 #: src/blocks/design-title/edit.js:426
-#: build/blocks/design-checkbox/index.js:3572
-#: build/blocks/design-process/index.js:3685
-#: build/blocks/design-process/index.js:3711
-#: build/blocks/design-select/index.js:3952
-#: build/blocks/design-text-ctrl/index.js:3776
-#: build/blocks/design-text-ctrl/index.js:3819
-#: build/blocks/design-title/index.js:3816
-#: build/blocks/design-title/index.js:3997
+#: build/blocks/design-checkbox/index.js:3643
+#: build/blocks/design-process/index.js:3747
+#: build/blocks/design-process/index.js:3773
+#: build/blocks/design-select/index.js:4015
+#: build/blocks/design-text-ctrl/index.js:3817
+#: build/blocks/design-text-ctrl/index.js:3860
+#: build/blocks/design-title/index.js:3863
+#: build/blocks/design-title/index.js:4044
 msgid "Choose Text color"
 msgstr "テキスト色を選択"
 
 #: build/blocks/design-checkbox/index.js:99
 #: src/blocks/design-checkbox/index.js:16
-#: build/blocks/design-checkbox/index.js:3617
+#: build/blocks/design-checkbox/index.js:3697
 msgid "A block for creating check boxes with designs"
 msgstr "デザインをあしらったチェックボックスを作成するブロックです"
 
 #: build/blocks/design-process/index.js:176
 #: src/blocks/design-process/edit.js:99
-#: build/blocks/design-process/index.js:3585
+#: build/blocks/design-process/index.js:3647
 msgid ""
 "This block will not work unless the Form Send plugin block is a sibling "
 "block."
@@ -673,214 +794,214 @@ msgstr ""
 
 #: build/blocks/design-process/index.js:176
 #: src/blocks/design-process/edit.js:137
-#: build/blocks/design-process/index.js:3623
+#: build/blocks/design-process/index.js:3685
 msgid "Choose Form Background color"
 msgstr "フォームの背景色を選択"
 
 #: build/blocks/design-process/index.js:176
 #: src/blocks/design-process/edit.js:184
-#: build/blocks/design-process/index.js:3670
+#: build/blocks/design-process/index.js:3732
 msgid "Settings by style"
 msgstr "スタイル別設定"
 
 #: build/blocks/design-process/index.js:176
 #: src/blocks/design-process/edit.js:185
-#: build/blocks/design-process/index.js:3671
+#: build/blocks/design-process/index.js:3733
 msgid "process number"
 msgstr "プロセス番号"
 
 #: build/blocks/design-process/index.js:176
 #: src/blocks/design-process/edit.js:195 src/blocks/design-process/edit.js:221
-#: build/blocks/design-process/index.js:3681
-#: build/blocks/design-process/index.js:3707
+#: build/blocks/design-process/index.js:3743
+#: build/blocks/design-process/index.js:3769
 msgid "Color Setting"
 msgstr "色設定"
 
 #: build/blocks/design-process/index.js:176
 #: src/blocks/design-process/edit.js:204
-#: build/blocks/design-process/index.js:3690
+#: build/blocks/design-process/index.js:3752
 msgid "Choose background color"
 msgstr "背景色を選択してください"
 
 #: build/blocks/design-process/index.js:176
 #: src/blocks/design-process/edit.js:211
-#: build/blocks/design-process/index.js:3697
+#: build/blocks/design-process/index.js:3759
 msgid "Process Display"
 msgstr "プロセス表示"
 
 #: build/blocks/design-process/index.js:176
 #: build/blocks/design-title/index.js:85 src/blocks/design-process/index.js:18
 #: src/blocks/design-title/index.js:18
-#: build/blocks/design-process/index.js:3770
-#: build/blocks/design-title/index.js:4162
+#: build/blocks/design-process/index.js:3832
+#: build/blocks/design-title/index.js:4209
 msgid "Default"
 msgstr "デフォルト"
 
 #: build/blocks/design-process/index.js:176
 #: src/blocks/design-process/index.js:23
-#: build/blocks/design-process/index.js:3775
+#: build/blocks/design-process/index.js:3837
 msgid "Card"
 msgstr "カード"
 
 #: build/blocks/design-process/index.js:176
 #: src/blocks/design-process/index.js:26
-#: build/blocks/design-process/index.js:3778
+#: build/blocks/design-process/index.js:3840
 msgid "A block for stylish display of process progress"
 msgstr "工程の進行状況をスタイリッシュに表示するブロックです"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:193
-#: build/blocks/design-select/index.js:3825
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:194
+#: build/blocks/design-select/index.js:3888
 msgid "Select Element Settings"
 msgstr "セレクト要素設定"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:198
-#: build/blocks/design-select/index.js:3830
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:199
+#: build/blocks/design-select/index.js:3893
 msgid "Select Pattern"
 msgstr "選択のパターン"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:203
-#: build/blocks/design-select/index.js:3835
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:204
+#: build/blocks/design-select/index.js:3898
 msgid "Single Select"
 msgstr "単一選択"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:204
-#: build/blocks/design-select/index.js:3836
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:205
+#: build/blocks/design-select/index.js:3899
 msgid "Nulti Select"
 msgstr "複数選択"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:213
-#: build/blocks/design-select/index.js:3845
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:214
+#: build/blocks/design-select/index.js:3908
 msgid "Place Folder Display"
 msgstr "プレイスフォルダ表示"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:219
-#: build/blocks/design-select/index.js:3851
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:220
+#: build/blocks/design-select/index.js:3914
 msgid "Option info Setting"
 msgstr "オプション情報設定"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:222
-#: build/blocks/design-select/index.js:3854
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:223
+#: build/blocks/design-select/index.js:3917
 msgid "add"
 msgstr "追加"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:256
-#: build/blocks/design-select/index.js:3888
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:257
+#: build/blocks/design-select/index.js:3951
 msgid "Choose Select Background color"
 msgstr "セレクトの背景色を選択"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:265
-#: build/blocks/design-select/index.js:3897
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:266
+#: build/blocks/design-select/index.js:3960
 msgid "Margin Setting"
 msgstr "マージン設定"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:306
-#: build/blocks/design-select/index.js:3938
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:307
+#: build/blocks/design-select/index.js:4001
 msgid "Option Style Settings"
 msgstr "オプションスタイル設定"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:317
-#: build/blocks/design-select/index.js:3949
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:318
+#: build/blocks/design-select/index.js:4012
 msgid "Option Color Setting"
 msgstr "オプション色設定"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:325
-#: build/blocks/design-select/index.js:3957
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:326
+#: build/blocks/design-select/index.js:4020
 msgid "Choose Background color on mouse hover"
 msgstr "マウスホバー時の背景色を選択"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:337
-#: build/blocks/design-select/index.js:3969
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:338
+#: build/blocks/design-select/index.js:4032
 msgid "Option Info Edit"
 msgstr "オプション情報編集"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:341
-#: build/blocks/design-select/index.js:3973
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:342
+#: build/blocks/design-select/index.js:4036
 msgid "Display Label"
 msgstr "ラベルの表示"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:346
-#: build/blocks/design-select/index.js:3978
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:347
+#: build/blocks/design-select/index.js:4041
 msgid "Option Value"
 msgstr "オプションの値"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:351
-#: build/blocks/design-select/index.js:3983
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:352
+#: build/blocks/design-select/index.js:4046
 msgid "Class Name"
 msgstr "クラス名"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:356
-#: build/blocks/design-select/index.js:3988
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:357
+#: build/blocks/design-select/index.js:4051
 msgid "Save Changes"
 msgstr "変更を保存"
 
 #: build/blocks/design-select/index.js:331
-#: build/blocks/design-title/index.js:85 src/blocks/design-select/edit.js:363
-#: src/blocks/design-title/edit.js:542 build/blocks/design-select/index.js:3995
-#: build/blocks/design-title/index.js:4113
+#: build/blocks/design-title/index.js:85 src/blocks/design-select/edit.js:364
+#: src/blocks/design-title/edit.js:542 build/blocks/design-select/index.js:4058
+#: build/blocks/design-title/index.js:4160
 msgid "Confirm Deletion"
 msgstr "削除の確認"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:366
-#: build/blocks/design-select/index.js:3998
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:367
+#: build/blocks/design-select/index.js:4061
 msgid "Are you sure you want to delete this item?"
 msgstr "この項目を削除してもよろしいですか?"
 
-#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:367
-#: build/blocks/design-select/index.js:3999
+#: build/blocks/design-select/index.js:331 src/blocks/design-select/edit.js:368
+#: build/blocks/design-select/index.js:4062
 msgid "Yes, Delete"
 msgstr "はい。削除します"
 
 #: build/blocks/design-select/index.js:331
-#: build/blocks/design-title/index.js:85 src/blocks/design-select/edit.js:368
-#: src/blocks/design-title/edit.js:547 build/blocks/design-select/index.js:4000
-#: build/blocks/design-title/index.js:4118
+#: build/blocks/design-title/index.js:85 src/blocks/design-select/edit.js:369
+#: src/blocks/design-title/edit.js:547 build/blocks/design-select/index.js:4063
+#: build/blocks/design-title/index.js:4165
 msgid "Cancel"
 msgstr "キャンセル"
 
 #: build/blocks/design-select/index.js:331 src/blocks/design-select/index.js:12
-#: build/blocks/design-select/index.js:4037
+#: build/blocks/design-select/index.js:4100
 msgid "A block for designing select elements"
 msgstr "デザインをあしらったセレクト要素を生成するブロックです"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:179
-#: build/blocks/design-text-ctrl/index.js:3645
+#: build/blocks/design-text-ctrl/index.js:3686
 msgid "PlaceHolder"
 msgstr "プレイスフォルダ"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:188
-#: build/blocks/design-text-ctrl/index.js:3654
+#: build/blocks/design-text-ctrl/index.js:3695
 msgid "Kind of Input Element"
 msgstr "インプット要素の種類"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:201
-#: build/blocks/design-text-ctrl/index.js:3667
+#: build/blocks/design-text-ctrl/index.js:3708
 msgid "Number of lines in Text Area"
 msgstr "テキストエリアの行数"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:212
-#: build/blocks/design-text-ctrl/index.js:3678
+#: build/blocks/design-text-ctrl/index.js:3719
 msgid "Required input"
 msgstr "入力必須項目"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:221
-#: build/blocks/design-text-ctrl/index.js:3687
+#: build/blocks/design-text-ctrl/index.js:3728
 msgid "Show 'required'"
 msgstr "必須の表示"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:234
-#: build/blocks/design-text-ctrl/index.js:3700
+#: build/blocks/design-text-ctrl/index.js:3741
 msgid "Label Settings"
 msgstr "ラベル設定"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:239
-#: build/blocks/design-text-ctrl/index.js:3705
+#: build/blocks/design-text-ctrl/index.js:3746
 msgid "Text of Label"
 msgstr "ラベルのテキスト"
 
@@ -890,184 +1011,184 @@ msgstr "ラベルのテキスト"
 #: src/blocks/design-text-ctrl/edit.js:317
 #: src/blocks/design-text-ctrl/edit.js:360 src/blocks/design-title/edit.js:252
 #: src/blocks/design-title/edit.js:435
-#: build/blocks/design-text-ctrl/index.js:3722
-#: build/blocks/design-text-ctrl/index.js:3783
-#: build/blocks/design-text-ctrl/index.js:3826
-#: build/blocks/design-title/index.js:3823
-#: build/blocks/design-title/index.js:4006
+#: build/blocks/design-text-ctrl/index.js:3763
+#: build/blocks/design-text-ctrl/index.js:3824
+#: build/blocks/design-text-ctrl/index.js:3867
+#: build/blocks/design-title/index.js:3870
+#: build/blocks/design-title/index.js:4053
 msgid "Choose Background color"
 msgstr "背景色を選択"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:262
-#: build/blocks/design-text-ctrl/index.js:3728
+#: build/blocks/design-text-ctrl/index.js:3769
 msgid "Focus Color Setting"
 msgstr "フォーカス時の色設定"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:266
-#: build/blocks/design-text-ctrl/index.js:3732
+#: build/blocks/design-text-ctrl/index.js:3773
 msgid "Choose Focus color"
 msgstr "フォーカス時の色を選択"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:296
-#: build/blocks/design-text-ctrl/index.js:3762
+#: build/blocks/design-text-ctrl/index.js:3803
 msgid "Input Box style settings"
 msgstr "インプット要素スタイル設定"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:307
-#: build/blocks/design-text-ctrl/index.js:3773
+#: build/blocks/design-text-ctrl/index.js:3814
 msgid "Color Settings"
 msgstr "色設定"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/edit.js:392
-#: build/blocks/design-text-ctrl/index.js:3858
+#: build/blocks/design-text-ctrl/index.js:3899
 msgid "Spacing with textbox"
 msgstr "テキストボックスとの距離"
 
 #: build/blocks/design-text-ctrl/index.js:108
 #: src/blocks/design-text-ctrl/index.js:20
-#: build/blocks/design-text-ctrl/index.js:3905
+#: build/blocks/design-text-ctrl/index.js:3946
 msgid "Please Input ..."
 msgstr "入力してください..."
 
 #: build/blocks/design-title/index.js:1 src/blocks/IconSelectControl.js:26
-#: build/blocks/design-title/index.js:2709
+#: build/blocks/design-title/index.js:2694
 msgid ""
 "Select the icon from and enter Unicode (the upper right four digits of the "
 "selection dialog). "
 msgstr "からアイコンを選択し、Unicode（選択ダイアログの右上4桁）を入力します。"
 
 #: build/blocks/design-title/index.js:1 src/blocks/IconSelectControl.js:47
-#: build/blocks/design-title/index.js:2730
+#: build/blocks/design-title/index.js:2715
 msgid "icon name"
 msgstr "アイコン名"
 
 #: build/blocks/design-title/index.js:1 src/blocks/IconSelectControl.js:75
-#: build/blocks/design-title/index.js:2758
+#: build/blocks/design-title/index.js:2743
 msgid "spacing to end"
 msgstr "終端までの空白"
 
 #: build/blocks/design-title/index.js:1 src/blocks/IconSelectControl.js:96
-#: build/blocks/design-title/index.js:2779
+#: build/blocks/design-title/index.js:2764
 msgid "Arrangement"
 msgstr "配置"
 
 #: build/blocks/design-title/index.js:1 src/blocks/IconSelectControl.js:101
-#: build/blocks/design-title/index.js:2784
+#: build/blocks/design-title/index.js:2769
 msgid "left"
 msgstr "左"
 
 #: build/blocks/design-title/index.js:1 src/blocks/IconSelectControl.js:102
-#: build/blocks/design-title/index.js:2785
+#: build/blocks/design-title/index.js:2770
 msgid "right"
 msgstr "右"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:203
-#: build/blocks/design-title/index.js:3774
+#: build/blocks/design-title/index.js:3821
 msgid "Write Title text..."
 msgstr "テキストを入力してください..."
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:231
-#: build/blocks/design-title/index.js:3802
+#: build/blocks/design-title/index.js:3849
 msgid "Heading settings"
 msgstr "タイトル設定"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:242
-#: build/blocks/design-title/index.js:3813
+#: build/blocks/design-title/index.js:3860
 msgid "Heading Color Setting"
 msgstr "見出し色設定"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:295
-#: build/blocks/design-title/index.js:3866
+#: build/blocks/design-title/index.js:3913
 msgid "Circle Marker Settings"
 msgstr "円マーカー設定"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:297
-#: src/blocks/design-title/edit.js:357 build/blocks/design-title/index.js:3868
-#: build/blocks/design-title/index.js:3928
+#: src/blocks/design-title/edit.js:357 build/blocks/design-title/index.js:3915
+#: build/blocks/design-title/index.js:3975
 msgid "Circle Color Setting"
 msgstr "円の背景色を選択"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:302
-#: src/blocks/design-title/edit.js:362 build/blocks/design-title/index.js:3873
-#: build/blocks/design-title/index.js:3933
+#: src/blocks/design-title/edit.js:362 build/blocks/design-title/index.js:3920
+#: build/blocks/design-title/index.js:3980
 msgid "Choose Circle Background"
 msgstr "円のグラデーションを選択"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:318
-#: src/blocks/design-title/edit.js:388 build/blocks/design-title/index.js:3889
-#: build/blocks/design-title/index.js:3959
+#: src/blocks/design-title/edit.js:388 build/blocks/design-title/index.js:3936
+#: build/blocks/design-title/index.js:4006
 msgid "Circle Scale Setting"
 msgstr "円の大きさ設定"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:321
-#: src/blocks/design-title/edit.js:391 build/blocks/design-title/index.js:3892
-#: build/blocks/design-title/index.js:3962
+#: src/blocks/design-title/edit.js:391 build/blocks/design-title/index.js:3939
+#: build/blocks/design-title/index.js:4009
 msgid "Position Settings"
 msgstr "位置設定"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:345
-#: build/blocks/design-title/index.js:3916
+#: build/blocks/design-title/index.js:3963
 msgid "Second Circle Settings"
 msgstr "２番目の円設定"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:347
-#: build/blocks/design-title/index.js:3918
+#: build/blocks/design-title/index.js:3965
 msgid "Second Circle"
 msgstr "２番目の円"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:421
-#: build/blocks/design-title/index.js:3992
+#: build/blocks/design-title/index.js:4039
 msgid "Sub Copy Settings"
 msgstr "サブコピー設定"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:423
-#: build/blocks/design-title/index.js:3994
+#: build/blocks/design-title/index.js:4041
 msgid "Copy Color Setting"
 msgstr "コピーの色設定"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:449
-#: build/blocks/design-title/index.js:4020
+#: build/blocks/design-title/index.js:4067
 msgid "Copy Text"
 msgstr "コピーテキスト"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:504
-#: build/blocks/design-title/index.js:4075
+#: build/blocks/design-title/index.js:4122
 msgid "Icon settings"
 msgstr "アイコン設定"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:506
-#: build/blocks/design-title/index.js:4077
+#: build/blocks/design-title/index.js:4124
 msgid "Append icon"
 msgstr "アイコンを付加"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:545
-#: build/blocks/design-title/index.js:4116
+#: build/blocks/design-title/index.js:4163
 msgid "Changing a style resets the style-specific settings. Are you sure?"
 msgstr ""
 "スタイルを変更するとそのスタイル固有の設定は初期化されます。よろしいか？"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/edit.js:546
-#: build/blocks/design-title/index.js:4117
+#: build/blocks/design-title/index.js:4164
 msgid "Yes, Change"
 msgstr "はい。変更します"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/index.js:23
-#: build/blocks/design-title/index.js:4167
+#: build/blocks/design-title/index.js:4214
 msgid "Circle Marker"
 msgstr "円マーカー"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/index.js:27
-#: build/blocks/design-title/index.js:4171
+#: build/blocks/design-title/index.js:4218
 msgid "Sub Copy"
 msgstr "サブコピー"
 
 #: build/blocks/design-title/index.js:85 src/blocks/design-title/index.js:30
-#: build/blocks/design-title/index.js:4174
+#: build/blocks/design-title/index.js:4221
 msgid "A block with various styles applied to heading tags"
 msgstr "見出しタグにさまざまなスタイルが適用されたブロックです。"
 
@@ -1093,9 +1214,11 @@ msgstr ""
 
 #: build/blocks/design-checkbox/block.json
 #: src/blocks/design-checkbox/block.json
+#, fuzzy
+#| msgid "Single Select"
 msgctxt "block title"
-msgid "Dsign CheckBox"
-msgstr ""
+msgid "Design CheckBox"
+msgstr "単一選択"
 
 #: build/blocks/design-process/block.json src/blocks/design-process/block.json
 msgctxt "block title"
@@ -1130,7 +1253,7 @@ msgstr ""
 #: build/blocks/design-text-ctrl/block.json
 #: src/blocks/design-text-ctrl/block.json
 msgctxt "block style label"
-msgid "ラインのみ"
+msgid "ライン"
 msgstr ""
 
 #: build/blocks/design-title/block.json src/blocks/design-title/block.json

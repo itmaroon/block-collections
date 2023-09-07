@@ -303,6 +303,10 @@ $breakpoints: (
 	.components-radio-control {
 		.components-flex {
 			column-gap: 2em;
+
+			label {
+				white-space: nowrap;
+			}
 		}
 	}
 }

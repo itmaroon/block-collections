@@ -50,6 +50,7 @@ const units = [
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		inputName,
+		proceedCheck,
 		bgColor,
 		align,
 		labelContent,
@@ -106,7 +107,12 @@ export default function Edit({ attributes, setAttributes }) {
 						help={__("When using another design-checkbox as one of the options as an inner block, please use the same name.", 'itmar_block_collections')}
 						onChange={(newVal) => setAttributes({ inputName: newVal })}
 					/>
-
+					<ToggleControl
+						label={__('Check to proceed', 'itmar_block_collections')}
+						checked={proceedCheck}
+						onChange={(newValue) => setAttributes({ proceedCheck: newValue })}
+						help={__("When it is the inner block of the block where the submit button is placed, the submit button is enabled by checking it.", 'itmar_block_collections')}
+					/>
 				</PanelBody>
 			</InspectorControls>
 			<InspectorControls group="styles">

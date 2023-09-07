@@ -9,7 +9,8 @@ export default function save({ attributes }) {
 		align,
 		bgColor,
 		labelContent,
-		inputName
+		inputName,
+		proceedCheck
 	} = attributes;
 
 	//テキストの配置
@@ -22,7 +23,11 @@ export default function save({ attributes }) {
 		<div {...blockProps}>
 			<StyleComp attributes={attributes}>
 				<label>
-					<input type="checkbox" name={inputName} />
+					<input
+						type="checkbox"
+						name={inputName}
+						data-is_proceed={proceedCheck}
+					/>
 					<span></span>
 					<RichText.Content
 						value={labelContent}

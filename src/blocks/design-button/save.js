@@ -6,9 +6,12 @@ import { StyleComp } from './StyleButton';
 
 export default function save({ attributes }) {
 	const {
+		buttonType,
+		buttonId,
 		align,
 		bgColor,
-		labelContent
+		labelContent,
+		selectedPageUrl
 	} = attributes;
 
 	//テキストの配置
@@ -20,11 +23,20 @@ export default function save({ attributes }) {
 	const html = renderToString(sheet.collectStyles(
 		<div {...blockProps}>
 			<StyleComp attributes={attributes}>
-				<button>
-					<RichText.Content
-						value={labelContent}
-					/>
-				</button>
+				<>
+					{buttonType === 'button' ? (
+						<button
+							className='itmar_design_button'
+							data-selected_page={selectedPageUrl}
+						>
+							<RichText.Content
+								value={labelContent}
+							/>
+						</button>
+					) : (
+						<input type="submit" value={labelContent} id={buttonId} />
+					)}
+				</>
 			</StyleComp>
 		</div>
 	));

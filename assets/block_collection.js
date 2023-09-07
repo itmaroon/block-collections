@@ -44,6 +44,14 @@ jQuery(function ($) {
     }
   })
 
+  /* ------------------------------
+  design-buttonイベントハンドラ
+  ------------------------------ */
+  $(document).on('click', '.itmar_design_button', function (e) {
+    let redirectUrl = $(this).data('selected_page');
+    //リダイレクト
+    window.location.href = redirectUrl;
+  });
 
   /* ------------------------------
   design-selectイベントハンドラ

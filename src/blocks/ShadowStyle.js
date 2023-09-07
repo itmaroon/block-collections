@@ -116,18 +116,26 @@ export const ShadowElm = (shadowState) => {
     const darkValue = hslToRgb16(hslValue.hue, hslValue.saturation, darkVal);
     //boxshadowの生成
     //立体の方向
-    const dircObj = dirctionDigit(newDirection, distance)
-    const newmorStyle = embos === 'swell' ? {
+    const dircObj = dirctionDigit(newDirection, distance);
+
+    const baseStyle = {
       style: {
-        boxShadow: `${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}, inset ${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px transparent, inset ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px transparent`,
         border: 'none',
         background: baseColor
       }
-    } : {
+    }
+
+    const newmorStyle = embos === 'swell' ? {
+      ...baseStyle,
       style: {
-        boxShadow: `${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px transparent, ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px transparent, inset ${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, inset ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}`,
-        border: 'none',
-        background: baseColor
+        ...baseStyle.style,
+        boxShadow: `${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}, inset ${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px transparent, inset ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px transparent`
+      }
+    } : {
+      ...baseStyle,
+      style: {
+        ...baseStyle.style,
+        boxShadow: `${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px transparent, ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px transparent, inset ${dircObj.topLeft}px ${dircObj.topRight}px ${blur}px ${darkValue}, inset ${dircObj.bottomLeft}px ${dircObj.bottmRight}px ${blur}px ${lightValue}`
       }
     }
 
@@ -141,22 +149,26 @@ export const ShadowElm = (shadowState) => {
     const rgbValue = HexToRGB(baseColor)
     const outsetObj = dirctionDigit(clayDirection, expand)
     const insetObj = dirctionDigit(clayDirection, depth)
-    const claymorStyle = embos === 'swell' ? {
-      style:
-      {
-        boxShadow: `${outsetObj.topLeft}px ${outsetObj.bottmRight}px ${expand * 2}px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.5), inset ${insetObj.topRight}px ${insetObj.bottomLeft}px 16px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.6), inset 0px 11px 28px 0px rgb(255, 255, 255)`,
+    const baseStyle = {
+      style: {
         background: `rgba(255, 255, 255, ${opacity})`,
         backdropFilter: `blur(${bdBlur}px)`,
         border: 'none',
+      }
+    }
+    const claymorStyle = embos === 'swell' ? {
+      ...baseStyle,
+      style: {
+        ...baseStyle.style,
+        boxShadow: `${outsetObj.topLeft}px ${outsetObj.bottmRight}px ${expand * 2}px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.5), inset ${insetObj.topRight}px ${insetObj.bottomLeft}px 16px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.6), inset 0px 11px 28px 0px rgb(255, 255, 255)`,
+
 
       }
     } : {
-      style:
-      {
+      ...baseStyle,
+      style: {
+        ...baseStyle.style,
         boxShadow: `${outsetObj.topLeft}px ${outsetObj.bottmRight}px ${expand * 2}px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.5), inset ${insetObj.topRight}px ${insetObj.bottomLeft}px 16px 0px rgba(${rgbValue.red}, ${rgbValue.green}, ${rgbValue.blue}, 0.6), 0px 11px 28px 0px rgb(255, 255, 255)`,
-        background: `rgba(255, 255, 255, ${opacity})`,
-        backdropFilter: `blur(${bdBlur}px)`,
-        border: 'none',
 
       }
     }
@@ -166,26 +178,27 @@ export const ShadowElm = (shadowState) => {
 
   //グラスモーフィズム
   else if (shadowType === 'glassmor') {
-    const baseColor = backgroundColor || "#C0C0C0";
+    //const baseColor = backgroundColor || "#C0C0C0";
     //const rgbValue = HexToRGB(baseColor)
-    let glassmorStyle = embos === 'swell' ? {
-      style:
-      {
+    const baseStyle = {
+      style: {
         backgroundColor: `rgba(255, 255, 255, ${glassopa})`,
         border: `1px solid rgba(255, 255, 255, 0.4)`,
         borderRightColor: `rgba(255, 255, 255, 0.2)`,
         borderBottomColor: `rgba(255, 255, 255, 0.2)`,
-        backdropFilter: `blur( ${glassblur}px )`,
+        backdropFilter: `blur( ${glassblur}px )`
+      }
+    }
+    const glassmorStyle = embos === 'swell' ? {
+      ...baseStyle,
+      style: {
+        ...baseStyle.style,
         boxShadow: `0 8px 12px 0 rgba( 31, 38, 135, 0.37 ), inset 0 8px 12px 0 transparent`
       }
     } : {
-      style:
-      {
-        backgroundColor: `rgba(255, 255, 255, ${glassopa})`,
-        border: `1px solid rgba(255, 255, 255, 0.4)`,
-        borderRightColor: `rgba(255, 255, 255, 0.2)`,
-        borderBottomColor: `rgba(255, 255, 255, 0.2)`,
-        backdropFilter: `blur( ${glassblur}px )`,
+      ...baseStyle,
+      style: {
+        ...baseStyle.style,
         boxShadow: `0 8px 12px 0 transparent, inset 0 8px 12px 0 rgba( 31, 38, 135, 0.37 )`
 
       }

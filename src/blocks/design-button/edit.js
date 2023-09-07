@@ -4,6 +4,7 @@ import TypographyControls from '../TypographyControls'
 import { StyleComp } from './StyleButton';
 import { useStyleIframe } from '../iframeFooks';
 import ShadowStyle from '../ShadowStyle';
+import { withSelect } from '@wordpress/data';
 
 import {
 	PanelBody,
@@ -11,6 +12,7 @@ import {
 	RadioControl,
 	TextControl,
 	ToggleControl,
+	ComboboxControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl
 } from '@wordpress/components';
@@ -52,6 +54,7 @@ const units = [
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		buttonType,
+		buttonId,
 		bgColor,
 		align,
 		labelContent,
@@ -93,11 +96,46 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 					</button>
 				) : (
-					<input type="submit" value={labelContent} />
+					<input type="submit" value={labelContent} id={buttonId} />
 				)}
 			</>
 		)
 	}
+
+	//終了時のリダイレクト先を固定ページから選択
+	const RedirectSelectControl = withSelect((select) => {
+		const pages = select('core').getEntityRecords('postType', 'page');
+		if (pages && !pages.some(page => page.id === -1)) {
+			// ホームページ用の選択肢を追加します。
+			pages.unshift({ id: -1, title: { rendered: 'ホーム' }, link: '/' });
+		}
+		return { pages }
+
+	})(function ({ pages, setAttributes, attributes, label }) {
+		const { selectedPageId, selectedPageUrl } = attributes;
+		// 選択肢が選択されたときの処理です。
+		const handleChange = (selectedId) => {
+			const selectedPage = pages.find(page => page.id === selectedId);
+			setAttributes({
+				selectedPageId: selectedId,
+				selectedPageUrl: selectedPage ? selectedPage.link : '/'
+			});
+		};
+		// 選択肢を作成します。
+		const options = pages ? pages.map(page => ({
+			value: page.id,
+			label: page.title.rendered
+		})) : [];
+
+		return (
+			<ComboboxControl
+				label={label}
+				options={options}
+				value={selectedPageId}
+				onChange={handleChange}
+			/>
+		);
+	});
 
 	return (
 		<>
@@ -115,12 +153,27 @@ export default function Edit({ attributes, setAttributes }) {
 							}
 						/>
 					</PanelRow>
-					{buttonType === 'submit' &&
-						<TextControl
-							label={__("Button Label", 'itmar_block_collections')}
-							value={labelContent}
-							onChange={(newVal) => setAttributes({ labelContent: newVal })}
+					{buttonType === 'button' &&
+						<RedirectSelectControl
+							label={__("Transition to static page", 'itmar_block_collections')}
+							attributes={attributes}
+							setAttributes={setAttributes}
 						/>
+					}
+					{buttonType === 'submit' &&
+						<>
+							<TextControl
+								label={__("Button Label", 'itmar_block_collections')}
+								value={labelContent}
+								onChange={(newVal) => setAttributes({ labelContent: newVal })}
+							/>
+							<TextControl
+								label={__("Button ID", 'itmar_block_collections')}
+								value={buttonId}
+								onChange={(newVal) => setAttributes({ buttonId: newVal })}
+							/>
+						</>
+
 					}
 
 				</PanelBody>
