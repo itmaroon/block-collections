@@ -4,6 +4,22 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+/* result msg
+  ===================================== */
+#result_msg {
+  font-size: clamp(12px, 1.2vw, 25px);
+  position: fixed;
+  display: none;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 15em;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 1em 2em;
+  color: #fff;
+  z-index: 70;
+}
+
 .wp-block-itmar-code-highlight {
   position: relative;
 
@@ -35,6 +51,7 @@
     padding: 2px 5px !important;
     /* 追加 */
   }
+
 
   .prettyprint {
     font-family: Monaco, Menlo, Consolas, 'Courier New', Courier, monospace, sans-serif;

@@ -1,4 +1,50 @@
-const { __, _x, _n, _nx } = wp.i18n;
+/* ------------------------------
+Loading イメージ表示関数
+引数： msg 画面に表示する文言
+------------------------------ */
+function dispLoading(msg, target) {
+  // 引数なし（メッセージなし）を許容
+  if (msg == undefined) {
+    msg = "";
+  }
+  // 画面表示メッセージ
+  let dispMsg = "<div class='loadingMsg'><div class='loading_icon'></div><p>" + msg + "</p></div>";
+  // ローディング画像が表示されていない場合のみ出力
+  if (target == undefined) {//ターゲット指定がないときはbodyにつける
+    target = jQuery("body");
+    if (target.find(".loading").length == 0) {
+      target.append("<div class='loading body'>" + dispMsg + "</div>");
+    }
+  } else {
+    if (target.find(".loading").length == 0) {
+      target.append("<div class='loading'>" + dispMsg + "</div>");
+    }
+  }
+}
+
+/* ------------------------------
+Loading イメージ削除関数
+------------------------------ */
+function removeLoading(dispMsg, target) {
+  if (target == undefined) {//ターゲット指定がないときはbodyにつける
+    target = jQuery("body");
+  }
+  target.find(".loading").fadeOut(300, function () {
+    jQuery(this).remove();
+    if (dispMsg != undefined && dispMsg.length > 0) {
+      // 引数ありのとき
+      jQuery("body").append("<div id='result_msg' >" + dispMsg + "</div>");
+      jQuery("#result_msg").slideDown(300, function () {
+        setTimeout(function () {
+          jQuery("#result_msg").slideUp(300, function () {
+            jQuery(this).remove();
+          })
+        }, 2000);
+      })
+    }
+  });
+}
+
 /* ------------------------------
 メッセージ表示関数
 ------------------------------ */
@@ -21,6 +67,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       const code = codeBlock.innerText;
 
       navigator.clipboard.writeText(code).then(() => {
+        const { __ } = wp.i18n;
         ctrlMsg(__("copied", 'itmar_block_collections'));
       }, (err) => {
         console.error('Could not copy text: ', err);
