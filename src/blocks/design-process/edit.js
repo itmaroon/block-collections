@@ -236,7 +236,6 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			<div {...blockProps} >
 
 				<StyleComp attributes={attributes} >
-
 					{is_shadow ? (
 						<ShadowStyle
 							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
@@ -252,8 +251,9 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 							)}
 						</ShadowStyle>
 					) : (
+
 						figureBlocks.map((block, index) =>
-							<li key={index} className={stage_index >= index ? "ready" : ""}>
+							<li key={index} className={stage_index >= index ? "ready" : ""} >
 								{block.attributes.stage_info}
 							</li>
 						)

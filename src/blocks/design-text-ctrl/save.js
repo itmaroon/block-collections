@@ -1,4 +1,4 @@
-
+import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
 import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
@@ -19,6 +19,7 @@ export default function save({ attributes }) {
 	const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
 
 	const dispLabel = required.flg ? `${labelContent}(${required.display})` : labelContent;
+
 
 	const sheet = new ServerStyleSheet();
 	const html = renderToString(sheet.collectStyles(

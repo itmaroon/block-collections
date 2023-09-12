@@ -17,8 +17,15 @@ registerBlockType(metadata.name, {
 		...metadata.attributes,
 		placeFolder: {
 			type: "string",
-			default: __('Please Input ...', 'itmar_block_collections'),
-		}
+			default: __('Please Input ...', 'itmar_block_collections')
+		},
+		required: {
+			type: "object",
+			default: {
+				flg: false,
+				display: __('Required', 'itmar_block_collections'),
+			}
+		},
 	},
 	edit: Edit,
 	save,
