@@ -13,6 +13,18 @@ import metadata from './block.json';
 
 registerBlockType(metadata.name, {
 	icon: <TextBox />,
+	description: __('A block for styling text controls.', 'itmar_block_collections'),
+	styles: [
+		{
+			name: "nomal",
+			label: __('Default', 'itmar_block_collections'),
+			isDefault: true
+		},
+		{
+			name: "line",
+			label: __('Line', 'itmar_block_collections')
+		}
+	],
 	attributes: {
 		...metadata.attributes,
 		placeFolder: {
