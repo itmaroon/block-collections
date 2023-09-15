@@ -1,0 +1,158 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "itmar/design-table",
+  "version": "0.1.0",
+  "title": "Design Table",
+  "category": "design",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "dataSource": {
+      "type": "object"
+    },
+    "is_heading": {
+      "type": "boolean",
+      "default": false
+    },
+    "tableHeading": {
+      "type": "array",
+      "default": []
+    },
+    "bgColor": {
+      "type": "string"
+    },
+    "font_style_th": {
+      "type": "object",
+      "default": {
+        "fontSize": "16px",
+        "fontFamily": "Noto Sans JP, sans-serif",
+        "fontWeight": "500",
+        "isItalic": false
+      }
+    },
+    "font_style_td": {
+      "type": "object",
+      "default": {
+        "fontSize": "16px",
+        "fontFamily": "Noto Sans JP, sans-serif",
+        "fontWeight": "500",
+        "isItalic": false
+      }
+    },
+    "th_color": {
+      "type": "string",
+      "default": "#000"
+    },
+    "bgColor_th": {
+      "type": "string"
+    },
+    "bgGradient_th": {
+      "type": "string"
+    },
+    "td_color": {
+      "type": "string",
+      "default": "#000"
+    },
+    "bgColor_td": {
+      "type": "string"
+    },
+    "bgGradient_td": {
+      "type": "string"
+    },
+    "radius_value": {
+      "type": "object",
+      "default": {
+        "topLeft": "0px",
+        "topRight": "0px",
+        "bottomRight": "0px",
+        "bottomLeft": "0px",
+        "value": "0px"
+      }
+    },
+    "border_value": {
+      "type": "object",
+      "default": {
+        "width": "1px",
+        "style": "solid",
+        "color": "#000"
+      }
+    },
+    "margin_value": {
+      "type": "object",
+      "default": {
+        "top": "1em",
+        "left": "2em",
+        "bottom": "1em",
+        "right": "2em"
+      }
+    },
+    "padding_value": {
+      "type": "object",
+      "default": {
+        "top": "0.5em",
+        "left": "1em",
+        "bottom": "0.5em",
+        "right": "1em"
+      }
+    },
+    "padding_th": {
+      "type": "object",
+      "default": {
+        "top": "2px",
+        "left": "5px",
+        "bottom": "2px",
+        "right": "5px"
+      }
+    },
+    "padding_td": {
+      "type": "object",
+      "default": {
+        "top": "2px",
+        "left": "5px",
+        "bottom": "2px",
+        "right": "5px"
+      }
+    },
+    "columWidth": {
+      "type": "array",
+      "default": []
+    },
+    "shadow_element": {
+      "type": "object",
+      "default": {
+        "shadowType": "nomal",
+        "spread": 2,
+        "lateral": 2,
+        "longitude": 2,
+        "nomalBlur": 3,
+        "shadowColor": "#9F9F9F",
+        "distance": 5,
+        "intensity": 5,
+        "opacity": 0.5,
+        "depth": 5,
+        "blur": 5,
+        "bdBlur": 5,
+        "expand": 5,
+        "glassblur": 5,
+        "glassopa": 0.5,
+        "newDirection": "top_left",
+        "clayDirection": "top",
+        "embos": "swell",
+        "hasOutline": true
+      }
+    },
+    "shadow_result": {
+      "type": "object"
+    },
+    "is_shadow": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "textdomain": "itmar_block_collections",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

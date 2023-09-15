@@ -33,25 +33,15 @@ function itmar_block_collections_block_init()
 			plugins_url( 'build/blocks/'.$block_name.'/index.js', __FILE__ ),
 			array( 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor' )
 		);
-		if (file_exists($block . '/index.php')) {
-			// Dynamic block
-			require_once($block . '/index.php');
-
-			register_block_type(
-				$block,
-				array(
-					'render_callback' => 'itmar_render_callback_' . str_replace('-', '_', basename($block)),
-				)
-			);
-		} else {
-			// Static block
-			register_block_type(
-				$block,
-				array(
-					'editor_script' => $script_handle
-				)
-			);
-		}
+		
+		// ブロックの登録
+		register_block_type(
+			$block,
+			array(
+				'editor_script' => $script_handle
+			)
+		);
+		
 		// その後、このハンドルを使用してスクリプトの翻訳をセット
 		wp_set_script_translations( $script_handle, 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages' );
 		
