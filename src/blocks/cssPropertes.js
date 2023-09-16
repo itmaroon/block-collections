@@ -29,6 +29,7 @@ export const convertToScss = (styleObject) => {
 
 export const borderProperty = (borderObj) => {
   if (borderObj) {//borderObjがundefinedでない
+
     let keys = ['top', 'bottom', 'left', 'right'];
     let ret_prop = null;
     let doesKeyExist = keys.some(key => key in borderObj);
@@ -53,10 +54,11 @@ export const borderProperty = (borderObj) => {
       }
       const border_style = borderObj.style || 'solid';
       ret_prop = css`
-      border: ${borderObj.width} ${border_style} ${borderObj.color}
-      `
+        border: ${borderObj.width} ${border_style} ${borderObj.color}
+        `
       return ret_prop;
     }
+
   }
   else {
     return null;

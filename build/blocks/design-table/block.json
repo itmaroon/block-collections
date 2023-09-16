@@ -10,7 +10,7 @@
   },
   "attributes": {
     "dataSource": {
-      "type": "object"
+      "type": "array"
     },
     "is_heading": {
       "type": "boolean",
@@ -43,20 +43,22 @@
     },
     "th_color": {
       "type": "string",
-      "default": "#000"
+      "default": "#000000"
     },
     "bgColor_th": {
-      "type": "string"
+      "type": "string",
+      "default": "#ffffff"
     },
     "bgGradient_th": {
       "type": "string"
     },
     "td_color": {
       "type": "string",
-      "default": "#000"
+      "default": "#000000"
     },
     "bgColor_td": {
-      "type": "string"
+      "type": "string",
+      "default": "#ffffff"
     },
     "bgGradient_td": {
       "type": "string"
@@ -76,7 +78,7 @@
       "default": {
         "width": "1px",
         "style": "solid",
-        "color": "#000"
+        "color": "#000000"
       }
     },
     "margin_value": {
@@ -100,24 +102,28 @@
     "padding_th": {
       "type": "object",
       "default": {
-        "top": "2px",
-        "left": "5px",
-        "bottom": "2px",
-        "right": "5px"
+        "top": "10px",
+        "left": "20px",
+        "bottom": "10px",
+        "right": "20px"
       }
     },
     "padding_td": {
       "type": "object",
       "default": {
-        "top": "2px",
-        "left": "5px",
-        "bottom": "2px",
-        "right": "5px"
+        "top": "10px",
+        "left": "20px",
+        "bottom": "10px",
+        "right": "20px"
       }
     },
     "columWidth": {
       "type": "array",
       "default": []
+    },
+    "intensity": {
+      "type": "integer",
+      "default": 10
     },
     "shadow_element": {
       "type": "object",

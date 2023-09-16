@@ -5,11 +5,13 @@ import { StyleComp } from './StyleTable';
 import { useStyleIframe } from '../iframeFooks';
 import ShadowStyle from '../ShadowStyle';
 import { useSelect, useDispatch, select } from '@wordpress/data';
+import { useEffect, useState } from '@wordpress/element';
 
 import {
 	PanelBody,
 	TextControl,
 	ToggleControl,
+	RangeControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl
 } from '@wordpress/components';
@@ -48,7 +50,7 @@ const units = [
 ];
 
 
-export default function Edit({ attributes, setAttributes, clientId }) {
+export default function Edit({ attributes, setAttributes }) {
 	const {
 		dataSource,
 		is_heading,
@@ -69,56 +71,108 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		radius_value,
 		border_value,
 		columWidth,
+		intensity,
 		shadow_element,
 		is_shadow,
+		className
 	} = attributes;
-
+	//ルートブロックに背景色を設定
 	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
 
-	//Nestされたブロックの情報取得
-	function getAllNestedBlocks(clientId) {
-		const block = select('core/block-editor').getBlock(clientId);
-		if (!block) {
-			return [];
-		}
-		const children = block.innerBlocks.map(innerBlock => getAllNestedBlocks(innerBlock.clientId));
-		return [block, ...children.flat()];
+
+	//インナーブロックを含む全てのブロックを配列にする関数
+	const getFlattenedBlocks = (blocks) => {
+		let flatBlocks = [];
+
+		blocks.forEach((block) => {
+			flatBlocks.push(block);
+
+			if (block.innerBlocks && block.innerBlocks.length) {
+				flatBlocks = flatBlocks.concat(getFlattenedBlocks(block.innerBlocks));
+			}
+		});
+		return flatBlocks;
+	};
+
+	// セル要素を生成する関数
+	const cellObjects = (inputFigureBlock) => {
+		//その中のインナーブロック
+		const inputInnerBlocks = inputFigureBlock ? inputFigureBlock.innerBlocks : [];
+		//'itmar/design-checkbox''itmar/design-button'を除外
+		const filteredBlocks = inputInnerBlocks.filter(block => block.name !== 'itmar/design-checkbox' && block.name !== 'itmar/design-button');
+		return filteredBlocks.map((input_elm) => ({
+			cells: [
+				{
+					content: input_elm.attributes.labelContent,
+					tag: 'th'
+				},
+				{
+					content: input_elm.attributes.inputValue,
+					tag: 'td'
+				}
+			]
+		}));
 	}
 
-	//テーブルのソースを持つブロックを検索する
-	const allBlocks = useSelect((select) => {
-		return select('core/block-editor').getBlocks();
+	//itmar/input-figure-blockを抽出
+	const inputFigureBlock = useSelect((select) => {
+		const allBlocks = select('core/block-editor').getBlocks();
+		return getFlattenedBlocks(allBlocks).filter(block => block.name === 'itmar/input-figure-block');
 	}, []);
-	console.log(allBlocks)
+
+	//itmar/input-figure-blockの変化に応じてブロック属性を更新
+	useEffect(() => {
+		const bodySource = inputFigureBlock[0].name === 'itmar/input-figure-block' ? cellObjects(inputFigureBlock[0]) : [];
+		setAttributes({ dataSource: bodySource });
+	}, [inputFigureBlock[0]]);
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 
 	function renderContent() {
+		//データソースがitmar/input-figure-blockのとき
 		return (
 			<>
-				<table>
-					{is_heading &&
-						<thead>
-							<tr>
-								<th>
-									<RichText
-										onChange={
-											(newContent) => {
-												setAttributes({ tableHeading: [...tableHeading, newContent] })
-											}
-										}
-										value={tableHeading[0]}
-									/>
-								</th>
-							</tr>
-						</thead>
-					}
-					<tbody>
+				{dataSource &&
+					<table>
+						{is_heading &&
+							<thead>
+								<tr>
+									{dataSource[0].cells.map((cell, index) => (
+										<th key={index}>
+											<RichText
+												onChange={
+													(newContent) => {
+														const updatedTableHeading = [...tableHeading];
+														updatedTableHeading[index] = newContent;
+														setAttributes({ tableHeading: updatedTableHeading });
+													}
+												}
+												value={tableHeading[index]}
+												placeholder={__('Enter header...', 'itmar_block_collections')}
+											/>
+										</th>
+									))}
+								</tr>
 
-					</tbody>
-				</table>
-
+							</thead>
+						}
+						<tbody>
+							{dataSource.map((row, rowIndex) => (
+								<tr key={rowIndex}>
+									{row.cells.map((cell, cellIndex) => {
+										const CellTag = cell.tag;
+										return (
+											<CellTag key={cellIndex}>
+												{cell.content}
+											</CellTag>
+										);
+									})}
+								</tr>
+							))}
+						</tbody>
+					</table>
+				}
 			</>
 		)
 	}
@@ -141,6 +195,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 				</PanelBody>
 			</InspectorControls>
+
 			<InspectorControls group="styles">
 
 				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
@@ -194,6 +249,16 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							setAttributes({ is_shadow: newVal })
 						}}
 					/>
+					{className === 'is-style-stripe' &&
+						<RangeControl
+							value={intensity}
+							label={__("Striped Contrast", 'itmar_block_collections')}
+							max={100}
+							min={0}
+							onChange={(val) => setAttributes({ intensity: val })}
+							withInputField={false}
+						/>
+					}
 				</PanelBody>
 
 				<PanelBody title={__("Heading style settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
@@ -218,7 +283,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								colorValue: bgColor_th,
 								gradientValue: bgGradient_th,
 
-								label: __("Choose Select Background color", 'itmar_block_collections'),
+								label: __("Choose Background color", 'itmar_block_collections'),
 								onColorChange: (newValue) => {
 									setAttributes({ bgColor_th: newValue === undefined ? '' : newValue });
 								},
@@ -260,7 +325,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								colorValue: bgColor_td,
 								gradientValue: bgGradient_td,
 
-								label: __("Choose Select Background color", 'itmar_block_collections'),
+								label: __("Choose Background color", 'itmar_block_collections'),
 								onColorChange: (newValue) => {
 									setAttributes({ bgColor_td: newValue === undefined ? '' : newValue });
 								},
