@@ -1,24 +1,68 @@
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { useBlockProps, RichText } from '@wordpress/block-editor';
+import { ServerStyleSheet } from 'styled-components';
+import { renderToString } from 'react-dom/server';
+import { StyleComp } from './StyleTable';
 
-/**
- * The save function defines the way in which the different attributes should
- * be combined into the final markup, which is then serialized by the block
- * editor into `post_content`.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
- *
- * @return {WPElement} Element to render.
- */
-export default function save() {
+export default function save({ attributes }) {
+	const {
+		dataSource,
+		tableSource,
+		is_heading,
+		tableHeading,
+		bgColor,
+	} = attributes;
+
+	const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
+	const sheet = new ServerStyleSheet();
+	const html = renderToString(sheet.collectStyles(
+		<div
+			{...blockProps}
+			data-source={dataSource}
+		>
+			<StyleComp attributes={attributes}>
+				{tableSource &&
+					<table>
+						{is_heading &&
+							<thead>
+								<tr>
+									{tableSource[0].cells.map((cell, index) => (
+										<th key={index}>
+											<RichText.Content
+												value={tableHeading[index]}
+											/>
+										</th>
+									))}
+								</tr>
+
+							</thead>
+						}
+						<tbody>
+							{tableSource.map((row) => (
+								<tr>
+									{row.cells.map((cell) => {
+										const CellTag = cell.tag;
+										return (
+											<CellTag>
+												{cell.content}
+											</CellTag>
+										);
+									})}
+								</tr>
+							))}
+						</tbody>
+					</table>
+				}
+
+			</StyleComp>
+		</div>
+	));
+	const styleTags = sheet.getStyleTags();
+
 	return (
-		<p { ...useBlockProps.save() }>
-			{ 'Design Table – hello from the saved content!' }
-		</p>
+		<>
+			<div dangerouslySetInnerHTML={{ __html: html }} />
+			<div dangerouslySetInnerHTML={{ __html: styleTags }} />
+		</>
 	);
 }

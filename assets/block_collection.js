@@ -89,7 +89,16 @@ jQuery(function ($) {
     } else {
       $(this).addClass('empty');
     }
+
   })
+
+  $('.wp-block-itmar-design-text-ctrl textarea').on('input', function () {
+    $(this).css('height', 'auto');
+    //テキストエリアの高さ更新
+    let scrollHeight = $(this).get(0).scrollHeight;
+    //textareaの高さに入力内容の高さを設定
+    $(this).css('height', scrollHeight + 'px');
+  });
 
   /* ------------------------------
   design-buttonイベントハンドラ

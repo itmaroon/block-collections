@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import TypographyControls from '../TypographyControls'
 
 import { StyleComp } from './StyleInput';
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 import { useStyleIframe } from '../iframeFooks';
 import ShadowStyle from '../ShadowStyle';
 
@@ -67,7 +67,6 @@ export default function Edit(props) {
 		inputValue,
 		placeFolder,
 		inputType,
-		rowNum,
 		required,
 		focusColor,
 		bgColor,
@@ -110,6 +109,16 @@ export default function Edit(props) {
 	//入力値の確保
 	const [stateValue, setInputValue] = useState(inputValue);
 
+	//テキストエリアの高さ設定
+	const [height, setHeight] = useState('auto');
+	const textAreaRef = useRef(null);
+
+	useEffect(() => {
+		if (textAreaRef.current) {
+			setHeight(`${textAreaRef.current.scrollHeight}px`);
+		}
+	}, [className]);
+
 	function renderContent() {
 		return (
 			<>
@@ -142,14 +151,18 @@ export default function Edit(props) {
 				}
 				{inputType === 'textarea' &&
 					<textarea
+						ref={textAreaRef}
+						style={{ height }}
 						name={inputName}
-						rows={rowNum}
 						placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
 						className={`contact_text ${stateValue ? "" : "empty"}`}
 						value={stateValue}
+
 						onChange={(event) => {
 							const newValue = event.target.value;
+							const scrollHeight = event.target.scrollHeight;
 							setInputValue(newValue);
+							setHeight(`${scrollHeight}px`);
 							setAttributes({ inputValue: newValue });
 						}}
 					/>
@@ -194,19 +207,7 @@ export default function Edit(props) {
 							onChange={(changeOption) => { setAttributes({ inputType: changeOption }); }}
 						/>
 					</PanelRow>
-					{inputType === 'textarea' &&
-						<PanelRow className='areaNum_row'>
-							<RangeControl
-								value={rowNum}
-								label={__("Number of lines in Text Area", 'itmar_block_collections')}
-								max={20}
-								min={3}
-								step={1}
-								onChange={(val) => setAttributes({ rowNum: val })}
-								withInputField={true}
-							/>
-						</PanelRow>
-					}
+
 					<PanelRow className='labelRequierd_row'>
 						<ToggleControl
 							label={__('Required input', 'itmar_block_collections')}

@@ -32,6 +32,7 @@ const StyledDiv = styled.div`
       padding_label,
       labelSpace,
       labelWidth,
+      areaHeight,
       shadow_result,
       is_shadow,
       className,
@@ -72,6 +73,10 @@ const StyledDiv = styled.div`
         font-weight: ${font_style_input.fontWeight};
         font-style: ${fontStyle_input};
       }
+      textarea{
+        min-height: 60px;
+        padding: 6px 10px;
+      }
       label{
         display: inline-block;
         vertical-align: top;
@@ -99,10 +104,9 @@ const StyledDiv = styled.div`
       case 'is-style-line':
         specificStyle = css`
           display: flex;
-          height: 4em;
+          height: auto;
           ${box_shadow_style};
           input, textarea{
-            height:1.5em;
             background-color: transparent;
             outline: none;
             padding: 0 8px;
@@ -111,7 +115,7 @@ const StyledDiv = styled.div`
             border-width: 0px 0px 2px 0px;
             box-shadow: none;
             transition: border-color 0.45s ease 0s;
-            transform: translateY(2em);
+            transform: translateY(1em);
             
             &:focus {
               box-shadow: none;
@@ -120,8 +124,8 @@ const StyledDiv = styled.div`
               {
                 opacity: 1;
                 z-index: 1;
-                bottom: 55%;
-                font-size: 0.6em;
+                top: -0.3em;
+                font-size: 0.8em;
               }
               ~label{
                 color:${focusColor}
@@ -130,10 +134,14 @@ const StyledDiv = styled.div`
             &:not(.empty)~label {
               opacity: 1;
               z-index: 1;
-              bottom: 55%;
-              font-size: 0.6em;
+              top: -0.3em;
+              font-size: 0.8em;
             }
           }
+          textarea{
+            padding: 8px 10px;
+          }
+          
           label{
             position: absolute;
             width: fit-content;

@@ -3,17 +3,15 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.itmar_notice_select_panel .components-notice.is-dismissible {
-  padding-right: 0;
-}
-.itmar_notice_select_panel .components-notice .components-notice__content {
-  margin: 0;
-}
-.itmar_notice_select_panel .components-notice .components-notice__content span {
-  cursor: pointer;
-}
-
-.wp-block-itmar-design-select {
+.wp-block-itmar-design-table {
   border: 1px dotted #f00;
+}
+.wp-block-itmar-design-table .resize-handle {
+  cursor: col-resize;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 5px;
 }
 /*# sourceMappingURL=editor.css.map */

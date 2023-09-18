@@ -11,7 +11,6 @@ export default function save({ attributes }) {
 		bgColor,
 		placeFolder,
 		inputType,
-		rowNum,
 		required,
 		labelContent,
 		className
@@ -33,7 +32,7 @@ export default function save({ attributes }) {
 					<input type="email" name={inputName} className="contact_text empty" placeholder={className === 'is-style-line' ? dispLabel : placeFolder} />
 				}
 				{inputType === 'textarea' &&
-					<textarea name={inputName} rows={rowNum} className="contact_text empty" placeholder={className === 'is-style-line' ? dispLabel : placeFolder} />
+					<textarea name={inputName} className="contact_text empty" placeholder={className === 'is-style-line' ? dispLabel : placeFolder} />
 				}
 				<label class="fit-label" data-required={required.flg}>
 					{required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent}

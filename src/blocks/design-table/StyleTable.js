@@ -53,7 +53,8 @@ const StyledDiv = styled.div`
     //ボックスシャドーの設定
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
     //ボーダーの代表色
-    const borderColor = border_value.color;
+    const borderColor = border_value.bottom ? border_value.bottom.color : border_value.color;
+
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
@@ -67,7 +68,7 @@ const StyledDiv = styled.div`
         border-collapse: collapse;
         thead{
           tr:last-child{
-            border-bottom:  4px double #000; 
+            border-bottom:  4px double ${borderColor}; 
           }
         }
        

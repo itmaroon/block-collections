@@ -6,4 +6,13 @@
 
 .wp-block-itmar-design-table {
 	border: 1px dotted #f00;
+
+	.resize-handle {
+		cursor: col-resize;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 5px;
+	}
 }

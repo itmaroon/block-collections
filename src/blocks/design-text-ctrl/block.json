@@ -21,10 +21,6 @@
 			"type": "string",
 			"default": "text"
 		},
-		"rowNum": {
-			"type": "number",
-			"default": 3
-		},
 		"focusColor": {
 			"type": "string"
 		},

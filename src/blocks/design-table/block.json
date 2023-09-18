@@ -10,6 +10,9 @@
 	},
 	"attributes": {
 		"dataSource": {
+			"type": "string"
+		},
+		"tableSource": {
 			"type": "array"
 		},
 		"is_heading": {

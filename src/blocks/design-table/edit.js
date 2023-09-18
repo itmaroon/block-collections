@@ -12,6 +12,7 @@ import {
 	TextControl,
 	ToggleControl,
 	RangeControl,
+	ComboboxControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl
 } from '@wordpress/components';
@@ -53,6 +54,7 @@ const units = [
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		dataSource,
+		tableSource,
 		is_heading,
 		tableHeading,
 		bgColor,
@@ -78,6 +80,9 @@ export default function Edit({ attributes, setAttributes }) {
 	} = attributes;
 	//ルートブロックに背景色を設定
 	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
+
+	//データソースの選択オプション配列
+	const [dataSources, setdataSources] = useState([]);
 
 
 	//インナーブロックを含む全てのブロックを配列にする関数
@@ -115,31 +120,56 @@ export default function Edit({ attributes, setAttributes }) {
 	}
 
 	//itmar/input-figure-blockを抽出
-	const inputFigureBlock = useSelect((select) => {
+	useSelect((select) => {
 		const allBlocks = select('core/block-editor').getBlocks();
-		return getFlattenedBlocks(allBlocks).filter(block => block.name === 'itmar/input-figure-block');
+		const targetBlocks = getFlattenedBlocks(allBlocks).filter(block => block.name === 'itmar/input-figure-block');
+
+		//選択用のコンボボックスのオプションを生成
+		const sourceOption = targetBlocks.map((block) => ({
+			value: block.attributes.form_name,
+			label: block.attributes.form_name
+		}));
+
+		if (sourceOption.length > 0) {
+			setdataSources(sourceOption);//コンボボックスにセット
+		}
 	}, []);
 
-	//itmar/input-figure-blockの変化に応じてブロック属性を更新
+	//コンボボックスの初期値を設定
 	useEffect(() => {
-		const bodySource = inputFigureBlock[0].name === 'itmar/input-figure-block' ? cellObjects(inputFigureBlock[0]) : [];
-		setAttributes({ dataSource: bodySource });
-	}, [inputFigureBlock[0]]);
+		if (!dataSource && dataSources.length > 0) {
+			setAttributes({ dataSource: dataSources[0].value });
+		}
+	}, [dataSources, dataSource]);
+
+	//選択されたitmar/input-figure-blockを返す
+	const inputFigureBlock = useSelect((select) => {
+		const allBlocks = select('core/block-editor').getBlocks();
+		const targetBlocks = getFlattenedBlocks(allBlocks).find(block => block.attributes.form_name === dataSource);
+		return targetBlocks;
+	}, [dataSource]);
+
+	//inputFigureBlockの変化に合わせてテーブルソースを更新
+	useEffect(() => {
+		const bodySource = inputFigureBlock ? cellObjects(inputFigureBlock) : null;
+		setAttributes({ tableSource: bodySource });
+	}, [inputFigureBlock]);
+
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 
 	function renderContent() {
-		//データソースがitmar/input-figure-blockのとき
+		//レンダリングするテーブル
 		return (
 			<>
-				{dataSource &&
+				{tableSource &&
 					<table>
 						{is_heading &&
 							<thead>
 								<tr>
-									{dataSource[0].cells.map((cell, index) => (
-										<th key={index}>
+									{tableSource[0].cells.map((cell, index) => (
+										<th key={index} style={{ position: "relative" }}>
 											<RichText
 												onChange={
 													(newContent) => {
@@ -151,6 +181,7 @@ export default function Edit({ attributes, setAttributes }) {
 												value={tableHeading[index]}
 												placeholder={__('Enter header...', 'itmar_block_collections')}
 											/>
+											<div className="resize-handle" data-index={index} />
 										</th>
 									))}
 								</tr>
@@ -158,7 +189,7 @@ export default function Edit({ attributes, setAttributes }) {
 							</thead>
 						}
 						<tbody>
-							{dataSource.map((row, rowIndex) => (
+							{tableSource.map((row, rowIndex) => (
 								<tr key={rowIndex}>
 									{row.cells.map((cell, cellIndex) => {
 										const CellTag = cell.tag;
@@ -181,11 +212,15 @@ export default function Edit({ attributes, setAttributes }) {
 		<>
 			<InspectorControls group="settings">
 				<PanelBody title={__("Table Structure setting", 'itmar_block_collections')} initialOpen={true} className="form_setteing_ctrl">
-					<TextControl
+					<ComboboxControl
 						label={__("Form Object name", 'itmar_block_collections')}
 						value={dataSource}
 						help={__("Please specify the form object that will be the data source for the table.", 'itmar_block_collections')}
-						onChange={(newVal) => setAttributes({ dataSource: newVal })}
+						options={dataSources}
+						onChange={(newValue) => {
+							setAttributes({ dataSource: newValue });
+						}}
+
 					/>
 					<ToggleControl
 						label={__('table header', 'itmar_block_collections')}
