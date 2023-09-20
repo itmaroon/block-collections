@@ -10,8 +10,9 @@
   cursor: col-resize;
   position: absolute;
   top: 0;
-  right: 0;
+  right: -3px;
   bottom: 0;
-  width: 5px;
+  width: 6px;
+  color: transparent;
 }
 /*# sourceMappingURL=editor.css.map */

@@ -9,6 +9,9 @@ export default function save({ attributes }) {
 		dataSource,
 		tableSource,
 		is_heading,
+		columWidth,
+		columAlign,
+		columAlignTH,
 		tableHeading,
 		bgColor,
 	} = attributes;
@@ -27,7 +30,7 @@ export default function save({ attributes }) {
 							<thead>
 								<tr>
 									{tableSource[0].cells.map((cell, index) => (
-										<th key={index}>
+										<th style={{ width: columWidth[index], textAlign: columAlignTH }} >
 											<RichText.Content
 												value={tableHeading[index]}
 											/>
@@ -40,10 +43,10 @@ export default function save({ attributes }) {
 						<tbody>
 							{tableSource.map((row) => (
 								<tr>
-									{row.cells.map((cell) => {
+									{row.cells.map((cell, cellIndex) => {
 										const CellTag = cell.tag;
 										return (
-											<CellTag>
+											<CellTag style={{ width: columWidth[cellIndex], textAlign: columAlign[cellIndex] }}>
 												{cell.content}
 											</CellTag>
 										);
@@ -55,7 +58,7 @@ export default function save({ attributes }) {
 				}
 
 			</StyleComp>
-		</div>
+		</div >
 	));
 	const styleTags = sheet.getStyleTags();
 

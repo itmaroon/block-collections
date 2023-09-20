@@ -124,6 +124,14 @@
       "type": "array",
       "default": []
     },
+    "columAlign": {
+      "type": "array",
+      "default": []
+    },
+    "columAlignTH": {
+      "type": "string",
+      "default": "center"
+    },
     "intensity": {
       "type": "integer",
       "default": 10

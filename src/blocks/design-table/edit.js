@@ -5,7 +5,7 @@ import { StyleComp } from './StyleTable';
 import { useStyleIframe } from '../iframeFooks';
 import ShadowStyle from '../ShadowStyle';
 import { useSelect, useDispatch, select } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useCallback } from '@wordpress/element';
 
 import {
 	PanelBody,
@@ -73,6 +73,8 @@ export default function Edit({ attributes, setAttributes }) {
 		radius_value,
 		border_value,
 		columWidth,
+		columAlign,
+		columAlignTH,
 		intensity,
 		shadow_element,
 		is_shadow,
@@ -83,6 +85,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 	//データソースの選択オプション配列
 	const [dataSources, setdataSources] = useState([]);
+
+	//テーブルの選択カラム
+	const [selCulumn, setSelCulumn] = useState();
+
+	//テーブルヘッダーの選択中か否か
+	const [isSelHeader, setIsSelHeader] = useState(false);
 
 
 	//インナーブロックを含む全てのブロックを配列にする関数
@@ -156,6 +164,61 @@ export default function Edit({ attributes, setAttributes }) {
 	}, [inputFigureBlock]);
 
 
+
+	//マウスドラッグの処理（カラム幅の変更）
+	const handleMouseDown = useCallback(
+		(index) => (e) => {
+			const startX = e.pageX;//スタート地点を記録
+			//クリックされたハンドルの親要素であるtr要素を取得
+			const trElement = e.target.parentElement.parentElement;
+			const rect = trElement.getBoundingClientRect();//位置を取得
+			//そのtr要素の最後のcellの幅を取得
+			const lastCell = trElement.children[trElement.children.length - 1];
+			const lastCellWidth = lastCell.offsetWidth;
+
+			const handleMouseMove = (e) => {
+				const moveX = e.pageX;
+
+				//最低幅の確保
+				const newvalue = Math.round((moveX - rect.left) / (rect.right - rect.left) * 100);
+				if (newvalue < 15) return;//幅１５％以下にはしない
+				const distanceX = startX - moveX //移動幅
+				const newlastCellvalue = Math.round((lastCellWidth + distanceX) / (rect.right - rect.left) * 100);
+				if (newlastCellvalue < 15) return;//最終セルも幅１５％以下にはしない
+
+				//幅の変更
+				const newWidth = `${newvalue}%`;
+
+				const newColumWidth = [...columWidth,];
+				newColumWidth[index] = newWidth;
+				setAttributes({ columWidth: newColumWidth })
+			};
+
+			const handleMouseUp = () => {
+				document.removeEventListener("mousemove", handleMouseMove);
+				document.removeEventListener("mouseup", handleMouseUp);
+			};
+
+			document.addEventListener("mousemove", handleMouseMove);
+			document.addEventListener("mouseup", handleMouseUp);
+		},
+		[columWidth]
+	);
+
+	//クリックされたセルの取得
+	const bodyCellClick = (tag, rowIndex, cellIndex) => {
+		//theaderの選択状態は解除
+		setIsSelHeader(false);
+		//初期値の設定
+		const nextAlign = tag === 'th' && columAlign[cellIndex] === undefined ? 'center' : columAlign[cellIndex];
+		const newColumAlign = [...columAlign];
+		newColumAlign[cellIndex] = nextAlign;
+		setAttributes({ columAlign: newColumAlign });
+		//クリックされた列を記録
+		setSelCulumn(cellIndex);
+	}
+
+
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 
@@ -169,7 +232,16 @@ export default function Edit({ attributes, setAttributes }) {
 							<thead>
 								<tr>
 									{tableSource[0].cells.map((cell, index) => (
-										<th key={index} style={{ position: "relative" }}>
+										<th
+											key={index}
+											style={{
+												position: "relative",
+												backgroundClip: "padding-box",
+												width: columWidth[index],
+												textAlign: columAlignTH
+											}}
+											onClick={() => setIsSelHeader(true)}
+										>
 											<RichText
 												onChange={
 													(newContent) => {
@@ -180,8 +252,11 @@ export default function Edit({ attributes, setAttributes }) {
 												}
 												value={tableHeading[index]}
 												placeholder={__('Enter header...', 'itmar_block_collections')}
+
 											/>
-											<div className="resize-handle" data-index={index} />
+											{index !== tableSource[0].cells.length - 1 && (
+												<div className="resize-handle" onMouseDown={handleMouseDown(index)} />
+											)}
 										</th>
 									))}
 								</tr>
@@ -194,8 +269,20 @@ export default function Edit({ attributes, setAttributes }) {
 									{row.cells.map((cell, cellIndex) => {
 										const CellTag = cell.tag;
 										return (
-											<CellTag key={cellIndex}>
+											<CellTag
+												key={cellIndex}
+												style={{
+													position: "relative",
+													backgroundClip: "padding-box",
+													width: columWidth[cellIndex],
+													textAlign: columAlign[cellIndex]
+												}}
+												onClick={() => bodyCellClick(cell.tag, rowIndex, cellIndex)}
+											>
 												{cell.content}
+												{cellIndex !== row.cells.length - 1 && (
+													<div className="resize-handle" onMouseDown={handleMouseDown(cellIndex)} />
+												)}
 											</CellTag>
 										);
 									})}
@@ -379,6 +466,21 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 				</PanelBody>
 			</InspectorControls>
+
+			<BlockControls>
+				<AlignmentToolbar
+					value={isSelHeader ? columAlignTH : columAlign[selCulumn]}
+					onChange={(nextAlign) => {
+						if (isSelHeader) {
+							setAttributes({ columAlignTH: nextAlign })
+						} else {
+							const newColumAlign = [...columAlign];
+							newColumAlign[selCulumn] = nextAlign;
+							setAttributes({ columAlign: newColumAlign });
+						}
+					}}
+				/>
+			</BlockControls>
 
 
 			<div {...blockProps}>
