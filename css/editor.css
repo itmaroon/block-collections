@@ -1,18 +1,254 @@
+.btn_design_ctrl {
+  padding: 16px 0 !important;
+  grid-column: 1/-1;
+}
+
+.light_direction {
+  width: 100%;
+}
+.light_direction .components-radio-control .components-flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 10px;
+}
+.light_direction .components-radio-control__option {
+  width: 40%;
+}
+.light_direction .components-radio-control__option input {
+  display: none;
+}
+.light_direction .components-radio-control__option input[type=radio]:checked + label {
+  background-color: #0085ba;
+  color: #fff;
+  text-shadow: 0 -1px 1px #005d82, 1px 0 1px #005d82, 0 1px 1px #005d82, -1px 0 1px #005d82;
+}
+.light_direction .components-radio-control__option input[type=radio]:checked + label::after {
+  background: transparent url("../../../assets/img/light_on.svg") no-repeat center center/cover;
+}
+.light_direction .components-radio-control__option label {
+  display: block;
+  cursor: pointer;
+  width: 100%;
+  aspect-ratio: 1/1;
+  margin: 0;
+  padding: 9px 5px;
+  background: #f7f7f7;
+  color: #555e64;
+  text-align: center;
+  line-height: 1;
+  transition: 0.2s;
+  border: solid 1px #ccc;
+  border-left-style: none;
+  box-shadow: inset 0 -1px 0 #ccc;
+  border: 3px;
+  position: relative;
+}
+.light_direction .components-radio-control__option label:hover {
+  background: #fafafa;
+  border-color: #999;
+  box-shadow: inset 0 -1px 0 #999;
+  color: #23282d;
+}
+.light_direction .components-radio-control__option label::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(135deg);
+  border-radius: 50%;
+  width: 80%;
+  height: 80%;
+  background: transparent url("../../../assets/img/light_off.svg") no-repeat center center/cover;
+}
+.light_direction .components-radio-control__option:nth-child(1) label::after {
+  transform: translate(-50%, -50%) rotate(225deg);
+}
+.light_direction .components-radio-control__option:nth-child(2) label::after {
+  transform: translate(-50%, -50%) rotate(315deg);
+}
+.light_direction .components-radio-control__option:nth-child(3) label::after {
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+.light_direction .components-radio-control__option:nth-child(4) label::after {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.light_direction.claymor {
+  width: 50%;
+  margin: 0 auto;
+}
+.light_direction.claymor .components-radio-control .components-flex {
+  flex-wrap: nowrap;
+}
+.light_direction.claymor .components-radio-control__option:nth-child(3) label::after {
+  transform: translate(-50%, -50%) rotate(270deg);
+}
+
+.embos {
+  width: 100%;
+}
+.embos .components-radio-control .components-flex {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.embos .components-radio-control__option {
+  width: 100%;
+}
+.embos .components-radio-control__option input {
+  display: none;
+}
+.embos .components-radio-control__option input[type=radio]:checked + label {
+  background-color: #0085ba;
+  color: #fff;
+  text-shadow: 0 -1px 1px #005d82, 1px 0 1px #005d82, 0 1px 1px #005d82, -1px 0 1px #005d82;
+}
+.embos .components-radio-control__option label {
+  display: block;
+  cursor: pointer;
+  margin-left: auto;
+  width: 100%;
+  aspect-ratio: 16/9;
+  padding: 9px 5px;
+  background: #f7f7f7;
+  color: #555e64;
+  text-align: center;
+  line-height: 1;
+  transition: 0.2s;
+  border: solid 1px #ccc;
+  border-left-style: none;
+  box-shadow: inset 0 -1px 0 #ccc;
+  border: 3px;
+  position: relative;
+}
+.embos .components-radio-control__option label:hover {
+  background: #fafafa;
+  border-color: #999;
+  box-shadow: inset 0 -1px 0 #999;
+  color: #23282d;
+}
+.embos .components-radio-control__option label::after {
+  content: "";
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+}
+.embos .components-radio-control__option:nth-child(1) label::after {
+  transform: translate(-50%, -50%);
+  background: transparent url("../../../assets/img/swell.svg") no-repeat center center/contain;
+}
+.embos .components-radio-control__option:nth-child(2) label::after {
+  transform: translate(-50%, -50%);
+  background: transparent url("../../../assets/img/dent.svg") no-repeat center center/contain;
+}
+
+.itmar_weight_row .components-radio-control,
+.itmar_position_row .components-radio-control,
+.itmar_select_row .components-radio-control,
+.itmar_shadow_type .components-radio-control {
+  width: 100%;
+}
+.itmar_weight_row .components-radio-control .components-flex,
+.itmar_position_row .components-radio-control .components-flex,
+.itmar_select_row .components-radio-control .components-flex,
+.itmar_shadow_type .components-radio-control .components-flex {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0;
+}
+.itmar_weight_row .components-radio-control__option,
+.itmar_position_row .components-radio-control__option,
+.itmar_select_row .components-radio-control__option,
+.itmar_shadow_type .components-radio-control__option {
+  width: 30%;
+}
+.itmar_weight_row .components-radio-control__option input,
+.itmar_position_row .components-radio-control__option input,
+.itmar_select_row .components-radio-control__option input,
+.itmar_shadow_type .components-radio-control__option input {
+  display: none;
+}
+.itmar_weight_row .components-radio-control__option input[type=radio]:checked + label,
+.itmar_position_row .components-radio-control__option input[type=radio]:checked + label,
+.itmar_select_row .components-radio-control__option input[type=radio]:checked + label,
+.itmar_shadow_type .components-radio-control__option input[type=radio]:checked + label {
+  background-color: #0085ba;
+  color: #fff;
+  text-shadow: 0 -1px 1px #005d82, 1px 0 1px #005d82, 0 1px 1px #005d82, -1px 0 1px #005d82;
+}
+.itmar_weight_row .components-radio-control__option label,
+.itmar_position_row .components-radio-control__option label,
+.itmar_select_row .components-radio-control__option label,
+.itmar_shadow_type .components-radio-control__option label {
+  display: block;
+  cursor: pointer;
+  width: 100%;
+  margin: 0;
+  padding: 9px 5px;
+  background: #f7f7f7;
+  color: #555e64;
+  text-align: center;
+  line-height: 1;
+  transition: 0.2s;
+  border: solid 1px #ccc;
+  border-left-style: none;
+  box-shadow: inset 0 -1px 0 #ccc;
+  max-width: 100%;
+}
+.itmar_weight_row .components-radio-control__option label:hover,
+.itmar_position_row .components-radio-control__option label:hover,
+.itmar_select_row .components-radio-control__option label:hover,
+.itmar_shadow_type .components-radio-control__option label:hover {
+  background: #fafafa;
+  border-color: #999;
+  box-shadow: inset 0 -1px 0 #999;
+  color: #23282d;
+}
+.itmar_weight_row .components-radio-control__option:first-child label,
+.itmar_position_row .components-radio-control__option:first-child label,
+.itmar_select_row .components-radio-control__option:first-child label,
+.itmar_shadow_type .components-radio-control__option:first-child label {
+  border-radius: 3px 0 0 3px;
+  border-left-style: solid;
+}
+.itmar_weight_row .components-radio-control__option:last-child label,
+.itmar_position_row .components-radio-control__option:last-child label,
+.itmar_select_row .components-radio-control__option:last-child label,
+.itmar_shadow_type .components-radio-control__option:last-child label {
+  border-radius: 0 3px 3px 0;
+}
+
+.itmar_select_row .components-radio-control .components-flex {
+  -moz-column-gap: 2em;
+       column-gap: 2em;
+}
+.itmar_select_row .components-radio-control .components-flex label {
+  white-space: nowrap;
+}
+
+.itmar_shadow_type .components-radio-control__option {
+  width: 50%;
+}
+
 /**
  * The following styles get applied inside the editor only.
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-table {
+.wp-block-itmar-design-text-ctrl {
   border: 1px dotted #f00;
 }
-.wp-block-itmar-design-table .resize-handle {
-  cursor: col-resize;
-  position: absolute;
-  top: 0;
-  right: -3px;
-  bottom: 0;
-  width: 6px;
-  color: transparent;
+
+.labelRequierd_row .components-base-control:last-child {
+  width: 50%;
+}
+
+.areaNum_row .components-range-control {
+  width: 100%;
 }
 /*# sourceMappingURL=editor.css.map */

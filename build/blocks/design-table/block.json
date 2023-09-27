@@ -10,10 +10,12 @@
   },
   "attributes": {
     "dataSource": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "tableSource": {
-      "type": "array"
+      "type": "array",
+      "default": []
     },
     "is_heading": {
       "type": "boolean",

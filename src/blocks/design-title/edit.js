@@ -5,15 +5,16 @@ import IconSelectControl from '../IconSelectControl';
 import { StyleComp } from './StyleWapper';
 import ShadowStyle from '../ShadowStyle';
 import { useStyleIframe, useFontawesomeIframe } from '../iframeFooks';
-
 import {
 	Button,
 	PanelBody,
 	PanelRow,
 	ToggleControl,
 	RangeControl,
+	RadioControl,
 	Modal,
 	TextControl,
+	ToolbarDropdownMenu,
 	__experimentalBoxControl as BoxControl,
 	__experimentalUnitControl as UnitControl,
 	__experimentalBorderBoxControl as BorderBoxControl
@@ -52,12 +53,22 @@ const units = [
 	{ value: 'em', label: 'em' },
 	{ value: 'rem', label: 'rem' },
 ];
+//ヘッダーレベルアイコン
+const getIconForLevel = level => {
+	return (
+		<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+			<text x="0" y="15" fontSize="15" font-weight="bold">{`H${level}`}</text>
+		</svg>
+	);
+};
 
 
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		bgColor,
 		headingContent,
+		headingType,
+		titleType,
 		font_style_heading,
 		margin_heading,
 		padding_heading,
@@ -86,6 +97,23 @@ export default function Edit({ attributes, setAttributes }) {
 		setAttributes({ optionStyle: localOptionStyle });
 	}, [localOptionStyle]);
 
+	// titleTypeの変更があるたびに titleの内容を変える
+	const [siteTitle, setSiteTitle] = useState('');
+	useEffect(() => {
+		if (titleType === 'plaine') return;//plainのときは何もしない
+		// Fetch site title from the REST API
+		fetch('/wp-json')
+			.then(response => response.json())
+			.then(data => {
+				if (titleType === 'site') {
+					setSiteTitle(data.name);
+				} else {
+					setSiteTitle(data.description);
+				}
+			});
+	}, [titleType]);
+
+	//スタイル変更時のデフォルト再設定
 	const execHandle = () => {
 		let reset_style;
 		switch (className) {
@@ -193,20 +221,47 @@ export default function Edit({ attributes, setAttributes }) {
 
 	function renderContent() {
 		return (
-			<RichText
-				onChange={
-					(newContent) => {
-						setAttributes({ headingContent: newContent })
-					}
-				}
-				value={headingContent}
-				placeholder={__('Write Title text...', 'itmar_block_collections')}
-			/>
-		)
+			<>
+				{titleType === 'plaine' ? (
+					<RichText
+						tagName={headingType}
+						className="has-text-color"
+						onChange={(newContent) => {
+							setAttributes({ headingContent: newContent });
+						}}
+						value={headingContent}
+						placeholder={__('Write Title text...', 'itmar_block_collections')}
+					/>
+				) : (
+					React.createElement(
+						headingType.toLowerCase(),
+						{ className: "has-text-color" },
+						siteTitle
+					)
+				)}
+			</>
+		);
 	}
 
 	return (
 		<>
+			<InspectorControls group="settings">
+				<div className="itmar_title_type">
+					<RadioControl
+						label={__("Title type", 'itmar_block_collections')}
+						selected={titleType}
+						options={[
+							{ label: __("Plaine", 'itmar_block_collections'), value: 'plaine' },
+							{ label: __("Site Title", 'itmar_block_collections'), value: 'site' },
+							{ label: __("Chatch Phrase", 'itmar_block_collections'), value: 'catch' }
+						]}
+						onChange={(changeOption) => setAttributes({ titleType: changeOption })}
+						help={__("You can display the site title and catchphrase in addition to the blank title.", 'itmar_block_collections')}
+					/>
+				</div>
+
+			</InspectorControls >
+
 			<InspectorControls group="styles">
 				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
 					<PanelColorGradientSettings
@@ -534,6 +589,16 @@ export default function Edit({ attributes, setAttributes }) {
 					onChange={(nextAlign) => {
 						setAttributes({ align: nextAlign });
 					}}
+				/>
+				<ToolbarDropdownMenu
+					label={__('Change heading level')}
+					icon={getIconForLevel(parseInt(headingType.slice(1), 10))}
+					controls={[1, 2, 3, 4, 5, 6].map(level => ({
+						icon: getIconForLevel(level),
+						title: `Heading ${level}`,
+						isActive: headingType === `H${level}`,
+						onClick: () => setAttributes({ headingType: `H${level}` }),
+					}))}
 				/>
 			</BlockControls>
 

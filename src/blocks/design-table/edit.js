@@ -51,7 +51,7 @@ const units = [
 ];
 
 
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		dataSource,
 		tableSource,
@@ -96,8 +96,9 @@ export default function Edit({ attributes, setAttributes }) {
 	//インナーブロックを含む全てのブロックを配列にする関数
 	const getFlattenedBlocks = (blocks) => {
 		let flatBlocks = [];
+		const blocksArray = Array.isArray(blocks) ? blocks : [blocks];
 
-		blocks.forEach((block) => {
+		blocksArray.forEach((block) => {
 			flatBlocks.push(block);
 
 			if (block.innerBlocks && block.innerBlocks.length) {
@@ -106,6 +107,24 @@ export default function Edit({ attributes, setAttributes }) {
 		});
 		return flatBlocks;
 	};
+	//トップレベルのブロック（親ブロックがないブロック）のIDを取得する関数
+	const getTopLevelClientId = (select, clientId) => {
+		const { getBlockRootClientId, getBlock } = select('core/block-editor');
+
+		let currentClientId = clientId;
+
+		while (true) {
+			const parentClientId = getBlockRootClientId(currentClientId);
+			const parentBlock = getBlock(parentClientId);
+			// 親ブロックがないか親ブロックが'core/post-content'（サイトエディタの投稿コンテンツ）なら終了
+			if (!parentClientId || parentBlock.name === 'core/post-content') {
+				return currentClientId;
+			}
+
+			// IDを入れ替えてループを続ける
+			currentClientId = parentClientId;
+		}
+	}
 
 	// セル要素を生成する関数
 	const cellObjects = (inputFigureBlock) => {
@@ -129,8 +148,10 @@ export default function Edit({ attributes, setAttributes }) {
 
 	//itmar/input-figure-blockを抽出
 	useSelect((select) => {
-		const allBlocks = select('core/block-editor').getBlocks();
-		const targetBlocks = getFlattenedBlocks(allBlocks).filter(block => block.name === 'itmar/input-figure-block');
+		const topBlockId = getTopLevelClientId(select, clientId);
+		const topBlock = select('core/block-editor').getBlock(topBlockId);
+		const targetBlocks = getFlattenedBlocks(topBlock).filter(block => block.name === 'itmar/input-figure-block');
+
 
 		//選択用のコンボボックスのオプションを生成
 		const sourceOption = targetBlocks.map((block) => ({
@@ -152,8 +173,10 @@ export default function Edit({ attributes, setAttributes }) {
 
 	//選択されたitmar/input-figure-blockを返す
 	const inputFigureBlock = useSelect((select) => {
-		const allBlocks = select('core/block-editor').getBlocks();
-		const targetBlocks = getFlattenedBlocks(allBlocks).find(block => block.attributes.form_name === dataSource);
+		const topBlockId = getTopLevelClientId(select, clientId);
+		const topBlock = select('core/block-editor').getBlock(topBlockId);
+		const targetBlocks = getFlattenedBlocks(topBlock).find(block => block.attributes.form_name === dataSource);
+
 		return targetBlocks;
 	}, [dataSource]);
 
@@ -194,13 +217,29 @@ export default function Edit({ attributes, setAttributes }) {
 				setAttributes({ columWidth: newColumWidth })
 			};
 
-			const handleMouseUp = () => {
-				document.removeEventListener("mousemove", handleMouseMove);
-				document.removeEventListener("mouseup", handleMouseUp);
-			};
+			//サイトエディタの場合のドキュメント
+			const iframeInstance = document.getElementsByName('editor-canvas')[0];
 
-			document.addEventListener("mousemove", handleMouseMove);
-			document.addEventListener("mouseup", handleMouseUp);
+			if (iframeInstance) {
+				const iframeDocument = iframeInstance.contentDocument || iframeInstance.contentWindow.document;
+				const handleMouseUp = () => {
+					iframeDocument.removeEventListener("mousemove", handleMouseMove);
+					iframeDocument.removeEventListener("mouseup", handleMouseUp);
+				};
+
+				iframeDocument.addEventListener("mousemove", handleMouseMove);
+				iframeDocument.addEventListener("mouseup", handleMouseUp);
+			} else {
+				const handleMouseUp = () => {
+					document.removeEventListener("mousemove", handleMouseMove);
+					document.removeEventListener("mouseup", handleMouseUp);
+				};
+
+				document.addEventListener("mousemove", handleMouseMove);
+				document.addEventListener("mouseup", handleMouseUp);
+			}
+
+
 		},
 		[columWidth]
 	);
@@ -496,6 +535,7 @@ export default function Edit({ attributes, setAttributes }) {
 							{renderContent()}
 						</ShadowStyle>
 					) : (
+
 						renderContent()
 					)}
 				</StyleComp>

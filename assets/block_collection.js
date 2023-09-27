@@ -79,6 +79,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 jQuery(function ($) {
   /* ------------------------------
+ design-titleのためのサイトタイトル・キャッチフレーズの読込
+ ------------------------------ */
+  $(document).ready(function () {
+    if ($('.itmar_site_title').length || $('.itmar_catch_title').length) {
+      // '.itmar_site_title' クラスを持つ要素が読み込まれたときの処理
+      fetch('/wp-json')
+        .then(response => response.json())
+        .then(data => {
+          $('.itmar_site_title').text(data.name);
+          $('.itmar_catch_title').text(data.description);
+        });
+    }
+  });
+
+
+  /* ------------------------------
   design-text-ctrl
   ------------------------------ */
   let input_elm = $('.wp-block-itmar-design-text-ctrl.is-style-line').find('input, textarea');

@@ -13,6 +13,7 @@ const StyledDiv = styled.div`
   ${({ attributes }) => {
 
     const {
+      headingType,
       font_style_heading,
       margin_heading,
       padding_heading,
@@ -50,7 +51,7 @@ const StyledDiv = styled.div`
       border-radius: ${header_radius_prm};
       ${borderProperty(border_heading)};
       ${box_shadow_style};
-      > div{
+      > ${headingType}{
         color: ${textColor};
         font-size: ${font_style_heading.fontSize};
         font-family: ${font_style_heading.fontFamily};

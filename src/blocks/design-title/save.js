@@ -8,6 +8,8 @@ export default function save({ attributes }) {
 
   const {
     bgColor,
+    headingType,
+    titleType,
     headingContent
   } = attributes;
   const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
@@ -16,9 +18,18 @@ export default function save({ attributes }) {
   const html = renderToString(sheet.collectStyles(
     <div {...blockProps}>
       <StyleComp attributes={attributes} >
-        <RichText.Content
-          value={headingContent}
-        />
+        {titleType === 'plaine' ? (
+          <RichText.Content
+            tagName={headingType}
+            className="has-text-color"
+            value={headingContent}
+          />
+        ) : (
+          React.createElement(
+            headingType.toLowerCase(),
+            { className: `has-text-color itmar_${titleType}_title` }
+          )
+        )}
       </StyleComp>
     </div>
   ));
