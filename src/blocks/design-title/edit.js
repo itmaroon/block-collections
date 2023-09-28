@@ -4,6 +4,8 @@ import TypographyControls from '../TypographyControls'
 import IconSelectControl from '../IconSelectControl';
 import { StyleComp } from './StyleWapper';
 import ShadowStyle from '../ShadowStyle';
+import { RedirectSelectControl, ArchiveUrlArray } from '../wordpressApi';
+import apiFetch from '@wordpress/api-fetch';
 import { useStyleIframe, useFontawesomeIframe } from '../iframeFooks';
 import {
 	Button,
@@ -17,7 +19,8 @@ import {
 	ToolbarDropdownMenu,
 	__experimentalBoxControl as BoxControl,
 	__experimentalUnitControl as UnitControl,
-	__experimentalBorderBoxControl as BorderBoxControl
+	__experimentalBorderBoxControl as BorderBoxControl,
+	__experimentalAlignmentMatrixControl as AlignmentMatrixControl
 } from '@wordpress/components';
 import {
 	useBlockProps,
@@ -81,6 +84,12 @@ export default function Edit({ attributes, setAttributes }) {
 		optionStyle,
 		shadow_element,
 		is_shadow,
+		is_underLine,
+		underLine_prop,
+		bgColor_underLine,
+		bgGradient_underLine,
+		linkKind,
+		selectedPageUrl,
 		className,
 	} = attributes;
 
@@ -101,16 +110,20 @@ export default function Edit({ attributes, setAttributes }) {
 	const [siteTitle, setSiteTitle] = useState('');
 	useEffect(() => {
 		if (titleType === 'plaine') return;//plainのときは何もしない
-		// Fetch site title from the REST API
-		fetch('/wp-json')
-			.then(response => response.json())
-			.then(data => {
+
+		const fetchSiteInfo = async () => {
+			try {
+				const response = await apiFetch({ path: '/' });
 				if (titleType === 'site') {
-					setSiteTitle(data.name);
+					setSiteTitle(response.name);
 				} else {
-					setSiteTitle(data.description);
+					setSiteTitle(response.description);
 				}
-			});
+			} catch (error) {
+				console.error('Error fetching data:', error.message);
+			}
+		};
+		fetchSiteInfo();
 	}, [titleType]);
 
 	//スタイル変更時のデフォルト再設定
@@ -135,6 +148,7 @@ export default function Edit({ attributes, setAttributes }) {
 			case 'is-style-sub_copy':
 				reset_style = {
 					styleName: 'is-style-sub_copy',
+					alignment_copy: 'top left',
 					color_text_copy: '#000',
 					color_background_copy: '#d1cece',
 					copy_content: 'SAMPLE',
@@ -219,26 +233,41 @@ export default function Edit({ attributes, setAttributes }) {
 	//TextControlの表示用変数
 	const [copyInputValue, setCopyInputValue] = useState((optionStyle && optionStyle.copy_content !== undefined) ? optionStyle.copy_content : 'SAMPLE');
 
+	//リッチテキストをコンテンツにする
+	const renderRichText = () => (
+		<RichText
+			tagName={headingType}
+			className="has-text-color"
+			onChange={(newContent) => {
+				setAttributes({ headingContent: newContent });
+			}}
+			value={headingContent}
+			placeholder={__('Write Title text...', 'itmar_block_collections')}
+		/>
+	);
+	//ヘッダー要素をコンテンツにする
+	const renderElement = () => (
+		React.createElement(
+			headingType.toLowerCase(),
+			{ className: "has-text-color" },
+			siteTitle
+		)
+	);
+	//コンテンツの選択
+	const content = titleType === 'plaine' ? renderRichText() : renderElement();
+	//リンクを付加する
 	function renderContent() {
 		return (
 			<>
-				{titleType === 'plaine' ? (
-					<RichText
-						tagName={headingType}
-						className="has-text-color"
-						onChange={(newContent) => {
-							setAttributes({ headingContent: newContent });
-						}}
-						value={headingContent}
-						placeholder={__('Write Title text...', 'itmar_block_collections')}
-					/>
-				) : (
-					React.createElement(
-						headingType.toLowerCase(),
-						{ className: "has-text-color" },
-						siteTitle
+				{
+					linkKind === 'none' ? (
+						content
+					) : (
+						<a href={selectedPageUrl}>
+							{content}
+						</a>
 					)
-				)}
+				}
 			</>
 		);
 	}
@@ -246,19 +275,64 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls group="settings">
-				<div className="itmar_title_type">
-					<RadioControl
-						label={__("Title type", 'itmar_block_collections')}
-						selected={titleType}
-						options={[
-							{ label: __("Plaine", 'itmar_block_collections'), value: 'plaine' },
-							{ label: __("Site Title", 'itmar_block_collections'), value: 'site' },
-							{ label: __("Chatch Phrase", 'itmar_block_collections'), value: 'catch' }
-						]}
-						onChange={(changeOption) => setAttributes({ titleType: changeOption })}
-						help={__("You can display the site title and catchphrase in addition to the blank title.", 'itmar_block_collections')}
-					/>
-				</div>
+				<PanelBody title={__("Title Source Setting", 'itmar_form_send_blocks')}>
+					<div className='itmar_title_type'>
+						<RadioControl
+							label={__("Title type", 'itmar_block_collections')}
+							selected={titleType}
+							options={[
+								{ label: __("Plaine", 'itmar_block_collections'), value: 'plaine' },
+								{ label: __("Site Title", 'itmar_block_collections'), value: 'site' },
+								{ label: __("Chatch Phrase", 'itmar_block_collections'), value: 'catch' }
+							]}
+							onChange={(changeOption) => setAttributes({ titleType: changeOption })}
+							help={__("You can display the site title and catchphrase in addition to the blank title.", 'itmar_block_collections')}
+						/>
+					</div>
+
+					<div className='itmar_link_type'>
+						<RadioControl
+							label={__("Link type", 'itmar_block_collections')}
+							selected={linkKind}
+							options={[
+								{ label: __("None", 'itmar_block_collections'), value: 'none' },
+								{ label: __("Fixed Page", 'itmar_block_collections'), value: 'fixed' },
+								{ label: __("Archive Page", 'itmar_block_collections'), value: 'archive' },
+								{ label: __("Free URL", 'itmar_block_collections'), value: 'free' }
+							]}
+							onChange={(changeOption) => setAttributes({ linkKind: changeOption })}
+							help={__("You can select the type of URL to link to the title.", 'itmar_block_collections')}
+						/>
+					</div>
+
+					{linkKind === 'fixed' &&
+						<RedirectSelectControl
+							attributes={attributes}
+							setAttributes={setAttributes}
+							label={__("Select a fixed page to link to", 'itmar_block_collections')}
+						/>
+
+					}
+					{linkKind === 'archive' &&
+						<ArchiveUrlArray
+							attributes={attributes}
+							setAttributes={setAttributes}
+							label={__("Select archive page to link to", 'itmar_block_collections')}
+						/>
+
+					}
+					{linkKind === 'free' &&
+						<TextControl
+							label={__("Link to URL", 'itmar_block_collections')}
+							labelPosition="top"
+							value={selectedPageUrl}
+							onChange={(newValue) => {
+								setAttributes({ selectedPageUrl: newValue });
+							}}
+						/>
+
+					}
+				</PanelBody>
 
 			</InspectorControls >
 
@@ -282,6 +356,71 @@ export default function Edit({ attributes, setAttributes }) {
 							setAttributes({ is_shadow: newVal })
 						}}
 					/>
+					<ToggleControl
+						label={__('Add an underline', 'itmar_block_collections')}
+						checked={is_underLine}
+						onChange={(newVal) => {
+							setAttributes({ is_underLine: newVal })
+						}}
+					/>
+					{is_underLine &&
+						<PanelBody title={__("UnderLine settings", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
+							<PanelRow className='distance_row'>
+								<UnitControl
+									dragDirection="e"
+									onChange={(newValue) => {
+										const newStyle = { ...underLine_prop, height: newValue };
+										setAttributes({ underLine_prop: newStyle });
+									}}
+									label={__("Height", 'itmar_block_collections')}
+									value={underLine_prop.height}
+								/>
+								<UnitControl
+									dragDirection="e"
+									onChange={(newValue) => {
+										const newStyle = { ...underLine_prop, width: newValue };
+										setAttributes({ underLine_prop: newStyle });
+									}}
+									label={__("Width", 'itmar_block_collections')}
+									value={underLine_prop.width}
+								/>
+								<UnitControl
+									dragDirection="e"
+									onChange={(newValue) => {
+										const newStyle = { ...underLine_prop, distance: newValue };
+										setAttributes({ underLine_prop: newStyle });
+									}}
+									label={__("Distance", 'itmar_block_collections')}
+									value={underLine_prop.distance}
+								/>
+							</PanelRow>
+							<PanelColorGradientSettings
+								title={__("Under Line Color Setting", 'itmar_block_collections')}
+								settings={[
+									{
+										colorValue: bgColor_underLine,
+										gradientValue: bgGradient_underLine,
+										label: __("Choose Under Line color", 'itmar_block_collections'),
+
+										onColorChange: (newValue) => {
+											setAttributes({ bgColor_underLine: newValue === undefined ? '' : newValue });
+										},
+										onGradientChange: (newValue) => {
+											setAttributes({ bgGradient_underLine: newValue })
+										}
+									},
+								]}
+							/>
+							<ToggleControl
+								label={__('Animation on hover', 'itmar_block_collections')}
+								checked={underLine_prop.is_anime}
+								onChange={(newVal) => {
+									const newStyle = { ...underLine_prop, is_anime: newVal };
+									setAttributes({ underLine_prop: newStyle })
+								}}
+							/>
+						</PanelBody>
+					}
 				</PanelBody>
 				<PanelBody title={__("Heading settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
 					<TypographyControls
@@ -507,6 +646,16 @@ export default function Edit({ attributes, setAttributes }) {
 								onChange={(newValue) => {
 									setCopyInputValue(newValue);
 									setLocalOptionStyle(prev => ({ ...prev, copy_content: newValue }));
+								}}
+							/>
+						</PanelRow>
+						<PanelRow className='copyInfo_row'>
+							<label>{__("Copy Alignment", 'itmar_block_collections')}</label>
+							<AlignmentMatrixControl
+
+								value={(optionStyle && optionStyle.alignment_copy) ? optionStyle.alignment_copy : 'top left'}
+								onChange={(newValue) => {
+									setLocalOptionStyle(prev => ({ ...prev, alignment_copy: newValue }));
 								}}
 							/>
 						</PanelRow>

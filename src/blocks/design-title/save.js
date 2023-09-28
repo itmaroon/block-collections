@@ -10,25 +10,41 @@ export default function save({ attributes }) {
     bgColor,
     headingType,
     titleType,
-    headingContent
+    headingContent,
+    linkKind,
+    selectedPageUrl
   } = attributes;
   const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
 
   const sheet = new ServerStyleSheet();
+
+  //リッチテキストをコンテンツにする
+  const renderRichText = () => (
+    <RichText.Content
+      tagName={headingType}
+      className="has-text-color"
+      value={headingContent}
+    />
+  );
+  //ヘッダー要素をコンテンツにする
+  const renderElement = () => (
+    React.createElement(
+      headingType.toLowerCase(),
+      { className: `has-text-color itmar_${titleType}_title` }
+    )
+  );
+  //コンテンツの選択
+  const content = titleType === 'plaine' ? renderRichText() : renderElement();
+  //フロントエンドに出力
   const html = renderToString(sheet.collectStyles(
     <div {...blockProps}>
       <StyleComp attributes={attributes} >
-        {titleType === 'plaine' ? (
-          <RichText.Content
-            tagName={headingType}
-            className="has-text-color"
-            value={headingContent}
-          />
+        {linkKind === 'none' ? (
+          content
         ) : (
-          React.createElement(
-            headingType.toLowerCase(),
-            { className: `has-text-color itmar_${titleType}_title` }
-          )
+          <a href={selectedPageUrl}>
+            {content}
+          </a>
         )}
       </StyleComp>
     </div>

@@ -28,6 +28,18 @@
 		"headingID": {
 			"type": "string"
 		},
+		"linkKind": {
+			"type": "string",
+			"default": "none"
+		},
+		"selectedPageId": {
+			"type": "number",
+			"default": -1
+		},
+		"selectedPageUrl": {
+			"type": "string",
+			"default": "/"
+		},
 		"font_style_heading": {
 			"type": "object",
 			"default": {
@@ -66,7 +78,8 @@
 			"type": "string"
 		},
 		"textColor": {
-			"type": "string"
+			"type": "string",
+			"default": "#000000"
 		},
 		"radius_heading": {
 			"type": "object",
@@ -114,6 +127,26 @@
 		"is_shadow": {
 			"type": "boolean",
 			"default": false
+		},
+		"is_underLine": {
+			"type": "boolean",
+			"default": false
+		},
+		"underLine_prop": {
+			"type": "object",
+			"default": {
+				"width": "100%",
+				"height": "3px",
+				"distance": "0.5em",
+				"is_anime": true
+			}
+		},
+		"bgColor_underLine": {
+			"type": "string",
+			"default": "#000000"
+		},
+		"bgGradient_underLine": {
+			"type": "string"
 		}
 	},
 	"textdomain": "itmar_block_collections",

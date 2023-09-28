@@ -147,3 +147,4 @@ function itmar_block_collections_font_init()
 	
 }
 add_action('enqueue_block_assets', 'itmar_block_collections_font_init');
+

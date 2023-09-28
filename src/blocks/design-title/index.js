@@ -5,7 +5,8 @@ import './style.scss';
 /**
  * Internal dependencies
  */
-import Edit from './edit';
+import BlockEditWrapper from './BlockEditWrapper';
+//import Edit from './edit';
 import save from './save';
 import metadata from './block.json';
 import { ReactComponent as Title } from './title.svg';
@@ -29,6 +30,6 @@ registerBlockType(metadata.name, {
 	],
 	description: __("A block with various styles applied to heading tags", 'itmar_block_collections'),
 	icon: <Title />,
-	edit: Edit,
+	edit: BlockEditWrapper,
 	save,
 });

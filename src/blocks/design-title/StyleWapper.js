@@ -26,11 +26,16 @@ const StyledDiv = styled.div`
       optionStyle,
       shadow_result,
       is_shadow,
+      is_underLine,
+      underLine_prop,
+      bgColor_underLine,
+      bgGradient_underLine,
       className,
     } = attributes;
 
     //単色かグラデーションかの選択
     const bgColor = bg_heading || gr_heading;
+    const bgUnderLine = bgColor_underLine || bgGradient_underLine;
     //斜体の設定
     const fontStyle_header = font_style_heading.isItalic ? "italic" : "normal";
     //角丸の設定
@@ -40,6 +45,39 @@ const StyledDiv = styled.div`
     //テキストの配置
     const align_style = align === 'center' ? 'margin-left:auto; margin-right: auto' :
       align === 'right' ? 'margin-left:auto' : '';
+    //アニメーション
+
+    //アンダーライン
+    const underLine = is_underLine ?
+      `
+      position: relative;
+      &::after{
+        content: '';
+        position: absolute;
+        display: block;
+        ${underLine_prop.is_anime
+        ? `
+            width: 0;
+          `
+        : `width: ${underLine_prop.width};`} 
+        height: ${underLine_prop.height};
+        bottom: ${underLine_prop.distance};
+        background: ${bgUnderLine};
+        left: 0;
+        transition: all 0.3s ease 0s;
+      }
+      ${underLine_prop.is_anime
+        ? `
+          &:hover {
+            &::after {
+              width: ${underLine_prop.width};
+            }
+          }
+        `
+        : ''}
+      `
+      : null;
+
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
@@ -51,13 +89,18 @@ const StyledDiv = styled.div`
       border-radius: ${header_radius_prm};
       ${borderProperty(border_heading)};
       ${box_shadow_style};
-      > ${headingType}{
+      ${headingType}{
         color: ${textColor};
         font-size: ${font_style_heading.fontSize};
         font-family: ${font_style_heading.fontFamily};
         font-weight: ${font_style_heading.fontWeight};
         font-style: ${fontStyle_header};
         padding: ${space_prm(padding_heading)};
+        ${underLine}
+      }
+      a{
+        color: ${textColor};
+        text-decoration: none !important;
       }
       `;
 
@@ -145,20 +188,36 @@ const StyledDiv = styled.div`
             ` ${icon_space} `;
           const tranceY = `calc((${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom} + ${optionStyle.font_style_copy.fontSize} - ${optionStyle.icon_style.icon_size}) / 2 * -1)`
 
+          //配置場所
+          const alignMap = {
+            'top left': 'bottom: 100%;left: 0;',
+            'top center': 'bottom: 100%;left:50%;transform: translateX(-50%);',
+            'top right': 'bottom: 100%;right: 0;',
+            'center left': 'top:50%;transform: translateY(-50%);left:0;',
+            'center center': 'top:50%;left:50%;transform: translate(-50%,-50%);',
+            'center right': 'top:50%;transform: translateY(-50%);right:0;',
+            'bottom left': 'top: 100%;left: 0;',
+            'bottom center': 'top: 100%;left:50%;transform: translateX(-50%);',
+            'bottom right': 'top: 100%;right: 0;',
+          };
+          const alignStyle = alignMap[optionStyle.alignment_copy];
           //上部マージンの確保
-          const top_margin = `margin-top: calc(${margin_heading.top} + ${optionStyle.font_style_copy.fontSize} + ${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom})`
+          const vMarginMap = {
+            'top': `margin-top: calc(${margin_heading.top} + ${optionStyle.font_style_copy.fontSize} + ${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom})`,
+            'bottom': `margin-bottom: calc(${margin_heading.top} + ${optionStyle.font_style_copy.fontSize} + ${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom})`
+          }
+          const virtical_margin = vMarginMap[optionStyle.alignment_copy.split(' ')[0]];
 
           specificStyle = css`
             position: relative;
-            ${top_margin};
+            ${virtical_margin};
             &::before{
               font-size: ${optionStyle.font_style_copy.fontSize};
               font-family: ${optionStyle.font_style_copy.fontFamily};
               font-weight: ${optionStyle.font_style_copy.fontWeight};
               font-style: ${fontStyle};
               position: absolute;
-              bottom: 100%;
-              left: 0;
+              ${alignStyle}
               content: '${optionStyle.copy_content}';
               color:${optionStyle.color_text_copy};
               border-radius: ${copy_radius_prm};

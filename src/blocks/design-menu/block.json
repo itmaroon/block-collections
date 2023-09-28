@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "itmar/design-menu",
+	"version": "0.1.0",
+	"title": "Design Menu",
+	"category": "design",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "design-menu",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

@@ -239,7 +239,8 @@ $breakpoints: (
 .itmar_position_row,
 .itmar_select_row,
 .itmar_shadow_type,
-.itmar_title_type {
+.itmar_title_type,
+.itmar_link_type {
 	.components-radio-control {
 		width: 100%;
 
@@ -313,10 +314,12 @@ $breakpoints: (
 }
 
 .itmar_shadow_type,
-.itmar_title_type {
+.itmar_title_type,
+.itmar_link_type {
 	.components-radio-control {
 		&__option {
 			width: 50%;
 		}
 	}
+
 }
