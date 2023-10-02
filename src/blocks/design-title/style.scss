@@ -6,13 +6,35 @@
  */
 
 .wp-block-itmar-design-title {
-	display: inline-block;
+	position: relative;
 	box-sizing: border-box;
 	width: fit-content;
+	overflow: visible;
 
 	>div {
 		width: fit-content;
+	}
+
+	.submenu-block {
+		position: absolute;
+		top: 100%;
+		right: 0;
+		z-index: 100;
+		width: fit-content;
+		height: auto;
+		transform: scale(1, 0);
+		transition: all 0.3s ease 0s;
+		transform-origin: left top;
+		opacity: 0;
+		visibility: hidden;
 
 	}
 
+	&:hover .submenu-block,
+	.submenu-block:hover,
+	.submenu-block.visible {
+		transform: scale(1, 1);
+		opacity: 1;
+		visibility: visible;
+	}
 }

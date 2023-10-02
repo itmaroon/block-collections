@@ -28,6 +28,7 @@ const StyledDiv = styled.div`
       is_shadow,
       is_underLine,
       underLine_prop,
+      linkKind,
       bgColor_underLine,
       bgGradient_underLine,
       className,
@@ -96,12 +97,25 @@ const StyledDiv = styled.div`
         font-weight: ${font_style_heading.fontWeight};
         font-style: ${fontStyle_header};
         padding: ${space_prm(padding_heading)};
+        white-space: nowrap !important;
         ${underLine}
       }
       a{
         color: ${textColor};
         text-decoration: none !important;
       }
+      ${linkKind === 'submenu' && `
+        &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          right: -0.3em;
+          transform: translateY(-20%);
+          border: 6px solid transparent;
+          border-top: 6px solid #555;
+        }
+      `}
+      
       `;
 
     // classNameに基づいて特定のスタイルを定義します

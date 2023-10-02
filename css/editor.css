@@ -3,17 +3,7 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.itmar_notice_select_panel .components-notice.is-dismissible {
-  padding-right: 0;
-}
-.itmar_notice_select_panel .components-notice .components-notice__content {
-  margin: 0;
-}
-.itmar_notice_select_panel .components-notice .components-notice__content span {
-  cursor: pointer;
-}
-
-.wp-block-itmar-design-select {
+.wp-block-itmar-design-menu {
   border: 1px dotted #f00;
 }
 /*# sourceMappingURL=editor.css.map */

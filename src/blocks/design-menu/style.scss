@@ -5,8 +5,9 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-itmar-design-menu {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+.wp-block-itmar-design-menu {}
+
+//スタイル要素を含んだdiv要素を非表示
+.itmar_style_div {
+  display: none;
 }

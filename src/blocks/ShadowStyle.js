@@ -12,7 +12,7 @@ import {
   RadioControl
 } from '@wordpress/components';
 import { useState, useEffect } from '@wordpress/element';
-
+import { dispatch } from '@wordpress/data';
 import { hslToRgb16, HexToRGB, rgb16ToHsl } from './hslToRgb';
 
 //方向と距離
@@ -66,6 +66,13 @@ const dirctionDigit = (direction, distance) => {
   )
 }
 
+function isGradient(colorValue) {
+  // グラデーションの色値は通常'linear-gradient'または'radial-gradient'で始まるので、
+  // これらのキーワードを探すことでグラデーションかどうかを判断します。
+  return colorValue.includes('linear-gradient') || colorValue.includes('radial-gradient');
+}
+
+
 export const ShadowElm = (shadowState) => {
   const {
     shadowType,
@@ -107,6 +114,15 @@ export const ShadowElm = (shadowState) => {
   //ニューモフィズム
   else if (shadowType === 'newmor') {
     const baseColor = backgroundColor || "#ffffff";
+    //背景がグラデーションのときはセットしない
+    if (isGradient(baseColor)) {
+      dispatch('core/notices').createNotice(
+        'error',
+        __('Neumorphism cannot be set when the background color is a gradient. ', 'itmar_guest_contact_block'),
+        { type: 'snackbar', isDismissible: true, }
+      );
+      return null;
+    }
     //ボタン背景色のHSL値
     const hslValue = rgb16ToHsl(baseColor);
     //影の明るさを変更
@@ -146,6 +162,15 @@ export const ShadowElm = (shadowState) => {
   //クレイモーフィズム
   else if (shadowType === 'claymor') {
     const baseColor = backgroundColor || "#C0C0C0";
+    //背景がグラデーションのときはセットしない
+    if (isGradient(baseColor)) {
+      dispatch('core/notices').createNotice(
+        'error',
+        __('claymorphism cannot be set when the background color is a gradient. ', 'itmar_guest_contact_block'),
+        { type: 'snackbar', isDismissible: true, }
+      );
+      return null;
+    }
     const rgbValue = HexToRGB(baseColor)
     const outsetObj = dirctionDigit(clayDirection, expand)
     const insetObj = dirctionDigit(clayDirection, depth)
@@ -246,7 +271,7 @@ const ShadowStyle = ({ shadowStyle, onChange, children }) => {
   //シャドーのスタイル変更に伴う親コンポーネントの変更
   useEffect(() => {
     const shadowElm = ShadowElm(shadowState);
-    onChange(shadowElm, shadowState)
+    if (shadowElm) onChange(shadowElm, shadowState)
   }, [shadowState]);
 
   return (

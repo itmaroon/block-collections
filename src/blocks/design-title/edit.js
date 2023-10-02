@@ -4,7 +4,7 @@ import TypographyControls from '../TypographyControls'
 import IconSelectControl from '../IconSelectControl';
 import { StyleComp } from './StyleWapper';
 import ShadowStyle from '../ShadowStyle';
-import { RedirectSelectControl, ArchiveUrlArray } from '../wordpressApi';
+import { PageSelectControl, ArchiveSelectControl } from '../wordpressApi';
 import apiFetch from '@wordpress/api-fetch';
 import { useStyleIframe, useFontawesomeIframe } from '../iframeFooks';
 import {
@@ -24,6 +24,7 @@ import {
 } from '@wordpress/components';
 import {
 	useBlockProps,
+	useInnerBlocksProps,
 	RichText,
 	BlockControls,
 	AlignmentToolbar,
@@ -34,6 +35,7 @@ import {
 
 import './editor.scss';
 import { useEffect, useState, useRef } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -66,7 +68,7 @@ const getIconForLevel = level => {
 };
 
 
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		bgColor,
 		headingContent,
@@ -233,6 +235,21 @@ export default function Edit({ attributes, setAttributes }) {
 	//TextControlの表示用変数
 	const [copyInputValue, setCopyInputValue] = useState((optionStyle && optionStyle.copy_content !== undefined) ? optionStyle.copy_content : 'SAMPLE');
 
+	//サブメニュー（インナーブロック）
+	const hasSelectedInnerBlock = useSelect((select) => {
+		return select('core/block-editor').hasSelectedInnerBlock(clientId, true);
+	}, [clientId]);//ブロックの選択状態を把握
+
+	const subMenuBlocksProps = useInnerBlocksProps(
+		{ className: `submenu-block ${hasSelectedInnerBlock ? 'visible' : ''}` },
+		{
+			template: [['itmar/design-menu', {}]],
+			templateLock: true
+		}
+	);
+
+
+
 	//リッチテキストをコンテンツにする
 	const renderRichText = () => (
 		<RichText
@@ -253,22 +270,17 @@ export default function Edit({ attributes, setAttributes }) {
 			siteTitle
 		)
 	);
+
+
 	//コンテンツの選択
-	const content = titleType === 'plaine' ? renderRichText() : renderElement();
+	const content = titleType === 'plaine'
+		? renderRichText()
+		: renderElement();
+
 	//リンクを付加する
 	function renderContent() {
 		return (
-			<>
-				{
-					linkKind === 'none' ? (
-						content
-					) : (
-						<a href={selectedPageUrl}>
-							{content}
-						</a>
-					)
-				}
-			</>
+			content
 		);
 	}
 
@@ -298,7 +310,8 @@ export default function Edit({ attributes, setAttributes }) {
 								{ label: __("None", 'itmar_block_collections'), value: 'none' },
 								{ label: __("Fixed Page", 'itmar_block_collections'), value: 'fixed' },
 								{ label: __("Archive Page", 'itmar_block_collections'), value: 'archive' },
-								{ label: __("Free URL", 'itmar_block_collections'), value: 'free' }
+								{ label: __("Free URL", 'itmar_block_collections'), value: 'free' },
+								{ label: __("Sub Menu", 'itmar_block_collections'), value: 'submenu' }
 							]}
 							onChange={(changeOption) => setAttributes({ linkKind: changeOption })}
 							help={__("You can select the type of URL to link to the title.", 'itmar_block_collections')}
@@ -306,7 +319,7 @@ export default function Edit({ attributes, setAttributes }) {
 					</div>
 
 					{linkKind === 'fixed' &&
-						<RedirectSelectControl
+						<PageSelectControl
 							attributes={attributes}
 							setAttributes={setAttributes}
 							label={__("Select a fixed page to link to", 'itmar_block_collections')}
@@ -314,7 +327,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 					}
 					{linkKind === 'archive' &&
-						<ArchiveUrlArray
+						<ArchiveSelectControl
 							attributes={attributes}
 							setAttributes={setAttributes}
 							label={__("Select archive page to link to", 'itmar_block_collections')}
@@ -777,8 +790,13 @@ export default function Edit({ attributes, setAttributes }) {
 						</ShadowStyle>
 					) : (
 						renderContent()
+
 					)}
+
 				</StyleComp>
+				{linkKind === 'submenu' &&
+					<div {...subMenuBlocksProps}></div>
+				}
 			</div>
 
 		</>

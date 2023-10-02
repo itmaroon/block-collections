@@ -14,7 +14,7 @@ export default function save({ attributes }) {
     linkKind,
     selectedPageUrl
   } = attributes;
-  const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, overflow: 'hidden' } });
+  const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor } });
 
   const sheet = new ServerStyleSheet();
 
@@ -35,25 +35,34 @@ export default function save({ attributes }) {
   );
   //コンテンツの選択
   const content = titleType === 'plaine' ? renderRichText() : renderElement();
+
   //フロントエンドに出力
   const html = renderToString(sheet.collectStyles(
     <div {...blockProps}>
       <StyleComp attributes={attributes} >
-        {linkKind === 'none' ? (
+        {(linkKind === 'none' || linkKind === 'submenu') ? (
           content
         ) : (
           <a href={selectedPageUrl}>
             {content}
           </a>
         )}
+
       </StyleComp>
     </div>
+
   ));
   const styleTags = sheet.getStyleTags();
   return (
-    <>
+    <div {...blockProps}>
       <div dangerouslySetInnerHTML={{ __html: html }} />
-      <div dangerouslySetInnerHTML={{ __html: styleTags }} />
-    </>
+
+      {linkKind === 'submenu' &&
+        <div className="submenu-block">
+          <InnerBlocks.Content />
+        </div>
+      }
+      <div className='itmar_style_div' dangerouslySetInnerHTML={{ __html: styleTags }} />
+    </div>
   )
 }
