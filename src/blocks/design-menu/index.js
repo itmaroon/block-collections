@@ -23,8 +23,8 @@ registerBlockType(metadata.name, {
 			label: __("Virticle", 'itmar_block_collections'),
 		},
 		{
-			name: "card",
-			label: __("Card", 'itmar_block_collections'),
+			name: "grid",
+			label: __("Grid", 'itmar_block_collections'),
 		}
 	],
 	description: __("This block allows you to design menus with various variations.", 'itmar_block_collections'),

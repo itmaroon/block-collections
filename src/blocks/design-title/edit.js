@@ -277,7 +277,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		? renderRichText()
 		: renderElement();
 
-	//リンクを付加する
+	//コンテンツを返す
 	function renderContent() {
 		return (
 			content

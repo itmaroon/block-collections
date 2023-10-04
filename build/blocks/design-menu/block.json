@@ -77,6 +77,21 @@
     "is_shadow": {
       "type": "boolean",
       "default": false
+    },
+    "grid_info": {
+      "type": "object",
+      "default": {
+        "col_num": 2,
+        "is_image": false,
+        "image.pos": "left",
+        "image_padding": {
+          "top": "10px",
+          "left": "10px",
+          "bottom": "10px",
+          "right": "10px"
+        },
+        "image_opacity": 0.8
+      }
     }
   },
   "textdomain": "itmar_block_collections",

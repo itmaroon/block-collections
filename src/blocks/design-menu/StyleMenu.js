@@ -20,6 +20,7 @@ const StyledDiv = styled.div`
       padding_val,
       shadow_result,
       is_shadow,
+      grid_info,
       className,
     } = attributes;
 
@@ -56,16 +57,17 @@ const StyledDiv = styled.div`
     `;
 
     //カードスタイル
-    const cardStyle = css`
+    const gridStyle = css`
       > div{
-        display: block;
+        display: grid;
+        grid-template-columns: repeat(${grid_info.col_num}, 1fr);
       }
     `;
 
     const cssMap = {
       'is-style-horizen': horizenStyle,
       'is-style-virticle': virticalStyle,
-      'is-style-card': cardStyle,
+      'is-style-grid': gridStyle,
     };
 
     const optionStyle = cssMap[className] || horizenStyle;

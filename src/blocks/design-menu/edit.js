@@ -16,12 +16,14 @@ import {
 import {
 	PanelBody,
 	ToggleControl,
+	RangeControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl
 } from '@wordpress/components';
 
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
+import { createBlock } from '@wordpress/blocks';
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -45,7 +47,7 @@ const units = [
 	{ value: 'rem', label: 'rem' },
 ];
 
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		bgColor_val,
 		bgGradient_val,
@@ -54,7 +56,9 @@ export default function Edit({ attributes, setAttributes }) {
 		margin_val,
 		padding_val,
 		shadow_element,
-		is_shadow
+		grid_info,
+		is_shadow,
+		className
 	} = attributes;
 
 	//単色かグラデーションかの選択
@@ -63,18 +67,45 @@ export default function Edit({ attributes, setAttributes }) {
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
+
+	// 子ブロックのリストを取得
+	const innerBlocks = useSelect((select) => {
+		return select('core/block-editor').getBlockOrder(clientId);
+	}, [clientId]);
+
+	// 子ブロックのリストを確認して、core/image が存在するかどうかを判断
+	const hasImageBlock = innerBlocks.some(blockId => {
+		const block = useSelect((select) => select('core/block-editor').getBlock(blockId), [blockId]);
+		return block.name === 'core/image';
+	});
+
 	//メニューアイテム（インナーブロック）
 	const TEMPLATE = [
 		['itmar/design-title', {}]
 	]
+	// className が 'is-style-grid' に含まれ、かつ、core/imageがないときは、allowedBlocks に 'core/image' を追加
+	const allowedBlocks = (className === 'is-style-grid') && !hasImageBlock
+		? ['itmar/design-title', 'core/image']
+		: ['itmar/design-title'];
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
 		{
-			allowedBlocks: ['itmar/design-title'],
+			allowedBlocks: allowedBlocks,
 			template: TEMPLATE,
 			templateLock: false
 		}
 	);
+
+	//イメージブロック
+	const { insertBlocks } = useDispatch('core/block-editor');
+	useEffect(() => {//スタイルがグリッドでイメージ挿入モードがtrueの場合
+
+		if (className === 'is-style-grid' && grid_info.is_image) {
+			const imageBlock = createBlock('core/image', {});
+			insertBlocks(imageBlock, 0, clientId);  // insert new block at the first position
+		}
+
+	}, [className, grid_info.is_image]);
 
 	return (
 		<>
@@ -136,7 +167,47 @@ export default function Edit({ attributes, setAttributes }) {
 						}}
 					/>
 				</PanelBody>
+				{className === 'is-style-grid' &&
+					<PanelBody title={__("Grid Info settings", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
 
+						<RangeControl
+							value={grid_info.col_num}
+							label={__("Number of Columns", 'itmar_block_collections')}
+							max={6}
+							min={2}
+							onChange={(val) => {
+								const newVal = { ...grid_info, col_num: val }
+								setAttributes({ grid_info: newVal })
+							}}
+							withInputField={true}
+						/>
+						<ToggleControl
+							label={__('Is Image', 'itmar_block_collections')}
+							checked={grid_info.is_image}
+							onChange={(val) => {
+								const newVal = { ...grid_info, is_image: val }
+								setAttributes({ grid_info: newVal })
+							}}
+						/>
+						{grid_info.is_image &&
+							<PanelBody title={__("Image Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
+
+								<BoxControl
+									label={__("Image Padding settings", 'itmar_block_collections')}
+									values={grid_info.image_padding}
+									onChange={val => {
+										const newVal = { ...grid_info, image_padding: val }
+										setAttributes({ grid_info: newVal })
+									}}
+									units={units}	// 許可する単位
+									allowReset={true}	// リセットの可否
+									resetValues={padding_resetValues}	// リセット時の値
+
+								/>
+							</PanelBody>
+						}
+					</PanelBody>
+				}
 			</InspectorControls>
 
 			<div {...blockProps} >
