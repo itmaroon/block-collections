@@ -4,39 +4,7 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-title {
-  position: relative;
-  box-sizing: border-box;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  overflow: visible;
-}
-.wp-block-itmar-design-title > div {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-}
-.wp-block-itmar-design-title .submenu-block {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  z-index: 100;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  height: auto;
-  transform: scale(1, 0);
-  transition: all 0.3s ease 0s;
-  transform-origin: left top;
-  opacity: 0;
-  visibility: hidden;
-}
-.wp-block-itmar-design-title:hover .submenu-block,
-.wp-block-itmar-design-title .submenu-block:hover,
-.wp-block-itmar-design-title .submenu-block.visible {
-  transform: scale(1, 1);
-  opacity: 1;
-  visibility: visible;
+.itmar_style_div {
+  display: none;
 }
 /*# sourceMappingURL=style.css.map */

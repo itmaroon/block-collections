@@ -13,23 +13,26 @@ export default function save({ attributes }) {
 	//単色かグラデーションかの選択
 	const bgColor = bgColor_val || bgGradient_val;
 	const blockProps = useBlockProps.save({ style: { background: bgColor } });
-	const contents = (
-		<InnerBlocks.Content />
-	)
+
+	//styled-componentsのHTML化
 	const sheet = new ServerStyleSheet();
 	const html = renderToString(sheet.collectStyles(
-		<div {...blockProps}>
-			<StyleComp attributes={attributes}>
-				<InnerBlocks.Content />
-			</StyleComp>
-		</div>
+		<StyleComp attributes={attributes} />
 	));
 	const styleTags = sheet.getStyleTags();
+	// 正規表現で styled-components のクラス名を取得
+	const classMatch = html.match(/class="([^"]+)"/);
+	const className = classMatch ? classMatch[1] : "";
 
 	return (
-		<>
-			<div dangerouslySetInnerHTML={{ __html: html }} />
+		<div {...blockProps}>
+			<div className={className}>
+				<div>
+					<InnerBlocks.Content />
+				</div>
+			</div>
+
 			<div className='itmar_style_div' dangerouslySetInnerHTML={{ __html: styleTags }} />
-		</>
+		</div>
 	);
 }

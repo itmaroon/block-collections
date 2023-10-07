@@ -8,6 +8,7 @@ import ShadowStyle from '../ShadowStyle';
 import {
 	useBlockProps,
 	useInnerBlocksProps,
+	InnerBlocks,
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
@@ -15,13 +16,15 @@ import {
 
 import {
 	PanelBody,
+	PanelRow,
 	ToggleControl,
 	RangeControl,
 	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl
+	__experimentalBorderBoxControl as BorderBoxControl,
+	__experimentalAlignmentMatrixControl as AlignmentMatrixControl
 } from '@wordpress/components';
 
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useSelect, useDispatch, dispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { createBlock } from '@wordpress/blocks';
 
@@ -68,44 +71,90 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 
-	// 子ブロックのリストを取得
-	const innerBlocks = useSelect((select) => {
-		return select('core/block-editor').getBlockOrder(clientId);
-	}, [clientId]);
-
-	// 子ブロックのリストを確認して、core/image が存在するかどうかを判断
-	const hasImageBlock = innerBlocks.some(blockId => {
-		const block = useSelect((select) => select('core/block-editor').getBlock(blockId), [blockId]);
-		return block.name === 'core/image';
-	});
+	//インナーブロックの監視
+	const blocks = useSelect(select => select('core/block-editor').getBlocks(clientId), [clientId]);
 
 	//メニューアイテム（インナーブロック）
 	const TEMPLATE = [
 		['itmar/design-title', {}]
 	]
-	// className が 'is-style-grid' に含まれ、かつ、core/imageがないときは、allowedBlocks に 'core/image' を追加
-	const allowedBlocks = (className === 'is-style-grid') && !hasImageBlock
-		? ['itmar/design-title', 'core/image']
-		: ['itmar/design-title'];
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
 		{
-			allowedBlocks: allowedBlocks,
+			allowedBlocks: ['itmar/design-title', 'core/image'],
 			template: TEMPLATE,
 			templateLock: false
 		}
 	);
 
 	//イメージブロック
-	const { insertBlocks } = useDispatch('core/block-editor');
-	useEffect(() => {//スタイルがグリッドでイメージ挿入モードがtrueの場合
+	const { insertBlocks, removeBlock } = useDispatch('core/block-editor');
+
+	useEffect(() => {//イメージの挿入・削除
 
 		if (className === 'is-style-grid' && grid_info.is_image) {
 			const imageBlock = createBlock('core/image', {});
 			insertBlocks(imageBlock, 0, clientId);  // insert new block at the first position
 		}
+		if ((className === 'is-style-grid' && !grid_info.is_image) || (className !== 'is-style-grid')) {
+			const imageBlockClientIds = blocks
+				.filter(block => block.name === 'core/image')
+				.map(block => block.clientId);
+
+			// core/image ブロックを削除
+			imageBlockClientIds.forEach(id => {
+				removeBlock(id);
+			});
+		}
 
 	}, [className, grid_info.is_image]);
+
+	useEffect(() => {//イメージはグリッドでかつ１つだけ
+		//このタイミングでブロック属性に記録
+		setAttributes({ blockNum: blocks.length });
+
+		if (className !== 'is-style-grid') {//グリッドスタイル以外は消す
+			const imageBlockClientIds = blocks
+				.filter(block => block.name === 'core/image')
+				.map(block => block.clientId);
+			if (imageBlockClientIds.length > 0) {
+				dispatch('core/notices').createNotice(
+					'error',
+					__("Images cannot be included in anything other than grid style.", 'itmar_block_collections'),
+					{ type: 'snackbar' }
+				);
+				// core/image ブロックを削除
+				imageBlockClientIds.forEach(id => {
+					removeBlock(id);
+				});
+
+			}
+
+		}
+		if (className === 'is-style-grid') {//２つ以上にはしない
+			const imageBlockClientIds = blocks
+				.filter(block => block.name === 'core/image')
+				.map(block => block.clientId);
+			if (imageBlockClientIds.length > 1) {
+				dispatch('core/notices').createNotice(
+					'error',
+					__("Only one image can be inserted.", 'itmar_block_collections'),
+					{ type: 'snackbar' }
+				);
+				// core/image ブロックを削除
+				removeBlock(imageBlockClientIds[1]);
+			} else if (imageBlockClientIds.length === 1) {//１つならフラグを上げる
+				const newVal = { ...grid_info, is_image: true }
+				setAttributes({ grid_info: newVal })
+
+			} else if (imageBlockClientIds.length === 0) {//0ならフラグを下げる
+				const newVal = { ...grid_info, is_image: false }
+				setAttributes({ grid_info: newVal })
+			}
+		}
+
+	}, [blocks]);
+
 
 	return (
 		<>
@@ -174,7 +223,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							value={grid_info.col_num}
 							label={__("Number of Columns", 'itmar_block_collections')}
 							max={6}
-							min={2}
+							min={1}
 							onChange={(val) => {
 								const newVal = { ...grid_info, col_num: val }
 								setAttributes({ grid_info: newVal })
@@ -203,6 +252,37 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									allowReset={true}	// リセットの可否
 									resetValues={padding_resetValues}	// リセット時の値
 
+								/>
+								<PanelRow className='imgPos_row'>
+									<label>{__("Image Alignment", 'itmar_block_collections')}</label>
+									<AlignmentMatrixControl
+										value={grid_info.image_pos}
+										onChange={(newValue) => {
+											const newVal = { ...grid_info, image_pos: newValue }
+											setAttributes({ grid_info: newVal })
+										}}
+									/>
+								</PanelRow>
+								<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
+									<BorderRadiusControl
+										values={grid_info.image_radius}
+										onChange={(newBrVal) => {
+											const setVal = typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal
+											const newVal = { ...grid_info, image_radius: setVal }
+											setAttributes({ grid_info: newVal })
+										}}
+									/>
+								</PanelBody>
+								<RangeControl
+									value={grid_info.image_blur}
+									label={__("Blur", 'itmar_block_collections')}
+									max={6}
+									min={0}
+									onChange={(val) => {
+										const newVal = { ...grid_info, image_blur: val }
+										setAttributes({ grid_info: newVal })
+									}}
+									withInputField={false}
 								/>
 							</PanelBody>
 						}

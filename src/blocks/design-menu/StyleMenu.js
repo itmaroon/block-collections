@@ -21,15 +21,18 @@ const StyledDiv = styled.div`
       shadow_result,
       is_shadow,
       grid_info,
+      blockNum,
       className,
     } = attributes;
 
-
     //角丸の設定
     const form_radius_prm = radius_prm(radius_val);
+    const img_radius_prm = radius_prm(grid_info.image_radius);
+    console.log(grid_info)
     //スペースの設定
     const form_margin_prm = space_prm(margin_val);
     const form_padding_prm = space_prm(padding_val);
+    const figure_padding_prm = space_prm(grid_info.image_padding);
     //ボックスシャドーの設定
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
 
@@ -56,11 +59,58 @@ const StyledDiv = styled.div`
       }
     `;
 
-    //カードスタイル
+
     const gridStyle = css`
       > div{
         display: grid;
-        grid-template-columns: repeat(${grid_info.col_num}, 1fr);
+          .wp-block-image {
+            padding: ${figure_padding_prm};
+            img{
+              border-radius: ${img_radius_prm};
+              filter: blur(${grid_info.image_blur}px);
+            }
+          }
+        ${() => {
+        //ポジションの分解
+        const image_pos = grid_info.image_pos.split(' ');
+        //縦の位置
+        const virtcal_pos = image_pos[0] === 'top' ? 'start' : image_pos[0] === 'bottom' ? 'end' : 'center';
+        //グリッドの生成
+        if (grid_info.is_image) {
+          if (image_pos[1] === 'left') {
+            return css`
+                grid-template-columns: auto repeat(${grid_info.col_num}, 1fr);
+                .wp-block-image {
+                  grid-column: 1 / 2;
+                  grid-row: 1 / ${Math.ceil((blockNum - 1) / grid_info.col_num) + 1};
+                  align-self: ${virtcal_pos};
+                }
+              `;
+          } else if (image_pos[1] === 'right') {
+            return css`
+                grid-template-columns: repeat(${grid_info.col_num}, 1fr) auto;
+                .wp-block-image {
+                  grid-column: ${grid_info.col_num + 1} / ${grid_info.col_num + 2};
+                  grid-row: 1 / ${Math.ceil((blockNum - 1) / grid_info.col_num) + 1};
+                  align-self: ${virtcal_pos};
+                }
+            `;
+          } else {
+            return css`
+                grid-template-columns: repeat(${grid_info.col_num}, 1fr);
+                .wp-block-image {
+                  grid-column: 1 / ${grid_info.col_num + 1};
+                  grid-row: ${image_pos[0] === 'bottom' ? Math.ceil((blockNum - 1) / grid_info.col_num) + 1 : 1} / ${image_pos[0] === 'bottom' ? Math.ceil((blockNum - 1) / grid_info.col_num) + 2 : 2} 
+                }
+            `;
+          }
+        } else {
+          return css`
+            grid-template-columns: repeat(${grid_info.col_num}, 1fr);
+            `;
+        }
+      }}
+      
       }
     `;
 
@@ -77,8 +127,9 @@ const StyledDiv = styled.div`
       ${commonStyle}
       ${optionStyle}
     `;
-  }}
-`;
+  }
+  }
+        `;
 
 
 
