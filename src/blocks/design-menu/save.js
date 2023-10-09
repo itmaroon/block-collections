@@ -31,7 +31,6 @@ export default function save({ attributes }) {
 					<InnerBlocks.Content />
 				</div>
 			</div>
-
 			<div className='itmar_style_div' dangerouslySetInnerHTML={{ __html: styleTags }} />
 		</div>
 	);

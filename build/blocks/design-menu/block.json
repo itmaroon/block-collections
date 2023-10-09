@@ -97,10 +97,7 @@
           "bottomLeft": "0px",
           "value": "0px"
         },
-        "image_blur": {
-          "type": "number",
-          "default": 0
-        }
+        "image_blur": 0
       }
     },
     "blockNum": {

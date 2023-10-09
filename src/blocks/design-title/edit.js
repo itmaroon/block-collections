@@ -91,11 +91,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		bgColor_underLine,
 		bgGradient_underLine,
 		linkKind,
+		menu_pos,
+		is_title_menu,
 		selectedPageUrl,
 		className,
 	} = attributes;
 
-	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
+	const blockProps = useBlockProps({ style: { backgroundColor: bgColor, position: `${is_title_menu ? 'relative' : 'static'}` } });
 
 	//最初の状態
 	const prevClassRef = useRef(false);
@@ -241,10 +243,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	}, [clientId]);//ブロックの選択状態を把握
 
 	const subMenuBlocksProps = useInnerBlocksProps(
-		{ className: `submenu-block ${hasSelectedInnerBlock ? 'visible' : ''}` },
+		{ className: `submenu-block ${hasSelectedInnerBlock ? 'visible' : ''} ${menu_pos.replace(/ /g, "_")}` },
 		{
+			allowedBlocks: ['itmar/draggable-box', 'itmar/design-menu'],
 			template: [['itmar/design-menu', {}]],
-			templateLock: true
+			templateLock: false
 		}
 	);
 
@@ -344,6 +347,27 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							}}
 						/>
 
+					}
+					{linkKind === 'submenu' &&
+						<PanelBody title={__("Submenu position settings", 'itmar_form_send_blocks')}>
+							<PanelRow className='imgPos_row'>
+								<label>{__("Menu Alignment", 'itmar_block_collections')}</label>
+								<AlignmentMatrixControl
+									value={menu_pos}
+									onChange={(newVal) => {
+										setAttributes({ menu_pos: newVal })
+									}}
+								/>
+							</PanelRow>
+							<ToggleControl
+								label={__('Based on title', 'itmar_block_collections')}
+								checked={is_title_menu}
+								help={__('If unchecked, the parent menu will be used as the reference. If there is no parent menu, do not uncheck it.', 'itmar_block_collections')}
+								onChange={(newVal) => {
+									setAttributes({ is_title_menu: newVal })
+								}}
+							/>
+						</PanelBody>
 					}
 				</PanelBody>
 

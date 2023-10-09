@@ -32,6 +32,14 @@
 			"type": "string",
 			"default": "none"
 		},
+		"menu_pos": {
+			"type": "string",
+			"default": "bottom right"
+		},
+		"is_title_menu": {
+			"type": "boolean",
+			"default": true
+		},
 		"selectedPageId": {
 			"type": "number",
 			"default": -1

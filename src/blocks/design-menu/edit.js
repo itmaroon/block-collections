@@ -25,7 +25,7 @@ import {
 } from '@wordpress/components';
 
 import { useSelect, useDispatch, dispatch } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { createBlock } from '@wordpress/blocks';
 
 //スペースのリセットバリュー
@@ -176,6 +176,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							},
 						]}
 					/>
+
 					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 
@@ -216,6 +217,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						}}
 					/>
 				</PanelBody>
+
 				{className === 'is-style-grid' &&
 					<PanelBody title={__("Grid Info settings", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
 
@@ -282,7 +284,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 										const newVal = { ...grid_info, image_blur: val }
 										setAttributes({ grid_info: newVal })
 									}}
-									withInputField={false}
+									withInputField={true}
 								/>
 							</PanelBody>
 						}

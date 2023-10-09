@@ -29,6 +29,7 @@ const StyledDiv = styled.div`
       is_underLine,
       underLine_prop,
       linkKind,
+      menu_pos,
       bgColor_underLine,
       bgGradient_underLine,
       className,
@@ -46,6 +47,14 @@ const StyledDiv = styled.div`
     //テキストの配置
     const align_style = align === 'center' ? 'margin-left:auto; margin-right: auto' :
       align === 'right' ? 'margin-left:auto' : '';
+    //paddingの修正関数
+    const ajust_padding = (padding, pos) => {
+      const values = padding.split(' ');
+      const pos_num = pos === 'left' ? 3 : 1
+      values[pos_num] = `calc(${values[pos_num]} + 1em)`;
+      // 配列をスペースで連結して文字列に戻す
+      return values.join(' ');
+    }
     //アニメーション
 
     //アンダーライン
@@ -64,7 +73,8 @@ const StyledDiv = styled.div`
         height: ${underLine_prop.height};
         bottom: ${underLine_prop.distance};
         background: ${bgUnderLine};
-        left: 0;
+        left: 50%;
+        transform: translateX(-50%);
         transition: all 0.3s ease 0s;
       }
       ${underLine_prop.is_anime
@@ -78,7 +88,21 @@ const StyledDiv = styled.div`
         : ''}
       `
       : null;
-
+    //paddingの調整（サブメニューの印）
+    const render_padding = linkKind === 'submenu' ? ajust_padding(space_prm(padding_heading), menu_pos.split(' ')[1]) : space_prm(padding_heading);
+    //矢印の方向
+    const directionMap = {
+      'top left': 'height: calc(12px / 2);width: 12px;left: 10px;clip-path: polygon(50% 0, 100% 100%, 0 100%);',
+      'top center': 'height: calc(12px / 2);width: 12px;right: 10px;clip-path: polygon(50% 0, 100% 100%, 0 100%);',
+      'top right': 'height: calc(12px / 2);width: 12px;right: 10px;clip-path: polygon(50% 0, 100% 100%, 0 100%);',
+      'center left': 'height: 12px;width: calc(12px / 2);left: 10px;clip-path: polygon(100% 0, 100% 100%, 0 50%);',
+      'center center': 'height: calc(12px / 2);width: 12px;right: 10px;clip-path: polygon(0 0, 100% 0, 50% 100%);',
+      'center right': 'height: 12px;width: calc(12px / 2);right: 10px;clip-path: polygon(100% 50%, 0 100%, 0 0);',
+      'bottom left': 'height: calc(12px / 2);width: 12px;left: 10px;clip-path: polygon(0 0, 100% 0, 50% 100%);',
+      'bottom center': 'height: calc(12px / 2);width: 12px;right: 10px;clip-path: polygon(0 0, 100% 0, 50% 100%);',
+      'bottom right': 'height: calc(12px / 2);width: 12px;right: 10px;clip-path: polygon(0 0, 100% 0, 50% 100%);'
+    };
+    const arrow_direction = directionMap[menu_pos];
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
@@ -91,12 +115,13 @@ const StyledDiv = styled.div`
       ${borderProperty(border_heading)};
       ${box_shadow_style};
       ${headingType}{
+        position: relative;
         color: ${textColor};
         font-size: ${font_style_heading.fontSize};
         font-family: ${font_style_heading.fontFamily};
         font-weight: ${font_style_heading.fontWeight};
         font-style: ${fontStyle_header};
-        padding: ${space_prm(padding_heading)};
+        padding: ${render_padding};
         white-space: nowrap !important;
         ${underLine}
       }
@@ -109,10 +134,9 @@ const StyledDiv = styled.div`
           content: '';
           position: absolute;
           top: 50%;
-          right: -0.3em;
-          transform: translateY(-20%);
-          border: 6px solid transparent;
-          border-top: 6px solid #555;
+          transform: translateY(-50%);
+          background: #000000;
+          ${arrow_direction}
         }
       `}
       

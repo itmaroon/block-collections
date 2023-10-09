@@ -12,9 +12,11 @@ export default function save({ attributes }) {
     titleType,
     headingContent,
     linkKind,
+    menu_pos,
+    is_title_menu,
     selectedPageUrl
   } = attributes;
-  const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor } });
+  const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, position: `${is_title_menu ? 'relative' : 'static'}` } });
 
   const sheet = new ServerStyleSheet();
 
@@ -58,7 +60,7 @@ export default function save({ attributes }) {
       <div dangerouslySetInnerHTML={{ __html: html }} />
 
       {linkKind === 'submenu' &&
-        <div className="submenu-block">
+        <div className={`submenu-block ${menu_pos.replace(/ /g, "_")}`}>
           <InnerBlocks.Content />
         </div>
       }

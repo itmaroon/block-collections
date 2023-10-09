@@ -6,10 +6,9 @@
  */
 
 .wp-block-itmar-design-title {
-	position: relative;
 	box-sizing: border-box;
 	width: fit-content;
-	overflow: visible;
+	border: 1px solid transparent;
 
 	>div {
 		width: fit-content;
@@ -17,16 +16,47 @@
 
 	.submenu-block {
 		position: absolute;
-		top: 100%;
-		right: 0;
 		width: fit-content;
 		height: auto;
-		transform: scale(1, 0);
 		transition: all 0.3s ease 0s;
-		transform-origin: left top;
 		opacity: 0;
 		visibility: hidden;
 		z-index: 20;
+
+		&.bottom_right {
+			transform: scale(1, 0);
+			top: 100%;
+			right: 0;
+			transform-origin: left top;
+		}
+
+		&.bottom_center {
+			top: 100%;
+			left: 50%;
+			transform: scale(1, 0) translateX(-50%);
+			transform-origin: center top;
+		}
+
+		&.bottom_left {
+			transform: scale(1, 0);
+			top: 100%;
+			left: 0;
+			transform-origin: left top;
+		}
+
+		&.center_right {
+			transform: scale(0, 1);
+			top: 0;
+			left: 100%;
+			transform-origin: left top;
+		}
+
+		&.center_left {
+			transform: scale(0, 1);
+			top: 0;
+			right: 100%;
+			transform-origin: right top;
+		}
 	}
 
 	&:hover .submenu-block,
@@ -35,5 +65,17 @@
 		transform: scale(1, 1);
 		opacity: 1;
 		visibility: visible;
+
+		&.bottom_right {
+			transform: scale(1, 1);
+		}
+
+		&.bottom_center {
+			transform: scale(1, 1) translateX(-50%);
+		}
+
+		&.bottom_left {
+			transform: scale(1, 1);
+		}
 	}
 }

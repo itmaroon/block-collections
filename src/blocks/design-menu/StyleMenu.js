@@ -28,7 +28,6 @@ const StyledDiv = styled.div`
     //角丸の設定
     const form_radius_prm = radius_prm(radius_val);
     const img_radius_prm = radius_prm(grid_info.image_radius);
-    console.log(grid_info)
     //スペースの設定
     const form_margin_prm = space_prm(margin_val);
     const form_padding_prm = space_prm(padding_val);
@@ -68,6 +67,7 @@ const StyledDiv = styled.div`
             img{
               border-radius: ${img_radius_prm};
               filter: blur(${grid_info.image_blur}px);
+              display:block;
             }
           }
         ${() => {
@@ -84,6 +84,9 @@ const StyledDiv = styled.div`
                   grid-column: 1 / 2;
                   grid-row: 1 / ${Math.ceil((blockNum - 1) / grid_info.col_num) + 1};
                   align-self: ${virtcal_pos};
+                  > img{
+                    max-width:none;
+                  }
                 }
               `;
           } else if (image_pos[1] === 'right') {
@@ -93,6 +96,9 @@ const StyledDiv = styled.div`
                   grid-column: ${grid_info.col_num + 1} / ${grid_info.col_num + 2};
                   grid-row: 1 / ${Math.ceil((blockNum - 1) / grid_info.col_num) + 1};
                   align-self: ${virtcal_pos};
+                  > img{
+                    max-width:none;
+                  }
                 }
             `;
           } else {
