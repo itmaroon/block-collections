@@ -8,6 +8,7 @@ export default function save({ attributes }) {
 	const {
 		bgColor_val,
 		bgGradient_val,
+		is_submenu
 	} = attributes;
 
 	//単色かグラデーションかの選択
@@ -25,13 +26,27 @@ export default function save({ attributes }) {
 	const className = classMatch ? classMatch[1] : "";
 
 	return (
-		<div {...blockProps}>
-			<div className={className}>
-				<div>
-					<InnerBlocks.Content />
+		<>
+			{!is_submenu &&
+				<>
+					<div className="itmar_hamberger_btn">
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+					<div className='itmar_back_ground'></div>
+				</>
+			}
+			<div {...blockProps}>
+
+				<div className={className}>
+
+					<div className='menu_contents'>
+						<InnerBlocks.Content />
+					</div>
 				</div>
+				<div className='itmar_style_div' dangerouslySetInnerHTML={{ __html: styleTags }} />
 			</div>
-			<div className='itmar_style_div' dangerouslySetInnerHTML={{ __html: styleTags }} />
-		</div>
+		</>
 	);
 }

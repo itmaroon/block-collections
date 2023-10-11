@@ -4,11 +4,11 @@ import './editor.scss';
 import { StyleComp } from './StyleMenu';
 import { useStyleIframe } from '../iframeFooks';
 import ShadowStyle from '../ShadowStyle';
+import ToggleElement from './ToggleElement';
 
 import {
 	useBlockProps,
 	useInnerBlocksProps,
-	InnerBlocks,
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
@@ -61,12 +61,21 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		shadow_element,
 		grid_info,
 		is_shadow,
+		is_submenu,
 		className
 	} = attributes;
 
+	//ハンバーガーボタンのクリックによるイベントハンドラ(クラス名の付加)
+	const [isMenuOpen, setIsmenuOpen] = useState(false);
+	const handleHambergerToggle = (isOpen) => {
+		setIsmenuOpen(isOpen)
+	}
+
 	//単色かグラデーションかの選択
 	const bgColor = bgColor_val || bgGradient_val;
-	const blockProps = useBlockProps({ style: { background: bgColor } });
+
+	//ブロック属性の追加
+	const blockProps = useBlockProps({ style: { background: bgColor }, className: `${isMenuOpen ? 'open' : ''}` });
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -79,7 +88,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		['itmar/design-title', {}]
 	]
 	const innerBlocksProps = useInnerBlocksProps(
-		{},
+		{ className: 'menu_contents' },
 		{
 			allowedBlocks: ['itmar/design-title', 'core/image'],
 			template: TEMPLATE,
@@ -292,7 +301,28 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				}
 			</InspectorControls>
 
+			{!is_submenu &&
+				<>
+					<ToggleElement
+						onToggle={handleHambergerToggle}
+						className='itmar_hamberger_btn'
+						openFlg={isMenuOpen}
+						style={{ top: '15%' }}
+					>
+						<span></span>
+						<span></span>
+						<span></span>
+					</ToggleElement>
+					<ToggleElement
+						onToggle={handleHambergerToggle}
+						openFlg={isMenuOpen}
+						className='itmar_back_ground'
+					/>
+				</>
+			}
+
 			<div {...blockProps} >
+
 				<StyleComp attributes={attributes} >
 					{is_shadow ? (
 						<ShadowStyle
@@ -305,7 +335,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							<div {...innerBlocksProps}></div>
 						</ShadowStyle>
 					) : (
-						<div {...innerBlocksProps}></div>
+						<>
+							<div {...innerBlocksProps}></div>
+						</>
+
 					)}
 				</StyleComp>
 			</div>

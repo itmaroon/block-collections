@@ -4,14 +4,124 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+@use "../reset.scss" as reset;
 
 .wp-block-itmar-design-menu {
   width: fit-content;
   border: 1px solid transparent;
+
+  //モバイルスタイル
+  @include reset.mq(sp) {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    margin-top: 0;
+    transform: translateX(-100%);
+    transition: all 0.5s ease 0s;
+    z-index: 120;
+    height: 100vh;
+    width: 80%;
+
+    &.open {
+      transform: translateX(0);
+    }
+
+    .menu_contents {
+      display: block !important;
+
+    }
+  }
 }
+
+//ハンバーガーボタン
+.itmar_hamberger_btn {
+  position: fixed;
+  display: none;
+  top: 5%;
+  right: 5%;
+  width: 25px;
+  height: 20px;
+  cursor: pointer;
+  transition: all .5s;
+  box-sizing: border-box;
+  z-index: 100;
+
+  span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #000000;
+    border-radius: 4px;
+    display: inline-block;
+    transition: all .5s;
+    box-sizing: border-box;
+
+    &:nth-of-type(1) {
+      top: 0;
+    }
+
+    &:nth-of-type(2) {
+      top: 50%;
+      transform: translateY(-50%)
+    }
+
+    &:nth-of-type(3) {
+      bottom: 0;
+    }
+  }
+
+  &.open {
+    transform: rotate(360deg);
+
+    span {
+      background-color: #ffffff;
+
+      &:nth-of-type(1) {
+        transform: translateY(320%) rotate(-45deg);
+      }
+
+      &:nth-of-type(2) {
+        transform: translateY(0) rotate(45deg);
+      }
+
+      &:nth-of-type(3) {
+        opacity: 0;
+      }
+    }
+  }
+
+  @include reset.mq(sp) {
+    display: inline-block;
+  }
+}
+
+//メニューの背景
+.itmar_back_ground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  background-color: #000;
+  opacity: 0;
+  display: none;
+  transition: all .5s;
+  z-index: 80;
+  margin-top: 0;
+
+  @include reset.mq(sp) {
+    &.open {
+      display: block;
+      opacity: 0.7;
+    }
+
+  }
+}
+
 
 //スタイル要素を含んだdiv要素を非表示
 .itmar_style_div {
   display: none;
-
 }

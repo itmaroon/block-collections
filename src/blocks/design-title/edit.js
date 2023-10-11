@@ -246,7 +246,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		{ className: `submenu-block ${hasSelectedInnerBlock ? 'visible' : ''} ${menu_pos.replace(/ /g, "_")}` },
 		{
 			allowedBlocks: ['itmar/draggable-box', 'itmar/design-menu'],
-			template: [['itmar/design-menu', {}]],
+			template: [['itmar/design-menu', { is_submenu: true }]],
 			templateLock: false
 		}
 	);

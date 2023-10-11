@@ -124,6 +124,13 @@ jQuery(function ($) {
     //リダイレクト
     window.location.href = redirectUrl;
   });
+  /* ------------------------------
+  design-menuのハンバーガー
+  ------------------------------ */
+  $(document).on('click', '.itmar_hamberger_btn, .itmar_back_ground ', function (e) {
+    $(this).toggleClass("open");
+    $(this).siblings("div").toggleClass("open");
+  });
 
   /* ------------------------------
   design-selectイベントハンドラ

@@ -103,6 +103,10 @@
     "blockNum": {
       "type": "number",
       "default": 1
+    },
+    "is_submenu": {
+      "type": "boolean",
+      "default": false
     }
   },
   "textdomain": "itmar_block_collections",

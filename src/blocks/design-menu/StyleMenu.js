@@ -44,23 +44,27 @@ const StyledDiv = styled.div`
       ${borderProperty(border_val)};
       ${box_shadow_style};
     `;
+
     //横並びスタイル
     const horizenStyle = css`
-      > div{
+      .menu_contents{
         display: flex;
       }
+      
     `;
 
     //縦並びスタイル
     const virticalStyle = css`
-      > div{
+      .menu_contents{
         display: block;
       }
+      
     `;
 
 
+    //グリッドスタイル
     const gridStyle = css`
-      > div{
+    .menu_contents{
         display: grid;
           .wp-block-image {
             padding: ${figure_padding_prm};
@@ -118,8 +122,9 @@ const StyledDiv = styled.div`
       }}
       
       }
+      
     `;
-
+    //スタイルの選択
     const cssMap = {
       'is-style-horizen': horizenStyle,
       'is-style-virticle': virticalStyle,
@@ -133,9 +138,10 @@ const StyledDiv = styled.div`
       ${commonStyle}
       ${optionStyle}
     `;
+
   }
   }
-        `;
+  `;
 
 
 
