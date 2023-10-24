@@ -4,6 +4,7 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+@use "../reset.scss" as reset;
 
 .wp-block-itmar-design-title {
 	box-sizing: border-box;
@@ -28,6 +29,10 @@
 			top: 100%;
 			right: 0;
 			transform-origin: left top;
+
+			@include reset.mq(sp) {
+				transform: none;
+			}
 		}
 
 		&.bottom_center {
@@ -35,6 +40,10 @@
 			left: 50%;
 			transform: scale(1, 0) translateX(-50%);
 			transform-origin: center top;
+
+			@include reset.mq(sp) {
+				transform: none;
+			}
 		}
 
 		&.bottom_left {
@@ -42,6 +51,10 @@
 			top: 100%;
 			left: 0;
 			transform-origin: left top;
+
+			@include reset.mq(sp) {
+				transform: none;
+			}
 		}
 
 		&.center_right {
@@ -49,6 +62,10 @@
 			top: 0;
 			left: 100%;
 			transform-origin: left top;
+
+			@include reset.mq(sp) {
+				transform: none;
+			}
 		}
 
 		&.center_left {
@@ -56,10 +73,31 @@
 			top: 0;
 			right: 100%;
 			transform-origin: right top;
+
+			@include reset.mq(sp) {
+				transform: none;
+			}
+		}
+
+		@include reset.mq(sp) {
+			&.mobile_virtical {
+				position: static;
+				max-height: 0;
+				transition: all 0.8s ease 0s;
+			}
+
+			&.mobile_horizen {
+				position: absolute;
+				top: 0;
+				left: 0;
+				transform: scale(0, 1);
+				transform-origin: left center;
+				transition: all 0.8s ease 0s;
+			}
 		}
 	}
 
-	&:hover .submenu-block,
+	&:hover>.submenu-block,
 	.submenu-block:hover,
 	.submenu-block.visible {
 		transform: scale(1, 1);
@@ -68,14 +106,38 @@
 
 		&.bottom_right {
 			transform: scale(1, 1);
+
+			@include reset.mq(sp) {
+				transform: none;
+			}
 		}
 
 		&.bottom_center {
 			transform: scale(1, 1) translateX(-50%);
+
+			@include reset.mq(sp) {
+				transform: none;
+			}
+
 		}
 
 		&.bottom_left {
 			transform: scale(1, 1);
+
+			@include reset.mq(sp) {
+				transform: none;
+			}
 		}
+
+		@include reset.mq(sp) {
+			&.mobile_virtical {
+				max-height: 100vh;
+			}
+
+			&.mobile_horizen {
+				transform: scale(1, 1);
+			}
+		}
+
 	}
 }

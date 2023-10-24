@@ -6,14 +6,11 @@ import { StyleComp } from './StyleMenu';
 
 export default function save({ attributes }) {
 	const {
-		bgColor_val,
-		bgGradient_val,
 		is_submenu
 	} = attributes;
 
-	//単色かグラデーションかの選択
-	const bgColor = bgColor_val || bgGradient_val;
-	const blockProps = useBlockProps.save({ style: { background: bgColor } });
+	//サブメニューの場合はクラスを付加
+	const blockProps = useBlockProps.save({ className: `${is_submenu ? 'sub_menu' : ''}` });
 
 	//styled-componentsのHTML化
 	const sheet = new ServerStyleSheet();
@@ -37,10 +34,8 @@ export default function save({ attributes }) {
 					<div className='itmar_back_ground'></div>
 				</>
 			}
-			<div {...blockProps}>
-
-				<div className={className}>
-
+			<div className={className}>
+				<div {...blockProps}>
 					<div className='menu_contents'>
 						<InnerBlocks.Content />
 					</div>

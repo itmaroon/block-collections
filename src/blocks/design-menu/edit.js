@@ -5,6 +5,7 @@ import { StyleComp } from './StyleMenu';
 import { useStyleIframe } from '../iframeFooks';
 import ShadowStyle from '../ShadowStyle';
 import ToggleElement from './ToggleElement';
+import { useIsMobile } from '../CustomFooks';
 
 import {
 	useBlockProps,
@@ -25,7 +26,7 @@ import {
 } from '@wordpress/components';
 
 import { useSelect, useDispatch, dispatch } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useRef } from '@wordpress/element';
 import { createBlock } from '@wordpress/blocks';
 
 //スペースのリセットバリュー
@@ -51,13 +52,10 @@ const units = [
 ];
 
 export default function Edit({ attributes, setAttributes, clientId }) {
+
 	const {
-		bgColor_val,
-		bgGradient_val,
 		radius_val,
 		border_val,
-		margin_val,
-		padding_val,
 		shadow_element,
 		grid_info,
 		is_shadow,
@@ -65,17 +63,24 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		className
 	} = attributes;
 
+	//ブロックの参照
+	const blockRef = useRef(null);
+
 	//ハンバーガーボタンのクリックによるイベントハンドラ(クラス名の付加)
 	const [isMenuOpen, setIsmenuOpen] = useState(false);
 	const handleHambergerToggle = (isOpen) => {
 		setIsmenuOpen(isOpen)
 	}
 
-	//単色かグラデーションかの選択
-	const bgColor = bgColor_val || bgGradient_val;
-
 	//ブロック属性の追加
-	const blockProps = useBlockProps({ style: { background: bgColor }, className: `${isMenuOpen ? 'open' : ''}` });
+	const top_margin = useIsMobile() ? { top: '9%' } : {};
+
+	//ブロックの属性を生成
+	const blockProps = useBlockProps({
+		ref: blockRef,// ここで参照を blockProps に渡しています
+		style: { ...top_margin },
+		className: `${isMenuOpen ? 'open' : ''} ${is_submenu ? 'sub_menu' : ''}`
+	});
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -164,59 +169,21 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	}, [blocks]);
 
-
 	return (
 		<>
 			<InspectorControls group="styles">
-				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
+				<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
+					<BorderBoxControl
 
-					<PanelColorGradientSettings
-						title={__("Background Color Setting", 'itmar_block_collections')}
-						settings={[
-							{
-								colorValue: bgColor_val,
-								gradientValue: bgGradient_val,
-								enableAlpha: true,
-								label: __("Choose Background color", 'itmar_block_collections'),
-								onColorChange: (newValue) => {
-									setAttributes({ bgColor_val: newValue === undefined ? '' : newValue });
-								},
-								onGradientChange: (newValue) => setAttributes({ bgGradient_val: newValue }),
-							},
-						]}
-					/>
-
-					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
-						<BorderBoxControl
-
-							onChange={(newValue) => setAttributes({ border_val: newValue })}
-							value={border_val}
-							allowReset={true}	// リセットの可否
-							resetValues={border_resetValues}	// リセット時の値
-						/>
-						<BorderRadiusControl
-							values={radius_val}
-							onChange={(newBrVal) =>
-								setAttributes({ radius_val: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
-						/>
-					</PanelBody>
-					<BoxControl
-						label={__("Margin settings", 'itmar_block_collections')}
-						values={margin_val}
-						onChange={value => setAttributes({ margin_val: value })}
-						units={units}	// 許可する単位
+						onChange={(newValue) => setAttributes({ border_val: newValue })}
+						value={border_val}
 						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
+						resetValues={border_resetValues}	// リセット時の値
 					/>
-					<BoxControl
-						label={__("Padding settings", 'itmar_block_collections')}
-						values={padding_val}
-						onChange={value => setAttributes({ padding_val: value })}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
+					<BorderRadiusControl
+						values={radius_val}
+						onChange={(newBrVal) =>
+							setAttributes({ radius_val: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
 					/>
 					<ToggleControl
 						label={__('Is Shadow', 'itmar_block_collections')}
@@ -225,8 +192,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							setAttributes({ is_shadow: newVal })
 						}}
 					/>
-				</PanelBody>
+					{is_shadow &&
+						<ShadowStyle
+							shadowStyle={{ ...shadow_element }}
+							blockRef={blockRef}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result: newStyle.style });
+								setAttributes({ shadow_element: newState })
+							}}
+						/>
+					}
 
+				</PanelBody>
 				{className === 'is-style-grid' &&
 					<PanelBody title={__("Grid Info settings", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
 
@@ -307,7 +284,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						onToggle={handleHambergerToggle}
 						className='itmar_hamberger_btn'
 						openFlg={isMenuOpen}
-						style={{ top: '15%' }}
 					>
 						<span></span>
 						<span></span>
@@ -321,27 +297,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				</>
 			}
 
-			<div {...blockProps} >
+			{/* ブロックエディタ領域内 */}
+			<StyleComp attributes={attributes} >
+				<div {...blockProps} >
+					<div {...innerBlocksProps}></div>
+				</div>
+			</StyleComp>
 
-				<StyleComp attributes={attributes} >
-					{is_shadow ? (
-						<ShadowStyle
-							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
-							onChange={(newStyle, newState) => {
-								setAttributes({ shadow_result: newStyle.style });
-								setAttributes({ shadow_element: newState })
-							}}
-						>
-							<div {...innerBlocksProps}></div>
-						</ShadowStyle>
-					) : (
-						<>
-							<div {...innerBlocksProps}></div>
-						</>
-
-					)}
-				</StyleComp>
-			</div>
 		</>
 	);
 }

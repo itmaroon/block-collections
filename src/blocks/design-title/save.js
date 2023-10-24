@@ -7,7 +7,6 @@ import { StyleComp } from './StyleWapper';
 export default function save({ attributes }) {
 
   const {
-    bgColor,
     headingType,
     titleType,
     headingContent,
@@ -16,7 +15,7 @@ export default function save({ attributes }) {
     is_title_menu,
     selectedPageUrl
   } = attributes;
-  const blockProps = useBlockProps.save({ style: { backgroundColor: bgColor, position: `${is_title_menu ? 'relative' : 'static'}` } });
+  const blockProps = useBlockProps.save({ style: { position: `${is_title_menu ? 'relative' : 'static'}` } });
 
   const sheet = new ServerStyleSheet();
 
@@ -60,7 +59,7 @@ export default function save({ attributes }) {
       <div dangerouslySetInnerHTML={{ __html: html }} />
 
       {linkKind === 'submenu' &&
-        <div className={`submenu-block ${menu_pos.replace(/ /g, "_")}`}>
+        <div className={`submenu-block ${menu_pos.replace(/ /g, "_")} ${!is_title_menu ? 'mobile_horizen' : 'mobile_virtical'}`}>
           <InnerBlocks.Content />
         </div>
       }

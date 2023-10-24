@@ -6,34 +6,17 @@
   "title": "Design Menu",
   "category": "design",
   "supports": {
-    "html": false
+    "html": false,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "color": {
+      "background": true,
+      "custom": true
+    }
   },
   "attributes": {
-    "bgColor_val": {
-      "type": "string",
-      "default": "#ffffff"
-    },
-    "bgGradient_val": {
-      "type": "string"
-    },
-    "margin_val": {
-      "type": "object",
-      "default": {
-        "top": "10px",
-        "left": "10px",
-        "bottom": "10px",
-        "right": "10px"
-      }
-    },
-    "padding_val": {
-      "type": "object",
-      "default": {
-        "top": "10px",
-        "left": "10px",
-        "bottom": "10px",
-        "right": "10px"
-      }
-    },
     "radius_val": {
       "type": "object",
       "default": {

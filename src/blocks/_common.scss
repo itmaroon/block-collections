@@ -32,7 +32,8 @@ $breakpoints: (
 
 // ラジオボタンをボタンのような表示にする
 .light_direction {
-	width: 100%;
+	width: 80%;
+	margin: 0 auto;
 
 	.components-radio-control {
 		.components-flex {
@@ -134,7 +135,7 @@ $breakpoints: (
 	}
 
 	&.claymor {
-		width: 50%;
+		width: 80%;
 		margin: 0 auto;
 
 		.components-radio-control {
@@ -161,7 +162,7 @@ $breakpoints: (
 	.components-radio-control {
 		.components-flex {
 			display: flex;
-			flex-direction: column;
+			flex-direction: row;
 			row-gap: 10px;
 		}
 
@@ -322,4 +323,10 @@ $breakpoints: (
 		}
 	}
 
+}
+
+.itmar_shadow_type {
+	label {
+		font-size: 11px;
+	}
 }

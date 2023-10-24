@@ -6,4 +6,8 @@
 .wp-block-itmar-design-menu {
   border: 1px dotted #f00;
 }
+
+.itmar_group_direction .rotate-icon {
+  transform: rotate(90deg);
+}
 /*# sourceMappingURL=editor.css.map */

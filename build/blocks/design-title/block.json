@@ -7,13 +7,20 @@
   "category": "design",
   "icon": "tag",
   "supports": {
-    "html": false
+    "html": false,
+    "color": {
+      "background": true,
+      "text": true,
+      "link": true,
+      "custom": true
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
   },
   "example": {},
   "attributes": {
-    "bgColor": {
-      "type": "string"
-    },
     "headingContent": {
       "type": "string"
     },
@@ -57,14 +64,9 @@
         "isItalic": false
       }
     },
-    "margin_heading": {
-      "type": "object",
-      "default": {
-        "top": "10px",
-        "left": "10px",
-        "bottom": "10px",
-        "right": "10px"
-      }
+    "align": {
+      "type": "string",
+      "default": "left"
     },
     "padding_heading": {
       "type": "object",
@@ -74,20 +76,6 @@
         "bottom": "10px",
         "right": "10px"
       }
-    },
-    "align": {
-      "type": "string",
-      "default": "left"
-    },
-    "bg_heading": {
-      "type": "string"
-    },
-    "gr_heading": {
-      "type": "string"
-    },
-    "textColor": {
-      "type": "string",
-      "default": "#000000"
     },
     "radius_heading": {
       "type": "object",
@@ -150,8 +138,7 @@
       }
     },
     "bgColor_underLine": {
-      "type": "string",
-      "default": "#000000"
+      "type": "string"
     },
     "bgGradient_underLine": {
       "type": "string"

@@ -46,14 +46,7 @@ export default function DraggableBox(props) {
 
   return (
     <div className='draggablebox'
-      style={{
-        width: 'fit-content',
-        height: 'fit-content',
-        //position: 'absolute',
-        //top: elmposition.y,
-        //left: elmposition.x
-        //transform: `translate(${elmposition.x}px, ${elmposition.y}px)`,
-      }}
+
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}

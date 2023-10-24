@@ -7,12 +7,37 @@
 	"category": "widgets",
 	"icon": "tickets",
 	"supports": {
+		"html": false,
 		"spacing": {
+			"margin": true,
 			"padding": true
-		},
-		"html": false
+		}
 	},
 	"attributes": {
+		"direction": {
+			"type": "string",
+			"default": "block"
+		},
+		"inner_align": {
+			"type": "string",
+			"default": "flex-start"
+		},
+		"outer_align": {
+			"type": "string",
+			"default": "center"
+		},
+		"width_val": {
+			"type": "string",
+			"default": "wideSize"
+		},
+		"is_mobile_vertical": {
+			"type": "boolean",
+			"default": false
+		},
+		"is_moveable": {
+			"type": "boolean",
+			"default": false
+		},
 		"position": {
 			"type": "object",
 			"default": {

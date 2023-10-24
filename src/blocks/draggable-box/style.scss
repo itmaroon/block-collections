@@ -5,9 +5,15 @@
  * Replace them with your own styles or remove the file completely.
  */
 
+@use "../reset.scss" as reset;
+
 .wp-block-itmar-draggable-box {
-	width: fit-content;
-	height: fit-content;
-	color: #000000;
-	padding: 2px;
+
+	@include reset.mq(sp) {
+		.movile_vertical {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+
 }

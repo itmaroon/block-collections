@@ -15,12 +15,8 @@ const StyledDiv = styled.div`
     const {
       headingType,
       font_style_heading,
-      margin_heading,
-      padding_heading,
       align,
-      bg_heading,
-      gr_heading,
-      textColor,
+      padding_heading,
       radius_heading,
       border_heading,
       optionStyle,
@@ -35,9 +31,8 @@ const StyledDiv = styled.div`
       className,
     } = attributes;
 
-    //単色かグラデーションかの選択
-    const bgColor = bg_heading || gr_heading;
-    const bgUnderLine = bgColor_underLine || bgGradient_underLine;
+    //単色かグラデーションかテーマ色かの選択
+    const bgUnderLine = bgColor_underLine || bgGradient_underLine || 'var(--wp--custom--itmar-line-color)';
     //斜体の設定
     const fontStyle_header = font_style_heading.isItalic ? "italic" : "normal";
     //角丸の設定
@@ -108,25 +103,22 @@ const StyledDiv = styled.div`
     const commonStyle = css`
       position: relative;
       z-index: 10;
-      background: ${bgColor};
-      margin: ${space_prm(margin_heading)};
       ${align_style};
       border-radius: ${header_radius_prm};
       ${borderProperty(border_heading)};
       ${box_shadow_style};
       ${headingType}{
         position: relative;
-        color: ${textColor};
         font-size: ${font_style_heading.fontSize};
         font-family: ${font_style_heading.fontFamily};
         font-weight: ${font_style_heading.fontWeight};
         font-style: ${fontStyle_header};
         padding: ${render_padding};
         white-space: nowrap !important;
+        margin:0;
         ${underLine}
       }
       a{
-        color: ${textColor};
         text-decoration: none !important;
       }
       ${linkKind === 'submenu' && `
@@ -135,7 +127,7 @@ const StyledDiv = styled.div`
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
-          background: #000000;
+          background: var(--wp--custom--itmar-arrow-color);
           ${arrow_direction}
         }
       `}
@@ -150,10 +142,9 @@ const StyledDiv = styled.div`
         //サークルを入れる
         case 'is-style-circle_marker':
           //背景色の設定
-          const circleColor = optionStyle.colorVal_circle || optionStyle.gradientVal_circle;
-          const secondColor = optionStyle.colorVal_second || optionStyle.gradientVal_second;
+          const circleColor = optionStyle.colorVal_circle || optionStyle.gradientVal_circle || 'var(--wp--custom--itmar-circle-color-1)';
+          const secondColor = optionStyle.colorVal_second || optionStyle.gradientVal_second || 'var(--wp--custom--itmar-circle-color-2)';
           specificStyle = css`
-            border: none;
             &:before {
               content: '';
               position: absolute;

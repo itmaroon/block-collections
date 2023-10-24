@@ -70,17 +70,11 @@ const getIconForLevel = level => {
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
-		bgColor,
 		headingContent,
 		headingType,
 		titleType,
-		font_style_heading,
-		margin_heading,
-		padding_heading,
 		align,
-		bg_heading,
-		gr_heading,
-		textColor,
+		padding_heading,
 		radius_heading,
 		border_heading,
 		optionStyle,
@@ -97,7 +91,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		className,
 	} = attributes;
 
-	const blockProps = useBlockProps({ style: { backgroundColor: bgColor, position: `${is_title_menu ? 'relative' : 'static'}` } });
+	//ブロックの参照
+	const blockRef = useRef(null);
+
+	const blockProps = useBlockProps({
+		ref: blockRef,// ここで参照を blockProps に渡しています
+		style: { position: `${is_title_menu ? 'relative' : 'static'}` }
+	});
 
 	//最初の状態
 	const prevClassRef = useRef(false);
@@ -137,8 +137,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			case 'is-style-circle_marker':
 				reset_style = {
 					styleName: 'is-style-circle_marker',
-					colorVal_circle: '#D1D7F2',
-					colorVal_second: '#9FAEF2',
+					colorVal_circle: 'var(--wp--custom--itmar-circle-color-1)',
+					colorVal_second: 'var(--wp--custom--itmar-circle-color-2)',
 					circleScale: '3em',
 					secondScale: '1.5em',
 					second_opacity: 0.7,
@@ -242,8 +242,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		return select('core/block-editor').hasSelectedInnerBlock(clientId, true);
 	}, [clientId]);//ブロックの選択状態を把握
 
+
 	const subMenuBlocksProps = useInnerBlocksProps(
-		{ className: `submenu-block ${hasSelectedInnerBlock ? 'visible' : ''} ${menu_pos.replace(/ /g, "_")}` },
+		{ className: `submenu-block ${hasSelectedInnerBlock ? 'visible' : ''} ${menu_pos.replace(/ /g, "_")} ${!is_title_menu ? 'mobile_horizen' : 'mobile_virtical'}` },
 		{
 			allowedBlocks: ['itmar/draggable-box', 'itmar/design-menu'],
 			template: [['itmar/design-menu', { is_submenu: true }]],
@@ -374,25 +375,50 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			</InspectorControls >
 
 			<InspectorControls group="styles">
-				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
-					<PanelColorGradientSettings
-						title={__("Background Color Setting", 'itmar_block_collections')}
-						settings={[
-							{
-								colorValue: bgColor,
-								label: __("Choose Block Background color", 'itmar_block_collections'),
-								onColorChange: (newValue) => setAttributes({ bgColor: newValue })
-							}
-						]}
+
+				<PanelBody title={__("Heading settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
+					<BoxControl
+						label={__("Padding settings", 'itmar_block_collections')}
+						values={padding_heading}
+						onChange={value => setAttributes({ padding_heading: value })}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
 					/>
 
-					<ToggleControl
-						label={__('Is Shadow', 'itmar_block_collections')}
-						checked={is_shadow}
-						onChange={(newVal) => {
-							setAttributes({ is_shadow: newVal })
-						}}
-					/>
+					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
+						<BorderBoxControl
+							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
+							onChange={(newValue) => setAttributes({ border_heading: newValue })}
+							value={border_heading}
+							allowReset={true}	// リセットの可否
+							resetValues={border_resetValues}	// リセット時の値
+						/>
+						<BorderRadiusControl
+							values={radius_heading}
+							onChange={(newBrVal) =>
+								setAttributes({ radius_heading: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
+						/>
+						<ToggleControl
+							label={__('Is Shadow', 'itmar_block_collections')}
+							checked={is_shadow}
+							onChange={(newVal) => {
+								setAttributes({ is_shadow: newVal })
+							}}
+						/>
+
+					</PanelBody>
+					{is_shadow &&
+						<ShadowStyle
+							shadowStyle={{ ...shadow_element }}
+							blockRef={blockRef}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result: newStyle.style });
+								setAttributes({ shadow_element: newState })
+							}}
+						/>
+					}
+
 					<ToggleControl
 						label={__('Add an underline', 'itmar_block_collections')}
 						checked={is_underLine}
@@ -459,75 +485,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						</PanelBody>
 					}
 				</PanelBody>
-				<PanelBody title={__("Heading settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
-					<TypographyControls
-						title={__('Typography', 'itmar_block_collections')}
-						fontStyle={font_style_heading}
-						onChange={(newStyle) => {
-							setAttributes({ font_style_heading: newStyle })
-						}}
-						initialOpen={false}
-					/>
-
-					<PanelColorGradientSettings
-						title={__("Heading Color Setting", 'itmar_block_collections')}
-						settings={[{
-							colorValue: textColor,
-							label: __("Choose Text color", 'itmar_block_collections'),
-							onColorChange: (newValue) => setAttributes({ textColor: newValue }),
-						},
-						{
-							colorValue: bg_heading,
-							gradientValue: gr_heading,
-
-							label: __("Choose Background color", 'itmar_block_collections'),
-							onColorChange: (newValue) => setAttributes({ bg_heading: newValue }),
-							onGradientChange: (newValue) => setAttributes({ gr_heading: newValue }),
-						},
-						]}
-					/>
-					<BoxControl
-						label={__("Margin settings", 'itmar_block_collections')}
-						values={margin_heading}
-						onChange={value => setAttributes({ margin_heading: value })}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
-					/>
-
-					<BoxControl
-						label={__("Padding settings", 'itmar_block_collections')}
-						values={padding_heading}
-						onChange={value => setAttributes({ padding_heading: value })}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
-					/>
-					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
-						<BorderBoxControl
-							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
-							onChange={(newValue) => setAttributes({ border_heading: newValue })}
-							value={border_heading}
-							allowReset={true}	// リセットの可否
-							resetValues={border_resetValues}	// リセット時の値
-						/>
-						<BorderRadiusControl
-							values={radius_heading}
-							onChange={(newBrVal) =>
-								setAttributes({ radius_heading: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
-						/>
-					</PanelBody>
-				</PanelBody>
-
 
 				{className === 'is-style-circle_marker' &&
 					<PanelBody title={__("Circle Marker Settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
 						<PanelColorGradientSettings
 							title={__("Circle Color Setting", 'itmar_block_collections')}
 							settings={[{
-								colorValue: (optionStyle && optionStyle.colorVal_circle) ? optionStyle.colorVal_circle : '#D1D7F2',
+								colorValue: (optionStyle && optionStyle.colorVal_circle) ? optionStyle.colorVal_circle : 'var(--wp--custom--itmar-circle-color-1)',
 								gradientValue: (optionStyle && optionStyle.gradientVal_circle) ? optionStyle.gradientVal_circle : undefined,
 
 								label: __("Choose Circle Background", 'itmar_block_collections'),
@@ -587,7 +551,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								<PanelColorGradientSettings
 									title={__("Circle Color Setting", 'itmar_block_collections')}
 									settings={[{
-										colorValue: (optionStyle && optionStyle.colorVal_second) ? optionStyle.colorVal_second : '#9FAEF2',
+										colorValue: (optionStyle && optionStyle.colorVal_second) ? optionStyle.colorVal_second : 'var(--wp--custom--itmar-circle-color-2)',
 										gradientValue: (optionStyle && optionStyle.gradientVal_second) ? optionStyle.gradientVal_second : undefined,
 
 										label: __("Choose Circle Background", 'itmar_block_collections'),
@@ -802,26 +766,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			<div {...blockProps}>
 				<StyleComp attributes={attributes}>
-					{is_shadow ? (
-						<ShadowStyle
-							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
-							onChange={(newStyle, newState) => {
-								setAttributes({ shadow_result: newStyle.style });
-								setAttributes({ shadow_element: newState })
-							}}
-						>
-							{renderContent()}
-						</ShadowStyle>
-					) : (
-						renderContent()
-
-					)}
-
+					{renderContent()}
 				</StyleComp>
 				{linkKind === 'submenu' &&
 					<div {...subMenuBlocksProps}></div>
 				}
 			</div>
+
+
 
 		</>
 	);

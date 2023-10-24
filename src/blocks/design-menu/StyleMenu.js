@@ -16,8 +16,6 @@ const StyledDiv = styled.div`
     const {
       radius_val,
       border_val,
-      margin_val,
-      padding_val,
       shadow_result,
       is_shadow,
       grid_info,
@@ -29,52 +27,56 @@ const StyledDiv = styled.div`
     const form_radius_prm = radius_prm(radius_val);
     const img_radius_prm = radius_prm(grid_info.image_radius);
     //スペースの設定
-    const form_margin_prm = space_prm(margin_val);
-    const form_padding_prm = space_prm(padding_val);
+
     const figure_padding_prm = space_prm(grid_info.image_padding);
     //ボックスシャドーの設定
-    const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
+    const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : '';
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       position: relative;
-      margin: ${form_margin_prm};
-      padding: ${form_padding_prm};
       border-radius: ${form_radius_prm};
-      ${borderProperty(border_val)};
-      ${box_shadow_style};
+      height: fit-content;
+      > div{
+        ${borderProperty(border_val)};
+        ${box_shadow_style};
+      }
     `;
 
     //横並びスタイル
     const horizenStyle = css`
-      .menu_contents{
-        display: flex;
-      }
+     > div{
+        > .menu_contents{
+          display: flex;
+        }
+     } 
       
     `;
 
     //縦並びスタイル
     const virticalStyle = css`
-      .menu_contents{
-        display: block;
+      > div{
+        > .menu_contents{
+          display: block;
+        }
       }
-      
     `;
 
 
     //グリッドスタイル
     const gridStyle = css`
-    .menu_contents{
-        display: grid;
-          .wp-block-image {
-            padding: ${figure_padding_prm};
-            img{
-              border-radius: ${img_radius_prm};
-              filter: blur(${grid_info.image_blur}px);
-              display:block;
+    > div{
+      > .menu_contents{
+          display: grid;
+            .wp-block-image {
+              padding: ${figure_padding_prm};
+              img{
+                border-radius: ${img_radius_prm};
+                filter: blur(${grid_info.image_blur}px);
+                display:block;
+              }
             }
-          }
-        ${() => {
+          ${() => {
         //ポジションの分解
         const image_pos = grid_info.image_pos.split(' ');
         //縦の位置
@@ -83,47 +85,48 @@ const StyledDiv = styled.div`
         if (grid_info.is_image) {
           if (image_pos[1] === 'left') {
             return css`
-                grid-template-columns: auto repeat(${grid_info.col_num}, 1fr);
-                .wp-block-image {
-                  grid-column: 1 / 2;
-                  grid-row: 1 / ${Math.ceil((blockNum - 1) / grid_info.col_num) + 1};
-                  align-self: ${virtcal_pos};
-                  > img{
-                    max-width:none;
+                  grid-template-columns: auto repeat(${grid_info.col_num}, 1fr);
+                  .wp-block-image {
+                    grid-column: 1 / 2;
+                    grid-row: 1 / ${Math.ceil((blockNum - 1) / grid_info.col_num) + 1};
+                    align-self: ${virtcal_pos};
+                    > img{
+                      max-width:none;
+                    }
                   }
-                }
-              `;
+                `;
           } else if (image_pos[1] === 'right') {
             return css`
-                grid-template-columns: repeat(${grid_info.col_num}, 1fr) auto;
-                .wp-block-image {
-                  grid-column: ${grid_info.col_num + 1} / ${grid_info.col_num + 2};
-                  grid-row: 1 / ${Math.ceil((blockNum - 1) / grid_info.col_num) + 1};
-                  align-self: ${virtcal_pos};
-                  > img{
-                    max-width:none;
+                  grid-template-columns: repeat(${grid_info.col_num}, 1fr) auto;
+                  .wp-block-image {
+                    grid-column: ${grid_info.col_num + 1} / ${grid_info.col_num + 2};
+                    grid-row: 1 / ${Math.ceil((blockNum - 1) / grid_info.col_num) + 1};
+                    align-self: ${virtcal_pos};
+                    > img{
+                      max-width:none;
+                    }
                   }
-                }
-            `;
+              `;
           } else {
             return css`
-                grid-template-columns: repeat(${grid_info.col_num}, 1fr);
-                .wp-block-image {
-                  grid-column: 1 / ${grid_info.col_num + 1};
-                  grid-row: ${image_pos[0] === 'bottom' ? Math.ceil((blockNum - 1) / grid_info.col_num) + 1 : 1} / ${image_pos[0] === 'bottom' ? Math.ceil((blockNum - 1) / grid_info.col_num) + 2 : 2} 
-                }
-            `;
+                  grid-template-columns: repeat(${grid_info.col_num}, 1fr);
+                  .wp-block-image {
+                    grid-column: 1 / ${grid_info.col_num + 1};
+                    grid-row: ${image_pos[0] === 'bottom' ? Math.ceil((blockNum - 1) / grid_info.col_num) + 1 : 1} / ${image_pos[0] === 'bottom' ? Math.ceil((blockNum - 1) / grid_info.col_num) + 2 : 2} 
+                  }
+              `;
           }
         } else {
           return css`
-            grid-template-columns: repeat(${grid_info.col_num}, 1fr);
-            `;
+              grid-template-columns: repeat(${grid_info.col_num}, 1fr);
+              `;
         }
       }}
-      
+        
+        }
       }
-      
     `;
+
     //スタイルの選択
     const cssMap = {
       'is-style-horizen': horizenStyle,

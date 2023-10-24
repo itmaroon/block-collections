@@ -30,15 +30,25 @@
       display: block !important;
 
     }
+
+    &.sub_menu {
+      position: relative !important;
+      transform: translateX(0);
+      width: auto;
+      height: auto;
+    }
   }
+
+  flex-direction: column;
 }
+
 
 //ハンバーガーボタン
 .itmar_hamberger_btn {
   position: fixed;
   display: none;
-  top: 5%;
-  right: 5%;
+  top: 2em;
+  right: 2em;
   width: 25px;
   height: 20px;
   cursor: pointer;
