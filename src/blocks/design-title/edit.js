@@ -132,64 +132,64 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//スタイル変更時のデフォルト再設定
 	const execHandle = () => {
+
 		let reset_style;
-		switch (className) {
-			case 'is-style-circle_marker':
-				reset_style = {
-					styleName: 'is-style-circle_marker',
-					colorVal_circle: 'var(--wp--custom--itmar-circle-color-1)',
-					colorVal_second: 'var(--wp--custom--itmar-circle-color-2)',
-					circleScale: '3em',
-					secondScale: '1.5em',
-					second_opacity: 0.7,
-					first_long: 10,
-					first_lat: -5,
-					second_long: -10,
-					second_lat: 10,
-					isSecond: true
+		if (className?.split(' ').includes('is-style-circle_marker')) {
+			reset_style = {
+				styleName: 'is-style-circle_marker',
+				colorVal_circle: 'var(--wp--preset--color--accent-1)',
+				colorVal_second: 'var(--wp--preset--color--accent-2)',
+				circleScale: '3em',
+				secondScale: '1.5em',
+				second_opacity: 0.7,
+				first_long: 10,
+				first_lat: -5,
+				second_long: -10,
+				second_lat: 10,
+				isSecond: true
+			}
+		}
+		else if (className?.split(' ').includes('is-style-sub_copy')) {
+			reset_style = {
+				styleName: 'is-style-sub_copy',
+				alignment_copy: 'top left',
+				color_text_copy: '#000',
+				color_background_copy: '#d1cece',
+				copy_content: 'SAMPLE',
+				font_style_copy: {
+					fontSize: "16px",
+					fontFamily: "Arial, sans-serif",
+					fontWeight: "500",
+					isItalic: false
+				},
+				radius_copy: {
+					topLeft: "10px",
+					topRight: "10px",
+					bottomRight: "0px",
+					bottomLeft: "0px",
+					value: "0px"
+
+				},
+				padding_copy: {
+					top: "10px",
+					left: "10px",
+					bottom: "10px",
+					right: "10px"
+
+				},
+				isIcon: false,
+				icon_style: {
+					icon_name: "f030",
+					icon_pos: "left",
+					icon_size: "24px",
+					icon_color: "#000",
+					icon_space: "5px"
+
 				}
-				break;
-			case 'is-style-sub_copy':
-				reset_style = {
-					styleName: 'is-style-sub_copy',
-					alignment_copy: 'top left',
-					color_text_copy: '#000',
-					color_background_copy: '#d1cece',
-					copy_content: 'SAMPLE',
-					font_style_copy: {
-						fontSize: "16px",
-						fontFamily: "Arial, sans-serif",
-						fontWeight: "500",
-						isItalic: false
-					},
-					radius_copy: {
-						topLeft: "10px",
-						topRight: "10px",
-						bottomRight: "0px",
-						bottomLeft: "0px",
-						value: "0px"
-
-					},
-					padding_copy: {
-						top: "10px",
-						left: "10px",
-						bottom: "10px",
-						right: "10px"
-
-					},
-					isIcon: false,
-					icon_style: {
-						icon_name: "f030",
-						icon_pos: "left",
-						icon_size: "24px",
-						icon_color: "#000",
-						icon_space: "5px"
-
-					}
-				}
-				break;
+			}
 		}
 		setLocalOptionStyle(reset_style);
+
 		//refの更新
 		prevClassRef.current = className;
 		//確認ダイアログを消す
@@ -217,7 +217,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				setIsCancelFlg(false);
 				return;
 			}
-			if (prevClassRef.current === undefined || prevClassRef.current === 'is-style-default') {
+			if (prevClassRef.current === undefined || prevClassRef.current?.split(' ').includes('is-style-default')) {
 				execHandle();
 				return;
 			}
@@ -486,7 +486,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					}
 				</PanelBody>
 
-				{className === 'is-style-circle_marker' &&
+				{className?.split(' ').includes('is-style-circle_marker') &&
 					<PanelBody title={__("Circle Marker Settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
 						<PanelColorGradientSettings
 							title={__("Circle Color Setting", 'itmar_block_collections')}
@@ -612,7 +612,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					</PanelBody>
 				}
 
-				{className === 'is-style-sub_copy' &&
+				{className?.split(' ').includes('is-style-sub_copy') &&
 					<PanelBody title={__("Sub Copy Settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
 						<PanelColorGradientSettings
 							title={__("Copy Color Setting", 'itmar_block_collections')}

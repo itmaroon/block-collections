@@ -3,11 +3,28 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-menu {
+.wp-block-itmar-design-title {
   border: 1px dotted #f00;
 }
+.wp-block-itmar-design-title [data-rich-text-placeholder] {
+  opacity: 0.5;
+}
 
-.itmar_group_direction .rotate-icon {
-  transform: rotate(90deg);
+.title_design_ctrl .sizing_row {
+  align-items: baseline;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+.title_design_ctrl .sizing_row .components-base-control {
+  margin-bottom: 0;
+}
+
+.border_design_ctrl .components-panel__body-title {
+  margin-bottom: 20px !important;
+}
+
+.components-base-control__label {
+  font-size: 11px;
+  padding-bottom: 10px;
 }
 /*# sourceMappingURL=editor.css.map */

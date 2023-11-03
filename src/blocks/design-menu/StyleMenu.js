@@ -3,16 +3,14 @@ import { radius_prm, space_prm, convertToScss, borderProperty } from '../cssProp
 
 export const StyleComp = ({ attributes, children }) => {
   return (
-    < StyledDiv attributes={attributes} >
+    <StyledDiv attributes={attributes} >
       {children}
-    </StyledDiv >
+    </StyledDiv>
   );
 }
 
-
 const StyledDiv = styled.div`
   ${({ attributes }) => {
-
     const {
       radius_val,
       border_val,
@@ -27,45 +25,39 @@ const StyledDiv = styled.div`
     const form_radius_prm = radius_prm(radius_val);
     const img_radius_prm = radius_prm(grid_info.image_radius);
     //スペースの設定
-
     const figure_padding_prm = space_prm(grid_info.image_padding);
-    //ボックスシャドーの設定
+
+    //シャドースタイル
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : '';
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       position: relative;
       border-radius: ${form_radius_prm};
-      height: fit-content;
       > div{
         ${borderProperty(border_val)};
-        ${box_shadow_style};
+        ${box_shadow_style}
       }
     `;
 
     //横並びスタイル
     const horizenStyle = css`
-     > div{
-        > .menu_contents{
-          display: flex;
-        }
-     } 
+      > .menu_contents{
+        display: flex;
+      }
       
     `;
 
     //縦並びスタイル
     const virticalStyle = css`
-      > div{
-        > .menu_contents{
-          display: block;
-        }
+      > .menu_contents{
+        display: block;
       }
     `;
 
 
     //グリッドスタイル
     const gridStyle = css`
-    > div{
       > .menu_contents{
           display: grid;
             .wp-block-image {
@@ -123,8 +115,8 @@ const StyledDiv = styled.div`
         }
       }}
         
-        }
       }
+      
     `;
 
     //スタイルの選択

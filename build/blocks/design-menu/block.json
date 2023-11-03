@@ -13,10 +13,29 @@
     },
     "color": {
       "background": true,
+      "text": false,
       "custom": true
     }
   },
   "attributes": {
+    "inner_align": {
+      "type": "string",
+      "default": "flex-start"
+    },
+    "outer_align": {
+      "type": "string",
+      "default": "center"
+    },
+    "outer_vertical": {
+      "type": "string"
+    },
+    "width_val": {
+      "type": "string",
+      "default": "wideSize"
+    },
+    "free_val": {
+      "type": "number"
+    },
     "radius_val": {
       "type": "object",
       "default": {
@@ -51,7 +70,8 @@
         "newDirection": "top_left",
         "clayDirection": "top",
         "embos": "swell",
-        "hasOutline": true
+        "hasOutline": true,
+        "baseColor": "#ffffff"
       }
     },
     "shadow_result": {
@@ -90,6 +110,25 @@
     "is_submenu": {
       "type": "boolean",
       "default": false
+    },
+    "is_moveable": {
+      "type": "boolean",
+      "default": false
+    },
+    "position": {
+      "type": "object",
+      "default": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    "unit_x": {
+      "type": "string",
+      "default": "px"
+    },
+    "unit_y": {
+      "type": "string",
+      "default": "px"
     }
   },
   "textdomain": "itmar_block_collections",

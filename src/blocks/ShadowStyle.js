@@ -72,7 +72,8 @@ function isGradient(colorValue) {
 }
 
 
-export const ShadowElm = (shadowState, baseColor) => {
+export const ShadowElm = (shadowState) => {
+  //let baseColor;
   const {
     shadowType,
     spread,
@@ -92,8 +93,10 @@ export const ShadowElm = (shadowState, baseColor) => {
     expand,
     glassblur,
     glassopa,
-    hasOutline
+    hasOutline,
+    baseColor
   } = shadowState;
+
   //ノーマル
   if (shadowType === 'nomal') {
     //boxshadowの生成
@@ -219,9 +222,9 @@ export const ShadowElm = (shadowState, baseColor) => {
   }
 }
 
-const ShadowStyle = ({ shadowStyle, blockRef, onChange }) => {
+const ShadowStyle = ({ shadowStyle, onChange }) => {
   const [shadowState, setShadowState] = useState(shadowStyle);
-  const [baseColor, setBaseColor] = useState("");
+
   const {
     shadowType,
     spread,
@@ -241,24 +244,14 @@ const ShadowStyle = ({ shadowStyle, blockRef, onChange }) => {
     expand,
     glassblur,
     glassopa,
-    hasOutline,
+    hasOutline
   } = shadowState;
-
-
-  //親コンポーネントでレンダリングされたブロックの背景色を読み取る
-  useEffect(() => {
-    if (blockRef.current) {
-      const computedStyles = getComputedStyle(blockRef.current);
-      setBaseColor(computedStyles.background);
-    }
-  }, [blockRef.current]);
-
 
   //シャドーのスタイル変更と背景色変更に伴う親コンポーネントの変更
   useEffect(() => {
-    const shadowElm = ShadowElm(shadowState, baseColor);
+    const shadowElm = ShadowElm(shadowState);
     if (shadowElm) onChange(shadowElm, shadowState)
-  }, [shadowState, baseColor]);
+  }, [shadowState]);
 
   return (
     <>

@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { radius_prm, space_prm, convertToScss, borderProperty } from '../cssPropertes';
+import { ShadowElm } from '../ShadowStyle'
 
 export const StyleComp = ({ attributes, children }) => {
   return (
@@ -14,13 +15,13 @@ const StyledDiv = styled.div`
 
     const {
       headingType,
-      font_style_heading,
       align,
       padding_heading,
       radius_heading,
       border_heading,
       optionStyle,
       shadow_result,
+      shadow_element,
       is_shadow,
       is_underLine,
       underLine_prop,
@@ -32,9 +33,8 @@ const StyledDiv = styled.div`
     } = attributes;
 
     //単色かグラデーションかテーマ色かの選択
-    const bgUnderLine = bgColor_underLine || bgGradient_underLine || 'var(--wp--custom--itmar-line-color)';
-    //斜体の設定
-    const fontStyle_header = font_style_heading.isItalic ? "italic" : "normal";
+    const bgUnderLine = bgColor_underLine || bgGradient_underLine || 'var(--wp--preset--color--text)';
+
     //角丸の設定
     const header_radius_prm = radius_prm(radius_heading);
     //ボックスシャドーの設定
@@ -109,13 +109,10 @@ const StyledDiv = styled.div`
       ${box_shadow_style};
       ${headingType}{
         position: relative;
-        font-size: ${font_style_heading.fontSize};
-        font-family: ${font_style_heading.fontFamily};
-        font-weight: ${font_style_heading.fontWeight};
-        font-style: ${fontStyle_header};
         padding: ${render_padding};
         white-space: nowrap !important;
         margin:0;
+        font-weight: inherit;
         ${underLine}
       }
       a{
@@ -127,7 +124,7 @@ const StyledDiv = styled.div`
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
-          background: var(--wp--custom--itmar-arrow-color);
+          background: var(--wp--preset--color--text);
           ${arrow_direction}
         }
       `}
@@ -137,14 +134,13 @@ const StyledDiv = styled.div`
     // classNameに基づいて特定のスタイルを定義します
     let specificStyle = null;
 
-    if (optionStyle && (className === optionStyle.styleName)) {//optionStyleが初期化されていてスタイル名とclassNameが一致する
-      switch (className) {
+    if (optionStyle && (className?.split(' ').includes(optionStyle.styleName))) {//optionStyleが初期化されていてスタイル名とclassNameが一致する
+      if (className?.split(' ').includes('is-style-circle_marker')) {
         //サークルを入れる
-        case 'is-style-circle_marker':
-          //背景色の設定
-          const circleColor = optionStyle.colorVal_circle || optionStyle.gradientVal_circle || 'var(--wp--custom--itmar-circle-color-1)';
-          const secondColor = optionStyle.colorVal_second || optionStyle.gradientVal_second || 'var(--wp--custom--itmar-circle-color-2)';
-          specificStyle = css`
+        //背景色の設定
+        const circleColor = optionStyle.colorVal_circle || optionStyle.gradientVal_circle || 'var(--wp--preset--color--accent-1)';
+        const secondColor = optionStyle.colorVal_second || optionStyle.gradientVal_second || 'var(--wp--preset--color--accent-2)';
+        specificStyle = css`
             &:before {
               content: '';
               position: absolute;
@@ -173,71 +169,71 @@ const StyledDiv = styled.div`
               }
             `}
           `
-          break;
-        case 'is-style-sub_copy':
-          //背景色の設定
-          const bgColor = optionStyle.color_background_copy || optionStyle.gradient_background_copy;
-          //斜体の設定
-          const fontStyle = optionStyle.font_style_copy.isItalic ? "italic" : "normal";
-          //角丸の設定
-          const copy_radius_prm = radius_prm(optionStyle.radius_copy);
-          //アイコンスペースの設定
-          const icon_space = optionStyle.icon_style.icon_space || '0px'
+      }
+      else if (className?.split(' ').includes('is-style-sub_copy')) {
+        //背景色の設定
+        const bgColor = optionStyle.color_background_copy || optionStyle.gradient_background_copy;
+        //斜体の設定
+        const fontStyle = optionStyle.font_style_copy.isItalic ? "italic" : "normal";
+        //角丸の設定
+        const copy_radius_prm = radius_prm(optionStyle.radius_copy);
+        //アイコンスペースの設定
+        const icon_space = optionStyle.icon_style.icon_space || '0px'
 
-          //パディングの設定（アイコン幅の確保）
-          const getPadding = (isIcon, icon_style) => {
-            if (!isIcon) {
-              return space_prm(optionStyle.padding_copy)
-            }
-            if (icon_style.icon_pos === "left") {
-
-              return `${optionStyle.padding_copy.top} ${optionStyle.padding_copy.right} ${optionStyle.padding_copy.bottom} calc(${optionStyle.padding_copy.left} + ${icon_style.icon_size} + ${icon_space})`
-            }
-            if (icon_style.icon_pos === "right") {
-              return `${optionStyle.padding_copy.top} calc(${optionStyle.padding_copy.right} + ${icon_style.icon_size} + ${icon_space}) ${optionStyle.padding_copy.bottom} ${optionStyle.padding_copy.left} `
-            }
+        //パディングの設定（アイコン幅の確保）
+        const getPadding = (isIcon, icon_style) => {
+          if (!isIcon) {
+            return space_prm(optionStyle.padding_copy)
           }
-          const padding_prm = getPadding(optionStyle.isIcon, optionStyle.icon_style);
+          if (icon_style.icon_pos === "left") {
 
-
-          //文字列のレンダリングの長さ
-          function measureTextWidth(text, fontSize, fontFamily) {
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            context.font = `${fontSize} ${fontFamily} `;
-            const metrics = context.measureText(text);
-            return metrics.width;
+            return `${optionStyle.padding_copy.top} ${optionStyle.padding_copy.right} ${optionStyle.padding_copy.bottom} calc(${optionStyle.padding_copy.left} + ${icon_style.icon_size} + ${icon_space})`
           }
-
-          const textWidth = `${measureTextWidth(optionStyle.copy_content, optionStyle.font_style_copy.fontSize, optionStyle.font_style_copy.fontFamily)}px`;
-
-          //アイコンの位置計算
-          const tranceX = optionStyle.icon_style.icon_pos !== 'left' ?
-            `calc(${optionStyle.padding_copy.left} + ${optionStyle.padding_copy.right} + ${textWidth})` :
-            ` ${icon_space} `;
-          const tranceY = `calc((${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom} + ${optionStyle.font_style_copy.fontSize} - ${optionStyle.icon_style.icon_size}) / 2 * -1)`
-
-          //配置場所
-          const alignMap = {
-            'top left': 'bottom: 100%;left: 0;',
-            'top center': 'bottom: 100%;left:50%;transform: translateX(-50%);',
-            'top right': 'bottom: 100%;right: 0;',
-            'center left': 'top:50%;transform: translateY(-50%);left:0;',
-            'center center': 'top:50%;left:50%;transform: translate(-50%,-50%);',
-            'center right': 'top:50%;transform: translateY(-50%);right:0;',
-            'bottom left': 'top: 100%;left: 0;',
-            'bottom center': 'top: 100%;left:50%;transform: translateX(-50%);',
-            'bottom right': 'top: 100%;right: 0;',
-          };
-          const alignStyle = alignMap[optionStyle.alignment_copy];
-          //上部マージンの確保
-          const vMarginMap = {
-            'top': `margin-top: calc(${margin_heading.top} + ${optionStyle.font_style_copy.fontSize} + ${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom})`,
-            'bottom': `margin-bottom: calc(${margin_heading.top} + ${optionStyle.font_style_copy.fontSize} + ${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom})`
+          if (icon_style.icon_pos === "right") {
+            return `${optionStyle.padding_copy.top} calc(${optionStyle.padding_copy.right} + ${icon_style.icon_size} + ${icon_space}) ${optionStyle.padding_copy.bottom} ${optionStyle.padding_copy.left} `
           }
-          const virtical_margin = vMarginMap[optionStyle.alignment_copy.split(' ')[0]];
+        }
+        const padding_prm = getPadding(optionStyle.isIcon, optionStyle.icon_style);
 
-          specificStyle = css`
+
+        //文字列のレンダリングの長さ
+        function measureTextWidth(text, fontSize, fontFamily) {
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          context.font = `${fontSize} ${fontFamily} `;
+          const metrics = context.measureText(text);
+          return metrics.width;
+        }
+
+        const textWidth = `${measureTextWidth(optionStyle.copy_content, optionStyle.font_style_copy.fontSize, optionStyle.font_style_copy.fontFamily)}px`;
+
+        //アイコンの位置計算
+        const tranceX = optionStyle.icon_style.icon_pos !== 'left' ?
+          `calc(${optionStyle.padding_copy.left} + ${optionStyle.padding_copy.right} + ${textWidth})` :
+          ` ${icon_space} `;
+        const tranceY = `calc((${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom} + ${optionStyle.font_style_copy.fontSize} - ${optionStyle.icon_style.icon_size}) / 2 * -1)`
+
+        //配置場所
+        const alignMap = {
+          'top left': 'bottom: 100%;left: 0;',
+          'top center': 'bottom: 100%;left:50%;transform: translateX(-50%);',
+          'top right': 'bottom: 100%;right: 0;',
+          'center left': 'top:50%;transform: translateY(-50%);left:0;',
+          'center center': 'top:50%;left:50%;transform: translate(-50%,-50%);',
+          'center right': 'top:50%;transform: translateY(-50%);right:0;',
+          'bottom left': 'top: 100%;left: 0;',
+          'bottom center': 'top: 100%;left:50%;transform: translateX(-50%);',
+          'bottom right': 'top: 100%;right: 0;',
+        };
+        const alignStyle = alignMap[optionStyle.alignment_copy];
+        //上部マージンの確保
+        const vMarginMap = {
+          'top': `margin-top: calc(${padding_heading.top} + ${optionStyle.font_style_copy.fontSize} + ${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom})`,
+          'bottom': `margin-bottom: calc(${padding_heading.top} + ${optionStyle.font_style_copy.fontSize} + ${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom})`
+        }
+        const virtical_margin = vMarginMap[optionStyle.alignment_copy.split(' ')[0]];
+
+        specificStyle = css`
             position: relative;
             ${virtical_margin};
             &::before{
@@ -268,8 +264,6 @@ const StyledDiv = styled.div`
               }
             `}
           `
-          break
-
       }
     }
 

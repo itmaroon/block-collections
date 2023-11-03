@@ -330,3 +330,9 @@ $breakpoints: (
 		font-size: 11px;
 	}
 }
+
+.itmar_isDraggable {
+	&:hover {
+		cursor: move !important;
+	}
+}

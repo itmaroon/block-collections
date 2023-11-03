@@ -8,6 +8,10 @@
   "icon": "tickets",
   "supports": {
     "html": false,
+    "color": {
+      "text": false,
+      "link": false
+    },
     "spacing": {
       "margin": true,
       "padding": true
@@ -26,9 +30,15 @@
       "type": "string",
       "default": "center"
     },
+    "outer_vertical": {
+      "type": "string"
+    },
     "width_val": {
       "type": "string",
       "default": "wideSize"
+    },
+    "free_val": {
+      "type": "number"
     },
     "is_mobile_vertical": {
       "type": "boolean",

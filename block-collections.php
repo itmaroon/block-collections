@@ -116,28 +116,6 @@ function add_itmar_highlight_scripts_and_styles()
 }
 add_action('enqueue_block_assets', 'add_itmar_highlight_scripts_and_styles');
 
-//カラーパレットの設定
-function itmar_block_collections_colorsuport_init()
-{
-	add_theme_support(
-		'editor-color-palette',
-		array(
-			array(
-				'name' => __('Custom Color 1', 'text-domain'),
-				'slug' => 'custom-color-1',
-				'color' => '#00ff00',
-			),
-			array(
-				'name' => __('Custom Color 2', 'text-domain'),
-				'slug' => 'custom-color-2',
-				'color' => '#0000ff',
-			),
-		)
-	);
-}
-
-add_action('plugins_loaded', 'itmar_block_collections_colorsuport_init');
-
 //Googleフォント,FontAwesomeの読み込み
 function itmar_block_collections_font_init()
 {

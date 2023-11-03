@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/blocks/design-menu/editor.scss","editor.css"],"names":[],"mappings":"AAAA;;;;EAAA;AAMA;EACC,uBAAA;ACAD;;ADIC;EACC,wBAAA;ACDF","file":"editor.css"}
+{"version":3,"sources":["../src/blocks/design-title/editor.scss","editor.css"],"names":[],"mappings":"AAAA;;;;EAAA;AAMA;EACC,uBAAA;ACAD;ADEC;EACC,YAAA;ACAF;;ADMC;EACC,qBAAA;EACA,qBAAA;OAAA,gBAAA;ACHF;ADKE;EACC,gBAAA;ACHH;;ADSC;EACC,8BAAA;ACNF;;ADWA;EACC,eAAA;EACA,oBAAA;ACRD","file":"editor.css"}

@@ -4,29 +4,35 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
 export default function save({ attributes }) {
 	const {
-		position,
 		direction,
 		is_mobile_vertical,
 		inner_align,
 		outer_align,
+		outer_vertical,
 		width_val,
-		is_moveable
+		is_moveable,
+		free_val,
+		position,
+		unit_x,
+		unit_y
 	} = attributes;
 
 	//ブロック幅
 	const width_style =
 		width_val === 'wideSize' ? { width: '100%', maxWidth: 'var(--wp--style--global--wide-size)' }
-			: { width: 'fit-content' }
+			: width_val === 'free' ? { width: '100%', maxWidth: free_val }
+				: { width: 'fit-content' }
 	//ブロックの配置
 	const block_align = outer_align === 'center' ? { margin: '0 auto' }
 		: outer_align === 'right' ? { marginLeft: 'auto' }
-			: {};
+			: { marginRight: 'auto' };
 
 	const newStyle = {
 		style: {
 			...width_style,
 			...block_align,
-			...(is_moveable ? { transform: `translate(${position.x}px, ${position.y}px)` } : {})
+			...{ alignSelf: outer_vertical },
+			...(is_moveable ? { transform: `translate(${position.x}${unit_x}, ${position.y}${unit_y})` } : {})
 		}
 	}
 

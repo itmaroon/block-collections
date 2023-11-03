@@ -3,15 +3,16 @@ import { __ } from '@wordpress/i18n';
 import './editor.scss';
 import { StyleComp } from './StyleMenu';
 import { useStyleIframe } from '../iframeFooks';
-import ShadowStyle from '../ShadowStyle';
+import ShadowStyle, { ShadowElm } from '../ShadowStyle';
 import ToggleElement from './ToggleElement';
 import { useIsMobile } from '../CustomFooks';
+import DraggableBox from '../DraggableBox';
+import BlockPlace from '../BlockPlace';
 
 import {
 	useBlockProps,
 	useInnerBlocksProps,
 	InspectorControls,
-	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
 } from '@wordpress/block-editor';
 
@@ -28,6 +29,7 @@ import {
 import { useSelect, useDispatch, dispatch } from '@wordpress/data';
 import { useEffect, useState, useRef } from '@wordpress/element';
 import { createBlock } from '@wordpress/blocks';
+import { shadow } from '@wordpress/icons';
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -51,17 +53,48 @@ const units = [
 	{ value: 'rem', label: 'rem' },
 ];
 
-export default function Edit({ attributes, setAttributes, clientId }) {
-
+export default function Edit(props) {
+	const { attributes, setAttributes, clientId } = props;
 	const {
+		inner_align,
+		outer_align,
+		outer_vertical,
+		width_val,
+		free_val,
 		radius_val,
 		border_val,
 		shadow_element,
 		grid_info,
 		is_shadow,
 		is_submenu,
+		is_moveable,
+		position,
+		unit_x,
+		unit_y,
 		className
 	} = attributes;
+
+	//ブロック幅
+	const width_style =
+		width_val === 'wideSize' ? { width: '100%', maxWidth: 'var(--wp--style--global--wide-size)' }
+			: width_val === 'contentSize' ? { width: '100%', maxWidth: 'var(--wp--style--global--content-size)' }
+				: width_val === 'free' ? { width: '100%', maxWidth: free_val }
+					: { width: 'fit-content' };
+
+	//ブロックの配置
+	const block_align = outer_align === 'center' ? { margin: '0 auto' }
+		: outer_align === 'right' ? { marginLeft: 'auto' }
+			: { marginRight: 'auto' };
+	//モバイル時の位置の調整
+	//const top_margin = useIsMobile() ? { top: '9%' } : {};
+
+	const newStyle = {
+		...width_style,
+		...block_align,
+		...{ alignSelf: outer_vertical },
+		//...top_margin,
+		...(is_moveable ? { transform: `translate(${position.x}${unit_x}, ${position.y}${unit_y})` } : {})
+	}
 
 	//ブロックの参照
 	const blockRef = useRef(null);
@@ -72,15 +105,33 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		setIsmenuOpen(isOpen)
 	}
 
-	//ブロック属性の追加
-	const top_margin = useIsMobile() ? { top: '9%' } : {};
-
 	//ブロックの属性を生成
 	const blockProps = useBlockProps({
 		ref: blockRef,// ここで参照を blockProps に渡しています
-		style: { ...top_margin },
+		style: newStyle,
 		className: `${isMenuOpen ? 'open' : ''} ${is_submenu ? 'sub_menu' : ''}`
 	});
+
+	//背景色の取得
+	const [baseColor, setBaseColor] = useState("");
+
+	useEffect(() => {//ユーザー設定による背景色の取得
+		if (blockProps.style.backgroundColor) {
+			setBaseColor(blockProps.style.backgroundColor);
+		} else {//レンダリング結果から背景色を取得
+			const computedStyles = getComputedStyle(blockRef.current);
+			setBaseColor(computedStyles.background);
+		}
+	}, [blockProps.style]);
+
+	useEffect(() => {//背景色変更によるシャドー属性の書き換え
+		if (baseColor) {
+			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
+			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
+			setAttributes({ shadow_result: new_shadow.style });
+		}
+	}, [baseColor]);
+
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -93,7 +144,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		['itmar/design-title', {}]
 	]
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: 'menu_contents' },
+		{ className: 'menu_contents', style: { justifyContent: inner_align } },
 		{
 			allowedBlocks: ['itmar/design-title', 'core/image'],
 			template: TEMPLATE,
@@ -195,7 +246,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					{is_shadow &&
 						<ShadowStyle
 							shadowStyle={{ ...shadow_element }}
-							blockRef={blockRef}
 							onChange={(newStyle, newState) => {
 								setAttributes({ shadow_result: newStyle.style });
 								setAttributes({ shadow_element: newState })
@@ -276,6 +326,32 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						}
 					</PanelBody>
 				}
+
+				{!is_submenu &&
+					<BlockPlace
+						attributes={attributes}
+						blockRef={blockRef}
+						onFlexChange={(position) => setAttributes({ inner_align: position })}
+						onAlignChange={(position) => setAttributes({ outer_align: position })}
+						onVerticalChange={(position) => setAttributes({ outer_vertical: position })}
+						onWidthChange={(position) => setAttributes({ width_val: position })}
+						onFreevalChange={(value) => setAttributes({ free_val: value })}
+					/>
+				}
+
+				<PanelBody
+					title={__("Position moveable", 'itmar_block_collections')}
+					initialOpen={true}
+				>
+					<ToggleControl
+						label={__('make it moveable', 'itmar_block_collections')}
+						checked={is_moveable}
+						onChange={(newVal) => {
+							setAttributes({ is_moveable: newVal })
+						}}
+					/>
+
+				</PanelBody>
 			</InspectorControls>
 
 			{!is_submenu &&
@@ -298,11 +374,31 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			}
 
 			{/* ブロックエディタ領域内 */}
-			<StyleComp attributes={attributes} >
-				<div {...blockProps} >
-					<div {...innerBlocksProps}></div>
-				</div>
-			</StyleComp>
+
+			{is_moveable ?
+				(<DraggableBox
+					attributes={attributes}
+					onPositionChange={(position, unit) => setAttributes({ position: position, unit_x: unit.unit_x, unit_y: unit.unit_y })}
+				>
+					<div {...blockProps} >
+						<StyleComp
+							attributes={attributes}
+						>
+							<div {...innerBlocksProps}></div>
+						</StyleComp>
+					</div>
+				</DraggableBox>)
+				: (
+					<div {...blockProps} >
+						<StyleComp
+							attributes={attributes}
+						>
+							<div {...innerBlocksProps}></div>
+						</StyleComp>
+					</div>
+
+				)
+			}
 
 		</>
 	);
