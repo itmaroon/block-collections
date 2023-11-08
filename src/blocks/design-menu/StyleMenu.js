@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { radius_prm, space_prm, convertToScss, borderProperty } from '../cssPropertes';
+import { radius_prm, space_prm, convertToScss } from '../cssPropertes';
 
 export const StyleComp = ({ attributes, children }) => {
   return (
@@ -12,31 +12,32 @@ export const StyleComp = ({ attributes, children }) => {
 const StyledDiv = styled.div`
   ${({ attributes }) => {
     const {
-      radius_val,
-      border_val,
       shadow_result,
       is_shadow,
       grid_info,
       blockNum,
+      padding_menu,
+      mobile_padding_menu,
       className,
     } = attributes;
 
     //角丸の設定
-    const form_radius_prm = radius_prm(radius_val);
     const img_radius_prm = radius_prm(grid_info.image_radius);
     //スペースの設定
+    const menu_padding_prm = space_prm(padding_menu);
+    const menu_mobile_padding_prm = space_prm(mobile_padding_menu);
     const figure_padding_prm = space_prm(grid_info.image_padding);
-
     //シャドースタイル
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : '';
+    //
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       position: relative;
-      border-radius: ${form_radius_prm};
-      > div{
-        ${borderProperty(border_val)};
-        ${box_shadow_style}
+      padding: ${menu_padding_prm};
+      ${box_shadow_style};
+      @media (max-width: 767px) {
+        padding: ${menu_mobile_padding_prm};
       }
     `;
 
@@ -51,7 +52,8 @@ const StyledDiv = styled.div`
     //縦並びスタイル
     const virticalStyle = css`
       > .menu_contents{
-        display: block;
+        display: flex;
+        flex-direction: column;
       }
     `;
 
@@ -132,10 +134,11 @@ const StyledDiv = styled.div`
     return css`
       ${commonStyle}
       ${optionStyle}
+      
     `;
 
   }
-  }
+  }  
   `;
 
 

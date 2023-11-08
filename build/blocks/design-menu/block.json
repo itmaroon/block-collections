@@ -14,7 +14,20 @@
     "color": {
       "background": true,
       "text": false,
+      "gradients": true,
       "custom": true
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "radius": true,
+        "style": true,
+        "width": true
+      }
     }
   },
   "attributes": {
@@ -36,18 +49,23 @@
     "free_val": {
       "type": "number"
     },
-    "radius_val": {
+    "padding_menu": {
       "type": "object",
       "default": {
-        "topLeft": "0px",
-        "topRight": "0px",
-        "bottomRight": "0px",
-        "bottomLeft": "0px",
-        "value": "0px"
+        "top": "0px",
+        "left": "0px",
+        "bottom": "0px",
+        "right": "0px"
       }
     },
-    "border_val": {
-      "type": "object"
+    "mobile_padding_menu": {
+      "type": "object",
+      "default": {
+        "top": "20px",
+        "left": "10px",
+        "bottom": "20px",
+        "right": "10px"
+      }
     },
     "shadow_element": {
       "type": "object",

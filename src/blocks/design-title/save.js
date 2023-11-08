@@ -8,6 +8,7 @@ export default function save({ attributes }) {
 
   const {
     headingType,
+    align,
     titleType,
     headingContent,
     linkKind,
@@ -15,7 +16,11 @@ export default function save({ attributes }) {
     is_title_menu,
     selectedPageUrl
   } = attributes;
-  const blockProps = useBlockProps.save({ style: { position: `${is_title_menu ? 'relative' : 'static'}` } });
+  //テキストの配置
+  const align_style = align === 'center' ? { marginLeft: 'auto', marginRight: 'auto' } :
+    align === 'right' ? { marginLeft: auto } : {};
+
+  const blockProps = useBlockProps.save({ style: { position: `${is_title_menu ? 'relative' : 'static'}`, ...align_style } });
 
   const sheet = new ServerStyleSheet();
 

@@ -25,6 +25,25 @@ export function useElementWidth() {
   return [ref, width];
 }
 
+//ブロックの背景色を取得するカスタムフック
+export function useElementBackgroundColor(blockRef, style) {
+  const [baseColor, setBaseColor] = useState('');
+
+  useEffect(() => {
+    if (blockRef.current && style) {
+      if (style.backgroundColor) {
+        setBaseColor(style.backgroundColor);
+      } else {//レンダリング結果から背景色を取得
+        const computedStyles = getComputedStyle(blockRef.current);
+        setBaseColor(computedStyles.backgroundColor);
+      }
+    }
+
+  }, [style, blockRef]);
+
+  return baseColor;
+}
+
 //ViewPortの大きさでモバイルを判断(767px以下がモバイル)するカスタムフック
 export function useIsMobile() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
@@ -44,9 +63,42 @@ export function useIsMobile() {
   return isMobile;
 };
 
+export function useIsIframeMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // iframeのcontentWindowを監視する関数
+    const checkIframeSize = () => {
+      const iframeInstance = document.getElementsByName('editor-canvas')[0];
+      if (iframeInstance && iframeInstance.contentWindow) {
+        setIsMobile(iframeInstance.contentWindow.innerWidth <= 767);
+      }
+    };
+
+    // iframeのcontentWindowのリサイズイベントにリスナーを追加
+    const iframeInstance = document.getElementsByName('editor-canvas')[0];
+    if (iframeInstance && iframeInstance.contentWindow) {
+      iframeInstance.contentWindow.addEventListener('resize', checkIframeSize);
+    }
+
+    // 初期チェックを実行
+    checkIframeSize();
+
+    // クリーンアップ関数
+    return () => {
+      if (iframeInstance && iframeInstance.contentWindow) {
+        iframeInstance.contentWindow.removeEventListener('resize', checkIframeSize);
+      }
+    };
+  }, []);
+
+  return isMobile;
+}
+
+
 //たくさんの要素をもつオブジェクトや配列の内容の変化で発火するuseEffect
 export function useDeepCompareEffect(callback, dependencies) {
-  const dependenciesRef = useRef(dependencies);
+  const dependenciesRef = useRef();
 
   if (!isEqual(dependencies, dependenciesRef.current)) {
     dependenciesRef.current = dependencies;

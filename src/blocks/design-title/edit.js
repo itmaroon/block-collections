@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import TypographyControls from '../TypographyControls'
 import IconSelectControl from '../IconSelectControl';
 import { StyleComp } from './StyleWapper';
-import ShadowStyle from '../ShadowStyle';
+import ShadowStyle, { ShadowElm } from '../ShadowStyle';
 import { PageSelectControl, ArchiveSelectControl } from '../wordpressApi';
 import apiFetch from '@wordpress/api-fetch';
 import { useStyleIframe, useFontawesomeIframe } from '../iframeFooks';
@@ -19,7 +19,6 @@ import {
 	ToolbarDropdownMenu,
 	__experimentalBoxControl as BoxControl,
 	__experimentalUnitControl as UnitControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
 	__experimentalAlignmentMatrixControl as AlignmentMatrixControl
 } from '@wordpress/components';
 import {
@@ -36,6 +35,7 @@ import {
 import './editor.scss';
 import { useEffect, useState, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
+import { useElementBackgroundColor } from '../CustomFooks'
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -45,13 +45,7 @@ const padding_resetValues = {
 	bottom: '10px',
 }
 
-//ボーダーのリセットバリュー
-const border_resetValues = {
-	top: '0px',
-	left: '0px',
-	right: '0px',
-	bottom: '0px',
-}
+//リセットバリュー
 
 const units = [
 	{ value: 'px', label: 'px' },
@@ -75,8 +69,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		titleType,
 		align,
 		padding_heading,
-		radius_heading,
-		border_heading,
 		optionStyle,
 		shadow_element,
 		is_shadow,
@@ -91,13 +83,30 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		className,
 	} = attributes;
 
+	//テキストの配置
+	const align_style = align === 'center' ? { marginLeft: 'auto', marginRight: 'auto' } :
+		align === 'right' ? { marginLeft: 'auto' } : {};
+
 	//ブロックの参照
 	const blockRef = useRef(null);
 
 	const blockProps = useBlockProps({
 		ref: blockRef,// ここで参照を blockProps に渡しています
-		style: { position: `${is_title_menu ? 'relative' : 'static'}` }
+		style: { position: `${is_title_menu ? 'relative' : 'static'}`, ...align_style }
 	});
+
+	//背景色の取得
+	const baseColor = useElementBackgroundColor(blockRef, blockProps.style);
+
+	//背景色変更によるシャドー属性の書き換え
+	useEffect(() => {
+		if (baseColor) {
+			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
+			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
+			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
+
+		}
+	}, [baseColor]);
 
 	//最初の状態
 	const prevClassRef = useRef(false);
@@ -153,8 +162,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			reset_style = {
 				styleName: 'is-style-sub_copy',
 				alignment_copy: 'top left',
-				color_text_copy: '#000',
-				color_background_copy: '#d1cece',
+				color_text_copy: 'var(--wp--preset--color--text)',
+				color_background_copy: 'var(--wp--preset--color--accent-1)',
 				copy_content: 'SAMPLE',
 				font_style_copy: {
 					fontSize: "16px",
@@ -376,7 +385,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			<InspectorControls group="styles">
 
-				<PanelBody title={__("Heading settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
+				<PanelBody title={__("Title settings", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
 					<BoxControl
 						label={__("Padding settings", 'itmar_block_collections')}
 						values={padding_heading}
@@ -386,32 +395,16 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						resetValues={padding_resetValues}	// リセット時の値
 					/>
 
-					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
-						<BorderBoxControl
-							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
-							onChange={(newValue) => setAttributes({ border_heading: newValue })}
-							value={border_heading}
-							allowReset={true}	// リセットの可否
-							resetValues={border_resetValues}	// リセット時の値
-						/>
-						<BorderRadiusControl
-							values={radius_heading}
-							onChange={(newBrVal) =>
-								setAttributes({ radius_heading: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
-						/>
-						<ToggleControl
-							label={__('Is Shadow', 'itmar_block_collections')}
-							checked={is_shadow}
-							onChange={(newVal) => {
-								setAttributes({ is_shadow: newVal })
-							}}
-						/>
-
-					</PanelBody>
+					<ToggleControl
+						label={__('Is Shadow', 'itmar_block_collections')}
+						checked={is_shadow}
+						onChange={(newVal) => {
+							setAttributes({ is_shadow: newVal })
+						}}
+					/>
 					{is_shadow &&
 						<ShadowStyle
 							shadowStyle={{ ...shadow_element }}
-							blockRef={blockRef}
 							onChange={(newStyle, newState) => {
 								setAttributes({ shadow_result: newStyle.style });
 								setAttributes({ shadow_element: newState })
@@ -491,7 +484,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<PanelColorGradientSettings
 							title={__("Circle Color Setting", 'itmar_block_collections')}
 							settings={[{
-								colorValue: (optionStyle && optionStyle.colorVal_circle) ? optionStyle.colorVal_circle : 'var(--wp--custom--itmar-circle-color-1)',
+								colorValue: (optionStyle && optionStyle.colorVal_circle) ? optionStyle.colorVal_circle : 'var(--wp--preset--color--accent-1)',
 								gradientValue: (optionStyle && optionStyle.gradientVal_circle) ? optionStyle.gradientVal_circle : undefined,
 
 								label: __("Choose Circle Background", 'itmar_block_collections'),
@@ -551,7 +544,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								<PanelColorGradientSettings
 									title={__("Circle Color Setting", 'itmar_block_collections')}
 									settings={[{
-										colorValue: (optionStyle && optionStyle.colorVal_second) ? optionStyle.colorVal_second : 'var(--wp--custom--itmar-circle-color-2)',
+										colorValue: (optionStyle && optionStyle.colorVal_second) ? optionStyle.colorVal_second : 'var(--wp--preset--color--accent-2)',
 										gradientValue: (optionStyle && optionStyle.gradientVal_second) ? optionStyle.gradientVal_second : undefined,
 
 										label: __("Choose Circle Background", 'itmar_block_collections'),
@@ -617,14 +610,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<PanelColorGradientSettings
 							title={__("Copy Color Setting", 'itmar_block_collections')}
 							settings={[{
-								colorValue: (optionStyle && optionStyle.color_text_copy) ? optionStyle.color_text_copy : '#000',
+								colorValue: (optionStyle && optionStyle.color_text_copy) ? optionStyle.color_text_copy : 'var(--wp--preset--color--text)',
 								label: __("Choose Text color", 'itmar_block_collections'),
 								onColorChange: (newValue) => {
 									setLocalOptionStyle(prev => ({ ...prev, color_text_copy: newValue }));
 								},
 							},
 							{
-								colorValue: (optionStyle && optionStyle.color_background_copy) ? optionStyle.color_background_copy : '#d1cece',
+								colorValue: (optionStyle && optionStyle.color_background_copy) ? optionStyle.color_background_copy : 'var(--wp--preset--color--accent-2)',
 								gradientValue: (optionStyle && optionStyle.gradient_background_copy) ? optionStyle.gradient_background_copy : undefined,
 
 								label: __("Choose Background color", 'itmar_block_collections'),
@@ -720,7 +713,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 										icon_name: "f030",
 										icon_pos: "left",
 										icon_size: "24px",
-										icon_color: "#000",
+										icon_color: "var(--wp--preset--color--text)",
 										icon_space: "5px"
 									}}
 									onChange={(newValue) => {

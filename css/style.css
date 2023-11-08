@@ -37,7 +37,7 @@
   .wp-block-itmar-design-menu.sub_menu {
     position: relative !important;
     transform: translateX(0);
-    width: auto;
+    width: auto !important;
     height: auto;
   }
 }
@@ -59,7 +59,7 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: var(--wp--custom--itmar-line-color);
+  background-color: var(--wp--preset--color--text);
   border-radius: 4px;
   display: inline-block;
   transition: all 0.5s;

@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
-import { radius_prm, space_prm, convertToScss, borderProperty } from '../cssPropertes';
-import { ShadowElm } from '../ShadowStyle'
+import { radius_prm, space_prm, convertToScss } from '../cssPropertes';
 
 export const StyleComp = ({ attributes, children }) => {
   return (
@@ -15,13 +14,9 @@ const StyledDiv = styled.div`
 
     const {
       headingType,
-      align,
       padding_heading,
-      radius_heading,
-      border_heading,
       optionStyle,
       shadow_result,
-      shadow_element,
       is_shadow,
       is_underLine,
       underLine_prop,
@@ -35,18 +30,24 @@ const StyledDiv = styled.div`
     //単色かグラデーションかテーマ色かの選択
     const bgUnderLine = bgColor_underLine || bgGradient_underLine || 'var(--wp--preset--color--text)';
 
-    //角丸の設定
-    const header_radius_prm = radius_prm(radius_heading);
+
     //ボックスシャドーの設定
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
-    //テキストの配置
-    const align_style = align === 'center' ? 'margin-left:auto; margin-right: auto' :
-      align === 'right' ? 'margin-left:auto' : '';
+
     //paddingの修正関数
-    const ajust_padding = (padding, pos) => {
+    const ajust_padding = (padding, pos_x, pos_y, space) => {
       const values = padding.split(' ');
-      const pos_num = pos === 'left' ? 3 : 1
-      values[pos_num] = `calc(${values[pos_num]} + 1em)`;
+      const pos_num = (pos_x === 'left' && pos_y === 'center') ? 3
+        : ((pos_x === 'right' || pos_x === 'center') && pos_y === 'center') ? 1
+          : (pos_y === 'top') ? 0
+            : (pos_y === 'bottom') ? 2
+              : null;
+      if (pos_y === 'center') {//横方向のパディング
+        values[pos_num] = space ? `calc(${values[pos_num]} + ${space})` : `calc(${values[pos_num]} + 1em)`;
+      } else {//縦方向のパディング
+        values[pos_num] = `calc(${space})`
+      }
+
       // 配列をスペースで連結して文字列に戻す
       return values.join(' ');
     }
@@ -83,8 +84,9 @@ const StyledDiv = styled.div`
         : ''}
       `
       : null;
-    //paddingの調整（サブメニューの印）
-    const render_padding = linkKind === 'submenu' ? ajust_padding(space_prm(padding_heading), menu_pos.split(' ')[1]) : space_prm(padding_heading);
+    //paddingの調整（サブメニューの印分の幅）
+    const render_padding = linkKind === 'submenu' ? ajust_padding(space_prm(padding_heading), menu_pos.split(' ')[1], 'center') : space_prm(padding_heading);
+
     //矢印の方向
     const directionMap = {
       'top left': 'height: calc(12px / 2);width: 12px;left: 10px;clip-path: polygon(50% 0, 100% 100%, 0 100%);',
@@ -103,29 +105,29 @@ const StyledDiv = styled.div`
     const commonStyle = css`
       position: relative;
       z-index: 10;
-      ${align_style};
-      border-radius: ${header_radius_prm};
-      ${borderProperty(border_heading)};
-      ${box_shadow_style};
+      
       ${headingType}{
         position: relative;
         padding: ${render_padding};
         white-space: nowrap !important;
         margin:0;
         font-weight: inherit;
-        ${underLine}
+        ${underLine};
+        ${box_shadow_style};
       }
       a{
         text-decoration: none !important;
       }
       ${linkKind === 'submenu' && `
-        &::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          background: var(--wp--preset--color--text);
-          ${arrow_direction}
+        ${headingType}{
+          &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--wp--preset--color--text);
+            ${arrow_direction}
+          }
         }
       `}
       
@@ -171,29 +173,42 @@ const StyledDiv = styled.div`
           `
       }
       else if (className?.split(' ').includes('is-style-sub_copy')) {
+        const {
+          color_text_copy,
+          color_background_copy,
+          gradient_background_copy,
+          font_style_copy,
+          radius_copy,
+          isIcon,
+          icon_style,
+          padding_copy,
+          copy_content,
+          alignment_copy
+        } = optionStyle;
+
         //背景色の設定
-        const bgColor = optionStyle.color_background_copy || optionStyle.gradient_background_copy;
+        const bgColor = color_background_copy || gradient_background_copy || 'var(--wp--preset--color--accent-1)';
         //斜体の設定
-        const fontStyle = optionStyle.font_style_copy.isItalic ? "italic" : "normal";
+        const fontStyle = font_style_copy.isItalic ? "italic" : "normal";
         //角丸の設定
-        const copy_radius_prm = radius_prm(optionStyle.radius_copy);
+        const copy_radius_prm = radius_prm(radius_copy);
         //アイコンスペースの設定
-        const icon_space = optionStyle.icon_style.icon_space || '0px'
+        const icon_space = icon_style.icon_space || '0px'
 
-        //パディングの設定（アイコン幅の確保）
-        const getPadding = (isIcon, icon_style) => {
+        //サブコピーのパディングの設定（アイコン幅の確保）
+        const copy_padding = (isIcon, icon_style) => {
           if (!isIcon) {
-            return space_prm(optionStyle.padding_copy)
+            return space_prm(padding_copy)
           }
-          if (icon_style.icon_pos === "left") {
 
-            return `${optionStyle.padding_copy.top} ${optionStyle.padding_copy.right} ${optionStyle.padding_copy.bottom} calc(${optionStyle.padding_copy.left} + ${icon_style.icon_size} + ${icon_space})`
+          if (icon_style.icon_pos === "left") {
+            return `${padding_copy.top} ${padding_copy.right} ${padding_copy.bottom} calc(${padding_copy.left} + ${icon_style.icon_size} + ${icon_space})`
           }
           if (icon_style.icon_pos === "right") {
-            return `${optionStyle.padding_copy.top} calc(${optionStyle.padding_copy.right} + ${icon_style.icon_size} + ${icon_space}) ${optionStyle.padding_copy.bottom} ${optionStyle.padding_copy.left} `
+            return `${padding_copy.top} calc(${padding_copy.right} + ${icon_style.icon_size} + ${icon_space}) ${padding_copy.bottom} ${padding_copy.left} `
           }
         }
-        const padding_prm = getPadding(optionStyle.isIcon, optionStyle.icon_style);
+        const copy_padding_prm = copy_padding(isIcon, icon_style);
 
 
         //文字列のレンダリングの長さ
@@ -205,65 +220,95 @@ const StyledDiv = styled.div`
           return metrics.width;
         }
 
-        const textWidth = `${measureTextWidth(optionStyle.copy_content, optionStyle.font_style_copy.fontSize, optionStyle.font_style_copy.fontFamily)}px`;
+        const textWidth = measureTextWidth(optionStyle.copy_content, optionStyle.font_style_copy.fontSize, optionStyle.font_style_copy.fontFamily);
+
 
         //アイコンの位置計算
-        const tranceX = optionStyle.icon_style.icon_pos !== 'left' ?
-          `calc(${optionStyle.padding_copy.left} + ${optionStyle.padding_copy.right} + ${textWidth})` :
-          ` ${icon_space} `;
-        const tranceY = `calc((${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom} + ${optionStyle.font_style_copy.fontSize} - ${optionStyle.icon_style.icon_size}) / 2 * -1)`
+        const tranceLeft = icon_style.icon_pos !== 'left' ?
+          `left:calc(${padding_copy.left} + ${padding_copy.right} + ${textWidth}px)` :
+          `left:${icon_space}`;
+        const tranceCenter = icon_style.icon_pos !== 'left' ?
+          `left:50%;transform: translateX(calc(-50% + ${textWidth / 2}px))` :
+          `left:50%;transform: translateX(calc(-50% - ${textWidth / 2}px))`;
+        const tranceRight = icon_style.icon_pos !== 'left' ?
+          `right:${icon_space}` :
+          `right:calc(${padding_copy.left} + ${padding_copy.right} + ${textWidth}px)`
 
         //配置場所
         const alignMap = {
-          'top left': 'bottom: 100%;left: 0;',
-          'top center': 'bottom: 100%;left:50%;transform: translateX(-50%);',
-          'top right': 'bottom: 100%;right: 0;',
-          'center left': 'top:50%;transform: translateY(-50%);left:0;',
-          'center center': 'top:50%;left:50%;transform: translate(-50%,-50%);',
-          'center right': 'top:50%;transform: translateY(-50%);right:0;',
-          'bottom left': 'top: 100%;left: 0;',
-          'bottom center': 'top: 100%;left:50%;transform: translateX(-50%);',
-          'bottom right': 'top: 100%;right: 0;',
+          'top left': {
+            before: 'top:0;left: 0;',
+            after: `top:0;${tranceLeft}`
+          },
+          'top center': {
+            before: 'top:0;left:50%;transform: translateX(-50%);',
+            after: `top:0;${tranceCenter}`,
+          },
+          'top right': {
+            before: 'top:0;right: 0;',
+            after: `top:0;${tranceRight}`
+          },
+          'center left': {
+            before: 'top:50%;transform: translateY(-50%);left:0;',
+            after: `top:50%;transform: translateY(-50%);${tranceLeft}`,
+          },
+          'center center': {
+            before: 'top:50%;left:50%;transform: translate(-50%,-50%);',
+            after: 'top:50%;left:50%;transform: translate(-50%,-50%);'
+          },
+          'center right': {
+            before: 'top:50%;transform: translateY(-50%);right:0;',
+            after: `top:50%;transform: translateY(-50%);${tranceRight}`
+          },
+          'bottom left': {
+            before: 'bottom:0;left: 0;',
+            after: `bottom:0;${tranceLeft}`
+          },
+          'bottom center': {
+            before: 'bottom:0;left:50%;transform: translateX(-50%);',
+            after: `bottom:0;${tranceCenter}`
+          },
+          'bottom right': {
+            before: 'bottom:0;right: 0;',
+            after: `bottom:0;${tranceRight}`
+          }
         };
-        const alignStyle = alignMap[optionStyle.alignment_copy];
-        //上部マージンの確保
-        const vMarginMap = {
-          'top': `margin-top: calc(${padding_heading.top} + ${optionStyle.font_style_copy.fontSize} + ${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom})`,
-          'bottom': `margin-bottom: calc(${padding_heading.top} + ${optionStyle.font_style_copy.fontSize} + ${optionStyle.padding_copy.top} + ${optionStyle.padding_copy.bottom})`
-        }
-        const virtical_margin = vMarginMap[optionStyle.alignment_copy.split(' ')[0]];
+        const alignStyle = alignMap[alignment_copy];
+        //サブコピーのレンダリングスペースをパディングで確保
+        const copy_space_horizen = isIcon ? `${textWidth}px + ${padding_copy.right} + ${padding_copy.left} + ${icon_style.icon_size} + ${icon_space}` : `${textWidth}px + ${padding_copy.right} + ${padding_copy.left}`;
+        const copy_space_vertical = `${font_style_copy.fontSize} + ${padding_copy.top} + ${padding_copy.bottom}`
+        const copy_space = alignment_copy.split(' ')[0] === 'center' ? copy_space_horizen : copy_space_vertical;
+        const subcopy_padding = ajust_padding('0px 0px 0px 0px', alignment_copy.split(' ')[1], alignment_copy.split(' ')[0], copy_space);
 
+        //CSSの生成
         specificStyle = css`
-            position: relative;
-            ${virtical_margin};
-            &::before{
-              font-size: ${optionStyle.font_style_copy.fontSize};
-              font-family: ${optionStyle.font_style_copy.fontFamily};
-              font-weight: ${optionStyle.font_style_copy.fontWeight};
-              font-style: ${fontStyle};
+          padding:${subcopy_padding};
+          &::before{
+            font-size: ${font_style_copy.fontSize};
+            font-family: ${font_style_copy.fontFamily};
+            font-weight: ${font_style_copy.fontWeight};
+            font-style: ${fontStyle};
+            position: absolute;
+            ${alignStyle.before}
+            content: '${copy_content}';
+            color:${color_text_copy};
+            border-radius: ${copy_radius_prm};
+            background: ${bgColor};
+            padding:${copy_padding_prm};
+            line-height: 1
+          }
+          ${isIcon && css`
+            &::after{
+              content: '\\${icon_style.icon_name}';
+              font-family: 'Font Awesome 5 Free';
+              font-weight: 900;
               position: absolute;
-              ${alignStyle}
-              content: '${optionStyle.copy_content}';
-              color:${optionStyle.color_text_copy};
-              border-radius: ${copy_radius_prm};
-              background: ${bgColor};
-              padding:${padding_prm};
-              line-height: 1
+              font-size: ${icon_style.icon_size};
+              color: ${icon_style.icon_color};
+              ${alignStyle.after}
             }
-            ${optionStyle.isIcon && css`
-              &::after{
-                content: '\\${optionStyle.icon_style.icon_name}';
-                font-family: 'Font Awesome 5 Free';
-                font-weight: 900;
-                position: absolute;
-                font-size: ${optionStyle.icon_style.icon_size};
-                color: ${optionStyle.icon_style.icon_color};
-                left: 0;
-                bottom: 100%;
-                transform: translate(${tranceX}, ${tranceY});
-              }
-            `}
-          `
+          `}
+        `
       }
     }
 

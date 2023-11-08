@@ -5,9 +5,9 @@ import { StyleComp } from './StyleMenu';
 import { useStyleIframe } from '../iframeFooks';
 import ShadowStyle, { ShadowElm } from '../ShadowStyle';
 import ToggleElement from './ToggleElement';
-import { useIsMobile } from '../CustomFooks';
 import DraggableBox from '../DraggableBox';
 import BlockPlace from '../BlockPlace';
+import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks'
 
 import {
 	useBlockProps,
@@ -22,31 +22,28 @@ import {
 	ToggleControl,
 	RangeControl,
 	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
 	__experimentalAlignmentMatrixControl as AlignmentMatrixControl
 } from '@wordpress/components';
 
 import { useSelect, useDispatch, dispatch } from '@wordpress/data';
 import { useEffect, useState, useRef } from '@wordpress/element';
 import { createBlock } from '@wordpress/blocks';
-import { shadow } from '@wordpress/icons';
 
 //スペースのリセットバリュー
 const padding_resetValues = {
-	top: '10px',
-	left: '10px',
-	right: '10px',
-	bottom: '10px',
-}
-
-//ボーダーのリセットバリュー
-const border_resetValues = {
 	top: '0px',
 	left: '0px',
 	right: '0px',
 	bottom: '0px',
 }
+const padding_mobile_resetValues = {
+	top: '20px',
+	left: '10px',
+	right: '10px',
+	bottom: '20px',
+}
 
+//リセットバリュー
 const units = [
 	{ value: 'px', label: 'px' },
 	{ value: 'em', label: 'em' },
@@ -61,18 +58,21 @@ export default function Edit(props) {
 		outer_vertical,
 		width_val,
 		free_val,
-		radius_val,
-		border_val,
 		shadow_element,
 		grid_info,
 		is_shadow,
 		is_submenu,
 		is_moveable,
+		padding_menu,
+		mobile_padding_menu,
 		position,
 		unit_x,
 		unit_y,
 		className
 	} = attributes;
+
+	//モバイル表示の判定
+	const isMoblie = useIsIframeMobile();
 
 	//ブロック幅
 	const width_style =
@@ -85,8 +85,6 @@ export default function Edit(props) {
 	const block_align = outer_align === 'center' ? { margin: '0 auto' }
 		: outer_align === 'right' ? { marginLeft: 'auto' }
 			: { marginRight: 'auto' };
-	//モバイル時の位置の調整
-	//const top_margin = useIsMobile() ? { top: '9%' } : {};
 
 	const newStyle = {
 		...width_style,
@@ -107,28 +105,20 @@ export default function Edit(props) {
 
 	//ブロックの属性を生成
 	const blockProps = useBlockProps({
-		ref: blockRef,// ここで参照を blockProps に渡しています
+		ref: blockRef,
 		style: newStyle,
 		className: `${isMenuOpen ? 'open' : ''} ${is_submenu ? 'sub_menu' : ''}`
 	});
 
 	//背景色の取得
-	const [baseColor, setBaseColor] = useState("");
-
-	useEffect(() => {//ユーザー設定による背景色の取得
-		if (blockProps.style.backgroundColor) {
-			setBaseColor(blockProps.style.backgroundColor);
-		} else {//レンダリング結果から背景色を取得
-			const computedStyles = getComputedStyle(blockRef.current);
-			setBaseColor(computedStyles.background);
-		}
-	}, [blockProps.style]);
-
-	useEffect(() => {//背景色変更によるシャドー属性の書き換え
+	const baseColor = useElementBackgroundColor(blockRef, blockProps.style);
+	//背景色変更によるシャドー属性の書き換え
+	useEffect(() => {
 		if (baseColor) {
 			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
 			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
-			setAttributes({ shadow_result: new_shadow.style });
+			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
+
 		}
 	}, [baseColor]);
 
@@ -223,19 +213,29 @@ export default function Edit(props) {
 	return (
 		<>
 			<InspectorControls group="styles">
-				<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
-					<BorderBoxControl
+				<PanelBody title={__("Menu Style", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
+					{!isMoblie ?
+						<BoxControl
+							label={__("Padding settings(desk top)", 'itmar_block_collections')}
+							values={padding_menu}
+							onChange={value => setAttributes({ padding_menu: value })}
+							units={units}	// 許可する単位
+							allowReset={true}	// リセットの可否
+							resetValues={padding_resetValues}	// リセット時の値
 
-						onChange={(newValue) => setAttributes({ border_val: newValue })}
-						value={border_val}
-						allowReset={true}	// リセットの可否
-						resetValues={border_resetValues}	// リセット時の値
-					/>
-					<BorderRadiusControl
-						values={radius_val}
-						onChange={(newBrVal) =>
-							setAttributes({ radius_val: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
-					/>
+						/>
+						:
+						<BoxControl
+							label={__("Padding settings(mobile)", 'itmar_block_collections')}
+							values={mobile_padding_menu}
+							onChange={value => setAttributes({ mobile_padding_menu: value })}
+							units={units}	// 許可する単位
+							allowReset={true}	// リセットの可否
+							resetValues={padding_mobile_resetValues}	// リセット時の値
+
+						/>
+					}
+
 					<ToggleControl
 						label={__('Is Shadow', 'itmar_block_collections')}
 						checked={is_shadow}
@@ -252,7 +252,6 @@ export default function Edit(props) {
 							}}
 						/>
 					}
-
 				</PanelBody>
 				{className === 'is-style-grid' &&
 					<PanelBody title={__("Grid Info settings", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">

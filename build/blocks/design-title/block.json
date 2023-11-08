@@ -77,15 +77,6 @@
       "type": "string",
       "default": "/"
     },
-    "font_style_heading": {
-      "type": "object",
-      "default": {
-        "fontSize": "16px",
-        "fontFamily": "Noto Sans JP, sans-serif",
-        "fontWeight": "500",
-        "isItalic": false
-      }
-    },
     "align": {
       "type": "string",
       "default": "left"
@@ -98,19 +89,6 @@
         "bottom": "10px",
         "right": "10px"
       }
-    },
-    "radius_heading": {
-      "type": "object",
-      "default": {
-        "topLeft": "0px",
-        "topRight": "0px",
-        "bottomRight": "0px",
-        "bottomLeft": "0px",
-        "value": "0px"
-      }
-    },
-    "border_heading": {
-      "type": "object"
     },
     "optionStyle": {
       "type": "object"
@@ -136,7 +114,8 @@
         "newDirection": "top_left",
         "clayDirection": "top",
         "embos": "swell",
-        "hasOutline": true
+        "hasOutline": true,
+        "baseColor": "#ffffff"
       }
     },
     "shadow_result": {
