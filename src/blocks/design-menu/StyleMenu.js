@@ -12,13 +12,14 @@ export const StyleComp = ({ attributes, children }) => {
 const StyledDiv = styled.div`
   ${({ attributes }) => {
     const {
+      direction,
+      mobile_direction,
       shadow_result,
       is_shadow,
       grid_info,
       blockNum,
       padding_menu,
       mobile_padding_menu,
-      className,
     } = attributes;
 
     //角丸の設定
@@ -45,12 +46,13 @@ const StyledDiv = styled.div`
     const horizenStyle = css`
       > .menu_contents{
         display: flex;
+        flex-direction: row;
       }
       
     `;
 
     //縦並びスタイル
-    const virticalStyle = css`
+    const verticalStyle = css`
       > .menu_contents{
         display: flex;
         flex-direction: column;
@@ -123,18 +125,21 @@ const StyledDiv = styled.div`
 
     //スタイルの選択
     const cssMap = {
-      'is-style-horizen': horizenStyle,
-      'is-style-virticle': virticalStyle,
-      'is-style-grid': gridStyle,
+      'horizen': horizenStyle,
+      'vertical': verticalStyle,
+      'grid': gridStyle,
     };
 
-    const optionStyle = cssMap[className] || horizenStyle;
+    const optionStyle = cssMap[direction] || horizenStyle;
+    const mobileOptionStyle = cssMap[mobile_direction] || verticalStyle;
 
     // 共通のスタイルを組み合わせて返します
     return css`
       ${commonStyle}
       ${optionStyle}
-      
+      @media (max-width: 767px) {
+        ${mobileOptionStyle}
+      }
     `;
 
   }

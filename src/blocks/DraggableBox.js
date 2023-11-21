@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import {
   InspectorControls
@@ -11,126 +10,133 @@ import {
   __experimentalUnitControl as UnitControl
 } from '@wordpress/components';
 
-export default function DraggableBox(props) {
+export const useDraggingMove = (isMovable, blockRef, position, onPositionChange) => {
+  const elmposition = useRef({ x: 0, y: 0 });
+  const isDragging = useRef(false);
+  const mousePosition = useRef({ x: 0, y: 0 });
 
-  const {
-    position,
-    unit_x,
-    unit_y
-  } = props.attributes
+  useEffect(() => {
+    const element = blockRef.current;
 
+    if (!isMovable) {
+      if (element) {
+        element.classList.remove('itmar_isDraggable');//移動カーソル表示クラス削除
+      }
+      return; // 移動許可がある場合のみ、後続のロジックを実行
+    }
+    //positionの変化に合わせて現在位置を変更
+    const pos_value_x = position.x.match(/(-?\d+)([a-zA-Z]+)/);
+    const pos_value_y = position.y.match(/(-?\d+)([a-zA-Z]+)/);
+    elmposition.current = { x: parseInt(pos_value_x[1]), y: parseInt(pos_value_y[1]) }
 
-  const [elmposition, setPosition] = useState(position);
-  const [isDragging, setIsDragging] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseDown = (event) => {
-    setIsDragging(true);
-    setMousePosition({ x: event.clientX, y: event.clientY });
-  };
-
-  const handleMouseMove = (event) => {
-    if (!isDragging) return;//ドラッグ中の時は処理を中止
-    const dx = event.clientX - mousePosition.x;
-    const dy = event.clientY - mousePosition.y;
-    //ドラッグ後の位置を保存
-    const newPosition = {
-      x: elmposition.x + dx,
-      y: elmposition.y + dy,
+    //イベントハンドラ
+    const handleMouseDown = (event) => {
+      // 移動カーソル表示クラス名を追加します。
+      element.classList.add('itmar_isDraggable');
+      //ドラッグの開始フラグオン
+      isDragging.current = true;
+      //ドラッグ開始の絶対位置
+      mousePosition.current = { x: event.clientX, y: event.clientY };
     };
 
-    setPosition(newPosition);//状態変数に保存
-    setMousePosition({ x: event.clientX, y: event.clientY });//マウス位置の保存
-    const newUnit = { unit_x: 'px', unit_y: 'px' }
-    props.onPositionChange(newPosition, newUnit);//親コンポーネントに通知
-  };
+    const handleMouseMove = (event) => {
+      if (!isDragging.current) return;//ドラッグ中でなければ処理を中止
+      const dx = event.clientX - mousePosition.current.x;
+      const dy = event.clientY - mousePosition.current.y;
+      //ドラッグ後の位置を保存
+      const newPosition = {
+        x: elmposition.current.x + dx,
+        y: elmposition.current.y + dy,
+      };
+      elmposition.current = newPosition;
+      mousePosition.current = { x: event.clientX, y: event.clientY };//マウス位置の保存
+      //ドラッグによるブロックの一時的移動
+      element.style.transform = `translate(${elmposition.current.x}px, ${elmposition.current.y}px)`;
+    };
 
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
+    const handleMouseUp = () => {
+      isDragging.current = false;
+      element.style.transform = null;
+      //呼出しもとに要素の位置を返す
+      onPositionChange({ x: `${elmposition.current.x}px`, y: `${elmposition.current.y}px` });
+    };
+    const handleMouseLeave = () => {
+      isDragging.current = false;
+    };
 
-  //props経由でpositionが変化したときの処理
-  useEffect(() => {
-    setPosition(position);
-  }, [position]);
+    if (element) {
+      // クラス名を追加します。
+      element.classList.add('itmar_isDraggable');
+    }
+    // イベントハンドラを追加します。
+    element.addEventListener('mousedown', handleMouseDown);
+    element.addEventListener('mousemove', handleMouseMove);
+    element.addEventListener('mouseup', handleMouseUp);
+    element.addEventListener('mouseleave', handleMouseLeave);
+
+    // イベントリスナーを削除するクリーンアップ関数を返します。
+    return () => {
+      element.removeEventListener('mousedown', handleMouseDown);
+      element.removeEventListener('mousemove', handleMouseMove);
+      element.removeEventListener('mouseup', handleMouseUp);
+      element.removeEventListener('mouseleave', handleMouseLeave);
+      element.style.transform = null;
+    };
+  }, [isMovable, blockRef, position, onPositionChange]); // 依存配列に isMovable を含めます
+}
+
+export default function DraggableBox(props) {
+
+  const position = props.attributes
 
   //インスペクター内のコントロールからの移動操作
   const chagePosition = (value, cordinate) => {
-    const unit_value = value.match(/(\d+)([a-zA-Z]+)/);
-    if (unit_value) {
-      const newPos = { ...position, [cordinate]: parseInt(unit_value[1]) };
-      const orgUnit = { unit_x: unit_x, unit_y: unit_y }
-      const unit = `unit_${cordinate}`;
-      const newUnit = { ...orgUnit, [unit]: unit_value[2] };
-      props.onPositionChange(newPos, newUnit);
+    if (value) {
+      const newPos = { ...position, [cordinate]: value };
+      props.onPositionChange(newPos);
     }
   }
 
   //リセット
   const resetPos = () => {
-    const newPos = { "x": 0, "y": 0 };
-    const newUnit = { unit_x: 'px', unit_y: 'px' }
-    props.onPositionChange(newPos, newUnit);
+    const newPos = { "x": "0px", "y": "0px" };
+    props.onPositionChange(newPos);
   }
-
-  //移動後の位置
-  const movePosition = { x: `${position.x}${unit_x}`, y: `${position.y}${unit_y}` }
-  //渡されたブロックにドラッガブルのクラスとハンドラを渡す。
-  const childrenWithProps = React.Children.map(props.children, child => {
-    if (React.isValidElement(child)) {
-      return React.cloneElement(child, {
-        className: child.props.className ? `${child.props.className} itmar_isDraggable` : 'itmar_isDraggable',
-        onMouseDown: handleMouseDown,
-        onMouseMove: handleMouseMove,
-        onMouseUp: handleMouseUp,
-        onMouseLeave: handleMouseLeave,
-      });
-    }
-    return child;
-  });
 
   return (
     <>
-      <InspectorControls group="styles">
-        <PanelBody
-          title={__("Position Setting", 'itmar_block_collections')}
-          initialOpen={true}
+
+      <PanelBody
+        title={__("Position Setting", 'itmar_block_collections')}
+        initialOpen={true}
+      >
+        <PanelRow
+          className='distance_row'
         >
-          <PanelRow
-            className='distance_row'
+          <UnitControl
+            dragDirection="e"
+            onChange={(value) => chagePosition(value, 'x')}
+            label={__("Lateral direction", 'itmar_block_collections')}
+            value={position.x}
+          />
+          <UnitControl
+            dragDirection="e"
+            onChange={(value) => chagePosition(value, 'y')}
+            label={__("Longitudinal direction", 'itmar_block_collections')}
+            value={position.y}
+          />
+        </PanelRow>
+        <PanelRow
+          className='reset_row'
+        >
+          <Button
+            variant="secondary"
+            onClick={() => resetPos()}
           >
-            <UnitControl
-              dragDirection="e"
-              onChange={(value) => chagePosition(value, 'x')}
-              label={__("Lateral direction", 'itmar_block_collections')}
-              value={movePosition.x}
-            />
-            <UnitControl
-              dragDirection="e"
-              onChange={(value) => chagePosition(value, 'y')}
-              label={__("Longitudinal direction", 'itmar_block_collections')}
-              value={movePosition.y}
-            />
-          </PanelRow>
-          <PanelRow
-            className='reset_row'
-          >
-            <Button
-              variant="secondary"
-              onClick={() => resetPos()}
-            >
-              {__("Reset", 'itmar_block_collections')}
-            </Button>
-          </PanelRow>
-        </PanelBody>
-      </InspectorControls>
-
-
-      {/* //ブロックのレンダリング */}
-      <>{childrenWithProps}</>
+            {__("Reset", 'itmar_block_collections')}
+          </Button>
+        </PanelRow>
+      </PanelBody>
     </>
   )
 }

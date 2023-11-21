@@ -5,7 +5,6 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 export default function save({ attributes }) {
 	const {
 		direction,
-		is_mobile_vertical,
 		inner_align,
 		outer_align,
 		outer_vertical,
@@ -51,7 +50,7 @@ export default function save({ attributes }) {
 	return (
 		<>
 			<div {...blockProps}>
-				<div className={is_mobile_vertical ? 'movile_vertical' : ''} style={innerBlock_style}>
+				<div style={innerBlock_style}>
 					<InnerBlocks.Content />
 				</div>
 			</div>

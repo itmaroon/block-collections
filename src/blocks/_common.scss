@@ -336,3 +336,43 @@ $breakpoints: (
 		cursor: move !important;
 	}
 }
+
+.components-panel__row {
+	&.distance_row {
+		align-items: baseline;
+		column-gap: 10px;
+
+		.components-base-control {
+			margin-bottom: 0;
+		}
+	}
+
+	&.reset_row {
+		justify-content: end;
+	}
+
+	&.grid_table {
+		table {
+			width: 90%;
+			margin: 0 auto;
+			border-collapse: collapse;
+
+			tr {
+				height: 25px;
+			}
+
+			td {
+				border: 1px solid black;
+
+				&.selected {
+					background-color: yellowgreen;
+				}
+
+				&:hover {
+					cursor: pointer;
+				}
+
+			}
+		}
+	}
+}

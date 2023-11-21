@@ -21,6 +21,8 @@
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 function itmar_block_collections_block_init()
 {
 	//ブロックの登録
@@ -52,7 +54,7 @@ function itmar_block_collections_block_init()
 }
 add_action('init', 'itmar_block_collections_block_init');
 
-function add_itmar_highlight_scripts_and_styles()
+function itmar_highlight_scripts_and_styles()
 {
 	$dir = dirname(__FILE__);
 
@@ -114,7 +116,7 @@ function add_itmar_highlight_scripts_and_styles()
 	}
 	
 }
-add_action('enqueue_block_assets', 'add_itmar_highlight_scripts_and_styles');
+add_action('enqueue_block_assets', 'itmar_highlight_scripts_and_styles');
 
 //Googleフォント,FontAwesomeの読み込み
 function itmar_block_collections_font_init()

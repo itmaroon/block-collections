@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useRef } from '@wordpress/element';
+import { StyleComp } from './StyleGroup';
 import {
 	useBlockProps,
 	useInnerBlocksProps,
@@ -7,21 +8,16 @@ import {
 } from '@wordpress/block-editor';
 
 import {
-	Button,
 	PanelBody,
-	Icon,
-	ToolbarGroup,
-	ToolbarItem,
 	ToggleControl
 } from '@wordpress/components';
-import { group, stack } from '@wordpress/icons';
+
 
 import './editor.scss';
 import DraggableBox from '../DraggableBox';
 import BlockPlace from '../BlockPlace';
+import { useIsIframeMobile } from '../CustomFooks'
 
-//横並びのアイコン
-const flex = <Icon icon={stack} className="rotate-icon" />
 
 export default function Edit(props) {
 
@@ -32,17 +28,20 @@ export default function Edit(props) {
 	} = props;
 	const {
 		direction,
+		mobile_direction,
 		inner_align,
 		outer_align,
 		outer_vertical,
 		is_moveable,
-		is_mobile_vertical,
 		width_val,
 		free_val,
 		position,
 		unit_x,
 		unit_y
 	} = attributes;
+
+	//モバイル表示の判定
+	const isMoblie = useIsIframeMobile();
 
 	//インナーブロックの並び
 	const innerBlock_direction = direction === 'horizen' ? { display: 'flex' }
@@ -57,7 +56,7 @@ export default function Edit(props) {
 
 	const innerBlocksProps = useInnerBlocksProps(
 		//モバイル時の配置のためのクラスを付加
-		{ style: innerBlock_style, className: is_mobile_vertical ? 'movile_vertical' : '' },
+		{ style: innerBlock_style },
 		{
 			templateLock: false
 		}
@@ -96,60 +95,23 @@ export default function Edit(props) {
 	return (
 		<>
 			<InspectorControls group="styles">
-				<PanelBody
-					title={__("Direction of lining up", 'itmar_block_collections')}
-					initialOpen={true}
-					className='itmar_group_direction'
-				>
-					<ToolbarGroup>
-						<ToolbarItem>
-							{(itemProps) => (
-								<Button {...itemProps}
-									isPressed={direction === 'block'}
-									onClick={() => setAttributes({ direction: 'block' })}
-									icon={group}
-									label={__('block', 'itmar_block_collections')}
-								/>
 
-							)}
-						</ToolbarItem>
-						<ToolbarItem>
-							{(itemProps) => (
-								<Button {...itemProps}
-									isPressed={direction === 'vertical'}
-									onClick={() => setAttributes({ direction: 'vertical' })}
-									icon={stack}
-									label={__('virtical', 'itmar_block_collections')}
-								/>
-							)}
-						</ToolbarItem>
-						<ToolbarItem>
-							{(itemProps) => (
-								<Button {...itemProps}
-									isPressed={direction === 'horizen'}
-									onClick={() => setAttributes({ direction: 'horizen' })}
-									icon={flex}
-									label={__('horizen', 'itmar_block_collections')}
-								/>
-							)}
-						</ToolbarItem>
-					</ToolbarGroup>
-					<ToggleControl
-						label={__('Vertical on mobile', 'itmar_block_collections')}
-						checked={is_mobile_vertical}
-						onChange={(newVal) => {
-							setAttributes({ is_mobile_vertical: newVal })
-						}}
-					/>
-				</PanelBody>
 				<BlockPlace
 					attributes={attributes}
 					blockRef={blockRef}
+					onDirectionChange={(position) => {
+						if (isMoblie) {
+							setAttributes({ mobile_direction: position });
+						} else {
+							setAttributes({ direction: position });
+						}
+					}}
 					onFlexChange={(position) => setAttributes({ inner_align: position })}
 					onAlignChange={(position) => setAttributes({ outer_align: position })}
 					onVerticalChange={(position) => setAttributes({ outer_vertical: position })}
 					onWidthChange={(position) => setAttributes({ width_val: position })}
 					onFreevalChange={(value) => setAttributes({ free_val: value })}
+					isMobile={isMoblie}
 				/>
 
 				<PanelBody
@@ -174,12 +136,20 @@ export default function Edit(props) {
 					onPositionChange={(position, unit) => setAttributes({ position: position, unit_x: unit.unit_x, unit_y: unit.unit_y })}
 				>
 					<div {...blockProps}>
-						<div {...innerBlocksProps}></div>
+						<StyleComp
+							attributes={attributes}
+						>
+							<div {...innerBlocksProps}></div>
+						</StyleComp>
 					</div>
 				</DraggableBox>)
 				: (
 					<div {...blockProps}>
-						<div {...innerBlocksProps}></div>
+						<StyleComp
+							attributes={attributes}
+						>
+							<div {...innerBlocksProps}></div>
+						</StyleComp>
 					</div>
 				)
 			}

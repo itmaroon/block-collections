@@ -7,18 +7,3 @@
 .wp-block-itmar-draggable-box {
 	border: 1px dotted #f00;
 }
-
-.components-panel__row {
-	&.distance_row {
-		align-items: baseline;
-		column-gap: 10px;
-
-		.components-base-control {
-			margin-bottom: 0;
-		}
-	}
-
-	&.reset_row {
-		justify-content: end;
-	}
-}

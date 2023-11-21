@@ -37,8 +37,8 @@ export function useFontawesomeIframe() {
     if (iframeInstance) {
       const iframeDocument = iframeInstance.contentDocument || iframeInstance.contentWindow.document;
       const scriptElement = iframeDocument.createElement("script");
-      scriptElement.setAttribute("src", "https://kit.fontawesome.com/3e425ac06b.js");
-      scriptElement.setAttribute("crossorigin", "anonymous");
+      scriptElement.setAttribute("src", "../../assets/fontawesome.js");
+      //scriptElement.setAttribute("crossorigin", "anonymous");
 
       iframeDocument.body.appendChild(scriptElement);
 

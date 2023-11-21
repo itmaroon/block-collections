@@ -53,6 +53,8 @@ const units = [
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
 	const {
+		direction,
+		mobile_direction,
 		inner_align,
 		outer_align,
 		outer_vertical,
@@ -68,7 +70,6 @@ export default function Edit(props) {
 		position,
 		unit_x,
 		unit_y,
-		className
 	} = attributes;
 
 	//モバイル表示の判定
@@ -147,11 +148,11 @@ export default function Edit(props) {
 
 	useEffect(() => {//イメージの挿入・削除
 
-		if (className === 'is-style-grid' && grid_info.is_image) {
+		if ((direction === 'grid' || mobile_direction === 'grid') && grid_info.is_image) {
 			const imageBlock = createBlock('core/image', {});
 			insertBlocks(imageBlock, 0, clientId);  // insert new block at the first position
 		}
-		if ((className === 'is-style-grid' && !grid_info.is_image) || (className !== 'is-style-grid')) {
+		if (((direction === 'grid' || mobile_direction === 'grid') && !grid_info.is_image) || (direction !== 'grid' && mobile_direction !== 'grid')) {
 			const imageBlockClientIds = blocks
 				.filter(block => block.name === 'core/image')
 				.map(block => block.clientId);
@@ -162,13 +163,13 @@ export default function Edit(props) {
 			});
 		}
 
-	}, [className, grid_info.is_image]);
+	}, [direction, mobile_direction, grid_info.is_image]);
 
 	useEffect(() => {//イメージはグリッドでかつ１つだけ
 		//このタイミングでブロック属性に記録
 		setAttributes({ blockNum: blocks.length });
 
-		if (className !== 'is-style-grid') {//グリッドスタイル以外は消す
+		if (direction !== 'grid' && mobile_direction !== 'grid') {//グリッドスタイル以外は消す
 			const imageBlockClientIds = blocks
 				.filter(block => block.name === 'core/image')
 				.map(block => block.clientId);
@@ -186,7 +187,7 @@ export default function Edit(props) {
 			}
 
 		}
-		if (className === 'is-style-grid') {//２つ以上にはしない
+		if (direction === 'grid' || mobile_direction === 'grid') {//２つ以上にはしない
 			const imageBlockClientIds = blocks
 				.filter(block => block.name === 'core/image')
 				.map(block => block.clientId);
@@ -213,6 +214,23 @@ export default function Edit(props) {
 	return (
 		<>
 			<InspectorControls group="styles">
+				<BlockPlace
+					attributes={attributes}
+					blockRef={blockRef}
+					onDirectionChange={(position) => {
+						if (isMoblie) {
+							setAttributes({ mobile_direction: position });
+						} else {
+							setAttributes({ direction: position });
+						}
+					}}
+					onFlexChange={(position) => setAttributes({ inner_align: position })}
+					onAlignChange={(position) => setAttributes({ outer_align: position })}
+					onVerticalChange={(position) => setAttributes({ outer_vertical: position })}
+					onWidthChange={(position) => setAttributes({ width_val: position })}
+					onFreevalChange={(value) => setAttributes({ free_val: value })}
+					isMobile={isMoblie}
+				/>
 				<PanelBody title={__("Menu Style", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
 					{!isMoblie ?
 						<BoxControl
@@ -253,7 +271,7 @@ export default function Edit(props) {
 						/>
 					}
 				</PanelBody>
-				{className === 'is-style-grid' &&
+				{(!isMoblie && direction === 'grid' || isMoblie && mobile_direction === 'grid') &&
 					<PanelBody title={__("Grid Info settings", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
 
 						<RangeControl
@@ -324,18 +342,6 @@ export default function Edit(props) {
 							</PanelBody>
 						}
 					</PanelBody>
-				}
-
-				{!is_submenu &&
-					<BlockPlace
-						attributes={attributes}
-						blockRef={blockRef}
-						onFlexChange={(position) => setAttributes({ inner_align: position })}
-						onAlignChange={(position) => setAttributes({ outer_align: position })}
-						onVerticalChange={(position) => setAttributes({ outer_vertical: position })}
-						onWidthChange={(position) => setAttributes({ width_val: position })}
-						onFreevalChange={(value) => setAttributes({ free_val: value })}
-					/>
 				}
 
 				<PanelBody

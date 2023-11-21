@@ -22,6 +22,10 @@
 			"type": "string",
 			"default": "block"
 		},
+		"mobile_direction": {
+			"type": "string",
+			"default": "block"
+		},
 		"inner_align": {
 			"type": "string",
 			"default": "flex-start"
