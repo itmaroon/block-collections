@@ -1,15 +1,16 @@
 import {
-  PanelBody,
+  Button,
   PanelRow,
   ComboboxControl,
-  RadioControl,
-  ToggleControl,
   __experimentalNumberControl as NumberControl,
   __experimentalUnitControl as UnitControl,
+  __experimentalInputControl as InputControl
 } from '@wordpress/components';
 
 import { useSelect } from '@wordpress/data';
 import { useState, useEffect } from '@wordpress/element';
+import isEqual from 'lodash/isEqual';
+
 
 import { __ } from '@wordpress/i18n';
 
@@ -19,21 +20,67 @@ const units = [
   { value: 'rem', label: 'rem' },
 ];
 
+const initializeArray = (rowUnit, length) => {
+  if (!Array.isArray(rowUnit)) {
+    // rowUnit が配列ではない（undefined を含む）場合、全て "1fr" で埋めた配列を返す
+    return Array(length).fill("1fr");
+  }
+
+  return Array.from({ length }, (_, i) => rowUnit[i] || "1fr");
+}
+
 const GridControls = ({ attributes, clientId, onChange }) => {
   const {
     gridElms,
     rowNum,
     colNum,
     rowGap,
-    colGap
+    colGap,
+    rowUnit,
+    colUnit
   } = attributes;
 
   //グリッドの配置指定用テーブル要素
   const renderRows = () => {
     let rows = [];
+    // 列単位入力行を追加
+    let headerCells = [<th key="header-corner"></th>]; // 左上の角の空白セル
+    for (let c = 0; c < colNum; c++) {
+      headerCells.push(
+        <th key={`header-${c}`}>
+          <InputControl
+            value={colUnit ? colUnit[c] : ""}
+            type="text"
+            isPressEnterToChange={true}
+            onChange={(newValue) => {
+              const newArray = [...colUnit.slice(0, c), newValue, ...colUnit.slice(c + 1)];
+              setUnitColArray(newArray);
+            }}
+          />
+        </th>
+      );
+    }
+    rows.push(<tr key="header-row">{headerCells}</tr>);
+
+    // 各行とセルの生成
     for (let r = 0; r < rowNum; r++) {
       let cells = [];
-      cells.push(<td><input type="text" /></td>);
+      // 行行単位入力を追加
+      cells.push(
+        <th key={`row-header-${r}`}>
+          <InputControl
+            value={rowUnit ? rowUnit[r] : ""}
+            type="text"
+            isPressEnterToChange={true}
+            onChange={(newValue) => {
+              const newArray = [...rowUnit.slice(0, r), newValue, ...rowUnit.slice(r + 1)];
+              setUnitRowArray(newArray);
+            }}
+
+          />
+        </th>
+      );
+
       // 各行に対するセルを生成
       for (let c = 0; c < colNum; c++) {
         cells.push(<td
@@ -70,14 +117,15 @@ const GridControls = ({ attributes, clientId, onChange }) => {
 
   };
 
+
+
   //選択したインナーブロック
   const [selBlock, setSelBlock] = useState();
 
   //インナーブロックを取得
-  const [blockNames, setBlockNames] = useState();
-  useSelect((select) => {
+  const parentBlocks = useSelect((select) => {
     const innerBlocks = select('core/block-editor').getBlocks(clientId);
-    const block_names = innerBlocks.map((block, index) => gridElms.length > index ? {
+    const new_block_names = innerBlocks.map((block, index) => gridElms.length > index ? {
       value: block.clientId,
       label: block.name,
       startCell: gridElms[index].startCell,
@@ -88,15 +136,35 @@ const GridControls = ({ attributes, clientId, onChange }) => {
         label: block.name
       }
     );
-
-    setBlockNames(block_names);
+    return new_block_names
   }, [clientId]);
+  const [blockNames, setBlockNames] = useState(parentBlocks);
+
+  //グリッド配置のクリア
+  const clear_placement = () => {
+    //ブロックの配置情報削除
+    const clear_block = blockNames.map((block) => ({
+      value: block.value,
+      label: block.label
+    }
+    ));
+    setBlockNames(clear_block);
+    //選択情報の削除
+    setSelBlock(clear_block);
+  }
+
+  //単位配列の初期化
+  const initRowUnitArray = initializeArray(rowUnit, rowNum);
+  const [unitRowArray, setUnitRowArray] = useState(initRowUnitArray);
+  const initColUnitArray = initializeArray(colUnit, colNum);;
+  const [unitColArray, setUnitColArray] = useState(initColUnitArray);
 
   //親ブロックのコールバック呼出し（インナーブロック情報の書き戻し）
   useEffect(() => {
-    const newStyle = { ...attributes, gridElms: blockNames };
-    onChange(newStyle)
-  }, []);//インナーブロック変更時
+    console.log(blockNames)
+    const newStyle = { ...attributes, gridElms: blockNames, rowUnit: unitRowArray, colUnit: unitColArray };
+    onChange(newStyle);
+  }, [blockNames, unitRowArray, unitColArray]);//単位変更時
 
   useEffect(() => {
     if (selBlock) {
@@ -106,9 +174,10 @@ const GridControls = ({ attributes, clientId, onChange }) => {
         gridElms[index] = selBlock;
       }
       const newStyle = { ...attributes, gridElms: gridElms };
+      console.log(newStyle)
       onChange(newStyle)
     }
-  }, [selBlock]);//selBlock更新時
+  }, [blockNames, unitRowArray, unitColArray, selBlock]);//selBlock更新時
 
 
   return (
@@ -159,7 +228,14 @@ const GridControls = ({ attributes, clientId, onChange }) => {
         />
 
       </PanelRow>
-      <p>{__('Element placement', 'itmar_block_collections')}</p>
+
+      <PanelRow className='distance_row'>
+        <p>{__('Element placement', 'itmar_block_collections')}</p>
+        <Button variant="secondary" onClick={clear_placement}>
+          {__("Clear", 'itmar_block_collections')}
+        </Button>
+      </PanelRow>
+
       <PanelRow className='grid_table' >
         <table>
           {renderRows()}

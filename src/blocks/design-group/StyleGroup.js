@@ -123,8 +123,8 @@ ${({ attributes }) => {
     > div {
       >.group_contents{
         display: grid;
-        grid-template-columns: auto, 1fr);
-        grid-template-rows: repeat(${default_pos.grid_info.rowNum}, 1fr);
+        grid-template-columns: ${default_pos.grid_info.colUnit?.join(' ')};
+        grid-template-rows: ${default_pos.grid_info.rowUnit?.join(' ')};
         gap: ${default_pos.grid_info.rowGap} ${default_pos.grid_info.colGap};
         > div{
           ${createNthChildStyles(default_pos.grid_info.gridElms)}

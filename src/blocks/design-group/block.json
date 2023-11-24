@@ -51,7 +51,9 @@
 					"rowNum": 2,
 					"colNum": 2,
 					"rowGap": "5px",
-					"colGap": "5px"
+					"colGap": "5px",
+					"rowUnit": [],
+					"colUnit": []
 				}
 			}
 		},
