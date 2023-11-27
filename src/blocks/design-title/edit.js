@@ -241,7 +241,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 	//iframeにfontawesomeを読み込む
-	useFontawesomeIframe();
+	//useFontawesomeIframe();
 
 	//TextControlの表示用変数
 	const [copyInputValue, setCopyInputValue] = useState((optionStyle && optionStyle.copy_content !== undefined) ? optionStyle.copy_content : 'SAMPLE');

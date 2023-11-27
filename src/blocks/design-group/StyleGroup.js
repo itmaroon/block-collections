@@ -104,12 +104,15 @@ ${({ attributes }) => {
       if (numItems) {
         numItems.forEach((element, index) => {
           if (element.startCell && element.endCell) {
+            const verPos = element.vertAlign === 'middle' ? 'center' :
+              element.verAlign === 'lower' ? 'end' :
+                'start';
             styles += `
             &:nth-child(${index + 1}) {
               grid-column: ${element.startCell.colInx + 1} / ${element.endCell.colInx + 2};
               grid-row: ${element.startCell.rowInx + 1} / ${element.endCell.rowInx + 2};
-              align-self: center;
-              justify-self: center;
+              align-self: ${verPos};
+              justify-self: ${element.latAlign};
             }
           `;
           }

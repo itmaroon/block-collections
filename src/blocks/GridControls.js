@@ -1,18 +1,35 @@
 import {
   Button,
+  Icon,
   PanelRow,
   ComboboxControl,
+  ToolbarDropdownMenu,
   __experimentalNumberControl as NumberControl,
   __experimentalUnitControl as UnitControl,
   __experimentalInputControl as InputControl
 } from '@wordpress/components';
 
-import { useSelect } from '@wordpress/data';
-import { useState, useEffect } from '@wordpress/element';
-import isEqual from 'lodash/isEqual';
+import { useSelect, dispatch } from '@wordpress/data';
+import { useState, useEffect, useRef } from '@wordpress/element';
 
 
 import { __ } from '@wordpress/i18n';
+import { justifyCenter, justifyLeft, justifyRight } from '@wordpress/icons';
+//上よせアイコン
+const upper = <Icon icon={justifyLeft} className="rotate-icon" />
+//中央よせのアイコン
+const middle = <Icon icon={justifyCenter} className="rotate-icon" />
+//下よせのアイコン
+const lower = <Icon icon={justifyRight} className="rotate-icon" />
+// アイコンと文字列キーのマッピングを作成
+const alignIconMap = {
+  left: justifyLeft,
+  center: justifyCenter,
+  right: justifyRight,
+  upper: upper,
+  middle: middle,
+  lower: lower
+};
 
 const units = [
   { value: 'px', label: 'px' },
@@ -20,7 +37,7 @@ const units = [
   { value: 'rem', label: 'rem' },
 ];
 
-const initializeArray = (rowUnit, length) => {
+const initializeUnitArray = (rowUnit, length) => {
   if (!Array.isArray(rowUnit)) {
     // rowUnit が配列ではない（undefined を含む）場合、全て "1fr" で埋めた配列を返す
     return Array(length).fill("1fr");
@@ -28,6 +45,33 @@ const initializeArray = (rowUnit, length) => {
 
   return Array.from({ length }, (_, i) => rowUnit[i] || "1fr");
 }
+
+//r,cで与えられた座標がgridElmsのどの要素に含まれているかを返す
+const findElementInGrid = (gridElms, r, c) => {
+  for (let i = 0; i < gridElms.length; i++) {
+    const { startCell, endCell } = gridElms[i];
+
+    if (r >= startCell?.rowInx && r <= endCell?.rowInx &&
+      c >= startCell?.colInx && c <= endCell?.colInx) {
+      return { index: i, elm: gridElms[i] };
+    }
+  }
+  return null;
+}
+
+//親にイベントを伝播させないラッパー
+const StopPropagationWrapper = ({ children }) => {
+  const handleClick = (event) => {
+    // イベントの伝播を阻止
+    event.stopPropagation();
+  };
+
+  return (
+    <div className='itmar_event_stopper' onClick={handleClick}>
+      {children}
+    </div>
+  );
+};
 
 const GridControls = ({ attributes, clientId, onChange }) => {
   const {
@@ -40,12 +84,23 @@ const GridControls = ({ attributes, clientId, onChange }) => {
     colUnit
   } = attributes;
 
+  //コンポーネント内の行列情報
+  const [rowCount, setRowCount] = useState(rowNum);
+  const [colCount, setColCount] = useState(colNum);
+
+  //マウント時検出用フラグ
+  const firstFlgRef = useRef(true);
+
   //グリッドの配置指定用テーブル要素
   const renderRows = () => {
+    //セルが埋まっているかどうかの判定配列
+
+    const occupied = new Array(rowCount).fill(0).map(() => new Array(colCount).fill(false));
+
     let rows = [];
     // 列単位入力行を追加
     let headerCells = [<th key="header-corner"></th>]; // 左上の角の空白セル
-    for (let c = 0; c < colNum; c++) {
+    for (let c = 0; c < colCount; c++) {
       headerCells.push(
         <th key={`header-${c}`}>
           <InputControl
@@ -63,7 +118,7 @@ const GridControls = ({ attributes, clientId, onChange }) => {
     rows.push(<tr key="header-row">{headerCells}</tr>);
 
     // 各行とセルの生成
-    for (let r = 0; r < rowNum; r++) {
+    for (let r = 0; r < rowCount; r++) {
       let cells = [];
       // 行行単位入力を追加
       cells.push(
@@ -82,28 +137,96 @@ const GridControls = ({ attributes, clientId, onChange }) => {
       );
 
       // 各行に対するセルを生成
-      for (let c = 0; c < colNum; c++) {
+      for (let c = 0; c < colCount; c++) {
+        if (occupied[r][c]) {
+          continue; // このセルは既に占められているのでスキップ
+        }
+        //複数のセルを占める設定があればセルの結合オブジェクトを生成
+        const setElm = findElementInGrid(gridElms, r, c);
+        const rowSpanValue = setElm ? Math.abs(setElm.elm.startCell.rowInx - setElm.elm.endCell.rowInx) : 0;
+        const colSpanValue = setElm ? Math.abs(setElm.elm.startCell.colInx - setElm.elm.endCell.colInx) : 0;
+        const cellSpan = {
+          ...(rowSpanValue !== 0 && { rowspan: rowSpanValue + 1 }),
+          ...(colSpanValue !== 0 && { colspan: colSpanValue + 1 })
+        };
+        // 占められるセルの位置を記録
+        for (let i = 0; i <= rowSpanValue; i++) {
+          for (let j = 0; j <= colSpanValue; j++) {
+            if (r + i < rowCount && c + j < colCount) {
+              occupied[r + i][c + j] = true;
+            }
+          }
+        }
+        //セルを生成
         cells.push(<td
           key={`cell-${r}-${c}`}
+          {...cellSpan}
           className={isCellSelected(r, c) ? 'selected' : ''}
+          style={setElm ? { backgroundColor: `var(--wp--custom--color--area-${setElm.index})` } : undefined}
           onClick={() => detectCellPosition(r, c)}
-        />)
+        >
+          {setElm &&
+            <StopPropagationWrapper>
+              <ToolbarDropdownMenu
+                label={__('Lateral Alignment', 'itmar_block_collections')}
+                icon={setElm.elm.latAlign ? alignIconMap[setElm.elm.latAlign] : alignIconMap['left']}
+                controls={['left', 'center', 'right'].map(align => ({
+                  icon: alignIconMap[align],
+                  isActive: setElm.elm.latAlign === align,
+                  onClick: () => updateAlignment(setElm.index, align, 'latAlign'),
+                }))}
+              />
+              <ToolbarDropdownMenu
+                label={__('Vertical Alignment', 'itmar_block_collections')}
+                icon={setElm.elm.vertAlign ? alignIconMap[setElm.elm.vertAlign] : alignIconMap['upper']}
+                controls={['upper', 'middle', 'lower'].map(align => ({
+                  icon: alignIconMap[align],
+                  isActive: setElm.elm.vertAlign === align,
+                  onClick: () => updateAlignment(setElm.index, align, 'vertAlign'),
+                }))}
+              />
+            </StopPropagationWrapper>
+          }
+        </td>)
       }
       // 行の追加
       rows.push(<tr key={`row-${r}`}>{cells}</tr>);
     }
     return rows;
   };
+
   //テーブルの位置選択関数
   const detectCellPosition = (rowIndex, colIndex) => {
-    if (!selBlock) return;
+    //インナーブロックの選択がなければリターン
+    if (!selBlock) {
+      dispatch('core/notices').createNotice(
+        'error',
+        __('No blocks selected.', 'itmar_guest_contact_block'),
+        { type: 'snackbar', isDismissible: true, }
+      );
+      return;
+    }
+    //選択済みのセルが選択されたときはリターン
+    if (findElementInGrid(gridElms, rowIndex, colIndex)) {
+      dispatch('core/notices').createNotice(
+        'error',
+        __('That cell is already selected by another block.', 'itmar_guest_contact_block'),
+        { type: 'snackbar', isDismissible: true, }
+      );
+      return;
+    }
 
+    //選択されたブロックのポジションを記録
     const newBlock = !selBlock.startCell
       ? { ...selBlock, startCell: { rowInx: rowIndex, colInx: colIndex }, endCell: { rowInx: rowIndex, colInx: colIndex } }
       : { ...selBlock, endCell: { rowInx: rowIndex, colInx: colIndex } };
-
     setSelBlock(newBlock);
+    //blockNamesの更新
+    const index = gridElms?.findIndex((block) => block.value === selBlock.value);
+    const setAreaBlock = [...blockNames.slice(0, index), newBlock, ...blockNames.slice(index + 1)];
+    setBlockNames(setAreaBlock);
   };
+
   // セルが選択されているか判断する関数
   const isCellSelected = (rowIndex, colIndex) => {
     if (selBlock) {
@@ -117,19 +240,27 @@ const GridControls = ({ attributes, clientId, onChange }) => {
 
   };
 
-
+  //コンテンツ位置設定
+  const updateAlignment = (index, align, derection) => {
+    const alignBlock = { ...blockNames[index], [derection]: align };
+    const setAlignBlock = [...blockNames.slice(0, index), alignBlock, ...blockNames.slice(index + 1)];
+    setBlockNames(setAlignBlock);
+  }
 
   //選択したインナーブロック
-  const [selBlock, setSelBlock] = useState();
+  const [selBlock, setSelBlock] = useState(null);
 
   //インナーブロックを取得
   const parentBlocks = useSelect((select) => {
     const innerBlocks = select('core/block-editor').getBlocks(clientId);
+    //インナーブロック入れ替えの際は既に登録したブロックの位置情報があれば、それを付加する。
     const new_block_names = innerBlocks.map((block, index) => gridElms.length > index ? {
       value: block.clientId,
       label: block.name,
       startCell: gridElms[index].startCell,
-      endCell: gridElms[index].endCell
+      endCell: gridElms[index].endCell,
+      latAlign: gridElms[index].latAlign,
+      vertAlign: gridElms[index].vertAlign
     } :
       {
         value: block.clientId,
@@ -149,36 +280,38 @@ const GridControls = ({ attributes, clientId, onChange }) => {
     }
     ));
     setBlockNames(clear_block);
-    //選択情報の削除
-    setSelBlock(clear_block);
+
   }
 
   //単位配列の初期化
-  const initRowUnitArray = initializeArray(rowUnit, rowNum);
+  const initRowUnitArray = initializeUnitArray(rowUnit, rowCount);
   const [unitRowArray, setUnitRowArray] = useState(initRowUnitArray);
-  const initColUnitArray = initializeArray(colUnit, colNum);;
+  const initColUnitArray = initializeUnitArray(colUnit, colCount);;
   const [unitColArray, setUnitColArray] = useState(initColUnitArray);
 
-  //親ブロックのコールバック呼出し（インナーブロック情報の書き戻し）
+  //親ブロックへの書き戻し
   useEffect(() => {
-    console.log(blockNames)
-    const newStyle = { ...attributes, gridElms: blockNames, rowUnit: unitRowArray, colUnit: unitColArray };
-    onChange(newStyle);
-  }, [blockNames, unitRowArray, unitColArray]);//単位変更時
+    const gridStyle = { ...attributes, gridElms: blockNames, rowNum: rowCount, colNum: colCount, rowUnit: unitRowArray, colUnit: unitColArray };
 
+    onChange(gridStyle);
+
+  }, [blockNames, unitRowArray, unitColArray]);
+
+  //行と列の数を変えた場合は位置情報を削除・単位の再編成
   useEffect(() => {
-    if (selBlock) {
-      const index = gridElms?.findIndex((block) => block.value === selBlock.value);
-      // インデックスが見つかった場合にのみ入れ替えを行う
-      if (index !== -1) {
-        gridElms[index] = selBlock;
-      }
-      const newStyle = { ...attributes, gridElms: gridElms };
-      console.log(newStyle)
-      onChange(newStyle)
+    if (!firstFlgRef.current) {//マウント時は実行しない
+      //ブロックの位置情報クリア
+      clear_placement();
+      //単位情報の再編成
+      const newRowUnitArray = initializeUnitArray(rowUnit, rowCount);
+      setUnitRowArray(newRowUnitArray);
+      const newColUnitArray = initializeUnitArray(colUnit, colCount);
+      setUnitColArray(newColUnitArray);
+    } else {
+      firstFlgRef.current = false
     }
-  }, [blockNames, unitRowArray, unitColArray, selBlock]);//selBlock更新時
 
+  }, [rowCount, colCount]);
 
   return (
     <>
@@ -187,20 +320,20 @@ const GridControls = ({ attributes, clientId, onChange }) => {
       >
         <NumberControl
           onChange={(newValue) => {
-            const newStyle = { ...attributes, rowNum: newValue };
-            onChange(newStyle);
+            const input_val = typeof (newValue) === 'number' ? newValue : Number(newValue);
+            setRowCount(input_val);
           }}
           label={__('Number of Row ', 'itmar_block_collections')}
-          value={rowNum}
+          value={rowCount}
           min={2}
         />
         <NumberControl
           onChange={(newValue) => {
-            const newStyle = { ...attributes, colNum: newValue };
-            onChange(newStyle);
+            const input_val = typeof (newValue) === 'number' ? newValue : Number(newValue);
+            setColCount(input_val);
           }}
           label={__('Number of Colum', 'itmar_block_collections')}
-          value={colNum}
+          value={colCount}
         />
       </PanelRow>
       <PanelRow
@@ -243,10 +376,10 @@ const GridControls = ({ attributes, clientId, onChange }) => {
       </PanelRow>
       <ComboboxControl
         label={__('InnerBlock Name', 'itmar_block_collections')}
-        options={gridElms}
+        options={blockNames}
         value={selBlock ? selBlock.value : null}
         onChange={(sel_id) => {
-          const matchedBlock = gridElms.find(block => block.value === sel_id);
+          const matchedBlock = blockNames.find(block => block.value === sel_id);
           setSelBlock(matchedBlock)
         }}
       />
