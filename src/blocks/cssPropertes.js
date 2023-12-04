@@ -15,11 +15,22 @@ export const space_prm = (space) => {
   )
 }
 //ブロック幅を返す
-export const width_prm = (width, free_val) => {
+export const max_width_prm = (width, free_val) => {
   const ret_width_prm =
     width === 'wideSize' ? ' width: 100%; max-width: var(--wp--style--global--wide-size);'
       : width === 'contentSize' ? ' width: 100%; max-width: var(--wp--style--global--content-size);'
         : width === 'free' ? ` width: 100%; max-width: ${free_val}px; `
+          : ' width: fit-content;';
+  return (
+    ret_width_prm
+  )
+}
+
+export const width_prm = (width, free_val) => {
+  const ret_width_prm =
+    width === 'wideSize' ? ' width: var(--wp--style--global--wide-size);'
+      : width === 'contentSize' ? ' width: var(--wp--style--global--content-size);'
+        : width === 'free' ? ` width: ${free_val}px; `
           : ' width: fit-content;';
   return (
     ret_width_prm

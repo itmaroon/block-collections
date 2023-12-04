@@ -33,7 +33,8 @@ export default function BlockPlace(props) {
     attributes,
     clientId,
     blockRef,
-    isMobile
+    isMobile,
+    isSubmenu
   } = props;
   const {
     default_pos,
@@ -194,14 +195,14 @@ export default function BlockPlace(props) {
           </>
         }
 
-        {!isContainer && (
+        {(!isContainer && !isSubmenu) && (
           isMobile ?
             <p>{__('Block horizen alignment(Mobile)', 'itmar_block_collections')}</p>
             :
             <p>{__('Block horizen alignment(DeskTop)', 'itmar_block_collections')}</p>
         )}
 
-        {!isContainer &&
+        {(!isContainer && !isSubmenu) &&
           <ToolbarGroup>
             <ToolbarItem>
               {(itemProps) => (
@@ -282,9 +283,9 @@ export default function BlockPlace(props) {
           </>
         }
         {isMobile ?
-          <p>{__('Block Width(Mobile)', 'itmar_block_collections')}</p>
+          <p>{__(`Block ${!isSubmenu ? 'Max' : ''} Width(Mobile)`, 'itmar_block_collections')}</p>
           :
-          <p>{__('Block Width(DeskTop)', 'itmar_block_collections')}</p>
+          <p>{__(`Block ${!isSubmenu ? 'Max' : ''} Width(DeskTop)`, 'itmar_block_collections')}</p>
         }
         <ToolbarGroup>
           <ToolbarItem>

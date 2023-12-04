@@ -300,8 +300,8 @@ const StyledDiv = styled.div`
           ${isIcon && css`
             &::after{
               content: '\\${icon_style.icon_name}';
-              font-family: 'Font Awesome 5 Free';
-              font-weight: 900;
+              font-family: "${icon_style.icon_family}";
+              font-weight: ${icon_style.icon_family === 'Font Awesome 6 Free' ? "900" : "400"};
               position: absolute;
               font-size: ${icon_style.icon_size};
               color: ${icon_style.icon_color};

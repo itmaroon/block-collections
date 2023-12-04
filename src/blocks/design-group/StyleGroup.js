@@ -1,15 +1,12 @@
 import styled, { css } from 'styled-components';
-import { width_prm, align_prm, space_prm, convertToScss } from '../cssPropertes';
-import { useRef, useEffect } from '@wordpress/element';
+import { width_prm, max_width_prm, align_prm, space_prm, convertToScss } from '../cssPropertes';
 
-export const StyleComp = ({ attributes, children }) => {
-  const ref = useRef(null);
-  useEffect(() => {
-    const parent = ref.current.parentElement;
-    const style = window.getComputedStyle(parent);
-  }, []);
+export const StyleComp = ({ attributes, isMenuOpen, children }) => {
   return (
-    <StyledDiv attributes={attributes} ref={ref}>
+    <StyledDiv
+      attributes={attributes}
+      className={`${isMenuOpen ? 'open' : ''} ${attributes.is_submenu ? 'sub_menu' : ''}`}
+    >
       {children}
     </StyledDiv>
   );
@@ -23,7 +20,9 @@ ${({ attributes }) => {
       shadow_result,
       is_shadow,
       is_moveable,
-      position
+      position,
+      is_menu,
+      is_submenu
     } = attributes;
 
     //スペースの設定
@@ -32,6 +31,8 @@ ${({ attributes }) => {
     //ブロック幅
     const default_width_style = width_prm(default_pos.width_val, default_pos.free_val);
     const mobile_width_style = width_prm(mobile_pos.width_val, default_pos.free_val);
+    const default_max_width_style = max_width_prm(default_pos.width_val, default_pos.free_val);
+    const mobile_max_width_style = max_width_prm(mobile_pos.width_val, default_pos.free_val);
     //ブロックの配置
     const default_block_align = align_prm(default_pos.outer_align);
     const mobile_block_align = align_prm(mobile_pos.outer_align);
@@ -43,12 +44,41 @@ ${({ attributes }) => {
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       position: relative;
-      ${default_width_style}
+      ${is_submenu ? default_width_style : default_max_width_style}
       ${default_block_align}
       align-self: ${default_pos.outer_vertical};
       @media (max-width: 767px) {
-        ${mobile_width_style}
+        ${is_submenu ? mobile_width_style : mobile_max_width_style}
         ${mobile_block_align}
+        ${is_menu && css`
+          position: fixed !important;
+          top: 0;
+          left: 0;
+          margin-top: 0;
+          transform: translateX(-100%);
+          transition: all 0.5s ease 0s;
+          z-index: 120;
+          height: 100vh;
+          width: 80% !important;
+          background-color: var(--wp--preset--color--content-back);
+          > div{
+            height:100%;
+            >.group_contents{
+              height:100%;
+            }
+          }
+
+          &.open {
+            transform: translateX(0);
+          }
+
+          &.sub_menu {
+            position: relative !important;
+            transform: translateX(0);
+            width: auto !important;
+            height: auto;
+          }
+        `}
       }
       > div{
         ${tranceform}
@@ -57,6 +87,8 @@ ${({ attributes }) => {
           padding: ${default_content_padding_prm};
           @media (max-width: 767px) {
             padding: ${mobile_contnt_padding_prm};
+            max-height: 90vh;
+            overflow-y: scroll;
           }
         }
       }
@@ -104,13 +136,19 @@ ${({ attributes }) => {
       if (numItems) {
         numItems.forEach((element, index) => {
           if (element.startCell && element.endCell) {
+            // 各座標の最小値と最大値を計算
+            const minCol = Math.min(element.startCell.colInx, element.endCell.colInx);
+            const maxCol = Math.max(element.startCell.colInx, element.endCell.colInx);
+            const minRow = Math.min(element.startCell.rowInx, element.endCell.rowInx);
+            const maxRow = Math.max(element.startCell.rowInx, element.endCell.rowInx);
+
             const verPos = element.vertAlign === 'middle' ? 'center' :
-              element.verAlign === 'lower' ? 'end' :
+              element.vertAlign === 'lower' ? 'end' :
                 'start';
             styles += `
             &:nth-child(${index + 1}) {
-              grid-column: ${element.startCell.colInx + 1} / ${element.endCell.colInx + 2};
-              grid-row: ${element.startCell.rowInx + 1} / ${element.endCell.rowInx + 2};
+              grid-column: ${minCol + 1} / ${maxCol + 2};
+              grid-row: ${minRow + 1} / ${maxRow + 2};
               align-self: ${verPos};
               justify-self: ${element.latAlign};
             }
@@ -129,15 +167,15 @@ ${({ attributes }) => {
         grid-template-columns: ${default_pos.grid_info.colUnit?.join(' ')};
         grid-template-rows: ${default_pos.grid_info.rowUnit?.join(' ')};
         gap: ${default_pos.grid_info.rowGap} ${default_pos.grid_info.colGap};
-        > div{
+        >div,>figure{
           ${createNthChildStyles(default_pos.grid_info.gridElms)}
         }
         
         @media (max-width: 767px) {
-          grid-template-columns: repeat(${mobile_pos.grid_info.colNum}, 1fr);
-          grid-template-rows: repeat(${mobile_pos.grid_info.rowNum}, 1fr);
+          grid-template-columns: ${mobile_pos.grid_info.colUnit?.join(' ')};
+          grid-template-rows: ${mobile_pos.grid_info.rowUnit?.join(' ')};
           gap: ${mobile_pos.grid_info.rowGap} ${mobile_pos.grid_info.colGap};
-          > div{
+          >div,>figure{
             ${createNthChildStyles(mobile_pos.grid_info.gridElms)}
           }
         }

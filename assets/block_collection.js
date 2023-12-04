@@ -125,7 +125,7 @@ jQuery(function ($) {
     window.location.href = redirectUrl;
   });
   /* ------------------------------
-  design-menuのハンバーガー
+  design-groupのハンバーガー
   ------------------------------ */
   $(document).on('click', '.itmar_hamberger_btn, .itmar_back_ground ', function (e) {
     $(this).toggleClass("open");

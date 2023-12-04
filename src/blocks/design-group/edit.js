@@ -2,11 +2,13 @@
 import { __ } from '@wordpress/i18n';
 import './editor.scss';
 import { StyleComp } from './StyleGroup';
+import ToggleElement from './ToggleElement';
 import { useStyleIframe } from '../iframeFooks';
 import ShadowStyle, { ShadowElm } from '../ShadowStyle';
 import DraggableBox, { useDraggingMove } from '../DraggableBox';
 import BlockPlace from '../BlockPlace';
 import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks'
+import { useSelect, dispatch } from '@wordpress/data';
 
 import {
 	useBlockProps,
@@ -17,11 +19,10 @@ import {
 import {
 	PanelBody,
 	ToggleControl,
-	RangeControl,
 	__experimentalBoxControl as BoxControl,
 } from '@wordpress/components';
 
-import { useEffect, useRef } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -44,6 +45,23 @@ const units = [
 	{ value: 'rem', label: 'rem' },
 ];
 
+function checkInnerGroupBlocks(blocks) {
+	for (const block of blocks) {
+		// itmar/design-group ブロックで is_menu が true の場合
+		if (block.name === 'itmar/design-group' && block.attributes.is_menu === true) {
+			return true;
+		}
+
+		// インナーブロックがある場合、それらもチェック
+		if (block.innerBlocks && block.innerBlocks.length > 0) {
+			if (checkInnerGroupBlocks(block.innerBlocks)) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
 	const {
@@ -52,7 +70,9 @@ export default function Edit(props) {
 		shadow_element,
 		is_shadow,
 		is_moveable,
-		position
+		position,
+		is_menu,
+		is_submenu
 	} = attributes;
 
 	//モバイルの判定
@@ -61,14 +81,20 @@ export default function Edit(props) {
 	//ブロックの参照
 	const blockRef = useRef(null);
 
+	//ハンバーガーボタンのクリックによるイベントハンドラ(クラス名の付加)
+	const [isMenuOpen, setIsmenuOpen] = useState(false);
+	const handleHambergerToggle = (isOpen) => {
+		setIsmenuOpen(isOpen)
+	}
+
 	//blockPropsの参照
 	const blockProps = useBlockProps({
-		ref: blockRef
-	});// ここで参照を blockProps に渡しています
-
+		ref: blockRef,// ここで参照を blockProps に渡しています
+	});
 
 	//背景色の取得
 	const baseColor = useElementBackgroundColor(blockRef, blockProps.style);
+
 	//背景色変更によるシャドー属性の書き換え
 	useEffect(() => {
 		if (baseColor) {
@@ -77,7 +103,6 @@ export default function Edit(props) {
 			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
 		}
 	}, [baseColor]);
-
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -95,15 +120,42 @@ export default function Edit(props) {
 	};
 	useDraggingMove(is_moveable, blockRef, position, handlePositionChange);
 
+	//ブロックの監視（メニューに設定されているitmar/design-groupが存在するかのチェック
+	const isMenuBlockPresent = useSelect((select) => {
+		const blocks = select('core/block-editor').getBlocks();
+		return checkInnerGroupBlocks(blocks);
+	}, []);
+
 	return (
 		<>
 			{/* インスペクター領域内 */}
+			<InspectorControls group="settings">
+				<PanelBody title={__("Menu or Group", 'itmar_block_collections')} initialOpen={true} className="form_design_ctrl">
+					<ToggleControl
+						label={__('Is Menu', 'itmar_block_collections')}
+						checked={is_menu}
+						onChange={(newVal) => {
+							if (!isMenuBlockPresent) {
+								setAttributes({ is_menu: newVal })
+							} else {
+								dispatch('core/notices').createNotice(
+									'error',
+									__('Only one group can be placed as a menu on each page.', 'itmar_guest_contact_block'),
+									{ type: 'snackbar', isDismissible: true, }
+								);
+							}
+
+						}}
+					/>
+				</PanelBody>
+			</InspectorControls>
 			<InspectorControls group="styles">
 				<BlockPlace
 					attributes={attributes}
 					clientId={clientId}
 					blockRef={blockRef}
 					isMobile={isMobile}
+					isSubmenu={is_submenu}
 					onDirectionChange={(position) => {
 						if (!isMobile) {
 							setAttributes({ default_pos: { ...default_pos, direction: position } });
@@ -212,11 +264,33 @@ export default function Edit(props) {
 
 			{/* ブロックエディタ領域内 */}
 
-			<StyleComp attributes={attributes}>
+			{(is_menu && !is_submenu) &&
+				<>
+					<ToggleElement
+						onToggle={handleHambergerToggle}
+						className='itmar_hamberger_btn'
+						openFlg={isMenuOpen}
+					>
+						<span></span>
+						<span></span>
+						<span></span>
+					</ToggleElement>
+					<ToggleElement
+						onToggle={handleHambergerToggle}
+						openFlg={isMenuOpen}
+						className='itmar_back_ground'
+					/>
+				</>
+			}
+
+			<StyleComp
+				attributes={attributes}
+				isMenuOpen={isMenuOpen}
+			>
 				<div {...blockProps} >
 					<div {...innerBlocksProps}></div>
 				</div>
-			</StyleComp>
+			</StyleComp >
 
 		</>
 	);

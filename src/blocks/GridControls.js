@@ -50,9 +50,14 @@ const initializeUnitArray = (rowUnit, length) => {
 const findElementInGrid = (gridElms, r, c) => {
   for (let i = 0; i < gridElms.length; i++) {
     const { startCell, endCell } = gridElms[i];
+    // 各座標の最小値と最大値を決定
+    const minRow = Math.min(startCell?.rowInx, endCell?.rowInx);
+    const maxRow = Math.max(startCell?.rowInx, endCell?.rowInx);
+    const minCol = Math.min(startCell?.colInx, endCell?.colInx);
+    const maxCol = Math.max(startCell?.colInx, endCell?.colInx);
 
-    if (r >= startCell?.rowInx && r <= endCell?.rowInx &&
-      c >= startCell?.colInx && c <= endCell?.colInx) {
+    // 座標が範囲内にあるかどうかをチェック
+    if (r >= minRow && r <= maxRow && c >= minCol && c <= maxCol) {
       return { index: i, elm: gridElms[i] };
     }
   }
@@ -220,7 +225,9 @@ const GridControls = ({ attributes, clientId, onChange }) => {
     const newBlock = !selBlock.startCell
       ? { ...selBlock, startCell: { rowInx: rowIndex, colInx: colIndex }, endCell: { rowInx: rowIndex, colInx: colIndex } }
       : { ...selBlock, endCell: { rowInx: rowIndex, colInx: colIndex } };
+
     setSelBlock(newBlock);
+
     //blockNamesの更新
     const index = gridElms?.findIndex((block) => block.value === selBlock.value);
     const setAreaBlock = [...blockNames.slice(0, index), newBlock, ...blockNames.slice(index + 1)];
@@ -230,9 +237,16 @@ const GridControls = ({ attributes, clientId, onChange }) => {
   // セルが選択されているか判断する関数
   const isCellSelected = (rowIndex, colIndex) => {
     if (selBlock) {
+      // 各座標の最小値と最大値を決定
+      const minRow = Math.min(selBlock.startCell?.rowInx, selBlock.endCell?.rowInx);
+      const maxRow = Math.max(selBlock.startCell?.rowInx, selBlock.endCell?.rowInx);
+      const minCol = Math.min(selBlock.startCell?.colInx, selBlock.endCell?.colInx);
+      const maxCol = Math.max(selBlock.startCell?.colInx, selBlock.endCell?.colInx);
+
+      // 座標が範囲内にあるかどうかをチェック
       return (
-        rowIndex >= selBlock.startCell?.rowInx && rowIndex <= selBlock.endCell?.rowInx &&
-        colIndex >= selBlock.startCell?.colInx && colIndex <= selBlock.endCell?.colInx
+        rowIndex >= minRow && rowIndex <= maxRow &&
+        colIndex >= minCol && colIndex <= maxCol
       );
     } else {
       return false;

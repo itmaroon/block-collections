@@ -192,8 +192,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					icon_pos: "left",
 					icon_size: "24px",
 					icon_color: "#000",
-					icon_space: "5px"
-
+					icon_space: "5px",
+					icon_family: "Font Awesome 6 Free"
 				}
 			}
 		}
@@ -255,8 +255,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const subMenuBlocksProps = useInnerBlocksProps(
 		{ className: `submenu-block ${hasSelectedInnerBlock ? 'visible' : ''} ${menu_pos.replace(/ /g, "_")} ${!is_title_menu ? 'mobile_horizen' : 'mobile_virtical'}` },
 		{
-			allowedBlocks: ['itmar/draggable-box', 'itmar/design-menu'],
-			template: [['itmar/design-menu', { is_submenu: true }]],
+			allowedBlocks: ['itmar/design-group'],
+			template: [['itmar/design-group', { is_submenu: true },
+				[['itmar/design-title', { headingType: 'H3' }]]
+			]],
 			templateLock: false
 		}
 	);

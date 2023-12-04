@@ -127,9 +127,17 @@
         "x": "0px",
         "y": "0px"
       }
+    },
+    "is_menu": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_submenu": {
+      "type": "boolean",
+      "default": false
     }
   },
-  "textdomain": "design-group",
+  "textdomain": "itmar_block_collections",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"

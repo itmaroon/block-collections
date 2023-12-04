@@ -5,6 +5,7 @@ import {
   TextControl,
   PanelRow,
   RadioControl,
+  ComboboxControl,
   __experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
 
@@ -19,12 +20,20 @@ const helpLink = createElement(
   'FontAwesome'
 );
 
-const helpText = createElement(
+const helpTextCode = createElement(
   'span',
   {},
   helpLink,
   __('Select the icon from and enter Unicode (the upper right four digits of the selection dialog). ', 'itmar_block_collections')
 );
+
+const helpTextFamily = createElement(
+  'span',
+  {},
+  helpLink,
+  __('Please select the first class name shown in the HTML code field of the selection dialog. ', 'itmar_block_collections')
+);
+
 
 const units = [
   { value: 'px', label: 'px' },
@@ -32,25 +41,42 @@ const units = [
   { value: 'rem', label: 'rem' },
 ];
 
+const family_option = [
+  { value: 'Font Awesome 6 Free', label: 'SOLID' },
+  { value: 'Font Awesome 6 Brands', label: 'BRANDS' },
+]
+
 export default ({ iconStyle, onChange }) => {
   const {
     icon_name,
     icon_pos,
     icon_size,
     icon_color,
-    icon_space
+    icon_space,
+    icon_family
   } = iconStyle;
 
   return (
     <>
       <TextControl
         label={__("icon name", 'itmar_block_collections')}
-        help={helpText}
+        help={helpTextCode}
         labelPosition="top"
         value={icon_name}
         isPressEnterToChange
         onChange={(newValue) => {
           const newStyle = { ...iconStyle, icon_name: newValue };
+          onChange(newStyle);
+        }}
+      />
+
+      <ComboboxControl
+        label={__('Icon Family', 'itmar_block_collections')}
+        help={helpTextFamily}
+        options={family_option}
+        value={icon_family ? icon_family : 'Font Awesome 6 Free'}
+        onChange={(newValue) => {
+          const newStyle = { ...iconStyle, icon_family: newValue };
           onChange(newStyle);
         }}
       />

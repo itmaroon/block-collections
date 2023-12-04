@@ -430,8 +430,16 @@ $breakpoints: (
 	}
 
 	.itmar_event_stopper {
-		&:not(:last-child) {
-			margin-left: 5px;
+		.components-dropdown {
+			&:not(:last-child) {
+				margin-left: 5px;
+			}
 		}
+
 	}
+}
+
+//スタイル要素を含んだdiv要素を非表示
+.itmar_style_div {
+	display: none;
 }

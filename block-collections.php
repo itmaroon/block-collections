@@ -123,8 +123,9 @@ function itmar_block_collections_font_init()
 {
 	wp_enqueue_style('itmar_google_fonts', 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Texturina:wght@300;400;500;600&display=swap', array(), null);
 
-	wp_enqueue_script( 'font-awesome', plugins_url('/assets/fontawesome.js', __FILE__),array(),'',true);
-	
+	wp_enqueue_style( 'font-awesome', plugins_url('/assets/css/fontawesome.css', __FILE__),array(),null);
+	wp_enqueue_style( 'awesome-brands', plugins_url('/assets/css/brands.css', __FILE__),array(),null);
+	wp_enqueue_style( 'awesome-solid', plugins_url('/assets/css/solid.css', __FILE__),array(),null);
 }
 add_action('enqueue_block_assets', 'itmar_block_collections_font_init');
 

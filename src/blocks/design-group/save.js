@@ -5,6 +5,10 @@ import { renderToString } from 'react-dom/server';
 import { StyleComp } from './StyleGroup';
 
 export default function save({ attributes }) {
+	const {
+		is_menu,
+		is_submenu
+	} = attributes;
 
 	//ブロックのスタイル適用とサブメニューの場合はクラスを付加
 	const blockProps = useBlockProps.save();
@@ -12,7 +16,9 @@ export default function save({ attributes }) {
 	//styled-componentsのHTML化
 	const sheet = new ServerStyleSheet();
 	const html = renderToString(sheet.collectStyles(
-		<StyleComp attributes={attributes} />
+		<StyleComp
+			attributes={attributes}
+		/>
 	));
 	const styleTags = sheet.getStyleTags();
 	// 正規表現で styled-components のクラス名を取得
@@ -21,6 +27,17 @@ export default function save({ attributes }) {
 
 	return (
 		<>
+			{(is_menu && !is_submenu) &&
+				<>
+					<div className="itmar_hamberger_btn">
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+					<div className='itmar_back_ground'></div>
+				</>
+			}
+
 			<div className={className}>
 				<div {...blockProps} >
 					<div className="group_contents">
