@@ -5,15 +5,13 @@ import TypographyControls from '../TypographyControls'
 import { StyleComp } from './StyleInput';
 import { useState, useEffect, useRef } from '@wordpress/element';
 import { useStyleIframe } from '../iframeFooks';
-import ShadowStyle from '../ShadowStyle';
+import ShadowStyle, { ShadowElm } from '../ShadowStyle';
+import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks'
 
 import {
-	Button,
-	Panel,
 	PanelBody,
 	PanelRow,
 	ToggleControl,
-	RangeControl,
 	RadioControl,
 	TextControl,
 	__experimentalBoxControl as BoxControl,
@@ -22,12 +20,7 @@ import {
 } from '@wordpress/components';
 import {
 	useBlockProps,
-	RichText,
-	BlockAlignmentControl,
-	BlockControls,
-	InnerBlocks,
 	InspectorControls,
-	PanelColorSettings,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl
 } from '@wordpress/block-editor';
@@ -76,8 +69,8 @@ export default function Edit(props) {
 		textColor_input,
 		radius_input,
 		border_input,
-		margin_input,
-		padding_input,
+		default_pos,
+		mobile_pos,
 		labelContent,
 		font_style_label,
 		bgColor_label,
@@ -92,7 +85,27 @@ export default function Edit(props) {
 		className
 	} = attributes;
 
-	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
+	//モバイルの判定
+	const isMobile = useIsIframeMobile();
+
+	//ブロックの参照
+	const blockRef = useRef(null);
+	const blockProps = useBlockProps({
+		ref: blockRef,// ここで参照を blockProps に渡しています
+		style: { backgroundColor: bgColor }
+	});
+
+	//背景色の取得
+	const baseColor = useElementBackgroundColor(blockRef, blockProps.style);
+
+	//背景色変更によるシャドー属性の書き換え
+	useEffect(() => {
+		if (baseColor) {
+			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
+			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
+			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
+		}
+	}, [baseColor]);
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -217,7 +230,9 @@ export default function Edit(props) {
 								setAttributes({ required: newObj })
 							}}
 						/>
-						{required.flg &&
+					</PanelRow>
+					{required.flg &&
+						<PanelRow>
 							<TextControl
 								label={__("Show 'required'", 'itmar_block_collections')}
 								value={required.display}
@@ -227,8 +242,9 @@ export default function Edit(props) {
 									setAttributes({ required: newObj })
 								}}
 							/>
-						}
-					</PanelRow>
+						</PanelRow>
+					}
+
 
 
 				</PanelBody>
@@ -270,17 +286,35 @@ export default function Edit(props) {
 						]}
 					/>
 					<BoxControl
-						label={__("Margin settings", 'itmar_block_collections')}
-						values={margin_input}
-						onChange={value => setAttributes({ margin_input: value })}
+						label={!isMobile ?
+							__("Margin settings(desk top)", 'itmar_block_collections')
+							: __("Margin settings(mobile)", 'itmar_block_collections')
+						}
+						values={!isMobile ? default_pos.margin_input : mobile_pos.margin_input}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, margin_input: value } });
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, margin_input: value } });
+							}
+						}}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
 						resetValues={padding_resetValues}	// リセット時の値
 					/>
 					<BoxControl
-						label={__("Padding settings", 'itmar_block_collections')}
-						values={padding_input}
-						onChange={value => setAttributes({ padding_input: value })}
+						label={!isMobile ?
+							__("Padding settings(desk top)", 'itmar_block_collections')
+							: __("Padding settings(mobile)", 'itmar_block_collections')
+						}
+						values={!isMobile ? default_pos.padding_input : mobile_pos.padding_input}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, padding_input: value } })
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, padding_input: value } })
+							}
+						}}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
 						resetValues={padding_resetValues}	// リセット時の値
@@ -293,6 +327,15 @@ export default function Edit(props) {
 							setAttributes({ is_shadow: newVal })
 						}}
 					/>
+					{is_shadow &&
+						<ShadowStyle
+							shadowStyle={{ ...shadow_element }}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result: newStyle.style });
+								setAttributes({ shadow_element: newState })
+							}}
+						/>
+					}
 				</PanelBody>
 				<PanelBody title={__("Input Box style settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
 
@@ -398,19 +441,7 @@ export default function Edit(props) {
 
 			<div {...blockProps}>
 				<StyleComp attributes={attributes}>
-					{is_shadow ? (
-						<ShadowStyle
-							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
-							onChange={(newStyle, newState) => {
-								setAttributes({ shadow_result: newStyle.style });
-								setAttributes({ shadow_element: newState })
-							}}
-						>
-							{renderContent()}
-						</ShadowStyle>
-					) : (
-						renderContent()
-					)}
+					{renderContent()}
 				</StyleComp>
 			</div>
 		</>

@@ -25,7 +25,8 @@
       "type": "string"
     },
     "bgColor": {
-      "type": "string"
+      "type": "string",
+      "default": "var(--wp--preset--color--content-back)"
     },
     "font_style_input": {
       "type": "object",
@@ -44,7 +45,7 @@
     },
     "textColor_input": {
       "type": "string",
-      "default": "#000"
+      "default": "var(--wp--preset--color--text)"
     },
     "radius_input": {
       "type": "object",
@@ -61,25 +62,41 @@
       "default": {
         "width": "1px",
         "style": "solid",
-        "color": "#000"
+        "color": "var(--wp--preset--color--text)"
       }
     },
-    "margin_input": {
+    "default_pos": {
       "type": "object",
       "default": {
-        "top": "1em",
-        "left": "2em",
-        "bottom": "1em",
-        "right": "2em"
+        "margin_input": {
+          "top": "0",
+          "left": "0",
+          "bottom": "1.5em",
+          "right": "0"
+        },
+        "padding_input": {
+          "top": "0.5em",
+          "left": "1em",
+          "bottom": "0.5em",
+          "right": "1em"
+        }
       }
     },
-    "padding_input": {
+    "mobile_pos": {
       "type": "object",
       "default": {
-        "top": "0.5em",
-        "left": "1em",
-        "bottom": "0.5em",
-        "right": "1em"
+        "margin_input": {
+          "top": "0",
+          "left": "0",
+          "bottom": "1.5em",
+          "right": "0"
+        },
+        "padding_input": {
+          "top": "0.5em",
+          "left": "0em",
+          "bottom": "0.5em",
+          "right": "0em"
+        }
       }
     },
     "labelContent": {
@@ -107,7 +124,7 @@
     },
     "textColor_label": {
       "type": "string",
-      "default": "#000"
+      "default": "var(--wp--preset--color--text)"
     },
     "radius_label": {
       "type": "object",
@@ -156,7 +173,8 @@
         "newDirection": "top_left",
         "clayDirection": "top",
         "embos": "swell",
-        "hasOutline": true
+        "hasOutline": true,
+        "baseColor": "#ffffff"
       }
     },
     "shadow_result": {

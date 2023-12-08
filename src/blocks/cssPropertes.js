@@ -39,7 +39,7 @@ export const width_prm = (width, free_val) => {
 //配置を返す
 export const align_prm = (align) => {
   const ret_align_prm =
-    align === 'center' ? 'margin: 0 auto;'
+    align === 'center' ? 'margin-left: auto; margin-right: auto;'
       : align === 'right' ? 'margin-left: auto; margin-right: 0'
         : 'margin-right: auto; margin-left: 0'
 

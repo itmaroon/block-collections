@@ -7,4 +7,12 @@
 
 .wp-block-itmar-design-button {
 	width: fit-content;
+
+	input:disabled {
+		color: var(--wp--preset--color--background);
+
+		&:hover {
+			cursor: not-allowed;
+		}
+	}
 }

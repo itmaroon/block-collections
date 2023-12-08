@@ -44,6 +44,8 @@ ${({ attributes }) => {
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       position: relative;
+      margin-block-start:0;
+      ${is_menu && css`z-index:100;`}
       ${is_submenu ? default_width_style : default_max_width_style}
       ${default_block_align}
       align-self: ${default_pos.outer_vertical};
@@ -164,19 +166,19 @@ ${({ attributes }) => {
     > div {
       >.group_contents{
         display: grid;
-        grid-template-columns: ${default_pos.grid_info.colUnit?.join(' ')};
-        grid-template-rows: ${default_pos.grid_info.rowUnit?.join(' ')};
-        gap: ${default_pos.grid_info.rowGap} ${default_pos.grid_info.colGap};
+        grid-template-columns: ${default_pos.grid_info?.colUnit?.join(' ')};
+        grid-template-rows: ${default_pos.grid_info?.rowUnit?.join(' ')};
+        gap: ${default_pos.grid_info?.rowGap} ${default_pos.grid_info?.colGap};
         >div,>figure{
-          ${createNthChildStyles(default_pos.grid_info.gridElms)}
+          ${createNthChildStyles(default_pos.grid_info?.gridElms)}
         }
         
         @media (max-width: 767px) {
-          grid-template-columns: ${mobile_pos.grid_info.colUnit?.join(' ')};
-          grid-template-rows: ${mobile_pos.grid_info.rowUnit?.join(' ')};
-          gap: ${mobile_pos.grid_info.rowGap} ${mobile_pos.grid_info.colGap};
+          grid-template-columns: ${mobile_pos.grid_info?.colUnit?.join(' ')};
+          grid-template-rows: ${mobile_pos.grid_info?.rowUnit?.join(' ')};
+          gap: ${mobile_pos.grid_info?.rowGap} ${mobile_pos.grid_info?.colGap};
           >div,>figure{
-            ${createNthChildStyles(mobile_pos.grid_info.gridElms)}
+            ${createNthChildStyles(mobile_pos.grid_info?.gridElms)}
           }
         }
       }
@@ -190,8 +192,8 @@ ${({ attributes }) => {
       'grid': gridStyle,
     };
 
-    const optionStyle = cssMap[default_pos.direction] || horizenStyle;
-    const mobileOptionStyle = cssMap[mobile_pos.direction] || verticalStyle;
+    const optionStyle = cssMap[default_pos.direction] || null;
+    const mobileOptionStyle = cssMap[mobile_pos.direction] || null;
 
     // 共通のスタイルを組み合わせて返します
     return css`

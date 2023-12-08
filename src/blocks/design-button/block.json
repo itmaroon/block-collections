@@ -30,7 +30,7 @@
 		},
 		"bgColor": {
 			"type": "string",
-			"default": "#ffffff"
+			"default": "var(--wp--preset--color--content-back)"
 		},
 		"labelContent": {
 			"type": "string"
@@ -45,7 +45,8 @@
 			}
 		},
 		"labelColor": {
-			"type": "string"
+			"type": "string",
+			"default": "var(--wp--preset--color--text)"
 		},
 		"margin_value": {
 			"type": "object",

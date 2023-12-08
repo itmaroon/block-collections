@@ -48,22 +48,22 @@
     },
     "th_color": {
       "type": "string",
-      "default": "#000000"
+      "default": "var(--wp--preset--color--text)"
     },
     "bgColor_th": {
       "type": "string",
-      "default": "#ffffff"
+      "default": "var(--wp--preset--color--background)"
     },
     "bgGradient_th": {
       "type": "string"
     },
     "td_color": {
       "type": "string",
-      "default": "#000000"
+      "default": "var(--wp--preset--color--text)"
     },
     "bgColor_td": {
       "type": "string",
-      "default": "#ffffff"
+      "default": "var(--wp--preset--color--background)"
     },
     "bgGradient_td": {
       "type": "string"
@@ -83,16 +83,16 @@
       "default": {
         "width": "1px",
         "style": "solid",
-        "color": "#000000"
+        "color": "var(--wp--preset--color--text)"
       }
     },
     "margin_value": {
       "type": "object",
       "default": {
-        "top": "1em",
-        "left": "2em",
-        "bottom": "1em",
-        "right": "2em"
+        "top": "0",
+        "left": "0",
+        "bottom": "0",
+        "right": "0"
       }
     },
     "padding_value": {
@@ -103,6 +103,10 @@
         "bottom": "0.5em",
         "right": "1em"
       }
+    },
+    "headding_min_width": {
+      "type": "integer",
+      "default": 120
     },
     "padding_th": {
       "type": "object",

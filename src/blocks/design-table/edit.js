@@ -68,6 +68,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		bgGradient_td,
 		margin_value,
 		padding_value,
+		headding_min_width,
 		padding_th,
 		padding_td,
 		radius_value,
@@ -451,6 +452,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								onGradientChange: (newValue) => setAttributes({ bgGradient_th: newValue }),
 							},
 						]}
+					/>
+					<RangeControl
+						value={headding_min_width}
+						label={__("Minimum heading width(PX)", 'itmar_block_collections')}
+						max={500}
+						min={50}
+						onChange={(val) => setAttributes({ headding_min_width: val })}
+						withInputField={true}
 					/>
 					<BoxControl
 						label={__("Padding settings", 'itmar_block_collections')}

@@ -15,7 +15,7 @@
     },
     "bgColor": {
       "type": "string",
-      "default": "#ffffff"
+      "default": "var(--wp--preset--color--content-back)"
     },
     "bgColor_form": {
       "type": "string"
@@ -36,22 +36,38 @@
     "border_form": {
       "type": "object"
     },
-    "margin_form": {
+    "default_pos": {
       "type": "object",
       "default": {
-        "top": "1em",
-        "left": "2em",
-        "bottom": "1em",
-        "right": "2em"
+        "margin_form": {
+          "top": "1em",
+          "left": "2em",
+          "bottom": "1em",
+          "right": "2em"
+        },
+        "padding_form": {
+          "top": "1em",
+          "left": "2em",
+          "bottom": "1em",
+          "right": "2em"
+        }
       }
     },
-    "padding_form": {
+    "mobile_pos": {
       "type": "object",
       "default": {
-        "top": "1em",
-        "left": "2em",
-        "bottom": "1em",
-        "right": "2em"
+        "margin_form": {
+          "top": "1em",
+          "left": "0",
+          "bottom": "1em",
+          "right": "0"
+        },
+        "padding_form": {
+          "top": "0",
+          "left": "0",
+          "bottom": "0",
+          "right": "0"
+        }
       }
     },
     "font_style_num": {
@@ -65,11 +81,11 @@
     },
     "textColor_num": {
       "type": "string",
-      "default": "#000"
+      "default": "var(--wp--preset--color--text)"
     },
     "bgColor_num": {
       "type": "string",
-      "default": "#f08f8f"
+      "default": "var(--wp--preset--color--accent-1)"
     },
     "font_style_process": {
       "type": "object",
@@ -82,7 +98,7 @@
     },
     "textColor_process": {
       "type": "string",
-      "default": "#000"
+      "default": "var(--wp--preset--color--text)"
     },
     "shadow_element": {
       "type": "object",
@@ -105,7 +121,8 @@
         "newDirection": "top_left",
         "clayDirection": "top",
         "embos": "swell",
-        "hasOutline": true
+        "hasOutline": true,
+        "baseColor": "#ffffff"
       }
     },
     "shadow_result": {

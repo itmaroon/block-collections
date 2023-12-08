@@ -21,8 +21,8 @@ const StyledDiv = styled.div`
       textColor_input,
       radius_input,
       border_input,
-      margin_input,
-      padding_input,
+      default_pos,
+      mobile_pos,
       font_style_label,
       bgColor_label,
       bgGradient_label,
@@ -48,8 +48,10 @@ const StyledDiv = styled.div`
     const input_radius_prm = radius_prm(radius_input);
     const label_radius_prm = radius_prm(radius_label);
     //スペースの設定
-    const input_margin_prm = space_prm(margin_input);
-    const input_padding_prm = space_prm(padding_input);
+    const default_form_margin_prm = space_prm(default_pos.margin_input);
+    const default_form_padding_prm = space_prm(default_pos.padding_input);
+    const mobile_form_margin_prm = space_prm(mobile_pos.margin_input);
+    const mobile_form_padding_prm = space_prm(mobile_pos.padding_input);
     const label_padding_prm = space_prm(padding_label);
     //ボックスシャドーの設定
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
@@ -58,11 +60,14 @@ const StyledDiv = styled.div`
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       
-      padding: ${input_padding_prm};
-      margin: ${input_margin_prm};
+      padding: ${default_form_padding_prm};
+      margin: ${default_form_margin_prm};
       background: ${bgColor};
-      
       position: relative;
+      @media (max-width: 767px) {
+        margin: ${mobile_form_margin_prm};
+        padding: ${mobile_form_padding_prm};
+      }
       input, textarea{
         flex-grow: 1;
         background: ${bgInputColor};
@@ -75,6 +80,7 @@ const StyledDiv = styled.div`
       }
       textarea{
         min-height: 60px;
+        box-sizing: border-box;
         padding: 6px 10px;
       }
       label{
@@ -92,7 +98,7 @@ const StyledDiv = styled.div`
         ${borderProperty(border_label)};
         ${box_shadow_style};
         span{
-          color:red;
+          color:var(--wp--preset--color--accent-1);
         }
       }
       
@@ -159,6 +165,9 @@ const StyledDiv = styled.div`
         specificStyle = css`
             display: flex;
             flex-direction: row-reverse;
+            @media (max-width: 767px) {
+              flex-direction: column-reverse;
+            }
             input, textarea{
               ${borderProperty(border_input)};
               ${box_shadow_style};
@@ -171,6 +180,9 @@ const StyledDiv = styled.div`
             label{
               width:${labelWidth};
               margin-right: ${labelSpace};
+              @media (max-width: 767px) {
+                margin-bottom: 15px;
+              }
             }
           `;
     }

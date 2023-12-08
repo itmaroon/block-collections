@@ -26,7 +26,7 @@
 		},
 		"bgColor": {
 			"type": "string",
-			"default": "#ffffff"
+			"default": "var(--wp--preset--color--content-back)"
 		},
 		"labelContent": {
 			"type": "string"
@@ -66,11 +66,11 @@
 		},
 		"boxColor": {
 			"type": "string",
-			"default": "#D5D7D8"
+			"default": "var(--wp--preset--color--accent-1)"
 		},
 		"boxBgColor": {
 			"type": "string",
-			"default": "#078758"
+			"default": "var(--wp--preset--color--accent-1)"
 		},
 		"radius_heading": {
 			"type": "object",

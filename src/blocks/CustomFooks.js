@@ -31,11 +31,13 @@ export function useElementBackgroundColor(blockRef, style) {
 
   useEffect(() => {
     if (blockRef.current && style) {
-      if (style.backgroundColor) {
+      if (style.backgroundColor && !style.backgroundColor.startsWith("var(--wp")) {//backgroundColorが設定されており、それがカスタムプロパティでない
         setBaseColor(style.backgroundColor);
       } else {//レンダリング結果から背景色を取得
-        const computedStyles = getComputedStyle(blockRef.current);
-        setBaseColor(computedStyles.backgroundColor);
+        if (blockRef.current) {
+          const computedStyles = getComputedStyle(blockRef.current);
+          setBaseColor(computedStyles.backgroundColor);
+        }
       }
     }
 

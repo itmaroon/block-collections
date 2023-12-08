@@ -75,7 +75,7 @@ const StyledDiv = styled.div`
         display: flex;
         span {
         font-size: ${font_style_label.fontSize};
-        border: 0.2em solid ${boxColor};
+        border: 0.2em solid var(--wp--preset--color--background);
         height: 1.2em;
         width: 1.2em;
         background-color: transparent;

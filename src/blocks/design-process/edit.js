@@ -4,7 +4,8 @@ import './editor.scss';
 import { StyleComp } from './StyleProcess';
 import TypographyControls from '../TypographyControls'
 import { useStyleIframe } from '../iframeFooks';
-import ShadowStyle from '../ShadowStyle';
+import ShadowStyle, { ShadowElm } from '../ShadowStyle';
+import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks'
 
 import {
 	useBlockProps,
@@ -21,7 +22,7 @@ import {
 } from '@wordpress/components';
 
 import { useSelect, useDispatch } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
+import { useEffect, useRef } from '@wordpress/element';
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -52,8 +53,8 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		bgGradient_form,
 		radius_form,
 		border_form,
-		margin_form,
-		padding_form,
+		default_pos,
+		mobile_pos,
 		font_style_num,
 		textColor_num,
 		bgColor_num,
@@ -63,8 +64,27 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		is_shadow
 	} = attributes;
 
-	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
+	//モバイルの判定
+	const isMobile = useIsIframeMobile();
 
+	//ブロックの参照
+	const blockRef = useRef(null);
+	const blockProps = useBlockProps({
+		ref: blockRef,// ここで参照を blockProps に渡しています
+		style: { backgroundColor: bgColor }
+	});
+
+	//背景色の取得
+	const baseColor = useElementBackgroundColor(blockRef, blockProps.style);
+
+	//背景色変更によるシャドー属性の書き換え
+	useEffect(() => {
+		if (baseColor) {
+			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
+			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
+			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
+		}
+	}, [baseColor]);
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -155,18 +175,36 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 						/>
 					</PanelBody>
 					<BoxControl
-						label={__("Margin settings", 'itmar_block_collections')}
-						values={margin_form}
-						onChange={value => setAttributes({ margin_form: value })}
+						label={!isMobile ?
+							__("Margin settings(desk top)", 'itmar_block_collections')
+							: __("Margin settings(mobile)", 'itmar_block_collections')
+						}
+						values={!isMobile ? default_pos.margin_form : mobile_pos.margin_form}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, margin_form: value } });
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, margin_form: value } });
+							}
+						}}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
 					<BoxControl
-						label={__("Padding settings", 'itmar_block_collections')}
-						values={padding_form}
-						onChange={value => setAttributes({ padding_form: value })}
+						label={!isMobile ?
+							__("Padding settings(desk top)", 'itmar_block_collections')
+							: __("Padding settings(mobile)", 'itmar_block_collections')
+						}
+						values={!isMobile ? default_pos.padding_form : mobile_pos.padding_form}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, padding_form: value } })
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, padding_form: value } })
+							}
+						}}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
 						resetValues={padding_resetValues}	// リセット時の値
@@ -179,6 +217,15 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 							setAttributes({ is_shadow: newVal })
 						}}
 					/>
+					{is_shadow &&
+						<ShadowStyle
+							shadowStyle={{ ...shadow_element }}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result: newStyle.style });
+								setAttributes({ shadow_element: newState })
+							}}
+						/>
+					}
 				</PanelBody>
 
 				<PanelBody title={__("Settings by style", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
@@ -236,27 +283,10 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			<div {...blockProps} >
 
 				<StyleComp attributes={attributes} >
-					{is_shadow ? (
-						<ShadowStyle
-							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
-							onChange={(newStyle, newState) => {
-								setAttributes({ shadow_result: newStyle.style });
-								setAttributes({ shadow_element: newState })
-							}}
-						>
-							{figureBlocks.map((block, index) =>
-								<li key={index} className={stage_index >= index ? "ready" : ""}>
-									{block.attributes.stage_info}
-								</li>
-							)}
-						</ShadowStyle>
-					) : (
-
-						figureBlocks.map((block, index) =>
-							<li key={index} className={stage_index >= index ? "ready" : ""} >
-								{block.attributes.stage_info}
-							</li>
-						)
+					{figureBlocks.map((block, index) =>
+						<li key={index} className={stage_index >= index ? "ready" : ""}>
+							{block.attributes.stage_info}
+						</li>
 					)}
 				</StyleComp>
 			</div>

@@ -28,6 +28,7 @@ const StyledDiv = styled.div`
       td_color,
       bgColor_td,
       bgGradient_td,
+      headding_min_width,
       padding_td,
       radius_value,
       border_value,
@@ -83,6 +84,7 @@ const StyledDiv = styled.div`
           color: ${th_color};
           background: ${bgColorTh};
           padding: ${th_padding_prm};
+          min-width:${headding_min_width}px;
         }
         td{
           font-size: ${font_style_td.fontSize};

@@ -19,8 +19,8 @@ const StyledUL = styled.ul`
       bgGradient_form,
       radius_form,
       border_form,
-      margin_form,
-      padding_form,
+      default_pos,
+      mobile_pos,
       font_style_num,
       textColor_num,
       bgColor_num,
@@ -39,8 +39,10 @@ const StyledUL = styled.ul`
     //角丸の設定
     const form_radius_prm = radius_prm(radius_form);
     //スペースの設定
-    const form_margin_prm = space_prm(margin_form);
-    const form_padding_prm = space_prm(padding_form);
+    const default_form_margin_prm = space_prm(default_pos.margin_form);
+    const default_form_padding_prm = space_prm(default_pos.padding_form);
+    const mobile_form_margin_prm = space_prm(mobile_pos.margin_form);
+    const mobile_form_padding_prm = space_prm(mobile_pos.padding_form);
     //ボックスシャドーの設定
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
 
@@ -51,12 +53,16 @@ const StyledUL = styled.ul`
       counter-reset: step;
       position: relative;
       z-index: 10;
-      margin: ${form_margin_prm};
-      padding: ${form_padding_prm};
+      margin: ${default_form_margin_prm};
+      padding: ${default_form_padding_prm};
       background: ${bgFormColor};
       border-radius: ${form_radius_prm};
       ${borderProperty(border_form)};
       ${box_shadow_style};
+      @media (max-width: 767px) {
+        margin: ${mobile_form_margin_prm};
+        padding: ${mobile_form_padding_prm};
+      }
     `;
     const barStyle = css`
       li {
@@ -144,6 +150,7 @@ const StyledUL = styled.ul`
         line-height: 3em;
         position: relative;
         letter-spacing: 1px;
+        padding-left:10px;
         text-align: center;
         border: solid 2px ${textColor_process};
         border-radius: 15px;
@@ -159,7 +166,7 @@ const StyledUL = styled.ul`
           position: absolute;
           content: counter(step);
           counter-increment: step;
-          left:20px;
+          left:15px;
           top:50%;
           transform: translateY(-50%);
           width: 1.5em;
