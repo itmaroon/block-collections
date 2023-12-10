@@ -5,7 +5,7 @@ import { StyleComp } from './StyleProcess';
 import TypographyControls from '../TypographyControls'
 import { useStyleIframe } from '../iframeFooks';
 import ShadowStyle, { ShadowElm } from '../ShadowStyle';
-import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks'
+import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks';
 
 import {
 	useBlockProps,

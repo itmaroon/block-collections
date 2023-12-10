@@ -1,8 +1,6 @@
-import { useState, useEffect, useRef } from '@wordpress/element';
+import { useEffect, useRef } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import {
-  InspectorControls
-} from '@wordpress/block-editor';
+
 import {
   Button,
   PanelBody,
@@ -105,7 +103,6 @@ export default function DraggableBox(props) {
 
   return (
     <>
-
       <PanelBody
         title={__("Position Setting", 'itmar_block_collections')}
         initialOpen={true}

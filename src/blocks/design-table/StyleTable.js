@@ -19,17 +19,14 @@ const StyledDiv = styled.div`
     const {
       font_style_th,
       font_style_td,
-      margin_value,
-      padding_value,
+      default_pos,
+      mobile_pos,
       th_color,
       bgColor_th,
       bgGradient_th,
-      padding_th,
       td_color,
       bgColor_td,
       bgGradient_td,
-      headding_min_width,
-      padding_td,
       radius_value,
       border_value,
       intensity,
@@ -47,10 +44,14 @@ const StyledDiv = styled.div`
     //角丸の設定
     const table_radius_prm = radius_prm(radius_value);
     //スペースの設定
-    const table_margin_prm = space_prm(margin_value);
-    const table_padding_prm = space_prm(padding_value);
-    const th_padding_prm = space_prm(padding_th);
-    const td_padding_prm = space_prm(padding_td);
+    const default_table_margin_prm = space_prm(default_pos.margin_value);
+    const default_table_padding_prm = space_prm(default_pos.padding_value);
+    const default_th_padding_prm = space_prm(default_pos.padding_th);
+    const default_td_padding_prm = space_prm(default_pos.padding_td);
+    const mobile_table_margin_prm = space_prm(mobile_pos.margin_value);
+    const mobile_table_padding_prm = space_prm(mobile_pos.padding_value);
+    const mobile_th_padding_prm = space_prm(mobile_pos.padding_th);
+    const mobile_td_padding_prm = space_prm(mobile_pos.padding_td);
     //ボックスシャドーの設定
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
     //ボーダーの代表色
@@ -59,11 +60,14 @@ const StyledDiv = styled.div`
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
-      margin: ${table_margin_prm};
-      padding: ${table_padding_prm};
+      margin: ${default_table_margin_prm};
+      padding: ${default_table_padding_prm};
       border-radius: ${table_radius_prm};
       ${box_shadow_style};
-      
+      @media (max-width: 767px) {
+        margin: ${mobile_table_margin_prm};
+        padding: ${mobile_table_padding_prm};
+      }
       table{
         width:100%;
         border-collapse: collapse;
@@ -83,8 +87,12 @@ const StyledDiv = styled.div`
           font-style: ${fontStyle_th};
           color: ${th_color};
           background: ${bgColorTh};
-          padding: ${th_padding_prm};
-          min-width:${headding_min_width}px;
+          padding: ${default_th_padding_prm};
+          min-width:${default_pos.headding_min_width}px;
+          @media (max-width: 767px) {
+            padding: ${mobile_th_padding_prm};
+            min-width:${mobile_pos.headding_min_width}px;
+          }
         }
         td{
           font-size: ${font_style_td.fontSize};
@@ -93,7 +101,10 @@ const StyledDiv = styled.div`
           font-style: ${fontStyle_td};
           color: ${td_color};
           background: ${bgColorTd};
-          padding: ${td_padding_prm};
+          padding: ${default_td_padding_prm};
+          @media (max-width: 767px) {
+            padding: ${mobile_td_padding_prm};
+          }
         }
         
       }

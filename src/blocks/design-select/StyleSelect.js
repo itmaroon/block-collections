@@ -44,7 +44,6 @@ const StyledDiv = styled.div`
     const commonStyle = css`
       margin: ${heading_margin_prm};
       padding: ${heading_padding_prm};
-      width: 50em;
 
       .itmar_block_select {
         position: relative;

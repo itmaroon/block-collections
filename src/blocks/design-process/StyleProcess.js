@@ -161,6 +161,10 @@ const StyledUL = styled.ul`
         &:not(:first-child){
           margin-left: 2em;
         }
+        @media (max-width: 767px) {
+          padding-top:15px;
+          padding-left:0;
+        }
         
         &::before {
           position: absolute;
@@ -183,6 +187,15 @@ const StyledUL = styled.ul`
           border: ${textColor_num} solid 1px;
           border-radius: 50%;
           margin: 0 auto;
+          @media (max-width: 767px) {
+            left:5px;
+            width: 1em;
+            height: 1em;
+            line-height: 0.9em;
+            top:5px;
+            left:50%;
+            transform: translateX(-50%);
+          }
         }
 
         &::after {

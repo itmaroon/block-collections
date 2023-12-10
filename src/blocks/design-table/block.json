@@ -26,7 +26,8 @@
 			"default": []
 		},
 		"bgColor": {
-			"type": "string"
+			"type": "string",
+			"default": "var(--wp--preset--color--content-back)"
 		},
 		"font_style_th": {
 			"type": "object",
@@ -86,44 +87,64 @@
 				"color": "var(--wp--preset--color--text)"
 			}
 		},
-		"margin_value": {
+		"default_pos": {
 			"type": "object",
 			"default": {
-				"top": "0",
-				"left": "0",
-				"bottom": "0",
-				"right": "0"
+				"margin_value": {
+					"top": "0",
+					"left": "0",
+					"bottom": "0",
+					"right": "0"
+				},
+				"padding_value": {
+					"top": "0.5em",
+					"left": "1em",
+					"bottom": "0.5em",
+					"right": "1em"
+				},
+				"padding_th": {
+					"top": "10px",
+					"left": "20px",
+					"bottom": "10px",
+					"right": "20px"
+				},
+				"padding_td": {
+					"top": "10px",
+					"left": "20px",
+					"bottom": "10px",
+					"right": "20px"
+				},
+				"headding_min_width": 120
 			}
 		},
-		"padding_value": {
+		"mobile_pos": {
 			"type": "object",
 			"default": {
-				"top": "0.5em",
-				"left": "1em",
-				"bottom": "0.5em",
-				"right": "1em"
-			}
-		},
-		"headding_min_width": {
-			"type": "integer",
-			"default": 120
-		},
-		"padding_th": {
-			"type": "object",
-			"default": {
-				"top": "10px",
-				"left": "20px",
-				"bottom": "10px",
-				"right": "20px"
-			}
-		},
-		"padding_td": {
-			"type": "object",
-			"default": {
-				"top": "10px",
-				"left": "20px",
-				"bottom": "10px",
-				"right": "20px"
+				"margin_value": {
+					"top": "10px",
+					"left": "0",
+					"bottom": "10px",
+					"right": "0"
+				},
+				"padding_value": {
+					"top": "10px",
+					"left": "0",
+					"bottom": "10px",
+					"right": "0"
+				},
+				"padding_th": {
+					"top": "5px",
+					"left": "5px",
+					"bottom": "5px",
+					"right": "5px"
+				},
+				"padding_td": {
+					"top": "5px",
+					"left": "5px",
+					"bottom": "5px",
+					"right": "5px"
+				},
+				"headding_min_width": 80
 			}
 		},
 		"columWidth": {
@@ -163,7 +184,8 @@
 				"newDirection": "top_left",
 				"clayDirection": "top",
 				"embos": "swell",
-				"hasOutline": true
+				"hasOutline": true,
+				"baseColor": "#ffffff"
 			}
 		},
 		"shadow_result": {

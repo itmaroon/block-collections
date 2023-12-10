@@ -56,6 +56,7 @@ export default function Edit({ attributes, setAttributes }) {
 		selPattern,
 		selectValues,
 		folder_val,
+		required,
 		bgColor,
 		optionColor,
 		hoverBgColor,
@@ -66,6 +67,15 @@ export default function Edit({ attributes, setAttributes }) {
 		bgSelectGradient,
 		radius_value,
 		border_value,
+		labelContent,
+		font_style_label,
+		bgColor_label,
+		bgGradient_label,
+		textColor_label,
+		radius_label,
+		border_label,
+		padding_label,
+		labelSpace,
 		shadow_element,
 		is_shadow,
 		className,
@@ -158,32 +168,37 @@ export default function Edit({ attributes, setAttributes }) {
 
 	function renderContent() {
 		return (
-			<NomalSelect
-				onOptionSelect={(selID) => {
-					if (selectedValues.includes(selID)) {
-						return; // 既に選択されている場合はそのまま
-					}
-					//複数選択のときは複数配列、単数選択の時は単数配列
-					const newArray = selPattern === 'multi' ? [...selectedValues, selID] : [selID];
-					setSelectedValues(newArray)
-				}}
-				onOptionDeselect={(selID) => {
-					const newArray = selectedValues.filter(index => index !== selID);
-					setSelectedValues(newArray);
-				}}
-			>
-				<select
-					class="nomal"
-					{...selectAttributes}
-					data-placeholder={folder_val}
+			<>
+				<NomalSelect
+					onOptionSelect={(selID) => {
+						if (selectedValues.includes(selID)) {
+							return; // 既に選択されている場合はそのまま
+						}
+						//複数選択のときは複数配列、単数選択の時は単数配列
+						const newArray = selPattern === 'multi' ? [...selectedValues, selID] : [selID];
+						setSelectedValues(newArray)
+					}}
+					onOptionDeselect={(selID) => {
+						const newArray = selectedValues.filter(index => index !== selID);
+						setSelectedValues(newArray);
+					}}
 				>
-					{
-						selectValues.map((option_item) => {
-							return (<option id={option_item.id} className={option_item.classname} value={option_item.value} selected={selectedValues.includes(option_item.id)}>{option_item.label}</option>)
-						})
-					}
-				</select>
-			</NomalSelect>
+					<select
+						class="nomal"
+						{...selectAttributes}
+						data-placeholder={folder_val}
+					>
+						{
+							selectValues.map((option_item) => {
+								return (<option id={option_item.id} className={option_item.classname} value={option_item.value} selected={selectedValues.includes(option_item.id)}>{option_item.label}</option>)
+							})
+						}
+					</select>
+				</NomalSelect>
+				<label className="fit-label">
+					{required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent}
+				</label>
+			</>
 		)
 	}
 

@@ -11,6 +11,16 @@ import { ReactComponent as Select } from './select.svg';
 registerBlockType(metadata.name, {
 	description: __("A block for designing select elements", 'itmar_block_collections'),
 	icon: <Select />,
+	attributes: {
+		...metadata.attributes,
+		required: {
+			type: "object",
+			default: {
+				flg: false,
+				display: __('Required', 'itmar_block_collections'),
+			}
+		},
+	},
 	edit: Edit,
 	save,
 });

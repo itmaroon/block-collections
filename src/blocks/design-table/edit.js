@@ -3,13 +3,13 @@ import { __ } from '@wordpress/i18n';
 import TypographyControls from '../TypographyControls'
 import { StyleComp } from './StyleTable';
 import { useStyleIframe } from '../iframeFooks';
-import ShadowStyle from '../ShadowStyle';
-import { useSelect, useDispatch, select } from '@wordpress/data';
-import { useEffect, useState, useCallback } from '@wordpress/element';
+import ShadowStyle, { ShadowElm } from '../ShadowStyle';
+import { useSelect } from '@wordpress/data';
+import { useEffect, useState, useCallback, useRef } from '@wordpress/element';
+import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks';
 
 import {
 	PanelBody,
-	TextControl,
 	ToggleControl,
 	RangeControl,
 	ComboboxControl,
@@ -66,9 +66,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		bgGradient_th,
 		bgColor_td,
 		bgGradient_td,
-		margin_value,
-		padding_value,
-		headding_min_width,
+		default_pos,
+		mobile_pos,
 		padding_th,
 		padding_td,
 		radius_value,
@@ -81,8 +80,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		is_shadow,
 		className
 	} = attributes;
-	//ルートブロックに背景色を設定
-	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
+
 
 	//データソースの選択オプション配列
 	const [dataSources, setdataSources] = useState([]);
@@ -258,6 +256,29 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		setSelCulumn(cellIndex);
 	}
 
+	//モバイルの判定
+	const isMobile = useIsIframeMobile();
+
+	//ブロックの参照
+	const blockRef = useRef(null);
+	const blockProps = useBlockProps({
+		ref: blockRef,// ここで参照を blockProps に渡しています
+		style: { backgroundColor: bgColor }
+	});
+
+	//背景色の取得
+	const baseColor = useElementBackgroundColor(blockRef, blockProps.style);
+
+	//背景色変更によるシャドー属性の書き換え
+	useEffect(() => {
+		if (baseColor) {
+			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
+			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
+			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
+		}
+	}, [baseColor]);
+
+
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -372,19 +393,36 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						]}
 					/>
 					<BoxControl
-						label={__("Margin settings", 'itmar_block_collections')}
-						values={margin_value}
-						onChange={value => setAttributes({ margin_value: value })}
+						label={!isMobile ?
+							__("Margin settings(desk top)", 'itmar_block_collections')
+							: __("Margin settings(mobile)", 'itmar_block_collections')
+						}
+						values={!isMobile ? default_pos.margin_value : mobile_pos.margin_value}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, margin_value: value } });
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, margin_value: value } });
+							}
+						}}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
-
 					<BoxControl
-						label={__("Padding settings", 'itmar_block_collections')}
-						values={padding_value}
-						onChange={value => setAttributes({ padding_value: value })}
+						label={!isMobile ?
+							__("Padding settings(desk top)", 'itmar_block_collections')
+							: __("Padding settings(mobile)", 'itmar_block_collections')
+						}
+						values={!isMobile ? default_pos.padding_value : mobile_pos.padding_value}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, padding_value: value } })
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, padding_value: value } })
+							}
+						}}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
 						resetValues={padding_resetValues}	// リセット時の値
@@ -411,6 +449,15 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							setAttributes({ is_shadow: newVal })
 						}}
 					/>
+					{is_shadow &&
+						<ShadowStyle
+							shadowStyle={{ ...shadow_element }}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result: newStyle.style });
+								setAttributes({ shadow_element: newState })
+							}}
+						/>
+					}
 					{className === 'is-style-stripe' &&
 						<RangeControl
 							value={intensity}
@@ -454,17 +501,36 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						]}
 					/>
 					<RangeControl
-						value={headding_min_width}
-						label={__("Minimum heading width(PX)", 'itmar_block_collections')}
+						value={!isMobile ? default_pos.headding_min_width : mobile_pos.headding_min_width}
+						label={!isMobile ?
+							__("Minimum heading width(PX)(desk top)", 'itmar_block_collections')
+							: __("Minimum heading width(PX)(mobile)", 'itmar_block_collections')
+						}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, headding_min_width: value } })
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, headding_min_width: value } })
+							}
+						}}
 						max={500}
 						min={50}
-						onChange={(val) => setAttributes({ headding_min_width: val })}
 						withInputField={true}
 					/>
+
 					<BoxControl
-						label={__("Padding settings", 'itmar_block_collections')}
-						values={padding_th}
-						onChange={value => setAttributes({ padding_th: value })}
+						label={!isMobile ?
+							__("Padding settings(desk top)", 'itmar_block_collections')
+							: __("Padding settings(mobile)", 'itmar_block_collections')
+						}
+						values={!isMobile ? default_pos.padding_th : mobile_pos.padding_th}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, padding_th: value } })
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, padding_th: value } })
+							}
+						}}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
 						resetValues={padding_resetValues}	// リセット時の値
@@ -504,13 +570,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						]}
 					/>
 					<BoxControl
-						label={__("Padding settings", 'itmar_block_collections')}
-						values={padding_td}
-						onChange={value => setAttributes({ padding_td: value })}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
+						label={!isMobile ?
+							__("Padding settings(desk top)", 'itmar_block_collections')
+							: __("Padding settings(mobile)", 'itmar_block_collections')
+						}
+						values={!isMobile ? default_pos.padding_td : mobile_pos.padding_td}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, padding_td: value } })
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, padding_td: value } })
+							}
+						}}
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -533,20 +604,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			<div {...blockProps}>
 				<StyleComp attributes={attributes}>
-					{is_shadow ? (
-						<ShadowStyle
-							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
-							onChange={(newStyle, newState) => {
-								setAttributes({ shadow_result: newStyle.style });
-								setAttributes({ shadow_element: newState })
-							}}
-						>
-							{renderContent()}
-						</ShadowStyle>
-					) : (
-
-						renderContent()
-					)}
+					{renderContent()}
 				</StyleComp>
 			</div >
 		</>

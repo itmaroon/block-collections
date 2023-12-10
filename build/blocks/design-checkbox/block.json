@@ -41,24 +41,41 @@
       }
     },
     "labelColor": {
-      "type": "string"
+      "type": "string",
+      "default": "var(--wp--preset--color--text)"
     },
-    "margin_value": {
+    "default_pos": {
       "type": "object",
       "default": {
-        "top": "10px",
-        "left": "10px",
-        "bottom": "10px",
-        "right": "10px"
+        "margin_value": {
+          "top": "10px",
+          "left": "10px",
+          "bottom": "10px",
+          "right": "10px"
+        },
+        "padding_value": {
+          "top": "10px",
+          "left": "10px",
+          "bottom": "10px",
+          "right": "10px"
+        }
       }
     },
-    "padding_value": {
+    "mobile_pos": {
       "type": "object",
       "default": {
-        "top": "10px",
-        "left": "10px",
-        "bottom": "10px",
-        "right": "10px"
+        "margin_value": {
+          "top": "10px",
+          "left": "0",
+          "bottom": "10px",
+          "right": "0"
+        },
+        "padding_value": {
+          "top": "10px",
+          "left": "0",
+          "bottom": "10px",
+          "right": "0"
+        }
       }
     },
     "bgColor_form": {
@@ -106,7 +123,8 @@
         "newDirection": "top_left",
         "clayDirection": "top",
         "embos": "swell",
-        "hasOutline": true
+        "hasOutline": true,
+        "baseColor": "#ffffff"
       }
     },
     "shadow_result": {

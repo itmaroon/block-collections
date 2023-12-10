@@ -75,7 +75,7 @@
 		},
 		"bgColor": {
 			"type": "string",
-			"default": "#ffffff"
+			"default": "var(--wp--preset--color--content-back)"
 		},
 		"bgSelectColor": {
 			"type": "string",
@@ -98,6 +98,59 @@
 				"style": "solid"
 			}
 		},
+		"labelContent": {
+			"type": "string",
+			"default": "Label Name"
+		},
+		"labelWidth": {
+			"type": "string",
+			"default": "auto"
+		},
+		"font_style_label": {
+			"type": "object",
+			"default": {
+				"fontSize": "16px",
+				"fontFamily": "Noto Sans JP, sans-serif",
+				"fontWeight": "500",
+				"isItalic": false
+			}
+		},
+		"bgColor_label": {
+			"type": "string"
+		},
+		"bgGradient_label": {
+			"type": "string"
+		},
+		"textColor_label": {
+			"type": "string",
+			"default": "var(--wp--preset--color--text)"
+		},
+		"radius_label": {
+			"type": "object",
+			"default": {
+				"topLeft": "0px",
+				"topRight": "0px",
+				"bottomRight": "0px",
+				"bottomLeft": "0px",
+				"value": "0px"
+			}
+		},
+		"border_label": {
+			"type": "object"
+		},
+		"padding_label": {
+			"type": "object",
+			"default": {
+				"top": "2px",
+				"left": "5px",
+				"bottom": "2px",
+				"right": "5px"
+			}
+		},
+		"labelSpace": {
+			"type": "string",
+			"default": "10px"
+		},
 		"shadow_element": {
 			"type": "object",
 			"default": {
@@ -119,7 +172,8 @@
 				"newDirection": "top_left",
 				"clayDirection": "top",
 				"embos": "swell",
-				"hasOutline": true
+				"hasOutline": true,
+				"baseColor": "#ffffff"
 			}
 		},
 		"shadow_result": {
