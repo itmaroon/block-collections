@@ -107,6 +107,10 @@
       "type": "string",
       "default": "auto"
     },
+    "labelVertAlign": {
+      "type": "string",
+      "default": "flex-start"
+    },
     "font_style_label": {
       "type": "object",
       "default": {

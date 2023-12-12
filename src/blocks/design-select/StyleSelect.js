@@ -17,8 +17,8 @@ const StyledDiv = styled.div`
       optionColor,
       hoverBgColor,
       font_style_option,
-      margin_value,
-      padding_value,
+      default_pos,
+      mobile_pos,
       bgSelectColor,
       bgSelectGradient,
       radius_value,
@@ -35,16 +35,24 @@ const StyledDiv = styled.div`
     //角丸の設定
     const heading_radius_prm = radius_prm(radius_value);
     //スペースの設定
-    const heading_margin_prm = space_prm(margin_value);
-    const heading_padding_prm = space_prm(padding_value);
+    const default_heading_margin_prm = space_prm(default_pos.margin_value);
+    const default_heading_padding_prm = space_prm(default_pos.padding_value);
+    const mobile_heading_margin_prm = space_prm(mobile_pos.margin_value);
+    const mobile_heading_padding_prm = space_prm(mobile_pos.padding_value);
     //ボックスシャドーの設定
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
-      margin: ${heading_margin_prm};
-      padding: ${heading_padding_prm};
-
+      margin: ${default_heading_margin_prm};
+      padding: ${default_heading_padding_prm};
+      display: flex;
+      flex-direction: row-reverse;
+      @media (max-width: 767px) {
+        margin: ${mobile_heading_margin_prm};
+        padding: ${mobile_heading_padding_prm};
+        flex-direction: column-reverse;
+      }
       .itmar_block_select {
         position: relative;
         font-size: ${font_style_option.fontSize};

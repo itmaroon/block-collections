@@ -68,8 +68,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		bgGradient_td,
 		default_pos,
 		mobile_pos,
-		padding_th,
-		padding_td,
 		radius_value,
 		border_value,
 		columWidth,

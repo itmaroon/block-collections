@@ -6,8 +6,11 @@
  */
 
 .wp-block-itmar-design-select {
+	width: 100%;
 
-	width: fit-content;
+	.itmar_block_select {
+		flex-grow: 1;
+	}
 
 	select {
 		display: none;

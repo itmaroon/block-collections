@@ -55,22 +55,38 @@
       "type": "string",
       "default": "#ded3d3"
     },
-    "margin_value": {
+    "default_pos": {
       "type": "object",
       "default": {
-        "top": "10px",
-        "left": "10px",
-        "bottom": "10px",
-        "right": "10px"
+        "margin_value": {
+          "top": "10px",
+          "left": "10px",
+          "bottom": "10px",
+          "right": "10px"
+        },
+        "padding_value": {
+          "top": "10px",
+          "left": "10px",
+          "bottom": "10px",
+          "right": "10px"
+        }
       }
     },
-    "padding_value": {
+    "mobile_pos": {
       "type": "object",
       "default": {
-        "top": "10px",
-        "left": "10px",
-        "bottom": "10px",
-        "right": "10px"
+        "margin_value": {
+          "top": "10px",
+          "left": "0",
+          "bottom": "10px",
+          "right": "0"
+        },
+        "padding_value": {
+          "top": "10px",
+          "left": "0",
+          "bottom": "10px",
+          "right": "0"
+        }
       }
     },
     "bgColor": {
@@ -105,6 +121,10 @@
     "labelWidth": {
       "type": "string",
       "default": "auto"
+    },
+    "labelVertAlign": {
+      "type": "string",
+      "default": "center"
     },
     "font_style_label": {
       "type": "object",
@@ -184,6 +204,9 @@
       "default": false
     }
   },
+  "usesContext": [
+    "itmar/label_width"
+  ],
   "textdomain": "itmar_block_collections",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

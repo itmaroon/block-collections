@@ -23,16 +23,6 @@ const StyledDiv = styled.div`
       border_input,
       default_pos,
       mobile_pos,
-      font_style_label,
-      bgColor_label,
-      bgGradient_label,
-      textColor_label,
-      radius_label,
-      border_label,
-      padding_label,
-      labelSpace,
-      labelWidth,
-      areaHeight,
       shadow_result,
       is_shadow,
       className,
@@ -40,19 +30,19 @@ const StyledDiv = styled.div`
 
     //単色かグラデーションかの選択
     const bgInputColor = bgColor_input || bgGradient_input;
-    const bgLabelColor = bgColor_label || bgGradient_label;
+
     //斜体の設定
     const fontStyle_input = font_style_input.isItalic ? "italic" : "normal";
-    const fontStyle_label = font_style_label.isItalic ? "italic" : "normal";
+
     //角丸の設定
     const input_radius_prm = radius_prm(radius_input);
-    const label_radius_prm = radius_prm(radius_label);
+
     //スペースの設定
     const default_form_margin_prm = space_prm(default_pos.margin_input);
     const default_form_padding_prm = space_prm(default_pos.padding_input);
     const mobile_form_margin_prm = space_prm(mobile_pos.margin_input);
     const mobile_form_padding_prm = space_prm(mobile_pos.padding_input);
-    const label_padding_prm = space_prm(padding_label);
+
     //ボックスシャドーの設定
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : ''
 
@@ -82,24 +72,6 @@ const StyledDiv = styled.div`
         min-height: 60px;
         box-sizing: border-box;
         padding: 6px 10px;
-      }
-      label{
-        display: inline-block;
-        vertical-align: top;
-        white-space: nowrap;
-        background: ${bgLabelColor};
-        border-radius: ${label_radius_prm};
-        color: ${textColor_label};
-        font-size: ${font_style_label.fontSize};
-        font-family: ${font_style_label.fontFamily};
-        font-weight: ${font_style_label.fontWeight};
-        font-style: ${fontStyle_label};
-        padding: ${label_padding_prm};
-        ${borderProperty(border_label)};
-        ${box_shadow_style};
-        span{
-          color:var(--wp--preset--color--accent-1);
-        }
       }
       
     `;
@@ -148,17 +120,6 @@ const StyledDiv = styled.div`
             padding: 8px 10px;
           }
           
-          label{
-            position: absolute;
-            width: fit-content;
-            opacity: 0;
-            left: calc(2em + 10px);
-	          pointer-events: none;
-            bottom:15px;
-	          z-index: 1;
-            transition: all 0.5s cubic-bezier(.68, -0.55, .27, 1.55) 0s;
-            
-          }
         `
         break;
       default:
@@ -177,13 +138,7 @@ const StyledDiv = styled.div`
                 box-shadow: 0 0 5px ${focusColor};
               }
             }
-            label{
-              width:${labelWidth};
-              margin-right: ${labelSpace};
-              @media (max-width: 767px) {
-                margin-bottom: 15px;
-              }
-            }
+            
           `;
     }
 

@@ -4,6 +4,7 @@ import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
 import { NomalSelect } from './initSelect';
 import { StyleComp } from './StyleSelect';
+import StyleLabel from '../StyleLabel';
 
 export default function save({ attributes }) {
 	const {
@@ -11,6 +12,8 @@ export default function save({ attributes }) {
 		selPattern,
 		selectValues,
 		folder_val,
+		required,
+		labelContent,
 		className,
 	} = attributes;
 
@@ -32,6 +35,9 @@ export default function save({ attributes }) {
 						}
 					</select>
 				</NomalSelect>
+				<StyleLabel attributes={attributes}>
+					{required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent}
+				</StyleLabel>
 			</StyleComp>
 		</div>
 	));

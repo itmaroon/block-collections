@@ -4,8 +4,10 @@ import TypographyControls from '../TypographyControls'
 import { StyleComp } from './StyleSelect';
 import { NomalSelect } from './initSelect';
 import { useStyleIframe } from '../iframeFooks';
-import ShadowStyle from '../ShadowStyle';
-import { useState, useEffect } from '@wordpress/element';
+import ShadowStyle, { ShadowElm } from '../ShadowStyle';
+import { useState, useEffect, useRef } from '@wordpress/element';
+import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks';
+import LabelBox from '../LabelBox ';
 import { nanoid } from 'nanoid';
 
 import {
@@ -51,7 +53,7 @@ const units = [
 	{ value: 'rem', label: 'rem' },
 ];
 
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes, context }) {
 	const {
 		selPattern,
 		selectValues,
@@ -61,13 +63,15 @@ export default function Edit({ attributes, setAttributes }) {
 		optionColor,
 		hoverBgColor,
 		font_style_option,
-		margin_value,
-		padding_value,
+		default_pos,
+		mobile_pos,
 		bgSelectColor,
 		bgSelectGradient,
 		radius_value,
 		border_value,
 		labelContent,
+		labelWidth,
+		labelVertAlign,
 		font_style_label,
 		bgColor_label,
 		bgGradient_label,
@@ -77,12 +81,33 @@ export default function Edit({ attributes, setAttributes }) {
 		padding_label,
 		labelSpace,
 		shadow_element,
+		shadow_result,
 		is_shadow,
 		className,
 	} = attributes;
 
-	//背景色をブロックのルートにインラインでセット
-	const blockProps = useBlockProps({ style: { backgroundColor: bgColor } });
+	//モバイルの判定
+	const isMobile = useIsIframeMobile();
+
+	//ブロックの参照
+	const blockRef = useRef(null);
+	const blockProps = useBlockProps({
+		ref: blockRef,// ここで参照を blockProps に渡しています
+		style: { backgroundColor: bgColor }//背景色をブロックのルートにインラインでセット
+	});
+
+	//背景色の取得
+	const baseColor = useElementBackgroundColor(blockRef, blockProps.style);
+
+	//背景色変更によるシャドー属性の書き換え
+	useEffect(() => {
+		if (baseColor) {
+			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
+			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
+			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
+		}
+	}, [baseColor]);
+
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -96,6 +121,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
+
+	//親コンポーネントからのラベル幅の指定があればそれを採用して記録する
+	const label_width = context['itmar/label_width'] || 'auto';
+	useEffect(() => {
+		setAttributes({ labelWidth: label_width });
+	}, [label_width]);
 
 	//選択要素のクリア
 	useEffect(() => {
@@ -195,9 +226,27 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 					</select>
 				</NomalSelect>
-				<label className="fit-label">
-					{required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent}
-				</label>
+
+				<LabelBox
+					attributes={{
+						required,
+						labelContent,
+						font_style_label,
+						bgColor_label,
+						bgGradient_label,
+						textColor_label,
+						radius_label,
+						border_label,
+						padding_label,
+						labelSpace,
+						labelWidth,
+						labelVertAlign,
+						shadow_result,
+						is_shadow,
+						className,
+					}}
+					setAttributes={setAttributes}
+				/>
 			</>
 		)
 	}
@@ -278,19 +327,36 @@ export default function Edit({ attributes, setAttributes }) {
 						]}
 					/>
 					<BoxControl
-						label={__("Margin Setting", 'itmar_block_collections')}
-						values={margin_value}
-						onChange={value => setAttributes({ margin_value: value })}
+						label={!isMobile ?
+							__("Margin settings(desk top)", 'itmar_block_collections')
+							: __("Margin settings(mobile)", 'itmar_block_collections')
+						}
+						values={!isMobile ? default_pos.margin_value : mobile_pos.margin_value}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, margin_value: value } });
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, margin_value: value } });
+							}
+						}}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
-
 					<BoxControl
-						label={__("Padding settings", 'itmar_block_collections')}
-						values={padding_value}
-						onChange={value => setAttributes({ padding_value: value })}
+						label={!isMobile ?
+							__("Padding settings(desk top)", 'itmar_block_collections')
+							: __("Padding settings(mobile)", 'itmar_block_collections')
+						}
+						values={!isMobile ? default_pos.padding_value : mobile_pos.padding_value}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, padding_value: value } })
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, padding_value: value } })
+							}
+						}}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
 						resetValues={padding_resetValues}	// リセット時の値
@@ -317,6 +383,15 @@ export default function Edit({ attributes, setAttributes }) {
 							setAttributes({ is_shadow: newVal })
 						}}
 					/>
+					{is_shadow &&
+						<ShadowStyle
+							shadowStyle={{ ...shadow_element }}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result: newStyle.style });
+								setAttributes({ shadow_element: newState })
+							}}
+						/>
+					}
 				</PanelBody>
 
 				<PanelBody title={__("Option Style Settings", 'itmar_block_collections')} initialOpen={false} className="select_design_ctrl">
@@ -387,20 +462,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<div {...blockProps}>
 				<StyleComp attributes={attributes} >
-					{is_shadow ? (
-						<ShadowStyle
-							shadowStyle={{ ...shadow_element, backgroundColor: bgColor }}
-							onChange={(newStyle, newState) => {
-								setAttributes({ shadow_result: newStyle.style });
-								setAttributes({ shadow_element: newState })
-							}}
-						>
-							{renderContent()}
-						</ShadowStyle>
-					) : (
-						renderContent()
-					)}
-
+					{renderContent()}
 				</StyleComp>
 			</div >
 		</>

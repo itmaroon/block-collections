@@ -3,6 +3,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
 import { StyleComp } from './StyleInput';
+import StyleLabel from '../StyleLabel';
 
 export default function save({ attributes }) {
 
@@ -22,8 +23,8 @@ export default function save({ attributes }) {
 
 	const sheet = new ServerStyleSheet();
 	const html = renderToString(sheet.collectStyles(
-		<div {...blockProps}>
-			<StyleComp attributes={attributes}>
+		<div {...blockProps} data-required={required.flg}>
+			<StyleComp attributes={attributes} >
 
 				{inputType === 'text' &&
 					<input type="text" name={inputName} className="contact_text empty" placeholder={className === 'is-style-line' ? dispLabel : placeFolder} />
@@ -34,10 +35,9 @@ export default function save({ attributes }) {
 				{inputType === 'textarea' &&
 					<textarea name={inputName} className="contact_text empty" placeholder={className === 'is-style-line' ? dispLabel : placeFolder} />
 				}
-				<label class="fit-label" data-required={required.flg}>
+				<StyleLabel attributes={attributes}>
 					{required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent}
-				</label>
-
+				</StyleLabel>
 			</StyleComp>
 		</div>
 	));

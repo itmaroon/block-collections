@@ -1,6 +1,7 @@
 
 import { __ } from '@wordpress/i18n';
-import TypographyControls from './TypographyControls'
+import TypographyControls from './TypographyControls';
+import { useStyleIframe } from './iframeFooks';
 import {
   InspectorControls,
   __experimentalPanelColorGradientSettings as PanelColorGradientSettings,
@@ -15,6 +16,7 @@ import {
   __experimentalBorderBoxControl as BorderBoxControl,
   __experimentalUnitControl as UnitControl
 } from '@wordpress/components';
+import StyleLabel from './StyleLabel';
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -39,6 +41,10 @@ const units = [
 ];
 
 export default function LabelBox(props) {
+  const {
+    attributes,
+    setAttributes
+  } = props;
 
   const {
     required,
@@ -51,9 +57,10 @@ export default function LabelBox(props) {
     border_label,
     padding_label,
     labelSpace,
-  } = props.attributes
+  } = attributes
 
-
+  //サイトエディタの場合はiframeにスタイルをわたす。
+  useStyleIframe(StyleLabel, props.attributes);
 
   return (
     <>
@@ -157,9 +164,9 @@ export default function LabelBox(props) {
         </PanelBody>
       </InspectorControls>
 
-      <label className="fit-label">
+      <StyleLabel attributes={attributes} >
         {required.flg ? <>{labelContent}<span>({required.display})</span></> : labelContent}
-      </label>
+      </StyleLabel>
     </>
   )
 }

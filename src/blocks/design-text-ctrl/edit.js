@@ -80,7 +80,10 @@ export default function Edit(props) {
 		border_label,
 		padding_label,
 		labelSpace,
+		labelWidth,
+		labelVertAlign,
 		shadow_element,
+		shadow_result,
 		is_shadow,
 		className
 	} = attributes;
@@ -346,8 +349,14 @@ export default function Edit(props) {
 							radius_label,
 							border_label,
 							padding_label,
-							labelSpace
+							labelSpace,
+							labelWidth,
+							labelVertAlign,
+							shadow_result,
+							is_shadow,
+							className,
 						}}
+						setAttributes={setAttributes}
 					/>
 				</StyleComp>
 			</div>
