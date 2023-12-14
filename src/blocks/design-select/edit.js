@@ -55,8 +55,10 @@ const units = [
 
 export default function Edit({ attributes, setAttributes, context }) {
 	const {
+		inputName,
 		selPattern,
 		selectValues,
+		selectedValues,
 		folder_val,
 		required,
 		bgColor,
@@ -116,9 +118,6 @@ export default function Edit({ attributes, setAttributes, context }) {
 	// selPatternがtrueの場合、multiple属性を持つオブジェクトを返す
 	const selectAttributes = selPattern === 'multi' ? { multiple: true } : {};
 
-	//選択された要素のキー配列
-	const [selectedValues, setSelectedValues] = useState([]);
-
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 
@@ -130,7 +129,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 	//選択要素のクリア
 	useEffect(() => {
-		setSelectedValues([]);
+		setAttributes({ selectedValues: [] });
 	}, [selPattern]);
 
 	//オプション要素の情報編集モーダルの操作
@@ -202,23 +201,31 @@ export default function Edit({ attributes, setAttributes, context }) {
 			<>
 				<NomalSelect
 					onOptionSelect={(selID) => {
+						if (selID == undefined) {//undefinedのときは設定を解除
+							setAttributes({ selectedValues: [] });
+							return;
+						}
 						if (selectedValues.includes(selID)) {
 							return; // 既に選択されている場合はそのまま
 						}
 						//複数選択のときは複数配列、単数選択の時は単数配列
 						const newArray = selPattern === 'multi' ? [...selectedValues, selID] : [selID];
-						setSelectedValues(newArray)
+						setAttributes({ selectedValues: newArray });
 					}}
 					onOptionDeselect={(selID) => {
 						const newArray = selectedValues.filter(index => index !== selID);
-						setSelectedValues(newArray);
+						setAttributes({ selectedValues: newArray });;
 					}}
 				>
 					<select
 						class="nomal"
 						{...selectAttributes}
+						name={inputName}
 						data-placeholder={folder_val}
 					>
+						{selPattern === 'single' &&
+							<option value="">{__("Please Select.", 'itmar_block_collections')}</option>
+						}
 						{
 							selectValues.map((option_item) => {
 								return (<option id={option_item.id} className={option_item.classname} value={option_item.value} selected={selectedValues.includes(option_item.id)}>{option_item.label}</option>)
@@ -260,6 +267,13 @@ export default function Edit({ attributes, setAttributes, context }) {
 					initialOpen={true}
 					className="select_design_ctrl"
 				>
+					<PanelRow>
+						<TextControl
+							label={__("name attribute name", 'itmar_block_collections')}
+							value={inputName}
+							onChange={(newVal) => setAttributes({ inputName: newVal })}
+						/>
+					</PanelRow>
 					<label className="components-base-control__label">{__("Select Pattern", 'itmar_block_collections')}</label>
 					<PanelRow className='itmar_select_row'>
 						<RadioControl

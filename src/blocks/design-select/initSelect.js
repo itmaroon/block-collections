@@ -84,7 +84,9 @@ export function NomalSelect({ onOptionSelect, onOptionDeselect, ...props }) {
       ref={containerRef}
     >
       <div onClick={openClick}>
-        <span className={aElements.length > 0 ? 'hide' : ''} >{dataPlaceholder} {props.children}</span>
+        <span className={aElements.length > 0 ? 'hide' : ''} >{dataPlaceholder}
+          {props.children}
+        </span>
         {aElements}
         <div className="itmar_block_opener" ></div>
       </div>

@@ -129,18 +129,25 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		const inputInnerBlocks = inputFigureBlock ? inputFigureBlock.innerBlocks : [];
 		//'itmar/design-checkbox''itmar/design-button'を除外
 		const filteredBlocks = inputInnerBlocks.filter(block => block.name !== 'itmar/design-checkbox' && block.name !== 'itmar/design-button');
-		return filteredBlocks.map((input_elm) => ({
-			cells: [
-				{
-					content: input_elm.attributes.labelContent,
-					tag: 'th'
-				},
-				{
-					content: input_elm.attributes.inputValue,
-					tag: 'td'
-				}
-			]
-		}));
+		return filteredBlocks.map((input_elm) => {
+			//design-selectで選択された要素を抽出
+			const sel_content = input_elm.attributes.selectValues ? input_elm.attributes.selectValues.filter(obj => input_elm.attributes.selectedValues.includes(obj.id)) : undefined;
+			//選択された要素をカンマ区切りの文字列にして、input要素と選択
+			const content_td = sel_content ? sel_content.map(obj => obj.label).join(', ') : input_elm.attributes.inputValue;
+
+			return ({
+				cells: [
+					{
+						content: input_elm.attributes.labelContent,
+						tag: 'th'
+					},
+					{
+						content: content_td,
+						tag: 'td'
+					}
+				]
+			})
+		});
 	}
 
 	//itmar/input-figure-blockを抽出

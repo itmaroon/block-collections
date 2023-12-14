@@ -9,13 +9,13 @@
 		"html": false
 	},
 	"attributes": {
+		"inputName": {
+			"type": "string",
+			"default": "selectItem"
+		},
 		"selPattern": {
 			"type": "string",
 			"default": "single"
-		},
-		"folder_val": {
-			"type": "string",
-			"default": "選択して下さい"
 		},
 		"selectValues": {
 			"type": "array",
@@ -38,6 +38,10 @@
 				}
 			}
 		},
+		"selectedValues": {
+			"type": "array",
+			"default": []
+		},
 		"font_style_option": {
 			"type": "object",
 			"default": {
@@ -59,16 +63,16 @@
 			"type": "object",
 			"default": {
 				"margin_value": {
-					"top": "10px",
-					"left": "10px",
-					"bottom": "10px",
-					"right": "10px"
+					"top": "0",
+					"left": "0",
+					"bottom": "1.5em",
+					"right": "0"
 				},
 				"padding_value": {
-					"top": "10px",
-					"left": "10px",
-					"bottom": "10px",
-					"right": "10px"
+					"top": "0.5em",
+					"left": "1em",
+					"bottom": "0.5em",
+					"right": "1em"
 				}
 			}
 		},
@@ -76,16 +80,16 @@
 			"type": "object",
 			"default": {
 				"margin_value": {
-					"top": "10px",
+					"top": "0",
 					"left": "0",
-					"bottom": "10px",
+					"bottom": "1.5em",
 					"right": "0"
 				},
 				"padding_value": {
-					"top": "10px",
-					"left": "0",
-					"bottom": "10px",
-					"right": "0"
+					"top": "0.5em",
+					"left": "0em",
+					"bottom": "0.5em",
+					"right": "0em"
 				}
 			}
 		},

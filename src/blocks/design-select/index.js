@@ -26,6 +26,10 @@ registerBlockType(metadata.name, {
 				display: __('Required', 'itmar_block_collections'),
 			}
 		},
+		folder_val: {
+			type: "string",
+			default: __('Please Select.', 'itmar_block_collections'),
+		},
 	},
 	edit: BlockEdit,
 	save,

@@ -46,6 +46,7 @@ const StyledDiv = styled.div`
     const commonStyle = css`
       margin: ${default_heading_margin_prm};
       padding: ${default_heading_padding_prm};
+      position: relative;
       display: flex;
       flex-direction: row-reverse;
       @media (max-width: 767px) {
@@ -97,7 +98,7 @@ const StyledDiv = styled.div`
           }
     
           span {
-            color: #99A3BA;
+            color: var(--wp--preset--color--placeholder);
             display: block;
             position: absolute;
             left: 12px;

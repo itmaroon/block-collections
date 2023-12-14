@@ -1,4 +1,5 @@
 
+import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
 import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
@@ -8,6 +9,7 @@ import StyleLabel from '../StyleLabel';
 
 export default function save({ attributes }) {
 	const {
+		inputName,
 		bgColor,
 		selPattern,
 		selectValues,
@@ -24,10 +26,19 @@ export default function save({ attributes }) {
 
 	const sheet = new ServerStyleSheet();
 	const html = renderToString(sheet.collectStyles(
-		<div {...blockProps}>
+		<div {...blockProps} data-required={required.flg}>
 			<StyleComp attributes={attributes}>
 				<NomalSelect>
-					<select class="nomal" {...selectAttributes} data-placeholder={folder_val}>
+					<select
+						value=""
+						class="nomal"
+						{...selectAttributes}
+						name={inputName}
+						data-placeholder={folder_val}
+					>
+						{selPattern === 'single' &&
+							<option value="">{__("Please Select.", 'itmar_block_collections')}</option>
+						}
 						{
 							selectValues.map((option_item) => {
 								return (<option id={option_item.id} className={option_item.classname} value={option_item.value}>{option_item.label}</option>)

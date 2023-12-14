@@ -67,6 +67,9 @@ const StyledDiv = styled.div`
         font-family: ${font_style_input.fontFamily};
         font-weight: ${font_style_input.fontWeight};
         font-style: ${fontStyle_input};
+        &::placeholder{
+          color: var(--wp--preset--color--placeholder);
+        }
       }
       textarea{
         min-height: 60px;
