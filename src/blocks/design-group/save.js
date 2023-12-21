@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
@@ -10,7 +10,6 @@ export default function save({ attributes }) {
 		is_submenu
 	} = attributes;
 
-	//ブロックのスタイル適用とサブメニューの場合はクラスを付加
 	const blockProps = useBlockProps.save();
 
 	//styled-componentsのHTML化

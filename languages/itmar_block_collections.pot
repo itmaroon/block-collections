@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-09-20T03:15:19+02:00\n"
+"POT-Creation-Date: 2023-12-20T12:28:27+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: itmar_block_collections\n"
@@ -30,1549 +30,1799 @@ msgstr ""
 msgid "copied"
 msgstr ""
 
-#: build/582.js:1
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
+#: build/blocks/design-process/index.js:194
 #: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:255
-#: build/582.js:314
-#: build/blocks/design-button/index.js:2929
-#: build/blocks/design-checkbox/index.js:2907
-#: build/blocks/design-process/index.js:2928
-#: build/blocks/design-select/index.js:2925
-#: build/blocks/design-table/index.js:2948
-#: build/blocks/design-title/index.js:3037
-msgid "Shadow Type"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:260
-#: build/582.js:319
-#: build/blocks/design-button/index.js:2934
-#: build/blocks/design-checkbox/index.js:2912
-#: build/blocks/design-process/index.js:2933
-#: build/blocks/design-select/index.js:2930
-#: build/blocks/design-table/index.js:2953
-#: build/blocks/design-title/index.js:3042
-msgid "Nomal"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:261
-#: build/582.js:320
-#: build/blocks/design-button/index.js:2935
-#: build/blocks/design-checkbox/index.js:2913
-#: build/blocks/design-process/index.js:2934
-#: build/blocks/design-select/index.js:2931
-#: build/blocks/design-table/index.js:2954
-#: build/blocks/design-title/index.js:3043
-msgid "Neumorphism"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:262
-#: build/582.js:321
-#: build/blocks/design-button/index.js:2936
-#: build/blocks/design-checkbox/index.js:2914
-#: build/blocks/design-process/index.js:2935
-#: build/blocks/design-select/index.js:2932
-#: build/blocks/design-table/index.js:2955
-#: build/blocks/design-title/index.js:3044
-msgid "Claymorphism"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:263
-#: build/582.js:322
-#: build/blocks/design-button/index.js:2937
-#: build/blocks/design-checkbox/index.js:2915
-#: build/blocks/design-process/index.js:2936
-#: build/blocks/design-select/index.js:2933
-#: build/blocks/design-table/index.js:2956
-#: build/blocks/design-title/index.js:3045
-msgid "Grassmophism"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:271
-#: build/582.js:330
-#: build/blocks/design-button/index.js:2945
-#: build/blocks/design-checkbox/index.js:2923
-#: build/blocks/design-process/index.js:2944
-#: build/blocks/design-select/index.js:2941
-#: build/blocks/design-table/index.js:2964
-#: build/blocks/design-title/index.js:3053
-msgid "Nomal settings"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:274
-#: build/582.js:333
-#: build/blocks/design-button/index.js:2948
-#: build/blocks/design-checkbox/index.js:2926
-#: build/blocks/design-process/index.js:2947
-#: build/blocks/design-select/index.js:2944
-#: build/blocks/design-table/index.js:2967
-#: build/blocks/design-title/index.js:3056
-msgid "Spread"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: build/blocks/design-title/index.js:85
-#: build/blocks/draggable-box/index.js:1
-#: src/blocks/design-title/edit.js:324
-#: src/blocks/design-title/edit.js:394
-#: src/blocks/draggable-box/edit.js:90
-#: src/blocks/ShadowStyle.js:282
-#: build/582.js:341
-#: build/blocks/design-button/index.js:2956
-#: build/blocks/design-checkbox/index.js:2934
-#: build/blocks/design-process/index.js:2955
-#: build/blocks/design-select/index.js:2952
-#: build/blocks/design-table/index.js:2975
-#: build/blocks/design-title/index.js:3064
-#: build/blocks/design-title/index.js:3944
-#: build/blocks/design-title/index.js:4014
-#: build/blocks/draggable-box/index.js:185
-msgid "Lateral direction"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: build/blocks/design-title/index.js:85
-#: build/blocks/draggable-box/index.js:1
-#: src/blocks/design-title/edit.js:335
-#: src/blocks/design-title/edit.js:405
-#: src/blocks/draggable-box/edit.js:96
-#: src/blocks/ShadowStyle.js:290
-#: build/582.js:349
-#: build/blocks/design-button/index.js:2964
-#: build/blocks/design-checkbox/index.js:2942
-#: build/blocks/design-process/index.js:2963
-#: build/blocks/design-select/index.js:2960
-#: build/blocks/design-table/index.js:2983
-#: build/blocks/design-title/index.js:3072
-#: build/blocks/design-title/index.js:3955
-#: build/blocks/design-title/index.js:4025
-#: build/blocks/draggable-box/index.js:191
-msgid "Longitudinal direction"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:298
-#: src/blocks/ShadowStyle.js:338
-#: build/582.js:357
-#: build/582.js:397
-#: build/blocks/design-button/index.js:2972
-#: build/blocks/design-button/index.js:3012
-#: build/blocks/design-checkbox/index.js:2950
-#: build/blocks/design-checkbox/index.js:2990
-#: build/blocks/design-process/index.js:2971
-#: build/blocks/design-process/index.js:3011
-#: build/blocks/design-select/index.js:2968
-#: build/blocks/design-select/index.js:3008
-#: build/blocks/design-table/index.js:2991
-#: build/blocks/design-table/index.js:3031
-#: build/blocks/design-title/index.js:3080
-#: build/blocks/design-title/index.js:3120
-msgid "Blur"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:305
-#: build/582.js:364
-#: build/blocks/design-button/index.js:2979
-#: build/blocks/design-checkbox/index.js:2957
-#: build/blocks/design-process/index.js:2978
-#: build/blocks/design-select/index.js:2975
-#: build/blocks/design-table/index.js:2998
-#: build/blocks/design-title/index.js:3087
-msgid "Shadow Color Setting"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:309
-#: build/582.js:368
-#: build/blocks/design-button/index.js:2983
-#: build/blocks/design-checkbox/index.js:2961
-#: build/blocks/design-process/index.js:2982
-#: build/blocks/design-select/index.js:2979
-#: build/blocks/design-table/index.js:3002
-#: build/blocks/design-title/index.js:3091
-msgid "Choose Shadow color"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:319
-#: build/582.js:378
-#: build/blocks/design-button/index.js:2993
-#: build/blocks/design-checkbox/index.js:2971
-#: build/blocks/design-process/index.js:2992
-#: build/blocks/design-select/index.js:2989
-#: build/blocks/design-table/index.js:3012
-#: build/blocks/design-title/index.js:3101
-msgid "Neumorphism settings"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:322
-#: build/582.js:381
-#: build/blocks/design-button/index.js:2996
-#: build/blocks/design-checkbox/index.js:2974
-#: build/blocks/design-process/index.js:2995
-#: build/blocks/design-select/index.js:2992
-#: build/blocks/design-table/index.js:3015
-#: build/blocks/design-title/index.js:3104
-msgid "Distance"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:330
-#: build/582.js:389
-#: build/blocks/design-button/index.js:3004
-#: build/blocks/design-checkbox/index.js:2982
-#: build/blocks/design-process/index.js:3003
-#: build/blocks/design-select/index.js:3000
-#: build/blocks/design-table/index.js:3023
-#: build/blocks/design-title/index.js:3112
-msgid "Intensity"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:376
-#: build/582.js:435
-#: build/blocks/design-button/index.js:3050
-#: build/blocks/design-checkbox/index.js:3028
-#: build/blocks/design-process/index.js:3049
-#: build/blocks/design-select/index.js:3046
-#: build/blocks/design-table/index.js:3069
-#: build/blocks/design-title/index.js:3158
-msgid "Claymorphism settings"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:374
-#: src/blocks/ShadowStyle.js:379
-#: build/582.js:438
-#: build/blocks/design-button/index.js:3053
-#: build/blocks/design-checkbox/index.js:3031
-#: build/blocks/design-process/index.js:3052
-#: build/blocks/design-select/index.js:3049
-#: build/blocks/design-table/index.js:3072
-#: build/blocks/design-title/index.js:3161
-#: build/blocks/design-title/index.js:3994
-msgid "Opacity"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:425
-#: build/582.js:484
-#: build/blocks/design-button/index.js:3099
-#: build/blocks/design-checkbox/index.js:3077
-#: build/blocks/design-process/index.js:3098
-#: build/blocks/design-select/index.js:3095
-#: build/blocks/design-table/index.js:3118
-#: build/blocks/design-title/index.js:3207
-msgid "Grassmophism settings"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:428
-#: build/582.js:487
-#: build/blocks/design-button/index.js:3102
-#: build/blocks/design-checkbox/index.js:3080
-#: build/blocks/design-process/index.js:3101
-#: build/blocks/design-select/index.js:3098
-#: build/blocks/design-table/index.js:3121
-#: build/blocks/design-title/index.js:3210
-msgid "Glass blur"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:436
-#: build/582.js:495
-#: build/blocks/design-button/index.js:3110
-#: build/blocks/design-checkbox/index.js:3088
-#: build/blocks/design-process/index.js:3109
-#: build/blocks/design-select/index.js:3106
-#: build/blocks/design-table/index.js:3129
-#: build/blocks/design-title/index.js:3218
-msgid "Glass Opacity"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/ShadowStyle.js:445
-#: build/582.js:504
-#: build/blocks/design-button/index.js:3119
-#: build/blocks/design-checkbox/index.js:3097
-#: build/blocks/design-process/index.js:3118
-#: build/blocks/design-select/index.js:3115
-#: build/blocks/design-table/index.js:3138
-#: build/blocks/design-title/index.js:3227
-msgid "Show outline"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
-#: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
-#: src/blocks/IconSelectControl.js:65
+#: src/blocks/IconSelectControl.js:91
 #: src/blocks/TypographyControls.js:64
-#: build/582.js:585
-#: build/blocks/design-button/index.js:3200
-#: build/blocks/design-checkbox/index.js:3178
-#: build/blocks/design-process/index.js:3199
-#: build/blocks/design-select/index.js:3196
-#: build/blocks/design-table/index.js:3219
-#: build/blocks/design-title/index.js:2733
-#: build/blocks/design-title/index.js:3308
 msgid "Size"
 msgstr ""
 
-#: build/582.js:1
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
+#: build/blocks/design-process/index.js:194
 #: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
 #: src/blocks/TypographyControls.js:70
-#: build/582.js:591
-#: build/blocks/design-button/index.js:3206
-#: build/blocks/design-checkbox/index.js:3184
-#: build/blocks/design-process/index.js:3205
-#: build/blocks/design-select/index.js:3202
-#: build/blocks/design-table/index.js:3225
-#: build/blocks/design-title/index.js:3314
 msgid "font family"
 msgstr ""
 
-#: build/582.js:1
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
+#: build/blocks/design-process/index.js:194
 #: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
 #: src/blocks/TypographyControls.js:78
-#: build/582.js:599
-#: build/blocks/design-button/index.js:3214
-#: build/blocks/design-checkbox/index.js:3192
-#: build/blocks/design-process/index.js:3213
-#: build/blocks/design-select/index.js:3210
-#: build/blocks/design-table/index.js:3233
-#: build/blocks/design-title/index.js:3322
 msgid "font weight"
 msgstr ""
 
-#: build/582.js:1
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-process/index.js:1
-#: build/blocks/design-select/index.js:1
+#: build/blocks/design-process/index.js:194
 #: build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
 #: src/blocks/TypographyControls.js:97
-#: build/582.js:618
-#: build/blocks/design-button/index.js:3233
-#: build/blocks/design-checkbox/index.js:3211
-#: build/blocks/design-process/index.js:3232
-#: build/blocks/design-select/index.js:3229
-#: build/blocks/design-table/index.js:3252
-#: build/blocks/design-title/index.js:3341
 msgid "Italic display"
 msgstr ""
 
-#: build/582.js:1
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:103
-#: src/blocks/design-text-ctrl/edit.js:182
-#: build/582.js:812
-#: build/blocks/design-checkbox/index.js:3546
-msgid "Input element information setting"
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:258
+msgid "Shadow Type"
 msgstr ""
 
-#: build/582.js:1
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:105
-#: src/blocks/design-text-ctrl/edit.js:185
-#: build/582.js:815
-#: build/blocks/design-checkbox/index.js:3548
-msgid "name attribute name"
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:263
+msgid "Nomal"
 msgstr ""
 
-#: build/582.js:1
-#: src/blocks/design-text-ctrl/edit.js:192
-#: build/582.js:822
-msgid "PlaceHolder"
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:264
+msgid "Neumorphism"
 msgstr ""
 
-#: build/582.js:1
-#: src/blocks/design-text-ctrl/edit.js:201
-#: build/582.js:831
-msgid "Kind of Input Element"
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:265
+msgid "Claymorphism"
 msgstr ""
 
-#: build/582.js:1
-#: src/blocks/design-text-ctrl/edit.js:213
-#: build/582.js:843
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:266
+msgid "Grassmophism"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:274
+msgid "unevenness"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:288
+msgid "Nomal settings"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:291
+msgid "Spread"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-title/edit.js:537
+#: src/blocks/design-title/edit.js:607
+#: src/blocks/DraggableBox.js:116
+#: src/blocks/ShadowStyle.js:299
+msgid "Lateral direction"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-title/edit.js:548
+#: src/blocks/design-title/edit.js:618
+#: src/blocks/DraggableBox.js:122
+#: src/blocks/ShadowStyle.js:307
+msgid "Longitudinal direction"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:315
+#: src/blocks/ShadowStyle.js:355
+msgid "Blur"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:322
+msgid "Shadow Color Setting"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:326
+msgid "Choose Shadow color"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:336
+msgid "Neumorphism settings"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-title/edit.js:474
+#: src/blocks/ShadowStyle.js:339
+msgid "Distance"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:347
+msgid "Intensity"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:382
+msgid "Claymorphism settings"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-title/edit.js:587
+#: src/blocks/ShadowStyle.js:385
+msgid "Opacity"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:431
+msgid "Grassmophism settings"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:434
+msgid "Glass blur"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:442
+msgid "Glass Opacity"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/ShadowStyle.js:451
+msgid "Show outline"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/LabelBox .js:68
+msgid "Required Settings"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/LabelBox .js:71
 msgid "Required input"
 msgstr ""
 
-#: build/582.js:1
-#: src/blocks/design-text-ctrl/edit.js:222
-#: build/582.js:852
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/LabelBox .js:82
 msgid "Show 'required'"
 msgstr ""
 
-#: build/582.js:1
-#: src/blocks/design-text-ctrl/edit.js:235
-#: build/582.js:865
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/LabelBox .js:93
 msgid "Label Settings"
 msgstr ""
 
-#: build/582.js:1
-#: src/blocks/design-text-ctrl/edit.js:240
-#: build/582.js:870
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/LabelBox .js:98
 msgid "Text of Label"
 msgstr ""
 
-#: build/582.js:1
-#: build/blocks/design-button/index.js:27
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-button/edit.js:183
-#: src/blocks/design-checkbox/edit.js:120
-#: src/blocks/design-process/edit.js:123
-#: src/blocks/design-select/edit.js:244
-#: src/blocks/design-table/edit.js:323
-#: src/blocks/design-text-ctrl/edit.js:251
-#: src/blocks/design-title/edit.js:211
-#: build/582.js:881
-#: build/blocks/design-button/index.js:3589
-#: build/blocks/design-checkbox/index.js:3563
-#: build/blocks/design-process/index.js:3673
-#: build/blocks/design-select/index.js:3940
-#: build/blocks/design-table/index.js:3825
-#: build/blocks/design-title/index.js:3831
-msgid "Global settings"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:27
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-button/edit.js:185
-#: src/blocks/design-checkbox/edit.js:122
-#: src/blocks/design-process/edit.js:126
-#: src/blocks/design-select/edit.js:246
-#: src/blocks/design-table/edit.js:325
-#: src/blocks/design-text-ctrl/edit.js:253
-#: src/blocks/design-title/edit.js:213
-#: build/582.js:883
-#: build/blocks/design-button/index.js:3591
-#: build/blocks/design-checkbox/index.js:3565
-#: build/blocks/design-process/index.js:3676
-#: build/blocks/design-select/index.js:3942
-#: build/blocks/design-table/index.js:3827
-#: build/blocks/design-title/index.js:3833
-msgid "Background Color Setting"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-table/edit.js:408
-#: src/blocks/design-table/edit.js:450
-#: src/blocks/design-text-ctrl/edit.js:257
-#: src/blocks/design-text-ctrl/edit.js:318
-#: src/blocks/design-text-ctrl/edit.js:361
-#: src/blocks/design-title/edit.js:252
-#: src/blocks/design-title/edit.js:435
-#: build/582.js:887
-#: build/582.js:948
-#: build/582.js:991
-#: build/blocks/design-table/index.js:3910
-#: build/blocks/design-table/index.js:3952
-#: build/blocks/design-title/index.js:3872
-#: build/blocks/design-title/index.js:4055
-msgid "Choose Background color"
-msgstr ""
-
-#: build/582.js:1
-#: src/blocks/design-text-ctrl/edit.js:263
-#: build/582.js:893
-msgid "Focus Color Setting"
-msgstr ""
-
-#: build/582.js:1
-#: src/blocks/design-text-ctrl/edit.js:267
-#: build/582.js:897
-msgid "Choose Focus color"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/code-highlight/index.js:1
-#: build/blocks/design-button/index.js:27
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-title/index.js:85
-#: src/blocks/code-highlight/edit.js:216
-#: src/blocks/design-button/edit.js:195
-#: src/blocks/design-checkbox/edit.js:137
-#: src/blocks/design-process/edit.js:158
-#: src/blocks/design-table/edit.js:335
-#: src/blocks/design-text-ctrl/edit.js:273
-#: src/blocks/design-title/edit.js:259
-#: build/582.js:903
-#: build/blocks/code-highlight/index.js:246
-#: build/blocks/design-button/index.js:3601
-#: build/blocks/design-checkbox/index.js:3580
-#: build/blocks/design-process/index.js:3708
-#: build/blocks/design-table/index.js:3837
-#: build/blocks/design-title/index.js:3879
-msgid "Margin settings"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/code-highlight/index.js:1
-#: build/blocks/design-button/index.js:27
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-title/index.js:85
-#: src/blocks/code-highlight/edit.js:226
-#: src/blocks/design-button/edit.js:205
-#: src/blocks/design-checkbox/edit.js:147
-#: src/blocks/design-process/edit.js:167
-#: src/blocks/design-select/edit.js:276
-#: src/blocks/design-table/edit.js:345
-#: src/blocks/design-table/edit.js:417
-#: src/blocks/design-table/edit.js:459
-#: src/blocks/design-text-ctrl/edit.js:281
-#: src/blocks/design-text-ctrl/edit.js:382
-#: src/blocks/design-title/edit.js:269
-#: src/blocks/design-title/edit.js:488
-#: build/582.js:911
-#: build/582.js:1012
-#: build/blocks/code-highlight/index.js:256
-#: build/blocks/design-button/index.js:3611
-#: build/blocks/design-checkbox/index.js:3590
-#: build/blocks/design-process/index.js:3717
-#: build/blocks/design-select/index.js:3972
-#: build/blocks/design-table/index.js:3847
-#: build/blocks/design-table/index.js:3919
-#: build/blocks/design-table/index.js:3961
-#: build/blocks/design-title/index.js:3889
-#: build/blocks/design-title/index.js:4108
-msgid "Padding settings"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:27
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-button/edit.js:228
-#: src/blocks/design-checkbox/edit.js:170
-#: src/blocks/design-process/edit.js:176
-#: src/blocks/design-select/edit.js:299
-#: src/blocks/design-table/edit.js:368
-#: src/blocks/design-text-ctrl/edit.js:290
-#: src/blocks/design-title/edit.js:224
-#: build/582.js:920
-#: build/blocks/design-button/index.js:3634
-#: build/blocks/design-checkbox/index.js:3613
-#: build/blocks/design-process/index.js:3726
-#: build/blocks/design-select/index.js:3995
-#: build/blocks/design-table/index.js:3870
-#: build/blocks/design-title/index.js:3844
-msgid "Is Shadow"
-msgstr ""
-
-#: build/582.js:1
-#: src/blocks/design-text-ctrl/edit.js:297
-#: build/582.js:927
-msgid "Input Box style settings"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:27
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-button/edit.js:237
-#: src/blocks/design-checkbox/edit.js:196
-#: src/blocks/design-process/edit.js:187
-#: src/blocks/design-process/edit.js:213
-#: src/blocks/design-select/edit.js:309
-#: src/blocks/design-table/edit.js:388
-#: src/blocks/design-table/edit.js:430
-#: src/blocks/design-text-ctrl/edit.js:300
-#: src/blocks/design-text-ctrl/edit.js:343
-#: src/blocks/design-title/edit.js:233
-#: src/blocks/design-title/edit.js:460
-#: build/582.js:930
-#: build/582.js:973
-#: build/blocks/design-button/index.js:3643
-#: build/blocks/design-checkbox/index.js:3639
-#: build/blocks/design-process/index.js:3737
-#: build/blocks/design-process/index.js:3763
-#: build/blocks/design-select/index.js:4005
-#: build/blocks/design-table/index.js:3890
-#: build/blocks/design-table/index.js:3932
-#: build/blocks/design-title/index.js:3853
-#: build/blocks/design-title/index.js:4080
-msgid "Typography"
-msgstr ""
-
-#: build/582.js:1
-#: src/blocks/design-text-ctrl/edit.js:308
-#: build/582.js:938
-msgid "Color Settings"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-checkbox/edit.js:208
-#: src/blocks/design-process/edit.js:199
-#: src/blocks/design-process/edit.js:225
-#: src/blocks/design-select/edit.js:321
-#: src/blocks/design-table/edit.js:401
-#: src/blocks/design-table/edit.js:443
-#: src/blocks/design-text-ctrl/edit.js:311
-#: src/blocks/design-text-ctrl/edit.js:354
-#: src/blocks/design-title/edit.js:245
-#: src/blocks/design-title/edit.js:426
-#: build/582.js:941
-#: build/582.js:984
-#: build/blocks/design-checkbox/index.js:3651
-#: build/blocks/design-process/index.js:3749
-#: build/blocks/design-process/index.js:3775
-#: build/blocks/design-select/index.js:4017
-#: build/blocks/design-table/index.js:3903
-#: build/blocks/design-table/index.js:3945
-#: build/blocks/design-title/index.js:3865
-#: build/blocks/design-title/index.js:4046
-msgid "Choose Text color"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-button/index.js:27
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-button/edit.js:213
-#: src/blocks/design-checkbox/edit.js:155
-#: src/blocks/design-process/edit.js:143
-#: src/blocks/design-select/edit.js:284
-#: src/blocks/design-table/edit.js:353
-#: src/blocks/design-text-ctrl/edit.js:324
-#: src/blocks/design-text-ctrl/edit.js:367
-#: src/blocks/design-title/edit.js:277
-#: src/blocks/design-title/edit.js:473
-#: build/582.js:954
-#: build/582.js:997
-#: build/blocks/design-button/index.js:3619
-#: build/blocks/design-checkbox/index.js:3598
-#: build/blocks/design-process/index.js:3693
-#: build/blocks/design-select/index.js:3980
-#: build/blocks/design-table/index.js:3855
-#: build/blocks/design-title/index.js:3897
-#: build/blocks/design-title/index.js:4093
-msgid "Border Settings"
-msgstr ""
-
-#: build/582.js:1
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:194
-#: src/blocks/design-text-ctrl/edit.js:340
-#: build/582.js:970
-#: build/blocks/design-checkbox/index.js:3637
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-checkbox/edit.js:241
+#: src/blocks/LabelBox .js:108
 msgid "Label style settings"
 msgstr ""
 
-#: build/582.js:1
-#: build/blocks/design-button/index.js:27
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-button/edit.js:245
-#: src/blocks/design-checkbox/edit.js:205
-#: src/blocks/design-text-ctrl/edit.js:351
-#: build/582.js:981
-#: build/blocks/design-button/index.js:3651
-#: build/blocks/design-checkbox/index.js:3648
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-button/edit.js:283
+#: src/blocks/design-checkbox/edit.js:243
+#: src/blocks/design-process/edit.js:234
+#: src/blocks/design-process/edit.js:260
+#: src/blocks/design-select/edit.js:413
+#: src/blocks/design-table/edit.js:480
+#: src/blocks/design-table/edit.js:549
+#: src/blocks/design-text-ctrl/edit.js:250
+#: src/blocks/design-title/edit.js:683
+#: src/blocks/LabelBox .js:111
+msgid "Typography"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-button/edit.js:291
+#: src/blocks/design-checkbox/edit.js:252
+#: src/blocks/LabelBox .js:119
 msgid "Label Color Setting"
 msgstr ""
 
-#: build/582.js:1
-#: src/blocks/design-text-ctrl/edit.js:393
-#: build/582.js:1023
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-checkbox/edit.js:255
+#: src/blocks/design-process/edit.js:246
+#: src/blocks/design-process/edit.js:272
+#: src/blocks/design-select/edit.js:425
+#: src/blocks/design-table/edit.js:493
+#: src/blocks/design-table/edit.js:562
+#: src/blocks/design-text-ctrl/edit.js:261
+#: src/blocks/design-title/edit.js:639
+#: src/blocks/LabelBox .js:122
+msgid "Choose Text color"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:500
+#: src/blocks/design-table/edit.js:569
+#: src/blocks/design-text-ctrl/edit.js:180
+#: src/blocks/design-text-ctrl/edit.js:268
+#: src/blocks/design-title/edit.js:648
+#: src/blocks/LabelBox .js:129
+msgid "Choose Background color"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-button/edit.js:250
+#: src/blocks/design-checkbox/edit.js:194
+#: src/blocks/design-process/edit.js:163
+#: src/blocks/design-select/edit.js:379
+#: src/blocks/design-table/edit.js:436
+#: src/blocks/design-text-ctrl/edit.js:274
+#: src/blocks/design-title/edit.js:696
+#: src/blocks/LabelBox .js:135
+msgid "Border Settings"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/code-highlight/index.js:1
+#: src/blocks/code-highlight/edit.js:226
+#: src/blocks/design-title/edit.js:415
+#: src/blocks/design-title/edit.js:711
+#: src/blocks/LabelBox .js:150
+msgid "Padding settings"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/LabelBox .js:161
 msgid "Spacing with textbox"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-checkbox/edit.js:124
+#: src/blocks/design-text-ctrl/edit.js:143
+msgid "Input element information setting"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-checkbox/edit.js:126
+#: src/blocks/design-select/edit.js:272
+#: src/blocks/design-text-ctrl/edit.js:146
+msgid "name attribute name"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:153
+msgid "PlaceHolder"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:162
+msgid "Kind of Input Element"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-button/edit.js:203
+#: src/blocks/design-checkbox/edit.js:141
+#: src/blocks/design-process/edit.js:143
+#: src/blocks/design-select/edit.js:322
+#: src/blocks/design-table/edit.js:389
+#: src/blocks/design-text-ctrl/edit.js:174
+msgid "Global settings"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-button/edit.js:205
+#: src/blocks/design-checkbox/edit.js:143
+#: src/blocks/design-process/edit.js:146
+#: src/blocks/design-select/edit.js:324
+#: src/blocks/design-table/edit.js:391
+#: src/blocks/design-text-ctrl/edit.js:176
+msgid "Background Color Setting"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:186
+msgid "Focus Color Setting"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:190
+msgid "Choose Focus color"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-button/edit.js:217
+#: src/blocks/design-checkbox/edit.js:160
+#: src/blocks/design-process/edit.js:180
+#: src/blocks/design-select/edit.js:346
+#: src/blocks/design-table/edit.js:403
+#: src/blocks/design-text-ctrl/edit.js:198
+msgid "Margin settings(mobile)"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-button/edit.js:216
+#: src/blocks/design-checkbox/edit.js:159
+#: src/blocks/design-process/edit.js:179
+#: src/blocks/design-select/edit.js:345
+#: src/blocks/design-table/edit.js:402
+#: src/blocks/design-text-ctrl/edit.js:197
+msgid "Margin settings(desk top)"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-button/edit.js:235
+#: src/blocks/design-checkbox/edit.js:178
+#: src/blocks/design-group/edit.js:214
+#: src/blocks/design-process/edit.js:198
+#: src/blocks/design-select/edit.js:364
+#: src/blocks/design-table/edit.js:421
+#: src/blocks/design-table/edit.js:529
+#: src/blocks/design-table/edit.js:580
+#: src/blocks/design-text-ctrl/edit.js:215
+msgid "Padding settings(mobile)"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-button/edit.js:234
+#: src/blocks/design-checkbox/edit.js:177
+#: src/blocks/design-group/edit.js:213
+#: src/blocks/design-process/edit.js:197
+#: src/blocks/design-select/edit.js:363
+#: src/blocks/design-table/edit.js:420
+#: src/blocks/design-table/edit.js:528
+#: src/blocks/design-table/edit.js:579
+#: src/blocks/design-text-ctrl/edit.js:214
+msgid "Padding settings(desk top)"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-group/index.js:111
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-button/edit.js:265
+#: src/blocks/design-checkbox/edit.js:208
+#: src/blocks/design-group/edit.js:226
+#: src/blocks/design-process/edit.js:214
+#: src/blocks/design-select/edit.js:394
+#: src/blocks/design-table/edit.js:451
+#: src/blocks/design-text-ctrl/edit.js:231
+#: src/blocks/design-title/edit.js:424
+msgid "Is Shadow"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:247
+msgid "Input Box style settings"
+msgstr ""
+
+#: build/151.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:258
+msgid "Color Settings"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:265
+msgid "Select Element Settings"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:277
+msgid "Select Pattern"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:282
+msgid "Single Select"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:283
+msgid "Nulti Select"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:292
+msgid "Place Folder Display"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:298
+msgid "Option info Setting"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:301
+msgid "add"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-button/edit.js:209
+#: src/blocks/design-checkbox/edit.js:147
+#: src/blocks/design-process/edit.js:150
+#: src/blocks/design-select/edit.js:328
+#: src/blocks/design-table/edit.js:395
+msgid "Choose Block Background color"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:335
+msgid "Choose Select Background color"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:411
+msgid "Option Style Settings"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:422
+msgid "Option Color Setting"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:430
+msgid "Choose Background color on mouse hover"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:442
+msgid "Option Info Edit"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:446
+msgid "Display Label"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:451
+msgid "Option Value"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:456
+msgid "Class Name"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:461
+msgid "Save Changes"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-select/edit.js:468
+#: src/blocks/design-title/edit.js:775
+msgid "Confirm Deletion"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:471
+msgid "Are you sure you want to delete this item?"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:472
+msgid "Yes, Delete"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-select/edit.js:473
+#: src/blocks/design-title/edit.js:780
+msgid "Cancel"
+msgstr ""
+
+#: build/827.js:1
+#: build/blocks/design-select/index.js
+#: build/blocks/design-select/index.js:374
+#: src/blocks/design-select/edit.js:227
+#: src/blocks/design-select/index.js:31
+#: src/blocks/design-select/save.js:40
+msgid "Please Select."
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/IconSelectControl.js:27
+msgid "Select the icon from and enter Unicode (the upper right four digits of the selection dialog). "
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/IconSelectControl.js:34
+msgid "Please select the first class name shown in the HTML code field of the selection dialog. "
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/IconSelectControl.js:62
+msgid "icon name"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/IconSelectControl.js:74
+msgid "Icon Family"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/IconSelectControl.js:101
+msgid "spacing to end"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/IconSelectControl.js:122
+msgid "Arrangement"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/IconSelectControl.js:127
+msgid "left"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/IconSelectControl.js:128
+msgid "right"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:300
+msgid "Write Title text..."
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:328
+msgid "Title Source Setting"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:331
+msgid "Title type"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:334
+msgid "Plaine"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:335
+msgid "Site Title"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:336
+msgid "Chatch Phrase"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:339
+msgid "You can display the site title and catchphrase in addition to the blank title."
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:345
+msgid "Link type"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:348
+msgid "None"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:349
+msgid "Fixed Page"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:350
+msgid "Archive Page"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:351
+msgid "Free URL"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:352
+msgid "Sub Menu"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:355
+msgid "You can select the type of URL to link to the title."
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:363
+msgid "Select a fixed page to link to"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:371
+msgid "Select archive page to link to"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:377
+msgid "Link to URL"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:389
+msgid "Menu Alignment"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:398
+msgid "Based on title"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:400
+msgid "If unchecked, the parent menu will be used as the reference. If there is no parent menu, do not uncheck it."
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:413
+msgid "Title settings"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:441
+msgid "Add an underline"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:448
+msgid "UnderLine settings"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:456
+msgid "Height"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:465
+msgid "Width"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:479
+msgid "Under Line Color Setting"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:484
+msgid "Choose Under Line color"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:496
+msgid "Animation on hover"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:508
+msgid "Circle Marker Settings"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:510
+#: src/blocks/design-title/edit.js:570
+msgid "Circle Color Setting"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:515
+#: src/blocks/design-title/edit.js:575
+msgid "Choose Circle Background"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:531
+#: src/blocks/design-title/edit.js:601
+msgid "Circle Scale Setting"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:534
+#: src/blocks/design-title/edit.js:604
+msgid "Position Settings"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:558
+msgid "Second Circle Settings"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:560
+msgid "Second Circle"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:634
+msgid "Sub Copy Settings"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:636
+msgid "Copy Color Setting"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:662
+msgid "Copy Text"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:672
+msgid "Copy Alignment"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:727
+msgid "Icon settings"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:729
+msgid "Append icon"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:778
+msgid "Changing a style resets the style-specific settings. Are you sure?"
+msgstr ""
+
+#: build/859.js:1
+#: build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:779
+msgid "Yes, Change"
+msgstr ""
+
+#: build/blocks/code-highlight/index.js:1
+#: src/blocks/code-highlight/index.js:11
+msgid "A block that highlights code."
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:163
-#: build/blocks/code-highlight/index.js:193
 msgid "SyntaxHighLight Settings"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:168
-#: build/blocks/code-highlight/index.js:198
 msgid "Line Number(display)"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:168
-#: build/blocks/code-highlight/index.js:198
 msgid "Line Number(hidden)"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:176
-#: build/blocks/code-highlight/index.js:206
 msgid "Starting Line Number"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:186
-#: build/blocks/code-highlight/index.js:216
 msgid "languege"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:198
-#: build/blocks/code-highlight/index.js:228
 msgid "Skin"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:212
-#: build/blocks/code-highlight/index.js:242
 msgid "Spacing Settings"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
+#: src/blocks/code-highlight/edit.js:216
+msgid "Margin settings"
+msgstr ""
+
+#: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:242
-#: build/blocks/code-highlight/index.js:272
 msgid "Preview"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:242
-#: build/blocks/code-highlight/index.js:272
 msgid "Edit"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:257
-#: build/blocks/code-highlight/index.js:287
 msgid "File Name"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:264
-#: build/blocks/code-highlight/index.js:294
 msgid "Code:"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/edit.js:278
-#: build/blocks/code-highlight/index.js:308
 msgid "edit mode"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/index.js:11
-#: build/blocks/code-highlight/index.js:329
-msgid "A block that highlights code."
-msgstr ""
-
-#: build/blocks/code-highlight/index.js:1
 #: src/blocks/code-highlight/save.js:72
-#: build/blocks/code-highlight/index.js:405
 msgid "Copy"
 msgstr ""
 
-#: build/blocks/design-button/index.js:27
-#: src/blocks/design-button/edit.js:95
-#: build/blocks/design-button/index.js:3501
-msgid "Button Name..."
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
-#: src/blocks/design-button/edit.js:143
-#: build/blocks/design-button/index.js:3549
-msgid "Button Type setting"
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
-#: src/blocks/design-button/edit.js:144
-#: build/blocks/design-button/index.js:3550
-msgid "Select Button Type"
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
-#: src/blocks/design-button/edit.js:149
-#: build/blocks/design-button/index.js:3555
-msgid "Button"
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
-#: src/blocks/design-button/edit.js:150
-#: build/blocks/design-button/index.js:3556
-msgid "Submit"
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
-#: src/blocks/design-button/edit.js:158
-#: build/blocks/design-button/index.js:3564
-msgid "Transition to static page"
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
-#: src/blocks/design-button/edit.js:166
-#: build/blocks/design-button/index.js:3572
-msgid "Button Label"
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
-#: src/blocks/design-button/edit.js:171
-#: build/blocks/design-button/index.js:3577
-msgid "Button ID"
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
-#: build/blocks/design-checkbox/index.js:99
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-button/edit.js:189
-#: src/blocks/design-checkbox/edit.js:126
-#: src/blocks/design-process/edit.js:130
-#: src/blocks/design-select/edit.js:250
-#: src/blocks/design-table/edit.js:329
-#: src/blocks/design-title/edit.js:217
-#: build/blocks/design-button/index.js:3595
-#: build/blocks/design-checkbox/index.js:3569
-#: build/blocks/design-process/index.js:3680
-#: build/blocks/design-select/index.js:3946
-#: build/blocks/design-table/index.js:3831
-#: build/blocks/design-title/index.js:3837
-msgid "Choose Block Background color"
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
-#: src/blocks/design-button/edit.js:235
-#: build/blocks/design-button/index.js:3641
-msgid "Button style settings"
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-button/edit.js:248
-#: src/blocks/design-checkbox/edit.js:182
-#: build/blocks/design-button/index.js:3654
-#: build/blocks/design-checkbox/index.js:3625
-msgid "Choose Input color"
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
-#: src/blocks/design-button/edit.js:254
-#: build/blocks/design-button/index.js:3660
-msgid "Choose Button Background color"
-msgstr ""
-
-#: build/blocks/design-button/index.js:27
+#: build/blocks/design-button/index.js:31
 #: src/blocks/design-button/index.js:15
-#: build/blocks/design-button/index.js:3717
 msgid "A block that decorates buttons with designs."
 msgstr ""
 
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:94
-#: build/blocks/design-checkbox/index.js:3537
-msgid "Write Checkbox Label..."
+#: build/blocks/design-button/index.js:31
+#: src/blocks/design-button/edit.js:163
+msgid "Button Type setting"
 msgstr ""
 
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:107
-#: build/blocks/design-checkbox/index.js:3550
-msgid "When using another design-checkbox as one of the options as an inner block, please use the same name."
+#: build/blocks/design-button/index.js:31
+#: src/blocks/design-button/edit.js:164
+msgid "Select Button Type"
 msgstr ""
 
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:111
-#: build/blocks/design-checkbox/index.js:3554
-msgid "Check to proceed"
+#: build/blocks/design-button/index.js:31
+#: src/blocks/design-button/edit.js:169
+msgid "Button"
 msgstr ""
 
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:114
-#: build/blocks/design-checkbox/index.js:3557
-msgid "When it is the inner block of the block where the submit button is placed, the submit button is enabled by checking it."
+#: build/blocks/design-button/index.js:31
+#: src/blocks/design-button/edit.js:170
+msgid "Submit"
 msgstr ""
 
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:131
-#: src/blocks/design-checkbox/edit.js:187
-#: build/blocks/design-checkbox/index.js:3574
-#: build/blocks/design-checkbox/index.js:3630
-msgid "Choose Input Background color"
+#: build/blocks/design-button/index.js:31
+#: src/blocks/design-button/edit.js:178
+msgid "Transition to static page"
 msgstr ""
 
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:177
-#: build/blocks/design-checkbox/index.js:3620
-msgid "Input style settings"
+#: build/blocks/design-button/index.js:31
+#: src/blocks/design-button/edit.js:186
+msgid "Button Label"
 msgstr ""
 
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/edit.js:179
-#: build/blocks/design-checkbox/index.js:3622
-msgid "Input Color Setting"
+#: build/blocks/design-button/index.js:31
+#: src/blocks/design-button/edit.js:191
+msgid "Button ID"
 msgstr ""
 
-#: build/blocks/design-checkbox/index.js:99
-#: src/blocks/design-checkbox/index.js:16
-#: build/blocks/design-checkbox/index.js:3705
+#: build/blocks/design-button/index.js:31
+#: src/blocks/design-button/edit.js:281
+msgid "Button style settings"
+msgstr ""
+
+#: build/blocks/design-button/index.js:31
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-button/edit.js:294
+#: src/blocks/design-checkbox/edit.js:229
+msgid "Choose Input color"
+msgstr ""
+
+#: build/blocks/design-button/index.js:31
+#: src/blocks/design-button/edit.js:300
+msgid "Choose Button Background color"
+msgstr ""
+
+#: build/blocks/design-button/index.js:31
+#: src/blocks/design-button/edit.js:115
+msgid "Button Name..."
+msgstr ""
+
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-checkbox/index.js:21
 msgid "A block for creating check boxes with designs"
 msgstr ""
 
-#: build/blocks/design-process/index.js:176
-#: src/blocks/design-process/edit.js:99
-#: build/blocks/design-process/index.js:3649
-msgid "This block will not work unless the Form Send plugin block is a sibling block."
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-checkbox/edit.js:128
+msgid "When using another design-checkbox as one of the options as an inner block, please use the same name."
 msgstr ""
 
-#: build/blocks/design-process/index.js:176
-#: src/blocks/design-process/edit.js:137
-#: build/blocks/design-process/index.js:3687
-msgid "Choose Form Background color"
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-checkbox/edit.js:132
+msgid "Check to proceed"
 msgstr ""
 
-#: build/blocks/design-process/index.js:176
-#: src/blocks/design-process/edit.js:184
-#: build/blocks/design-process/index.js:3734
-msgid "Settings by style"
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-checkbox/edit.js:135
+msgid "When it is the inner block of the block where the submit button is placed, the submit button is enabled by checking it."
 msgstr ""
 
-#: build/blocks/design-process/index.js:176
-#: src/blocks/design-process/edit.js:185
-#: build/blocks/design-process/index.js:3735
-msgid "process number"
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-checkbox/edit.js:152
+#: src/blocks/design-checkbox/edit.js:234
+msgid "Choose Input Background color"
 msgstr ""
 
-#: build/blocks/design-process/index.js:176
-#: src/blocks/design-process/edit.js:195
-#: src/blocks/design-process/edit.js:221
-#: build/blocks/design-process/index.js:3745
-#: build/blocks/design-process/index.js:3771
-msgid "Color Setting"
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-checkbox/edit.js:224
+msgid "Input style settings"
 msgstr ""
 
-#: build/blocks/design-process/index.js:176
-#: src/blocks/design-process/edit.js:204
-#: build/blocks/design-process/index.js:3754
-msgid "Choose background color"
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-checkbox/edit.js:226
+msgid "Input Color Setting"
 msgstr ""
 
-#: build/blocks/design-process/index.js:176
-#: src/blocks/design-process/edit.js:211
-#: build/blocks/design-process/index.js:3761
-msgid "Process Display"
+#: build/blocks/design-checkbox/index.js:103
+#: src/blocks/design-checkbox/edit.js:115
+msgid "Write Checkbox Label..."
 msgstr ""
 
-#: build/blocks/design-process/index.js:176
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-text-ctrl/index.js:115
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-process/index.js:18
-#: src/blocks/design-table/index.js:19
-#: src/blocks/design-text-ctrl/index.js:21
-#: src/blocks/design-title/index.js:18
-#: build/blocks/design-process/index.js:3834
-#: build/blocks/design-table/index.js:4027
-#: build/blocks/design-title/index.js:4211
-msgid "Default"
+#: build/blocks/design-group/index.js:111
+#: src/blocks/DraggableBox.js:107
+msgid "Position Setting"
 msgstr ""
 
-#: build/blocks/design-process/index.js:176
-#: src/blocks/design-process/index.js:23
-#: build/blocks/design-process/index.js:3839
-msgid "Card"
-msgstr ""
-
-#: build/blocks/design-process/index.js:176
-#: src/blocks/design-process/index.js:26
-#: build/blocks/design-process/index.js:3842
-msgid "A block for stylish display of process progress"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:194
-#: build/blocks/design-select/index.js:3890
-msgid "Select Element Settings"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:199
-#: build/blocks/design-select/index.js:3895
-msgid "Select Pattern"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:204
-#: build/blocks/design-select/index.js:3900
-msgid "Single Select"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:205
-#: build/blocks/design-select/index.js:3901
-msgid "Nulti Select"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:214
-#: build/blocks/design-select/index.js:3910
-msgid "Place Folder Display"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:220
-#: build/blocks/design-select/index.js:3916
-msgid "Option info Setting"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:223
-#: build/blocks/design-select/index.js:3919
-msgid "add"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:257
-#: build/blocks/design-select/index.js:3953
-msgid "Choose Select Background color"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:266
-#: build/blocks/design-select/index.js:3962
-msgid "Margin Setting"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:307
-#: build/blocks/design-select/index.js:4003
-msgid "Option Style Settings"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:318
-#: build/blocks/design-select/index.js:4014
-msgid "Option Color Setting"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:326
-#: build/blocks/design-select/index.js:4022
-msgid "Choose Background color on mouse hover"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:338
-#: build/blocks/design-select/index.js:4034
-msgid "Option Info Edit"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:342
-#: build/blocks/design-select/index.js:4038
-msgid "Display Label"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:347
-#: build/blocks/design-select/index.js:4043
-msgid "Option Value"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:352
-#: build/blocks/design-select/index.js:4048
-msgid "Class Name"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:357
-#: build/blocks/design-select/index.js:4053
-msgid "Save Changes"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-select/edit.js:364
-#: src/blocks/design-title/edit.js:542
-#: build/blocks/design-select/index.js:4060
-#: build/blocks/design-title/index.js:4162
-msgid "Confirm Deletion"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:367
-#: build/blocks/design-select/index.js:4063
-msgid "Are you sure you want to delete this item?"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/edit.js:368
-#: build/blocks/design-select/index.js:4064
-msgid "Yes, Delete"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-select/edit.js:369
-#: src/blocks/design-title/edit.js:547
-#: build/blocks/design-select/index.js:4065
-#: build/blocks/design-title/index.js:4167
-msgid "Cancel"
-msgstr ""
-
-#: build/blocks/design-select/index.js:331
-#: src/blocks/design-select/index.js:12
-#: build/blocks/design-select/index.js:4102
-msgid "A block for designing select elements"
-msgstr ""
-
-#: build/blocks/design-table/index.js:42
-#: src/blocks/design-table/StyleTable.js:122
-#: build/blocks/design-table/index.js:3453
-msgid "If the background color of the cell is set to gradient, stripes will not be applied."
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/edit.js:254
-#: build/blocks/design-table/index.js:3756
-msgid "Enter header..."
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/edit.js:301
-#: build/blocks/design-table/index.js:3803
-msgid "Table Structure setting"
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/edit.js:303
-#: build/blocks/design-table/index.js:3805
-msgid "Form Object name"
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/edit.js:305
-#: build/blocks/design-table/index.js:3807
-msgid "Please specify the form object that will be the data source for the table."
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/edit.js:313
-#: build/blocks/design-table/index.js:3815
-msgid "table header"
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/edit.js:316
-#: build/blocks/design-table/index.js:3818
-msgid "Turn this on if you want to add a table header."
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/edit.js:377
-#: build/blocks/design-table/index.js:3879
-msgid "Striped Contrast"
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/edit.js:386
-#: build/blocks/design-table/index.js:3888
-msgid "Heading style settings"
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-table/edit.js:397
-#: src/blocks/design-title/edit.js:242
-#: build/blocks/design-table/index.js:3899
-#: build/blocks/design-title/index.js:3862
-msgid "Heading Color Setting"
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/edit.js:428
-#: build/blocks/design-table/index.js:3930
-msgid "Data style settings"
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/edit.js:439
-#: build/blocks/design-table/index.js:3941
-msgid "Data Color Setting"
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/index.js:15
-#: build/blocks/design-table/index.js:4023
-msgid "A table with a design."
-msgstr ""
-
-#: build/blocks/design-table/index.js:68
-#: src/blocks/design-table/index.js:24
-#: build/blocks/design-table/index.js:4032
-msgid "Stripe"
-msgstr ""
-
-#: build/blocks/design-text-ctrl/index.js:115
-#: src/blocks/design-text-ctrl/index.js:17
-msgid "A block for styling text controls."
-msgstr ""
-
-#: build/blocks/design-text-ctrl/index.js:115
-#: src/blocks/design-text-ctrl/index.js:26
-msgid "Line"
-msgstr ""
-
-#: build/blocks/design-text-ctrl/index.js:115
-#: src/blocks/design-text-ctrl/index.js:33
-msgid "Please Input ..."
-msgstr ""
-
-#: build/blocks/design-text-ctrl/index.js:115
-#: src/blocks/design-text-ctrl/index.js:39
-msgid "Required"
-msgstr ""
-
-#: build/blocks/design-title/index.js:1
-#: src/blocks/IconSelectControl.js:26
-#: build/blocks/design-title/index.js:2694
-msgid "Select the icon from and enter Unicode (the upper right four digits of the selection dialog). "
-msgstr ""
-
-#: build/blocks/design-title/index.js:1
-#: src/blocks/IconSelectControl.js:47
-#: build/blocks/design-title/index.js:2715
-msgid "icon name"
-msgstr ""
-
-#: build/blocks/design-title/index.js:1
-#: src/blocks/IconSelectControl.js:75
-#: build/blocks/design-title/index.js:2743
-msgid "spacing to end"
-msgstr ""
-
-#: build/blocks/design-title/index.js:1
-#: src/blocks/IconSelectControl.js:96
-#: build/blocks/design-title/index.js:2764
-msgid "Arrangement"
-msgstr ""
-
-#: build/blocks/design-title/index.js:1
-#: src/blocks/IconSelectControl.js:101
-#: build/blocks/design-title/index.js:2769
-msgid "left"
-msgstr ""
-
-#: build/blocks/design-title/index.js:1
-#: src/blocks/IconSelectControl.js:102
-#: build/blocks/design-title/index.js:2770
-msgid "right"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:203
-#: build/blocks/design-title/index.js:3823
-msgid "Write Title text..."
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:231
-#: build/blocks/design-title/index.js:3851
-msgid "Heading settings"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:295
-#: build/blocks/design-title/index.js:3915
-msgid "Circle Marker Settings"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:297
-#: src/blocks/design-title/edit.js:357
-#: build/blocks/design-title/index.js:3917
-#: build/blocks/design-title/index.js:3977
-msgid "Circle Color Setting"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:302
-#: src/blocks/design-title/edit.js:362
-#: build/blocks/design-title/index.js:3922
-#: build/blocks/design-title/index.js:3982
-msgid "Choose Circle Background"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:318
-#: src/blocks/design-title/edit.js:388
-#: build/blocks/design-title/index.js:3938
-#: build/blocks/design-title/index.js:4008
-msgid "Circle Scale Setting"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:321
-#: src/blocks/design-title/edit.js:391
-#: build/blocks/design-title/index.js:3941
-#: build/blocks/design-title/index.js:4011
-msgid "Position Settings"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:345
-#: build/blocks/design-title/index.js:3965
-msgid "Second Circle Settings"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:347
-#: build/blocks/design-title/index.js:3967
-msgid "Second Circle"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:421
-#: build/blocks/design-title/index.js:4041
-msgid "Sub Copy Settings"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:423
-#: build/blocks/design-title/index.js:4043
-msgid "Copy Color Setting"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:449
-#: build/blocks/design-title/index.js:4069
-msgid "Copy Text"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:504
-#: build/blocks/design-title/index.js:4124
-msgid "Icon settings"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:506
-#: build/blocks/design-title/index.js:4126
-msgid "Append icon"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:545
-#: build/blocks/design-title/index.js:4165
-msgid "Changing a style resets the style-specific settings. Are you sure?"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/edit.js:546
-#: build/blocks/design-title/index.js:4166
-msgid "Yes, Change"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/index.js:23
-#: build/blocks/design-title/index.js:4216
-msgid "Circle Marker"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/index.js:27
-#: build/blocks/design-title/index.js:4220
-msgid "Sub Copy"
-msgstr ""
-
-#: build/blocks/design-title/index.js:85
-#: src/blocks/design-title/index.js:30
-#: build/blocks/design-title/index.js:4223
-msgid "A block with various styles applied to heading tags"
-msgstr ""
-
-#: build/blocks/draggable-box/index.js:1
-#: src/blocks/draggable-box/edit.js:81
-#: build/blocks/draggable-box/index.js:176
-msgid "Moving distance"
-msgstr ""
-
-#: build/blocks/draggable-box/index.js:1
-#: src/blocks/draggable-box/edit.js:107
-#: build/blocks/draggable-box/index.js:202
+#: build/blocks/design-group/index.js:111
+#: src/blocks/DraggableBox.js:133
 msgid "Reset"
 msgstr ""
 
-#: build/blocks/draggable-box/index.js:1
-#: src/blocks/draggable-box/index.js:14
-#: build/blocks/draggable-box/index.js:233
-msgid "It is a block that has a function to adjust the placement by dragging."
+#: build/blocks/design-group/index.js:111
+#: src/blocks/GridControls.js:340
+msgid "Number of Row "
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/GridControls.js:349
+msgid "Number of Colum"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/GridControls.js:362
+msgid "Row Gap"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/GridControls.js:372
+msgid "Colum Gap"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/GridControls.js:380
+msgid "Element placement"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/GridControls.js:382
+msgid "Clear"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/GridControls.js:176
+msgid "Lateral Alignment"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/GridControls.js:185
+msgid "Vertical Alignment"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/GridControls.js:392
+msgid "InnerBlock Name"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:54
+#: src/blocks/BlockPlace.js:256
+msgid "upper alignment"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:54
+#: src/blocks/BlockPlace.js:213
+msgid "left alignment"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:55
+#: src/blocks/BlockPlace.js:277
+msgid "lower alignment"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:55
+#: src/blocks/BlockPlace.js:234
+msgid "right alignment"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:80
+msgid "Block placement"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:85
+msgid "InnerBlock direction(Mobile)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:87
+msgid "InnerBlock direction(DeskTop)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:97
+msgid "block"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:108
+msgid "virtical"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:118
+msgid "horizen"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:128
+msgid "grid"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:136
+msgid "InnerBlock alignment(Mobile)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:138
+msgid "InnerBlock alignment(DeskTop)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:158
+#: src/blocks/BlockPlace.js:224
+#: src/blocks/BlockPlace.js:267
+msgid "center alignment"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:178
+msgid "beteen stretch"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:189
+msgid "around stretch"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:200
+msgid "Block horizen alignment(Mobile)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:202
+msgid "Block horizen alignment(DeskTop)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:244
+msgid "Block vertical alignment(Mobile)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:246
+msgid "Block vertical alignment(DeskTop)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:296
+msgid "fit"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:306
+msgid "wide"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:316
+msgid "content"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:326
+msgid "free"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:336
+msgid "Max width"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:349
+msgid "Grid Info settings(Mobile)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:351
+msgid "Grid Info settings(DeskTop)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/BlockPlace.js:354
+msgid "Open Setting Modal"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/design-group/index.js:16
+msgid "A block for storing and arranging multiple blocks. The position can be adjusted."
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/design-group/edit.js:133
+msgid "Menu or Group"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/design-group/edit.js:135
+msgid "Is Menu"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/design-group/edit.js:210
+msgid "Content Style"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/design-group/edit.js:244
+msgid "Position moveable"
+msgstr ""
+
+#: build/blocks/design-group/index.js:111
+#: src/blocks/design-group/edit.js:248
+msgid "make it moveable"
+msgstr ""
+
+#: build/blocks/design-process/index.js:194
+#: build/blocks/design-table/index.js:79
+#: build/blocks/design-text-ctrl/index.js:130
+#: build/blocks/design-title/index.js:78
+#: src/blocks/design-process/index.js:18
+#: src/blocks/design-table/index.js:19
+#: src/blocks/design-text-ctrl/index.js:24
+#: src/blocks/design-title/index.js:24
+msgid "Default"
+msgstr ""
+
+#: build/blocks/design-process/index.js:194
+#: src/blocks/design-process/index.js:23
+msgid "Card"
+msgstr ""
+
+#: build/blocks/design-process/index.js:194
+#: src/blocks/design-process/index.js:26
+msgid "A block for stylish display of process progress"
+msgstr ""
+
+#: build/blocks/design-process/index.js:194
+#: src/blocks/design-process/edit.js:119
+msgid "This block will not work unless the Form Send plugin block is a sibling block."
+msgstr ""
+
+#: build/blocks/design-process/index.js:194
+#: src/blocks/design-process/edit.js:157
+msgid "Choose Form Background color"
+msgstr ""
+
+#: build/blocks/design-process/index.js:194
+#: src/blocks/design-process/edit.js:231
+msgid "Settings by style"
+msgstr ""
+
+#: build/blocks/design-process/index.js:194
+#: src/blocks/design-process/edit.js:232
+msgid "process number"
+msgstr ""
+
+#: build/blocks/design-process/index.js:194
+#: src/blocks/design-process/edit.js:242
+#: src/blocks/design-process/edit.js:268
+msgid "Color Setting"
+msgstr ""
+
+#: build/blocks/design-process/index.js:194
+#: src/blocks/design-process/edit.js:251
+msgid "Choose background color"
+msgstr ""
+
+#: build/blocks/design-process/index.js:194
+#: src/blocks/design-process/edit.js:258
+msgid "Process Display"
+msgstr ""
+
+#: build/blocks/design-select/index.js:374
+#: src/blocks/design-select/index.js:18
+msgid "A block for designing select elements"
+msgstr ""
+
+#: build/blocks/design-select/index.js:374
+#: build/blocks/design-text-ctrl/index.js:130
+#: src/blocks/design-select/index.js:26
+#: src/blocks/design-text-ctrl/index.js:42
+msgid "Required"
+msgstr ""
+
+#: build/blocks/design-table/index.js:53
+#: src/blocks/design-table/StyleTable.js:135
+msgid "If the background color of the cell is set to gradient, stripes will not be applied."
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/index.js:15
+msgid "A table with a design."
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/index.js:24
+msgid "Stripe"
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:367
+msgid "Table Structure setting"
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:369
+msgid "Form Object name"
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:371
+msgid "Please specify the form object that will be the data source for the table."
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:379
+msgid "table header"
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:382
+msgid "Turn this on if you want to add a table header."
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:469
+msgid "Striped Contrast"
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:478
+msgid "Heading style settings"
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:489
+msgid "Heading Color Setting"
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:512
+msgid "Minimum heading width(PX)(mobile)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:511
+msgid "Minimum heading width(PX)(desk top)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:547
+msgid "Data style settings"
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:558
+msgid "Data Color Setting"
+msgstr ""
+
+#: build/blocks/design-table/index.js:79
+#: src/blocks/design-table/edit.js:320
+msgid "Enter header..."
+msgstr ""
+
+#: build/blocks/design-text-ctrl/index.js:130
+#: src/blocks/design-text-ctrl/index.js:20
+msgid "A block for styling text controls."
+msgstr ""
+
+#: build/blocks/design-text-ctrl/index.js:130
+#: src/blocks/design-text-ctrl/index.js:29
+msgid "Line"
+msgstr ""
+
+#: build/blocks/design-text-ctrl/index.js:130
+#: src/blocks/design-text-ctrl/index.js:36
+msgid "Please Input ..."
+msgstr ""
+
+#: build/blocks/design-title/index.js:78
+#: src/blocks/design-title/index.js:29
+msgid "Circle Marker"
+msgstr ""
+
+#: build/blocks/design-title/index.js:78
+#: src/blocks/design-title/index.js:33
+msgid "Sub Copy"
+msgstr ""
+
+#: build/blocks/design-title/index.js:78
+#: src/blocks/design-title/index.js:36
+msgid "A block with various styles applied to heading tags"
 msgstr ""
 
 #: build/blocks/code-highlight/block.json
@@ -1585,6 +1835,12 @@ msgstr ""
 #: src/blocks/design-checkbox/block.json
 msgctxt "block title"
 msgid "Design CheckBox"
+msgstr ""
+
+#: build/blocks/design-group/block.json
+#: src/blocks/design-group/block.json
+msgctxt "block title"
+msgid "Design Group"
 msgstr ""
 
 #: build/blocks/design-process/block.json
@@ -1615,10 +1871,4 @@ msgstr ""
 #: src/blocks/design-title/block.json
 msgctxt "block title"
 msgid "Design Title"
-msgstr ""
-
-#: build/blocks/draggable-box/block.json
-#: src/blocks/draggable-box/block.json
-msgctxt "block title"
-msgid "Draggable Box"
 msgstr ""

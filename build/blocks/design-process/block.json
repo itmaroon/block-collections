@@ -41,9 +41,9 @@
       "default": {
         "margin_form": {
           "top": "1em",
-          "left": "2em",
+          "left": "1em",
           "bottom": "1em",
-          "right": "2em"
+          "right": "1em"
         },
         "padding_form": {
           "top": "1em",
@@ -58,14 +58,14 @@
       "default": {
         "margin_form": {
           "top": "1em",
-          "left": "0",
+          "left": "0.5em",
           "bottom": "1em",
-          "right": "0"
+          "right": "0.5em"
         },
         "padding_form": {
-          "top": "0",
+          "top": "0.5em",
           "left": "0",
-          "bottom": "0",
+          "bottom": "0.5em",
           "right": "0"
         }
       }

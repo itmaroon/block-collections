@@ -14,6 +14,7 @@ const StyledDiv = styled.div`
 
     const {
       headingType,
+      isMenuItem,
       padding_heading,
       optionStyle,
       shadow_result,
@@ -101,15 +102,16 @@ const StyledDiv = styled.div`
     };
     const arrow_direction = directionMap[menu_pos];
 
+    const wrap = isMenuItem ? 'nowrap !important' : 'pre-wrap';
+
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       position: relative;
       z-index: 10;
-      
       ${headingType}{
         position: relative;
         padding: ${render_padding};
-        white-space: nowrap !important;
+        white-space: ${wrap};
         margin:0;
         font-weight: inherit;
         ${underLine};

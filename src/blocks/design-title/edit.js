@@ -251,6 +251,29 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		return select('core/block-editor').hasSelectedInnerBlock(clientId, true);
 	}, [clientId]);//ブロックの選択状態を把握
 
+	//親ブロックがメニューかサブメニューの判定
+	const [menuItemFlg, setMenuItemFlg] = useState(false);
+	useSelect((select) => {
+		//親IDを取得
+		const parentBlockIds = select('core/block-editor').getBlockParents(clientId);
+		// 各親ブロックを走査
+		for (let i = 0; i < parentBlockIds.length; i++) {
+			const parentBlock = select('core/block-editor').getBlock(parentBlockIds[i]);
+			if (parentBlock.attributes?.is_menu) {
+				setMenuItemFlg(true);
+				break;
+			}
+			if (parentBlock.attributes?.is_submenu) {
+				setMenuItemFlg(true);
+				break;
+			}
+
+		}
+	}, [clientId]);
+	//メニューアイテムフラグをオンにする
+	useEffect(() => {
+		setAttributes({ isMenuItem: menuItemFlg })
+	}, [menuItemFlg])
 
 	const subMenuBlocksProps = useInnerBlocksProps(
 		{ className: `submenu-block ${hasSelectedInnerBlock ? 'visible' : ''} ${menu_pos.replace(/ /g, "_")} ${!is_title_menu ? 'mobile_horizen' : 'mobile_virtical'}` },
@@ -302,7 +325,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title={__("Title Source Setting", 'itmar_form_send_blocks')}>
+				<PanelBody title={__("Title Source Setting", 'itmar_block_collections')}>
 					<div className='itmar_title_type'>
 						<RadioControl
 							label={__("Title type", 'itmar_block_collections')}
