@@ -114,7 +114,7 @@ function itmar_highlight_scripts_and_styles()
 			true
 		);
 
-		// その後、このハンドルを使用してスクリプトの翻訳をセット
+		// スクリプトの翻訳をセット
 		wp_set_script_translations( 'itmar_block_collection_js', 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages' );
 	}
 	
