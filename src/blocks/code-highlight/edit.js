@@ -150,7 +150,7 @@ export default function Edit({ attributes, setAttributes }) {
 	useEffect(() => {
 		const newPreview = getPreview();
 		setCodePreview(newPreview);
-	}, [skin, linenums, linenumsStart, lang, fileName]);
+	}, [skin, linenums, linenumsStart, lang, fileName, codeArea]);
 
 
 	//テキストエリア（TextareaControl）の行数
@@ -263,7 +263,10 @@ export default function Edit({ attributes, setAttributes }) {
 					<TextareaControl
 						label={__("Code:", 'itmar_block_collections')}
 						value={codeArea}
-						onChange={(code) => setAttributes({ codeArea: code })}
+						onChange={(code) => {
+							setAttributes({ codeArea: code });
+							console.log(code)
+						}}
 						rows={codeAreaRows}
 					/>
 				</div>

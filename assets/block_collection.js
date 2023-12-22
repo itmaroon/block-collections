@@ -67,7 +67,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
       const code = codeBlock.innerText;
 
       navigator.clipboard.writeText(code).then(() => {
+
         const { __ } = wp.i18n;
+        const msg = __("copied", 'itmar_block_collections');
+        console.log(msg)
         ctrlMsg(__("copied", 'itmar_block_collections'));
       }, (err) => {
         console.error('Could not copy text: ', err);
