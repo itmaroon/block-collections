@@ -1,12 +1,12 @@
 === Block Collections ===
 Contributors: itmaroon
-Tags: block, Gutenberg, design, custom, heading, input, select, highlight, draggable, prosess
-Requires at least: 5.8
-Tested up to:      6.3
-Stable tag:        1.0.0
+Tags: block, Gutenberg, design, custom, heading, input, select, highlight, prosess,table,button,group,checkbox
+Requires at least: 6.3
+Tested up to:      6.4.2
+Stable tag:        1.1.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
-Requires PHP: 7.4
+Requires PHP: 8.0.22
 
 It is a plug-in that collects small scale blocks.
 
@@ -16,7 +16,7 @@ It is a plug-in that collects small scale blocks.
 
 == Description ==
 
-When this plugin is installed, the following 7 blocks are registered and can be used not only in the block editor but also in the site editor (tested on WordPress 6.3). In principle, each block can be configured with basic styles such as text color, background color, border, and white space, and in some cases it is also possible to set shadows and icons. There are also some that have simple animations set.
+When this plugin is installed, the following 9 blocks are registered and can be used not only in the block editor but also in the site editor (tested on WordPress 6.4.2). In principle, each block can be configured with basic styles such as text color, background color, border, and white space, and in some cases it is also possible to set shadows and icons. There are also some that have simple animations set.
 Below is a brief explanation of each block.
 1 Design Title
 A block that allows you to style HTML heading tags. In addition to the normal style, we have prepared a type that allows you to insert a circular marker, and a type that allows you to add sub copies and icons.
@@ -30,8 +30,18 @@ A block that allows you to style HTML SELECT elements. It boasts that the select
 A block for displaying the input process of form input. It is assumed that it will be used as an inner block for the Guest Contact Block, which will be released soon, and this block will not work on its own.
 6 Code HighLight
 This block allows you to enter code in the text area in edit mode and highlight it on the front end. This block uses the Google Code Prettify library for highlighting.
-7　Draggble Box
-Unlike other blocks, it is used by setting an inner block. You can change the placement of the set blocks by dragging them. By inserting image blocks, etc., you can create styling that shifts the placement.
+7. Design Table
+Displays the contents of a form object placed on a web page as a data source.
+It is intended to be installed in the input confirmation form as an inner block of Form Send Blocks, which will be released soon.
+8. Design Button
+You can choose between regular buttons and submit buttons inside form elements. When you select the regular button, you can select a link to a fixed page and transition to that page.
+9. Design Group
+- Its main function is to store blocks and set their arrangement.
+The placement can be selected according to the CSS display property block, flex(row), flex(column), or grid. If you select grid, you can set various grid styles.
+- Compatible with block themes, you can select contentSize and wideSize in the layout clause of theme.json, and you can also set the width to match the content width or freely set the width.
+- By setting it to "Make it a menu", it will become a hamburger button in mobile mode (displayed on devices with a width of 767px or less), and when you click it, it will stick out from the left.
+- These settings can be set separately for desktop mode (displayed on devices with a width of 768px or more) and mobile mode (displayed on devices with a width of 767px or less).
+- By setting it to be movable, you can adjust the placement by dragging. With this feature installed, the old version of Draggble Box has been discontinued.
 
 == Installation ==
 
@@ -62,8 +72,43 @@ OR…
 
 == Changelog ==
 
+= 1.1.0 =
+Version up public release
+1. Design Title
+- You can now select the type of text to display, not only the characters input by the user, but also the site title and catchphrase set in the general settings.
+- This block can now be made into a link. The following types of link types are available.
+  - Link to fixed page
+  - Link to archive page
+  - Link to any URL
+  - Link to display submenu
+  With these features, you can now utilize this block as a menu item.
+- In the subcopy style, subcopies can now be placed vertically and horizontally.
+With this, you can now easily create menu items with icons and subtitles.
+- Added the ability to set underline animation.
+2. Design Text Control
+- In mobile mode (displayed on devices with a width of 767px or less), the label is now placed at the top right of the input box when using the default style.
+3. Design CheckBox
+- Equipped with a function to set whether to continue processing as an inner block of Form Send Blocks that will be released soon.
+4. Design Select
+- Now displayed with a label.
+- When placed as an inner block of Form Send Blocks, which will be released soon, the label name of the selected option is now retained as an input value.
+5. Design Process
+There are no changes
+6. Code HighLight
+Fixed a bug in the block editor where the code was not displayed in editor mode when mounting a block.
+7. Design Table
+This is a new block added in this version.
+8. Design Button
+This is a new block added in this version.
+9. Design Group
+This is a new block added in this version.
+
 = 1.0.0 =
 First public release
 
-== Arbitrary section ==
 
+== Arbitrary section ==
+1. In this version, style settings that may require responsiveness can be set separately in desktop mode (displayed on devices with a width of 768px or more) and mobile mode (displayed on devices with a width of 767px or less). It becomes. To tell which setting is set, when you switch the display mode in the block editor or site editor, "(Desktop)" and "(Mobile)" will be displayed in the side menu display.
+Please note that responsiveness for tablet display is not supported.
+2. This plugin has a dependency on the upcoming Form Send Blocks. This plugin requires installation and activation in order to use it.
+3. Regarding the display of text, etc., settings are made using WordPress's internationalization function, so it is possible to display text in multiple national languages. Currently, English and Japanese notation is possible.

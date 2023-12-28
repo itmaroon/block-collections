@@ -10,7 +10,7 @@ import {
   RangeControl,
   Modal
 } from '@wordpress/components';
-import { group, stack, layout, justifyCenter, justifyLeft, justifyRight, justifySpaceBetween, justifyStretch } from '@wordpress/icons';
+import { group, stack, layout, justifyCenter, justifyLeft, justifyRight, justifySpaceBetween, justifyStretch, stretchWide, positionCenter } from '@wordpress/icons';
 import GridControls from "./GridControls";
 
 
@@ -72,6 +72,17 @@ export default function BlockPlace(props) {
   const [isGridModalOpen, setIsGridModalOpen] = useState(false);
   const openGridModal = () => setIsGridModalOpen(true);
   const closeGridModal = () => setIsGridModalOpen(false);
+
+  // 翻訳が必要な文字列を直接指定
+  const blockMaxWidthMobile = __('Block Max Width(Mobile)', 'itmar_block_collections');
+  const blockWidthMobile = __('Block Width(Mobile)', 'itmar_block_collections');
+  const blockMaxWidthDesktop = __('Block Max Width(DeskTop)', 'itmar_block_collections');
+  const blockWidthDesktop = __('Block Width(DeskTop)', 'itmar_block_collections');
+
+  // 条件に応じて選択
+  const blockWidthLabel = isMobile
+    ? (isSubmenu ? blockWidthMobile : blockMaxWidthMobile)
+    : (isSubmenu ? blockWidthDesktop : blockMaxWidthDesktop);
 
 
   return (
@@ -282,18 +293,15 @@ export default function BlockPlace(props) {
             </ToolbarGroup>
           </>
         }
-        {isMobile ?
-          <p>{__(`Block ${!isSubmenu ? 'Max' : ''} Width(Mobile)`, 'itmar_block_collections')}</p>
-          :
-          <p>{__(`Block ${!isSubmenu ? 'Max' : ''} Width(DeskTop)`, 'itmar_block_collections')}</p>
-        }
+
+        <p>{blockWidthLabel}</p>
         <ToolbarGroup>
           <ToolbarItem>
             {(itemProps) => (
               <Button {...itemProps}
                 isPressed={sel_pos.width_val === 'fit'}
                 onClick={() => props.onWidthChange('fit')}
-                text={__('fit', 'itmar_block_collections')}
+                text='fit'
               />
 
             )}
@@ -303,7 +311,8 @@ export default function BlockPlace(props) {
               <Button {...itemProps}
                 isPressed={sel_pos.width_val === 'wideSize'}
                 onClick={() => props.onWidthChange('wideSize')}
-                text={__('wide', 'itmar_block_collections')}
+                icon={stretchWide}
+                label={__('Wide Size', 'itmar_block_collections')}
               />
 
             )}
@@ -313,7 +322,8 @@ export default function BlockPlace(props) {
               <Button {...itemProps}
                 isPressed={sel_pos.width_val === 'contentSize'}
                 onClick={() => props.onWidthChange('contentSize')}
-                text={__('content', 'itmar_block_collections')}
+                icon={positionCenter}
+                label={__('Content Size', 'itmar_block_collections')}
               />
 
             )}
@@ -323,7 +333,7 @@ export default function BlockPlace(props) {
               <Button {...itemProps}
                 isPressed={sel_pos.width_val === 'free'}
                 onClick={() => props.onWidthChange('free')}
-                text={__('free', 'itmar_block_collections')}
+                text='free'
               />
 
             )}
