@@ -68,7 +68,9 @@ OR…
 4. Two types of design selection blocks
 5. code highlighting block
 6. Two types of design process blocks
-7. A block icon registered by the plugin. Divided into design group and widget group
+7. Edit Design Group Grid Style
+8. Design Table and Design Button
+9. A block icon registered by the plugin. Divided into design group and widget group
 
 == Changelog ==
 
