@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
   });
 });
 
-
 jQuery(function ($) {
   /* ------------------------------
  design-titleのためのサイトタイトル・キャッチフレーズの読込
@@ -87,7 +86,7 @@ jQuery(function ($) {
   $(document).ready(function () {
     if ($('.itmar_site_title').length || $('.itmar_catch_title').length) {
       // '.itmar_site_title' クラスを持つ要素が読み込まれたときの処理
-      fetch('/wp-json')
+      fetch(`${itmar_block_option.home_url}/wp-json`)
         .then(response => response.json())
         .then(data => {
           $('.itmar_site_title').text(data.name);

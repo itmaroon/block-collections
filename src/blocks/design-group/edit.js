@@ -62,6 +62,16 @@ function checkInnerGroupBlocks(blocks) {
 	return false;
 }
 
+function checkSubmenuBlocks(blocks) {
+	for (const block of blocks) {
+		// itmar/design-title ブロックで linkKind が submenu の場合
+		if (block.name === 'itmar/design-title' && block.attributes.linkKind === 'submenu') {
+			return true;
+		}
+	}
+	return false;
+}
+
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
 	const {
@@ -125,6 +135,19 @@ export default function Edit(props) {
 		const blocks = select('core/block-editor').getBlocks();
 		return checkInnerGroupBlocks(blocks);
 	}, []);
+
+	//ブロックの監視（サブメニューをもつデザインタイトルが含まれるか)
+	const isSubmenuInclude = useSelect((select) => {
+		// ブロックエディタから現在のブロックの子ブロックを取得
+		const { getBlocksByClientId } = select('core/block-editor');
+		const innerBlocks = getBlocksByClientId(clientId)[0]?.innerBlocks;
+		// 子ブロックをチェックする関数を呼び出し
+		return checkSubmenuBlocks(innerBlocks);
+	}, [clientId]);
+
+	useEffect(() => {
+		setAttributes({ has_submenu: isSubmenuInclude })
+	}, [isSubmenuInclude]);
 
 	return (
 		<>

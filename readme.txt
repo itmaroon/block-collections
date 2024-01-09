@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, custom, heading, input, select, highlight, prosess,table,button,group,checkbox
 Requires at least: 6.3
 Tested up to:      6.4.2
-Stable tag:        1.1.0
+Stable tag:        1.1.2
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.0.22
@@ -73,6 +73,18 @@ OR…
 9. A block icon registered by the plugin. Divided into design group and widget group
 
 == Changelog ==
+
+= 1.1.2 =
+Bug fixes
+- Fixed a bug where the archive page of the root domain WordPress site was displayed when archive page was selected in the link type of Design Title.
+- Fixed an issue where the block placement icon was showing vertical placement when it should have shown horizontal placement.
+- When viewing on mobile, the submenu display was displayed small in the main menu, but now it is displayed larger.
+- When changing the display of the built-in post type from "Post" to other wording, the display of archive links will be adjusted accordingly.
+
+= 1.1.1 =
+Bug fixes
+- Fixed an issue where the site title and tagline of the root domain site were displayed in Design Title for WordPress sites installed on subdomains.
+- Fixed an issue where blocks from the previous version remained in the cache when upgrading.
 
 = 1.1.0 =
 Version up public release

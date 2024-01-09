@@ -4,7 +4,7 @@ import { width_prm, max_width_prm, align_prm, space_prm, convertToScss } from '.
 export const StyleComp = ({ attributes, isMenuOpen, children }) => {
   return (
     <StyledDiv
-      attributes={attributes}
+      attributes={{ ...attributes }}
       className={`${isMenuOpen ? 'open' : ''} ${attributes.is_submenu ? 'sub_menu' : ''}`}
     >
       {children}
@@ -22,7 +22,8 @@ ${({ attributes }) => {
       is_moveable,
       position,
       is_menu,
-      is_submenu
+      is_submenu,
+      has_submenu
     } = attributes;
 
     //スペースの設定
@@ -40,6 +41,8 @@ ${({ attributes }) => {
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : '';
     //位置調整
     const tranceform = is_moveable ? `transform: translate(${position.x}, ${position.y});` : '';
+    //オーバーフロー
+    const over_flow = has_submenu ? 'visible' : 'scroll';
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
@@ -90,7 +93,7 @@ ${({ attributes }) => {
           @media (max-width: 767px) {
             padding: ${mobile_contnt_padding_prm};
             max-height: 90vh;
-            overflow-y: scroll;
+            overflow-y: ${over_flow};
           }
         }
       }

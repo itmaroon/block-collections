@@ -361,6 +361,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							attributes={attributes}
 							setAttributes={setAttributes}
 							label={__("Select a fixed page to link to", 'itmar_block_collections')}
+							homeUrl={itmar_block_option.home_url}
 						/>
 
 					}
@@ -369,6 +370,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							attributes={attributes}
 							setAttributes={setAttributes}
 							label={__("Select archive page to link to", 'itmar_block_collections')}
+							homeUrl={itmar_block_option.home_url}
 						/>
 
 					}

@@ -8,6 +8,7 @@
 }
 .itmar_notice_select_panel .components-notice .components-notice__content {
   margin: 0;
+  background-color: #dbf5f1;
 }
 .itmar_notice_select_panel .components-notice .components-notice__content span {
   cursor: pointer;

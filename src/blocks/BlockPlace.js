@@ -54,19 +54,31 @@ export default function BlockPlace(props) {
   const start_tip = sel_pos.direction === 'vertical' ? __('upper alignment', 'itmar_block_collections') : __('left alignment', 'itmar_block_collections');
   const end_tip = sel_pos.direction === 'vertical' ? __('lower alignment', 'itmar_block_collections') : __('right alignment', 'itmar_block_collections');
 
-  //親要素がFlex又はGridコンテナか
   const [isContainer, setIsContainer] = useState(false);
+  const [direction, setDirection] = useState('row');
   useEffect(() => {
     if (blockRef.current) {
       const element = blockRef.current;
       const parentElement = element.parentElement;
       const grandparentElement = parentElement?.parentElement;
       const computedStyle = getComputedStyle(grandparentElement);
+      //親要素がFlex又はGridコンテナか
       if (computedStyle.display === "flex" || computedStyle.display === "inline-flex" || computedStyle.display === "grid" || computedStyle.display === "inline-grid") {
         setIsContainer(true)
       }
+      //flexの時その方向
+      if (computedStyle.display === "flex" || computedStyle.display === "inline-flex") {
+        if (computedStyle.flexDirection === "row") {
+          setDirection('row');
+        } else {
+          setDirection('column');
+        }
+
+      }
     }
   }, []);
+
+
 
   //GridModalを開く
   const [isGridModalOpen, setIsGridModalOpen] = useState(false);
@@ -208,9 +220,9 @@ export default function BlockPlace(props) {
 
         {(!isContainer && !isSubmenu) && (
           isMobile ?
-            <p>{__('Block horizen alignment(Mobile)', 'itmar_block_collections')}</p>
+            <p>{__('Block alignment(Mobile)', 'itmar_block_collections')}</p>
             :
-            <p>{__('Block horizen alignment(DeskTop)', 'itmar_block_collections')}</p>
+            <p>{__('Block alignment(DeskTop)', 'itmar_block_collections')}</p>
         )}
 
         {(!isContainer && !isSubmenu) &&
@@ -252,9 +264,9 @@ export default function BlockPlace(props) {
         {isContainer &&
           <>
             {isMobile ?
-              <p>{__('Block vertical alignment(Mobile)', 'itmar_block_collections')}</p>
+              <p>{__('Block alignment(Mobile)', 'itmar_block_collections')}</p>
               :
-              <p>{__('Block vertical alignment(DeskTop)', 'itmar_block_collections')}</p>
+              <p>{__('Block alignment(DeskTop)', 'itmar_block_collections')}</p>
             }
 
             <ToolbarGroup>
@@ -263,7 +275,7 @@ export default function BlockPlace(props) {
                   <Button {...itemProps}
                     isPressed={sel_pos.outer_vertical === 'self-start'}
                     onClick={() => props.onVerticalChange('self-start')}
-                    icon={upper}
+                    icon={direction === 'row' ? upper : justifyLeft}
                     label={__('upper alignment', 'itmar_block_collections')}
                   />
 
@@ -274,7 +286,7 @@ export default function BlockPlace(props) {
                   <Button {...itemProps}
                     isPressed={sel_pos.outer_vertical === 'center'}
                     onClick={() => props.onVerticalChange('center')}
-                    icon={middle}
+                    icon={direction === 'row' ? middle : justifyCenter}
                     label={__('center alignment', 'itmar_block_collections')}
                   />
                 )}
@@ -284,7 +296,7 @@ export default function BlockPlace(props) {
                   <Button {...itemProps}
                     isPressed={sel_pos.outer_vertical === 'self-end'}
                     onClick={() => props.onVerticalChange('self-end')}
-                    icon={lower}
+                    icon={direction === 'row' ? lower : justifyRight}
                     label={__('lower alignment', 'itmar_block_collections')}
                   />
                 )}

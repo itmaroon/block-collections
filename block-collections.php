@@ -5,7 +5,7 @@
  * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
  * Requires at least: 6.3
  * Requires PHP:      8.0.22
- * Version:           1.1.0
+ * Version:           1.1.2
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -32,11 +32,13 @@ function itmar_block_collections_block_init()
 	foreach (glob(plugin_dir_path(__FILE__) . 'build/blocks/*') as $block) {
 		$block_name = basename($block);
 		$script_handle = 'itmar-handle-' . $block_name;
+		$script_file = plugin_dir_path( __FILE__ ) . 'build/blocks/'.$block_name.'/index.js';
 		// スクリプトの登録
 		wp_register_script(
 			$script_handle,
 			plugins_url( 'build/blocks/'.$block_name.'/index.js', __FILE__ ),
-			array( 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor' )
+			array( 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor' ),
+			filemtime($script_file)
 		);
 		
 		// ブロックの登録
@@ -49,6 +51,10 @@ function itmar_block_collections_block_init()
 		
 		// その後、このハンドルを使用してスクリプトの翻訳をセット
 		wp_set_script_translations( $script_handle, 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages' );
+		//jsで使えるようにhome_urlをローカライズ
+		wp_localize_script($script_handle, 'itmar_block_option', array(
+			'home_url' => home_url()
+		));
 		
 	}
 
@@ -87,12 +93,6 @@ function itmar_highlight_scripts_and_styles()
 		filemtime("$dir/code-prettify/prettify.css")
 	);
 
-	/** jsで使えるようにテンプレートパスとホームURLをローカライズ**/
-	$plugin_path_arr = array(
-		'plugin_uri' => $dir
-	);
-	wp_localize_script( 'code-prettify', 'plugin_path', $plugin_path_arr );
-
 
 	//管理画面以外（フロントエンド側でのみ読み込む）
 	if (!is_admin()) {
@@ -113,6 +113,10 @@ function itmar_highlight_scripts_and_styles()
 			filemtime($script_path),
 			true
 		);
+		//jsで使えるようにhome_urlをローカライズ
+		wp_localize_script('itmar_block_collection_js', 'itmar_block_option', array(
+			'home_url' => home_url()
+		));
 
 		// スクリプトの翻訳をセット
 		wp_set_script_translations( 'itmar_block_collection_js', 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages' );
@@ -131,4 +135,6 @@ function itmar_block_collections_font_init()
 	wp_enqueue_style( 'awesome-solid', plugins_url('/assets/css/solid.css', __FILE__),array(),null);
 }
 add_action('enqueue_block_assets', 'itmar_block_collections_font_init');
+
+
 

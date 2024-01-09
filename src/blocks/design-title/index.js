@@ -33,6 +33,13 @@ registerBlockType(metadata.name, {
 			label: __("Sub Copy", 'itmar_block_collections'),
 		}
 	],
+	attributes: {
+		...metadata.attributes,
+		selectedPageUrl: {
+			type: "string",
+			default: itmar_block_option.home_url
+		}
+	},
 	description: __("A block with various styles applied to heading tags", 'itmar_block_collections'),
 	icon: <Title />,
 	edit: BlockEdit,

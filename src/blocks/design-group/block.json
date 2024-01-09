@@ -135,6 +135,10 @@
 		"is_submenu": {
 			"type": "boolean",
 			"default": false
+		},
+		"has_submenu": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"textdomain": "itmar_block_collections",

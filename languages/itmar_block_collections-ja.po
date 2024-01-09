@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Block Collections 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-"
 "collections\n"
-"POT-Creation-Date: 2023-12-29T07:19:00+01:00\n"
-"PO-Revision-Date: 2023-12-29 15:24+0900\n"
+"POT-Creation-Date: 2024-01-09T07:29:23+01:00\n"
+"PO-Revision-Date: 2024-01-09 15:45+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -159,8 +159,8 @@ msgstr "広がり"
 #: build/blocks/design-checkbox/index.js:103
 #: build/blocks/design-group/index.js:111
 #: build/blocks/design-process/index.js:194
-#: build/blocks/design-table/index.js:79 src/blocks/design-title/edit.js:537
-#: src/blocks/design-title/edit.js:607 src/blocks/DraggableBox.js:116
+#: build/blocks/design-table/index.js:79 src/blocks/design-title/edit.js:539
+#: src/blocks/design-title/edit.js:609 src/blocks/DraggableBox.js:116
 #: src/blocks/ShadowStyle.js:299
 msgid "Lateral direction"
 msgstr "横方向"
@@ -171,8 +171,8 @@ msgstr "横方向"
 #: build/blocks/design-checkbox/index.js:103
 #: build/blocks/design-group/index.js:111
 #: build/blocks/design-process/index.js:194
-#: build/blocks/design-table/index.js:79 src/blocks/design-title/edit.js:548
-#: src/blocks/design-title/edit.js:618 src/blocks/DraggableBox.js:122
+#: build/blocks/design-table/index.js:79 src/blocks/design-title/edit.js:550
+#: src/blocks/design-title/edit.js:620 src/blocks/DraggableBox.js:122
 #: src/blocks/ShadowStyle.js:307
 msgid "Longitudinal direction"
 msgstr "縦方向"
@@ -224,7 +224,7 @@ msgstr "ニューモフィズム設定"
 #: build/blocks/design-checkbox/index.js:103
 #: build/blocks/design-group/index.js:111
 #: build/blocks/design-process/index.js:194
-#: build/blocks/design-table/index.js:79 src/blocks/design-title/edit.js:474
+#: build/blocks/design-table/index.js:79 src/blocks/design-title/edit.js:476
 #: src/blocks/ShadowStyle.js:339
 msgid "Distance"
 msgstr "距離"
@@ -255,7 +255,7 @@ msgstr "クレイモフィズム設定"
 #: build/blocks/design-checkbox/index.js:103
 #: build/blocks/design-group/index.js:111
 #: build/blocks/design-process/index.js:194
-#: build/blocks/design-table/index.js:79 src/blocks/design-title/edit.js:587
+#: build/blocks/design-table/index.js:79 src/blocks/design-title/edit.js:589
 #: src/blocks/ShadowStyle.js:385
 msgid "Opacity"
 msgstr "透明度"
@@ -341,7 +341,7 @@ msgstr "ラベルスタイル設定"
 #: src/blocks/design-checkbox/edit.js:243 src/blocks/design-process/edit.js:234
 #: src/blocks/design-process/edit.js:260 src/blocks/design-select/edit.js:413
 #: src/blocks/design-table/edit.js:480 src/blocks/design-table/edit.js:549
-#: src/blocks/design-text-ctrl/edit.js:250 src/blocks/design-title/edit.js:683
+#: src/blocks/design-text-ctrl/edit.js:250 src/blocks/design-title/edit.js:685
 #: src/blocks/LabelBox .js:111
 msgid "Typography"
 msgstr "タイポグラフィー"
@@ -362,7 +362,7 @@ msgstr "ラベル色設定"
 #: src/blocks/design-process/edit.js:246 src/blocks/design-process/edit.js:272
 #: src/blocks/design-select/edit.js:425 src/blocks/design-table/edit.js:493
 #: src/blocks/design-table/edit.js:562 src/blocks/design-text-ctrl/edit.js:261
-#: src/blocks/design-title/edit.js:639 src/blocks/LabelBox .js:122
+#: src/blocks/design-title/edit.js:641 src/blocks/LabelBox .js:122
 msgid "Choose Text color"
 msgstr "テキスト色を選択"
 
@@ -371,7 +371,7 @@ msgstr "テキスト色を選択"
 #: build/blocks/design-title/index.js build/blocks/design-table/index.js:79
 #: src/blocks/design-table/edit.js:500 src/blocks/design-table/edit.js:569
 #: src/blocks/design-text-ctrl/edit.js:180
-#: src/blocks/design-text-ctrl/edit.js:268 src/blocks/design-title/edit.js:648
+#: src/blocks/design-text-ctrl/edit.js:268 src/blocks/design-title/edit.js:650
 #: src/blocks/LabelBox .js:129
 msgid "Choose Background color"
 msgstr "背景色を選択"
@@ -384,7 +384,7 @@ msgstr "背景色を選択"
 #: build/blocks/design-table/index.js:79 src/blocks/design-button/edit.js:250
 #: src/blocks/design-checkbox/edit.js:194 src/blocks/design-process/edit.js:163
 #: src/blocks/design-select/edit.js:379 src/blocks/design-table/edit.js:436
-#: src/blocks/design-text-ctrl/edit.js:274 src/blocks/design-title/edit.js:696
+#: src/blocks/design-text-ctrl/edit.js:274 src/blocks/design-title/edit.js:698
 #: src/blocks/LabelBox .js:135
 msgid "Border Settings"
 msgstr "ボーダー設定"
@@ -392,8 +392,8 @@ msgstr "ボーダー設定"
 #: build/151.js:1 build/blocks/design-text-ctrl/index.js build/827.js:1
 #: build/blocks/design-select/index.js build/859.js:1
 #: build/blocks/design-title/index.js build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:226 src/blocks/design-title/edit.js:415
-#: src/blocks/design-title/edit.js:711 src/blocks/LabelBox .js:150
+#: src/blocks/code-highlight/edit.js:226 src/blocks/design-title/edit.js:417
+#: src/blocks/design-title/edit.js:713 src/blocks/LabelBox .js:150
 msgid "Padding settings"
 msgstr "パディング設定"
 
@@ -487,7 +487,7 @@ msgstr "マージン設定(デスクトップ)"
 #: build/blocks/design-group/index.js:111
 #: build/blocks/design-process/index.js:194
 #: build/blocks/design-table/index.js:79 src/blocks/design-button/edit.js:235
-#: src/blocks/design-checkbox/edit.js:178 src/blocks/design-group/edit.js:214
+#: src/blocks/design-checkbox/edit.js:178 src/blocks/design-group/edit.js:237
 #: src/blocks/design-process/edit.js:198 src/blocks/design-select/edit.js:364
 #: src/blocks/design-table/edit.js:421 src/blocks/design-table/edit.js:529
 #: src/blocks/design-table/edit.js:580 src/blocks/design-text-ctrl/edit.js:215
@@ -500,7 +500,7 @@ msgstr "パディング設定(モバイル)"
 #: build/blocks/design-group/index.js:111
 #: build/blocks/design-process/index.js:194
 #: build/blocks/design-table/index.js:79 src/blocks/design-button/edit.js:234
-#: src/blocks/design-checkbox/edit.js:177 src/blocks/design-group/edit.js:213
+#: src/blocks/design-checkbox/edit.js:177 src/blocks/design-group/edit.js:236
 #: src/blocks/design-process/edit.js:197 src/blocks/design-select/edit.js:363
 #: src/blocks/design-table/edit.js:420 src/blocks/design-table/edit.js:528
 #: src/blocks/design-table/edit.js:579 src/blocks/design-text-ctrl/edit.js:214
@@ -514,10 +514,10 @@ msgstr "パディング設定(デスクトップ)"
 #: build/blocks/design-group/index.js:111
 #: build/blocks/design-process/index.js:194
 #: build/blocks/design-table/index.js:79 src/blocks/design-button/edit.js:265
-#: src/blocks/design-checkbox/edit.js:208 src/blocks/design-group/edit.js:226
+#: src/blocks/design-checkbox/edit.js:208 src/blocks/design-group/edit.js:249
 #: src/blocks/design-process/edit.js:214 src/blocks/design-select/edit.js:394
 #: src/blocks/design-table/edit.js:451 src/blocks/design-text-ctrl/edit.js:231
-#: src/blocks/design-title/edit.js:424
+#: src/blocks/design-title/edit.js:426
 msgid "Is Shadow"
 msgstr "シャドーをつける"
 
@@ -623,7 +623,7 @@ msgstr "変更を保存"
 
 #: build/827.js:1 build/blocks/design-select/index.js build/859.js:1
 #: build/blocks/design-title/index.js src/blocks/design-select/edit.js:468
-#: src/blocks/design-title/edit.js:775
+#: src/blocks/design-title/edit.js:777
 msgid "Confirm Deletion"
 msgstr "削除の確認"
 
@@ -639,7 +639,7 @@ msgstr "はい。削除します"
 
 #: build/827.js:1 build/blocks/design-select/index.js build/859.js:1
 #: build/blocks/design-title/index.js src/blocks/design-select/edit.js:473
-#: src/blocks/design-title/edit.js:780
+#: src/blocks/design-title/edit.js:782
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -775,27 +775,27 @@ msgid "Select a fixed page to link to"
 msgstr "リンク先の固定ページを選択してください"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:371
+#: src/blocks/design-title/edit.js:372
 msgid "Select archive page to link to"
 msgstr "リンク先のアーカイブ ページを選択してください"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:377
+#: src/blocks/design-title/edit.js:379
 msgid "Link to URL"
 msgstr "URLへのリンク"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:389
+#: src/blocks/design-title/edit.js:391
 msgid "Menu Alignment"
 msgstr "メニューの配置"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:398
+#: src/blocks/design-title/edit.js:400
 msgid "Based on title"
 msgstr "タイトルのベース"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:400
+#: src/blocks/design-title/edit.js:402
 msgid ""
 "If unchecked, the parent menu will be used as the reference. If there is no "
 "parent menu, do not uncheck it."
@@ -804,118 +804,118 @@ msgstr ""
 "合はチェックを外さないでください。"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:413
+#: src/blocks/design-title/edit.js:415
 msgid "Title settings"
 msgstr "タイトル設定"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:441
+#: src/blocks/design-title/edit.js:443
 msgid "Add an underline"
 msgstr "アンダーラインを付ける"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:448
+#: src/blocks/design-title/edit.js:450
 msgid "UnderLine settings"
 msgstr "アンダーライン設定"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:456
+#: src/blocks/design-title/edit.js:458
 msgid "Height"
 msgstr "高さ"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:465
+#: src/blocks/design-title/edit.js:467
 msgid "Width"
 msgstr "幅"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:479
+#: src/blocks/design-title/edit.js:481
 msgid "Under Line Color Setting"
 msgstr "アンダーライン色設定"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:484
+#: src/blocks/design-title/edit.js:486
 msgid "Choose Under Line color"
 msgstr "アンダーライン色を選択"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:496
+#: src/blocks/design-title/edit.js:498
 msgid "Animation on hover"
 msgstr "ホバー時のアニメーション"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:508
+#: src/blocks/design-title/edit.js:510
 msgid "Circle Marker Settings"
 msgstr "円マーカー設定"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:510 src/blocks/design-title/edit.js:570
+#: src/blocks/design-title/edit.js:512 src/blocks/design-title/edit.js:572
 msgid "Circle Color Setting"
 msgstr "円の背景色を選択"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:515 src/blocks/design-title/edit.js:575
+#: src/blocks/design-title/edit.js:517 src/blocks/design-title/edit.js:577
 msgid "Choose Circle Background"
 msgstr "円のグラデーションを選択"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:531 src/blocks/design-title/edit.js:601
+#: src/blocks/design-title/edit.js:533 src/blocks/design-title/edit.js:603
 msgid "Circle Scale Setting"
 msgstr "円の大きさ設定"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:534 src/blocks/design-title/edit.js:604
+#: src/blocks/design-title/edit.js:536 src/blocks/design-title/edit.js:606
 msgid "Position Settings"
 msgstr "位置設定"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:558
+#: src/blocks/design-title/edit.js:560
 msgid "Second Circle Settings"
 msgstr "２番目の円設定"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:560
+#: src/blocks/design-title/edit.js:562
 msgid "Second Circle"
 msgstr "２番目の円"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:634
+#: src/blocks/design-title/edit.js:636
 msgid "Sub Copy Settings"
 msgstr "サブコピー設定"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:636
+#: src/blocks/design-title/edit.js:638
 msgid "Copy Color Setting"
 msgstr "コピーの色設定"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:662
+#: src/blocks/design-title/edit.js:664
 msgid "Copy Text"
 msgstr "コピーテキスト"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:672
+#: src/blocks/design-title/edit.js:674
 msgid "Copy Alignment"
 msgstr "コピーの配置"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:727
+#: src/blocks/design-title/edit.js:729
 msgid "Icon settings"
 msgstr "アイコン設定"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:729
+#: src/blocks/design-title/edit.js:731
 msgid "Append icon"
 msgstr "アイコンを付加"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:778
+#: src/blocks/design-title/edit.js:780
 msgid "Changing a style resets the style-specific settings. Are you sure?"
 msgstr ""
 "スタイルを変更するとそのスタイル固有の設定は初期化されます。よろしいか？"
 
 #: build/859.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:779
+#: src/blocks/design-title/edit.js:781
 msgid "Yes, Change"
 msgstr "はい。変更します"
 
@@ -1123,127 +1123,121 @@ msgid "InnerBlock Name"
 msgstr "インナーブロック名"
 
 #: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:54
-#: src/blocks/BlockPlace.js:267
+#: src/blocks/BlockPlace.js:279
 msgid "upper alignment"
 msgstr "上"
 
 #: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:54
-#: src/blocks/BlockPlace.js:224
+#: src/blocks/BlockPlace.js:236
 msgid "left alignment"
 msgstr "左"
 
 #: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:55
-#: src/blocks/BlockPlace.js:288
+#: src/blocks/BlockPlace.js:300
 msgid "lower alignment"
 msgstr "下"
 
 #: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:55
-#: src/blocks/BlockPlace.js:245
+#: src/blocks/BlockPlace.js:257
 msgid "right alignment"
 msgstr "右"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:77
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:89
 msgid "Block Max Width(Mobile)"
 msgstr "ブロックの最大幅(モバイル)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:78
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:90
 msgid "Block Width(Mobile)"
 msgstr "ブロックの幅(モバイル)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:79
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:91
 msgid "Block Max Width(DeskTop)"
 msgstr "ブロックの最大幅(デスクトップ)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:80
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:92
 msgid "Block Width(DeskTop)"
 msgstr "ブロックの幅(デスクトップ)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:91
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:103
 msgid "Block placement"
 msgstr "ブロックの配置"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:96
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:108
 msgid "InnerBlock direction(Mobile)"
 msgstr "インナーブロックの方向(モバイル)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:98
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:110
 msgid "InnerBlock direction(DeskTop)"
 msgstr "インナーブロックの方向(デスクトップ)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:108
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:120
 msgid "block"
 msgstr "ブロック"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:119
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:131
 msgid "virtical"
 msgstr "縦方向"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:129
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:141
 msgid "horizen"
 msgstr "横方向"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:139
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:151
 msgid "grid"
 msgstr "グリッド"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:147
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:159
 msgid "InnerBlock alignment(Mobile)"
 msgstr "インナーブロックの配置(モバイル)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:149
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:161
 msgid "InnerBlock alignment(DeskTop)"
 msgstr "インナーブロックの配置(デスクトップ)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:169
-#: src/blocks/BlockPlace.js:235 src/blocks/BlockPlace.js:278
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:181
+#: src/blocks/BlockPlace.js:247 src/blocks/BlockPlace.js:290
 msgid "center alignment"
 msgstr "中央"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:189
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:201
 msgid "beteen stretch"
 msgstr "均等(余白なし)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:200
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:212
 msgid "around stretch"
 msgstr "均等(余白あり)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:211
-msgid "Block horizen alignment(Mobile)"
-msgstr "ブロックの横配置(モバイル)"
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:223
+#: src/blocks/BlockPlace.js:267
+msgid "Block alignment(Mobile)"
+msgstr "ブロックの配置(モバイル)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:213
-msgid "Block horizen alignment(DeskTop)"
-msgstr "ブロックの横配置(デスクトップ)"
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:225
+#: src/blocks/BlockPlace.js:269
+msgid "Block alignment(DeskTop)"
+msgstr "ブロックの配置(デスクトップ)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:255
-msgid "Block vertical alignment(Mobile)"
-msgstr "ブロックの縦配置(モバイル)"
-
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:257
-msgid "Block vertical alignment(DeskTop)"
-msgstr "ブロックの縦配置(デスクトップ)"
-
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:315
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:327
 msgid "Wide Size"
 msgstr "幅広"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:326
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:338
 msgid "Content Size"
 msgstr "コンテント幅"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:346
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:358
 msgid "Max width"
 msgstr "最大幅"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:359
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:371
 msgid "Grid Info settings(Mobile)"
 msgstr "グリッド設定(モバイル)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:361
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:373
 msgid "Grid Info settings(DeskTop)"
 msgstr "グリッド設定(デスクトップ)"
 
-#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:364
+#: build/blocks/design-group/index.js:111 src/blocks/BlockPlace.js:376
 msgid "Open Setting Modal"
 msgstr "設定画面を開く"
 
@@ -1253,23 +1247,23 @@ msgid ""
 "adjusted."
 msgstr "複数のブロックを格納、配置するためのブロック。 位置調整が可能です。"
 
-#: build/blocks/design-group/index.js:111 src/blocks/design-group/edit.js:133
+#: build/blocks/design-group/index.js:111 src/blocks/design-group/edit.js:156
 msgid "Menu or Group"
 msgstr "メニュー・グループ"
 
-#: build/blocks/design-group/index.js:111 src/blocks/design-group/edit.js:135
+#: build/blocks/design-group/index.js:111 src/blocks/design-group/edit.js:158
 msgid "Is Menu"
 msgstr "メニューにする"
 
-#: build/blocks/design-group/index.js:111 src/blocks/design-group/edit.js:210
+#: build/blocks/design-group/index.js:111 src/blocks/design-group/edit.js:233
 msgid "Content Style"
 msgstr "内容のスタイル"
 
-#: build/blocks/design-group/index.js:111 src/blocks/design-group/edit.js:244
+#: build/blocks/design-group/index.js:111 src/blocks/design-group/edit.js:267
 msgid "Position moveable"
 msgstr "配置可動"
 
-#: build/blocks/design-group/index.js:111 src/blocks/design-group/edit.js:248
+#: build/blocks/design-group/index.js:111 src/blocks/design-group/edit.js:271
 msgid "make it moveable"
 msgstr "動かせるようにする"
 
@@ -1433,7 +1427,7 @@ msgstr "円マーカー"
 msgid "Sub Copy"
 msgstr "サブコピー"
 
-#: build/blocks/design-title/index.js:78 src/blocks/design-title/index.js:36
+#: build/blocks/design-title/index.js:78 src/blocks/design-title/index.js:43
 msgid "A block with various styles applied to heading tags"
 msgstr "見出しタグにさまざまなスタイルが適用されたブロックです。"
 
@@ -1484,6 +1478,18 @@ msgstr ""
 msgctxt "block title"
 msgid "Design Title"
 msgstr ""
+
+#~ msgid "Block horizen alignment(Mobile)"
+#~ msgstr "ブロックの横配置(モバイル)"
+
+#~ msgid "Block horizen alignment(DeskTop)"
+#~ msgstr "ブロックの横配置(デスクトップ)"
+
+#~ msgid "Block vertical alignment(Mobile)"
+#~ msgstr "ブロックの縦配置(モバイル)"
+
+#~ msgid "Block vertical alignment(DeskTop)"
+#~ msgstr "ブロックの縦配置(デスクトップ)"
 
 #~ msgid "fit"
 #~ msgstr "フィット"
