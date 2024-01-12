@@ -55,12 +55,12 @@ export const fetchArchiveOptions = async (home_url) => {
   let idCounter = 0;
   return Object.keys(response).reduce((acc, key) => {
     const postType = response[key];
-
     if (postType.has_archive === true) {
       acc.push({ value: idCounter++, link: `${home_url}/${postType.slug}`, label: postType.name });
     } else if (typeof postType.has_archive === 'string') {
       acc.push({ value: idCounter++, link: `${home_url}/${postType.has_archive}`, label: postType.name });
     }
+    console.log(acc);
     return acc;
   }, []);
 };

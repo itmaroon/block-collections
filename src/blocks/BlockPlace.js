@@ -358,7 +358,7 @@ export default function BlockPlace(props) {
             label={__("Max width", 'itmar_block_collections')}
             max={1800}
             min={300}
-            step={100}
+            step={10}
             onChange={(newValue) => {
               props.onFreevalChange(newValue)
             }}

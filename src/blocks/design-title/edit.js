@@ -386,7 +386,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 					}
 					{linkKind === 'submenu' &&
-						<PanelBody title={__("Submenu position settings", 'itmar_form_send_blocks')}>
+						<PanelBody title={__("Submenu position settings", 'itmar_block_collections')}>
 							<PanelRow className='imgPos_row'>
 								<label>{__("Menu Alignment", 'itmar_block_collections')}</label>
 								<AlignmentMatrixControl

@@ -73,7 +73,10 @@ OR…
 9. A block icon registered by the plugin. Divided into design group and widget group
 
 == Changelog ==
-
+= 1.1.3 =
+Bug fixes
+- Fixed an issue where the sidebar wording for setting the submenu position was not internationalized.
+- Corrected the issue where range control could only be set in 100px increments when selecting Free in the block width settings, so it can now be changed in 10px increments.
 = 1.1.2 =
 Bug fixes
 - Fixed a bug where the archive page of the root domain WordPress site was displayed when archive page was selected in the link type of Design Title.
