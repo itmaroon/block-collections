@@ -23,9 +23,6 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-//wpコマンドを追加
-//require_once plugin_dir_path( __FILE__ ) . '/custom-wp-cli.php';
-
 function itmar_block_collections_block_init()
 {
 	//ブロックの登録
