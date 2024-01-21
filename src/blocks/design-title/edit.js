@@ -6,7 +6,7 @@ import { StyleComp } from './StyleWapper';
 import ShadowStyle, { ShadowElm } from '../ShadowStyle';
 import { PageSelectControl, ArchiveSelectControl } from '../wordpressApi';
 import apiFetch from '@wordpress/api-fetch';
-import { useStyleIframe, useFontawesomeIframe } from '../iframeFooks';
+import { useStyleIframe } from '../iframeFooks';
 import {
 	Button,
 	PanelBody,
@@ -761,7 +761,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					}}
 				/>
 				<ToolbarDropdownMenu
-					label={__('Change heading level')}
+					label={__('Change heading level', 'itmar_block_collections')}
 					icon={getIconForLevel(parseInt(headingType.slice(1), 10))}
 					controls={[1, 2, 3, 4, 5, 6].map(level => ({
 						icon: getIconForLevel(level),

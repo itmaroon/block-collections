@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { width_prm, max_width_prm, align_prm, space_prm, convertToScss } from '../cssPropertes';
 
 export const StyleComp = ({ attributes, isMenuOpen, children }) => {
-  return (
+  const content = (
     <StyledDiv
       attributes={{ ...attributes }}
       className={`${isMenuOpen ? 'open' : ''} ${attributes.is_submenu ? 'sub_menu' : ''}`}
@@ -10,6 +10,8 @@ export const StyleComp = ({ attributes, isMenuOpen, children }) => {
       {children}
     </StyledDiv>
   );
+
+  return attributes.is_swiper ? <div className='swiper-slide'>{content}</div> : content;
 };
 
 const StyledDiv = styled.div`
@@ -23,7 +25,8 @@ ${({ attributes }) => {
       position,
       is_menu,
       is_submenu,
-      has_submenu
+      has_submenu,
+      is_swiper
     } = attributes;
 
     //スペースの設定
@@ -87,6 +90,7 @@ ${({ attributes }) => {
       }
       > div{
         ${tranceform}
+        ${is_swiper ? 'height :100%' : ''}
         >.group_contents{
           ${box_shadow_style};
           padding: ${default_content_padding_prm};
@@ -174,6 +178,7 @@ ${({ attributes }) => {
         gap: ${default_pos.grid_info?.rowGap} ${default_pos.grid_info?.colGap};
         >div,>figure{
           ${createNthChildStyles(default_pos.grid_info?.gridElms)}
+          margin:0;
         }
         
         @media (max-width: 767px) {

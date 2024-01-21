@@ -13,13 +13,17 @@
 			"type": "string",
 			"default": "button"
 		},
+		"displayType": {
+			"type": "string",
+			"default": "string"
+		},
+		"linkKind": {
+			"type": "string",
+			"default": "free"
+		},
 		"selectedPageId": {
 			"type": "number",
 			"default": -1
-		},
-		"selectedPageUrl": {
-			"type": "string",
-			"default": "/"
 		},
 		"buttonId": {
 			"type": "string"
@@ -34,6 +38,14 @@
 		},
 		"labelContent": {
 			"type": "string"
+		},
+		"mediaID": {
+			"type": "number",
+			"default": 0
+		},
+		"media": {
+			"type": "object",
+			"default": null
 		},
 		"font_style_label": {
 			"type": "object",
@@ -51,6 +63,8 @@
 		"default_pos": {
 			"type": "object",
 			"default": {
+				"width": "auto",
+				"height": "auto",
 				"margin_value": {
 					"top": "10px",
 					"left": "10px",
@@ -68,6 +82,8 @@
 		"mobile_pos": {
 			"type": "object",
 			"default": {
+				"width": "auto",
+				"height": "auto",
 				"margin_value": {
 					"top": "10px",
 					"left": "0",

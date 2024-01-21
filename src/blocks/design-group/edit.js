@@ -82,7 +82,8 @@ export default function Edit(props) {
 		is_moveable,
 		position,
 		is_menu,
-		is_submenu
+		is_submenu,
+		is_swiper
 	} = attributes;
 
 	//モバイルの判定
@@ -171,6 +172,7 @@ export default function Edit(props) {
 						}}
 					/>
 				</PanelBody>
+
 			</InspectorControls>
 			<InspectorControls group="styles">
 				<BlockPlace

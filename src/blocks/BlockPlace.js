@@ -311,6 +311,16 @@ export default function BlockPlace(props) {
           <ToolbarItem>
             {(itemProps) => (
               <Button {...itemProps}
+                isPressed={sel_pos.width_val === 'full'}
+                onClick={() => props.onWidthChange('full')}
+                text='full'
+              />
+
+            )}
+          </ToolbarItem>
+          <ToolbarItem>
+            {(itemProps) => (
+              <Button {...itemProps}
                 isPressed={sel_pos.width_val === 'fit'}
                 onClick={() => props.onWidthChange('fit')}
                 text='fit'

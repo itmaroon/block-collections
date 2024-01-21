@@ -17,10 +17,11 @@ export const space_prm = (space) => {
 //ブロック幅を返す
 export const max_width_prm = (width, free_val) => {
   const ret_width_prm =
-    width === 'wideSize' ? ' width: 100%; max-width: var(--wp--style--global--wide-size);'
-      : width === 'contentSize' ? ' width: 100%; max-width: var(--wp--style--global--content-size);'
-        : width === 'free' ? ` width: 100%; max-width: ${free_val}px; `
-          : ' width: fit-content;';
+    width === 'wideSize' ? 'width: 100%; max-width: var(--wp--style--global--wide-size);'
+      : width === 'contentSize' ? 'width: 100%; max-width: var(--wp--style--global--content-size);'
+        : width === 'free' ? `width: 100%; max-width: ${free_val}px;`
+          : width === 'full' ? 'width: 100%; max-width: 100%;'
+            : ' width: fit-content;';
   return (
     ret_width_prm
   )

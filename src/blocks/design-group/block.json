@@ -132,6 +132,10 @@
 			"type": "boolean",
 			"default": false
 		},
+		"is_swiper": {
+			"type": "boolean",
+			"default": false
+		},
 		"is_submenu": {
 			"type": "boolean",
 			"default": false

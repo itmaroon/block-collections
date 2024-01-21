@@ -5,7 +5,7 @@
  * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
  * Requires at least: 6.3
  * Requires PHP:      8.0.22
- * Version:           1.1.2
+ * Version:           1.2.0
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -90,6 +90,21 @@ function itmar_highlight_scripts_and_styles()
 		filemtime("$dir/code-prettify/prettify.css")
 	);
 
+	//コアブロックカスタマイズスクリプトのエンキュー
+	wp_enqueue_script(
+		'itmar-gutenberg-extensions-script',
+		plugins_url('build/gutenberg-ex.js', __FILE__),
+		array(
+				'wp-blocks',
+				'wp-i18n',
+				'wp-element',
+				'wp-editor',
+				'wp-plugins',
+				'wp-edit-post',
+				'wp-compose'
+		)
+	);
+
 
 	//管理画面以外（フロントエンド側でのみ読み込む）
 	if (!is_admin()) {
@@ -110,6 +125,7 @@ function itmar_highlight_scripts_and_styles()
 			filemtime($script_path),
 			true
 		);
+
 		//jsで使えるようにhome_urlをローカライズ
 		wp_localize_script('itmar_block_collection_js', 'itmar_block_option', array(
 			'home_url' => home_url()
@@ -132,6 +148,8 @@ function itmar_block_collections_font_init()
 	wp_enqueue_style( 'awesome-solid', plugins_url('/assets/css/solid.css', __FILE__),array(),null);
 }
 add_action('enqueue_block_assets', 'itmar_block_collections_font_init');
+
+
 
 
 

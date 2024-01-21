@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, custom, heading, input, select, highlight, prosess,table,button,group,checkbox
 Requires at least: 6.3
 Tested up to:      6.4.2
-Stable tag:        1.1.2
+Stable tag:        1.2.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.0.22
@@ -73,6 +73,16 @@ OR…
 9. A block icon registered by the plugin. Divided into design group and widget group
 
 == Changelog ==
+= 1.2.0 =
+Function addition
+- Added the ability to generate DOM elements as swiper slides in Design group
+- New option to set block width to full width of viewport in Design group
+- Added a module that allows you to add functionality using core blocks as higher-order components.
+- Added the ability to display images and pseudo-elements on Design Buttons
+- Added the ability to specify archive pages and free URLs for Design Button links.
+Bug fixes
+- Fixed an issue where the archive page of the root domain WordPress site would be displayed when a fixed page was selected as the link destination type of Design Button.
+
 = 1.1.3 =
 Bug fixes
 - Fixed an issue where the sidebar wording for setting the submenu position was not internationalized.

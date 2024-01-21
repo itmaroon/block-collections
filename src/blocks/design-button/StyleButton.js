@@ -15,6 +15,7 @@ const StyledDiv = styled.div`
 
     const {
       buttonType,
+      displayType,
       font_style_label,
       default_pos,
       mobile_pos,
@@ -37,6 +38,7 @@ const StyledDiv = styled.div`
     const fontStyle_label = font_style_label.isItalic ? "italic" : "normal";
     //角丸の設定
     const button_radius_prm = radius_prm(radius_value);
+
     //スペースの設定
     const default_heading_margin_prm = space_prm(default_pos.margin_value);
     const default_heading_padding_prm = space_prm(default_pos.padding_value);
@@ -56,6 +58,8 @@ const StyledDiv = styled.div`
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       ${button_type}{
+        width: ${default_pos.width};
+        height: ${default_pos.height};
         margin: ${default_heading_margin_prm};
         padding: ${default_heading_padding_prm};
         background: ${bgColor};
@@ -73,7 +77,22 @@ const StyledDiv = styled.div`
           cursor: pointer;
           ${hover_shadow_style};
         }
+        & figure{
+          margin: 0;
+          width: 100%;
+          height: 100%;
+          position: relative;
+          & img{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            
+          }
+        }
+        
         @media (max-width: 767px) {
+          width: ${mobile_pos.width};
+          height: ${mobile_pos.height};
           margin: ${mobile_heading_margin_prm};
           padding: ${mobile_heading_padding_prm};
         }

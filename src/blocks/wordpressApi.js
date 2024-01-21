@@ -60,7 +60,6 @@ export const fetchArchiveOptions = async (home_url) => {
     } else if (typeof postType.has_archive === 'string') {
       acc.push({ value: idCounter++, link: `${home_url}/${postType.has_archive}`, label: postType.name });
     }
-    console.log(acc);
     return acc;
   }, []);
 };

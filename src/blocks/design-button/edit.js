@@ -4,15 +4,15 @@ import TypographyControls from '../TypographyControls'
 import { StyleComp } from './StyleButton';
 import { useStyleIframe } from '../iframeFooks';
 import ShadowStyle, { ShadowElm } from '../ShadowStyle';
-import { withSelect } from '@wordpress/data';
 import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks';
+import { PageSelectControl, ArchiveSelectControl } from '../wordpressApi';
 import {
 	PanelBody,
 	PanelRow,
 	RadioControl,
 	TextControl,
 	ToggleControl,
-	ComboboxControl,
+	__experimentalUnitControl as UnitControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl
 } from '@wordpress/components';
@@ -28,6 +28,7 @@ import {
 import { useEffect, useRef } from '@wordpress/element';
 
 import './editor.scss';
+import { SingleImageSelect } from '../../mediaUpload';
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -49,13 +50,17 @@ const units = [
 	{ value: 'px', label: 'px' },
 	{ value: 'em', label: 'em' },
 	{ value: 'rem', label: 'rem' },
+	{ value: '%', label: '%' },
 ];
 
 
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		buttonType,
+		displayType,
 		buttonId,
+		linkKind,
+		selectedPageUrl,
 		bgColor,
 		align,
 		labelContent,
@@ -105,15 +110,32 @@ export default function Edit({ attributes, setAttributes }) {
 			<>
 				{buttonType === 'button' ? (
 					<button>
-						<RichText
-							onChange={
-								(newContent) => {
-									setAttributes({ labelContent: newContent })
+						{displayType === 'string' &&
+							<RichText
+								onChange={
+									(newContent) => {
+										setAttributes({ labelContent: newContent })
+									}
 								}
-							}
-							value={labelContent}
-							placeholder={__('Button Name...', 'itmar_block_collections')}
-						/>
+								value={labelContent}
+								placeholder={__('Button Name...', 'itmar_block_collections')}
+							/>
+						}
+						{displayType === 'image' &&
+							<SingleImageSelect
+								attributes={attributes}
+								onSelectChange={(media) => {
+									setAttributes({ media: media, mediaID: media.id })
+								}}
+							/>
+						}
+
+						{displayType === 'pseudo' &&
+							<div
+								className='displayType'
+							/>
+						}
+
 					</button>
 				) : (
 					<input type="submit" value={labelContent} id={buttonId} />
@@ -122,40 +144,6 @@ export default function Edit({ attributes, setAttributes }) {
 		)
 	}
 
-	//終了時のリダイレクト先を固定ページから選択
-	const RedirectSelectControl = withSelect((select) => {
-		const pages = select('core').getEntityRecords('postType', 'page');
-		if (pages && !pages.some(page => page.id === -1)) {
-			// ホームページ用の選択肢を追加します。
-			pages.unshift({ id: -1, title: { rendered: 'ホーム' }, link: '/' });
-		}
-		return { pages }
-
-	})(function ({ pages, setAttributes, attributes, label }) {
-		const { selectedPageId, selectedPageUrl } = attributes;
-		// 選択肢が選択されたときの処理です。
-		const handleChange = (selectedId) => {
-			const selectedPage = pages.find(page => page.id === selectedId);
-			setAttributes({
-				selectedPageId: selectedId,
-				selectedPageUrl: selectedPage ? selectedPage.link : '/'
-			});
-		};
-		// 選択肢を作成します。
-		const options = pages ? pages.map(page => ({
-			value: page.id,
-			label: page.title.rendered
-		})) : [];
-
-		return (
-			<ComboboxControl
-				label={label}
-				options={options}
-				value={selectedPageId}
-				onChange={handleChange}
-			/>
-		);
-	});
 
 	return (
 		<>
@@ -174,12 +162,52 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 					</PanelRow>
 					{buttonType === 'button' &&
-						<RedirectSelectControl
-							label={__("Transition to static page", 'itmar_block_collections')}
+						<div className='itmar_link_type'>
+							<RadioControl
+								label={__("Link type", 'itmar_block_collections')}
+								selected={linkKind}
+								options={[
+									{ label: __("Fixed Page", 'itmar_block_collections'), value: 'fixed' },
+									{ label: __("Archive Page", 'itmar_block_collections'), value: 'archive' },
+									{ label: __("Free URL", 'itmar_block_collections'), value: 'free' },
+								]}
+								onChange={(changeOption) => setAttributes({ linkKind: changeOption })}
+								help={__("You can select the type of URL to link to the button.", 'itmar_block_collections')}
+							/>
+						</div>
+					}
+
+					{(buttonType === 'button' && linkKind === 'fixed') &&
+						<PageSelectControl
 							attributes={attributes}
 							setAttributes={setAttributes}
+							label={__("Select a fixed page to link to", 'itmar_block_collections')}
+							homeUrl={itmar_block_option.home_url}
 						/>
+
 					}
+					{(buttonType === 'button' && linkKind === 'archive') &&
+						<ArchiveSelectControl
+							attributes={attributes}
+							setAttributes={setAttributes}
+							label={__("Select archive page to link to", 'itmar_block_collections')}
+							homeUrl={itmar_block_option.home_url}
+						/>
+
+					}
+					{(buttonType === 'button' && linkKind === 'free') &&
+						<TextControl
+							label={__("Link to URL", 'itmar_block_collections')}
+							labelPosition="top"
+							value={selectedPageUrl}
+							onChange={(newValue) => {
+								setAttributes({ selectedPageUrl: newValue });
+							}}
+						/>
+
+					}
+
+
 					{buttonType === 'submit' &&
 						<>
 							<TextControl
@@ -195,7 +223,20 @@ export default function Edit({ attributes, setAttributes }) {
 						</>
 
 					}
-
+				</PanelBody>
+				<PanelBody title={__("Display Type setting", 'itmar_block_collections')} initialOpen={true} className="form_setteing_ctrl">
+					<div className='itmar_link_type'>
+						<RadioControl
+							selected={displayType}
+							options={[
+								{ label: __("String", 'itmar_block_collections'), value: 'string' },
+								{ label: __("Image", 'itmar_block_collections'), value: 'image' },
+								{ label: __("Pseudo", 'itmar_block_collections'), value: 'pseudo' },
+							]}
+							onChange={(changeOption) => { setAttributes({ displayType: changeOption }); }
+							}
+						/>
+					</div>
 				</PanelBody>
 			</InspectorControls>
 			<InspectorControls group="styles">
@@ -211,6 +252,41 @@ export default function Edit({ attributes, setAttributes }) {
 							}
 						]}
 					/>
+					<PanelBody
+						title={!isMobile ?
+							__("Scale settings(desk top)", 'itmar_block_collections')
+							: __("Scale settings(mobile)", 'itmar_block_collections')}
+						initialOpen={true}
+					>
+						<PanelRow
+							className='distance_row'
+						>
+							<UnitControl
+								dragDirection="e"
+								onChange={value => {
+									if (!isMobile) {
+										setAttributes({ default_pos: { ...default_pos, width: value } });
+									} else {
+										setAttributes({ mobile_pos: { ...mobile_pos, width: value } });
+									}
+								}}
+								label={__("Width", 'itmar_block_collections')}
+								value={!isMobile ? default_pos.width || 'auto' : mobile_pos.width || 'auto'}
+							/>
+							<UnitControl
+								dragDirection="e"
+								onChange={value => {
+									if (!isMobile) {
+										setAttributes({ default_pos: { ...default_pos, height: value } });
+									} else {
+										setAttributes({ mobile_pos: { ...mobile_pos, height: value } });
+									}
+								}}
+								label={__("Height", 'itmar_block_collections')}
+								value={!isMobile ? default_pos.height || 'auto' : mobile_pos.height || 'auto'}
+							/>
+						</PanelRow>
+					</PanelBody>
 					<BoxControl
 						label={!isMobile ?
 							__("Margin settings(desk top)", 'itmar_block_collections')
@@ -257,6 +333,7 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 						<BorderRadiusControl
 							values={radius_value}
+							units={units}	// 許可する単位
 							onChange={(newBrVal) =>
 								setAttributes({ radius_value: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
 						/>
