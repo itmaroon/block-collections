@@ -7,11 +7,13 @@ import { StyleComp } from './StyleButton';
 export default function save({ attributes }) {
 	const {
 		buttonType,
+		displayType,
 		buttonId,
 		align,
 		bgColor,
 		labelContent,
-		selectedPageUrl
+		selectedPageUrl,
+		media
 	} = attributes;
 
 	//テキストの配置
@@ -29,9 +31,25 @@ export default function save({ attributes }) {
 							className='itmar_design_button'
 							data-selected_page={selectedPageUrl}
 						>
-							<RichText.Content
-								value={labelContent}
-							/>
+							{displayType === 'string' &&
+								<RichText.Content
+									value={labelContent}
+								/>
+							}
+							{displayType === 'image' &&
+								<figure>
+									<img
+										src={media.url}
+										className="image"
+										alt="アップロード画像"
+									/>
+								</figure>
+							}
+							{displayType === 'pseudo' &&
+								<div
+									className={displayType}
+								/>
+							}
 						</button>
 					) : (
 						<input type="submit" value={labelContent} id={buttonId} />

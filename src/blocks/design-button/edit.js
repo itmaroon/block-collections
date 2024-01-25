@@ -29,6 +29,7 @@ import { useEffect, useRef } from '@wordpress/element';
 
 import './editor.scss';
 import { SingleImageSelect } from '../../mediaUpload';
+import PseudoElm from '../../pseudo'
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -64,6 +65,7 @@ export default function Edit({ attributes, setAttributes }) {
 		bgColor,
 		align,
 		labelContent,
+		pseudoInfo,
 		font_style_label,
 		default_pos,
 		mobile_pos,
@@ -132,7 +134,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 						{displayType === 'pseudo' &&
 							<div
-								className='displayType'
+								className={displayType}
 							/>
 						}
 
@@ -236,6 +238,16 @@ export default function Edit({ attributes, setAttributes }) {
 							onChange={(changeOption) => { setAttributes({ displayType: changeOption }); }
 							}
 						/>
+						{displayType === 'pseudo' &&
+							<PseudoElm
+								element='Arrow'
+								direction={pseudoInfo.option}
+								onChange={(direction) => {
+									setAttributes({ pseudoInfo: { ...pseudoInfo, option: direction } });
+								}
+								}
+							/>
+						}
 					</div>
 				</PanelBody>
 			</InspectorControls>

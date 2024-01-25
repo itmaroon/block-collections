@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { radius_prm, space_prm, convertToScss, borderProperty } from '../cssPropertes';
 import { ShadowElm } from '../ShadowStyle'
+import { Arrow } from '../../pseudo'
 
 export const StyleComp = ({ attributes, children }) => {
   return (
@@ -17,6 +18,7 @@ const StyledDiv = styled.div`
       buttonType,
       displayType,
       font_style_label,
+      pseudoInfo,
       default_pos,
       mobile_pos,
       labelColor,
@@ -53,7 +55,8 @@ const StyledDiv = styled.div`
       const hover_elm = ShadowElm({ ...shadow_element, embos: 'dent' });
       hover_shadow_style = convertToScss(hover_elm.style);
     }
-
+    //擬似要素
+    const arrow = Arrow({ direction: pseudoInfo.option })
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
@@ -86,9 +89,9 @@ const StyledDiv = styled.div`
             width: 100%;
             height: 100%;
             margin: 0;
-            
           }
         }
+        ${displayType === 'pseudo' ? arrow : null}
         
         @media (max-width: 767px) {
           width: ${mobile_pos.width};

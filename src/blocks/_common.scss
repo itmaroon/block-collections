@@ -337,6 +337,13 @@ $breakpoints: (
 	}
 }
 
+.components-panel__body {
+	&.is-opened {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+}
+
 .components-panel__row {
 	&.distance_row {
 		align-items: baseline;

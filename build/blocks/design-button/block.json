@@ -47,6 +47,13 @@
       "type": "object",
       "default": null
     },
+    "pseudoInfo": {
+      "type": "object",
+      "default": {
+        "element": "Arrow",
+        "option": "left"
+      }
+    },
     "font_style_label": {
       "type": "object",
       "default": {
