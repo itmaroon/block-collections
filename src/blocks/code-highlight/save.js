@@ -69,7 +69,7 @@ export default function save({ attributes }) {
 				<pre className={"prettyprint" + add_pre_class}>
 					{codeArea}
 				</pre>
-				<button className='code_copy'>{__('Copy', 'itmar_block_collections')}</button>
+				<button className='code_copy'>{__('Copy', 'block-collections')}</button>
 			</div>
 		</div>
 	);

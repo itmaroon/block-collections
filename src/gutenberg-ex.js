@@ -102,7 +102,7 @@ function addExSettings(settings, name) {
         ...(settings.styles || []), // 既存のスタイルを保持
         {
           name: 'gradient',
-          label: __('Gradient', 'itmar_block_collections'),
+          label: __('Gradient', 'block-collections'),
           isDefault: false,
         },
       ];

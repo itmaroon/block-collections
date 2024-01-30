@@ -44,10 +44,10 @@ const PseudoElm = ({ direction, onChange }) => {
     <RadioControl
       selected={direction}
       options={[
-        { label: __("Upper", 'itmar_block_collections'), value: 'upper' },
-        { label: __("Left", 'itmar_block_collections'), value: 'left' },
-        { label: __("Right", 'itmar_block_collections'), value: 'right' },
-        { label: __("Under", 'itmar_block_collections'), value: 'under' },
+        { label: __("Upper", 'block-collections'), value: 'upper' },
+        { label: __("Left", 'block-collections'), value: 'left' },
+        { label: __("Right", 'block-collections'), value: 'right' },
+        { label: __("Under", 'block-collections'), value: 'under' },
       ]}
       onChange={(changeOption) => { onChange(changeOption) }
       }

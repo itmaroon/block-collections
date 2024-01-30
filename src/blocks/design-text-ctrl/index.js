@@ -17,29 +17,29 @@ const BlockEdit = (props) => {
 
 registerBlockType(metadata.name, {
 	icon: <TextBox />,
-	description: __('A block for styling text controls.', 'itmar_block_collections'),
+	description: __('A block for styling text controls.', 'block-collections'),
 	styles: [
 		{
 			name: "nomal",
-			label: __('Default', 'itmar_block_collections'),
+			label: __('Default', 'block-collections'),
 			isDefault: true
 		},
 		{
 			name: "line",
-			label: __('Line', 'itmar_block_collections')
+			label: __('Line', 'block-collections')
 		}
 	],
 	attributes: {
 		...metadata.attributes,
 		placeFolder: {
 			type: "string",
-			default: __('Please Input ...', 'itmar_block_collections')
+			default: __('Please Input ...', 'block-collections')
 		},
 		required: {
 			type: "object",
 			default: {
 				flg: false,
-				display: __('Required', 'itmar_block_collections'),
+				display: __('Required', 'block-collections'),
 			}
 		},
 	},

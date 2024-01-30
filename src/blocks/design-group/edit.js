@@ -154,9 +154,9 @@ export default function Edit(props) {
 		<>
 			{/* インスペクター領域内 */}
 			<InspectorControls group="settings">
-				<PanelBody title={__("Menu or Group", 'itmar_block_collections')} initialOpen={true} className="form_design_ctrl">
+				<PanelBody title={__("Menu or Group", 'block-collections')} initialOpen={true} className="form_design_ctrl">
 					<ToggleControl
-						label={__('Is Menu', 'itmar_block_collections')}
+						label={__('Is Menu', 'block-collections')}
 						checked={is_menu}
 						onChange={(newVal) => {
 							if (!isMenuBlockPresent) {
@@ -230,13 +230,23 @@ export default function Edit(props) {
 							setAttributes({ mobile_pos: { ...mobile_pos, grid_info: value } });
 						}
 					}}
+					onPositionChange={(value) => {
+						setAttributes({ positionType: value });
+					}}
+					onPosValueChange={(value) => {
+						if (!isMobile) {
+							setAttributes({ default_pos: { ...default_pos, posValue: value } });
+						} else {
+							setAttributes({ mobile_pos: { ...mobile_pos, posValue: value } });
+						}
+					}}
 				/>
 
-				<PanelBody title={__("Content Style", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
+				<PanelBody title={__("Content Style", 'block-collections')} initialOpen={false} className="form_design_ctrl">
 					<BoxControl
 						label={!isMobile ?
-							__("Padding settings(desk top)", 'itmar_block_collections')
-							: __("Padding settings(mobile)", 'itmar_block_collections')}
+							__("Padding settings(desk top)", 'block-collections')
+							: __("Padding settings(mobile)", 'block-collections')}
 						values={!isMobile ? default_pos.padding_content : mobile_pos.padding_content}
 						onChange={value => setAttributes(!isMobile ?
 							{ default_pos: { ...default_pos, padding_content: value } }
@@ -248,7 +258,7 @@ export default function Edit(props) {
 					/>
 
 					<ToggleControl
-						label={__('Is Shadow', 'itmar_block_collections')}
+						label={__('Is Shadow', 'block-collections')}
 						checked={is_shadow}
 						onChange={(newVal) => {
 							setAttributes({ is_shadow: newVal })
@@ -266,11 +276,11 @@ export default function Edit(props) {
 				</PanelBody>
 
 				<PanelBody
-					title={__("Position moveable", 'itmar_block_collections')}
+					title={__("Position moveable", 'block-collections')}
 					initialOpen={true}
 				>
 					<ToggleControl
-						label={__('make it moveable', 'itmar_block_collections')}
+						label={__('make it moveable', 'block-collections')}
 						checked={is_moveable}
 						onChange={(newVal) => {
 							setAttributes({ is_moveable: newVal })

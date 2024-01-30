@@ -14,6 +14,20 @@ export const space_prm = (space) => {
     ret_space_prm
   )
 }
+//スペースのパラメータを返す
+export const position_prm = (pos, type) => {
+  const ret_pos_prm = (pos && (type === 'absolute' || type === 'fixed' || type === 'sticky')) ?
+    `
+    ${pos.vertBase}: ${pos.vertValue}; 
+    ${pos.horBase}: ${pos.horValue};
+    ${(type === 'fixed' || type === 'sticky') ? 'z-index: 50;' : 'z-index: auto;'}
+  `
+    : '';
+
+  return (
+    ret_pos_prm
+  )
+}
 //ブロック幅を返す
 export const max_width_prm = (width, free_val) => {
   const ret_width_prm =

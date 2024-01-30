@@ -21,16 +21,16 @@ registerBlockType(metadata.name, {
 	styles: [
 		{
 			name: "default",
-			label: __("Default", 'itmar_block_collections'),
+			label: __("Default", 'block-collections'),
 			isDefault: true
 		},
 		{
 			name: "circle_marker",
-			label: __("Circle Marker", 'itmar_block_collections'),
+			label: __("Circle Marker", 'block-collections'),
 		},
 		{
 			name: "sub_copy",
-			label: __("Sub Copy", 'itmar_block_collections'),
+			label: __("Sub Copy", 'block-collections'),
 		}
 	],
 	attributes: {
@@ -40,7 +40,7 @@ registerBlockType(metadata.name, {
 			default: itmar_block_option.home_url
 		}
 	},
-	description: __("A block with various styles applied to heading tags", 'itmar_block_collections'),
+	description: __("A block with various styles applied to heading tags", 'block-collections'),
 	icon: <Title />,
 	edit: BlockEdit,
 	save,

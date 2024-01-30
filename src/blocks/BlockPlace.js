@@ -4,10 +4,14 @@ import { useState, useEffect } from '@wordpress/element';
 import {
   Button,
   PanelBody,
+  PanelRow,
+  __experimentalUnitControl as UnitControl,
+  ComboboxControl,
   Icon,
   ToolbarGroup,
   ToolbarItem,
   RangeControl,
+  RadioControl,
   Modal
 } from '@wordpress/components';
 import { group, stack, layout, justifyCenter, justifyLeft, justifyRight, justifySpaceBetween, justifyStretch, stretchWide, positionCenter } from '@wordpress/icons';
@@ -37,6 +41,7 @@ export default function BlockPlace(props) {
     isSubmenu
   } = props;
   const {
+    positionType,
     default_pos,
     mobile_pos
   } = attributes;
@@ -51,8 +56,8 @@ export default function BlockPlace(props) {
   const between_icon = sel_pos.direction === 'vertical' ? vert_between : justifyStretch;
   const around_icon = sel_pos.direction === 'vertical' ? vert_around : justifySpaceBetween;
   //ツールチップの選択
-  const start_tip = sel_pos.direction === 'vertical' ? __('upper alignment', 'itmar_block_collections') : __('left alignment', 'itmar_block_collections');
-  const end_tip = sel_pos.direction === 'vertical' ? __('lower alignment', 'itmar_block_collections') : __('right alignment', 'itmar_block_collections');
+  const start_tip = sel_pos.direction === 'vertical' ? __('upper alignment', 'block-collections') : __('left alignment', 'block-collections');
+  const end_tip = sel_pos.direction === 'vertical' ? __('lower alignment', 'block-collections') : __('right alignment', 'block-collections');
 
   const [isContainer, setIsContainer] = useState(false);
   const [direction, setDirection] = useState('row');
@@ -86,10 +91,10 @@ export default function BlockPlace(props) {
   const closeGridModal = () => setIsGridModalOpen(false);
 
   // 翻訳が必要な文字列を直接指定
-  const blockMaxWidthMobile = __('Block Max Width(Mobile)', 'itmar_block_collections');
-  const blockWidthMobile = __('Block Width(Mobile)', 'itmar_block_collections');
-  const blockMaxWidthDesktop = __('Block Max Width(DeskTop)', 'itmar_block_collections');
-  const blockWidthDesktop = __('Block Width(DeskTop)', 'itmar_block_collections');
+  const blockMaxWidthMobile = __('Block Max Width(Mobile)', 'block-collections');
+  const blockWidthMobile = __('Block Width(Mobile)', 'block-collections');
+  const blockMaxWidthDesktop = __('Block Max Width(DeskTop)', 'block-collections');
+  const blockWidthDesktop = __('Block Width(DeskTop)', 'block-collections');
 
   // 条件に応じて選択
   const blockWidthLabel = isMobile
@@ -100,14 +105,14 @@ export default function BlockPlace(props) {
   return (
     <>
       <PanelBody
-        title={__("Block placement", 'itmar_block_collections')}
+        title={__("Block placement", 'block-collections')}
         initialOpen={false}
         className='itmar_group_direction'
       >
         {isMobile ?
-          <p>{__('InnerBlock direction(Mobile)', 'itmar_block_collections')}</p>
+          <p>{__('InnerBlock direction(Mobile)', 'block-collections')}</p>
           :
-          <p>{__('InnerBlock direction(DeskTop)', 'itmar_block_collections')}</p>
+          <p>{__('InnerBlock direction(DeskTop)', 'block-collections')}</p>
         }
 
         <ToolbarGroup>
@@ -117,7 +122,7 @@ export default function BlockPlace(props) {
                 isPressed={sel_pos.direction === 'block'}
                 onClick={() => props.onDirectionChange('block')}
                 icon={group}
-                label={__('block', 'itmar_block_collections')}
+                label={__('block', 'block-collections')}
               />
 
             )}
@@ -128,7 +133,7 @@ export default function BlockPlace(props) {
                 isPressed={sel_pos.direction === 'vertical'}
                 onClick={() => props.onDirectionChange('vertical')}
                 icon={stack}
-                label={__('virtical', 'itmar_block_collections')}
+                label={__('virtical', 'block-collections')}
               />
             )}
           </ToolbarItem>
@@ -138,7 +143,7 @@ export default function BlockPlace(props) {
                 isPressed={sel_pos.direction === 'horizen'}
                 onClick={() => props.onDirectionChange('horizen')}
                 icon={flex}
-                label={__('horizen', 'itmar_block_collections')}
+                label={__('horizen', 'block-collections')}
               />
             )}
           </ToolbarItem>
@@ -148,7 +153,7 @@ export default function BlockPlace(props) {
                 isPressed={sel_pos.direction === 'grid'}
                 onClick={() => props.onDirectionChange('grid')}
                 icon={layout}
-                label={__('grid', 'itmar_block_collections')}
+                label={__('grid', 'block-collections')}
               />
             )}
           </ToolbarItem>
@@ -156,9 +161,9 @@ export default function BlockPlace(props) {
         {(sel_pos.direction !== 'block' && sel_pos.direction !== 'grid') &&
           <>
             {isMobile ?
-              <p>{__('InnerBlock alignment(Mobile)', 'itmar_block_collections')}</p>
+              <p>{__('InnerBlock alignment(Mobile)', 'block-collections')}</p>
               :
-              <p>{__('InnerBlock alignment(DeskTop)', 'itmar_block_collections')}</p>
+              <p>{__('InnerBlock alignment(DeskTop)', 'block-collections')}</p>
             }
             <ToolbarGroup>
               <ToolbarItem>
@@ -178,7 +183,7 @@ export default function BlockPlace(props) {
                     isPressed={sel_pos.inner_align === 'center'}
                     onClick={() => props.onFlexChange('center')}//親コンポーネントに通知
                     icon={center_icon}
-                    label={__('center alignment', 'itmar_block_collections')}
+                    label={__('center alignment', 'block-collections')}
                   />
                 )}
               </ToolbarItem>
@@ -198,7 +203,7 @@ export default function BlockPlace(props) {
                     isPressed={sel_pos.inner_align === 'space-between'}
                     onClick={() => props.onFlexChange('space-between')}//親コンポーネントに通知
                     icon={between_icon}
-                    label={__('beteen stretch', 'itmar_block_collections')}
+                    label={__('beteen stretch', 'block-collections')}
                   />
 
                 )}
@@ -209,7 +214,7 @@ export default function BlockPlace(props) {
                     isPressed={sel_pos.inner_align === 'space-around'}
                     onClick={() => props.onFlexChange('space-around')}//親コンポーネントに通知
                     icon={around_icon}
-                    label={__('around stretch', 'itmar_block_collections')}
+                    label={__('around stretch', 'block-collections')}
                   />
 
                 )}
@@ -220,9 +225,9 @@ export default function BlockPlace(props) {
 
         {(!isContainer && !isSubmenu) && (
           isMobile ?
-            <p>{__('Block alignment(Mobile)', 'itmar_block_collections')}</p>
+            <p>{__('Block alignment(Mobile)', 'block-collections')}</p>
             :
-            <p>{__('Block alignment(DeskTop)', 'itmar_block_collections')}</p>
+            <p>{__('Block alignment(DeskTop)', 'block-collections')}</p>
         )}
 
         {(!isContainer && !isSubmenu) &&
@@ -233,7 +238,7 @@ export default function BlockPlace(props) {
                   isPressed={sel_pos.outer_align === 'left'}
                   onClick={() => props.onAlignChange('left')}
                   icon={justifyLeft}
-                  label={__('left alignment', 'itmar_block_collections')}
+                  label={__('left alignment', 'block-collections')}
                 />
 
               )}
@@ -244,7 +249,7 @@ export default function BlockPlace(props) {
                   isPressed={sel_pos.outer_align === 'center'}
                   onClick={() => props.onAlignChange('center')}
                   icon={justifyCenter}
-                  label={__('center alignment', 'itmar_block_collections')}
+                  label={__('center alignment', 'block-collections')}
                 />
               )}
             </ToolbarItem>
@@ -254,7 +259,7 @@ export default function BlockPlace(props) {
                   isPressed={sel_pos.outer_align === 'right'}
                   onClick={() => props.onAlignChange('right')}
                   icon={justifyRight}
-                  label={__('right alignment', 'itmar_block_collections')}
+                  label={__('right alignment', 'block-collections')}
                 />
               )}
             </ToolbarItem>
@@ -264,9 +269,9 @@ export default function BlockPlace(props) {
         {isContainer &&
           <>
             {isMobile ?
-              <p>{__('Block alignment(Mobile)', 'itmar_block_collections')}</p>
+              <p>{__('Block alignment(Mobile)', 'block-collections')}</p>
               :
-              <p>{__('Block alignment(DeskTop)', 'itmar_block_collections')}</p>
+              <p>{__('Block alignment(DeskTop)', 'block-collections')}</p>
             }
 
             <ToolbarGroup>
@@ -276,7 +281,7 @@ export default function BlockPlace(props) {
                     isPressed={sel_pos.outer_vertical === 'self-start'}
                     onClick={() => props.onVerticalChange('self-start')}
                     icon={direction === 'row' ? upper : justifyLeft}
-                    label={__('upper alignment', 'itmar_block_collections')}
+                    label={__('upper alignment', 'block-collections')}
                   />
 
                 )}
@@ -287,7 +292,7 @@ export default function BlockPlace(props) {
                     isPressed={sel_pos.outer_vertical === 'center'}
                     onClick={() => props.onVerticalChange('center')}
                     icon={direction === 'row' ? middle : justifyCenter}
-                    label={__('center alignment', 'itmar_block_collections')}
+                    label={__('center alignment', 'block-collections')}
                   />
                 )}
               </ToolbarItem>
@@ -297,7 +302,7 @@ export default function BlockPlace(props) {
                     isPressed={sel_pos.outer_vertical === 'self-end'}
                     onClick={() => props.onVerticalChange('self-end')}
                     icon={direction === 'row' ? lower : justifyRight}
-                    label={__('lower alignment', 'itmar_block_collections')}
+                    label={__('lower alignment', 'block-collections')}
                   />
                 )}
               </ToolbarItem>
@@ -334,7 +339,7 @@ export default function BlockPlace(props) {
                 isPressed={sel_pos.width_val === 'wideSize'}
                 onClick={() => props.onWidthChange('wideSize')}
                 icon={stretchWide}
-                label={__('Wide Size', 'itmar_block_collections')}
+                label={__('Wide Size', 'block-collections')}
               />
 
             )}
@@ -345,7 +350,7 @@ export default function BlockPlace(props) {
                 isPressed={sel_pos.width_val === 'contentSize'}
                 onClick={() => props.onWidthChange('contentSize')}
                 icon={positionCenter}
-                label={__('Content Size', 'itmar_block_collections')}
+                label={__('Content Size', 'block-collections')}
               />
 
             )}
@@ -365,7 +370,7 @@ export default function BlockPlace(props) {
         {sel_pos.width_val === 'free' &&
           <RangeControl
             value={sel_pos.free_val}
-            label={__("Max width", 'itmar_block_collections')}
+            label={__("Max width", 'block-collections')}
             max={1800}
             min={300}
             step={10}
@@ -378,12 +383,12 @@ export default function BlockPlace(props) {
         {sel_pos.direction === 'grid' &&
           <>
             {isMobile ?
-              <p>{__('Grid Info settings(Mobile)', 'itmar_block_collections')}</p>
+              <p>{__('Grid Info settings(Mobile)', 'block-collections')}</p>
               :
-              <p>{__('Grid Info settings(DeskTop)', 'itmar_block_collections')}</p>
+              <p>{__('Grid Info settings(DeskTop)', 'block-collections')}</p>
             }
             <Button variant="primary" onClick={openGridModal}>
-              {__("Open Setting Modal", 'itmar_block_collections')}
+              {__("Open Setting Modal", 'block-collections')}
             </Button>
             {isGridModalOpen && (
               <Modal title="Grid Info settings" onRequestClose={closeGridModal}>
@@ -397,6 +402,87 @@ export default function BlockPlace(props) {
               </Modal>
             )}
           </>
+        }
+        <div className='itmar_title_type'>
+          <RadioControl
+            label={__("Position Type", 'block-collections')}
+            selected={positionType}
+            options={[
+              { label: __("Static", 'block-collections'), value: 'staic' },
+              { label: __("Relative", 'block-collections'), value: 'relative' },
+              { label: __("Absolute", 'block-collections'), value: 'absolute' },
+              { label: __("Fix", 'block-collections'), value: 'fixed' },
+              { label: __("Sticky", 'block-collections'), value: 'sticky' }
+            ]}
+            onChange={(newVal) => {
+              props.onPositionChange(newVal)
+            }}
+          />
+        </div>
+        {(positionType === 'absolute' || positionType === 'fixed' || positionType === 'sticky') &&
+          <>
+            {isMobile ?
+              <p>{__('Block Position(Mobile)', 'block-collections')}</p>
+              :
+              <p>{__('Block Position(DeskTop)', 'block-collections')}</p>
+            }
+            <PanelRow className='position_row'>
+              <ComboboxControl
+                label={__("Vertical", 'block-collections')}
+                options={[
+                  { value: 'top', label: 'Top' },
+                  { value: 'bottom', label: 'Bottom' }
+                ]}
+                value={sel_pos.posValue?.vertBase || 'top'}
+                onChange={
+                  (newValue) => {
+                    const newValObj = { ...(sel_pos.posValue || {}), vertBase: newValue }
+                    props.onPosValueChange(newValObj)
+                  }
+                }
+              />
+              <UnitControl
+                dragDirection="e"
+                onChange={
+                  (newValue) => {
+                    const newValObj = { ...(sel_pos.posValue || {}), vertValue: newValue }
+                    props.onPosValueChange(newValObj)
+                  }
+                }
+                value={sel_pos.posValue?.vertValue || '3em'}
+              />
+
+            </PanelRow>
+            <PanelRow className='position_row'>
+              <ComboboxControl
+                label={__("Horizon", 'block-collections')}
+                options={[
+                  { value: 'left', label: 'Left' },
+                  { value: 'right', label: 'Right' }
+                ]}
+                value={sel_pos.posValue?.horBase || 'left'}
+                onChange={
+                  (newValue) => {
+                    const newValObj = { ...(sel_pos.posValue || {}), horBase: newValue }
+                    props.onPosValueChange(newValObj)
+                  }
+                }
+              />
+              <UnitControl
+                dragDirection="e"
+                onChange={
+                  (newValue) => {
+                    const newValObj = { ...(sel_pos.posValue || {}), horValue: newValue }
+                    props.onPosValueChange(newValObj)
+                  }
+                }
+                value={sel_pos.posValue?.horValue || '3em'}
+              />
+
+            </PanelRow>
+
+          </>
+
         }
       </PanelBody >
 

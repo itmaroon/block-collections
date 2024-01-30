@@ -49,7 +49,7 @@
     },
     "th_color": {
       "type": "string",
-      "default": "var(--wp--preset--color--text)"
+      "default": "var(--wp--preset--color--content)"
     },
     "bgColor_th": {
       "type": "string",
@@ -60,7 +60,7 @@
     },
     "td_color": {
       "type": "string",
-      "default": "var(--wp--preset--color--text)"
+      "default": "var(--wp--preset--color--content)"
     },
     "bgColor_td": {
       "type": "string",
@@ -84,7 +84,7 @@
       "default": {
         "width": "1px",
         "style": "solid",
-        "color": "var(--wp--preset--color--text)"
+        "color": "var(--wp--preset--color--content)"
       }
     },
     "default_pos": {
@@ -196,7 +196,7 @@
       "default": false
     }
   },
-  "textdomain": "itmar_block_collections",
+  "textdomain": "block-collections",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"

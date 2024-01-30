@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { radius_prm, space_prm, convertToScss } from '../cssPropertes';
 
 export const StyleComp = ({ attributes, children }) => {
+
   return (
     < StyledDiv id={attributes.headingID} attributes={attributes} >
       {children}
@@ -16,6 +17,7 @@ const StyledDiv = styled.div`
       headingType,
       isMenuItem,
       padding_heading,
+      isVertical,
       optionStyle,
       shadow_result,
       is_shadow,
@@ -29,7 +31,7 @@ const StyledDiv = styled.div`
     } = attributes;
 
     //単色かグラデーションかテーマ色かの選択
-    const bgUnderLine = bgColor_underLine || bgGradient_underLine || 'var(--wp--preset--color--text)';
+    const bgUnderLine = bgColor_underLine || bgGradient_underLine || 'var(--wp--preset--color--content)';
 
 
     //ボックスシャドーの設定
@@ -104,10 +106,12 @@ const StyledDiv = styled.div`
 
     const wrap = isMenuItem ? 'nowrap !important' : 'pre-wrap';
 
+    const vertical_style = isVertical ? 'writing-mode: vertical-rl;text-orientation: upright;' : '';
+
     // 共通のスタイルをここで定義します
     const commonStyle = css`
       position: relative;
-      z-index: 10;
+      z-index:10;
       ${headingType}{
         position: relative;
         padding: ${render_padding};
@@ -116,6 +120,7 @@ const StyledDiv = styled.div`
         font-weight: inherit;
         ${underLine};
         ${box_shadow_style};
+        ${vertical_style};
       }
       a{
         text-decoration: none !important;
@@ -127,7 +132,7 @@ const StyledDiv = styled.div`
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: var(--wp--preset--color--text);
+            background: var(--wp--preset--color--content);
             ${arrow_direction}
           }
         }

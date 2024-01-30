@@ -268,14 +268,22 @@
   cursor: move !important;
 }
 
-.components-panel__row.distance_row {
+.components-panel__body.is-opened {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.components-panel__row.distance_row, .components-panel__row.position_row {
   align-items: baseline;
   -moz-column-gap: 10px;
        column-gap: 10px;
   max-width: 500px;
 }
-.components-panel__row.distance_row .components-base-control {
+.components-panel__row.distance_row .components-base-control, .components-panel__row.position_row .components-base-control {
   margin-bottom: 0;
+}
+.components-panel__row.position_row {
+  align-items: flex-end;
 }
 .components-panel__row.reset_row {
   justify-content: end;
@@ -370,7 +378,7 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: var(--wp--preset--color--text);
+  background-color: var(--wp--preset--color--content);
   border-radius: 4px;
   display: inline-block;
   transition: all 0.5s;

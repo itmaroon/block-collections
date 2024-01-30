@@ -15,7 +15,7 @@ const BlockEdit = (props) => {
 };
 
 registerBlockType(metadata.name, {
-	description: __("A block for designing select elements", 'itmar_block_collections'),
+	description: __("A block for designing select elements", 'block-collections'),
 	icon: <Select />,
 	attributes: {
 		...metadata.attributes,
@@ -23,12 +23,12 @@ registerBlockType(metadata.name, {
 			type: "object",
 			default: {
 				flg: false,
-				display: __('Required', 'itmar_block_collections'),
+				display: __('Required', 'block-collections'),
 			}
 		},
 		folder_val: {
 			type: "string",
-			default: __('Please Select.', 'itmar_block_collections'),
+			default: __('Please Select.', 'block-collections'),
 		},
 	},
 	edit: BlockEdit,

@@ -81,6 +81,10 @@
       "type": "string",
       "default": "left"
     },
+    "isVertical": {
+      "type": "boolean",
+      "default": false
+    },
     "padding_heading": {
       "type": "object",
       "default": {
@@ -145,7 +149,7 @@
       "type": "string"
     }
   },
-  "textdomain": "itmar_block_collections",
+  "textdomain": "block-collections",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"

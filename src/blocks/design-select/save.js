@@ -37,7 +37,7 @@ export default function save({ attributes }) {
 						data-placeholder={folder_val}
 					>
 						{selPattern === 'single' &&
-							<option value="">{__("Please Select.", 'itmar_block_collections')}</option>
+							<option value="">{__("Please Select.", 'block-collections')}</option>
 						}
 						{
 							selectValues.map((option_item) => {

@@ -112,7 +112,7 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 					}
 					value={labelContent}
-					placeholder={__('Write Checkbox Label...', 'itmar_block_collections')}
+					placeholder={__('Write Checkbox Label...', 'block-collections')}
 				/>
 			</>
 		)
@@ -121,43 +121,43 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title={__("Input element information setting", 'itmar_block_collections')} initialOpen={true} className="form_setteing_ctrl">
+				<PanelBody title={__("Input element information setting", 'block-collections')} initialOpen={true} className="form_setteing_ctrl">
 					<TextControl
-						label={__("name attribute name", 'itmar_block_collections')}
+						label={__("name attribute name", 'block-collections')}
 						value={inputName}
-						help={__("When using another design-checkbox as one of the options as an inner block, please use the same name.", 'itmar_block_collections')}
+						help={__("When using another design-checkbox as one of the options as an inner block, please use the same name.", 'block-collections')}
 						onChange={(newVal) => setAttributes({ inputName: newVal })}
 					/>
 					<ToggleControl
-						label={__('Check to proceed', 'itmar_block_collections')}
+						label={__('Check to proceed', 'block-collections')}
 						checked={proceedCheck}
 						onChange={(newValue) => setAttributes({ proceedCheck: newValue })}
-						help={__("When it is the inner block of the block where the submit button is placed, the submit button is enabled by checking it.", 'itmar_block_collections')}
+						help={__("When it is the inner block of the block where the submit button is placed, the submit button is enabled by checking it.", 'block-collections')}
 					/>
 				</PanelBody>
 			</InspectorControls>
 			<InspectorControls group="styles">
 
-				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
+				<PanelBody title={__("Global settings", 'block-collections')} initialOpen={false} className="check_design_ctrl">
 					<PanelColorGradientSettings
-						title={__("Background Color Setting", 'itmar_block_collections')}
+						title={__("Background Color Setting", 'block-collections')}
 						settings={[
 							{
 								colorValue: bgColor,
-								label: __("Choose Block Background color", 'itmar_block_collections'),
+								label: __("Choose Block Background color", 'block-collections'),
 								onColorChange: (newValue) => setAttributes({ bgColor: newValue })
 							},
 							{
 								colorValue: bgColor_form,
-								label: __("Choose Input Background color", 'itmar_block_collections'),
+								label: __("Choose Input Background color", 'block-collections'),
 								onColorChange: (newValue) => setAttributes({ bgColor_form: newValue })
 							},
 						]}
 					/>
 					<BoxControl
 						label={!isMobile ?
-							__("Margin settings(desk top)", 'itmar_block_collections')
-							: __("Margin settings(mobile)", 'itmar_block_collections')
+							__("Margin settings(desk top)", 'block-collections')
+							: __("Margin settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.margin_value : mobile_pos.margin_value}
 						onChange={value => {
@@ -174,8 +174,8 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 					<BoxControl
 						label={!isMobile ?
-							__("Padding settings(desk top)", 'itmar_block_collections')
-							: __("Padding settings(mobile)", 'itmar_block_collections')
+							__("Padding settings(desk top)", 'block-collections')
+							: __("Padding settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.padding_value : mobile_pos.padding_value}
 						onChange={value => {
@@ -191,7 +191,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 					/>
 
-					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'block-collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 							onChange={(newValue) => setAttributes({ border_heading: newValue })}
 							value={border_heading}
@@ -205,7 +205,7 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 					</PanelBody>
 					<ToggleControl
-						label={__('Is Shadow', 'itmar_block_collections')}
+						label={__('Is Shadow', 'block-collections')}
 						checked={is_shadow}
 						onChange={(newVal) => {
 							setAttributes({ is_shadow: newVal })
@@ -221,26 +221,26 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 					}
 				</PanelBody>
-				<PanelBody title={__("Input style settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
+				<PanelBody title={__("Input style settings", 'block-collections')} initialOpen={false} className="check_design_ctrl">
 					<PanelColorGradientSettings
-						title={__("Input Color Setting", 'itmar_block_collections')}
+						title={__("Input Color Setting", 'block-collections')}
 						settings={[{
 							colorValue: boxColor,
-							label: __("Choose Input color", 'itmar_block_collections'),
+							label: __("Choose Input color", 'block-collections'),
 							onColorChange: (newValue) => setAttributes({ boxColor: newValue }),
 						},
 						{
 							colorValue: boxBgColor,
-							label: __("Choose Input Background color", 'itmar_block_collections'),
+							label: __("Choose Input Background color", 'block-collections'),
 							onColorChange: (newValue) => setAttributes({ boxBgColor: newValue }),
 						},
 						]}
 					/>
 
 				</PanelBody>
-				<PanelBody title={__("Label style settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
+				<PanelBody title={__("Label style settings", 'block-collections')} initialOpen={false} className="check_design_ctrl">
 					<TypographyControls
-						title={__('Typography', 'itmar_block_collections')}
+						title={__('Typography', 'block-collections')}
 						fontStyle={font_style_label}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_label: newStyle })
@@ -249,10 +249,10 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 
 					<PanelColorGradientSettings
-						title={__("Label Color Setting", 'itmar_block_collections')}
+						title={__("Label Color Setting", 'block-collections')}
 						settings={[{
 							colorValue: labelColor,
-							label: __("Choose Text color", 'itmar_block_collections'),
+							label: __("Choose Text color", 'block-collections'),
 							onColorChange: (newValue) => setAttributes({ labelColor: newValue }),
 						},
 						]}

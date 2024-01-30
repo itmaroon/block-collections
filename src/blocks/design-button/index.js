@@ -12,7 +12,7 @@ import { ReactComponent as Button } from './button.svg';
 
 registerBlockType(metadata.name, {
 	icon: <Button />,
-	description: __("A block that decorates buttons with designs.", 'itmar_block_collections'),
+	description: __("A block that decorates buttons with designs.", 'block-collections'),
 	attributes: {
 		...metadata.attributes,
 		selectedPageUrl: {

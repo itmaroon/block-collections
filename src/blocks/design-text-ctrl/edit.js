@@ -140,17 +140,17 @@ export default function Edit(props) {
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title={__("Input element information setting", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
+				<PanelBody title={__("Input element information setting", 'block-collections')} initialOpen={true} className="title_design_ctrl">
 					<PanelRow>
 						<TextControl
-							label={__("name attribute name", 'itmar_block_collections')}
+							label={__("name attribute name", 'block-collections')}
 							value={inputName}
 							onChange={(newVal) => setAttributes({ inputName: newVal })}
 						/>
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label={__("PlaceHolder", 'itmar_block_collections')}
+							label={__("PlaceHolder", 'block-collections')}
 							value={placeFolder}
 							isPressEnterToChange
 							onChange={(newVal) => setAttributes({ placeFolder: newVal })}
@@ -159,7 +159,7 @@ export default function Edit(props) {
 					<PanelRow className='itmar_weight_row'>
 						<RadioControl
 							selected={inputType}
-							label={__("Kind of Input Element", 'itmar_block_collections')}
+							label={__("Kind of Input Element", 'block-collections')}
 							options={[
 								{ label: 'TEXT', value: "text" },
 								{ label: 'E-MAIL', value: "email" },
@@ -171,31 +171,31 @@ export default function Edit(props) {
 				</PanelBody>
 			</InspectorControls>
 			<InspectorControls group="styles">
-				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
+				<PanelBody title={__("Global settings", 'block-collections')} initialOpen={false} className="title_design_ctrl">
 					<PanelColorGradientSettings
-						title={__("Background Color Setting", 'itmar_block_collections')}
+						title={__("Background Color Setting", 'block-collections')}
 						settings={[
 							{
 								colorValue: bgColor,
-								label: __("Choose Background color", 'itmar_block_collections'),
+								label: __("Choose Background color", 'block-collections'),
 								onColorChange: (newValue) => setAttributes({ bgColor: newValue }),
 							},
 						]}
 					/>
 					<PanelColorGradientSettings
-						title={__("Focus Color Setting", 'itmar_block_collections')}
+						title={__("Focus Color Setting", 'block-collections')}
 						settings={[
 							{
 								colorValue: focusColor,
-								label: __("Choose Focus color", 'itmar_block_collections'),
+								label: __("Choose Focus color", 'block-collections'),
 								onColorChange: (newValue) => setAttributes({ focusColor: newValue }),
 							},
 						]}
 					/>
 					<BoxControl
 						label={!isMobile ?
-							__("Margin settings(desk top)", 'itmar_block_collections')
-							: __("Margin settings(mobile)", 'itmar_block_collections')
+							__("Margin settings(desk top)", 'block-collections')
+							: __("Margin settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.margin_input : mobile_pos.margin_input}
 						onChange={value => {
@@ -211,8 +211,8 @@ export default function Edit(props) {
 					/>
 					<BoxControl
 						label={!isMobile ?
-							__("Padding settings(desk top)", 'itmar_block_collections')
-							: __("Padding settings(mobile)", 'itmar_block_collections')
+							__("Padding settings(desk top)", 'block-collections')
+							: __("Padding settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.padding_input : mobile_pos.padding_input}
 						onChange={value => {
@@ -228,7 +228,7 @@ export default function Edit(props) {
 
 					/>
 					<ToggleControl
-						label={__('Is Shadow', 'itmar_block_collections')}
+						label={__('Is Shadow', 'block-collections')}
 						checked={is_shadow}
 						onChange={(newVal) => {
 							setAttributes({ is_shadow: newVal })
@@ -244,10 +244,10 @@ export default function Edit(props) {
 						/>
 					}
 				</PanelBody>
-				<PanelBody title={__("Input Box style settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
+				<PanelBody title={__("Input Box style settings", 'block-collections')} initialOpen={false} className="title_design_ctrl">
 
 					<TypographyControls
-						title={__('Typography', 'itmar_block_collections')}
+						title={__('Typography', 'block-collections')}
 						fontStyle={font_style_input}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_input: newStyle })
@@ -255,23 +255,23 @@ export default function Edit(props) {
 						initialOpen={false}
 					/>
 					<PanelColorGradientSettings
-						title={__("Color Settings", 'itmar_block_collections')}
+						title={__("Color Settings", 'block-collections')}
 						settings={[{
 							colorValue: textColor_input,
-							label: __("Choose Text color", 'itmar_block_collections'),
+							label: __("Choose Text color", 'block-collections'),
 							onColorChange: (newValue) => setAttributes({ textColor_input: newValue }),
 						},
 						{
 							colorValue: bgColor_input,
 							gradientValue: bgGradient_input,
 
-							label: __("Choose Background color", 'itmar_block_collections'),
+							label: __("Choose Background color", 'block-collections'),
 							onColorChange: (newValue) => setAttributes({ bgColor_input: newValue }),
 							onGradientChange: (newValue) => setAttributes({ bgGradient_input: newValue }),
 						},
 						]}
 					/>
-					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'block-collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 
 							onChange={(newValue) => setAttributes({ border_input: newValue })}

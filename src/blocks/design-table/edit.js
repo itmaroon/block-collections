@@ -317,7 +317,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 													}
 												}
 												value={tableHeading[index]}
-												placeholder={__('Enter header...', 'itmar_block_collections')}
+												placeholder={__('Enter header...', 'block-collections')}
 
 											/>
 											{index !== tableSource[0].cells.length - 1 && (
@@ -364,11 +364,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title={__("Table Structure setting", 'itmar_block_collections')} initialOpen={true} className="form_setteing_ctrl">
+				<PanelBody title={__("Table Structure setting", 'block-collections')} initialOpen={true} className="form_setteing_ctrl">
 					<ComboboxControl
-						label={__("Form Object name", 'itmar_block_collections')}
+						label={__("Form Object name", 'block-collections')}
 						value={dataSource}
-						help={__("Please specify the form object that will be the data source for the table.", 'itmar_block_collections')}
+						help={__("Please specify the form object that will be the data source for the table.", 'block-collections')}
 						options={dataSources}
 						onChange={(newValue) => {
 							setAttributes({ dataSource: newValue });
@@ -376,31 +376,31 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 					/>
 					<ToggleControl
-						label={__('table header', 'itmar_block_collections')}
+						label={__('table header', 'block-collections')}
 						checked={is_heading}
 						onChange={(newValue) => setAttributes({ is_heading: newValue })}
-						help={__("Turn this on if you want to add a table header.", 'itmar_block_collections')}
+						help={__("Turn this on if you want to add a table header.", 'block-collections')}
 					/>
 				</PanelBody>
 			</InspectorControls>
 
 			<InspectorControls group="styles">
 
-				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
+				<PanelBody title={__("Global settings", 'block-collections')} initialOpen={false} className="check_design_ctrl">
 					<PanelColorGradientSettings
-						title={__("Background Color Setting", 'itmar_block_collections')}
+						title={__("Background Color Setting", 'block-collections')}
 						settings={[
 							{
 								colorValue: bgColor,
-								label: __("Choose Block Background color", 'itmar_block_collections'),
+								label: __("Choose Block Background color", 'block-collections'),
 								onColorChange: (newValue) => setAttributes({ bgColor: newValue })
 							}
 						]}
 					/>
 					<BoxControl
 						label={!isMobile ?
-							__("Margin settings(desk top)", 'itmar_block_collections')
-							: __("Margin settings(mobile)", 'itmar_block_collections')
+							__("Margin settings(desk top)", 'block-collections')
+							: __("Margin settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.margin_value : mobile_pos.margin_value}
 						onChange={value => {
@@ -417,8 +417,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 					<BoxControl
 						label={!isMobile ?
-							__("Padding settings(desk top)", 'itmar_block_collections')
-							: __("Padding settings(mobile)", 'itmar_block_collections')
+							__("Padding settings(desk top)", 'block-collections')
+							: __("Padding settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.padding_value : mobile_pos.padding_value}
 						onChange={value => {
@@ -433,7 +433,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
-					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'block-collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
 							onChange={(newValue) => setAttributes({ border_value: newValue })}
@@ -448,7 +448,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						/>
 					</PanelBody>
 					<ToggleControl
-						label={__('Is Shadow', 'itmar_block_collections')}
+						label={__('Is Shadow', 'block-collections')}
 						checked={is_shadow}
 						onChange={(newVal) => {
 							setAttributes({ is_shadow: newVal })
@@ -466,7 +466,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					{className === 'is-style-stripe' &&
 						<RangeControl
 							value={intensity}
-							label={__("Striped Contrast", 'itmar_block_collections')}
+							label={__("Striped Contrast", 'block-collections')}
 							max={100}
 							min={0}
 							onChange={(val) => setAttributes({ intensity: val })}
@@ -475,9 +475,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					}
 				</PanelBody>
 
-				<PanelBody title={__("Heading style settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
+				<PanelBody title={__("Heading style settings", 'block-collections')} initialOpen={false} className="check_design_ctrl">
 					<TypographyControls
-						title={__('Typography', 'itmar_block_collections')}
+						title={__('Typography', 'block-collections')}
 						fontStyle={font_style_th}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_th: newStyle })
@@ -486,18 +486,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 
 					<PanelColorGradientSettings
-						title={__("Heading Color Setting", 'itmar_block_collections')}
+						title={__("Heading Color Setting", 'block-collections')}
 						settings={[
 							{
 								colorValue: th_color,
-								label: __("Choose Text color", 'itmar_block_collections'),
+								label: __("Choose Text color", 'block-collections'),
 								onColorChange: (newValue) => setAttributes({ th_color: newValue }),
 							},
 							{
 								colorValue: bgColor_th,
 								gradientValue: bgGradient_th,
 
-								label: __("Choose Background color", 'itmar_block_collections'),
+								label: __("Choose Background color", 'block-collections'),
 								onColorChange: (newValue) => {
 									setAttributes({ bgColor_th: newValue === undefined ? '' : newValue });
 								},
@@ -508,8 +508,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					<RangeControl
 						value={!isMobile ? default_pos.headding_min_width : mobile_pos.headding_min_width}
 						label={!isMobile ?
-							__("Minimum heading width(PX)(desk top)", 'itmar_block_collections')
-							: __("Minimum heading width(PX)(mobile)", 'itmar_block_collections')
+							__("Minimum heading width(PX)(desk top)", 'block-collections')
+							: __("Minimum heading width(PX)(mobile)", 'block-collections')
 						}
 						onChange={value => {
 							if (!isMobile) {
@@ -525,8 +525,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 					<BoxControl
 						label={!isMobile ?
-							__("Padding settings(desk top)", 'itmar_block_collections')
-							: __("Padding settings(mobile)", 'itmar_block_collections')
+							__("Padding settings(desk top)", 'block-collections')
+							: __("Padding settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.padding_th : mobile_pos.padding_th}
 						onChange={value => {
@@ -544,9 +544,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 				</PanelBody>
 
-				<PanelBody title={__("Data style settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
+				<PanelBody title={__("Data style settings", 'block-collections')} initialOpen={false} className="check_design_ctrl">
 					<TypographyControls
-						title={__('Typography', 'itmar_block_collections')}
+						title={__('Typography', 'block-collections')}
 						fontStyle={font_style_td}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_td: newStyle })
@@ -555,18 +555,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 
 					<PanelColorGradientSettings
-						title={__("Data Color Setting", 'itmar_block_collections')}
+						title={__("Data Color Setting", 'block-collections')}
 						settings={[
 							{
 								colorValue: td_color,
-								label: __("Choose Text color", 'itmar_block_collections'),
+								label: __("Choose Text color", 'block-collections'),
 								onColorChange: (newValue) => setAttributes({ td_color: newValue }),
 							},
 							{
 								colorValue: bgColor_td,
 								gradientValue: bgGradient_td,
 
-								label: __("Choose Background color", 'itmar_block_collections'),
+								label: __("Choose Background color", 'block-collections'),
 								onColorChange: (newValue) => {
 									setAttributes({ bgColor_td: newValue === undefined ? '' : newValue });
 								},
@@ -576,8 +576,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 					<BoxControl
 						label={!isMobile ?
-							__("Padding settings(desk top)", 'itmar_block_collections')
-							: __("Padding settings(mobile)", 'itmar_block_collections')
+							__("Padding settings(desk top)", 'block-collections')
+							: __("Padding settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.padding_td : mobile_pos.padding_td}
 						onChange={value => {

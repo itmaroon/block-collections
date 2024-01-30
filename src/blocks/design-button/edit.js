@@ -120,7 +120,7 @@ export default function Edit({ attributes, setAttributes }) {
 									}
 								}
 								value={labelContent}
-								placeholder={__('Button Name...', 'itmar_block_collections')}
+								placeholder={__('Button Name...', 'block-collections')}
 							/>
 						}
 						{displayType === 'image' &&
@@ -150,14 +150,14 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title={__("Button Type setting", 'itmar_block_collections')} initialOpen={true} className="form_setteing_ctrl">
-					<label className="components-base-control__label">{__("Select Button Type", 'itmar_block_collections')}</label>
+				<PanelBody title={__("Button Type setting", 'block-collections')} initialOpen={true} className="form_setteing_ctrl">
+					<label className="components-base-control__label">{__("Select Button Type", 'block-collections')}</label>
 					<PanelRow className='itmar_select_row'>
 						<RadioControl
 							selected={buttonType}
 							options={[
-								{ label: __("Button", 'itmar_block_collections'), value: 'button' },
-								{ label: __("Submit", 'itmar_block_collections'), value: 'submit' },
+								{ label: __("Button", 'block-collections'), value: 'button' },
+								{ label: __("Submit", 'block-collections'), value: 'submit' },
 							]}
 							onChange={(changeOption) => { setAttributes({ buttonType: changeOption }); }
 							}
@@ -166,15 +166,15 @@ export default function Edit({ attributes, setAttributes }) {
 					{buttonType === 'button' &&
 						<div className='itmar_link_type'>
 							<RadioControl
-								label={__("Link type", 'itmar_block_collections')}
+								label={__("Link type", 'block-collections')}
 								selected={linkKind}
 								options={[
-									{ label: __("Fixed Page", 'itmar_block_collections'), value: 'fixed' },
-									{ label: __("Archive Page", 'itmar_block_collections'), value: 'archive' },
-									{ label: __("Free URL", 'itmar_block_collections'), value: 'free' },
+									{ label: __("Fixed Page", 'block-collections'), value: 'fixed' },
+									{ label: __("Archive Page", 'block-collections'), value: 'archive' },
+									{ label: __("Free URL", 'block-collections'), value: 'free' },
 								]}
 								onChange={(changeOption) => setAttributes({ linkKind: changeOption })}
-								help={__("You can select the type of URL to link to the button.", 'itmar_block_collections')}
+								help={__("You can select the type of URL to link to the button.", 'block-collections')}
 							/>
 						</div>
 					}
@@ -183,7 +183,7 @@ export default function Edit({ attributes, setAttributes }) {
 						<PageSelectControl
 							attributes={attributes}
 							setAttributes={setAttributes}
-							label={__("Select a fixed page to link to", 'itmar_block_collections')}
+							label={__("Select a fixed page to link to", 'block-collections')}
 							homeUrl={itmar_block_option.home_url}
 						/>
 
@@ -192,14 +192,14 @@ export default function Edit({ attributes, setAttributes }) {
 						<ArchiveSelectControl
 							attributes={attributes}
 							setAttributes={setAttributes}
-							label={__("Select archive page to link to", 'itmar_block_collections')}
+							label={__("Select archive page to link to", 'block-collections')}
 							homeUrl={itmar_block_option.home_url}
 						/>
 
 					}
 					{(buttonType === 'button' && linkKind === 'free') &&
 						<TextControl
-							label={__("Link to URL", 'itmar_block_collections')}
+							label={__("Link to URL", 'block-collections')}
 							labelPosition="top"
 							value={selectedPageUrl}
 							onChange={(newValue) => {
@@ -213,12 +213,12 @@ export default function Edit({ attributes, setAttributes }) {
 					{buttonType === 'submit' &&
 						<>
 							<TextControl
-								label={__("Button Label", 'itmar_block_collections')}
+								label={__("Button Label", 'block-collections')}
 								value={labelContent}
 								onChange={(newVal) => setAttributes({ labelContent: newVal })}
 							/>
 							<TextControl
-								label={__("Button ID", 'itmar_block_collections')}
+								label={__("Button ID", 'block-collections')}
 								value={buttonId}
 								onChange={(newVal) => setAttributes({ buttonId: newVal })}
 							/>
@@ -226,14 +226,14 @@ export default function Edit({ attributes, setAttributes }) {
 
 					}
 				</PanelBody>
-				<PanelBody title={__("Display Type setting", 'itmar_block_collections')} initialOpen={true} className="form_setteing_ctrl">
+				<PanelBody title={__("Display Type setting", 'block-collections')} initialOpen={true} className="form_setteing_ctrl">
 					<div className='itmar_link_type'>
 						<RadioControl
 							selected={displayType}
 							options={[
-								{ label: __("String", 'itmar_block_collections'), value: 'string' },
-								{ label: __("Image", 'itmar_block_collections'), value: 'image' },
-								{ label: __("Pseudo", 'itmar_block_collections'), value: 'pseudo' },
+								{ label: __("String", 'block-collections'), value: 'string' },
+								{ label: __("Image", 'block-collections'), value: 'image' },
+								{ label: __("Pseudo", 'block-collections'), value: 'pseudo' },
 							]}
 							onChange={(changeOption) => { setAttributes({ displayType: changeOption }); }
 							}
@@ -253,21 +253,21 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 			<InspectorControls group="styles">
 
-				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="button_design_ctrl">
+				<PanelBody title={__("Global settings", 'block-collections')} initialOpen={false} className="button_design_ctrl">
 					<PanelColorGradientSettings
-						title={__("Background Color Setting", 'itmar_block_collections')}
+						title={__("Background Color Setting", 'block-collections')}
 						settings={[
 							{
 								colorValue: bgColor,
-								label: __("Choose Block Background color", 'itmar_block_collections'),
+								label: __("Choose Block Background color", 'block-collections'),
 								onColorChange: (newValue) => setAttributes({ bgColor: newValue })
 							}
 						]}
 					/>
 					<PanelBody
 						title={!isMobile ?
-							__("Scale settings(desk top)", 'itmar_block_collections')
-							: __("Scale settings(mobile)", 'itmar_block_collections')}
+							__("Scale settings(desk top)", 'block-collections')
+							: __("Scale settings(mobile)", 'block-collections')}
 						initialOpen={true}
 					>
 						<PanelRow
@@ -282,7 +282,7 @@ export default function Edit({ attributes, setAttributes }) {
 										setAttributes({ mobile_pos: { ...mobile_pos, width: value } });
 									}
 								}}
-								label={__("Width", 'itmar_block_collections')}
+								label={__("Width", 'block-collections')}
 								value={!isMobile ? default_pos.width || 'auto' : mobile_pos.width || 'auto'}
 							/>
 							<UnitControl
@@ -294,15 +294,15 @@ export default function Edit({ attributes, setAttributes }) {
 										setAttributes({ mobile_pos: { ...mobile_pos, height: value } });
 									}
 								}}
-								label={__("Height", 'itmar_block_collections')}
+								label={__("Height", 'block-collections')}
 								value={!isMobile ? default_pos.height || 'auto' : mobile_pos.height || 'auto'}
 							/>
 						</PanelRow>
 					</PanelBody>
 					<BoxControl
 						label={!isMobile ?
-							__("Margin settings(desk top)", 'itmar_block_collections')
-							: __("Margin settings(mobile)", 'itmar_block_collections')
+							__("Margin settings(desk top)", 'block-collections')
+							: __("Margin settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.margin_value : mobile_pos.margin_value}
 						onChange={value => {
@@ -319,8 +319,8 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 					<BoxControl
 						label={!isMobile ?
-							__("Padding settings(desk top)", 'itmar_block_collections')
-							: __("Padding settings(mobile)", 'itmar_block_collections')
+							__("Padding settings(desk top)", 'block-collections')
+							: __("Padding settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.padding_value : mobile_pos.padding_value}
 						onChange={value => {
@@ -335,7 +335,7 @@ export default function Edit({ attributes, setAttributes }) {
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
-					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'block-collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
 							onChange={(newValue) => setAttributes({ border_value: newValue })}
@@ -351,7 +351,7 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 					</PanelBody>
 					<ToggleControl
-						label={__('Is Shadow', 'itmar_block_collections')}
+						label={__('Is Shadow', 'block-collections')}
 						checked={is_shadow}
 						onChange={(newVal) => {
 							setAttributes({ is_shadow: newVal })
@@ -367,9 +367,9 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 					}
 				</PanelBody>
-				<PanelBody title={__("Button style settings", 'itmar_block_collections')} initialOpen={false} className="check_design_ctrl">
+				<PanelBody title={__("Button style settings", 'block-collections')} initialOpen={false} className="check_design_ctrl">
 					<TypographyControls
-						title={__('Typography', 'itmar_block_collections')}
+						title={__('Typography', 'block-collections')}
 						fontStyle={font_style_label}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_label: newStyle })
@@ -377,16 +377,16 @@ export default function Edit({ attributes, setAttributes }) {
 						initialOpen={false}
 					/>
 					<PanelColorGradientSettings
-						title={__("Label Color Setting", 'itmar_block_collections')}
+						title={__("Label Color Setting", 'block-collections')}
 						settings={[{
 							colorValue: labelColor,
-							label: __("Choose Input color", 'itmar_block_collections'),
+							label: __("Choose Input color", 'block-collections'),
 							onColorChange: (newValue) => setAttributes({ labelColor: newValue }),
 						},
 						{
 							colorValue: buttonColor,
 							gradientValue: buttonGradient,
-							label: __("Choose Button Background color", 'itmar_block_collections'),
+							label: __("Choose Button Background color", 'block-collections'),
 							onColorChange: (newValue) => {
 								setAttributes({ buttonColor: newValue === undefined ? '' : newValue });
 							},

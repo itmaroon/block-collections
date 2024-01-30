@@ -160,12 +160,12 @@ export default function Edit({ attributes, setAttributes }) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={__('SyntaxHighLight Settings', 'itmar_block_collections')}
+					title={__('SyntaxHighLight Settings', 'block-collections')}
 					initialOpen={true}
 				>
 					<PanelRow>
 						<ToggleControl
-							label={linenums ? __('Line Number(display)', 'itmar_block_collections') : __('Line Number(hidden)', 'itmar_block_collections')}
+							label={linenums ? __('Line Number(display)', 'block-collections') : __('Line Number(hidden)', 'block-collections')}
 							checked={linenums}
 							onChange={(val) => setAttributes({ linenums: val })}
 						/>
@@ -173,7 +173,7 @@ export default function Edit({ attributes, setAttributes }) {
 					{linenums &&  //上記が true の場合に表示
 						<PanelRow>
 							<TextControl
-								label={__('Starting Line Number', 'itmar_block_collections')}
+								label={__('Starting Line Number', 'block-collections')}
 								type="number"
 								value={linenumsStart}
 								onChange={(val) => setAttributes({ linenumsStart: parseInt(val) })}
@@ -183,7 +183,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 					<PanelRow>
 						<SelectControl
-							label={__('languege', 'itmar_block_collections')}
+							label={__('languege', 'block-collections')}
 							value={lang}
 							options={[
 								{ label: "Default", value: '' },
@@ -195,7 +195,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 					<PanelRow>
 						<SelectControl
-							label={__('Skin', 'itmar_block_collections')}
+							label={__('Skin', 'block-collections')}
 							value={skin}
 							options={[
 								{ label: "Basic", value: '' },
@@ -209,11 +209,11 @@ export default function Edit({ attributes, setAttributes }) {
 					</PanelRow>
 				</PanelBody>
 				<PanelBody
-					title={__('Spacing Settings', 'itmar_block_collections')}
+					title={__('Spacing Settings', 'block-collections')}
 					initialOpen={true}
 				>
 					<BoxControl
-						label={__("Margin settings", 'itmar_block_collections')}
+						label={__("Margin settings", 'block-collections')}
 						values={margin_value}
 						onChange={value => setAttributes({ margin_value: value })}
 						units={units}	// 許可する単位
@@ -223,7 +223,7 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 
 					<BoxControl
-						label={__("Padding settings", 'itmar_block_collections')}
+						label={__("Padding settings", 'block-collections')}
 						values={padding_value}
 						onChange={value => setAttributes({ padding_value: value })}
 						units={units}	// 許可する単位
@@ -239,7 +239,7 @@ export default function Edit({ attributes, setAttributes }) {
 				<Toolbar>
 					<Button
 						//属性 isEditMode の値により表示するラベルを切り替え
-						label={isEditMode ? __('Preview', 'itmar_block_collections') : __('Edit', 'itmar_block_collections')}
+						label={isEditMode ? __('Preview', 'block-collections') : __('Edit', 'block-collections')}
 						//属性 isEditMode の値により表示するアイコンを切り替え
 						icon={isEditMode ? "format-image" : "edit"}
 						className="edit_mode"
@@ -254,14 +254,14 @@ export default function Edit({ attributes, setAttributes }) {
 			{isEditMode && // isEditMode が true の場合（編集モード）
 				<div {...blockProps}>
 					<TextControl
-						label={__("File Name", 'itmar_block_collections')}
+						label={__("File Name", 'block-collections')}
 						type="string"
 						className="filename"
 						value={fileName}
 						onChange={(val) => setAttributes({ fileName: val })}
 					/>
 					<TextareaControl
-						label={__("Code:", 'itmar_block_collections')}
+						label={__("Code:", 'block-collections')}
 						value={codeArea}
 						onChange={(code) => {
 							setAttributes({ codeArea: code });
@@ -278,7 +278,7 @@ export default function Edit({ attributes, setAttributes }) {
 							onClick={() => setAttributes({ isEditMode: true })}
 							variant="link"
 							icon="edit"
-						>{__("edit mode", 'itmar_block_collections')}
+						>{__("edit mode", 'block-collections')}
 						</Button>
 						{codePreview}
 					</div>

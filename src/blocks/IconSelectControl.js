@@ -24,14 +24,14 @@ const helpTextCode = createElement(
   'span',
   {},
   helpLink,
-  __('Select the icon from and enter Unicode (the upper right four digits of the selection dialog). ', 'itmar_block_collections')
+  __('Select the icon from and enter Unicode (the upper right four digits of the selection dialog). ', 'block-collections')
 );
 
 const helpTextFamily = createElement(
   'span',
   {},
   helpLink,
-  __('Please select the first class name shown in the HTML code field of the selection dialog. ', 'itmar_block_collections')
+  __('Please select the first class name shown in the HTML code field of the selection dialog. ', 'block-collections')
 );
 
 
@@ -59,7 +59,7 @@ export default ({ iconStyle, onChange }) => {
   return (
     <>
       <TextControl
-        label={__("icon name", 'itmar_block_collections')}
+        label={__("icon name", 'block-collections')}
         help={helpTextCode}
         labelPosition="top"
         value={icon_name}
@@ -71,7 +71,7 @@ export default ({ iconStyle, onChange }) => {
       />
 
       <ComboboxControl
-        label={__('Icon Family', 'itmar_block_collections')}
+        label={__('Icon Family', 'block-collections')}
         help={helpTextFamily}
         options={family_option}
         value={icon_family ? icon_family : 'Font Awesome 6 Free'}
@@ -88,7 +88,7 @@ export default ({ iconStyle, onChange }) => {
             const newStyle = { ...iconStyle, icon_size: newValue };
             onChange(newStyle);
           }}
-          label={__("Size", 'itmar_block_collections')}
+          label={__("Size", 'block-collections')}
           value={icon_size}
           units={units}
         />
@@ -98,7 +98,7 @@ export default ({ iconStyle, onChange }) => {
             const newStyle = { ...iconStyle, icon_space: newValue };
             onChange(newStyle);
           }}
-          label={__('spacing to end', 'itmar_block_collections')}
+          label={__('spacing to end', 'block-collections')}
           value={icon_space}
           units={units}
         />
@@ -119,13 +119,13 @@ export default ({ iconStyle, onChange }) => {
 
         ]}
       />
-      <label className="components-base-control__label">{__("Arrangement", 'itmar_block_collections')}</label>
+      <label className="components-base-control__label">{__("Arrangement", 'block-collections')}</label>
       <PanelRow className='itmar_position_row'>
         <RadioControl
           selected={icon_pos}
           options={[
-            { label: __("left", 'itmar_block_collections'), value: "left" },
-            { label: __("right", 'itmar_block_collections'), value: "right" },
+            { label: __("left", 'block-collections'), value: "left" },
+            { label: __("right", 'block-collections'), value: "right" },
           ]}
           onChange={(newValue) => {
             const newStyle = { ...iconStyle, icon_pos: newValue };

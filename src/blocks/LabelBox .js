@@ -65,10 +65,10 @@ export default function LabelBox(props) {
   return (
     <>
       <InspectorControls group="settings">
-        <PanelBody title={__("Required Settings", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
+        <PanelBody title={__("Required Settings", 'block-collections')} initialOpen={true} className="title_design_ctrl">
           <PanelRow className='labelRequierd_row'>
             <ToggleControl
-              label={__('Required input', 'itmar_block_collections')}
+              label={__('Required input', 'block-collections')}
               checked={required.flg}
               onChange={(newVal) => {
                 const newObj = { ...required, flg: newVal }
@@ -79,7 +79,7 @@ export default function LabelBox(props) {
           {required.flg &&
             <PanelRow>
               <TextControl
-                label={__("Show 'required'", 'itmar_block_collections')}
+                label={__("Show 'required'", 'block-collections')}
                 value={required.display}
                 isPressEnterToChange
                 onChange={(newVal) => {
@@ -90,12 +90,12 @@ export default function LabelBox(props) {
             </PanelRow>
           }
         </PanelBody>
-        <PanelBody title={__("Label Settings", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
+        <PanelBody title={__("Label Settings", 'block-collections')} initialOpen={true} className="title_design_ctrl">
           <PanelRow
             className='labelInfo_row'
           >
             <TextControl
-              label={__("Text of Label", 'itmar_block_collections')}
+              label={__("Text of Label", 'block-collections')}
               labelPosition="top"
               value={labelContent}
               isPressEnterToChange
@@ -105,10 +105,10 @@ export default function LabelBox(props) {
         </PanelBody>
       </InspectorControls>
       <InspectorControls group="styles">
-        <PanelBody title={__("Label style settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
+        <PanelBody title={__("Label style settings", 'block-collections')} initialOpen={false} className="title_design_ctrl">
 
           <TypographyControls
-            title={__('Typography', 'itmar_block_collections')}
+            title={__('Typography', 'block-collections')}
             fontStyle={font_style_label}
             onChange={(newStyle) => {
               setAttributes({ font_style_label: newStyle })
@@ -116,23 +116,23 @@ export default function LabelBox(props) {
             initialOpen={false}
           />
           <PanelColorGradientSettings
-            title={__("Label Color Setting", 'itmar_block_collections')}
+            title={__("Label Color Setting", 'block-collections')}
             settings={[{
               colorValue: textColor_label,
-              label: __("Choose Text color", 'itmar_block_collections'),
+              label: __("Choose Text color", 'block-collections'),
               onColorChange: (newValue) => setAttributes({ textColor_label: newValue }),
             },
             {
               colorValue: bgColor_label,
               gradientValue: bgGradient_label,
 
-              label: __("Choose Background color", 'itmar_block_collections'),
+              label: __("Choose Background color", 'block-collections'),
               onColorChange: (newValue) => setAttributes({ bgColor_label: newValue }),
               onGradientChange: (newValue) => setAttributes({ bgGradient_label: newValue }),
             },
             ]}
           />
-          <PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
+          <PanelBody title={__("Border Settings", 'block-collections')} initialOpen={false} className="border_design_ctrl">
             <BorderBoxControl
 
               onChange={(newValue) => setAttributes({ border_label: newValue })}
@@ -147,7 +147,7 @@ export default function LabelBox(props) {
             />
           </PanelBody>
           <BoxControl
-            label={__("Padding settings", 'itmar_block_collections')}
+            label={__("Padding settings", 'block-collections')}
             values={padding_label}
             onChange={value => setAttributes({ padding_label: value })}
             units={units}	// 許可する単位
@@ -158,7 +158,7 @@ export default function LabelBox(props) {
           <UnitControl
             dragDirection="e"
             onChange={(newValue) => setAttributes({ labelSpace: newValue })}
-            label={__('Spacing with textbox', 'itmar_block_collections')}
+            label={__('Spacing with textbox', 'block-collections')}
             value={labelSpace}
           />
         </PanelBody>

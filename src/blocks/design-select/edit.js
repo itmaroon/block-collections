@@ -224,7 +224,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 						data-placeholder={folder_val}
 					>
 						{selPattern === 'single' &&
-							<option value="">{__("Please Select.", 'itmar_block_collections')}</option>
+							<option value="">{__("Please Select.", 'block-collections')}</option>
 						}
 						{
 							selectValues.map((option_item) => {
@@ -262,25 +262,25 @@ export default function Edit({ attributes, setAttributes, context }) {
 		<>
 			<InspectorControls group="settings">
 				<PanelBody title={
-					__("Select Element Settings", 'itmar_block_collections')
+					__("Select Element Settings", 'block-collections')
 				}
 					initialOpen={true}
 					className="select_design_ctrl"
 				>
 					<PanelRow>
 						<TextControl
-							label={__("name attribute name", 'itmar_block_collections')}
+							label={__("name attribute name", 'block-collections')}
 							value={inputName}
 							onChange={(newVal) => setAttributes({ inputName: newVal })}
 						/>
 					</PanelRow>
-					<label className="components-base-control__label">{__("Select Pattern", 'itmar_block_collections')}</label>
+					<label className="components-base-control__label">{__("Select Pattern", 'block-collections')}</label>
 					<PanelRow className='itmar_select_row'>
 						<RadioControl
 							selected={selPattern}
 							options={[
-								{ label: __("Single Select", 'itmar_block_collections'), value: 'single' },
-								{ label: __("Nulti Select", 'itmar_block_collections'), value: 'multi' },
+								{ label: __("Single Select", 'block-collections'), value: 'single' },
+								{ label: __("Nulti Select", 'block-collections'), value: 'multi' },
 
 							]}
 							onChange={(changeOption) => { setAttributes({ selPattern: changeOption }); }
@@ -289,16 +289,16 @@ export default function Edit({ attributes, setAttributes, context }) {
 					</PanelRow>
 
 					<TextControl
-						label={__("Place Folder Display", 'itmar_block_collections')}
+						label={__("Place Folder Display", 'block-collections')}
 						value={folder_val}
 						onChange={(newVal) => setAttributes({ folder_val: newVal })}
 					/>
 					<PanelBody
 						className={'itmar_notice_select_panel'}
-						title={__("Option info Setting", 'itmar_block_collections')}
+						title={__("Option info Setting", 'block-collections')}
 					>
 						<Button
-							label={__('add', 'itmar_block_collections')}
+							label={__('add', 'block-collections')}
 							icon={"insert"}
 							onClick={handleOptionAddNew}
 						/>
@@ -319,20 +319,20 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 			<InspectorControls group="styles">
 
-				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="select_design_ctrl">
+				<PanelBody title={__("Global settings", 'block-collections')} initialOpen={false} className="select_design_ctrl">
 					<PanelColorGradientSettings
-						title={__("Background Color Setting", 'itmar_block_collections')}
+						title={__("Background Color Setting", 'block-collections')}
 						settings={[
 							{
 								colorValue: bgColor,
-								label: __("Choose Block Background color", 'itmar_block_collections'),
+								label: __("Choose Block Background color", 'block-collections'),
 								onColorChange: (newValue) => setAttributes({ bgColor: newValue }),
 							},
 							{
 								colorValue: bgSelectColor,
 								gradientValue: bgSelectGradient,
 
-								label: __("Choose Select Background color", 'itmar_block_collections'),
+								label: __("Choose Select Background color", 'block-collections'),
 								onColorChange: (newValue) => {
 									setAttributes({ bgSelectColor: newValue === undefined ? '' : newValue });
 								},
@@ -342,8 +342,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 					/>
 					<BoxControl
 						label={!isMobile ?
-							__("Margin settings(desk top)", 'itmar_block_collections')
-							: __("Margin settings(mobile)", 'itmar_block_collections')
+							__("Margin settings(desk top)", 'block-collections')
+							: __("Margin settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.margin_value : mobile_pos.margin_value}
 						onChange={value => {
@@ -360,8 +360,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 					/>
 					<BoxControl
 						label={!isMobile ?
-							__("Padding settings(desk top)", 'itmar_block_collections')
-							: __("Padding settings(mobile)", 'itmar_block_collections')
+							__("Padding settings(desk top)", 'block-collections')
+							: __("Padding settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.padding_value : mobile_pos.padding_value}
 						onChange={value => {
@@ -376,7 +376,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 						resetValues={padding_resetValues}	// リセット時の値
 
 					/>
-					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'block-collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
 							onChange={(newValue) => setAttributes({ border_value: newValue })}
@@ -391,7 +391,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 						/>
 					</PanelBody>
 					<ToggleControl
-						label={__('Is Shadow', 'itmar_block_collections')}
+						label={__('Is Shadow', 'block-collections')}
 						checked={is_shadow}
 						onChange={(newVal) => {
 							setAttributes({ is_shadow: newVal })
@@ -408,9 +408,9 @@ export default function Edit({ attributes, setAttributes, context }) {
 					}
 				</PanelBody>
 
-				<PanelBody title={__("Option Style Settings", 'itmar_block_collections')} initialOpen={false} className="select_design_ctrl">
+				<PanelBody title={__("Option Style Settings", 'block-collections')} initialOpen={false} className="select_design_ctrl">
 					<TypographyControls
-						title={__('Typography', 'itmar_block_collections')}
+						title={__('Typography', 'block-collections')}
 						fontStyle={font_style_option}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_option: newStyle })
@@ -419,15 +419,15 @@ export default function Edit({ attributes, setAttributes, context }) {
 					/>
 
 					<PanelColorGradientSettings
-						title={__("Option Color Setting", 'itmar_block_collections')}
+						title={__("Option Color Setting", 'block-collections')}
 						settings={[{
 							colorValue: optionColor,
-							label: __("Choose Text color", 'itmar_block_collections'),
+							label: __("Choose Text color", 'block-collections'),
 							onColorChange: (newValue) => setAttributes({ optionColor: newValue }),
 						},
 						{
 							colorValue: hoverBgColor,
-							label: __("Choose Background color on mouse hover", 'itmar_block_collections'),
+							label: __("Choose Background color on mouse hover", 'block-collections'),
 							onColorChange: (newValue) => setAttributes({ hoverBgColor: newValue }),
 						},
 						]}
@@ -439,38 +439,38 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 			{isModalOpen && (
 				<Modal
-					title={__("Option Info Edit", 'itmar_block_collections')}
+					title={__("Option Info Edit", 'block-collections')}
 					onRequestClose={closeModal}
 				>
 					<TextControl
-						label={__("Display Label", 'itmar_block_collections')}
+						label={__("Display Label", 'block-collections')}
 						value={selectedOption.label}
 						onChange={(newVal) => handleOptionChange('label', newVal)}
 					/>
 					<TextControl
-						label={__("Option Value", 'itmar_block_collections')}
+						label={__("Option Value", 'block-collections')}
 						value={selectedOption.value}
 						onChange={(newVal) => handleOptionChange('value', newVal)}
 					/>
 					<TextControl
-						label={__("Class Name", 'itmar_block_collections')}
+						label={__("Class Name", 'block-collections')}
 						value={selectedOption.classname}
 						onChange={(newVal) => handleOptionChange('classname', newVal)}
 					/>
 					<Button variant="primary" onClick={handleOptionSave}>
-						{__("Save Changes", 'itmar_block_collections')}
+						{__("Save Changes", 'block-collections')}
 					</Button>
 				</Modal>
 			)}
 
 			{isDeleteModalOpen && (
 				<Modal
-					title={__("Confirm Deletion", 'itmar_block_collections')}
+					title={__("Confirm Deletion", 'block-collections')}
 					onRequestClose={closeDeleteModal}
 				>
-					<p>{__("Are you sure you want to delete this item?", 'itmar_block_collections')}</p>
-					<Button variant="primary" onClick={confirmDelete}>{__("Yes, Delete", 'itmar_block_collections')}</Button>
-					<Button variant="secondary" onClick={closeDeleteModal}>{__("Cancel", 'itmar_block_collections')}</Button>
+					<p>{__("Are you sure you want to delete this item?", 'block-collections')}</p>
+					<Button variant="primary" onClick={confirmDelete}>{__("Yes, Delete", 'block-collections')}</Button>
+					<Button variant="secondary" onClick={closeDeleteModal}>{__("Cancel", 'block-collections')}</Button>
 				</Modal>
 			)}
 

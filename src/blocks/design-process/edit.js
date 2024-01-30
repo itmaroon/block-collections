@@ -116,7 +116,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	if (figureBlocks.length === 0) {
 		createNotice(
 			'error',
-			__('This block will not work unless the Form Send plugin block is a sibling block.', 'itmar_block_collections'),
+			__('This block will not work unless the Form Send plugin block is a sibling block.', 'block-collections'),
 			{ type: 'snackbar', isDismissible: true, }
 		);
 		// メッセージ表示後、ブロックを削除
@@ -140,27 +140,27 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	return (
 		<>
 			<InspectorControls group="styles">
-				<PanelBody title={__("Global settings", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
+				<PanelBody title={__("Global settings", 'block-collections')} initialOpen={false} className="form_design_ctrl">
 
 					<PanelColorGradientSettings
-						title={__("Background Color Setting", 'itmar_block_collections')}
+						title={__("Background Color Setting", 'block-collections')}
 						settings={[
 							{
 								colorValue: bgColor,
-								label: __("Choose Block Background color", 'itmar_block_collections'),
+								label: __("Choose Block Background color", 'block-collections'),
 								onColorChange: (newValue) => setAttributes({ bgColor: newValue }),
 							},
 							{
 								colorValue: bgColor_form,
 								gradientValue: bgGradient_form,
 
-								label: __("Choose Form Background color", 'itmar_block_collections'),
+								label: __("Choose Form Background color", 'block-collections'),
 								onColorChange: (newValue) => setAttributes({ bgColor_form: newValue }),
 								onGradientChange: (newValue) => setAttributes({ bgGradient_form: newValue }),
 							},
 						]}
 					/>
-					<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={false} className="border_design_ctrl">
+					<PanelBody title={__("Border Settings", 'block-collections')} initialOpen={false} className="border_design_ctrl">
 						<BorderBoxControl
 
 							onChange={(newValue) => setAttributes({ border_form: newValue })}
@@ -176,8 +176,8 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 					</PanelBody>
 					<BoxControl
 						label={!isMobile ?
-							__("Margin settings(desk top)", 'itmar_block_collections')
-							: __("Margin settings(mobile)", 'itmar_block_collections')
+							__("Margin settings(desk top)", 'block-collections')
+							: __("Margin settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.margin_form : mobile_pos.margin_form}
 						onChange={value => {
@@ -194,8 +194,8 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 					/>
 					<BoxControl
 						label={!isMobile ?
-							__("Padding settings(desk top)", 'itmar_block_collections')
-							: __("Padding settings(mobile)", 'itmar_block_collections')
+							__("Padding settings(desk top)", 'block-collections')
+							: __("Padding settings(mobile)", 'block-collections')
 						}
 						values={!isMobile ? default_pos.padding_form : mobile_pos.padding_form}
 						onChange={value => {
@@ -211,7 +211,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 
 					/>
 					<ToggleControl
-						label={__('Is Shadow', 'itmar_block_collections')}
+						label={__('Is Shadow', 'block-collections')}
 						checked={is_shadow}
 						onChange={(newVal) => {
 							setAttributes({ is_shadow: newVal })
@@ -228,10 +228,10 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 					}
 				</PanelBody>
 
-				<PanelBody title={__("Settings by style", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
-					<PanelBody title={__("process number", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
+				<PanelBody title={__("Settings by style", 'block-collections')} initialOpen={false} className="form_design_ctrl">
+					<PanelBody title={__("process number", 'block-collections')} initialOpen={false} className="form_design_ctrl">
 						<TypographyControls
-							title={__("Typography", 'itmar_block_collections')}
+							title={__("Typography", 'block-collections')}
 							fontStyle={font_style_num}
 							onChange={(newStyle) => {
 								setAttributes({ font_style_num: newStyle })
@@ -239,25 +239,25 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 							initialOpen={false}
 						/>
 						<PanelColorGradientSettings
-							title={__("Color Setting", 'itmar_block_collections')}
+							title={__("Color Setting", 'block-collections')}
 							settings={[
 								{
 									colorValue: textColor_num,
-									label: __("Choose Text color", 'itmar_block_collections'),
+									label: __("Choose Text color", 'block-collections'),
 									onColorChange: (newValue) => setAttributes({ textColor_num: newValue }),
 								},
 								{
 									colorValue: bgColor_num,
-									label: __("Choose background color", 'itmar_block_collections'),
+									label: __("Choose background color", 'block-collections'),
 									onColorChange: (newValue) => setAttributes({ bgColor_num: newValue }),
 								}
 							]}
 						/>
 					</PanelBody>
 
-					<PanelBody title={__("Process Display", 'itmar_block_collections')} initialOpen={false} className="form_design_ctrl">
+					<PanelBody title={__("Process Display", 'block-collections')} initialOpen={false} className="form_design_ctrl">
 						<TypographyControls
-							title={__("Typography", 'itmar_block_collections')}
+							title={__("Typography", 'block-collections')}
 							fontStyle={font_style_process}
 							onChange={(newStyle) => {
 								setAttributes({ font_style_process: newStyle })
@@ -265,11 +265,11 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 							initialOpen={false}
 						/>
 						<PanelColorGradientSettings
-							title={__("Color Setting", 'itmar_block_collections')}
+							title={__("Color Setting", 'block-collections')}
 							settings={[
 								{
 									colorValue: textColor_process,
-									label: __("Choose Text color", 'itmar_block_collections'),
+									label: __("Choose Text color", 'block-collections'),
 									onColorChange: (newValue) => setAttributes({ textColor_process: newValue }),
 								}
 							]}

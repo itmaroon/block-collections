@@ -18,7 +18,7 @@ import { ReactComponent as CheckBox } from './square-check-regular.svg';
 
 registerBlockType(metadata.name, {
 	icon: <CheckBox />,
-	description: __("A block for creating check boxes with designs", 'itmar_block_collections'),
+	description: __("A block for creating check boxes with designs", 'block-collections'),
 	edit: Edit,
 	save,
 });

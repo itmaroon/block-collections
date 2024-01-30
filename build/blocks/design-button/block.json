@@ -65,7 +65,7 @@
     },
     "labelColor": {
       "type": "string",
-      "default": "var(--wp--preset--color--text)"
+      "default": "var(--wp--preset--color--content)"
     },
     "default_pos": {
       "type": "object",
@@ -154,7 +154,7 @@
       "default": false
     }
   },
-  "textdomain": "design-button",
+  "textdomain": "block-collections",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"

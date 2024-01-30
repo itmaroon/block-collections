@@ -28,7 +28,6 @@ export default function save({ attributes }) {
   const renderRichText = () => (
     <RichText.Content
       tagName={headingType}
-      className="has-text-color"
       value={headingContent}
     />
   );
@@ -36,7 +35,7 @@ export default function save({ attributes }) {
   const renderElement = () => (
     React.createElement(
       headingType.toLowerCase(),
-      { className: `has-text-color itmar_${titleType}_title` }
+      { className: `itmar_${titleType}_title` }
     )
   );
   //コンテンツの選択

@@ -8,7 +8,7 @@ import metadata from './block.json';
 
 
 registerBlockType(metadata.name, {
-	description: __("A block that highlights code.", 'itmar_block_collections'),
+	description: __("A block that highlights code.", 'block-collections'),
 	edit: Edit,
 	save,
 });

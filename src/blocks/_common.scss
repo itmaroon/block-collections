@@ -345,7 +345,9 @@ $breakpoints: (
 }
 
 .components-panel__row {
-	&.distance_row {
+
+	&.distance_row,
+	&.position_row {
 		align-items: baseline;
 		column-gap: 10px;
 		max-width: 500px;
@@ -353,6 +355,10 @@ $breakpoints: (
 		.components-base-control {
 			margin-bottom: 0;
 		}
+	}
+
+	&.position_row {
+		align-items: flex-end;
 	}
 
 	&.reset_row {

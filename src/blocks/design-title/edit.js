@@ -68,6 +68,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		headingType,
 		titleType,
 		align,
+		isVertical,
 		padding_heading,
 		optionStyle,
 		shadow_element,
@@ -162,7 +163,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			reset_style = {
 				styleName: 'is-style-sub_copy',
 				alignment_copy: 'top left',
-				color_text_copy: 'var(--wp--preset--color--text)',
+				color_text_copy: 'var(--wp--preset--color--content)',
 				color_background_copy: 'var(--wp--preset--color--accent-1)',
 				copy_content: 'SAMPLE',
 				font_style_copy: {
@@ -292,19 +293,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const renderRichText = () => (
 		<RichText
 			tagName={headingType}
-			className="has-text-color"
 			onChange={(newContent) => {
 				setAttributes({ headingContent: newContent });
 			}}
 			value={headingContent}
-			placeholder={__('Write Title text...', 'itmar_block_collections')}
+			placeholder={__('Write Title text...', 'block-collections')}
 		/>
 	);
 	//ヘッダー要素をコンテンツにする
 	const renderElement = () => (
 		React.createElement(
 			headingType.toLowerCase(),
-			{ className: "has-text-color" },
+			{},
 			siteTitle
 		)
 	);
@@ -325,34 +325,34 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title={__("Title Source Setting", 'itmar_block_collections')}>
+				<PanelBody title={__("Title Source Setting", 'block-collections')}>
 					<div className='itmar_title_type'>
 						<RadioControl
-							label={__("Title type", 'itmar_block_collections')}
+							label={__("Title type", 'block-collections')}
 							selected={titleType}
 							options={[
-								{ label: __("Plaine", 'itmar_block_collections'), value: 'plaine' },
-								{ label: __("Site Title", 'itmar_block_collections'), value: 'site' },
-								{ label: __("Chatch Phrase", 'itmar_block_collections'), value: 'catch' }
+								{ label: __("Plaine", 'block-collections'), value: 'plaine' },
+								{ label: __("Site Title", 'block-collections'), value: 'site' },
+								{ label: __("Chatch Phrase", 'block-collections'), value: 'catch' }
 							]}
 							onChange={(changeOption) => setAttributes({ titleType: changeOption })}
-							help={__("You can display the site title and catchphrase in addition to the blank title.", 'itmar_block_collections')}
+							help={__("You can display the site title and catchphrase in addition to the blank title.", 'block-collections')}
 						/>
 					</div>
 
 					<div className='itmar_link_type'>
 						<RadioControl
-							label={__("Link type", 'itmar_block_collections')}
+							label={__("Link type", 'block-collections')}
 							selected={linkKind}
 							options={[
-								{ label: __("None", 'itmar_block_collections'), value: 'none' },
-								{ label: __("Fixed Page", 'itmar_block_collections'), value: 'fixed' },
-								{ label: __("Archive Page", 'itmar_block_collections'), value: 'archive' },
-								{ label: __("Free URL", 'itmar_block_collections'), value: 'free' },
-								{ label: __("Sub Menu", 'itmar_block_collections'), value: 'submenu' }
+								{ label: __("None", 'block-collections'), value: 'none' },
+								{ label: __("Fixed Page", 'block-collections'), value: 'fixed' },
+								{ label: __("Archive Page", 'block-collections'), value: 'archive' },
+								{ label: __("Free URL", 'block-collections'), value: 'free' },
+								{ label: __("Sub Menu", 'block-collections'), value: 'submenu' }
 							]}
 							onChange={(changeOption) => setAttributes({ linkKind: changeOption })}
-							help={__("You can select the type of URL to link to the title.", 'itmar_block_collections')}
+							help={__("You can select the type of URL to link to the title.", 'block-collections')}
 						/>
 					</div>
 
@@ -360,7 +360,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<PageSelectControl
 							attributes={attributes}
 							setAttributes={setAttributes}
-							label={__("Select a fixed page to link to", 'itmar_block_collections')}
+							label={__("Select a fixed page to link to", 'block-collections')}
 							homeUrl={itmar_block_option.home_url}
 						/>
 
@@ -369,14 +369,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<ArchiveSelectControl
 							attributes={attributes}
 							setAttributes={setAttributes}
-							label={__("Select archive page to link to", 'itmar_block_collections')}
+							label={__("Select archive page to link to", 'block-collections')}
 							homeUrl={itmar_block_option.home_url}
 						/>
 
 					}
 					{linkKind === 'free' &&
 						<TextControl
-							label={__("Link to URL", 'itmar_block_collections')}
+							label={__("Link to URL", 'block-collections')}
 							labelPosition="top"
 							value={selectedPageUrl}
 							onChange={(newValue) => {
@@ -386,9 +386,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 					}
 					{linkKind === 'submenu' &&
-						<PanelBody title={__("Submenu position settings", 'itmar_block_collections')}>
+						<PanelBody title={__("Submenu position settings", 'block-collections')}>
 							<PanelRow className='imgPos_row'>
-								<label>{__("Menu Alignment", 'itmar_block_collections')}</label>
+								<label>{__("Menu Alignment", 'block-collections')}</label>
 								<AlignmentMatrixControl
 									value={menu_pos}
 									onChange={(newVal) => {
@@ -397,9 +397,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								/>
 							</PanelRow>
 							<ToggleControl
-								label={__('Based on title', 'itmar_block_collections')}
+								label={__('Based on title', 'block-collections')}
 								checked={is_title_menu}
-								help={__('If unchecked, the parent menu will be used as the reference. If there is no parent menu, do not uncheck it.', 'itmar_block_collections')}
+								help={__('If unchecked, the parent menu will be used as the reference. If there is no parent menu, do not uncheck it.', 'block-collections')}
 								onChange={(newVal) => {
 									setAttributes({ is_title_menu: newVal })
 								}}
@@ -412,9 +412,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			<InspectorControls group="styles">
 
-				<PanelBody title={__("Title settings", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
+				<PanelBody title={__("Title settings", 'block-collections')} initialOpen={true} className="title_design_ctrl">
 					<BoxControl
-						label={__("Padding settings", 'itmar_block_collections')}
+						label={__("Padding settings", 'block-collections')}
 						values={padding_heading}
 						onChange={value => setAttributes({ padding_heading: value })}
 						units={units}	// 許可する単位
@@ -423,7 +423,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 
 					<ToggleControl
-						label={__('Is Shadow', 'itmar_block_collections')}
+						label={__('Is Shadow', 'block-collections')}
 						checked={is_shadow}
 						onChange={(newVal) => {
 							setAttributes({ is_shadow: newVal })
@@ -440,14 +440,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					}
 
 					<ToggleControl
-						label={__('Add an underline', 'itmar_block_collections')}
+						label={__('Add an underline', 'block-collections')}
 						checked={is_underLine}
 						onChange={(newVal) => {
 							setAttributes({ is_underLine: newVal })
 						}}
 					/>
 					{is_underLine &&
-						<PanelBody title={__("UnderLine settings", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
+						<PanelBody title={__("UnderLine settings", 'block-collections')} initialOpen={true} className="title_design_ctrl">
 							<PanelRow className='distance_row'>
 								<UnitControl
 									dragDirection="e"
@@ -455,7 +455,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 										const newStyle = { ...underLine_prop, height: newValue };
 										setAttributes({ underLine_prop: newStyle });
 									}}
-									label={__("Height", 'itmar_block_collections')}
+									label={__("Height", 'block-collections')}
 									value={underLine_prop.height}
 								/>
 								<UnitControl
@@ -464,7 +464,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 										const newStyle = { ...underLine_prop, width: newValue };
 										setAttributes({ underLine_prop: newStyle });
 									}}
-									label={__("Width", 'itmar_block_collections')}
+									label={__("Width", 'block-collections')}
 									value={underLine_prop.width}
 								/>
 								<UnitControl
@@ -473,17 +473,17 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 										const newStyle = { ...underLine_prop, distance: newValue };
 										setAttributes({ underLine_prop: newStyle });
 									}}
-									label={__("Distance", 'itmar_block_collections')}
+									label={__("Distance", 'block-collections')}
 									value={underLine_prop.distance}
 								/>
 							</PanelRow>
 							<PanelColorGradientSettings
-								title={__("Under Line Color Setting", 'itmar_block_collections')}
+								title={__("Under Line Color Setting", 'block-collections')}
 								settings={[
 									{
 										colorValue: bgColor_underLine,
 										gradientValue: bgGradient_underLine,
-										label: __("Choose Under Line color", 'itmar_block_collections'),
+										label: __("Choose Under Line color", 'block-collections'),
 
 										onColorChange: (newValue) => {
 											setAttributes({ bgColor_underLine: newValue === undefined ? '' : newValue });
@@ -495,7 +495,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								]}
 							/>
 							<ToggleControl
-								label={__('Animation on hover', 'itmar_block_collections')}
+								label={__('Animation on hover', 'block-collections')}
 								checked={underLine_prop.is_anime}
 								onChange={(newVal) => {
 									const newStyle = { ...underLine_prop, is_anime: newVal };
@@ -504,17 +504,24 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							/>
 						</PanelBody>
 					}
+					<ToggleControl
+						label={__('write vertically', 'block-collections')}
+						checked={isVertical}
+						onChange={(newVal) => {
+							setAttributes({ isVertical: newVal })
+						}}
+					/>
 				</PanelBody>
 
 				{className?.split(' ').includes('is-style-circle_marker') &&
-					<PanelBody title={__("Circle Marker Settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
+					<PanelBody title={__("Circle Marker Settings", 'block-collections')} initialOpen={false} className="title_design_ctrl">
 						<PanelColorGradientSettings
-							title={__("Circle Color Setting", 'itmar_block_collections')}
+							title={__("Circle Color Setting", 'block-collections')}
 							settings={[{
 								colorValue: (optionStyle && optionStyle.colorVal_circle) ? optionStyle.colorVal_circle : 'var(--wp--preset--color--accent-1)',
 								gradientValue: (optionStyle && optionStyle.gradientVal_circle) ? optionStyle.gradientVal_circle : undefined,
 
-								label: __("Choose Circle Background", 'itmar_block_collections'),
+								label: __("Choose Circle Background", 'block-collections'),
 								onColorChange: (newValue) => {
 									setLocalOptionStyle(prev => ({ ...prev, colorVal_circle: newValue }));
 								},
@@ -530,13 +537,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							onChange={(newValue) => {
 								setLocalOptionStyle(prev => ({ ...prev, circleScale: newValue }));
 							}}
-							label={__("Circle Scale Setting", 'itmar_block_collections')}
+							label={__("Circle Scale Setting", 'block-collections')}
 							value={(optionStyle && optionStyle.circleScale) ? optionStyle.circleScale : '3em'}
 						/>
-						<PanelBody title={__("Position Settings", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
+						<PanelBody title={__("Position Settings", 'block-collections')} initialOpen={true} className="title_design_ctrl">
 							<RangeControl
 								value={(optionStyle && optionStyle.first_lat) ? optionStyle.first_lat : 10}
-								label={__("Lateral direction", 'itmar_block_collections')}
+								label={__("Lateral direction", 'block-collections')}
 								max={50}
 								min={-30}
 								step={1}
@@ -547,7 +554,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							/>
 							<RangeControl
 								value={(optionStyle && optionStyle.first_long) ? optionStyle.first_long : 10}
-								label={__("Longitudinal direction", 'itmar_block_collections')}
+								label={__("Longitudinal direction", 'block-collections')}
 								max={50}
 								min={-30}
 								step={1}
@@ -557,9 +564,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								withInputField={false}
 							/>
 						</PanelBody>
-						<PanelBody title={__("Second Circle Settings", 'itmar_block_collections')} initialOpen={true}>
+						<PanelBody title={__("Second Circle Settings", 'block-collections')} initialOpen={true}>
 							<ToggleControl
-								label={__('Second Circle', 'itmar_block_collections')}
+								label={__('Second Circle', 'block-collections')}
 								checked={(optionStyle && optionStyle.isSecond) ? optionStyle.isSecond : true}
 								onChange={(newValue) => {
 									setLocalOptionStyle(prev => ({ ...prev, isSecond: newValue }));
@@ -569,12 +576,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						{((optionStyle && optionStyle.isSecond) ? optionStyle.isSecond : false) &&
 							<>
 								<PanelColorGradientSettings
-									title={__("Circle Color Setting", 'itmar_block_collections')}
+									title={__("Circle Color Setting", 'block-collections')}
 									settings={[{
 										colorValue: (optionStyle && optionStyle.colorVal_second) ? optionStyle.colorVal_second : 'var(--wp--preset--color--accent-2)',
 										gradientValue: (optionStyle && optionStyle.gradientVal_second) ? optionStyle.gradientVal_second : undefined,
 
-										label: __("Choose Circle Background", 'itmar_block_collections'),
+										label: __("Choose Circle Background", 'block-collections'),
 										onColorChange: (newValue) => {
 											setLocalOptionStyle(prev => ({ ...prev, colorVal_second: newValue }));
 										},
@@ -586,7 +593,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								/>
 								<RangeControl
 									value={(optionStyle && optionStyle.second_opacity) ? optionStyle.second_opacity : 0.7}
-									label={__("Opacity", 'itmar_block_collections')}
+									label={__("Opacity", 'block-collections')}
 									max={1}
 									min={0.1}
 									step={0.1}
@@ -600,13 +607,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									onChange={(newValue) => {
 										setLocalOptionStyle(prev => ({ ...prev, secondScale: newValue }));
 									}}
-									label={__("Circle Scale Setting", 'itmar_block_collections')}
+									label={__("Circle Scale Setting", 'block-collections')}
 									value={(optionStyle && optionStyle.secondScale) ? optionStyle.secondScale : '1.5em'}
 								/>
-								<PanelBody title={__("Position Settings", 'itmar_block_collections')} initialOpen={true} className="title_design_ctrl">
+								<PanelBody title={__("Position Settings", 'block-collections')} initialOpen={true} className="title_design_ctrl">
 									<RangeControl
 										value={(optionStyle && optionStyle.second_lat) ? optionStyle.second_lat : 20}
-										label={__("Lateral direction", 'itmar_block_collections')}
+										label={__("Lateral direction", 'block-collections')}
 										max={50}
 										min={-30}
 										step={1}
@@ -617,7 +624,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									/>
 									<RangeControl
 										value={(optionStyle && optionStyle.second_long) ? optionStyle.second_long : -10}
-										label={__("Longitudinal direction", 'itmar_block_collections')}
+										label={__("Longitudinal direction", 'block-collections')}
 										max={50}
 										min={-30}
 										step={1}
@@ -633,12 +640,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				}
 
 				{className?.split(' ').includes('is-style-sub_copy') &&
-					<PanelBody title={__("Sub Copy Settings", 'itmar_block_collections')} initialOpen={false} className="title_design_ctrl">
+					<PanelBody title={__("Sub Copy Settings", 'block-collections')} initialOpen={false} className="title_design_ctrl">
 						<PanelColorGradientSettings
-							title={__("Copy Color Setting", 'itmar_block_collections')}
+							title={__("Copy Color Setting", 'block-collections')}
 							settings={[{
-								colorValue: (optionStyle && optionStyle.color_text_copy) ? optionStyle.color_text_copy : 'var(--wp--preset--color--text)',
-								label: __("Choose Text color", 'itmar_block_collections'),
+								colorValue: (optionStyle && optionStyle.color_text_copy) ? optionStyle.color_text_copy : 'var(--wp--preset--color--content)',
+								label: __("Choose Text color", 'block-collections'),
 								onColorChange: (newValue) => {
 									setLocalOptionStyle(prev => ({ ...prev, color_text_copy: newValue }));
 								},
@@ -647,7 +654,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								colorValue: (optionStyle && optionStyle.color_background_copy) ? optionStyle.color_background_copy : 'var(--wp--preset--color--accent-2)',
 								gradientValue: (optionStyle && optionStyle.gradient_background_copy) ? optionStyle.gradient_background_copy : undefined,
 
-								label: __("Choose Background color", 'itmar_block_collections'),
+								label: __("Choose Background color", 'block-collections'),
 								onColorChange: (newValue) => {
 									setLocalOptionStyle(prev => ({ ...prev, color_background_copy: newValue }));
 								},
@@ -661,7 +668,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 						<PanelRow className='copyInfo_row'>
 							<TextControl
-								label={__("Copy Text", 'itmar_block_collections')}
+								label={__("Copy Text", 'block-collections')}
 								labelPosition="top"
 								value={copyInputValue}
 								onChange={(newValue) => {
@@ -671,7 +678,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							/>
 						</PanelRow>
 						<PanelRow className='copyInfo_row'>
-							<label>{__("Copy Alignment", 'itmar_block_collections')}</label>
+							<label>{__("Copy Alignment", 'block-collections')}</label>
 							<AlignmentMatrixControl
 
 								value={(optionStyle && optionStyle.alignment_copy) ? optionStyle.alignment_copy : 'top left'}
@@ -682,7 +689,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						</PanelRow>
 
 						<TypographyControls
-							title={__('Typography', 'itmar_block_collections')}
+							title={__('Typography', 'block-collections')}
 							fontStyle={(optionStyle && optionStyle.font_style_copy) ? optionStyle.font_style_copy : {
 								fontSize: "16px",
 								fontFamily: "Arial, sans-serif",
@@ -695,7 +702,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							}}
 						/>
 
-						<PanelBody title={__("Border Settings", 'itmar_block_collections')} initialOpen={true}>
+						<PanelBody title={__("Border Settings", 'block-collections')} initialOpen={true}>
 							<BorderRadiusControl
 								values={(optionStyle && optionStyle.radius_copy) ? optionStyle.radius_copy : {
 									topLeft: "10px",
@@ -710,7 +717,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							/>
 
 							<BoxControl
-								label={__("Padding settings", 'itmar_block_collections')}
+								label={__("Padding settings", 'block-collections')}
 								values={(optionStyle && optionStyle.padding_copy) ? optionStyle.padding_copy : {
 									top: "10px",
 									left: "10px",
@@ -726,9 +733,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 							/>
 						</PanelBody>
-						<PanelBody title={__("Icon settings", 'itmar_block_collections')} initialOpen={true}>
+						<PanelBody title={__("Icon settings", 'block-collections')} initialOpen={true}>
 							<ToggleControl
-								label={__('Append icon', 'itmar_block_collections')}
+								label={__('Append icon', 'block-collections')}
 								checked={(optionStyle && optionStyle.isIcon) ? optionStyle.isIcon : false}
 								onChange={(newValue) => {
 									setLocalOptionStyle(prev => ({ ...prev, isIcon: newValue }));
@@ -740,7 +747,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 										icon_name: "f030",
 										icon_pos: "left",
 										icon_size: "24px",
-										icon_color: "var(--wp--preset--color--text)",
+										icon_color: "var(--wp--preset--color--content)",
 										icon_space: "5px"
 									}}
 									onChange={(newValue) => {
@@ -761,7 +768,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					}}
 				/>
 				<ToolbarDropdownMenu
-					label={__('Change heading level', 'itmar_block_collections')}
+					label={__('Change heading level', 'block-collections')}
 					icon={getIconForLevel(parseInt(headingType.slice(1), 10))}
 					controls={[1, 2, 3, 4, 5, 6].map(level => ({
 						icon: getIconForLevel(level),
@@ -774,12 +781,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 			{isCangeModalOpen && (
 				<Modal
-					title={__("Confirm Deletion", 'itmar_block_collections')}
+					title={__("Confirm Deletion", 'block-collections')}
 					onRequestClose={cancelHandle}
 				>
-					<p>{__("Changing a style resets the style-specific settings. Are you sure?", 'itmar_block_collections')}</p>
-					<Button variant="primary" onClick={execHandle}>{__("Yes, Change", 'itmar_block_collections')}</Button>
-					<Button variant="secondary" onClick={cancelHandle}>{__("Cancel", 'itmar_block_collections')}</Button>
+					<p>{__("Changing a style resets the style-specific settings. Are you sure?", 'block-collections')}</p>
+					<Button variant="primary" onClick={execHandle}>{__("Yes, Change", 'block-collections')}</Button>
+					<Button variant="secondary" onClick={cancelHandle}>{__("Cancel", 'block-collections')}</Button>
 				</Modal>
 			)}
 

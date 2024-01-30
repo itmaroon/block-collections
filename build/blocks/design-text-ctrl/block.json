@@ -45,7 +45,7 @@
     },
     "textColor_input": {
       "type": "string",
-      "default": "var(--wp--preset--color--text)"
+      "default": "var(--wp--preset--color--content)"
     },
     "radius_input": {
       "type": "object",
@@ -62,7 +62,7 @@
       "default": {
         "width": "1px",
         "style": "solid",
-        "color": "var(--wp--preset--color--text)"
+        "color": "var(--wp--preset--color--content)"
       }
     },
     "default_pos": {
@@ -128,7 +128,7 @@
     },
     "textColor_label": {
       "type": "string",
-      "default": "var(--wp--preset--color--text)"
+      "default": "var(--wp--preset--color--content)"
     },
     "radius_label": {
       "type": "object",
@@ -192,7 +192,7 @@
   "usesContext": [
     "itmar/label_width"
   ],
-  "textdomain": "itmar_block_collections",
+  "textdomain": "block-collections",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"

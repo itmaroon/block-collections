@@ -9,7 +9,7 @@
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       itmar_block_collections
+ * Text Domain:       block-collections
  * Domain Path:  			/languages
  * @package           create-block
  */
@@ -47,7 +47,7 @@ function itmar_block_collections_block_init()
 		);
 		
 		// その後、このハンドルを使用してスクリプトの翻訳をセット
-		wp_set_script_translations( $script_handle, 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages' );
+		wp_set_script_translations( $script_handle, 'block-collections', plugin_dir_path( __FILE__ ) . 'languages' );
 		//jsで使えるようにhome_urlをローカライズ
 		wp_localize_script($script_handle, 'itmar_block_option', array(
 			'home_url' => home_url()
@@ -56,7 +56,7 @@ function itmar_block_collections_block_init()
 	}
 
 	//PHP用のテキストドメインの読込（国際化）
-	load_plugin_textdomain( 'itmar_block_collections', false, basename( dirname( __FILE__ ) ) . '/languages' );
+	load_plugin_textdomain( 'block-collections', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 add_action('init', 'itmar_block_collections_block_init');
 
@@ -132,7 +132,7 @@ function itmar_highlight_scripts_and_styles()
 		));
 
 		// スクリプトの翻訳をセット
-		wp_set_script_translations( 'itmar_block_collection_js', 'itmar_block_collections', plugin_dir_path( __FILE__ ) . 'languages' );
+		wp_set_script_translations( 'itmar_block_collection_js', 'block-collections', plugin_dir_path( __FILE__ ) . 'languages' );
 	}
 	
 }

@@ -15,15 +15,15 @@ registerBlockType(metadata.name, {
 	styles: [
 		{
 			name: "progress",
-			label: __("Default", 'itmar_block_collections'),
+			label: __("Default", 'block-collections'),
 			isDefault: true
 		},
 		{
 			name: "card",
-			label: __("Card", 'itmar_block_collections'),
+			label: __("Card", 'block-collections'),
 		}
 	],
-	description: __("A block for stylish display of process progress", 'itmar_block_collections'),
+	description: __("A block for stylish display of process progress", 'block-collections'),
 	icon: <Process />,
 	edit: Edit,
 	save,

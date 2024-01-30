@@ -12,16 +12,16 @@ import metadata from './block.json';
 
 registerBlockType(metadata.name, {
 	icon: <Table />,
-	description: __('A table with a design.', 'itmar_block_collections'),
+	description: __('A table with a design.', 'block-collections'),
 	styles: [
 		{
 			name: "nomal",
-			label: __('Default', 'itmar_block_collections'),
+			label: __('Default', 'block-collections'),
 			isDefault: true
 		},
 		{
 			name: "stripe",
-			label: __('Stripe', 'itmar_block_collections')
+			label: __('Stripe', 'block-collections')
 		}
 	],
 

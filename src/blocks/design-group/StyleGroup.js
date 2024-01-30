@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { width_prm, max_width_prm, align_prm, space_prm, convertToScss } from '../cssPropertes';
+import { width_prm, max_width_prm, align_prm, position_prm, space_prm, convertToScss } from '../cssPropertes';
 
 export const StyleComp = ({ attributes, isMenuOpen, children }) => {
   const content = (
@@ -17,6 +17,7 @@ export const StyleComp = ({ attributes, isMenuOpen, children }) => {
 const StyledDiv = styled.div`
 ${({ attributes }) => {
     const {
+      positionType,
       default_pos,
       mobile_pos,
       shadow_result,
@@ -42,6 +43,9 @@ ${({ attributes }) => {
     const mobile_block_align = align_prm(mobile_pos.outer_align);
     //シャドースタイル
     const box_shadow_style = is_shadow && shadow_result ? convertToScss(shadow_result) : '';
+    //ブロックの位置
+    const default_block_position = position_prm(default_pos.posValue, positionType);
+    const mobile_block_position = position_prm(mobile_pos.posValue, positionType);
     //位置調整
     const tranceform = is_moveable ? `transform: translate(${position.x}, ${position.y});` : '';
     //オーバーフロー
@@ -49,13 +53,15 @@ ${({ attributes }) => {
 
     // 共通のスタイルをここで定義します
     const commonStyle = css`
-      position: relative;
+      position: ${positionType};
+      ${default_block_position}
       margin-block-start:0;
       ${is_menu && css`z-index:100;`}
       ${is_submenu ? default_width_style : default_max_width_style}
       ${default_block_align}
       align-self: ${default_pos.outer_vertical};
       @media (max-width: 767px) {
+        ${mobile_block_position}
         ${is_submenu ? mobile_width_style : mobile_max_width_style}
         ${mobile_block_align}
         ${is_menu && css`

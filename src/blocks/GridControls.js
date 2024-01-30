@@ -173,7 +173,7 @@ const GridControls = ({ attributes, clientId, onChange }) => {
           {setElm &&
             <StopPropagationWrapper>
               <ToolbarDropdownMenu
-                label={__('Lateral Alignment', 'itmar_block_collections')}
+                label={__('Lateral Alignment', 'block-collections')}
                 icon={setElm.elm.latAlign ? alignIconMap[setElm.elm.latAlign] : alignIconMap['left']}
                 controls={['left', 'center', 'right'].map(align => ({
                   icon: alignIconMap[align],
@@ -182,7 +182,7 @@ const GridControls = ({ attributes, clientId, onChange }) => {
                 }))}
               />
               <ToolbarDropdownMenu
-                label={__('Vertical Alignment', 'itmar_block_collections')}
+                label={__('Vertical Alignment', 'block-collections')}
                 icon={setElm.elm.vertAlign ? alignIconMap[setElm.elm.vertAlign] : alignIconMap['upper']}
                 controls={['upper', 'middle', 'lower'].map(align => ({
                   icon: alignIconMap[align],
@@ -337,7 +337,7 @@ const GridControls = ({ attributes, clientId, onChange }) => {
             const input_val = typeof (newValue) === 'number' ? newValue : Number(newValue);
             setRowCount(input_val);
           }}
-          label={__('Number of Row ', 'itmar_block_collections')}
+          label={__('Number of Row ', 'block-collections')}
           value={rowCount}
           min={2}
         />
@@ -346,7 +346,7 @@ const GridControls = ({ attributes, clientId, onChange }) => {
             const input_val = typeof (newValue) === 'number' ? newValue : Number(newValue);
             setColCount(input_val);
           }}
-          label={__('Number of Colum', 'itmar_block_collections')}
+          label={__('Number of Colum', 'block-collections')}
           value={colCount}
         />
       </PanelRow>
@@ -359,7 +359,7 @@ const GridControls = ({ attributes, clientId, onChange }) => {
             const newStyle = { ...attributes, rowGap: newValue };
             onChange(newStyle);
           }}
-          label={__('Row Gap', 'itmar_block_collections')}
+          label={__('Row Gap', 'block-collections')}
           value={rowGap}
           units={units}
         />
@@ -369,7 +369,7 @@ const GridControls = ({ attributes, clientId, onChange }) => {
             const newStyle = { ...attributes, colGap: newValue };
             onChange(newStyle);
           }}
-          label={__('Colum Gap', 'itmar_block_collections')}
+          label={__('Colum Gap', 'block-collections')}
           value={colGap}
           units={units}
         />
@@ -377,9 +377,9 @@ const GridControls = ({ attributes, clientId, onChange }) => {
       </PanelRow>
 
       <PanelRow className='distance_row'>
-        <p>{__('Element placement', 'itmar_block_collections')}</p>
+        <p>{__('Element placement', 'block-collections')}</p>
         <Button variant="secondary" onClick={clear_placement}>
-          {__("Clear", 'itmar_block_collections')}
+          {__("Clear", 'block-collections')}
         </Button>
       </PanelRow>
 
@@ -389,7 +389,7 @@ const GridControls = ({ attributes, clientId, onChange }) => {
         </table>
       </PanelRow>
       <ComboboxControl
-        label={__('InnerBlock Name', 'itmar_block_collections')}
+        label={__('InnerBlock Name', 'block-collections')}
         options={blockNames}
         value={selBlock ? selBlock.value : null}
         onChange={(sel_id) => {

@@ -61,13 +61,13 @@ const TypographyControls = ({ title, fontStyle, initialOpen, onChange }) => {
           const newStyle = { ...fontStyle, fontSize: newValue };
           onChange(newStyle);
         }}
-        label={__('Size', 'itmar_block_collections')}
+        label={__('Size', 'block-collections')}
         value={fontSize}
         units={units}
       />
 
       <FontSelect
-        label={__("font family", 'itmar_block_collections')}
+        label={__("font family", 'block-collections')}
         value={fontFamily}
         onChange={(newValue) => {
           const newStyle = { ...fontStyle, fontFamily: newValue };
@@ -75,7 +75,7 @@ const TypographyControls = ({ title, fontStyle, initialOpen, onChange }) => {
         }}
       />
 
-      <label className="components-base-control__label">{__('font weight', 'itmar_block_collections')}</label>
+      <label className="components-base-control__label">{__('font weight', 'block-collections')}</label>
       <PanelRow className='itmar_weight_row'>
         <RadioControl
           selected={fontWeight}
@@ -94,7 +94,7 @@ const TypographyControls = ({ title, fontStyle, initialOpen, onChange }) => {
         />
       </PanelRow>
 
-      <label className="components-base-control__label">{__('Italic display', 'itmar_block_collections')}</label>
+      <label className="components-base-control__label">{__('Italic display', 'block-collections')}</label>
       <ToggleControl
         checked={isItalic}
         onChange={(newValue) => {

@@ -81,7 +81,7 @@
 		},
 		"textColor_num": {
 			"type": "string",
-			"default": "var(--wp--preset--color--text)"
+			"default": "var(--wp--preset--color--content)"
 		},
 		"bgColor_num": {
 			"type": "string",
@@ -98,7 +98,7 @@
 		},
 		"textColor_process": {
 			"type": "string",
-			"default": "var(--wp--preset--color--text)"
+			"default": "var(--wp--preset--color--content)"
 		},
 		"shadow_element": {
 			"type": "object",
@@ -136,7 +136,7 @@
 	"usesContext": [
 		"itmar/state_process"
 	],
-	"textdomain": "itmar_block_collections",
+	"textdomain": "block-collections",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css"

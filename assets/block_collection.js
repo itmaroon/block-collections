@@ -69,9 +69,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
       navigator.clipboard.writeText(code).then(() => {
 
         const { __ } = wp.i18n;
-        const msg = __("copied", 'itmar_block_collections');
+        const msg = __("copied", 'block-collections');
         console.log(msg)
-        ctrlMsg(__("copied", 'itmar_block_collections'));
+        ctrlMsg(__("copied", 'block-collections'));
       }, (err) => {
         console.error('Could not copy text: ', err);
       });
