@@ -7,7 +7,9 @@ import { StyleComp } from './StyleGroup';
 export default function save({ attributes }) {
 	const {
 		is_menu,
-		is_submenu
+		is_submenu,
+		is_anime,
+		anime_prm
 	} = attributes;
 
 	const blockProps = useBlockProps.save();
@@ -39,7 +41,11 @@ export default function save({ attributes }) {
 
 			<div className={className}>
 				<div {...blockProps} >
-					<div className="group_contents">
+					<div
+						className={`group_contents ${is_anime ? 'fadeTrigger' : ''}`}
+						data-is_anime={is_anime}
+						data-anime_prm={JSON.stringify(anime_prm)}
+					>
 						<InnerBlocks.Content />
 					</div>
 				</div>

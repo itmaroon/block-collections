@@ -6,15 +6,19 @@ import { __ } from '@wordpress/i18n';
 import {
   Button,
   PanelBody,
+  ToggleControl,
+  RadioControl,
+  RangeControl,
   PanelRow,
   __experimentalUnitControl as UnitControl
 } from '@wordpress/components';
 
-
-
 export default function AnimationBlock(props) {
 
-  const animation_prm = props.attributes
+  const {
+    is_anime,
+    anime_prm
+  } = props.attributes
 
   return (
     <>
@@ -22,32 +26,63 @@ export default function AnimationBlock(props) {
         title={__("Animation Setting", 'block-collections')}
         initialOpen={true}
       >
-        <PanelRow
-          className='distance_row'
-        >
-          <UnitControl
-            dragDirection="e"
-            onChange={(value) => chagePosition(value, 'x')}
-            label={__("Vertical", 'block-collections')}
-            value={position?.x || 0}
-          />
-          <UnitControl
-            dragDirection="e"
-            onChange={(value) => chagePosition(value, 'y')}
-            label={__("Horizen", 'block-collections')}
-            value={position?.y || 0}
-          />
-        </PanelRow>
-        <PanelRow
-          className='reset_row'
-        >
-          <Button
-            variant="secondary"
-            onClick={() => resetPos()}
-          >
-            {__("Reset", 'block-collections')}
-          </Button>
-        </PanelRow>
+        <ToggleControl
+          label={__('Is Animation', 'block-collections')}
+          checked={is_anime}
+          onChange={(newVal) => { props.onChange({ is_anime: newVal }) }}
+        />
+        {is_anime &&
+          <>
+            <div className='itmar_link_type'>
+              <RadioControl
+                label={__("Animation Pattern", 'block-collections')}
+                selected={anime_prm.pattern}
+                options={[
+                  { label: 'flipDown', value: 'flipDown' },
+                  { label: 'fadeUp', value: 'fadeUp' },
+                  { label: 'fadeLeft', value: 'fadeLeft' },
+                  { label: 'fadeRight', value: 'fadeRight' },
+
+                ]}
+                onChange={(changeOption) => { props.onChange({ anime_prm: { ...anime_prm, pattern: changeOption } }) }}
+              />
+            </div>
+
+            <RangeControl
+              value={anime_prm.duration}
+              label={__("Animation duration time", 'block-collections')}
+              max={5}
+              min={0}
+              onChange={(val) => { props.onChange({ anime_prm: { ...anime_prm, duration: val } }) }}
+              step={0.1}
+              withInputField={true}
+            />
+
+            <RangeControl
+              value={anime_prm.delay}
+              label={__("Animation delay time", 'block-collections')}
+              max={3}
+              min={0}
+              onChange={(val) => { props.onChange({ anime_prm: { ...anime_prm, delay: val } }) }}
+              step={0.1}
+              withInputField={true}
+            />
+
+            <div className='itmar_link_type'>
+              <RadioControl
+                label={__("Animation Trigger", 'block-collections')}
+                selected={anime_prm.trigger}
+                options={[
+                  { label: __("Page Opend", 'block-collections'), value: 'opend' },
+                  { label: __("Enter Visible", 'block-collections'), value: 'visible' },
+
+                ]}
+                onChange={(changeOption) => { props.onChange({ anime_prm: { ...anime_prm, trigger: changeOption } }) }}
+              />
+            </div>
+          </>
+        }
+
       </PanelBody>
     </>
   )

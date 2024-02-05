@@ -2,437 +2,159 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@300;400;500;600;700;900&family=Zen+Maru+Gothic:wght@400;500;700;900&family=M+PLUS+1+Code:wght@300;400;500;600;700&display=swap");
 /* リセットCSS
   ===================================== */
-.btn_design_ctrl {
-  padding: 16px 0 !important;
-  grid-column: 1/-1;
-}
-
-.light_direction {
-  width: 80%;
-  margin: 0 auto;
-}
-.light_direction .components-radio-control .components-flex {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  row-gap: 10px;
-}
-.light_direction .components-radio-control__option {
-  width: 40%;
-}
-.light_direction .components-radio-control__option input {
-  display: none;
-}
-.light_direction .components-radio-control__option input[type=radio]:checked + label {
-  background-color: #0085ba;
-  color: #fff;
-  text-shadow: 0 -1px 1px #005d82, 1px 0 1px #005d82, 0 1px 1px #005d82, -1px 0 1px #005d82;
-}
-.light_direction .components-radio-control__option input[type=radio]:checked + label::after {
-  background: transparent url("../../../assets/img/light_on.svg") no-repeat center center/cover;
-}
-.light_direction .components-radio-control__option label {
-  display: block;
-  cursor: pointer;
-  width: 100%;
-  aspect-ratio: 1/1;
-  margin: 0;
-  padding: 9px 5px;
-  background: #f7f7f7;
-  color: #555e64;
-  text-align: center;
-  line-height: 1;
-  transition: 0.2s;
-  border: solid 1px #ccc;
-  border-left-style: none;
-  box-shadow: inset 0 -1px 0 #ccc;
-  border: 3px;
-  position: relative;
-}
-.light_direction .components-radio-control__option label:hover {
-  background: #fafafa;
-  border-color: #999;
-  box-shadow: inset 0 -1px 0 #999;
-  color: #23282d;
-}
-.light_direction .components-radio-control__option label::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(135deg);
-  border-radius: 50%;
-  width: 80%;
-  height: 80%;
-  background: transparent url("../../../assets/img/light_off.svg") no-repeat center center/cover;
-}
-.light_direction .components-radio-control__option:nth-child(1) label::after {
-  transform: translate(-50%, -50%) rotate(225deg);
-}
-.light_direction .components-radio-control__option:nth-child(2) label::after {
-  transform: translate(-50%, -50%) rotate(315deg);
-}
-.light_direction .components-radio-control__option:nth-child(3) label::after {
-  transform: translate(-50%, -50%) rotate(135deg);
-}
-.light_direction .components-radio-control__option:nth-child(4) label::after {
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-.light_direction.claymor {
-  width: 80%;
-  margin: 0 auto;
-}
-.light_direction.claymor .components-radio-control .components-flex {
-  flex-wrap: nowrap;
-}
-.light_direction.claymor .components-radio-control__option:nth-child(3) label::after {
-  transform: translate(-50%, -50%) rotate(270deg);
-}
-
-.embos {
-  width: 100%;
-}
-.embos .components-radio-control .components-flex {
-  display: flex;
-  flex-direction: row;
-  row-gap: 10px;
-}
-.embos .components-radio-control__option {
-  width: 100%;
-}
-.embos .components-radio-control__option input {
-  display: none;
-}
-.embos .components-radio-control__option input[type=radio]:checked + label {
-  background-color: #0085ba;
-  color: #fff;
-  text-shadow: 0 -1px 1px #005d82, 1px 0 1px #005d82, 0 1px 1px #005d82, -1px 0 1px #005d82;
-}
-.embos .components-radio-control__option label {
-  display: block;
-  cursor: pointer;
-  margin-left: auto;
-  width: 100%;
-  aspect-ratio: 16/9;
-  padding: 9px 5px;
-  background: #f7f7f7;
-  color: #555e64;
-  text-align: center;
-  line-height: 1;
-  transition: 0.2s;
-  border: solid 1px #ccc;
-  border-left-style: none;
-  box-shadow: inset 0 -1px 0 #ccc;
-  border: 3px;
-  position: relative;
-}
-.embos .components-radio-control__option label:hover {
-  background: #fafafa;
-  border-color: #999;
-  box-shadow: inset 0 -1px 0 #999;
-  color: #23282d;
-}
-.embos .components-radio-control__option label::after {
-  content: "";
-  position: absolute;
-  width: 80%;
-  height: 80%;
-  top: 50%;
-  left: 50%;
-}
-.embos .components-radio-control__option:nth-child(1) label::after {
-  transform: translate(-50%, -50%);
-  background: transparent url("../../../assets/img/swell.svg") no-repeat center center/contain;
-}
-.embos .components-radio-control__option:nth-child(2) label::after {
-  transform: translate(-50%, -50%);
-  background: transparent url("../../../assets/img/dent.svg") no-repeat center center/contain;
-}
-
-.itmar_weight_row .components-radio-control,
-.itmar_position_row .components-radio-control,
-.itmar_select_row .components-radio-control,
-.itmar_shadow_type .components-radio-control,
-.itmar_title_type .components-radio-control,
-.itmar_link_type .components-radio-control {
-  width: 100%;
-}
-.itmar_weight_row .components-radio-control .components-flex,
-.itmar_position_row .components-radio-control .components-flex,
-.itmar_select_row .components-radio-control .components-flex,
-.itmar_shadow_type .components-radio-control .components-flex,
-.itmar_title_type .components-radio-control .components-flex,
-.itmar_link_type .components-radio-control .components-flex {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-  gap: 0;
-}
-.itmar_weight_row .components-radio-control__option,
-.itmar_position_row .components-radio-control__option,
-.itmar_select_row .components-radio-control__option,
-.itmar_shadow_type .components-radio-control__option,
-.itmar_title_type .components-radio-control__option,
-.itmar_link_type .components-radio-control__option {
-  width: 30%;
-}
-.itmar_weight_row .components-radio-control__option input,
-.itmar_position_row .components-radio-control__option input,
-.itmar_select_row .components-radio-control__option input,
-.itmar_shadow_type .components-radio-control__option input,
-.itmar_title_type .components-radio-control__option input,
-.itmar_link_type .components-radio-control__option input {
-  display: none;
-}
-.itmar_weight_row .components-radio-control__option input[type=radio]:checked + label,
-.itmar_position_row .components-radio-control__option input[type=radio]:checked + label,
-.itmar_select_row .components-radio-control__option input[type=radio]:checked + label,
-.itmar_shadow_type .components-radio-control__option input[type=radio]:checked + label,
-.itmar_title_type .components-radio-control__option input[type=radio]:checked + label,
-.itmar_link_type .components-radio-control__option input[type=radio]:checked + label {
-  background-color: #0085ba;
-  color: #fff;
-  text-shadow: 0 -1px 1px #005d82, 1px 0 1px #005d82, 0 1px 1px #005d82, -1px 0 1px #005d82;
-}
-.itmar_weight_row .components-radio-control__option label,
-.itmar_position_row .components-radio-control__option label,
-.itmar_select_row .components-radio-control__option label,
-.itmar_shadow_type .components-radio-control__option label,
-.itmar_title_type .components-radio-control__option label,
-.itmar_link_type .components-radio-control__option label {
-  display: block;
-  cursor: pointer;
-  width: 100%;
-  margin: 0;
-  padding: 9px 5px;
-  background: #f7f7f7;
-  color: #555e64;
-  text-align: center;
-  line-height: 1;
-  transition: 0.2s;
-  border: solid 1px #ccc;
-  border-left-style: none;
-  box-shadow: inset 0 -1px 0 #ccc;
-  max-width: 100%;
-}
-.itmar_weight_row .components-radio-control__option label:hover,
-.itmar_position_row .components-radio-control__option label:hover,
-.itmar_select_row .components-radio-control__option label:hover,
-.itmar_shadow_type .components-radio-control__option label:hover,
-.itmar_title_type .components-radio-control__option label:hover,
-.itmar_link_type .components-radio-control__option label:hover {
-  background: #fafafa;
-  border-color: #999;
-  box-shadow: inset 0 -1px 0 #999;
-  color: #23282d;
-}
-.itmar_weight_row .components-radio-control__option:first-child label,
-.itmar_position_row .components-radio-control__option:first-child label,
-.itmar_select_row .components-radio-control__option:first-child label,
-.itmar_shadow_type .components-radio-control__option:first-child label,
-.itmar_title_type .components-radio-control__option:first-child label,
-.itmar_link_type .components-radio-control__option:first-child label {
-  border-radius: 3px 0 0 3px;
-  border-left-style: solid;
-}
-.itmar_weight_row .components-radio-control__option:last-child label,
-.itmar_position_row .components-radio-control__option:last-child label,
-.itmar_select_row .components-radio-control__option:last-child label,
-.itmar_shadow_type .components-radio-control__option:last-child label,
-.itmar_title_type .components-radio-control__option:last-child label,
-.itmar_link_type .components-radio-control__option:last-child label {
-  border-radius: 0 3px 3px 0;
-}
-
-.itmar_select_row .components-radio-control .components-flex {
-  -moz-column-gap: 2em;
-       column-gap: 2em;
-}
-.itmar_select_row .components-radio-control .components-flex label {
-  white-space: nowrap;
-}
-
-.itmar_shadow_type .components-radio-control__option,
-.itmar_title_type .components-radio-control__option,
-.itmar_link_type .components-radio-control__option {
-  width: 50%;
-}
-
-.itmar_shadow_type label {
-  font-size: 11px;
-}
-
-.itmar_isDraggable:hover {
-  cursor: move !important;
-}
-
-.components-panel__body.is-opened {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.components-panel__row.distance_row, .components-panel__row.position_row {
-  align-items: baseline;
-  -moz-column-gap: 10px;
-       column-gap: 10px;
-  max-width: 500px;
-}
-.components-panel__row.distance_row .components-base-control, .components-panel__row.position_row .components-base-control {
-  margin-bottom: 0;
-}
-.components-panel__row.position_row {
-  align-items: flex-end;
-}
-.components-panel__row.reset_row {
-  justify-content: end;
-}
-.components-panel__row.grid_table table {
-  width: 90%;
-  margin: 0 auto;
-  border-collapse: collapse;
-}
-.components-panel__row.grid_table table th {
-  border-style: none;
-}
-.components-panel__row.grid_table table th:first-child {
-  width: 60px;
-}
-.components-panel__row.grid_table table th .components-input-control__container {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin: 0 auto;
-}
-.components-panel__row.grid_table table th .components-input-control__input {
-  width: 60px;
-  height: 30px;
-}
-.components-panel__row.grid_table table td {
-  border: 1px black dashed;
-}
-.components-panel__row.grid_table table td.selected {
-  border: 2px black solid;
-}
-.components-panel__row.grid_table table td:hover {
-  cursor: pointer;
-}
-.components-panel__row.grid_table table tr:first-of-type th .components-flex {
-  padding-bottom: 5px;
-}
-.components-panel__row.grid_table table tr th:first-of-type .components-flex {
-  padding-right: 5px;
-}
-
-.itmar_group_direction .rotate-icon,
-.grid_table .rotate-icon,
-.components-dropdown__content .rotate-icon {
-  transform: rotate(90deg);
-}
-
-.grid_table {
-  text-align: center;
-  vertical-align: middle;
-}
-.grid_table .components-dropdown-menu {
-  border-radius: 5px;
-  border: #555e64 1px solid;
-}
-.grid_table .itmar_event_stopper .components-dropdown:not(:last-child) {
-  margin-left: 5px;
-}
-
-.itmar_style_div {
-  display: none;
-}
-
 /**
  * The following styles get applied both on the front of your site
  * and in the editor.
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-group {
+.wp-block-itmar-design-title {
   box-sizing: border-box;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
   border: 1px solid transparent;
 }
-
-.itmar_hamberger_btn {
-  position: fixed;
-  display: none;
-  top: 2em;
-  right: 2em;
-  width: 25px;
-  height: 20px;
-  cursor: pointer;
-  transition: all 0.5s;
-  box-sizing: border-box;
-  z-index: 100;
+.wp-block-itmar-design-title > div {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
-.itmar_hamberger_btn span {
+.wp-block-itmar-design-title .submenu-block {
   position: absolute;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: var(--wp--preset--color--content);
-  border-radius: 4px;
-  display: inline-block;
-  transition: all 0.5s;
-  box-sizing: border-box;
-}
-.itmar_hamberger_btn span:nth-of-type(1) {
-  top: 0;
-}
-.itmar_hamberger_btn span:nth-of-type(2) {
-  top: 50%;
-  transform: translateY(-50%);
-}
-.itmar_hamberger_btn span:nth-of-type(3) {
-  bottom: 0;
-}
-.itmar_hamberger_btn.open {
-  transform: rotate(360deg);
-}
-.itmar_hamberger_btn.open span {
-  background-color: #ffffff;
-}
-.itmar_hamberger_btn.open span:nth-of-type(1) {
-  transform: translateY(320%) rotate(-45deg);
-}
-.itmar_hamberger_btn.open span:nth-of-type(2) {
-  transform: translateY(0) rotate(45deg);
-}
-.itmar_hamberger_btn.open span:nth-of-type(3) {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: auto;
+  transition: all 0.3s ease 0s;
   opacity: 0;
+  visibility: hidden;
+  z-index: 20;
+}
+.wp-block-itmar-design-title .submenu-block.bottom_right {
+  transform: scale(1, 0);
+  top: 100%;
+  right: 0;
+  transform-origin: left top;
 }
 @media (max-width: 767px) {
-  .itmar_hamberger_btn {
-    display: inline-block;
+  .wp-block-itmar-design-title .submenu-block.bottom_right {
+    transform: none;
   }
 }
-
-.itmar_back_ground {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  max-width: none;
-  background-color: #000;
-  opacity: 0;
-  display: none;
-  transition: all 0.5s;
-  z-index: 80;
-  margin-top: 0;
+.wp-block-itmar-design-title .submenu-block.bottom_center {
+  top: 100%;
+  left: 50%;
+  transform: scale(1, 0) translateX(-50%);
+  transform-origin: center top;
 }
 @media (max-width: 767px) {
-  .itmar_back_ground.open {
-    display: block;
-    opacity: 0.7;
+  .wp-block-itmar-design-title .submenu-block.bottom_center {
+    transform: none;
+  }
+}
+.wp-block-itmar-design-title .submenu-block.bottom_left {
+  transform: scale(1, 0);
+  top: 100%;
+  left: 0;
+  transform-origin: left top;
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title .submenu-block.bottom_left {
+    transform: none;
+  }
+}
+.wp-block-itmar-design-title .submenu-block.center_right {
+  transform: scale(0, 1);
+  top: 0;
+  left: 100%;
+  transform-origin: left top;
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title .submenu-block.center_right {
+    transform: none;
+  }
+}
+.wp-block-itmar-design-title .submenu-block.center_left {
+  transform: scale(0, 1);
+  top: 0;
+  right: 100%;
+  transform-origin: right top;
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title .submenu-block.center_left {
+    transform: none;
+  }
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title .submenu-block.mobile_virtical {
+    position: static;
+    max-height: 0;
+    transition: all 0.8s ease 0s;
+  }
+  .wp-block-itmar-design-title .submenu-block.mobile_horizen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scale(0, 1);
+    transform-origin: left center;
+    transition: all 0.8s ease 0s;
+  }
+}
+.wp-block-itmar-design-title:hover > .submenu-block,
+.wp-block-itmar-design-title .submenu-block:hover,
+.wp-block-itmar-design-title .submenu-block.visible {
+  transform: scale(1, 1);
+  opacity: 1;
+  visibility: visible;
+}
+.wp-block-itmar-design-title:hover > .submenu-block.bottom_right,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_right,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_right {
+  transform: scale(1, 1);
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title:hover > .submenu-block.bottom_right,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_right,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_right {
+    transform: none;
+  }
+}
+.wp-block-itmar-design-title:hover > .submenu-block.bottom_center,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_center,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_center {
+  transform: scale(1, 1) translateX(-50%);
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title:hover > .submenu-block.bottom_center,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_center,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_center {
+    transform: none;
+  }
+}
+.wp-block-itmar-design-title:hover > .submenu-block.bottom_left,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_left,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_left {
+  transform: scale(1, 1);
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title:hover > .submenu-block.bottom_left,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_left,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_left {
+    transform: none;
+  }
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title:hover > .submenu-block.mobile_virtical,
+.wp-block-itmar-design-title .submenu-block:hover.mobile_virtical,
+.wp-block-itmar-design-title .submenu-block.visible.mobile_virtical {
+    max-height: 100vh;
+  }
+  .wp-block-itmar-design-title:hover > .submenu-block.mobile_horizen,
+.wp-block-itmar-design-title .submenu-block:hover.mobile_horizen,
+.wp-block-itmar-design-title .submenu-block.visible.mobile_horizen {
+    transform: scale(1, 1);
   }
 }
 /*# sourceMappingURL=style.css.map */

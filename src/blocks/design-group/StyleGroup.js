@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { width_prm, max_width_prm, align_prm, position_prm, space_prm, convertToScss } from '../cssPropertes';
+import { anime_comp } from '../animation_css'
 
 export const StyleComp = ({ attributes, isMenuOpen, children }) => {
   const content = (
@@ -27,10 +28,15 @@ ${({ attributes }) => {
       is_menu,
       is_submenu,
       has_submenu,
+      anime_prm,
       is_swiper
     } = attributes;
 
     //スペースの設定
+    const default_margin_prm = space_prm(default_pos.margin);
+    const mobile_margin_prm = space_prm(mobile_pos.margin);
+    const default_padding_prm = space_prm(default_pos.padding);
+    const mobile_padding_prm = space_prm(mobile_pos.padding);
     const default_content_padding_prm = space_prm(default_pos.padding_content);
     const mobile_contnt_padding_prm = space_prm(mobile_pos.padding_content);
     //ブロック幅
@@ -55,13 +61,16 @@ ${({ attributes }) => {
     const commonStyle = css`
       position: ${positionType};
       ${default_block_position}
-      margin-block-start:0;
+      margin: ${default_margin_prm};
+      padding: ${default_padding_prm};
       ${is_menu && css`z-index:100;`}
       ${is_submenu ? default_width_style : default_max_width_style}
       ${default_block_align}
       align-self: ${default_pos.outer_vertical};
       @media (max-width: 767px) {
         ${mobile_block_position}
+        margin: ${mobile_margin_prm};
+        padding: ${mobile_padding_prm};
         ${is_submenu ? mobile_width_style : mobile_max_width_style}
         ${mobile_block_align}
         ${is_menu && css`
@@ -98,6 +107,7 @@ ${({ attributes }) => {
         ${tranceform}
         ${is_swiper ? 'height :100%' : ''}
         >.group_contents{
+          ${anime_comp(anime_prm)}
           ${box_shadow_style};
           padding: ${default_content_padding_prm};
           @media (max-width: 767px) {

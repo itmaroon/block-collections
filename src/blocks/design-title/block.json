@@ -10,7 +10,7 @@
 		"html": false,
 		"color": {},
 		"typography": {
-			"fontSize": true,
+			"fontSize": false,
 			"lineHeight": true,
 			"textColumns": true,
 			"__experimentalFontFamily": true,
@@ -18,10 +18,7 @@
 			"__experimentalFontStyle": true,
 			"__experimentalTextTransform": true,
 			"__experimentalTextDecoration": true,
-			"__experimentalLetterSpacing": true,
-			"__experimentalDefaultControls": {
-				"fontSize": true
-			}
+			"__experimentalLetterSpacing": true
 		},
 		"__experimentalBorder": {
 			"color": true,
@@ -49,6 +46,14 @@
 		"headingType": {
 			"type": "string",
 			"default": "H2"
+		},
+		"defaultHeadingSize": {
+			"type": "string",
+			"default": "16px"
+		},
+		"mobileHeadingSize": {
+			"type": "string",
+			"default": "16px"
 		},
 		"titleType": {
 			"type": "string",

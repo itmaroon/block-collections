@@ -15,6 +15,8 @@ const StyledDiv = styled.div`
 
     const {
       headingType,
+      defaultHeadingSize,
+      mobileHeadingSize,
       isMenuItem,
       padding_heading,
       isVertical,
@@ -112,6 +114,10 @@ const StyledDiv = styled.div`
     const commonStyle = css`
       position: relative;
       z-index:10;
+      font-size: ${defaultHeadingSize};
+      @media (max-width: 767px) {
+        font-size: ${mobileHeadingSize};
+      }
       ${headingType}{
         position: relative;
         padding: ${render_padding};
@@ -121,6 +127,7 @@ const StyledDiv = styled.div`
         ${underLine};
         ${box_shadow_style};
         ${vertical_style};
+        
       }
       a{
         text-decoration: none !important;

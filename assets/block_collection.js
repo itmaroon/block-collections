@@ -95,6 +95,61 @@ jQuery(function ($) {
     }
   });
 
+  /* ------------------------------
+ design-groupアニメーションイベント処理
+ ------------------------------ */
+  const anime_parm_trigger = (flg, trigger) => {
+    $('.wp-block-itmar-design-group .group_contents').filter(function () {
+      // data-anime_prm属性が'visible'である要素を選択
+      return $(this).data('anime_prm').trigger === trigger;
+    }).each(function () {
+      if ($(this).data('is_anime')) {
+        const anime_pattern = $(this).data('anime_prm').pattern
+        if (flg) {
+          $(this).addClass(anime_pattern)
+        } else {
+          $(this).removeClass(anime_pattern)
+        }
+
+      }
+    });
+  }
+
+  //オープニングの処理がない場合のアニメーション
+  $(document).ready(function () {
+    if ($('.fixbg').length == 0) {
+      anime_parm_trigger(true, 'opend')
+    }
+  });
+
+  //オープニングの処理完了後のアニメーション
+  $('.fixbg').on('openAnimationEnd', function () {
+    anime_parm_trigger(true, 'opend')
+  });
+
+  //可視領域に入った時のアニメーション
+  $(window).scroll(function () {
+    $('.wp-block-itmar-design-group .group_contents').filter(function () {
+      // data-anime_prm属性が'visible'である要素を選択
+      return $(this).data('anime_prm').trigger === 'visible';
+    }).each(function () {
+      const $element = $(this);
+      const elementTop = $element.offset().top; // 要素の上端の位置
+      const viewportHeight = $(window).height(); // ビューポートの高さ
+      const scrollPosition = $(window).scrollTop(); // 現在のスクロール位置
+      const anime_pattern = $(this).data('anime_prm').pattern
+      // 要素がビューポート内に入ったかどうかを判定
+      if (elementTop < (viewportHeight + scrollPosition) && elementTop > scrollPosition) {
+        // ここに要素がビューポートに入った時の処理
+        $(this).addClass(anime_pattern)
+
+      } else {
+        // ここに要素がビューポートから出た時の処理
+        $(this).removeClass(anime_pattern)
+      }
+    });
+  });
+
 
   /* ------------------------------
   design-text-ctrl
@@ -243,8 +298,6 @@ jQuery(function ($) {
       }
 
     }
-
-
 
     //プルダウンを消す
     select.removeClass('open');

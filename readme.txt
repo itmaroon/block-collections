@@ -77,11 +77,16 @@ OR…
 Function addition
 - Added the ability to generate DOM elements as swiper slides in Design group
 - New option to set block width to full width of viewport in Design group
+- The position property (static, fixed, absolute, sticky) can now be set for Design group.
+- Added the ability to set animation to Design Group
 - Added a module that allows you to add functionality using core blocks as higher-order components.
 - Added the ability to display images and pseudo-elements on Design Buttons
 - Added the ability to specify archive pages and free URLs for Design Button links.
+- Vertical writing can now be set for Design Title.
 Bug fixes
 - Fixed an issue where the archive page of the root domain WordPress site would be displayed when a fixed page was selected as the link destination type of Design Button.
+- Fixed a bug where the font color of Design Title was rewritten to the theme color.
+- Fixed text domain from 'itmar_block_collections' to 'block-collections' to match plugin slug.
 
 = 1.1.3 =
 Bug fixes

@@ -7,10 +7,6 @@
   "category": "design",
   "supports": {
     "html": false,
-    "spacing": {
-      "margin": true,
-      "padding": true
-    },
     "color": {
       "background": true,
       "text": false,
@@ -50,6 +46,18 @@
           "vertValue": "3em",
           "horValue": "3em"
         },
+        "margin": {
+          "top": "0px",
+          "left": "0px",
+          "bottom": "0px",
+          "right": "0px"
+        },
+        "padding": {
+          "top": "0px",
+          "left": "0px",
+          "bottom": "0px",
+          "right": "0px"
+        },
         "padding_content": {
           "top": "0px",
           "left": "0px",
@@ -81,6 +89,18 @@
           "horBase": "left",
           "vertValue": "2em",
           "horValue": "1em"
+        },
+        "margin": {
+          "top": "0px",
+          "left": "0px",
+          "bottom": "0px",
+          "right": "0px"
+        },
+        "padding": {
+          "top": "0px",
+          "left": "0px",
+          "bottom": "0px",
+          "right": "0px"
         },
         "padding_content": {
           "top": "20px",
@@ -128,6 +148,19 @@
     "is_shadow": {
       "type": "boolean",
       "default": false
+    },
+    "is_anime": {
+      "type": "boolean",
+      "default": false
+    },
+    "anime_prm": {
+      "type": "object",
+      "default": {
+        "pattern": "fadeLeft",
+        "trigger": "opend",
+        "delay": 0,
+        "duration": 0.5
+      }
     },
     "blockNum": {
       "type": "number",

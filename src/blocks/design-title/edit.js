@@ -35,7 +35,7 @@ import {
 import './editor.scss';
 import { useEffect, useState, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { useElementBackgroundColor } from '../CustomFooks'
+import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks'
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -66,6 +66,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		headingContent,
 		headingType,
+		defaultHeadingSize,
+		mobileHeadingSize,
 		titleType,
 		align,
 		isVertical,
@@ -87,6 +89,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	//テキストの配置
 	const align_style = align === 'center' ? { marginLeft: 'auto', marginRight: 'auto' } :
 		align === 'right' ? { marginLeft: 'auto' } : {};
+
+	//モバイルの判定
+	const isMobile = useIsIframeMobile();
 
 	//ブロックの参照
 	const blockRef = useRef(null);
@@ -413,15 +418,26 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			<InspectorControls group="styles">
 
 				<PanelBody title={__("Title settings", 'block-collections')} initialOpen={true} className="title_design_ctrl">
+
+					<UnitControl
+						dragDirection="e"
+						onChange={value => setAttributes(!isMobile ?
+							{ defaultHeadingSize: value }
+							: { mobileHeadingSize: value }
+						)}
+						label={!isMobile ?
+							__("Font Size(desk top)", 'block-collections')
+							: __("Font Size(mobile)", 'block-collections')}
+						value={!isMobile ? defaultHeadingSize : mobileHeadingSize}
+					/>
 					<BoxControl
-						label={__("Padding settings", 'block-collections')}
+						label={__("Padding", 'block-collections')}
 						values={padding_heading}
 						onChange={value => setAttributes({ padding_heading: value })}
 						units={units}	// 許可する単位
 						allowReset={true}	// リセットの可否
 						resetValues={padding_resetValues}	// リセット時の値
 					/>
-
 					<ToggleControl
 						label={__('Is Shadow', 'block-collections')}
 						checked={is_shadow}
@@ -505,7 +521,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						</PanelBody>
 					}
 					<ToggleControl
-						label={__('write vertically', 'block-collections')}
+						label={__('Write vertically', 'block-collections')}
 						checked={isVertical}
 						onChange={(newVal) => {
 							setAttributes({ isVertical: newVal })

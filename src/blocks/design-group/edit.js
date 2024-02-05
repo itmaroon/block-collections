@@ -9,6 +9,7 @@ import DraggableBox, { useDraggingMove } from '../DraggableBox';
 import BlockPlace from '../BlockPlace';
 import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks'
 import { useSelect, dispatch } from '@wordpress/data';
+import AnimationBlock from '../AnimationBlock';
 
 import {
 	useBlockProps,
@@ -74,11 +75,14 @@ function checkSubmenuBlocks(blocks) {
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
+
 	const {
 		default_pos,
 		mobile_pos,
 		shadow_element,
+		anime_prm,
 		is_shadow,
+		is_anime,
 		is_moveable,
 		position,
 		is_menu,
@@ -91,6 +95,9 @@ export default function Edit(props) {
 
 	//ブロックの参照
 	const blockRef = useRef(null);
+
+	//インナーブロックの参照
+	const innerRef = useRef(null);
 
 	//ハンバーガーボタンのクリックによるイベントハンドラ(クラス名の付加)
 	const [isMenuOpen, setIsmenuOpen] = useState(false);
@@ -118,9 +125,11 @@ export default function Edit(props) {
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 
+	//アニメーション開始のトリガーとなるクラスを付加するフラグ
+	const [startAnime, setStartAnime] = useState(false);
 	//ブロックアイテム（インナーブロック）
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: 'group_contents' },
+		{ className: `group_contents ${is_anime ? 'fadeTrigger' : ''} ${startAnime ? anime_prm.pattern : ''}`, ref: innerRef },
 		{
 			templateLock: false
 		}
@@ -150,6 +159,77 @@ export default function Edit(props) {
 		setAttributes({ has_submenu: isSubmenuInclude })
 	}, [isSubmenuInclude]);
 
+	//ブロックの監視（オープニングブロックが含まれているか）
+	const { openBlockAnimation } = useSelect((select) => {
+		const blocks = select('core/block-editor').getBlocks();
+		const openingBlocks = ['itmar/logo-anime', 'itmar/tea-time', 'itmar/welcome'];
+		// ブロックリストを検索し、openingBlocks配列のブロック名を持つブロックがあるか確認
+		for (let block of blocks) {
+			if (openingBlocks.includes(block.name)) {
+				// 対象のブロックが見つかった場合、そのブロックの属性を返す
+				return {
+					openBlockAnimation: {
+						is_anime: block.attributes.is_anime,
+						is_front: block.attributes.is_front
+					}
+				};
+			}
+		}
+
+		// 対象のブロックが見つからなかった場合
+		return { openBlockAnimation: null };
+
+	}, []);
+
+	//アニメーションスタートのトリガー
+	useEffect(() => {//アニメーション設定によるアニメスタート
+		if (is_anime) {
+			setStartAnime(true);
+		} else {
+			setStartAnime(false);
+		}
+	}, [is_anime]);
+
+	useEffect(() => {//オープニング終了によるアニメスタート
+		if (is_anime && openBlockAnimation && (anime_prm.trigger === 'opend')) {
+			if (openBlockAnimation.is_front) {
+				setStartAnime(false);
+			}
+			if (is_anime && !openBlockAnimation.is_front && !openBlockAnimation.is_anime) {
+				setStartAnime(true);
+			}
+		}
+
+	}, [is_anime, openBlockAnimation]);
+
+	useEffect(() => {//可視領域に入ったことによるアニメスタート
+		if (is_anime && (anime_prm.trigger === 'visible')) {
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						// ブロックが可視領域に入った時の処理
+						setStartAnime(true);
+					} else {
+						// ブロックが可視領域から出た時の処理
+						setStartAnime(false);
+					}
+				});
+			}, {
+				root: null, // ビューポートをルートとする
+				rootMargin: '0px', // ビューポートのマージンは0px
+				threshold: 0.1 // 10%の交差を閾値とする
+			});
+
+			// 監視対象のブロックを選択
+			if (blockRef.current) {
+				observer.observe(blockRef.current);
+			}
+
+			// コンポーネントのアンマウント時にオブザーバーをクリーンアップ
+			return () => observer.disconnect();
+		}
+	}, [is_anime, anime_prm.trigger]);
+
 	return (
 		<>
 			{/* インスペクター領域内 */}
@@ -173,8 +253,51 @@ export default function Edit(props) {
 					/>
 				</PanelBody>
 
+				<AnimationBlock
+					attributes={attributes}
+					onChange={(newValue) => setAttributes(newValue)}
+				/>
+
 			</InspectorControls>
 			<InspectorControls group="styles">
+				<PanelBody title={__("Dimensions", 'block-collections')} initialOpen={false} className="form_design_ctrl">
+					<BoxControl
+						label={!isMobile ?
+							__("Margin settings(desk top)", 'block-collections')
+							: __("Margin settings(mobile)", 'block-collections')
+						}
+						values={!isMobile ? default_pos.margin : mobile_pos.margin}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, margin: value } });
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, margin: value } });
+							}
+						}}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
+
+					/>
+					<BoxControl
+						label={!isMobile ?
+							__("Padding settings(desk top)", 'block-collections')
+							: __("Padding settings(mobile)", 'block-collections')
+						}
+						values={!isMobile ? default_pos.padding : mobile_pos.padding}
+						onChange={value => {
+							if (!isMobile) {
+								setAttributes({ default_pos: { ...default_pos, padding: value } })
+							} else {
+								setAttributes({ mobile_pos: { ...mobile_pos, padding: value } })
+							}
+						}}
+						units={units}	// 許可する単位
+						allowReset={true}	// リセットの可否
+						resetValues={padding_resetValues}	// リセット時の値
+
+					/>
+				</PanelBody>
 				<BlockPlace
 					attributes={attributes}
 					clientId={clientId}

@@ -20,7 +20,7 @@ export const position_prm = (pos, type) => {
     `
     ${pos.vertBase}: ${pos.vertValue}; 
     ${pos.horBase}: ${pos.horValue};
-    ${(type === 'fixed' || type === 'sticky') ? 'z-index: 50;' : 'z-index: auto;'}
+    ${(type === 'fixed' || type === 'sticky') ? 'margin-block-start:0;z-index: 50;' : 'z-index: auto;'}
   `
     : '';
 
