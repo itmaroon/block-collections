@@ -226,16 +226,15 @@ const StyledDiv = styled.div`
 
 
         //文字列のレンダリングの長さ
-        function measureTextWidth(text, fontSize, fontFamily) {
-          const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d');
-          context.font = `${fontSize} ${fontFamily} `;
-          const metrics = context.measureText(text);
-          return metrics.width;
-        }
+        // function measureTextWidth(text, fontSize, fontFamily) {
+        //   const canvas = document.createElement('canvas');
+        //   const context = canvas.getContext('2d');
+        //   context.font = `${fontSize} ${fontFamily} `;
+        //   const metrics = context.measureText(text);
+        //   return metrics.width;
+        // }
 
-        const textWidth = measureTextWidth(optionStyle.copy_content, optionStyle.font_style_copy.fontSize, optionStyle.font_style_copy.fontFamily);
-
+        const textWidth = optionStyle.copy_width ? Number(optionStyle.copy_width) : 0;
 
         //アイコンの位置計算
         const tranceLeft = icon_style.icon_pos !== 'left' ?

@@ -60,6 +60,14 @@ const getIconForLevel = level => {
 		</svg>
 	);
 };
+//コピーの長さ
+const measureTextWidth = (text, fontSize, fontFamily) => {
+	const canvas = document.createElement('canvas');
+	const context = canvas.getContext('2d');
+	context.font = `${fontSize} ${fontFamily} `;
+	const metrics = context.measureText(text);
+	return metrics.width;
+}
 
 
 export default function Edit({ attributes, setAttributes, clientId }) {
@@ -122,8 +130,16 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	// localOptionStyle の変更があるたびに setAttributes を呼び出す
 	useEffect(() => {
-		setAttributes({ optionStyle: localOptionStyle });
+		let textWidth;
+		if (optionStyle?.copy_content) {
+			// textWidthの計算
+			textWidth = measureTextWidth(optionStyle.copy_content, optionStyle.font_style_copy?.fontSize, optionStyle.font_style_copy?.fontFamily);
+		}
+		const setOption = optionStyle?.copy_content ? { ...localOptionStyle, copy_width: textWidth } : localOptionStyle;
+
+		setAttributes({ optionStyle: setOption });
 	}, [localOptionStyle]);
+
 
 	// titleTypeの変更があるたびに titleの内容を変える
 	const [siteTitle, setSiteTitle] = useState('');
@@ -165,12 +181,15 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			}
 		}
 		else if (className?.split(' ').includes('is-style-sub_copy')) {
+			const textWidth = measureTextWidth(optionStyle.copy_content, optionStyle.font_style_copy.fontSize, optionStyle.font_style_copy.fontFamily);
+
 			reset_style = {
 				styleName: 'is-style-sub_copy',
 				alignment_copy: 'top left',
 				color_text_copy: 'var(--wp--preset--color--content)',
 				color_background_copy: 'var(--wp--preset--color--accent-1)',
 				copy_content: 'SAMPLE',
+				copy_width: textWidth,
 				font_style_copy: {
 					fontSize: "16px",
 					fontFamily: "Arial, sans-serif",
