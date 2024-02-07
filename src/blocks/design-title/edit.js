@@ -163,7 +163,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//スタイル変更時のデフォルト再設定
 	const execHandle = () => {
-
 		let reset_style;
 		if (className?.split(' ').includes('is-style-circle_marker')) {
 			reset_style = {
@@ -181,7 +180,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			}
 		}
 		else if (className?.split(' ').includes('is-style-sub_copy')) {
-			const textWidth = measureTextWidth(optionStyle.copy_content, optionStyle.font_style_copy.fontSize, optionStyle.font_style_copy.fontFamily);
 
 			reset_style = {
 				styleName: 'is-style-sub_copy',
@@ -189,7 +187,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				color_text_copy: 'var(--wp--preset--color--content)',
 				color_background_copy: 'var(--wp--preset--color--accent-1)',
 				copy_content: 'SAMPLE',
-				copy_width: textWidth,
+				copy_width: 0,
 				font_style_copy: {
 					fontSize: "16px",
 					fontFamily: "Arial, sans-serif",
@@ -221,7 +219,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					icon_family: "Font Awesome 6 Free"
 				}
 			}
+			setCopyInputValue('SAMPLE')
 		}
+		else {
+			reset_style = {};
+		}
+
 		setLocalOptionStyle(reset_style);
 
 		//refの更新
@@ -269,6 +272,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	//useFontawesomeIframe();
 
 	//TextControlの表示用変数
+
 	const [copyInputValue, setCopyInputValue] = useState((optionStyle && optionStyle.copy_content !== undefined) ? optionStyle.copy_content : 'SAMPLE');
 
 	//サブメニュー（インナーブロック）

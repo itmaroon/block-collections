@@ -87,6 +87,7 @@ Bug fixes
 - Fixed an issue where the archive page of the root domain WordPress site would be displayed when a fixed page was selected as the link destination type of Design Button.
 - Fixed a bug where the font color of Design Title was rewritten to the theme color.
 - Fixed text domain from 'itmar_block_collections' to 'block-collections' to match plugin slug.
+- Fixed an issue where the 'Block validation failed' error occurred in the Design Title sub-copy style.
 
 = 1.1.3 =
 Bug fixes
