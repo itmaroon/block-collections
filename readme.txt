@@ -71,6 +71,7 @@ OR…
 7. Edit Design Group Grid Style
 8. Design Table and Design Button
 9. A block icon registered by the plugin. Divided into design group and widget group
+10. Blocks that slide in with animation
 
 == Changelog ==
 = 1.2.0 =
