@@ -236,6 +236,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 							onChange={(newStyle) => {
 								setAttributes({ font_style_num: newStyle })
 							}}
+							isMobile={isMobile}
 							initialOpen={false}
 						/>
 						<PanelColorGradientSettings
@@ -262,6 +263,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 							onChange={(newStyle) => {
 								setAttributes({ font_style_process: newStyle })
 							}}
+							isMobile={isMobile}
 							initialOpen={false}
 						/>
 						<PanelColorGradientSettings

@@ -31,7 +31,8 @@
     "font_style_input": {
       "type": "object",
       "default": {
-        "fontSize": "16px",
+        "default_fontSize": "16px",
+        "mobile_fontSize": "12px",
         "fontFamily": "Noto Sans JP, sans-serif",
         "fontWeight": "500",
         "isItalic": false
@@ -114,7 +115,8 @@
     "font_style_label": {
       "type": "object",
       "default": {
-        "fontSize": "16px",
+        "default_fontSize": "16px",
+        "mobile_fontSize": "12px",
         "fontFamily": "Noto Sans JP, sans-serif",
         "fontWeight": "500",
         "isItalic": false

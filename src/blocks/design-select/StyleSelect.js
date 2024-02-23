@@ -56,11 +56,14 @@ const StyledDiv = styled.div`
       }
       .itmar_block_select {
         position: relative;
-        font-size: ${font_style_option.fontSize};
+        font-size: ${font_style_option.default_fontSize};
         font-family: ${font_style_option.fontFamily};
         font-weight: ${font_style_option.fontWeight};
         font-style: ${fontStyle_option};
         color: ${optionColor};
+        @media (max-width: 767px) {
+          font-size: ${font_style_option.mobile_fontSize};
+        }
         
         &>div {
           position: relative;
@@ -71,8 +74,11 @@ const StyledDiv = styled.div`
           z-index: 2;
           padding: 0.8em 3em 0.8em 1.2em;
           border-radius: 8px;
-          font-size: ${font_style_option.fontSize};
+          font-size: ${font_style_option.default_fontSize};
           min-height: 2.2em;
+          @media (max-width: 767px) {
+            font-size: ${font_style_option.mobile_fontSize};
+          }
           
           .itmar_block_opener {
             right: 1px;
@@ -269,12 +275,14 @@ const StyledDiv = styled.div`
             color: ${optionColor};
             background: #fff;
             padding: 0.5em 0.7em 0.5em 1.7em;
-            font-size: ${font_style_option.fontSize};
+            font-size: ${font_style_option.default_fontSize};
             cursor: pointer;
             overflow: hidden;
             position: relative;
             transition: background .3s ease, color .3s ease, transform .3s ease .3s, opacity .5s ease .3s, border-radius .3s ease .3s;
-    
+            @media (max-width: 767px) {
+              font-size: ${font_style_option.mobile_fontSize};
+            }
             &:first-child {
               border-radius: 8px 8px 0 0;
     

@@ -63,10 +63,13 @@ const StyledDiv = styled.div`
         background: ${bgInputColor};
         border-radius: ${input_radius_prm};
         color: ${textColor_input};
-        font-size: ${font_style_input.fontSize};
+        font-size: ${font_style_input.default_fontSize};
         font-family: ${font_style_input.fontFamily};
         font-weight: ${font_style_input.fontWeight};
         font-style: ${fontStyle_input};
+        @media (max-width: 767px) {
+          font-size: ${font_style_input.mobile_fontSize};
+        }
         &::placeholder{
           color: var(--wp--preset--color--placeholder);
         }

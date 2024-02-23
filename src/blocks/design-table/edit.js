@@ -551,6 +551,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						onChange={(newStyle) => {
 							setAttributes({ font_style_td: newStyle })
 						}}
+						isMobile={isMobile}
 						initialOpen={false}
 					/>
 

@@ -70,7 +70,7 @@ const StyledDiv = styled.div`
         ${borderProperty(border_value)};
         display: flex;
         ${box_shadow_style};
-        font-size: ${font_style_label.fontSize};
+        font-size: ${font_style_label.default_fontSize};
         font-family: ${font_style_label.fontFamily};
         font-weight: ${font_style_label.fontWeight};
         font-style: ${fontStyle_label};
@@ -98,6 +98,7 @@ const StyledDiv = styled.div`
           height: ${mobile_pos.height};
           margin: ${mobile_heading_margin_prm};
           padding: ${mobile_heading_padding_prm};
+          font-size: ${font_style_label.mobile_fontSize};
         }
       }
     `;

@@ -250,6 +250,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 						labelVertAlign,
 						shadow_result,
 						is_shadow,
+						isMobile,
 						className,
 					}}
 					setAttributes={setAttributes}
@@ -415,6 +416,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 						onChange={(newStyle) => {
 							setAttributes({ font_style_option: newStyle })
 						}}
+						isMobile={isMobile}
 						initialOpen={false}
 					/>
 

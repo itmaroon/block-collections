@@ -81,7 +81,7 @@ const StyledDiv = styled.div`
           ${borderProperty(border_value)};
         }
         th{
-          font-size: ${font_style_th.fontSize};
+          font-size: ${font_style_th.default_fontSize};
           font-family: ${font_style_th.fontFamily};
           font-weight: ${font_style_th.fontWeight};
           font-style: ${fontStyle_th};
@@ -90,12 +90,13 @@ const StyledDiv = styled.div`
           padding: ${default_th_padding_prm};
           min-width:${default_pos.headding_min_width}px;
           @media (max-width: 767px) {
+            font-size: ${font_style_td.mobile_fontSize};
             padding: ${mobile_th_padding_prm};
             min-width:${mobile_pos.headding_min_width}px;
           }
         }
         td{
-          font-size: ${font_style_td.fontSize};
+          font-size: ${font_style_td.default_fontSize};
           font-family: ${font_style_td.fontFamily};
           font-weight: ${font_style_td.fontWeight};
           font-style: ${fontStyle_td};
@@ -103,6 +104,7 @@ const StyledDiv = styled.div`
           background: ${bgColorTd};
           padding: ${default_td_padding_prm};
           @media (max-width: 767px) {
+            font-size: ${font_style_td.mobile_fontSize};
             padding: ${mobile_td_padding_prm};
           }
         }

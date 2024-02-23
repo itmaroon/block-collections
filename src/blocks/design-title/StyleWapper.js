@@ -297,7 +297,7 @@ const StyledDiv = styled.div`
         specificStyle = css`
           padding:${subcopy_padding};
           &::before{
-            font-size: ${font_style_copy.fontSize};
+            font-size: ${font_style_copy.default_fontSize};
             font-family: ${font_style_copy.fontFamily};
             font-weight: ${font_style_copy.fontWeight};
             font-style: ${fontStyle};
@@ -308,7 +308,12 @@ const StyledDiv = styled.div`
             border-radius: ${copy_radius_prm};
             background: ${bgColor};
             padding:${copy_padding_prm};
-            line-height: 1
+            line-height: 1;
+          }
+          @media (max-width: 767px) {
+            &::before{
+              font-size: ${font_style_copy.mobile_fontSize};
+            }
           }
           ${isIcon && css`
             &::after{

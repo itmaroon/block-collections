@@ -371,6 +371,7 @@ export default function Edit({ attributes, setAttributes }) {
 					<TypographyControls
 						title={__('Typography', 'block-collections')}
 						fontStyle={font_style_label}
+						isMobile={isMobile}
 						onChange={(newStyle) => {
 							setAttributes({ font_style_label: newStyle })
 						}}

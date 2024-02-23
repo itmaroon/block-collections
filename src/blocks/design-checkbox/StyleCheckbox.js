@@ -57,13 +57,16 @@ const StyledDiv = styled.div`
         display: none;
       }
       div{
-        font-size: ${font_style_label.fontSize};
+        font-size: ${font_style_label.default_fontSize};
         font-family: ${font_style_label.fontFamily};
         font-weight: ${font_style_label.fontWeight};
         font-style: ${fontStyle_label};
         color: ${labelColor};
         margin:0;
         line-height: 1.2;
+        @media (max-width: 767px) {
+          font-size: ${font_style_label.mobile_fontSize};
+        }
       }
 		  
     
@@ -81,7 +84,7 @@ const StyledDiv = styled.div`
       label{
         display: flex;
         span {
-        font-size: ${font_style_label.fontSize};
+        font-size: ${font_style_label.default_fontSize};
         border: 0.2em solid var(--wp--preset--color--background);
         height: 1.2em;
         width: 1.2em;
@@ -93,6 +96,9 @@ const StyledDiv = styled.div`
         transition: border-color ease 0.2s;
         margin-right: 1em;
         cursor:pointer;
+        @media (max-width: 767px) {
+          font-size: ${font_style_label.mobile_fontSize};
+        }
 
         &::before, &::after {
           box-sizing: border-box;

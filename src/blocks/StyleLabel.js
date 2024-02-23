@@ -47,13 +47,16 @@ const StyledDiv = styled.label`
       background: ${bgLabelColor};
       border-radius: ${label_radius_prm};
       color: ${textColor_label};
-      font-size: ${font_style_label.fontSize};
+      font-size: ${font_style_label.default_fontSize};
       font-family: ${font_style_label.fontFamily};
       font-weight: ${font_style_label.fontWeight};
       font-style: ${fontStyle_label};
       padding: ${label_padding_prm};
       ${borderProperty(border_label)};
       ${box_shadow_style};
+      @media (max-width: 767px) {
+        font-size: ${font_style_label.mobile_fontSize};
+      }
       span{
         color:var(--wp--preset--color--accent-1);
       }

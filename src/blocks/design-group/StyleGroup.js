@@ -28,8 +28,7 @@ ${({ attributes }) => {
       is_menu,
       is_submenu,
       has_submenu,
-      anime_prm,
-      is_swiper
+      anime_prm
     } = attributes;
 
     //スペースの設定
@@ -105,7 +104,6 @@ ${({ attributes }) => {
       }
       > div{
         ${tranceform}
-        ${is_swiper ? 'height :100%' : ''}
         >.group_contents{
           ${anime_comp(anime_prm)}
           ${box_shadow_style};

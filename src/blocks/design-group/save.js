@@ -9,7 +9,8 @@ export default function save({ attributes }) {
 		is_menu,
 		is_submenu,
 		is_anime,
-		anime_prm
+		anime_prm,
+		is_swiper
 	} = attributes;
 
 	const blockProps = useBlockProps.save();
@@ -23,9 +24,8 @@ export default function save({ attributes }) {
 	));
 	const styleTags = sheet.getStyleTags();
 	// 正規表現で styled-components のクラス名を取得
-	const classMatch = html.match(/class="([^"]+)"/);
-	const className = classMatch ? classMatch[1] : "";
-
+	const classMatch = html.match(/class="sc-([^"]+)"/);
+	const className = classMatch ? `sc-${classMatch[1]}` : "";
 	return (
 		<>
 			{(is_menu && !is_submenu) &&

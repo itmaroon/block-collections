@@ -9,8 +9,10 @@ import {
 import Select from 'react-select';
 import { __ } from '@wordpress/i18n';
 
-const TypographyControls = ({ title, fontStyle, initialOpen, onChange }) => {
+const TypographyControls = ({ title, fontStyle, initialOpen, isMobile, onChange }) => {
   const {
+    default_fontSize,
+    mobile_fontSize,
     fontSize,
     fontFamily,
     fontWeight,
@@ -58,11 +60,14 @@ const TypographyControls = ({ title, fontStyle, initialOpen, onChange }) => {
         dragDirection="e"
         onChange={(newValue) => {
           newValue = newValue != '' ? newValue : '0px'
-          const newStyle = { ...fontStyle, fontSize: newValue };
+          const set_size = !isMobile ? { default_fontSize: newValue } : { mobile_fontSize: newValue };
+          const newStyle = { ...fontStyle, ...set_size };
           onChange(newStyle);
         }}
-        label={__('Size', 'block-collections')}
-        value={fontSize}
+        label={!isMobile ?
+          __("Size(desk top)", 'block-collections')
+          : __("Size(mobile)", 'block-collections')}
+        value={!isMobile ? default_fontSize : mobile_fontSize}
         units={units}
       />
 

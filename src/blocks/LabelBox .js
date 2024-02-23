@@ -57,6 +57,7 @@ export default function LabelBox(props) {
     border_label,
     padding_label,
     labelSpace,
+    isMobile
   } = attributes
 
   //サイトエディタの場合はiframeにスタイルをわたす。
@@ -113,6 +114,7 @@ export default function LabelBox(props) {
             onChange={(newStyle) => {
               setAttributes({ font_style_label: newStyle })
             }}
+            isMobile={isMobile}
             initialOpen={false}
           />
           <PanelColorGradientSettings

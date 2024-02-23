@@ -55,6 +55,26 @@ function addExSettings(settings, name) {
         }
       }
     };
+
+    if (name === 'core/image') {
+      newAttributes = {
+        ...newAttributes,
+        scaleWidth: {
+          type: 'string',
+          default: '100%',
+        },
+        scaleHeight: {
+          type: 'string',
+          default: '100%',
+        },
+        isFitScale: {
+          type: 'boolean',
+          default: false,
+        },
+
+      };
+    }
+
     if (name === 'core/paragraph' || name === 'core/list' || name === 'core/quote') {
       newAttributes = {
         ...newAttributes,
@@ -158,8 +178,9 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
           padding_val,
           border_list,
           radius_list,
-          width,
-          height
+          isFitScale,
+          scaleWidth,
+          scaleHeight,
         } = props.attributes;
 
         const setAttributes = props.setAttributes;
@@ -167,11 +188,24 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
           <>
             <BlockEdit {...props} />
 
+            {props.name === 'core/image' &&
+              <InspectorControls group="settings">
+                <PanelBody title={__("Size of Image", 'block-collections')} initialOpen={false}>
+                  <ToggleControl
+                    label={__("Fit Parent Element", 'block-collections')}
+                    checked={isFitScale}
+                    onChange={(newValue) => {
+                      setAttributes({ isFitScale: newValue });
+                    }}
+                  />
+                </PanelBody>
 
+              </InspectorControls>
+            }
             <InspectorControls group="styles">
-              <PanelBody title="間隔設定" initialOpen={false}>
+              <PanelBody title={__("Dimension", 'block-collections')} initialOpen={false}>
                 <BoxControl
-                  label="マージン設定"
+                  label={__("Margin settings", 'block-collections')}
                   values={margin_val}
                   onChange={newValue => setAttributes({ margin_val: newValue })}
                   units={units}	// 許可する単位
@@ -181,7 +215,7 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
                 />
 
                 <BoxControl
-                  label="パティング設定"
+                  label={__("Padding settings", 'block-collections')}
                   values={padding_val}
                   onChange={newValue => setAttributes({ padding_val: newValue })}
                   units={units}	// 許可する単位
@@ -193,7 +227,7 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
               </PanelBody>
               {(props.name === 'core/paragraph' || props.name === 'core/list' || props.name === 'core/quote') &&
                 <>
-                  <PanelBody title="行間設定">
+                  <PanelBody title={__("LineHight settings", 'block-collections')}>
                     <RangeControl
                       value={lineHeight}
                       label="lineHeight"
@@ -208,7 +242,7 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
                 </>
               }
               {(props.name === 'core/list' || props.name === 'core/quote' || props.name === 'core/table') &&
-                <PanelBody title="ボーダー設定" initialOpen={false} className="border_design_ctrl">
+                <PanelBody title={__("Border settings", 'block-collections')} initialOpen={false} className="border_design_ctrl">
                   <BorderBoxControl
                     colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
                     onChange={(newValue) => setAttributes({ border_list: newValue })}
@@ -222,7 +256,29 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
                   />
                 </PanelBody>
               }
+              {(props.name === 'core/image') &&
+                <>
+                  <PanelBody title={__("Scale settings", 'block-collections')} initialOpen={false} >
+                    <PanelRow
+                      className='distance_row'
+                    >
+                      <UnitControl
+                        dragDirection="e"
+                        onChange={(value) => setAttributes({ scaleWidth: value })}
+                        label={__("Width", 'block-collections')}
+                        value={scaleWidth}
+                      />
+                      <UnitControl
+                        dragDirection="e"
+                        onChange={(value) => setAttributes({ scaleHeight: value })}
+                        label={__("Height", 'block-collections')}
+                        value={scaleHeight}
+                      />
+                    </PanelRow>
+                  </PanelBody>
 
+                </>
+              }
             </InspectorControls>
           </>
         );
@@ -243,7 +299,7 @@ const applyExtraAttributesInEditor = createHigherOrderComponent((BlockListBlock)
       attributes,
       name,
       isValid,
-      wrapperProps
+      wrapperProps = {} // wrapperPropsが未定義の場合は空のオブジェクトをデフォルト値として設定
     } = props;
 
     const classNames = props.attributes.className ? props.attributes.className.split(' ') : [];
@@ -257,12 +313,17 @@ const applyExtraAttributesInEditor = createHigherOrderComponent((BlockListBlock)
             margin_val,
             padding_val,
             radius_list,
-            border_list
+            border_list,
+            isFitScale,
+            scaleWidth,
+            scaleHeight
           } = attributes;
 
-          //拡張したスタイル
+          //拡張したスタイル・クラス
 
           let extraStyle = {};
+          let extraClassNames = wrapperProps.className ? wrapperProps.className : ''; // 既存の className を取得、または空文字列を設定
+
           extraStyle = {
             margin: `${margin_val.top} ${margin_val.right} ${margin_val.bottom} ${margin_val.left}`,
             padding: `${padding_val.top} ${padding_val.right} ${padding_val.bottom} ${padding_val.left}`,
@@ -283,11 +344,18 @@ const applyExtraAttributesInEditor = createHigherOrderComponent((BlockListBlock)
           }
 
           if (name === 'core/image') {
+            extraStyle = {
+              ...extraStyle, width: scaleWidth, height: scaleHeight
+            }
             if (attributes.align === 'center') {//中央ぞろえの時
               extraStyle = {
                 ...extraStyle, margin: `${margin_val.top} auto ${margin_val.bottom}`
               }
             }
+            if (isFitScale) {//画像スタイルを合わせる
+              extraClassNames += ' fit-scale-image'; // クラス名を追加
+            }
+
           }
 
           if (name === 'core/table') {
@@ -296,20 +364,17 @@ const applyExtraAttributesInEditor = createHigherOrderComponent((BlockListBlock)
               ...extraStyle, borderCollapse: 'collapse', ...list_border
             }
           }
-
           //既存スタイルとマージ
-          let blockWrapperProps = wrapperProps;
-          blockWrapperProps = {
-            ...blockWrapperProps,
-            style: {
-              ...(blockWrapperProps && { ...blockWrapperProps.style }),
-              ...extraStyle
-            },
+
+          const newWrapperProps = {
+            ...wrapperProps,
+            style: { ...wrapperProps.style, ...extraStyle },
+            className: extraClassNames.trim() // trim() で余分なスペースを削除
           };
 
           return (
             <BlockListBlock {...props}
-              wrapperProps={blockWrapperProps}
+              wrapperProps={newWrapperProps}
             />
           );
         }
@@ -341,10 +406,15 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
         padding_val,
         radius_list,
         border_list,
+        isFitScale,
+        scaleWidth,
+        scaleHeight
       } = attributes;
 
       //拡張したスタイル
       let extraStyle = {};
+      let extraClassNames = props.className ? props.className : ''; // 既存の className を取得、または空文字列を設定
+
       extraStyle = {
         margin: `${margin_val.top} ${margin_val.right} ${margin_val.bottom} ${margin_val.left}`,
         padding: `${padding_val.top} ${padding_val.right} ${padding_val.bottom} ${padding_val.left}`,
@@ -367,14 +437,26 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
       }
 
       if (blockType.name === 'core/image') {
+        extraStyle = {
+          ...extraStyle, width: scaleWidth, height: scaleHeight
+        }
         if (attributes.align === 'center') {//中央ぞろえの時
           extraStyle = {
             ...extraStyle, margin: `${margin_val.top} auto ${margin_val.bottom}`
           }
         }
+        if (isFitScale) {//画像スタイルを合わせる
+          extraClassNames += ' fit-scale-image'; // クラス名を追加
+        }
+
       }
 
-      return Object.assign(props, { style: { ...props.style, ...extraStyle } });
+      return Object.assign(props,
+        {
+          style: { ...props.style, ...extraStyle },
+          className: extraClassNames.trim() // trim() で余分なスペースを削除
+        }
+      );
     }
   }
   //デフォルト

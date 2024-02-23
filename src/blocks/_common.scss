@@ -456,3 +456,12 @@ $breakpoints: (
 .itmar_style_div {
 	display: none;
 }
+
+figure.itmar_ex_block {
+	&.fit-scale-image {
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}

@@ -73,7 +73,8 @@
 		"font_style_num": {
 			"type": "object",
 			"default": {
-				"fontSize": "16px",
+				"default_fontSize": "16px",
+				"mobile_fontSize": "12px",
 				"fontFamily": "Noto Sans JP, sans-serif",
 				"fontWeight": "500",
 				"isItalic": false
@@ -90,7 +91,8 @@
 		"font_style_process": {
 			"type": "object",
 			"default": {
-				"fontSize": "16px",
+				"default_fontSize": "16px",
+				"mobile_fontSize": "12px",
 				"fontFamily": "Noto Sans JP, sans-serif",
 				"fontWeight": "500",
 				"isItalic": false

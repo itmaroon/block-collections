@@ -68,7 +68,7 @@ const StyledUL = styled.ul`
       li {
         color: ${textColor_process};
         text-transform: uppercase;
-        font-size: ${font_style_process.fontSize};
+        font-size: ${font_style_process.default_fontSize};
         font-family: ${font_style_process.fontFamily};
         font-weight: ${font_style_process.fontWeight};
         font-style: ${fontStyle_process};
@@ -77,7 +77,15 @@ const StyledUL = styled.ul`
         position: relative;
         letter-spacing: 1px;
         text-align: center;
-        
+        @media (max-width: 767px) {
+          font-size: ${font_style_process.mobile_fontSize};
+          &::before {
+            font-size: ${font_style_num.mobile_fontSize};
+          }
+          &::after {
+            font-size: ${font_style_num.mobile_fontSize};
+          }
+        }
   
         &::before {
           content: counter(step);
@@ -87,7 +95,7 @@ const StyledUL = styled.ul`
           line-height: 1.3em;
           text-align: center;
           display: block;
-          font-size: ${font_style_num.fontSize};
+          font-size: ${font_style_num.default_fontSize};
           font-family: ${font_style_num.fontFamily};
           font-weight: ${font_style_num.fontWeight};
           font-style: ${fontStyle_num};
@@ -104,7 +112,7 @@ const StyledUL = styled.ul`
           height: 2px;
           position: absolute;
           left: -50%;
-          font-size: ${font_style_num.fontSize};
+          font-size: ${font_style_num.default_fontSize};
           top: 0.75em;
           background-image: linear-gradient(to right, ${textColor_num} 50%, ${bgColor_num} 50%);
           background-position: 0 0;
@@ -141,7 +149,7 @@ const StyledUL = styled.ul`
       li {
         color: ${textColor_process};
         text-transform: uppercase;
-        font-size: ${font_style_process.fontSize};
+        font-size: ${font_style_process.default_fontSize};
         font-family: ${font_style_process.fontFamily};
         font-weight: ${font_style_process.fontWeight};
         font-style: ${fontStyle_process};
@@ -162,6 +170,7 @@ const StyledUL = styled.ul`
           margin-left: 2em;
         }
         @media (max-width: 767px) {
+          font-size: ${font_style_process.mobile_fontSize};
           padding-top:15px;
           padding-left:0;
         }
@@ -178,7 +187,7 @@ const StyledUL = styled.ul`
           line-height: 1.3em;
           text-align: center;
           display: block;
-          font-size: ${font_style_num.fontSize};
+          font-size: ${font_style_num.default_fontSize};
           font-family: ${font_style_num.fontFamily};
           font-weight: ${font_style_num.fontWeight};
           font-style: ${fontStyle_num};
@@ -188,6 +197,7 @@ const StyledUL = styled.ul`
           border-radius: 50%;
           margin: 0 auto;
           @media (max-width: 767px) {
+            font-size: ${font_style_num.mobile_fontSize};
             left:5px;
             width: 1em;
             height: 1em;
@@ -201,7 +211,7 @@ const StyledUL = styled.ul`
         &::after {
           content: " ";
           position: absolute;
-          font-size: ${font_style_num.fontSize};
+          font-size: ${font_style_process.default_fontSize};
           top: 50%;
           transform: translateY(-50%);
           left: -25px;
@@ -212,6 +222,10 @@ const StyledUL = styled.ul`
           border-bottom: 1.5em solid transparent;
           border-left: 1em solid  ${textColor_process};
           border-right: 0;
+          @media (max-width: 767px) {
+            font-size: ${font_style_process.mobile_fontSize};
+            left: -20px;
+          }
         }
 
         &:first-child {

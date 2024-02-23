@@ -252,6 +252,7 @@ export default function Edit(props) {
 						onChange={(newStyle) => {
 							setAttributes({ font_style_input: newStyle })
 						}}
+						isMobile={isMobile}
 						initialOpen={false}
 					/>
 					<PanelColorGradientSettings
@@ -354,6 +355,7 @@ export default function Edit(props) {
 							labelVertAlign,
 							shadow_result,
 							is_shadow,
+							isMobile,
 							className,
 						}}
 						setAttributes={setAttributes}

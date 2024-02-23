@@ -730,12 +730,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<TypographyControls
 							title={__('Typography', 'block-collections')}
 							fontStyle={(optionStyle && optionStyle.font_style_copy) ? optionStyle.font_style_copy : {
-								fontSize: "16px",
+								default_fontSize: "16px",
+								mobile_fontSize: "12px",
 								fontFamily: "Arial, sans-serif",
 								fontWeight: "500",
 								isItalic: false
 							}}
 							initialOpen={false}
+							isMobile={isMobile}
 							onChange={(newValue) => {
 								setLocalOptionStyle(prev => ({ ...prev, font_style_copy: newValue }));
 							}}

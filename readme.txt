@@ -74,6 +74,22 @@ OR…
 10. Blocks that slide in with animation
 
 == Changelog ==
+= 1.2.1 =
+Function addition
+- The following block now supports font size responsiveness.
+1. Subcopy of Design Title
+2. Lable of Design CheckBox
+3. Design Table headings and data
+4. Design Process progress number and progress information
+5. Text inside the button of Design Button
+6. Design Select labels and options
+7. Design Text Control labels and input text
+- Added the following functions to core/image functions:
+1. You can now choose to fit the image to the block size.
+2. The size of the block can now be specified using the ratio to the parent element, etc.
+Bug fixes
+- Fixed a bug where higher-order component functions were not enabled when adding core/image.
+
 = 1.2.0 =
 Function addition
 - Added the ability to generate DOM elements as swiper slides in Design group

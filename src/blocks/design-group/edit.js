@@ -86,8 +86,7 @@ export default function Edit(props) {
 		is_moveable,
 		position,
 		is_menu,
-		is_submenu,
-		is_swiper
+		is_submenu
 	} = attributes;
 
 	//モバイルの判定
