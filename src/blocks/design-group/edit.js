@@ -338,6 +338,9 @@ export default function Edit(props) {
 							setAttributes({ mobile_pos: { ...mobile_pos, width_val: position } });
 						}
 					}}
+					onHeightChange={(value) => {
+						setAttributes({ heightValue: value });
+					}}
 					onFreevalChange={(value) => {
 						if (!isMobile) {
 							setAttributes({ default_pos: { ...default_pos, free_val: value } });

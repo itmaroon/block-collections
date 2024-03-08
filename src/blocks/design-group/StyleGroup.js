@@ -1,10 +1,15 @@
 import styled, { css } from 'styled-components';
-import { width_prm, max_width_prm, align_prm, position_prm, space_prm, convertToScss } from '../cssPropertes';
+import { width_prm, height_prm, max_width_prm, align_prm, position_prm, space_prm, convertToScss } from '../cssPropertes';
 import { anime_comp } from '../animation_css'
 
 export const StyleComp = ({ attributes, isMenuOpen, children }) => {
+  const swiperParallaxAttributes = (
+    attributes.is_swiper && attributes.parallax_obj != null) ?
+    { [`data-swiper-parallax-${attributes.parallax_obj.type}`]: `${attributes.parallax_obj.scale}${attributes.parallax_obj.type === 'x' || attributes.parallax_obj.type === 'y' ? '%' : ''}` } :
+    {};
   const content = (
     <StyledDiv
+      {...swiperParallaxAttributes}
       attributes={{ ...attributes }}
       className={`${isMenuOpen ? 'open' : ''} ${attributes.is_submenu ? 'sub_menu' : ''}`}
     >
@@ -19,6 +24,7 @@ const StyledDiv = styled.div`
 ${({ attributes }) => {
     const {
       positionType,
+      heightValue,
       default_pos,
       mobile_pos,
       shadow_result,
@@ -43,6 +49,8 @@ ${({ attributes }) => {
     const mobile_width_style = width_prm(mobile_pos.width_val, default_pos.free_val);
     const default_max_width_style = max_width_prm(default_pos.width_val, default_pos.free_val);
     const mobile_max_width_style = max_width_prm(mobile_pos.width_val, default_pos.free_val);
+    //ブロックの高さ
+    const height_style = height_prm(heightValue);
     //ブロックの配置
     const default_block_align = align_prm(default_pos.outer_align);
     const mobile_block_align = align_prm(mobile_pos.outer_align);
@@ -64,6 +72,7 @@ ${({ attributes }) => {
       padding: ${default_padding_prm};
       ${is_menu && css`z-index:100;`}
       ${is_submenu ? default_width_style : default_max_width_style}
+      ${height_style}
       ${default_block_align}
       align-self: ${default_pos.outer_vertical};
       @media (max-width: 767px) {

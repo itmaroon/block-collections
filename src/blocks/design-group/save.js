@@ -22,10 +22,59 @@ export default function save({ attributes }) {
 			attributes={attributes}
 		/>
 	));
+
+	//スタイルシートの生成
 	const styleTags = sheet.getStyleTags();
-	// 正規表現で styled-components のクラス名を取得
-	const classMatch = html.match(/class="sc-([^"]+)"/);
-	const className = classMatch ? `sc-${classMatch[1]}` : "";
+
+	// div要素を抽出する正規表現
+	const divRegex = /<div[^>]*>/g;
+	// 属性を抽出するための正規表現
+	const attrRegex = /([^\s=]+)="([^"]*)"/g;
+
+	const divs = html.match(divRegex);
+	const divObjects = divs.map(div => {
+		const attributes = {};
+		let match;
+		while ((match = attrRegex.exec(div)) !== null) {
+			const [fullMatch, key, value] = match;
+			attributes[key] = value;
+		}
+		return attributes;
+	});
+
+	const ContentComponent = ({ blockProps, is_anime, anime_prm }) => {
+		return (
+			<div {...blockProps}>
+				<div
+					className={`group_contents ${is_anime ? 'fadeTrigger' : ''}`}
+					data-is_anime={is_anime}
+					data-anime_prm={JSON.stringify(anime_prm)}
+				>
+					<InnerBlocks.Content />
+				</div>
+				<div className='itmar_style_div' dangerouslySetInnerHTML={{ __html: styleTags }} />
+			</div>
+		);
+	}
+
+	const renderNestedDivs = (divObjects) => {
+		if (!divObjects.length) {
+			return <ContentComponent blockProps={blockProps} is_anime={is_anime} anime_prm={anime_prm} />;
+		}
+
+		return divObjects.reduceRight((inner, divObject) => {
+			// 'class'属性を除く'data-swiper-parallax'で始まる属性を抽出
+			const { class: className, ...parallaxAttrs } = divObject;
+			const attrs = {
+				className,
+				...parallaxAttrs
+			};
+			// div要素に属性を適用
+			return <div {...attrs}>{inner}</div>;
+		}, <ContentComponent blockProps={blockProps} is_anime={is_anime} anime_prm={anime_prm} />);
+	};
+
+
 	return (
 		<>
 			{(is_menu && !is_submenu) &&
@@ -38,20 +87,7 @@ export default function save({ attributes }) {
 					<div className='itmar_back_ground'></div>
 				</>
 			}
-
-			<div className={className}>
-				<div {...blockProps} >
-					<div
-						className={`group_contents ${is_anime ? 'fadeTrigger' : ''}`}
-						data-is_anime={is_anime}
-						data-anime_prm={JSON.stringify(anime_prm)}
-					>
-						<InnerBlocks.Content />
-					</div>
-				</div>
-				<div className='itmar_style_div' dangerouslySetInnerHTML={{ __html: styleTags }} />
-			</div>
-
+			{renderNestedDivs(divObjects)}
 		</>
 	)
 }

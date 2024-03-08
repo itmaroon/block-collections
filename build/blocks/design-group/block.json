@@ -31,6 +31,10 @@
       "type": "string",
       "default": "relative"
     },
+    "heightValue": {
+      "type": "string",
+      "default": "fit"
+    },
     "default_pos": {
       "type": "object",
       "default": {
@@ -184,6 +188,10 @@
     "is_swiper": {
       "type": "boolean",
       "default": false
+    },
+    "parallax_obj": {
+      "type": "object",
+      "default": null
     },
     "is_submenu": {
       "type": "boolean",

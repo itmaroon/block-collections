@@ -51,6 +51,14 @@ export const width_prm = (width, free_val) => {
     ret_width_prm
   )
 }
+
+export const height_prm = (height) => {
+  const ret_height_prm =
+    height === 'fit' ? ' height: fit-content;' : 'height: 100%;'
+  return (
+    ret_height_prm
+  )
+}
 //配置を返す
 export const align_prm = (align) => {
   const ret_align_prm =

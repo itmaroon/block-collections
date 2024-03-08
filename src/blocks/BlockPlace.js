@@ -42,6 +42,7 @@ export default function BlockPlace(props) {
   } = props;
   const {
     positionType,
+    heightValue,
     default_pos,
     mobile_pos
   } = attributes;
@@ -367,6 +368,7 @@ export default function BlockPlace(props) {
           </ToolbarItem>
 
         </ToolbarGroup>
+
         {sel_pos.width_val === 'free' &&
           <RangeControl
             value={sel_pos.free_val}
@@ -380,6 +382,31 @@ export default function BlockPlace(props) {
             withInputField={true}
           />
         }
+
+        <p>{__('Block Height', 'block-collections')}</p>
+        <ToolbarGroup>
+          <ToolbarItem>
+            {(itemProps) => (
+              <Button {...itemProps}
+                isPressed={heightValue === 'full'}
+                onClick={() => props.onHeightChange('full')}
+                text='full'
+              />
+
+            )}
+          </ToolbarItem>
+          <ToolbarItem>
+            {(itemProps) => (
+              <Button {...itemProps}
+                isPressed={heightValue === 'fit'}
+                onClick={() => props.onHeightChange('fit')}
+                text='fit'
+              />
+
+            )}
+          </ToolbarItem>
+        </ToolbarGroup>
+
         {sel_pos.direction === 'grid' &&
           <>
             {isMobile ?
