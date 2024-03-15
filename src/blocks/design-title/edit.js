@@ -119,7 +119,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
 			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
 			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
-
 		}
 	}, [baseColor]);
 
