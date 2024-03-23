@@ -87,6 +87,10 @@ Function addition
 - Added the following functions to core/image functions:
 1. You can now choose to fit the image to the block size.
 2. The size of the block can now be specified using the ratio to the parent element, etc.
+- Added the following features to Design Group
+1. Added functionality to become swiper-slide for Slide MainView of Slide Blocks (coming soon)
+2. Added the ability to retain attributes to create a parallax effect within the Slide MainView slide of Slide Blocks (coming soon)
+
 Bug fixes
 - Fixed a bug where higher-order component functions were not enabled when adding core/image.
 
