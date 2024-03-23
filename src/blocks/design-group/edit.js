@@ -1,55 +1,60 @@
-
-import { __ } from '@wordpress/i18n';
-import './editor.scss';
-import { StyleComp } from './StyleGroup';
-import ToggleElement from './ToggleElement';
-import { useStyleIframe } from '../iframeFooks';
-import ShadowStyle, { ShadowElm } from '../ShadowStyle';
-import DraggableBox, { useDraggingMove } from '../DraggableBox';
-import BlockPlace from '../BlockPlace';
-import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks'
-import { useSelect, dispatch } from '@wordpress/data';
-import AnimationBlock from '../AnimationBlock';
+import { __ } from "@wordpress/i18n";
+import "./editor.scss";
+import { StyleComp } from "./StyleGroup";
+import ToggleElement from "./ToggleElement";
+import { useStyleIframe } from "../iframeFooks";
+import ShadowStyle, { ShadowElm } from "../ShadowStyle";
+import DraggableBox, { useDraggingMove } from "../DraggableBox";
+import BlockPlace from "../BlockPlace";
+import { useElementBackgroundColor, useIsIframeMobile } from "../CustomFooks";
+import { useSelect, dispatch } from "@wordpress/data";
+import AnimationBlock from "../AnimationBlock";
 
 import {
 	useBlockProps,
 	useInnerBlocksProps,
-	InspectorControls
-} from '@wordpress/block-editor';
+	InspectorControls,
+	store as blockEditorStore,
+} from "@wordpress/block-editor";
 
 import {
 	PanelBody,
 	ToggleControl,
+	RadioControl,
+	RangeControl,
 	__experimentalBoxControl as BoxControl,
-} from '@wordpress/components';
+} from "@wordpress/components";
 
-import { useEffect, useRef, useState } from '@wordpress/element';
+import { useEffect, useRef, useState } from "@wordpress/element";
 
 //スペースのリセットバリュー
 const padding_resetValues = {
-	top: '0px',
-	left: '0px',
-	right: '0px',
-	bottom: '0px',
-}
+	top: "0px",
+	left: "0px",
+	right: "0px",
+	bottom: "0px",
+};
 const padding_mobile_resetValues = {
-	top: '20px',
-	left: '10px',
-	right: '10px',
-	bottom: '20px',
-}
+	top: "20px",
+	left: "10px",
+	right: "10px",
+	bottom: "20px",
+};
 
 //単位のリセットバリュー
 const units = [
-	{ value: 'px', label: 'px' },
-	{ value: 'em', label: 'em' },
-	{ value: 'rem', label: 'rem' },
+	{ value: "px", label: "px" },
+	{ value: "em", label: "em" },
+	{ value: "rem", label: "rem" },
 ];
 
 function checkInnerGroupBlocks(blocks) {
 	for (const block of blocks) {
 		// itmar/design-group ブロックで is_menu が true の場合
-		if (block.name === 'itmar/design-group' && block.attributes.is_menu === true) {
+		if (
+			block.name === "itmar/design-group" &&
+			block.attributes.is_menu === true
+		) {
 			return true;
 		}
 
@@ -66,12 +71,24 @@ function checkInnerGroupBlocks(blocks) {
 function checkSubmenuBlocks(blocks) {
 	for (const block of blocks) {
 		// itmar/design-title ブロックで linkKind が submenu の場合
-		if (block.name === 'itmar/design-title' && block.attributes.linkKind === 'submenu') {
+		if (
+			block.name === "itmar/design-title" &&
+			block.attributes.linkKind === "submenu"
+		) {
 			return true;
 		}
 	}
 	return false;
 }
+
+const paraValueMap = {
+	x: { min: -300, max: 300, step: 10 },
+	y: { min: -300, max: 300, step: 10 },
+	"x%": { min: 0, max: 100, step: 5 },
+	"y%": { min: 0, max: 100, step: 5 },
+	opacity: { min: 0, max: 1, step: 0.1 },
+	scale: { min: 0, max: 3, step: 0.1 },
+};
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
@@ -86,7 +103,8 @@ export default function Edit(props) {
 		is_moveable,
 		position,
 		is_menu,
-		is_submenu
+		parallax_obj,
+		is_submenu,
 	} = attributes;
 
 	//モバイルの判定
@@ -101,12 +119,12 @@ export default function Edit(props) {
 	//ハンバーガーボタンのクリックによるイベントハンドラ(クラス名の付加)
 	const [isMenuOpen, setIsmenuOpen] = useState(false);
 	const handleHambergerToggle = (isOpen) => {
-		setIsmenuOpen(isOpen)
-	}
+		setIsmenuOpen(isOpen);
+	};
 
 	//blockPropsの参照
 	const blockProps = useBlockProps({
-		ref: blockRef,// ここで参照を blockProps に渡しています
+		ref: blockRef, // ここで参照を blockProps に渡しています
 	});
 
 	//背景色の取得
@@ -115,9 +133,13 @@ export default function Edit(props) {
 	//背景色変更によるシャドー属性の書き換え
 	useEffect(() => {
 		if (baseColor) {
-			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
+			setAttributes({
+				shadow_element: { ...shadow_element, baseColor: baseColor },
+			});
 			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
-			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
+			if (new_shadow) {
+				setAttributes({ shadow_result: new_shadow.style });
+			}
 		}
 	}, [baseColor]);
 
@@ -128,40 +150,52 @@ export default function Edit(props) {
 	const [startAnime, setStartAnime] = useState(false);
 	//ブロックアイテム（インナーブロック）
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: `group_contents ${is_anime ? 'fadeTrigger' : ''} ${startAnime ? anime_prm.pattern : ''}`, ref: innerRef },
 		{
-			templateLock: false
+			className: `group_contents ${is_anime ? "fadeTrigger" : ""} ${
+				startAnime ? anime_prm.pattern : ""
+			}`,
+			ref: innerRef,
+		},
+		{
+			templateLock: false,
 		}
 	);
 	//移動可能ブロックならドラッグのカスタムフックを付加
 	const handlePositionChange = (newPosition) => {
-		setAttributes({ position: newPosition })
+		setAttributes({ position: newPosition });
 	};
 	useDraggingMove(is_moveable, blockRef, position, handlePositionChange);
 
 	//ブロックの監視（メニューに設定されているitmar/design-groupが存在するかのチェック
 	const isMenuBlockPresent = useSelect((select) => {
-		const blocks = select('core/block-editor').getBlocks();
+		const blocks = select("core/block-editor").getBlocks();
 		return checkInnerGroupBlocks(blocks);
 	}, []);
 
 	//ブロックの監視（サブメニューをもつデザインタイトルが含まれるか)
-	const isSubmenuInclude = useSelect((select) => {
-		// ブロックエディタから現在のブロックの子ブロックを取得
-		const { getBlocksByClientId } = select('core/block-editor');
-		const innerBlocks = getBlocksByClientId(clientId)[0]?.innerBlocks;
-		// 子ブロックをチェックする関数を呼び出し
-		return checkSubmenuBlocks(innerBlocks);
-	}, [clientId]);
+	const isSubmenuInclude = useSelect(
+		(select) => {
+			// ブロックエディタから現在のブロックの子ブロックを取得
+			const { getBlocksByClientId } = select("core/block-editor");
+			const innerBlocks = getBlocksByClientId(clientId)[0]?.innerBlocks;
+			// 子ブロックをチェックする関数を呼び出し
+			return checkSubmenuBlocks(innerBlocks);
+		},
+		[clientId]
+	);
 
 	useEffect(() => {
-		setAttributes({ has_submenu: isSubmenuInclude })
+		setAttributes({ has_submenu: isSubmenuInclude });
 	}, [isSubmenuInclude]);
 
 	//ブロックの監視（オープニングブロックが含まれているか）
 	const { openBlockAnimation } = useSelect((select) => {
-		const blocks = select('core/block-editor').getBlocks();
-		const openingBlocks = ['itmar/logo-anime', 'itmar/tea-time', 'itmar/welcome'];
+		const blocks = select("core/block-editor").getBlocks();
+		const openingBlocks = [
+			"itmar/logo-anime",
+			"itmar/tea-time",
+			"itmar/welcome",
+		];
 		// ブロックリストを検索し、openingBlocks配列のブロック名を持つブロックがあるか確認
 		for (let block of blocks) {
 			if (openingBlocks.includes(block.name)) {
@@ -169,19 +203,19 @@ export default function Edit(props) {
 				return {
 					openBlockAnimation: {
 						is_anime: block.attributes.is_anime,
-						is_front: block.attributes.is_front
-					}
+						is_front: block.attributes.is_front,
+					},
 				};
 			}
 		}
 
 		// 対象のブロックが見つからなかった場合
 		return { openBlockAnimation: null };
-
 	}, []);
 
 	//アニメーションスタートのトリガー
-	useEffect(() => {//アニメーション設定によるアニメスタート
+	useEffect(() => {
+		//アニメーション設定によるアニメスタート
 		if (is_anime) {
 			setStartAnime(true);
 		} else {
@@ -189,35 +223,43 @@ export default function Edit(props) {
 		}
 	}, [is_anime]);
 
-	useEffect(() => {//オープニング終了によるアニメスタート
-		if (is_anime && openBlockAnimation && (anime_prm.trigger === 'opend')) {
+	useEffect(() => {
+		//オープニング終了によるアニメスタート
+		if (is_anime && openBlockAnimation && anime_prm.trigger === "opend") {
 			if (openBlockAnimation.is_front) {
 				setStartAnime(false);
 			}
-			if (is_anime && !openBlockAnimation.is_front && !openBlockAnimation.is_anime) {
+			if (
+				is_anime &&
+				!openBlockAnimation.is_front &&
+				!openBlockAnimation.is_anime
+			) {
 				setStartAnime(true);
 			}
 		}
-
 	}, [is_anime, openBlockAnimation]);
 
-	useEffect(() => {//可視領域に入ったことによるアニメスタート
-		if (is_anime && (anime_prm.trigger === 'visible')) {
-			const observer = new IntersectionObserver((entries) => {
-				entries.forEach(entry => {
-					if (entry.isIntersecting) {
-						// ブロックが可視領域に入った時の処理
-						setStartAnime(true);
-					} else {
-						// ブロックが可視領域から出た時の処理
-						setStartAnime(false);
-					}
-				});
-			}, {
-				root: null, // ビューポートをルートとする
-				rootMargin: '0px', // ビューポートのマージンは0px
-				threshold: 0.1 // 10%の交差を閾値とする
-			});
+	useEffect(() => {
+		//可視領域に入ったことによるアニメスタート
+		if (is_anime && anime_prm.trigger === "visible") {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							// ブロックが可視領域に入った時の処理
+							setStartAnime(true);
+						} else {
+							// ブロックが可視領域から出た時の処理
+							setStartAnime(false);
+						}
+					});
+				},
+				{
+					root: null, // ビューポートをルートとする
+					rootMargin: "0px", // ビューポートのマージンは0px
+					threshold: 0.1, // 10%の交差を閾値とする
+				}
+			);
 
 			// 監視対象のブロックを選択
 			if (blockRef.current) {
@@ -229,25 +271,54 @@ export default function Edit(props) {
 		}
 	}, [is_anime, anime_prm.trigger]);
 
+	//親ブロックにis_swiperが設定されているか
+	const hasSlideBlock = useSelect(
+		(select) => {
+			// blockEditorストアから必要な関数を取得
+			const { getBlockParentsByBlockName, getBlockAttributes } =
+				select(blockEditorStore);
+
+			// 現在のブロックの親ブロックのIDリストを取得
+			const parentIds = getBlockParentsByBlockName(
+				clientId,
+				"itmar/design-group"
+			);
+
+			// 条件に合致する親ブロックの存在を確認
+			return parentIds.some((parentId) => {
+				const attributes = getBlockAttributes(parentId);
+				return attributes.is_swiper === true;
+			});
+		},
+		[clientId]
+	);
+	//パララックスの値
+
 	return (
 		<>
 			{/* インスペクター領域内 */}
 			<InspectorControls group="settings">
-				<PanelBody title={__("Menu or Group", 'block-collections')} initialOpen={true} className="form_design_ctrl">
+				<PanelBody
+					title={__("Menu or Group", "block-collections")}
+					initialOpen={true}
+					className="form_design_ctrl"
+				>
 					<ToggleControl
-						label={__('Is Menu', 'block-collections')}
+						label={__("Is Menu", "block-collections")}
 						checked={is_menu}
 						onChange={(newVal) => {
 							if (!isMenuBlockPresent) {
-								setAttributes({ is_menu: newVal })
+								setAttributes({ is_menu: newVal });
 							} else {
-								dispatch('core/notices').createNotice(
-									'error',
-									__('Only one group can be placed as a menu on each page.', 'itmar_guest_contact_block'),
-									{ type: 'snackbar', isDismissible: true, }
+								dispatch("core/notices").createNotice(
+									"error",
+									__(
+										"Only one group can be placed as a menu on each page.",
+										"itmar_guest_contact_block"
+									),
+									{ type: "snackbar", isDismissible: true }
 								);
 							}
-
 						}}
 					/>
 				</PanelBody>
@@ -256,45 +327,154 @@ export default function Edit(props) {
 					attributes={attributes}
 					onChange={(newValue) => setAttributes(newValue)}
 				/>
-
+				{hasSlideBlock && (
+					<PanelBody
+						title={__("Slide Parallax", "block-collections")}
+						initialOpen={false}
+						className="form_design_ctrl"
+					>
+						<ToggleControl
+							label={__("Is Parallax", "block-collections")}
+							checked={parallax_obj != null}
+							onChange={(newVal) => {
+								if (newVal) {
+									setAttributes({
+										parallax_obj: {
+											type: "y",
+											scale: 300,
+											unit: "",
+										},
+									});
+								} else {
+									setAttributes({ parallax_obj: null });
+								}
+							}}
+						/>
+						{parallax_obj != null && (
+							<div className="itmar_title_type">
+								<RadioControl
+									label={__("Parallax Type", "block-collections")}
+									selected={parallax_obj.type}
+									options={[
+										{
+											label: __("Lateral", "block-collections"),
+											value: "x",
+										},
+										{
+											label: __("Longitudinal", "block-collections"),
+											value: "y",
+										},
+										{
+											label: __("Scale", "block-collections"),
+											value: "scale",
+										},
+										{
+											label: __("Opacity", "block-collections"),
+											value: "opacity",
+										},
+									]}
+									onChange={(newVal) => {
+										setAttributes({
+											parallax_obj: {
+												...parallax_obj,
+												type: newVal,
+											},
+										});
+									}}
+								/>
+								<RangeControl
+									label={__("Value", "block-collections")}
+									value={parallax_obj.scale}
+									max={
+										paraValueMap[`${parallax_obj.type}${parallax_obj.unit}`].max
+									}
+									min={
+										paraValueMap[`${parallax_obj.type}${parallax_obj.unit}`].min
+									}
+									step={
+										paraValueMap[`${parallax_obj.type}${parallax_obj.unit}`]
+											.step
+									}
+									onChange={(newVal) =>
+										setAttributes({
+											parallax_obj: { ...parallax_obj, scale: newVal },
+										})
+									}
+									withInputField={true}
+								/>
+								{(parallax_obj.type === "x" || parallax_obj.type === "y") && (
+									<RadioControl
+										label={__("unit", "block-collections")}
+										selected={parallax_obj.unit}
+										options={[
+											{
+												label: "px",
+												value: "",
+											},
+											{
+												label: "%",
+												value: "%",
+											},
+										]}
+										onChange={(newVal) => {
+											setAttributes({
+												parallax_obj: { ...parallax_obj, unit: newVal },
+											});
+										}}
+									/>
+								)}
+							</div>
+						)}
+					</PanelBody>
+				)}
 			</InspectorControls>
 			<InspectorControls group="styles">
-				<PanelBody title={__("Dimensions", 'block-collections')} initialOpen={false} className="form_design_ctrl">
+				<PanelBody
+					title={__("Dimensions", "block-collections")}
+					initialOpen={false}
+					className="form_design_ctrl"
+				>
 					<BoxControl
-						label={!isMobile ?
-							__("Margin settings(desk top)", 'block-collections')
-							: __("Margin settings(mobile)", 'block-collections')
+						label={
+							!isMobile
+								? __("Margin settings(desk top)", "block-collections")
+								: __("Margin settings(mobile)", "block-collections")
 						}
 						values={!isMobile ? default_pos.margin : mobile_pos.margin}
-						onChange={value => {
+						onChange={(value) => {
 							if (!isMobile) {
-								setAttributes({ default_pos: { ...default_pos, margin: value } });
+								setAttributes({
+									default_pos: { ...default_pos, margin: value },
+								});
 							} else {
 								setAttributes({ mobile_pos: { ...mobile_pos, margin: value } });
 							}
 						}}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
 					/>
 					<BoxControl
-						label={!isMobile ?
-							__("Padding settings(desk top)", 'block-collections')
-							: __("Padding settings(mobile)", 'block-collections')
+						label={
+							!isMobile
+								? __("Padding settings(desk top)", "block-collections")
+								: __("Padding settings(mobile)", "block-collections")
 						}
 						values={!isMobile ? default_pos.padding : mobile_pos.padding}
-						onChange={value => {
+						onChange={(value) => {
 							if (!isMobile) {
-								setAttributes({ default_pos: { ...default_pos, padding: value } })
+								setAttributes({
+									default_pos: { ...default_pos, padding: value },
+								});
 							} else {
-								setAttributes({ mobile_pos: { ...mobile_pos, padding: value } })
+								setAttributes({
+									mobile_pos: { ...mobile_pos, padding: value },
+								});
 							}
 						}}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
 					/>
 				</PanelBody>
 				<BlockPlace
@@ -305,37 +485,57 @@ export default function Edit(props) {
 					isSubmenu={is_submenu}
 					onDirectionChange={(position) => {
 						if (!isMobile) {
-							setAttributes({ default_pos: { ...default_pos, direction: position } });
+							setAttributes({
+								default_pos: { ...default_pos, direction: position },
+							});
 						} else {
-							setAttributes({ mobile_pos: { ...mobile_pos, direction: position } });
+							setAttributes({
+								mobile_pos: { ...mobile_pos, direction: position },
+							});
 						}
 					}}
 					onFlexChange={(position) => {
 						if (!isMobile) {
-							setAttributes({ default_pos: { ...default_pos, inner_align: position } });
+							setAttributes({
+								default_pos: { ...default_pos, inner_align: position },
+							});
 						} else {
-							setAttributes({ mobile_pos: { ...mobile_pos, inner_align: position } });
+							setAttributes({
+								mobile_pos: { ...mobile_pos, inner_align: position },
+							});
 						}
 					}}
 					onAlignChange={(position) => {
 						if (!isMobile) {
-							setAttributes({ default_pos: { ...default_pos, outer_align: position } });
+							setAttributes({
+								default_pos: { ...default_pos, outer_align: position },
+							});
 						} else {
-							setAttributes({ mobile_pos: { ...mobile_pos, outer_align: position } });
+							setAttributes({
+								mobile_pos: { ...mobile_pos, outer_align: position },
+							});
 						}
 					}}
 					onVerticalChange={(position) => {
 						if (!isMobile) {
-							setAttributes({ default_pos: { ...default_pos, outer_vertical: position } });
+							setAttributes({
+								default_pos: { ...default_pos, outer_vertical: position },
+							});
 						} else {
-							setAttributes({ mobile_pos: { ...mobile_pos, outer_vertical: position } });
+							setAttributes({
+								mobile_pos: { ...mobile_pos, outer_vertical: position },
+							});
 						}
 					}}
 					onWidthChange={(position) => {
 						if (!isMobile) {
-							setAttributes({ default_pos: { ...default_pos, width_val: position } });
+							setAttributes({
+								default_pos: { ...default_pos, width_val: position },
+							});
 						} else {
-							setAttributes({ mobile_pos: { ...mobile_pos, width_val: position } });
+							setAttributes({
+								mobile_pos: { ...mobile_pos, width_val: position },
+							});
 						}
 					}}
 					onHeightChange={(value) => {
@@ -343,16 +543,22 @@ export default function Edit(props) {
 					}}
 					onFreevalChange={(value) => {
 						if (!isMobile) {
-							setAttributes({ default_pos: { ...default_pos, free_val: value } });
+							setAttributes({
+								default_pos: { ...default_pos, free_val: value },
+							});
 						} else {
 							setAttributes({ mobile_pos: { ...mobile_pos, free_val: value } });
 						}
 					}}
 					onGridChange={(value) => {
 						if (!isMobile) {
-							setAttributes({ default_pos: { ...default_pos, grid_info: value } });
+							setAttributes({
+								default_pos: { ...default_pos, grid_info: value },
+							});
 						} else {
-							setAttributes({ mobile_pos: { ...mobile_pos, grid_info: value } });
+							setAttributes({
+								mobile_pos: { ...mobile_pos, grid_info: value },
+							});
 						}
 					}}
 					onPositionChange={(value) => {
@@ -360,75 +566,92 @@ export default function Edit(props) {
 					}}
 					onPosValueChange={(value) => {
 						if (!isMobile) {
-							setAttributes({ default_pos: { ...default_pos, posValue: value } });
+							setAttributes({
+								default_pos: { ...default_pos, posValue: value },
+							});
 						} else {
 							setAttributes({ mobile_pos: { ...mobile_pos, posValue: value } });
 						}
 					}}
 				/>
 
-				<PanelBody title={__("Content Style", 'block-collections')} initialOpen={false} className="form_design_ctrl">
+				<PanelBody
+					title={__("Content Style", "block-collections")}
+					initialOpen={false}
+					className="form_design_ctrl"
+				>
 					<BoxControl
-						label={!isMobile ?
-							__("Padding settings(desk top)", 'block-collections')
-							: __("Padding settings(mobile)", 'block-collections')}
-						values={!isMobile ? default_pos.padding_content : mobile_pos.padding_content}
-						onChange={value => setAttributes(!isMobile ?
-							{ default_pos: { ...default_pos, padding_content: value } }
-							: { mobile_pos: { ...mobile_pos, padding_content: value } }
-						)}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={!isMobile ? padding_resetValues : padding_mobile_resetValues}	// リセット時の値
+						label={
+							!isMobile
+								? __("Padding settings(desk top)", "block-collections")
+								: __("Padding settings(mobile)", "block-collections")
+						}
+						values={
+							!isMobile
+								? default_pos.padding_content
+								: mobile_pos.padding_content
+						}
+						onChange={(value) =>
+							setAttributes(
+								!isMobile
+									? { default_pos: { ...default_pos, padding_content: value } }
+									: { mobile_pos: { ...mobile_pos, padding_content: value } }
+							)
+						}
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={
+							!isMobile ? padding_resetValues : padding_mobile_resetValues
+						} // リセット時の値
 					/>
 
 					<ToggleControl
-						label={__('Is Shadow', 'block-collections')}
+						label={__("Is Shadow", "block-collections")}
 						checked={is_shadow}
 						onChange={(newVal) => {
-							setAttributes({ is_shadow: newVal })
+							setAttributes({ is_shadow: newVal });
 						}}
 					/>
-					{is_shadow &&
+					{is_shadow && (
 						<ShadowStyle
 							shadowStyle={{ ...shadow_element }}
 							onChange={(newStyle, newState) => {
 								setAttributes({ shadow_result: newStyle.style });
-								setAttributes({ shadow_element: newState })
+								setAttributes({ shadow_element: newState });
 							}}
 						/>
-					}
+					)}
 				</PanelBody>
 
 				<PanelBody
-					title={__("Position moveable", 'block-collections')}
+					title={__("Position moveable", "block-collections")}
 					initialOpen={true}
 				>
 					<ToggleControl
-						label={__('make it moveable', 'block-collections')}
+						label={__("make it moveable", "block-collections")}
 						checked={is_moveable}
 						onChange={(newVal) => {
-							setAttributes({ is_moveable: newVal })
+							setAttributes({ is_moveable: newVal });
 						}}
 					/>
-					{is_moveable &&
+					{is_moveable && (
 						<DraggableBox
 							attributes={attributes.position}
-							onPositionChange={(position) => setAttributes({ position: position })}
+							onPositionChange={(position) =>
+								setAttributes({ position: position })
+							}
 						/>
-					}
-
+					)}
 				</PanelBody>
 			</InspectorControls>
 
-
 			{/* ブロックエディタ領域内 */}
 
-			{(is_menu && !is_submenu) &&
+			{is_menu && !is_submenu && (
 				<>
 					<ToggleElement
 						onToggle={handleHambergerToggle}
-						className='itmar_hamberger_btn'
+						className="itmar_hamberger_btn"
 						openFlg={isMenuOpen}
 					>
 						<span></span>
@@ -438,20 +661,16 @@ export default function Edit(props) {
 					<ToggleElement
 						onToggle={handleHambergerToggle}
 						openFlg={isMenuOpen}
-						className='itmar_back_ground'
+						className="itmar_back_ground"
 					/>
 				</>
-			}
+			)}
 
-			<StyleComp
-				attributes={attributes}
-				isMenuOpen={isMenuOpen}
-			>
-				<div {...blockProps} >
+			<StyleComp attributes={attributes} isMenuOpen={isMenuOpen}>
+				<div {...blockProps}>
 					<div {...innerBlocksProps}></div>
 				</div>
-			</StyleComp >
-
+			</StyleComp>
 		</>
 	);
 }
