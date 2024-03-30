@@ -11,7 +11,6 @@ import {
 import { anime_comp } from "../animation_css";
 
 export const StyleComp = ({ attributes, isMenuOpen, children }) => {
-	console.log(attributes.parallax_obj);
 	const swiperParallaxAttributes =
 		attributes.parallax_obj != null
 			? {
