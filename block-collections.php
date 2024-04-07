@@ -10,7 +10,7 @@
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       block-collections
- * Domain Path:  			/languages
+ * Domain Path:       /languages
  * @package           create-block
  */
 
@@ -21,45 +21,22 @@
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
-if ( ! defined( 'ABSPATH' ) ) exit;
 
-function itmar_block_collections_block_init()
-{
-	//ブロックの登録
-	foreach (glob(plugin_dir_path(__FILE__) . 'build/blocks/*') as $block) {
-		$block_name = basename($block);
-		$script_handle = 'itmar-handle-' . $block_name;
-		$script_file = plugin_dir_path( __FILE__ ) . 'build/blocks/'.$block_name.'/index.js';
-		// スクリプトの登録
-		wp_register_script(
-			$script_handle,
-			plugins_url( 'build/blocks/'.$block_name.'/index.js', __FILE__ ),
-			array( 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor' ),
-			filemtime($script_file)
-		);
-		
-		// ブロックの登録
-		register_block_type(
-			$block,
-			array(
-				'editor_script' => $script_handle
-			)
-		);
-		
-		// その後、このハンドルを使用してスクリプトの翻訳をセット
-		wp_set_script_translations( $script_handle, 'block-collections', plugin_dir_path( __FILE__ ) . 'languages' );
-		//jsで使えるようにhome_urlをローカライズ
-		wp_localize_script($script_handle, 'itmar_block_option', array(
-			'home_url' => home_url()
-		));
-		
-	}
+//PHPファイルに対する直接アクセスを禁止
+if (!defined('ABSPATH')) exit;
 
-	//PHP用のテキストドメインの読込（国際化）
-	load_plugin_textdomain( 'block-collections', false, basename( dirname( __FILE__ ) ) . '/languages' );
+// プラグイン情報取得に必要なファイルを読み込む
+if (!function_exists('get_plugin_data')) {
+	require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 }
-add_action('init', 'itmar_block_collections_block_init');
 
+//composerによるリモートリポジトリからの読み込みを要求
+require_once __DIR__ . '/vendor/autoload.php';
+
+$block_entry = new \Itmar\BlockClassPakage\ItmarEntryClass();
+
+
+//独自プラグイン等のエンキュー
 function itmar_highlight_scripts_and_styles()
 {
 	$dir = dirname(__FILE__);
@@ -95,16 +72,15 @@ function itmar_highlight_scripts_and_styles()
 		'itmar-gutenberg-extensions-script',
 		plugins_url('build/gutenberg-ex.js', __FILE__),
 		array(
-				'wp-blocks',
-				'wp-i18n',
-				'wp-element',
-				'wp-editor',
-				'wp-plugins',
-				'wp-edit-post',
-				'wp-compose'
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-editor',
+			'wp-plugins',
+			'wp-edit-post',
+			'wp-compose'
 		)
 	);
-
 
 	//管理画面以外（フロントエンド側でのみ読み込む）
 	if (!is_admin()) {
@@ -121,20 +97,19 @@ function itmar_highlight_scripts_and_styles()
 		wp_enqueue_script(
 			'itmar_block_collection_js',
 			plugins_url('/assets/block_collection.js', __FILE__),
-			array('jquery','wp-i18n'),
+			array('jquery', 'wp-i18n'),
 			filemtime($script_path),
 			true
 		);
-
 		//jsで使えるようにhome_urlをローカライズ
 		wp_localize_script('itmar_block_collection_js', 'itmar_block_option', array(
 			'home_url' => home_url()
 		));
 
+
 		// スクリプトの翻訳をセット
-		wp_set_script_translations( 'itmar_block_collection_js', 'block-collections', plugin_dir_path( __FILE__ ) . 'languages' );
+		wp_set_script_translations('itmar_block_collection_js', 'block-collections', plugin_dir_path(__FILE__) . 'languages');
 	}
-	
 }
 add_action('enqueue_block_assets', 'itmar_highlight_scripts_and_styles');
 
@@ -143,13 +118,14 @@ function itmar_block_collections_font_init()
 {
 	wp_enqueue_style('itmar_google_fonts', 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Texturina:wght@300;400;500;600&display=swap', array(), null);
 
-	wp_enqueue_style( 'font-awesome', plugins_url('/assets/css/fontawesome.css', __FILE__),array(),null);
-	wp_enqueue_style( 'awesome-brands', plugins_url('/assets/css/brands.css', __FILE__),array(),null);
-	wp_enqueue_style( 'awesome-solid', plugins_url('/assets/css/solid.css', __FILE__),array(),null);
+	wp_enqueue_style('font-awesome', plugins_url('/assets/css/fontawesome.css', __FILE__), array(), null);
+	wp_enqueue_style('awesome-brands', plugins_url('/assets/css/brands.css', __FILE__), array(), null);
+	wp_enqueue_style('awesome-solid', plugins_url('/assets/css/solid.css', __FILE__), array(), null);
 }
 add_action('enqueue_block_assets', 'itmar_block_collections_font_init');
 
-
-
-
-
+//ブロックの初期登録
+add_action('init', function () use ($block_entry) {
+	$plugin_data = get_plugin_data(__FILE__);
+	$block_entry->block_init($plugin_data['TextDomain'], __FILE__);
+});

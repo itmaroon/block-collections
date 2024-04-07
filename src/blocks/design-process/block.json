@@ -139,7 +139,6 @@
 		"itmar/state_process"
 	],
 	"textdomain": "block-collections",
-	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css"
 }
