@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import TypographyControls from "./TypographyControls";
+import { TypographyControls } from "itmar-block-packages";
 import { useStyleIframe } from "./iframeFooks";
 import {
 	InspectorControls,

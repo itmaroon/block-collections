@@ -5,7 +5,7 @@ import "./style.scss";
 /**
  * Internal dependencies
  */
-import BlockEditWrapper from "../BlockEditWrapper";
+import { BlockEditWrapper } from "itmar-block-packages";
 //import Edit from './edit';
 import save from "./save";
 import metadata from "./block.json";

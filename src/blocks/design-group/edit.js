@@ -1,14 +1,19 @@
 import { __ } from "@wordpress/i18n";
 import "./editor.scss";
 import { StyleComp } from "./StyleGroup";
-import ToggleElement from "./ToggleElement";
 import { useStyleIframe } from "../iframeFooks";
-import ShadowStyle, { ShadowElm } from "../ShadowStyle";
-import DraggableBox, { useDraggingMove } from "../DraggableBox";
-import BlockPlace from "../BlockPlace";
-import { useElementBackgroundColor, useIsIframeMobile } from "../CustomFooks";
 import { useSelect, dispatch } from "@wordpress/data";
-import AnimationBlock from "../AnimationBlock";
+import {
+	useElementBackgroundColor,
+	useIsIframeMobile,
+	DraggableBox,
+	useDraggingMove,
+	ShadowStyle,
+	ShadowElm,
+	AnimationBlock,
+	BlockPlace,
+	ToggleElement,
+} from "itmar-block-packages";
 
 import {
 	useBlockProps,

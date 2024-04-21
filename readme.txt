@@ -2,8 +2,8 @@
 Contributors: itmaroon
 Tags: block, Gutenberg, design, custom, heading, input, select, highlight, prosess,table,button,group,checkbox
 Requires at least: 6.3
-Tested up to:      6.4.2
-Stable tag:        1.2.0
+Tested up to:      6.5.2
+Stable tag:        1.3.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.0.22
@@ -74,6 +74,10 @@ OR…
 10. Blocks that slide in with animation
 
 == Changelog ==
+= 1.3.0 =
+Function addition
+
+
 = 1.2.1 =
 Function addition
 - The following block now supports font size responsiveness.

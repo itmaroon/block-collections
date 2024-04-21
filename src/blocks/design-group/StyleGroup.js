@@ -7,8 +7,8 @@ import {
 	position_prm,
 	space_prm,
 	convertToScss,
-} from "../cssPropertes";
-import { anime_comp } from "../animation_css";
+	anime_comp,
+} from "itmar-block-packages";
 
 export const StyleComp = ({ attributes, isMenuOpen, children }) => {
 	const swiperParallaxAttributes =

@@ -1,12 +1,18 @@
-
-import { __ } from '@wordpress/i18n';
-import TypographyControls from '../TypographyControls'
-import { StyleComp } from './StyleTable';
-import { useStyleIframe } from '../iframeFooks';
-import ShadowStyle, { ShadowElm } from '../ShadowStyle';
-import { useSelect } from '@wordpress/data';
-import { useEffect, useState, useCallback, useRef } from '@wordpress/element';
-import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks';
+import { __ } from "@wordpress/i18n";
+//import TypographyControls from '../TypographyControls'
+import { StyleComp } from "./StyleTable";
+import { useStyleIframe } from "../iframeFooks";
+//import ShadowStyle, { ShadowElm } from '../ShadowStyle';
+import { useSelect } from "@wordpress/data";
+import { useEffect, useState, useCallback, useRef } from "@wordpress/element";
+//import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks';
+import {
+	useElementBackgroundColor,
+	useIsIframeMobile,
+	ShadowStyle,
+	ShadowElm,
+	TypographyControls,
+} from "itmar-block-packages";
 
 import {
 	PanelBody,
@@ -14,8 +20,8 @@ import {
 	RangeControl,
 	ComboboxControl,
 	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl
-} from '@wordpress/components';
+	__experimentalBorderBoxControl as BorderBoxControl,
+} from "@wordpress/components";
 import {
 	useBlockProps,
 	RichText,
@@ -23,33 +29,32 @@ import {
 	AlignmentToolbar,
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
-	__experimentalBorderRadiusControl as BorderRadiusControl
-} from '@wordpress/block-editor';
+	__experimentalBorderRadiusControl as BorderRadiusControl,
+} from "@wordpress/block-editor";
 
-import './editor.scss';
+import "./editor.scss";
 
 //スペースのリセットバリュー
 const padding_resetValues = {
-	top: '10px',
-	left: '10px',
-	right: '10px',
-	bottom: '10px',
-}
+	top: "10px",
+	left: "10px",
+	right: "10px",
+	bottom: "10px",
+};
 
 //ボーダーのリセットバリュー
 const border_resetValues = {
-	top: '0px',
-	left: '0px',
-	right: '0px',
-	bottom: '0px',
-}
+	top: "0px",
+	left: "0px",
+	right: "0px",
+	bottom: "0px",
+};
 
 const units = [
-	{ value: 'px', label: 'px' },
-	{ value: 'em', label: 'em' },
-	{ value: 'rem', label: 'rem' },
+	{ value: "px", label: "px" },
+	{ value: "em", label: "em" },
+	{ value: "rem", label: "rem" },
 ];
-
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
@@ -76,9 +81,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		intensity,
 		shadow_element,
 		is_shadow,
-		className
+		className,
 	} = attributes;
-
 
 	//データソースの選択オプション配列
 	const [dataSources, setdataSources] = useState([]);
@@ -88,7 +92,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//テーブルヘッダーの選択中か否か
 	const [isSelHeader, setIsSelHeader] = useState(false);
-
 
 	//インナーブロックを含む全てのブロックを配列にする関数
 	const getFlattenedBlocks = (blocks) => {
@@ -106,7 +109,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	};
 	//トップレベルのブロック（親ブロックがないブロック）のIDを取得する関数
 	const getTopLevelClientId = (select, clientId) => {
-		const { getBlockRootClientId, getBlock } = select('core/block-editor');
+		const { getBlockRootClientId, getBlock } = select("core/block-editor");
 
 		let currentClientId = clientId;
 
@@ -114,57 +117,70 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			const parentClientId = getBlockRootClientId(currentClientId);
 			const parentBlock = getBlock(parentClientId);
 			// 親ブロックがないか親ブロックが'core/post-content'（サイトエディタの投稿コンテンツ）なら終了
-			if (!parentClientId || parentBlock.name === 'core/post-content') {
+			if (!parentClientId || parentBlock.name === "core/post-content") {
 				return currentClientId;
 			}
 
 			// IDを入れ替えてループを続ける
 			currentClientId = parentClientId;
 		}
-	}
+	};
 
 	// セル要素を生成する関数
 	const cellObjects = (inputFigureBlock) => {
 		//その中のインナーブロック
-		const inputInnerBlocks = inputFigureBlock ? inputFigureBlock.innerBlocks : [];
+		const inputInnerBlocks = inputFigureBlock
+			? inputFigureBlock.innerBlocks
+			: [];
 		//'itmar/design-checkbox''itmar/design-button'を除外
-		const filteredBlocks = inputInnerBlocks.filter(block => block.name !== 'itmar/design-checkbox' && block.name !== 'itmar/design-button');
+		const filteredBlocks = inputInnerBlocks.filter(
+			(block) =>
+				block.name !== "itmar/design-checkbox" &&
+				block.name !== "itmar/design-button"
+		);
 		return filteredBlocks.map((input_elm) => {
 			//design-selectで選択された要素を抽出
-			const sel_content = input_elm.attributes.selectValues ? input_elm.attributes.selectValues.filter(obj => input_elm.attributes.selectedValues.includes(obj.id)) : undefined;
+			const sel_content = input_elm.attributes.selectValues
+				? input_elm.attributes.selectValues.filter((obj) =>
+						input_elm.attributes.selectedValues.includes(obj.id)
+				  )
+				: undefined;
 			//選択された要素をカンマ区切りの文字列にして、input要素と選択
-			const content_td = sel_content ? sel_content.map(obj => obj.label).join(', ') : input_elm.attributes.inputValue;
+			const content_td = sel_content
+				? sel_content.map((obj) => obj.label).join(", ")
+				: input_elm.attributes.inputValue;
 
-			return ({
+			return {
 				cells: [
 					{
 						content: input_elm.attributes.labelContent,
-						tag: 'th'
+						tag: "th",
 					},
 					{
 						content: content_td,
-						tag: 'td'
-					}
-				]
-			})
+						tag: "td",
+					},
+				],
+			};
 		});
-	}
+	};
 
 	//itmar/input-figure-blockを抽出
 	useSelect((select) => {
 		const topBlockId = getTopLevelClientId(select, clientId);
-		const topBlock = select('core/block-editor').getBlock(topBlockId);
-		const targetBlocks = getFlattenedBlocks(topBlock).filter(block => block.name === 'itmar/input-figure-block');
-
+		const topBlock = select("core/block-editor").getBlock(topBlockId);
+		const targetBlocks = getFlattenedBlocks(topBlock).filter(
+			(block) => block.name === "itmar/input-figure-block"
+		);
 
 		//選択用のコンボボックスのオプションを生成
 		const sourceOption = targetBlocks.map((block) => ({
 			value: block.attributes.form_name,
-			label: block.attributes.form_name
+			label: block.attributes.form_name,
 		}));
 
 		if (sourceOption.length > 0) {
-			setdataSources(sourceOption);//コンボボックスにセット
+			setdataSources(sourceOption); //コンボボックスにセット
 		}
 	}, []);
 
@@ -176,13 +192,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	}, [dataSources, dataSource]);
 
 	//選択されたitmar/input-figure-blockを返す
-	const inputFigureBlock = useSelect((select) => {
-		const topBlockId = getTopLevelClientId(select, clientId);
-		const topBlock = select('core/block-editor').getBlock(topBlockId);
-		const targetBlocks = getFlattenedBlocks(topBlock).find(block => block.attributes.form_name === dataSource);
+	const inputFigureBlock = useSelect(
+		(select) => {
+			const topBlockId = getTopLevelClientId(select, clientId);
+			const topBlock = select("core/block-editor").getBlock(topBlockId);
+			const targetBlocks = getFlattenedBlocks(topBlock).find(
+				(block) => block.attributes.form_name === dataSource
+			);
 
-		return targetBlocks;
-	}, [dataSource]);
+			return targetBlocks;
+		},
+		[dataSource]
+	);
 
 	//inputFigureBlockの変化に合わせてテーブルソースを更新
 	useEffect(() => {
@@ -190,15 +211,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		setAttributes({ tableSource: bodySource });
 	}, [inputFigureBlock]);
 
-
-
 	//マウスドラッグの処理（カラム幅の変更）
 	const handleMouseDown = useCallback(
 		(index) => (e) => {
-			const startX = e.pageX;//スタート地点を記録
+			const startX = e.pageX; //スタート地点を記録
 			//クリックされたハンドルの親要素であるtr要素を取得
 			const trElement = e.target.parentElement.parentElement;
-			const rect = trElement.getBoundingClientRect();//位置を取得
+			const rect = trElement.getBoundingClientRect(); //位置を取得
 			//そのtr要素の最後のcellの幅を取得
 			const lastCell = trElement.children[trElement.children.length - 1];
 			const lastCellWidth = lastCell.offsetWidth;
@@ -207,25 +226,31 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				const moveX = e.pageX;
 
 				//最低幅の確保
-				const newvalue = Math.round((moveX - rect.left) / (rect.right - rect.left) * 100);
-				if (newvalue < 15) return;//幅１５％以下にはしない
-				const distanceX = startX - moveX //移動幅
-				const newlastCellvalue = Math.round((lastCellWidth + distanceX) / (rect.right - rect.left) * 100);
-				if (newlastCellvalue < 15) return;//最終セルも幅１５％以下にはしない
+				const newvalue = Math.round(
+					((moveX - rect.left) / (rect.right - rect.left)) * 100
+				);
+				if (newvalue < 15) return; //幅１５％以下にはしない
+				const distanceX = startX - moveX; //移動幅
+				const newlastCellvalue = Math.round(
+					((lastCellWidth + distanceX) / (rect.right - rect.left)) * 100
+				);
+				if (newlastCellvalue < 15) return; //最終セルも幅１５％以下にはしない
 
 				//幅の変更
 				const newWidth = `${newvalue}%`;
 
-				const newColumWidth = [...columWidth,];
+				const newColumWidth = [...columWidth];
 				newColumWidth[index] = newWidth;
-				setAttributes({ columWidth: newColumWidth })
+				setAttributes({ columWidth: newColumWidth });
 			};
 
 			//サイトエディタの場合のドキュメント
-			const iframeInstance = document.getElementsByName('editor-canvas')[0];
+			const iframeInstance = document.getElementsByName("editor-canvas")[0];
 
 			if (iframeInstance) {
-				const iframeDocument = iframeInstance.contentDocument || iframeInstance.contentWindow.document;
+				const iframeDocument =
+					iframeInstance.contentDocument ||
+					iframeInstance.contentWindow.document;
 				const handleMouseUp = () => {
 					iframeDocument.removeEventListener("mousemove", handleMouseMove);
 					iframeDocument.removeEventListener("mouseup", handleMouseUp);
@@ -242,8 +267,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				document.addEventListener("mousemove", handleMouseMove);
 				document.addEventListener("mouseup", handleMouseUp);
 			}
-
-
 		},
 		[columWidth]
 	);
@@ -253,13 +276,16 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		//theaderの選択状態は解除
 		setIsSelHeader(false);
 		//初期値の設定
-		const nextAlign = tag === 'th' && columAlign[cellIndex] === undefined ? 'center' : columAlign[cellIndex];
+		const nextAlign =
+			tag === "th" && columAlign[cellIndex] === undefined
+				? "center"
+				: columAlign[cellIndex];
 		const newColumAlign = [...columAlign];
 		newColumAlign[cellIndex] = nextAlign;
 		setAttributes({ columAlign: newColumAlign });
 		//クリックされた列を記録
 		setSelCulumn(cellIndex);
-	}
+	};
 
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
@@ -267,8 +293,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	//ブロックの参照
 	const blockRef = useRef(null);
 	const blockProps = useBlockProps({
-		ref: blockRef,// ここで参照を blockProps に渡しています
-		style: { backgroundColor: bgColor }
+		ref: blockRef, // ここで参照を blockProps に渡しています
+		style: { backgroundColor: bgColor },
 	});
 
 	//背景色の取得
@@ -277,13 +303,15 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	//背景色変更によるシャドー属性の書き換え
 	useEffect(() => {
 		if (baseColor) {
-			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
+			setAttributes({
+				shadow_element: { ...shadow_element, baseColor: baseColor },
+			});
 			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
-			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
+			if (new_shadow) {
+				setAttributes({ shadow_result: new_shadow.style });
+			}
 		}
 	}, [baseColor]);
-
-
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -292,9 +320,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		//レンダリングするテーブル
 		return (
 			<>
-				{tableSource &&
+				{tableSource && (
 					<table>
-						{is_heading &&
+						{is_heading && (
 							<thead>
 								<tr>
 									{tableSource[0].cells.map((cell, index) => (
@@ -304,31 +332,30 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 												position: "relative",
 												backgroundClip: "padding-box",
 												width: columWidth[index],
-												textAlign: columAlignTH
+												textAlign: columAlignTH,
 											}}
 											onClick={() => setIsSelHeader(true)}
 										>
 											<RichText
-												onChange={
-													(newContent) => {
-														const updatedTableHeading = [...tableHeading];
-														updatedTableHeading[index] = newContent;
-														setAttributes({ tableHeading: updatedTableHeading });
-													}
-												}
+												onChange={(newContent) => {
+													const updatedTableHeading = [...tableHeading];
+													updatedTableHeading[index] = newContent;
+													setAttributes({ tableHeading: updatedTableHeading });
+												}}
 												value={tableHeading[index]}
-												placeholder={__('Enter header...', 'block-collections')}
-
+												placeholder={__("Enter header...", "block-collections")}
 											/>
 											{index !== tableSource[0].cells.length - 1 && (
-												<div className="resize-handle" onMouseDown={handleMouseDown(index)} />
+												<div
+													className="resize-handle"
+													onMouseDown={handleMouseDown(index)}
+												/>
 											)}
 										</th>
 									))}
 								</tr>
-
 							</thead>
-						}
+						)}
 						<tbody>
 							{tableSource.map((row, rowIndex) => (
 								<tr key={rowIndex}>
@@ -341,13 +368,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 													position: "relative",
 													backgroundClip: "padding-box",
 													width: columWidth[cellIndex],
-													textAlign: columAlign[cellIndex]
+													textAlign: columAlign[cellIndex],
 												}}
-												onClick={() => bodyCellClick(cell.tag, rowIndex, cellIndex)}
+												onClick={() =>
+													bodyCellClick(cell.tag, rowIndex, cellIndex)
+												}
 											>
 												{cell.content}
 												{cellIndex !== row.cells.length - 1 && (
-													<div className="resize-handle" onMouseDown={handleMouseDown(cellIndex)} />
+													<div
+														className="resize-handle"
+														onMouseDown={handleMouseDown(cellIndex)}
+													/>
 												)}
 											</CellTag>
 										);
@@ -356,166 +388,222 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							))}
 						</tbody>
 					</table>
-				}
+				)}
 			</>
-		)
+		);
 	}
 
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title={__("Table Structure setting", 'block-collections')} initialOpen={true} className="form_setteing_ctrl">
+				<PanelBody
+					title={__("Table Structure setting", "block-collections")}
+					initialOpen={true}
+					className="form_setteing_ctrl"
+				>
 					<ComboboxControl
-						label={__("Form Object name", 'block-collections')}
+						label={__("Form Object name", "block-collections")}
 						value={dataSource}
-						help={__("Please specify the form object that will be the data source for the table.", 'block-collections')}
+						help={__(
+							"Please specify the form object that will be the data source for the table.",
+							"block-collections"
+						)}
 						options={dataSources}
 						onChange={(newValue) => {
 							setAttributes({ dataSource: newValue });
 						}}
-
 					/>
 					<ToggleControl
-						label={__('table header', 'block-collections')}
+						label={__("table header", "block-collections")}
 						checked={is_heading}
 						onChange={(newValue) => setAttributes({ is_heading: newValue })}
-						help={__("Turn this on if you want to add a table header.", 'block-collections')}
+						help={__(
+							"Turn this on if you want to add a table header.",
+							"block-collections"
+						)}
 					/>
 				</PanelBody>
 			</InspectorControls>
 
 			<InspectorControls group="styles">
-
-				<PanelBody title={__("Global settings", 'block-collections')} initialOpen={false} className="check_design_ctrl">
+				<PanelBody
+					title={__("Global settings", "block-collections")}
+					initialOpen={false}
+					className="check_design_ctrl"
+				>
 					<PanelColorGradientSettings
-						title={__("Background Color Setting", 'block-collections')}
+						title={__("Background Color Setting", "block-collections")}
 						settings={[
 							{
 								colorValue: bgColor,
-								label: __("Choose Block Background color", 'block-collections'),
-								onColorChange: (newValue) => setAttributes({ bgColor: newValue })
-							}
+								label: __("Choose Block Background color", "block-collections"),
+								onColorChange: (newValue) =>
+									setAttributes({ bgColor: newValue }),
+							},
 						]}
 					/>
 					<BoxControl
-						label={!isMobile ?
-							__("Margin settings(desk top)", 'block-collections')
-							: __("Margin settings(mobile)", 'block-collections')
+						label={
+							!isMobile
+								? __("Margin settings(desk top)", "block-collections")
+								: __("Margin settings(mobile)", "block-collections")
 						}
-						values={!isMobile ? default_pos.margin_value : mobile_pos.margin_value}
-						onChange={value => {
+						values={
+							!isMobile ? default_pos.margin_value : mobile_pos.margin_value
+						}
+						onChange={(value) => {
 							if (!isMobile) {
-								setAttributes({ default_pos: { ...default_pos, margin_value: value } });
+								setAttributes({
+									default_pos: { ...default_pos, margin_value: value },
+								});
 							} else {
-								setAttributes({ mobile_pos: { ...mobile_pos, margin_value: value } });
+								setAttributes({
+									mobile_pos: { ...mobile_pos, margin_value: value },
+								});
 							}
 						}}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
 					/>
 					<BoxControl
-						label={!isMobile ?
-							__("Padding settings(desk top)", 'block-collections')
-							: __("Padding settings(mobile)", 'block-collections')
+						label={
+							!isMobile
+								? __("Padding settings(desk top)", "block-collections")
+								: __("Padding settings(mobile)", "block-collections")
 						}
-						values={!isMobile ? default_pos.padding_value : mobile_pos.padding_value}
-						onChange={value => {
+						values={
+							!isMobile ? default_pos.padding_value : mobile_pos.padding_value
+						}
+						onChange={(value) => {
 							if (!isMobile) {
-								setAttributes({ default_pos: { ...default_pos, padding_value: value } })
+								setAttributes({
+									default_pos: { ...default_pos, padding_value: value },
+								});
 							} else {
-								setAttributes({ mobile_pos: { ...mobile_pos, padding_value: value } })
+								setAttributes({
+									mobile_pos: { ...mobile_pos, padding_value: value },
+								});
 							}
 						}}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
 					/>
-					<PanelBody title={__("Border Settings", 'block-collections')} initialOpen={false} className="border_design_ctrl">
+					<PanelBody
+						title={__("Border Settings", "block-collections")}
+						initialOpen={false}
+						className="border_design_ctrl"
+					>
 						<BorderBoxControl
-							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
+							colors={[
+								{ color: "#72aee6" },
+								{ color: "#000" },
+								{ color: "#fff" },
+							]}
 							onChange={(newValue) => setAttributes({ border_value: newValue })}
 							value={border_value}
-							allowReset={true}	// リセットの可否
-							resetValues={border_resetValues}	// リセット時の値
+							allowReset={true} // リセットの可否
+							resetValues={border_resetValues} // リセット時の値
 						/>
 						<BorderRadiusControl
 							values={radius_value}
 							onChange={(newBrVal) =>
-								setAttributes({ radius_value: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
+								setAttributes({
+									radius_value:
+										typeof newBrVal === "string"
+											? { value: newBrVal }
+											: newBrVal,
+								})
+							}
 						/>
 					</PanelBody>
 					<ToggleControl
-						label={__('Is Shadow', 'block-collections')}
+						label={__("Is Shadow", "block-collections")}
 						checked={is_shadow}
 						onChange={(newVal) => {
-							setAttributes({ is_shadow: newVal })
+							setAttributes({ is_shadow: newVal });
 						}}
 					/>
-					{is_shadow &&
+					{is_shadow && (
 						<ShadowStyle
 							shadowStyle={{ ...shadow_element }}
 							onChange={(newStyle, newState) => {
 								setAttributes({ shadow_result: newStyle.style });
-								setAttributes({ shadow_element: newState })
+								setAttributes({ shadow_element: newState });
 							}}
 						/>
-					}
-					{className === 'is-style-stripe' &&
+					)}
+					{className === "is-style-stripe" && (
 						<RangeControl
 							value={intensity}
-							label={__("Striped Contrast", 'block-collections')}
+							label={__("Striped Contrast", "block-collections")}
 							max={100}
 							min={0}
 							onChange={(val) => setAttributes({ intensity: val })}
 							withInputField={false}
 						/>
-					}
+					)}
 				</PanelBody>
 
-				<PanelBody title={__("Heading style settings", 'block-collections')} initialOpen={false} className="check_design_ctrl">
+				<PanelBody
+					title={__("Heading style settings", "block-collections")}
+					initialOpen={false}
+					className="check_design_ctrl"
+				>
 					<TypographyControls
-						title={__('Typography', 'block-collections')}
+						title={__("Typography", "block-collections")}
 						fontStyle={font_style_th}
 						onChange={(newStyle) => {
-							setAttributes({ font_style_th: newStyle })
+							setAttributes({ font_style_th: newStyle });
 						}}
 						initialOpen={false}
 					/>
 
 					<PanelColorGradientSettings
-						title={__("Heading Color Setting", 'block-collections')}
+						title={__("Heading Color Setting", "block-collections")}
 						settings={[
 							{
 								colorValue: th_color,
-								label: __("Choose Text color", 'block-collections'),
-								onColorChange: (newValue) => setAttributes({ th_color: newValue }),
+								label: __("Choose Text color", "block-collections"),
+								onColorChange: (newValue) =>
+									setAttributes({ th_color: newValue }),
 							},
 							{
 								colorValue: bgColor_th,
 								gradientValue: bgGradient_th,
 
-								label: __("Choose Background color", 'block-collections'),
+								label: __("Choose Background color", "block-collections"),
 								onColorChange: (newValue) => {
-									setAttributes({ bgColor_th: newValue === undefined ? '' : newValue });
+									setAttributes({
+										bgColor_th: newValue === undefined ? "" : newValue,
+									});
 								},
-								onGradientChange: (newValue) => setAttributes({ bgGradient_th: newValue }),
+								onGradientChange: (newValue) =>
+									setAttributes({ bgGradient_th: newValue }),
 							},
 						]}
 					/>
 					<RangeControl
-						value={!isMobile ? default_pos.headding_min_width : mobile_pos.headding_min_width}
-						label={!isMobile ?
-							__("Minimum heading width(PX)(desk top)", 'block-collections')
-							: __("Minimum heading width(PX)(mobile)", 'block-collections')
+						value={
+							!isMobile
+								? default_pos.headding_min_width
+								: mobile_pos.headding_min_width
 						}
-						onChange={value => {
+						label={
+							!isMobile
+								? __("Minimum heading width(PX)(desk top)", "block-collections")
+								: __("Minimum heading width(PX)(mobile)", "block-collections")
+						}
+						onChange={(value) => {
 							if (!isMobile) {
-								setAttributes({ default_pos: { ...default_pos, headding_min_width: value } })
+								setAttributes({
+									default_pos: { ...default_pos, headding_min_width: value },
+								});
 							} else {
-								setAttributes({ mobile_pos: { ...mobile_pos, headding_min_width: value } })
+								setAttributes({
+									mobile_pos: { ...mobile_pos, headding_min_width: value },
+								});
 							}
 						}}
 						max={500}
@@ -524,68 +612,84 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 
 					<BoxControl
-						label={!isMobile ?
-							__("Padding settings(desk top)", 'block-collections')
-							: __("Padding settings(mobile)", 'block-collections')
+						label={
+							!isMobile
+								? __("Padding settings(desk top)", "block-collections")
+								: __("Padding settings(mobile)", "block-collections")
 						}
 						values={!isMobile ? default_pos.padding_th : mobile_pos.padding_th}
-						onChange={value => {
+						onChange={(value) => {
 							if (!isMobile) {
-								setAttributes({ default_pos: { ...default_pos, padding_th: value } })
+								setAttributes({
+									default_pos: { ...default_pos, padding_th: value },
+								});
 							} else {
-								setAttributes({ mobile_pos: { ...mobile_pos, padding_th: value } })
+								setAttributes({
+									mobile_pos: { ...mobile_pos, padding_th: value },
+								});
 							}
 						}}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
 					/>
-
 				</PanelBody>
 
-				<PanelBody title={__("Data style settings", 'block-collections')} initialOpen={false} className="check_design_ctrl">
+				<PanelBody
+					title={__("Data style settings", "block-collections")}
+					initialOpen={false}
+					className="check_design_ctrl"
+				>
 					<TypographyControls
-						title={__('Typography', 'block-collections')}
+						title={__("Typography", "block-collections")}
 						fontStyle={font_style_td}
 						onChange={(newStyle) => {
-							setAttributes({ font_style_td: newStyle })
+							setAttributes({ font_style_td: newStyle });
 						}}
 						isMobile={isMobile}
 						initialOpen={false}
 					/>
 
 					<PanelColorGradientSettings
-						title={__("Data Color Setting", 'block-collections')}
+						title={__("Data Color Setting", "block-collections")}
 						settings={[
 							{
 								colorValue: td_color,
-								label: __("Choose Text color", 'block-collections'),
-								onColorChange: (newValue) => setAttributes({ td_color: newValue }),
+								label: __("Choose Text color", "block-collections"),
+								onColorChange: (newValue) =>
+									setAttributes({ td_color: newValue }),
 							},
 							{
 								colorValue: bgColor_td,
 								gradientValue: bgGradient_td,
 
-								label: __("Choose Background color", 'block-collections'),
+								label: __("Choose Background color", "block-collections"),
 								onColorChange: (newValue) => {
-									setAttributes({ bgColor_td: newValue === undefined ? '' : newValue });
+									setAttributes({
+										bgColor_td: newValue === undefined ? "" : newValue,
+									});
 								},
-								onGradientChange: (newValue) => setAttributes({ bgGradient_td: newValue }),
+								onGradientChange: (newValue) =>
+									setAttributes({ bgGradient_td: newValue }),
 							},
 						]}
 					/>
 					<BoxControl
-						label={!isMobile ?
-							__("Padding settings(desk top)", 'block-collections')
-							: __("Padding settings(mobile)", 'block-collections')
+						label={
+							!isMobile
+								? __("Padding settings(desk top)", "block-collections")
+								: __("Padding settings(mobile)", "block-collections")
 						}
 						values={!isMobile ? default_pos.padding_td : mobile_pos.padding_td}
-						onChange={value => {
+						onChange={(value) => {
 							if (!isMobile) {
-								setAttributes({ default_pos: { ...default_pos, padding_td: value } })
+								setAttributes({
+									default_pos: { ...default_pos, padding_td: value },
+								});
 							} else {
-								setAttributes({ mobile_pos: { ...mobile_pos, padding_td: value } })
+								setAttributes({
+									mobile_pos: { ...mobile_pos, padding_td: value },
+								});
 							}
 						}}
 					/>
@@ -597,7 +701,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					value={isSelHeader ? columAlignTH : columAlign[selCulumn]}
 					onChange={(nextAlign) => {
 						if (isSelHeader) {
-							setAttributes({ columAlignTH: nextAlign })
+							setAttributes({ columAlignTH: nextAlign });
 						} else {
 							const newColumAlign = [...columAlign];
 							newColumAlign[selCulumn] = nextAlign;
@@ -607,12 +711,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				/>
 			</BlockControls>
 
-
 			<div {...blockProps}>
-				<StyleComp attributes={attributes}>
-					{renderContent()}
-				</StyleComp>
-			</div >
+				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+			</div>
 		</>
 	);
 }

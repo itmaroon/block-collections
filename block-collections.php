@@ -3,9 +3,9 @@
 /**
  * Plugin Name:       Block Collections
  * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
- * Requires at least: 6.3
+ * Requires at least: 6.5
  * Requires PHP:      8.0.22
- * Version:           1.2.1
+ * Version:           1.3.0
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,11 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $block_entry = new \Itmar\BlockClassPakage\ItmarEntryClass();
 
+//ブロックの初期登録
+add_action('init', function () use ($block_entry) {
+	$plugin_data = get_plugin_data(__FILE__);
+	$block_entry->block_init($plugin_data['TextDomain'], __FILE__);
+});
 
 //独自プラグイン等のエンキュー
 function itmar_highlight_scripts_and_styles()
@@ -123,9 +128,3 @@ function itmar_block_collections_font_init()
 	wp_enqueue_style('awesome-solid', plugins_url('/assets/css/solid.css', __FILE__), array(), null);
 }
 add_action('enqueue_block_assets', 'itmar_block_collections_font_init');
-
-//ブロックの初期登録
-add_action('init', function () use ($block_entry) {
-	$plugin_data = get_plugin_data(__FILE__);
-	$block_entry->block_init($plugin_data['TextDomain'], __FILE__);
-});

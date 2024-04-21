@@ -1,14 +1,20 @@
+import { __ } from "@wordpress/i18n";
 
-import { __ } from '@wordpress/i18n';
-import TypographyControls from '../TypographyControls'
-import { StyleComp } from './StyleSelect';
-import { NomalSelect } from './initSelect';
-import { useStyleIframe } from '../iframeFooks';
-import ShadowStyle, { ShadowElm } from '../ShadowStyle';
-import { useState, useEffect, useRef } from '@wordpress/element';
-import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks';
-import LabelBox from '../LabelBox ';
-import { nanoid } from 'nanoid';
+import { StyleComp } from "./StyleSelect";
+import { NomalSelect } from "./initSelect";
+import { useStyleIframe } from "../iframeFooks";
+//import ShadowStyle, { ShadowElm } from "../ShadowStyle";
+import { useState, useEffect, useRef } from "@wordpress/element";
+//import { useElementBackgroundColor, useIsIframeMobile } from "../CustomFooks";
+import LabelBox from "../LabelBox ";
+import { nanoid } from "nanoid";
+import {
+	useElementBackgroundColor,
+	useIsIframeMobile,
+	ShadowStyle,
+	ShadowElm,
+} from "itmar-block-packages";
+import { TypographyControls } from "itmar-block-packages";
 
 import {
 	Button,
@@ -20,37 +26,37 @@ import {
 	TextControl,
 	ToggleControl,
 	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl
-} from '@wordpress/components';
+	__experimentalBorderBoxControl as BorderBoxControl,
+} from "@wordpress/components";
 import {
 	useBlockProps,
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
-	__experimentalBorderRadiusControl as BorderRadiusControl
-} from '@wordpress/block-editor';
+	__experimentalBorderRadiusControl as BorderRadiusControl,
+} from "@wordpress/block-editor";
 
-import './editor.scss';
+import "./editor.scss";
 
 //スペースのリセットバリュー
 const padding_resetValues = {
-	top: '10px',
-	left: '10px',
-	right: '10px',
-	bottom: '10px',
-}
+	top: "10px",
+	left: "10px",
+	right: "10px",
+	bottom: "10px",
+};
 
 //ボーダーのリセットバリュー
 const border_resetValues = {
-	top: '0px',
-	left: '0px',
-	right: '0px',
-	bottom: '0px',
-}
+	top: "0px",
+	left: "0px",
+	right: "0px",
+	bottom: "0px",
+};
 
 const units = [
-	{ value: 'px', label: 'px' },
-	{ value: 'em', label: 'em' },
-	{ value: 'rem', label: 'rem' },
+	{ value: "px", label: "px" },
+	{ value: "em", label: "em" },
+	{ value: "rem", label: "rem" },
 ];
 
 export default function Edit({ attributes, setAttributes, context }) {
@@ -94,8 +100,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 	//ブロックの参照
 	const blockRef = useRef(null);
 	const blockProps = useBlockProps({
-		ref: blockRef,// ここで参照を blockProps に渡しています
-		style: { backgroundColor: bgColor }//背景色をブロックのルートにインラインでセット
+		ref: blockRef, // ここで参照を blockProps に渡しています
+		style: { backgroundColor: bgColor }, //背景色をブロックのルートにインラインでセット
 	});
 
 	//背景色の取得
@@ -104,25 +110,27 @@ export default function Edit({ attributes, setAttributes, context }) {
 	//背景色変更によるシャドー属性の書き換え
 	useEffect(() => {
 		if (baseColor) {
-			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
+			setAttributes({
+				shadow_element: { ...shadow_element, baseColor: baseColor },
+			});
 			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
-			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
+			if (new_shadow) {
+				setAttributes({ shadow_result: new_shadow.style });
+			}
 		}
 	}, [baseColor]);
-
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 
-
 	// selPatternがtrueの場合、multiple属性を持つオブジェクトを返す
-	const selectAttributes = selPattern === 'multi' ? { multiple: true } : {};
+	const selectAttributes = selPattern === "multi" ? { multiple: true } : {};
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 
 	//親コンポーネントからのラベル幅の指定があればそれを採用して記録する
-	const label_width = context['itmar/label_width'] || 'auto';
+	const label_width = context["itmar/label_width"] || "auto";
 	useEffect(() => {
 		setAttributes({ labelWidth: label_width });
 	}, [label_width]);
@@ -155,13 +163,13 @@ export default function Edit({ attributes, setAttributes, context }) {
 	};
 	//オプション値の編集ハンドラ
 	const handleOptionChange = (key, value) => {
-		setSelectedOption(prevData => ({ ...prevData, [key]: value }));
+		setSelectedOption((prevData) => ({ ...prevData, [key]: value }));
 	};
 
 	//オプション新規追加
 	const handleOptionAddNew = () => {
 		const id = nanoid(5);
-		setSelectedOption({ id: id, value: '', label: '', classname: '' });
+		setSelectedOption({ id: id, value: "", label: "", classname: "" });
 		openModal();
 	};
 	//オプションの更新
@@ -173,15 +181,18 @@ export default function Edit({ attributes, setAttributes, context }) {
 	// オプション要素の削除
 	const handleOptionDelete = (idToDelete) => {
 		// IDをもとに該当する要素を削除
-		const updatedValues = selectValues.filter(item => item.id !== idToDelete);
+		const updatedValues = selectValues.filter((item) => item.id !== idToDelete);
 		setAttributes({ selectValues: updatedValues });
 	};
 
 	//オプション値の保存
 	const handleOptionSave = () => {
-		if (selectedOption && selectValues.some(item => item.id === selectedOption.id)) {
+		if (
+			selectedOption &&
+			selectValues.some((item) => item.id === selectedOption.id)
+		) {
 			// Update existing item
-			const updatedValues = selectValues.map(item => {
+			const updatedValues = selectValues.map((item) => {
 				if (item.id === selectedOption.id) {
 					return selectedOption;
 				}
@@ -193,7 +204,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 			setAttributes({ selectValues: [...selectValues, selectedOption] });
 		}
 
-		closeModal()
+		closeModal();
 	};
 
 	function renderContent() {
@@ -201,7 +212,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 			<>
 				<NomalSelect
 					onOptionSelect={(selID) => {
-						if (selID == undefined) {//undefinedのときは設定を解除
+						if (selID == undefined) {
+							//undefinedのときは設定を解除
 							setAttributes({ selectedValues: [] });
 							return;
 						}
@@ -209,12 +221,13 @@ export default function Edit({ attributes, setAttributes, context }) {
 							return; // 既に選択されている場合はそのまま
 						}
 						//複数選択のときは複数配列、単数選択の時は単数配列
-						const newArray = selPattern === 'multi' ? [...selectedValues, selID] : [selID];
+						const newArray =
+							selPattern === "multi" ? [...selectedValues, selID] : [selID];
 						setAttributes({ selectedValues: newArray });
 					}}
 					onOptionDeselect={(selID) => {
-						const newArray = selectedValues.filter(index => index !== selID);
-						setAttributes({ selectedValues: newArray });;
+						const newArray = selectedValues.filter((index) => index !== selID);
+						setAttributes({ selectedValues: newArray });
 					}}
 				>
 					<select
@@ -223,14 +236,23 @@ export default function Edit({ attributes, setAttributes, context }) {
 						name={inputName}
 						data-placeholder={folder_val}
 					>
-						{selPattern === 'single' &&
-							<option value="">{__("Please Select.", 'block-collections')}</option>
-						}
-						{
-							selectValues.map((option_item) => {
-								return (<option id={option_item.id} className={option_item.classname} value={option_item.value} selected={selectedValues.includes(option_item.id)}>{option_item.label}</option>)
-							})
-						}
+						{selPattern === "single" && (
+							<option value="">
+								{__("Please Select.", "block-collections")}
+							</option>
+						)}
+						{selectValues.map((option_item) => {
+							return (
+								<option
+									id={option_item.id}
+									className={option_item.classname}
+									value={option_item.value}
+									selected={selectedValues.includes(option_item.id)}
+								>
+									{option_item.label}
+								</option>
+							);
+						})}
 					</select>
 				</NomalSelect>
 
@@ -256,50 +278,57 @@ export default function Edit({ attributes, setAttributes, context }) {
 					setAttributes={setAttributes}
 				/>
 			</>
-		)
+		);
 	}
 
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title={
-					__("Select Element Settings", 'block-collections')
-				}
+				<PanelBody
+					title={__("Select Element Settings", "block-collections")}
 					initialOpen={true}
 					className="select_design_ctrl"
 				>
 					<PanelRow>
 						<TextControl
-							label={__("name attribute name", 'block-collections')}
+							label={__("name attribute name", "block-collections")}
 							value={inputName}
 							onChange={(newVal) => setAttributes({ inputName: newVal })}
 						/>
 					</PanelRow>
-					<label className="components-base-control__label">{__("Select Pattern", 'block-collections')}</label>
-					<PanelRow className='itmar_select_row'>
+					<label className="components-base-control__label">
+						{__("Select Pattern", "block-collections")}
+					</label>
+					<PanelRow className="itmar_select_row">
 						<RadioControl
 							selected={selPattern}
 							options={[
-								{ label: __("Single Select", 'block-collections'), value: 'single' },
-								{ label: __("Nulti Select", 'block-collections'), value: 'multi' },
-
+								{
+									label: __("Single Select", "block-collections"),
+									value: "single",
+								},
+								{
+									label: __("Nulti Select", "block-collections"),
+									value: "multi",
+								},
 							]}
-							onChange={(changeOption) => { setAttributes({ selPattern: changeOption }); }
-							}
+							onChange={(changeOption) => {
+								setAttributes({ selPattern: changeOption });
+							}}
 						/>
 					</PanelRow>
 
 					<TextControl
-						label={__("Place Folder Display", 'block-collections')}
+						label={__("Place Folder Display", "block-collections")}
 						value={folder_val}
 						onChange={(newVal) => setAttributes({ folder_val: newVal })}
 					/>
 					<PanelBody
-						className={'itmar_notice_select_panel'}
-						title={__("Option info Setting", 'block-collections')}
+						className={"itmar_notice_select_panel"}
+						title={__("Option info Setting", "block-collections")}
 					>
 						<Button
-							label={__('add', 'block-collections')}
+							label={__("add", "block-collections")}
 							icon={"insert"}
 							onClick={handleOptionAddNew}
 						/>
@@ -309,178 +338,229 @@ export default function Edit({ attributes, setAttributes, context }) {
 								status="info"
 								onRemove={() => openDeleteModal(item)}
 							>
-								<span onClick={() => handleNoticeClick(item)}>{item.label}</span>
+								<span onClick={() => handleNoticeClick(item)}>
+									{item.label}
+								</span>
 							</Notice>
 						))}
 					</PanelBody>
-
 				</PanelBody>
-
 			</InspectorControls>
 
 			<InspectorControls group="styles">
-
-				<PanelBody title={__("Global settings", 'block-collections')} initialOpen={false} className="select_design_ctrl">
+				<PanelBody
+					title={__("Global settings", "block-collections")}
+					initialOpen={false}
+					className="select_design_ctrl"
+				>
 					<PanelColorGradientSettings
-						title={__("Background Color Setting", 'block-collections')}
+						title={__("Background Color Setting", "block-collections")}
 						settings={[
 							{
 								colorValue: bgColor,
-								label: __("Choose Block Background color", 'block-collections'),
-								onColorChange: (newValue) => setAttributes({ bgColor: newValue }),
+								label: __("Choose Block Background color", "block-collections"),
+								onColorChange: (newValue) =>
+									setAttributes({ bgColor: newValue }),
 							},
 							{
 								colorValue: bgSelectColor,
 								gradientValue: bgSelectGradient,
 
-								label: __("Choose Select Background color", 'block-collections'),
+								label: __(
+									"Choose Select Background color",
+									"block-collections"
+								),
 								onColorChange: (newValue) => {
-									setAttributes({ bgSelectColor: newValue === undefined ? '' : newValue });
+									setAttributes({
+										bgSelectColor: newValue === undefined ? "" : newValue,
+									});
 								},
-								onGradientChange: (newValue) => setAttributes({ bgSelectGradient: newValue }),
+								onGradientChange: (newValue) =>
+									setAttributes({ bgSelectGradient: newValue }),
 							},
 						]}
 					/>
 					<BoxControl
-						label={!isMobile ?
-							__("Margin settings(desk top)", 'block-collections')
-							: __("Margin settings(mobile)", 'block-collections')
+						label={
+							!isMobile
+								? __("Margin settings(desk top)", "block-collections")
+								: __("Margin settings(mobile)", "block-collections")
 						}
-						values={!isMobile ? default_pos.margin_value : mobile_pos.margin_value}
-						onChange={value => {
+						values={
+							!isMobile ? default_pos.margin_value : mobile_pos.margin_value
+						}
+						onChange={(value) => {
 							if (!isMobile) {
-								setAttributes({ default_pos: { ...default_pos, margin_value: value } });
+								setAttributes({
+									default_pos: { ...default_pos, margin_value: value },
+								});
 							} else {
-								setAttributes({ mobile_pos: { ...mobile_pos, margin_value: value } });
+								setAttributes({
+									mobile_pos: { ...mobile_pos, margin_value: value },
+								});
 							}
 						}}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
 					/>
 					<BoxControl
-						label={!isMobile ?
-							__("Padding settings(desk top)", 'block-collections')
-							: __("Padding settings(mobile)", 'block-collections')
+						label={
+							!isMobile
+								? __("Padding settings(desk top)", "block-collections")
+								: __("Padding settings(mobile)", "block-collections")
 						}
-						values={!isMobile ? default_pos.padding_value : mobile_pos.padding_value}
-						onChange={value => {
+						values={
+							!isMobile ? default_pos.padding_value : mobile_pos.padding_value
+						}
+						onChange={(value) => {
 							if (!isMobile) {
-								setAttributes({ default_pos: { ...default_pos, padding_value: value } })
+								setAttributes({
+									default_pos: { ...default_pos, padding_value: value },
+								});
 							} else {
-								setAttributes({ mobile_pos: { ...mobile_pos, padding_value: value } })
+								setAttributes({
+									mobile_pos: { ...mobile_pos, padding_value: value },
+								});
 							}
 						}}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
 					/>
-					<PanelBody title={__("Border Settings", 'block-collections')} initialOpen={false} className="border_design_ctrl">
+					<PanelBody
+						title={__("Border Settings", "block-collections")}
+						initialOpen={false}
+						className="border_design_ctrl"
+					>
 						<BorderBoxControl
-							colors={[{ color: '#72aee6' }, { color: '#000' }, { color: '#fff' }]}
+							colors={[
+								{ color: "#72aee6" },
+								{ color: "#000" },
+								{ color: "#fff" },
+							]}
 							onChange={(newValue) => setAttributes({ border_value: newValue })}
 							value={border_value}
-							allowReset={true}	// リセットの可否
-							resetValues={border_resetValues}	// リセット時の値
+							allowReset={true} // リセットの可否
+							resetValues={border_resetValues} // リセット時の値
 						/>
 						<BorderRadiusControl
 							values={radius_value}
 							onChange={(newBrVal) =>
-								setAttributes({ radius_value: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
+								setAttributes({
+									radius_value:
+										typeof newBrVal === "string"
+											? { value: newBrVal }
+											: newBrVal,
+								})
+							}
 						/>
 					</PanelBody>
 					<ToggleControl
-						label={__('Is Shadow', 'block-collections')}
+						label={__("Is Shadow", "block-collections")}
 						checked={is_shadow}
 						onChange={(newVal) => {
-							setAttributes({ is_shadow: newVal })
+							setAttributes({ is_shadow: newVal });
 						}}
 					/>
-					{is_shadow &&
+					{is_shadow && (
 						<ShadowStyle
 							shadowStyle={{ ...shadow_element }}
 							onChange={(newStyle, newState) => {
 								setAttributes({ shadow_result: newStyle.style });
-								setAttributes({ shadow_element: newState })
+								setAttributes({ shadow_element: newState });
 							}}
 						/>
-					}
+					)}
 				</PanelBody>
 
-				<PanelBody title={__("Option Style Settings", 'block-collections')} initialOpen={false} className="select_design_ctrl">
+				<PanelBody
+					title={__("Option Style Settings", "block-collections")}
+					initialOpen={false}
+					className="select_design_ctrl"
+				>
 					<TypographyControls
-						title={__('Typography', 'block-collections')}
+						title={__("Typography", "block-collections")}
 						fontStyle={font_style_option}
 						onChange={(newStyle) => {
-							setAttributes({ font_style_option: newStyle })
+							setAttributes({ font_style_option: newStyle });
 						}}
 						isMobile={isMobile}
 						initialOpen={false}
 					/>
 
 					<PanelColorGradientSettings
-						title={__("Option Color Setting", 'block-collections')}
-						settings={[{
-							colorValue: optionColor,
-							label: __("Choose Text color", 'block-collections'),
-							onColorChange: (newValue) => setAttributes({ optionColor: newValue }),
-						},
-						{
-							colorValue: hoverBgColor,
-							label: __("Choose Background color on mouse hover", 'block-collections'),
-							onColorChange: (newValue) => setAttributes({ hoverBgColor: newValue }),
-						},
+						title={__("Option Color Setting", "block-collections")}
+						settings={[
+							{
+								colorValue: optionColor,
+								label: __("Choose Text color", "block-collections"),
+								onColorChange: (newValue) =>
+									setAttributes({ optionColor: newValue }),
+							},
+							{
+								colorValue: hoverBgColor,
+								label: __(
+									"Choose Background color on mouse hover",
+									"block-collections"
+								),
+								onColorChange: (newValue) =>
+									setAttributes({ hoverBgColor: newValue }),
+							},
 						]}
 					/>
-
-
 				</PanelBody>
 			</InspectorControls>
 
 			{isModalOpen && (
 				<Modal
-					title={__("Option Info Edit", 'block-collections')}
+					title={__("Option Info Edit", "block-collections")}
 					onRequestClose={closeModal}
 				>
 					<TextControl
-						label={__("Display Label", 'block-collections')}
+						label={__("Display Label", "block-collections")}
 						value={selectedOption.label}
-						onChange={(newVal) => handleOptionChange('label', newVal)}
+						onChange={(newVal) => handleOptionChange("label", newVal)}
 					/>
 					<TextControl
-						label={__("Option Value", 'block-collections')}
+						label={__("Option Value", "block-collections")}
 						value={selectedOption.value}
-						onChange={(newVal) => handleOptionChange('value', newVal)}
+						onChange={(newVal) => handleOptionChange("value", newVal)}
 					/>
 					<TextControl
-						label={__("Class Name", 'block-collections')}
+						label={__("Class Name", "block-collections")}
 						value={selectedOption.classname}
-						onChange={(newVal) => handleOptionChange('classname', newVal)}
+						onChange={(newVal) => handleOptionChange("classname", newVal)}
 					/>
 					<Button variant="primary" onClick={handleOptionSave}>
-						{__("Save Changes", 'block-collections')}
+						{__("Save Changes", "block-collections")}
 					</Button>
 				</Modal>
 			)}
 
 			{isDeleteModalOpen && (
 				<Modal
-					title={__("Confirm Deletion", 'block-collections')}
+					title={__("Confirm Deletion", "block-collections")}
 					onRequestClose={closeDeleteModal}
 				>
-					<p>{__("Are you sure you want to delete this item?", 'block-collections')}</p>
-					<Button variant="primary" onClick={confirmDelete}>{__("Yes, Delete", 'block-collections')}</Button>
-					<Button variant="secondary" onClick={closeDeleteModal}>{__("Cancel", 'block-collections')}</Button>
+					<p>
+						{__(
+							"Are you sure you want to delete this item?",
+							"block-collections"
+						)}
+					</p>
+					<Button variant="primary" onClick={confirmDelete}>
+						{__("Yes, Delete", "block-collections")}
+					</Button>
+					<Button variant="secondary" onClick={closeDeleteModal}>
+						{__("Cancel", "block-collections")}
+					</Button>
 				</Modal>
 			)}
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes} >
-					{renderContent()}
-				</StyleComp>
-			</div >
+				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+			</div>
 		</>
 	);
 }

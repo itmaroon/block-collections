@@ -1,10 +1,6 @@
 import { __ } from "@wordpress/i18n";
-import TypographyControls from "../TypographyControls";
 import { StyleComp } from "./StyleButton";
 import { useStyleIframe } from "../iframeFooks";
-import ShadowStyle, { ShadowElm } from "../ShadowStyle";
-import { useElementBackgroundColor, useIsIframeMobile } from "../CustomFooks";
-import { PageSelectControl, ArchiveSelectControl } from "../wordpressApi";
 import {
 	PanelBody,
 	PanelRow,
@@ -27,8 +23,17 @@ import {
 import { useEffect, useRef } from "@wordpress/element";
 
 import "./editor.scss";
-import { SingleImageSelect } from "../../mediaUpload";
-import PseudoElm from "../../pseudo";
+import {
+	useElementBackgroundColor,
+	useIsIframeMobile,
+	PseudoElm,
+	ShadowStyle,
+	ShadowElm,
+	PageSelectControl,
+	ArchiveSelectControl,
+	SingleImageSelect,
+	TypographyControls,
+} from "itmar-block-packages";
 
 //スペースのリセットバリュー
 const padding_resetValues = {

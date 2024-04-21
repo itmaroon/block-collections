@@ -1,13 +1,17 @@
+import { __ } from "@wordpress/i18n";
+//import TypographyControls from '../TypographyControls'
 
-import { __ } from '@wordpress/i18n';
-import TypographyControls from '../TypographyControls'
-
-import { StyleComp } from './StyleInput';
-import { useState, useEffect, useRef } from '@wordpress/element';
-import { useStyleIframe } from '../iframeFooks';
-import ShadowStyle, { ShadowElm } from '../ShadowStyle';
-import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks'
-import LabelBox from '../LabelBox ';
+import { StyleComp } from "./StyleInput";
+import { useState, useEffect, useRef } from "@wordpress/element";
+import { useStyleIframe } from "../iframeFooks";
+import LabelBox from "../LabelBox ";
+import {
+	useElementBackgroundColor,
+	useIsIframeMobile,
+	ShadowStyle,
+	ShadowElm,
+	TypographyControls,
+} from "itmar-block-packages";
 
 import {
 	PanelBody,
@@ -16,44 +20,41 @@ import {
 	RadioControl,
 	TextControl,
 	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl
-} from '@wordpress/components';
+	__experimentalBorderBoxControl as BorderBoxControl,
+} from "@wordpress/components";
 import {
 	useBlockProps,
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
-	__experimentalBorderRadiusControl as BorderRadiusControl
-} from '@wordpress/block-editor';
+	__experimentalBorderRadiusControl as BorderRadiusControl,
+} from "@wordpress/block-editor";
 
-import './editor.scss';
+import "./editor.scss";
 
 //スペースのリセットバリュー
 const padding_resetValues = {
-	top: '10px',
-	left: '10px',
-	right: '10px',
-	bottom: '10px',
-}
+	top: "10px",
+	left: "10px",
+	right: "10px",
+	bottom: "10px",
+};
 
 //ボーダーのリセットバリュー
 const border_resetValues = {
-	top: '0px',
-	left: '0px',
-	right: '0px',
-	bottom: '0px',
-}
+	top: "0px",
+	left: "0px",
+	right: "0px",
+	bottom: "0px",
+};
 
 const units = [
-	{ value: 'px', label: 'px' },
-	{ value: 'em', label: 'em' },
-	{ value: 'rem', label: 'rem' },
+	{ value: "px", label: "px" },
+	{ value: "em", label: "em" },
+	{ value: "rem", label: "rem" },
 ];
 
 export default function Edit(props) {
-	const {
-		attributes,
-		setAttributes
-	} = props;
+	const { attributes, setAttributes } = props;
 
 	const {
 		inputName,
@@ -85,7 +86,7 @@ export default function Edit(props) {
 		shadow_element,
 		shadow_result,
 		is_shadow,
-		className
+		className,
 	} = attributes;
 
 	//モバイルの判定
@@ -94,8 +95,8 @@ export default function Edit(props) {
 	//ブロックの参照
 	const blockRef = useRef(null);
 	const blockProps = useBlockProps({
-		ref: blockRef,// ここで参照を blockProps に渡しています
-		style: { backgroundColor: bgColor }
+		ref: blockRef, // ここで参照を blockProps に渡しています
+		style: { backgroundColor: bgColor },
 	});
 
 	//背景色の取得
@@ -104,9 +105,13 @@ export default function Edit(props) {
 	//背景色変更によるシャドー属性の書き換え
 	useEffect(() => {
 		if (baseColor) {
-			setAttributes({ shadow_element: { ...shadow_element, baseColor: baseColor } });
+			setAttributes({
+				shadow_element: { ...shadow_element, baseColor: baseColor },
+			});
 			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
-			if (new_shadow) { setAttributes({ shadow_result: new_shadow.style }); }
+			if (new_shadow) {
+				setAttributes({ shadow_result: new_shadow.style });
+			}
 		}
 	}, [baseColor]);
 
@@ -114,10 +119,12 @@ export default function Edit(props) {
 	useStyleIframe(StyleComp, attributes);
 
 	//必須項目の表示
-	const dispLabel = required.flg ? `${labelContent}(${required.display})` : labelContent;
+	const dispLabel = required.flg
+		? `${labelContent}(${required.display})`
+		: labelContent;
 
 	//親コンポーネントからのラベル幅の指定があればそれを採用して記録する
-	const label_width = props.context['itmar/label_width'] || 'auto';
+	const label_width = props.context["itmar/label_width"] || "auto";
 	useEffect(() => {
 		setAttributes({ labelWidth: label_width });
 	}, [label_width]);
@@ -126,7 +133,7 @@ export default function Edit(props) {
 	const [stateValue, setInputValue] = useState(inputValue);
 
 	//テキストエリアの高さ設定
-	const [height, setHeight] = useState('auto');
+	const [height, setHeight] = useState("auto");
 	const textAreaRef = useRef(null);
 
 	useEffect(() => {
@@ -135,169 +142,208 @@ export default function Edit(props) {
 		}
 	}, [className]);
 
-
-
 	return (
 		<>
 			<InspectorControls group="settings">
-				<PanelBody title={__("Input element information setting", 'block-collections')} initialOpen={true} className="title_design_ctrl">
+				<PanelBody
+					title={__("Input element information setting", "block-collections")}
+					initialOpen={true}
+					className="title_design_ctrl"
+				>
 					<PanelRow>
 						<TextControl
-							label={__("name attribute name", 'block-collections')}
+							label={__("name attribute name", "block-collections")}
 							value={inputName}
 							onChange={(newVal) => setAttributes({ inputName: newVal })}
 						/>
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label={__("PlaceHolder", 'block-collections')}
+							label={__("PlaceHolder", "block-collections")}
 							value={placeFolder}
 							isPressEnterToChange
 							onChange={(newVal) => setAttributes({ placeFolder: newVal })}
 						/>
 					</PanelRow>
-					<PanelRow className='itmar_weight_row'>
+					<PanelRow className="itmar_weight_row">
 						<RadioControl
 							selected={inputType}
-							label={__("Kind of Input Element", 'block-collections')}
+							label={__("Kind of Input Element", "block-collections")}
 							options={[
-								{ label: 'TEXT', value: "text" },
-								{ label: 'E-MAIL', value: "email" },
-								{ label: 'AREA', value: "textarea" },
+								{ label: "TEXT", value: "text" },
+								{ label: "E-MAIL", value: "email" },
+								{ label: "AREA", value: "textarea" },
 							]}
-							onChange={(changeOption) => { setAttributes({ inputType: changeOption }); }}
+							onChange={(changeOption) => {
+								setAttributes({ inputType: changeOption });
+							}}
 						/>
 					</PanelRow>
 				</PanelBody>
 			</InspectorControls>
 			<InspectorControls group="styles">
-				<PanelBody title={__("Global settings", 'block-collections')} initialOpen={false} className="title_design_ctrl">
+				<PanelBody
+					title={__("Global settings", "block-collections")}
+					initialOpen={false}
+					className="title_design_ctrl"
+				>
 					<PanelColorGradientSettings
-						title={__("Background Color Setting", 'block-collections')}
+						title={__("Background Color Setting", "block-collections")}
 						settings={[
 							{
 								colorValue: bgColor,
-								label: __("Choose Background color", 'block-collections'),
-								onColorChange: (newValue) => setAttributes({ bgColor: newValue }),
+								label: __("Choose Background color", "block-collections"),
+								onColorChange: (newValue) =>
+									setAttributes({ bgColor: newValue }),
 							},
 						]}
 					/>
 					<PanelColorGradientSettings
-						title={__("Focus Color Setting", 'block-collections')}
+						title={__("Focus Color Setting", "block-collections")}
 						settings={[
 							{
 								colorValue: focusColor,
-								label: __("Choose Focus color", 'block-collections'),
-								onColorChange: (newValue) => setAttributes({ focusColor: newValue }),
+								label: __("Choose Focus color", "block-collections"),
+								onColorChange: (newValue) =>
+									setAttributes({ focusColor: newValue }),
 							},
 						]}
 					/>
 					<BoxControl
-						label={!isMobile ?
-							__("Margin settings(desk top)", 'block-collections')
-							: __("Margin settings(mobile)", 'block-collections')
+						label={
+							!isMobile
+								? __("Margin settings(desk top)", "block-collections")
+								: __("Margin settings(mobile)", "block-collections")
 						}
-						values={!isMobile ? default_pos.margin_input : mobile_pos.margin_input}
-						onChange={value => {
+						values={
+							!isMobile ? default_pos.margin_input : mobile_pos.margin_input
+						}
+						onChange={(value) => {
 							if (!isMobile) {
-								setAttributes({ default_pos: { ...default_pos, margin_input: value } });
+								setAttributes({
+									default_pos: { ...default_pos, margin_input: value },
+								});
 							} else {
-								setAttributes({ mobile_pos: { ...mobile_pos, margin_input: value } });
+								setAttributes({
+									mobile_pos: { ...mobile_pos, margin_input: value },
+								});
 							}
 						}}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
 					/>
 					<BoxControl
-						label={!isMobile ?
-							__("Padding settings(desk top)", 'block-collections')
-							: __("Padding settings(mobile)", 'block-collections')
+						label={
+							!isMobile
+								? __("Padding settings(desk top)", "block-collections")
+								: __("Padding settings(mobile)", "block-collections")
 						}
-						values={!isMobile ? default_pos.padding_input : mobile_pos.padding_input}
-						onChange={value => {
+						values={
+							!isMobile ? default_pos.padding_input : mobile_pos.padding_input
+						}
+						onChange={(value) => {
 							if (!isMobile) {
-								setAttributes({ default_pos: { ...default_pos, padding_input: value } })
+								setAttributes({
+									default_pos: { ...default_pos, padding_input: value },
+								});
 							} else {
-								setAttributes({ mobile_pos: { ...mobile_pos, padding_input: value } })
+								setAttributes({
+									mobile_pos: { ...mobile_pos, padding_input: value },
+								});
 							}
 						}}
-						units={units}	// 許可する単位
-						allowReset={true}	// リセットの可否
-						resetValues={padding_resetValues}	// リセット時の値
-
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
 					/>
 					<ToggleControl
-						label={__('Is Shadow', 'block-collections')}
+						label={__("Is Shadow", "block-collections")}
 						checked={is_shadow}
 						onChange={(newVal) => {
-							setAttributes({ is_shadow: newVal })
+							setAttributes({ is_shadow: newVal });
 						}}
 					/>
-					{is_shadow &&
+					{is_shadow && (
 						<ShadowStyle
 							shadowStyle={{ ...shadow_element }}
 							onChange={(newStyle, newState) => {
 								setAttributes({ shadow_result: newStyle.style });
-								setAttributes({ shadow_element: newState })
+								setAttributes({ shadow_element: newState });
 							}}
 						/>
-					}
+					)}
 				</PanelBody>
-				<PanelBody title={__("Input Box style settings", 'block-collections')} initialOpen={false} className="title_design_ctrl">
-
+				<PanelBody
+					title={__("Input Box style settings", "block-collections")}
+					initialOpen={false}
+					className="title_design_ctrl"
+				>
 					<TypographyControls
-						title={__('Typography', 'block-collections')}
+						title={__("Typography", "block-collections")}
 						fontStyle={font_style_input}
 						onChange={(newStyle) => {
-							setAttributes({ font_style_input: newStyle })
+							setAttributes({ font_style_input: newStyle });
 						}}
 						isMobile={isMobile}
 						initialOpen={false}
 					/>
 					<PanelColorGradientSettings
-						title={__("Color Settings", 'block-collections')}
-						settings={[{
-							colorValue: textColor_input,
-							label: __("Choose Text color", 'block-collections'),
-							onColorChange: (newValue) => setAttributes({ textColor_input: newValue }),
-						},
-						{
-							colorValue: bgColor_input,
-							gradientValue: bgGradient_input,
+						title={__("Color Settings", "block-collections")}
+						settings={[
+							{
+								colorValue: textColor_input,
+								label: __("Choose Text color", "block-collections"),
+								onColorChange: (newValue) =>
+									setAttributes({ textColor_input: newValue }),
+							},
+							{
+								colorValue: bgColor_input,
+								gradientValue: bgGradient_input,
 
-							label: __("Choose Background color", 'block-collections'),
-							onColorChange: (newValue) => setAttributes({ bgColor_input: newValue }),
-							onGradientChange: (newValue) => setAttributes({ bgGradient_input: newValue }),
-						},
+								label: __("Choose Background color", "block-collections"),
+								onColorChange: (newValue) =>
+									setAttributes({ bgColor_input: newValue }),
+								onGradientChange: (newValue) =>
+									setAttributes({ bgGradient_input: newValue }),
+							},
 						]}
 					/>
-					<PanelBody title={__("Border Settings", 'block-collections')} initialOpen={false} className="border_design_ctrl">
+					<PanelBody
+						title={__("Border Settings", "block-collections")}
+						initialOpen={false}
+						className="border_design_ctrl"
+					>
 						<BorderBoxControl
-
 							onChange={(newValue) => setAttributes({ border_input: newValue })}
 							value={border_input}
-							allowReset={true}	// リセットの可否
-							resetValues={border_resetValues}	// リセット時の値
+							allowReset={true} // リセットの可否
+							resetValues={border_resetValues} // リセット時の値
 						/>
 						<BorderRadiusControl
 							values={radius_input}
 							onChange={(newBrVal) =>
-								setAttributes({ radius_input: typeof newBrVal === 'string' ? { "value": newBrVal } : newBrVal })}
+								setAttributes({
+									radius_input:
+										typeof newBrVal === "string"
+											? { value: newBrVal }
+											: newBrVal,
+								})
+							}
 						/>
 					</PanelBody>
-
 				</PanelBody>
-
 			</InspectorControls>
 
 			<div {...blockProps}>
 				<StyleComp attributes={attributes}>
-					{inputType === 'text' &&
+					{inputType === "text" && (
 						<input
 							type="text"
 							name={inputName}
-							placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
+							placeholder={
+								className === "is-style-line" ? dispLabel : placeFolder
+							}
 							className={`contact_text ${stateValue ? "" : "empty"}`}
 							value={stateValue}
 							onChange={(event) => {
@@ -306,11 +352,13 @@ export default function Edit(props) {
 								setAttributes({ inputValue: newValue });
 							}}
 						/>
-					}
-					{inputType === 'email' &&
+					)}
+					{inputType === "email" && (
 						<input
 							type="email"
-							placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
+							placeholder={
+								className === "is-style-line" ? dispLabel : placeFolder
+							}
 							className={`contact_text ${stateValue ? "" : "empty"}`}
 							value={stateValue}
 							onChange={(event) => {
@@ -319,16 +367,17 @@ export default function Edit(props) {
 								setAttributes({ inputValue: newValue });
 							}}
 						/>
-					}
-					{inputType === 'textarea' &&
+					)}
+					{inputType === "textarea" && (
 						<textarea
 							ref={textAreaRef}
 							style={{ height }}
 							name={inputName}
-							placeholder={className === 'is-style-line' ? dispLabel : placeFolder}
+							placeholder={
+								className === "is-style-line" ? dispLabel : placeFolder
+							}
 							className={`contact_text ${stateValue ? "" : "empty"}`}
 							value={stateValue}
-
 							onChange={(event) => {
 								const newValue = event.target.value;
 								const scrollHeight = event.target.scrollHeight;
@@ -337,7 +386,7 @@ export default function Edit(props) {
 								setAttributes({ inputValue: newValue });
 							}}
 						/>
-					}
+					)}
 
 					<LabelBox
 						attributes={{
@@ -363,6 +412,5 @@ export default function Edit(props) {
 				</StyleComp>
 			</div>
 		</>
-
 	);
 }
