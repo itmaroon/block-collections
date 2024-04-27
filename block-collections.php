@@ -4,7 +4,7 @@
  * Plugin Name:       Block Collections
  * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
  * Requires at least: 6.5
- * Requires PHP:      8.0.22
+ * Requires PHP:      8.2.10
  * Version:           1.3.0
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later

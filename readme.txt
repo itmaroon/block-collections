@@ -1,18 +1,23 @@
 === Block Collections ===
 Contributors: itmaroon
 Tags: block, Gutenberg, design, custom, heading, input, select, highlight, prosess,table,button,group,checkbox
-Requires at least: 6.3
+Requires at least: 6.5
 Tested up to:      6.5.2
 Stable tag:        1.3.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
-Requires PHP: 8.0.22
+Requires PHP: 8.2.10
 
 It is a plug-in that collects small scale blocks.
 
 == Related Links ==
 
-* [Github](https://github.com/itmaroon/block-collections)
+* [block-collections:Github](https://github.com/itmaroon/block-collections)
+* [block-class-package:GitHub](https://github.com/itmaroon/block-class-package)  
+* [block-class-package:Packagist](https://packagist.org/packages/itmar/block-class-package) 
+* [itmar-block-packages:npm](https://www.npmjs.com/package/itmar-block-packages)  
+* [itmar-block-packages:GitHub](https://github.com/itmaroon/itmar-block-packages)
+
 
 == Description ==
 
@@ -75,8 +80,13 @@ OR…
 
 == Changelog ==
 = 1.3.0 =
-Function addition
-
+- Modified to be compatible with WordPress 6.5.
+- PHP class management is now done using Composer.  
+[GitHub](https://github.com/itmaroon/block-class-package)  
+[Packagist](https://packagist.org/packages/itmar/block-class-package) 
+- I decided to make functions and components common to other plugins into npm packages, and install and use them from npm.  
+[npm](https://www.npmjs.com/package/itmar-block-packages)  
+[GitHub](https://github.com/itmaroon/itmar-block-packages)
 
 = 1.2.1 =
 Function addition
@@ -170,3 +180,9 @@ First public release
 Please note that responsiveness for tablet display is not supported.
 2. This plugin has a dependency on the upcoming Form Send Blocks. This plugin requires installation and activation in order to use it.
 3. Regarding the display of text, etc., settings are made using WordPress's internationalization function, so it is possible to display text in multiple national languages. Currently, English and Japanese notation is possible.
+4. PHP class management is now done using Composer.  
+[GitHub](https://github.com/itmaroon/block-class-package)  
+[Packagist](https://packagist.org/packages/itmar/block-class-package) 
+5. I decided to make functions and components common to other plugins into npm packages, and install and use them from npm.  
+[npm](https://www.npmjs.com/package/itmar-block-packages)  
+[GitHub](https://github.com/itmaroon/itmar-block-packages)

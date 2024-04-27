@@ -8,10 +8,11 @@ import {
 	PageSelectControl,
 	ArchiveSelectControl,
 	IconSelectControl,
+	TypographyControls,
 } from "itmar-block-packages";
 
 //import TypographyControls from "../TypographyControls";
-import { TypographyControls } from "itmar-block-packages";
+//import { TypographyControls } from "itmar-block-packages";
 
 import { StyleComp } from "./StyleWapper";
 import apiFetch from "@wordpress/api-fetch";

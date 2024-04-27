@@ -17,21 +17,17 @@
 	"devDependencies": {
 		"@wordpress/blocks": "^12.8.0",
 		"@wordpress/icons": "^9.21.0",
-		"@wordpress/scripts": "^26.1.0",
-		"interactjs": "^1.10.17"
+		"@wordpress/scripts": "^27.6.0"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.4.0",
 		"@fortawesome/free-solid-svg-icons": "^6.4.0",
 		"@fortawesome/react-fontawesome": "^0.2.0",
 		"ionicons": "^7.1.0",
-		"itmar-block-packages": "^1.2.0",
+		"itmar-block-packages": "^1.2.3",
 		"nano-id": "^1.1.0",
-		"po2json": "^0.4.5",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"react-icons": "^4.8.0",
-		"react-ionicons": "^4.2.0",
 		"react-transition-group": "^4.4.5",
 		"styled-components": "^5.3.10"
 	}
