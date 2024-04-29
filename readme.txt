@@ -1,6 +1,6 @@
 === Block Collections ===
 Contributors: itmaroon
-Tags: block, Gutenberg, design, custom, heading, input, select, highlight, prosess,table,button,group,checkbox
+Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.3
 Tested up to:      6.5.2
 Stable tag:        1.3.0
