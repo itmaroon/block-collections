@@ -155,7 +155,7 @@ function addExSettings(settings, name) {
 addFilter(
 	"blocks.registerBlockType",
 	"itmar-ex-block/add-setting",
-	addExSettings
+	addExSettings,
 );
 
 //BlockEditカスタムフック（インスペクターの追加）
@@ -252,7 +252,7 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 									>
 										<RangeControl
 											value={lineHeight}
-											label="lineHeight"
+											label={__("lineHeight", "block-collections")}
 											max={3}
 											min={1}
 											step={0.1}
@@ -334,7 +334,7 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 addFilter(
 	"editor.BlockEdit",
 	"itmar-ex-block/with-inspector-control",
-	withInspectorControl
+	withInspectorControl,
 );
 
 //BlockListBlockフック（編集画面のブロックの外観等の反映）
@@ -453,13 +453,13 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 			return <BlockListBlock {...props} />;
 		};
 	},
-	"applyExtraAttributesInEditor"
+	"applyExtraAttributesInEditor",
 );
 
 addFilter(
 	"editor.BlockListBlock",
 	"block-collections/extra-attributes-in-editor",
-	applyExtraAttributesInEditor
+	applyExtraAttributesInEditor,
 );
 
 //blocks.getSaveContent.extraPropsフック（フロントエンドへの反映）
@@ -550,5 +550,5 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
 addFilter(
 	"blocks.getSaveContent.extraProps",
 	"block-collections/-extra-attributes-in-front-end",
-	applyExtraAttributesInFrontEnd
+	applyExtraAttributesInFrontEnd,
 );

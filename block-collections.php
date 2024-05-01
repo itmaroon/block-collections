@@ -84,8 +84,11 @@ function itmar_highlight_scripts_and_styles()
 			'wp-plugins',
 			'wp-edit-post',
 			'wp-compose'
-		)
+		),
+		filemtime("$dir/build/gutenberg-ex.js")
 	);
+	// コアブロックカスタマイズスクリプトの翻訳をセット
+	wp_set_script_translations('itmar-gutenberg-extensions-script', 'block-collections', plugin_dir_path(__FILE__) . 'languages');
 
 	//管理画面以外（フロントエンド側でのみ読み込む）
 	if (!is_admin()) {
