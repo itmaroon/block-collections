@@ -39,7 +39,7 @@ $block_entry = new \Itmar\BlockClassPakage\ItmarEntryClass();
 add_action('init', function () use ($block_entry) {
 	$plugin_data = get_plugin_data(__FILE__);
 	$block_entry->block_init($plugin_data['TextDomain'], __FILE__);
-});
+}, 1); //このプラグインは優先実行
 
 //独自プラグイン等のエンキュー
 function itmar_highlight_scripts_and_styles()

@@ -6,7 +6,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-"
 "collections\n"
 "POT-Creation-Date: 2024-05-01T07:37:52+02:00\n"
-"PO-Revision-Date: 2024-05-01 14:39+0900\n"
+"PO-Revision-Date: 2024-05-02 09:36+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -42,31 +42,38 @@ msgstr "WebクリエイターITmaroon"
 msgid "copied"
 msgstr "コピーしました"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:370
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:370
 msgid "Write Title text..."
 msgstr "テキストを入力してください..."
 
-#: build/322.js:1 src/blocks/design-title/edit.js:388
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:388
 msgid "Title Source Setting"
 msgstr "タイトルソースの設定"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:391
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:391
 msgid "Title type"
 msgstr "タイトルタイプ"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:394
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:394
 msgid "Plaine"
 msgstr "プレーン"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:395
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:395
 msgid "Site Title"
 msgstr "サイトタイトル"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:397
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:397
 msgid "Chatch Phrase"
 msgstr "キャッチフレーズ"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:404
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:404
 msgid ""
 "You can display the site title and catchphrase in addition to the blank "
 "title."
@@ -74,66 +81,80 @@ msgstr ""
 "空白のタイトルに加えて、サイトタイトルやキャッチコピーを表示することもできま"
 "す。"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
-#: src/blocks/design-button/edit.js:179 src/blocks/design-title/edit.js:413
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:179
+#: src/blocks/design-title/edit.js:413
 msgid "Link type"
 msgstr "リンクタイプ"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:416
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:416
 msgid "None"
 msgstr "なし"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
-#: src/blocks/design-button/edit.js:183 src/blocks/design-title/edit.js:418
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:183
+#: src/blocks/design-title/edit.js:418
 msgid "Fixed Page"
 msgstr "固定ページ"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
-#: src/blocks/design-button/edit.js:187 src/blocks/design-title/edit.js:422
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:187
+#: src/blocks/design-title/edit.js:422
 msgid "Archive Page"
 msgstr "アーカイブページ"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
-#: src/blocks/design-button/edit.js:190 src/blocks/design-title/edit.js:425
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:190
+#: src/blocks/design-title/edit.js:425
 msgid "Free URL"
 msgstr "フリーのURL"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:427
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:427
 msgid "Sub Menu"
 msgstr "サブメニュー"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:434
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:434
 msgid "You can select the type of URL to link to the title."
 msgstr "タイトルにリンクするURLの種類を選択できます。"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
-#: src/blocks/design-button/edit.js:207 src/blocks/design-title/edit.js:445
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:207
+#: src/blocks/design-title/edit.js:445
 msgid "Select a fixed page to link to"
 msgstr "リンク先の固定ページを選択してください"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
-#: src/blocks/design-button/edit.js:215 src/blocks/design-title/edit.js:453
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:215
+#: src/blocks/design-title/edit.js:453
 msgid "Select archive page to link to"
 msgstr "リンク先のアーカイブ ページを選択してください"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
-#: src/blocks/design-button/edit.js:221 src/blocks/design-title/edit.js:459
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:221
+#: src/blocks/design-title/edit.js:459
 msgid "Link to URL"
 msgstr "URLへのリンク"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:469
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:469
 msgid "Submenu position settings"
 msgstr "サブメニュー位置設定"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:472
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:472
 msgid "Menu Alignment"
 msgstr "メニューの配置"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:481
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:481
 msgid "Based on title"
 msgstr "タイトルのベース"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:483
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:483
 msgid ""
 "If unchecked, the parent menu will be used as the reference. If there is no "
 "parent menu, do not uncheck it."
@@ -141,23 +162,29 @@ msgstr ""
 "チェックを外した場合、親メニューが参照として使用されます。 親メニューがない場"
 "合はチェックを外さないでください。"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:498
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:498
 msgid "Title settings"
 msgstr "タイトル設定"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:514
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:514
 msgid "Font Size(mobile)"
 msgstr "フォントサイズ（モバイル）"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:513
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:513
 msgid "Font Size(desk top)"
 msgstr "フォントサイズ（デスクトップ）"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:519
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:519
 msgid "Padding"
 msgstr "パディング"
 
-#: build/322.js:1 build/889.js:1 build/978.js:1
+#: build/322.js:1 build/blocks/design-title/index.js build/889.js:1
+#: build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
 #: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-group/index.js:122
@@ -170,27 +197,32 @@ msgstr "パディング"
 msgid "Is Shadow"
 msgstr "シャドーをつける"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:544
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:544
 msgid "Add an underline"
 msgstr "アンダーラインを付ける"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:552
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:552
 msgid "UnderLine settings"
 msgstr "アンダーライン設定"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
-#: build/gutenberg-ex.js:25 src/blocks/design-button/edit.js:335
-#: src/blocks/design-title/edit.js:563 src/gutenberg-ex.js:317
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47 build/gutenberg-ex.js:25
+#: src/blocks/design-button/edit.js:335 src/blocks/design-title/edit.js:563
+#: src/gutenberg-ex.js:317
 msgid "Height"
 msgstr "高さ"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
-#: build/gutenberg-ex.js:25 src/blocks/design-button/edit.js:315
-#: src/blocks/design-title/edit.js:572 src/gutenberg-ex.js:309
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47 build/gutenberg-ex.js:25
+#: src/blocks/design-button/edit.js:315 src/blocks/design-title/edit.js:572
+#: src/gutenberg-ex.js:309
 msgid "Width"
 msgstr "幅"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-group/index.js:122
 #: build/blocks/design-process/index.js:214
@@ -202,47 +234,53 @@ msgstr "幅"
 msgid "Distance"
 msgstr "距離"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:586
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:586
 msgid "Under Line Color Setting"
 msgstr "アンダーライン色設定"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:591
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:591
 msgid "Choose Under Line color"
 msgstr "アンダーライン色を選択"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:606
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:606
 msgid "Animation on hover"
 msgstr "ホバー時のアニメーション"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:616
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:616
 msgid "Write vertically"
 msgstr "縦書き"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:626
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:626
 msgid "Circle Marker Settings"
 msgstr "円マーカー設定"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:631
-#: src/blocks/design-title/edit.js:741
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:631 src/blocks/design-title/edit.js:741
 msgid "Circle Color Setting"
 msgstr "円の背景色を選択"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:643
-#: src/blocks/design-title/edit.js:753
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:643 src/blocks/design-title/edit.js:753
 msgid "Choose Circle Background"
 msgstr "円のグラデーションを選択"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:668
-#: src/blocks/design-title/edit.js:798
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:668 src/blocks/design-title/edit.js:798
 msgid "Circle Scale Setting"
 msgstr "円の大きさ設定"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:676
-#: src/blocks/design-title/edit.js:806
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:676 src/blocks/design-title/edit.js:806
 msgid "Position Settings"
 msgstr "位置設定"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-group/index.js:122
 #: build/blocks/design-process/index.js:214
@@ -254,7 +292,8 @@ msgstr "位置設定"
 msgid "Lateral direction"
 msgstr "横方向"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-group/index.js:122
 #: build/blocks/design-process/index.js:214
@@ -266,15 +305,18 @@ msgstr "横方向"
 msgid "Longitudinal direction"
 msgstr "縦方向"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:718
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:718
 msgid "Second Circle Settings"
 msgstr "２番目の円設定"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:722
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:722
 msgid "Second Circle"
 msgstr "２番目の円"
 
-#: build/322.js:1 build/blocks/design-button/index.js:47
+#: build/322.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-group/index.js:122
 #: build/blocks/design-process/index.js:214
@@ -286,15 +328,19 @@ msgstr "２番目の円"
 msgid "Opacity"
 msgstr "透明度"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:854
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:854
 msgid "Sub Copy Settings"
 msgstr "サブコピー設定"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:859
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:859
 msgid "Copy Color Setting"
 msgstr "コピーの色設定"
 
-#: build/322.js:1 build/889.js:1 build/978.js:1
+#: build/322.js:1 build/blocks/design-title/index.js build/889.js:1
+#: build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-table/index.js:78 src/blocks/design-checkbox/edit.js:315
@@ -305,23 +351,29 @@ msgstr "コピーの色設定"
 msgid "Choose Text color"
 msgstr "テキスト色を選択"
 
-#: build/322.js:1 build/889.js:1 build/978.js:1
-#: build/blocks/design-table/index.js:78 src/blocks/design-table/edit.js:576
-#: src/blocks/design-table/edit.js:666 src/blocks/design-text-ctrl/edit.js:195
+#: build/322.js:1 build/blocks/design-title/index.js build/889.js:1
+#: build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js build/blocks/design-table/index.js:78
+#: src/blocks/design-table/edit.js:576 src/blocks/design-table/edit.js:666
+#: src/blocks/design-text-ctrl/edit.js:195
 #: src/blocks/design-text-ctrl/edit.js:304 src/blocks/design-title/edit.js:884
 #: src/blocks/LabelBox .js:138
 msgid "Choose Background color"
 msgstr "背景色を選択"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:903
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:903
 msgid "Copy Text"
 msgstr "コピーテキスト"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:916
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:916
 msgid "Copy Alignment"
 msgstr "コピーの配置"
 
-#: build/322.js:1 build/889.js:1 build/978.js:1
+#: build/322.js:1 build/blocks/design-title/index.js build/889.js:1
+#: build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
 #: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-process/index.js:214
@@ -334,7 +386,9 @@ msgstr "コピーの配置"
 msgid "Typography"
 msgstr "タイポグラフィー"
 
-#: build/322.js:1 build/889.js:1 build/978.js:1
+#: build/322.js:1 build/blocks/design-title/index.js build/889.js:1
+#: build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
 #: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-process/index.js:214
@@ -346,115 +400,145 @@ msgstr "タイポグラフィー"
 msgid "Border Settings"
 msgstr "ボーダー設定"
 
-#: build/322.js:1 build/889.js:1 build/978.js:1
+#: build/322.js:1 build/blocks/design-title/index.js build/889.js:1
+#: build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
 #: build/blocks/code-highlight/index.js:1 build/gutenberg-ex.js:25
 #: src/blocks/code-highlight/edit.js:226 src/blocks/design-title/edit.js:983
 #: src/blocks/LabelBox .js:170 src/gutenberg-ex.js:236
 msgid "Padding settings"
 msgstr "パディング設定"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:1006
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:1006
 msgid "Icon settings"
 msgstr "アイコン設定"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:1010
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:1010
 msgid "Append icon"
 msgstr "アイコンを付加"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:1057
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:1057
 msgid "Change heading level"
 msgstr "ヘディングレベル変更"
 
-#: build/322.js:1 build/889.js:1 src/blocks/design-select/edit.js:543
+#: build/322.js:1 build/blocks/design-title/index.js build/889.js:1
+#: build/blocks/design-select/index.js src/blocks/design-select/edit.js:543
 #: src/blocks/design-title/edit.js:1070
 msgid "Confirm Deletion"
 msgstr "削除の確認"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:1074
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:1074
 msgid "Changing a style resets the style-specific settings. Are you sure?"
 msgstr ""
 "スタイルを変更するとそのスタイル固有の設定は初期化されます。よろしいか？"
 
-#: build/322.js:1 src/blocks/design-title/edit.js:1080
+#: build/322.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:1080
 msgid "Yes, Change"
 msgstr "はい。変更します"
 
-#: build/322.js:1 build/889.js:1 src/blocks/design-select/edit.js:556
+#: build/322.js:1 build/blocks/design-title/index.js build/889.js:1
+#: build/blocks/design-select/index.js src/blocks/design-select/edit.js:556
 #: src/blocks/design-title/edit.js:1083
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: build/889.js:1 build/978.js:1 src/blocks/LabelBox .js:66
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:66
 msgid "Required Settings"
 msgstr "必須項目設定"
 
-#: build/889.js:1 build/978.js:1 src/blocks/LabelBox .js:72
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:72
 msgid "Required input"
 msgstr "入力必須項目"
 
-#: build/889.js:1 build/978.js:1 src/blocks/LabelBox .js:83
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:83
 msgid "Show 'required'"
 msgstr "必須の表示"
 
-#: build/889.js:1 build/978.js:1 src/blocks/LabelBox .js:95
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:95
 msgid "Label Settings"
 msgstr "ラベル設定"
 
-#: build/889.js:1 build/978.js:1 src/blocks/LabelBox .js:101
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:101
 msgid "Text of Label"
 msgstr "ラベルのテキスト"
 
-#: build/889.js:1 build/978.js:1 build/blocks/design-checkbox/index.js:117
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-checkbox/index.js:117
 #: src/blocks/design-checkbox/edit.js:296 src/blocks/LabelBox .js:112
 msgid "Label style settings"
 msgstr "ラベルスタイル設定"
 
-#: build/889.js:1 build/978.js:1 build/blocks/design-button/index.js:47
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: src/blocks/design-button/edit.js:453 src/blocks/design-checkbox/edit.js:311
 #: src/blocks/LabelBox .js:126
 msgid "Label Color Setting"
 msgstr "ラベル色設定"
 
-#: build/889.js:1 build/978.js:1 src/blocks/LabelBox .js:180
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:180
 msgid "Spacing with textbox"
 msgstr "テキストボックスとの距離"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:288
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:288
 msgid "Select Element Settings"
 msgstr "セレクト要素設定"
 
-#: build/889.js:1 build/978.js:1 build/blocks/design-checkbox/index.js:117
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-checkbox/index.js:117
 #: src/blocks/design-checkbox/edit.js:139 src/blocks/design-select/edit.js:294
 #: src/blocks/design-text-ctrl/edit.js:155
 msgid "name attribute name"
 msgstr "name属性の名称"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:300
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:300
 msgid "Select Pattern"
 msgstr "選択のパターン"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:307
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:307
 msgid "Single Select"
 msgstr "単一選択"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:311
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:311
 msgid "Nulti Select"
 msgstr "複数選択"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:322
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:322
 msgid "Place Folder Display"
 msgstr "プレイスフォルダ表示"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:328
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:328
 msgid "Option info Setting"
 msgstr "オプション情報設定"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:331
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:331
 msgid "add"
 msgstr "追加"
 
-#: build/889.js:1 build/978.js:1 build/blocks/design-button/index.js:47
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:278
@@ -464,7 +548,9 @@ msgstr "追加"
 msgid "Global settings"
 msgstr "全体設定"
 
-#: build/889.js:1 build/978.js:1 build/blocks/design-button/index.js:47
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:283
@@ -474,7 +560,8 @@ msgstr "全体設定"
 msgid "Background Color Setting"
 msgstr "背景色設定"
 
-#: build/889.js:1 build/blocks/design-button/index.js:47
+#: build/889.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:287
@@ -483,11 +570,14 @@ msgstr "背景色設定"
 msgid "Choose Block Background color"
 msgstr "ブロックの背景色を選択"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:369
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:369
 msgid "Choose Select Background color"
 msgstr "セレクトの背景色を選択"
 
-#: build/889.js:1 build/978.js:1 build/blocks/design-button/index.js:47
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-group/index.js:122
 #: build/blocks/design-process/index.js:214
@@ -498,7 +588,9 @@ msgstr "セレクトの背景色を選択"
 msgid "Margin settings(mobile)"
 msgstr "マージン設定(モバイル)"
 
-#: build/889.js:1 build/978.js:1 build/blocks/design-button/index.js:47
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-group/index.js:122
 #: build/blocks/design-process/index.js:214
@@ -509,7 +601,9 @@ msgstr "マージン設定(モバイル)"
 msgid "Margin settings(desk top)"
 msgstr "マージン設定(デスクトップ)"
 
-#: build/889.js:1 build/978.js:1 build/blocks/design-button/index.js:47
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-group/index.js:122
 #: build/blocks/design-process/index.js:214
@@ -522,7 +616,9 @@ msgstr "マージン設定(デスクトップ)"
 msgid "Padding settings(mobile)"
 msgstr "パディング設定(モバイル)"
 
-#: build/889.js:1 build/978.js:1 build/blocks/design-button/index.js:47
+#: build/889.js:1 build/blocks/design-select/index.js build/978.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:47
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-group/index.js:122
 #: build/blocks/design-process/index.js:214
@@ -535,79 +631,96 @@ msgstr "パディング設定(モバイル)"
 msgid "Padding settings(desk top)"
 msgstr "パディング設定(デスクトップ)"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:478
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:478
 msgid "Option Style Settings"
 msgstr "オプションスタイル設定"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:493
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:493
 msgid "Option Color Setting"
 msgstr "オプション色設定"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:503
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:503
 msgid "Choose Background color on mouse hover"
 msgstr "マウスホバー時の背景色を選択"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:517
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:517
 msgid "Option Info Edit"
 msgstr "オプション情報編集"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:521
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:521
 msgid "Display Label"
 msgstr "ラベルの表示"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:526
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:526
 msgid "Option Value"
 msgstr "オプションの値"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:531
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:531
 msgid "Class Name"
 msgstr "クラス名"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:536
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:536
 msgid "Save Changes"
 msgstr "変更を保存"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:547
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:547
 msgid "Are you sure you want to delete this item?"
 msgstr "この項目を削除してもよろしいですか?"
 
-#: build/889.js:1 src/blocks/design-select/edit.js:553
+#: build/889.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:553
 msgid "Yes, Delete"
 msgstr "はい。削除します"
 
-#: build/889.js:1 build/blocks/design-select/index.js:384
-#: src/blocks/design-select/edit.js:241 src/blocks/design-select/index.js:31
-#: src/blocks/design-select/save.js:43
+#: build/889.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-select/index.js:384 src/blocks/design-select/edit.js:241
+#: src/blocks/design-select/index.js:31 src/blocks/design-select/save.js:43
 msgid "Please Select."
 msgstr "選択してください。"
 
-#: build/978.js:1 build/blocks/design-checkbox/index.js:117
+#: build/978.js:1 build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-checkbox/index.js:117
 #: src/blocks/design-checkbox/edit.js:134
 #: src/blocks/design-text-ctrl/edit.js:149
 msgid "Input element information setting"
 msgstr "インプット要素情報設定"
 
-#: build/978.js:1 src/blocks/design-text-ctrl/edit.js:162
+#: build/978.js:1 build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:162
 msgid "PlaceHolder"
 msgstr "プレイスフォルダ"
 
-#: build/978.js:1 src/blocks/design-text-ctrl/edit.js:171
+#: build/978.js:1 build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:171
 msgid "Kind of Input Element"
 msgstr "インプット要素の種類"
 
-#: build/978.js:1 src/blocks/design-text-ctrl/edit.js:202
+#: build/978.js:1 build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:202
 msgid "Focus Color Setting"
 msgstr "フォーカス時の色設定"
 
-#: build/978.js:1 src/blocks/design-text-ctrl/edit.js:206
+#: build/978.js:1 build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:206
 msgid "Choose Focus color"
 msgstr "フォーカス時の色を選択"
 
-#: build/978.js:1 src/blocks/design-text-ctrl/edit.js:278
+#: build/978.js:1 build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:278
 msgid "Input Box style settings"
 msgstr "インプット要素スタイル設定"
 
-#: build/978.js:1 src/blocks/design-text-ctrl/edit.js:292
+#: build/978.js:1 build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:292
 msgid "Color Settings"
 msgstr "色設定"
 
