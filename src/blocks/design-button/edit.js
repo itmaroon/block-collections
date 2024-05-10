@@ -64,6 +64,7 @@ export default function Edit({ attributes, setAttributes }) {
 		displayType,
 		buttonId,
 		linkKind,
+		selectedSlug,
 		selectedPageUrl,
 		bgColor,
 		align,
@@ -194,7 +195,7 @@ export default function Edit({ attributes, setAttributes }) {
 								}
 								help={__(
 									"You can select the type of URL to link to the button.",
-									"block-collections"
+									"block-collections",
 								)}
 							/>
 						</div>
@@ -202,18 +203,28 @@ export default function Edit({ attributes, setAttributes }) {
 
 					{buttonType === "button" && linkKind === "fixed" && (
 						<PageSelectControl
-							attributes={attributes}
-							setAttributes={setAttributes}
+							selectedSlug={selectedSlug}
 							label={__("Select a fixed page to link to", "block-collections")}
 							homeUrl={block_collections.home_url}
+							onChange={(pageInfo) => {
+								setAttributes({
+									selectedSlug: pageInfo.slug,
+									selectedPageUrl: pageInfo.link,
+								});
+							}}
 						/>
 					)}
 					{buttonType === "button" && linkKind === "archive" && (
 						<ArchiveSelectControl
-							attributes={attributes}
-							setAttributes={setAttributes}
+							selectedSlug={selectedSlug}
 							label={__("Select archive page to link to", "block-collections")}
 							homeUrl={block_collections.home_url}
+							onChange={(postInfo) => {
+								setAttributes({
+									selectedSlug: postInfo.slug,
+									selectedPageUrl: postInfo.link,
+								});
+							}}
 						/>
 					)}
 					{buttonType === "button" && linkKind === "free" && (
@@ -463,7 +474,7 @@ export default function Edit({ attributes, setAttributes }) {
 								gradientValue: buttonGradient,
 								label: __(
 									"Choose Button Background color",
-									"block-collections"
+									"block-collections",
 								),
 								onColorChange: (newValue) => {
 									setAttributes({

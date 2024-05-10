@@ -21,9 +21,9 @@
 			"type": "string",
 			"default": "free"
 		},
-		"selectedPageId": {
-			"type": "number",
-			"default": -1
+		"selectedSlug": {
+			"type": "string",
+			"default": ""
 		},
 		"buttonId": {
 			"type": "string"

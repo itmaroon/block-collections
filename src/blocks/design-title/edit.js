@@ -99,6 +99,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		linkKind,
 		menu_pos,
 		is_title_menu,
+		selectedSlug,
 		selectedPageUrl,
 		className,
 	} = attributes;
@@ -155,7 +156,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			textWidth = measureTextWidth(
 				optionStyle.copy_content,
 				optionStyle.font_style_copy?.fontSize,
-				optionStyle.font_style_copy?.fontFamily
+				optionStyle.font_style_copy?.fontFamily,
 			);
 		}
 		const setOption = optionStyle?.copy_content
@@ -298,7 +299,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const [copyInputValue, setCopyInputValue] = useState(
 		optionStyle && optionStyle.copy_content !== undefined
 			? optionStyle.copy_content
-			: "SAMPLE"
+			: "SAMPLE",
 	);
 
 	//サブメニュー（インナーブロック）
@@ -306,7 +307,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		(select) => {
 			return select("core/block-editor").hasSelectedInnerBlock(clientId, true);
 		},
-		[clientId]
+		[clientId],
 	); //ブロックの選択状態を把握
 
 	//親ブロックがメニューかサブメニューの判定
@@ -319,7 +320,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			// 各親ブロックを走査
 			for (let i = 0; i < parentBlockIds.length; i++) {
 				const parentBlock = select("core/block-editor").getBlock(
-					parentBlockIds[i]
+					parentBlockIds[i],
 				);
 				if (parentBlock.attributes?.is_menu) {
 					setMenuItemFlg(true);
@@ -331,7 +332,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				}
 			}
 		},
-		[clientId]
+		[clientId],
 	);
 	//メニューアイテムフラグをオンにする
 	useEffect(() => {
@@ -356,7 +357,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				],
 			],
 			templateLock: false,
-		}
+		},
 	);
 
 	//リッチテキストをコンテンツにする
@@ -403,7 +404,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							}
 							help={__(
 								"You can display the site title and catchphrase in addition to the blank title.",
-								"block-collections"
+								"block-collections",
 							)}
 						/>
 					</div>
@@ -433,25 +434,35 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							}
 							help={__(
 								"You can select the type of URL to link to the title.",
-								"block-collections"
+								"block-collections",
 							)}
 						/>
 					</div>
 
 					{linkKind === "fixed" && (
 						<PageSelectControl
-							attributes={attributes}
-							setAttributes={setAttributes}
+							selectedSlug={selectedSlug}
 							label={__("Select a fixed page to link to", "block-collections")}
 							homeUrl={block_collections.home_url}
+							onChange={(pageInfo) => {
+								setAttributes({
+									selectedSlug: pageInfo.slug,
+									selectedPageUrl: pageInfo.link,
+								});
+							}}
 						/>
 					)}
 					{linkKind === "archive" && (
 						<ArchiveSelectControl
-							attributes={attributes}
-							setAttributes={setAttributes}
+							selectedSlug={selectedSlug}
 							label={__("Select archive page to link to", "block-collections")}
 							homeUrl={block_collections.home_url}
+							onChange={(postInfo) => {
+								setAttributes({
+									selectedSlug: postInfo.slug,
+									selectedPageUrl: postInfo.link,
+								});
+							}}
 						/>
 					)}
 					{linkKind === "free" && (
@@ -482,7 +493,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								checked={is_title_menu}
 								help={__(
 									"If unchecked, the parent menu will be used as the reference. If there is no parent menu, do not uncheck it.",
-									"block-collections"
+									"block-collections",
 								)}
 								onChange={(newVal) => {
 									setAttributes({ is_title_menu: newVal });
@@ -505,7 +516,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							setAttributes(
 								!isMobile
 									? { defaultHeadingSize: value }
-									: { mobileHeadingSize: value }
+									: { mobileHeadingSize: value },
 							)
 						}
 						label={
@@ -752,7 +763,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 											label: __(
 												"Choose Circle Background",
-												"block-collections"
+												"block-collections",
 											),
 											onColorChange: (newValue) => {
 												setLocalOptionStyle((prev) => ({
@@ -1073,7 +1084,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					<p>
 						{__(
 							"Changing a style resets the style-specific settings. Are you sure?",
-							"block-collections"
+							"block-collections",
 						)}
 					</p>
 					<Button variant="primary" onClick={execHandle}>

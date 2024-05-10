@@ -303,11 +303,15 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 										<PanelRow className="distance_row">
 											<UnitControl
 												dragDirection="e"
-												onChange={(value) =>
-													setAttributes({ scaleWidth: value })
-												}
+												onChange={(value) => {
+													setAttributes({ scaleWidth: value });
+												}}
 												label={__("Width", "block-collections")}
 												value={scaleWidth}
+												help={__(
+													"If left blank, it will not be set.",
+													"block-collections",
+												)}
 											/>
 											<UnitControl
 												dragDirection="e"
@@ -316,6 +320,10 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 												}
 												label={__("Height", "block-collections")}
 												value={scaleHeight}
+												help={__(
+													"If left blank, it will not be set.",
+													"block-collections",
+												)}
 											/>
 										</PanelRow>
 									</PanelBody>
@@ -410,10 +418,23 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 						}
 
 						if (name === "core/image") {
+							const setWidth =
+								scaleWidth === "" ||
+								scaleWidth === null ||
+								scaleWidth === undefined
+									? undefined
+									: scaleWidth;
+							const setHeight =
+								scaleHeight === "" ||
+								scaleHeight === null ||
+								scaleHeight === undefined
+									? undefined
+									: scaleHeight;
+
 							extraStyle = {
 								...extraStyle,
-								width: scaleWidth,
-								height: scaleHeight,
+								...(setWidth !== undefined && { width: setWidth }),
+								...(setHeight !== undefined && { height: setHeight }),
 							};
 							if (attributes.align === "center") {
 								//中央ぞろえの時
@@ -437,7 +458,6 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 							};
 						}
 						//既存スタイルとマージ
-
 						const newWrapperProps = {
 							...wrapperProps,
 							style: { ...wrapperProps.style, ...extraStyle },
@@ -519,10 +539,20 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
 			}
 
 			if (blockType.name === "core/image") {
+				const setWidth =
+					scaleWidth === "" || scaleWidth === null || scaleWidth === undefined
+						? undefined
+						: scaleWidth;
+				const setHeight =
+					scaleHeight === "" ||
+					scaleHeight === null ||
+					scaleHeight === undefined
+						? undefined
+						: scaleHeight;
 				extraStyle = {
 					...extraStyle,
-					width: scaleWidth,
-					height: scaleHeight,
+					width: setWidth,
+					height: setHeight,
 				};
 				if (attributes.align === "center") {
 					//中央ぞろえの時

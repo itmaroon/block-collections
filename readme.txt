@@ -79,6 +79,9 @@ OR…
 10. Blocks that slide in with animation
 
 == Changelog ==
+= 1.3.1 =
+- Fixed page of Design Title and Design Button and combo box for selecting archive page have been fixed due to improvement of PageSelectControl and ArchiveSelectControl.
+
 = 1.3.0 =
 - Modified to be compatible with WordPress 6.5.
 - PHP class management is now done using Composer.  
