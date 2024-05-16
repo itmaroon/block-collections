@@ -207,10 +207,12 @@ export default function Edit({ attributes, setAttributes }) {
 							label={__("Select a fixed page to link to", "block-collections")}
 							homeUrl={block_collections.home_url}
 							onChange={(pageInfo) => {
-								setAttributes({
-									selectedSlug: pageInfo.slug,
-									selectedPageUrl: pageInfo.link,
-								});
+								if (pageInfo) {
+									setAttributes({
+										selectedSlug: pageInfo.slug,
+										selectedPageUrl: pageInfo.link,
+									});
+								}
 							}}
 						/>
 					)}

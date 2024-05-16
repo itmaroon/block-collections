@@ -471,3 +471,39 @@ figure.itmar_ex_block {
 	}
 }
 
+//TermChoiceControlのスタイリング
+.block-editor-block-inspector{
+	.tax_section{
+		margin: 10px 0 20px;
+	}
+	.term_section{
+		margin-top: 20px;
+		&:nth-child(2) {
+			margin-top: 10px;
+		}
+	}
+	.tax_label{
+		padding: 2px 0;
+		border-top: 1px solid #000;
+		border-bottom: 1px solid #000;
+	}
+	.term_check{
+		margin-bottom: 5px;
+	}
+	.field_choice{
+		margin-bottom: 10px;
+	}
+	.custom_field_label{
+		margin-top: 15px;
+		margin-bottom: 10px;
+	}
+	.group_label{
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	.custom_field_area, .field_group{
+		margin-left: 15px;
+	}
+}
+
+
