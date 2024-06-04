@@ -163,7 +163,7 @@ export default function Edit(props) {
 		},
 		{
 			templateLock: false,
-		}
+		},
 	);
 	//移動可能ブロックならドラッグのカスタムフックを付加
 	const handlePositionChange = (newPosition) => {
@@ -186,7 +186,7 @@ export default function Edit(props) {
 			// 子ブロックをチェックする関数を呼び出し
 			return checkSubmenuBlocks(innerBlocks);
 		},
-		[clientId]
+		[clientId],
 	);
 
 	useEffect(() => {
@@ -263,7 +263,7 @@ export default function Edit(props) {
 					root: null, // ビューポートをルートとする
 					rootMargin: "0px", // ビューポートのマージンは0px
 					threshold: 0.1, // 10%の交差を閾値とする
-				}
+				},
 			);
 
 			// 監視対象のブロックを選択
@@ -286,7 +286,7 @@ export default function Edit(props) {
 			// 現在のブロックの親ブロックのIDリストを取得
 			const parentIds = getBlockParentsByBlockName(
 				clientId,
-				"itmar/design-group"
+				"itmar/design-group",
 			);
 
 			// 条件に合致する親ブロックの存在を確認
@@ -295,7 +295,7 @@ export default function Edit(props) {
 				return attributes.is_swiper === true;
 			});
 		},
-		[clientId]
+		[clientId],
 	);
 	//パララックスの値
 
@@ -319,9 +319,9 @@ export default function Edit(props) {
 									"error",
 									__(
 										"Only one group can be placed as a menu on each page.",
-										"itmar_guest_contact_block"
+										"itmar_guest_contact_block",
 									),
-									{ type: "snackbar", isDismissible: true }
+									{ type: "snackbar", isDismissible: true },
 								);
 							}
 						}}
@@ -499,6 +499,17 @@ export default function Edit(props) {
 							});
 						}
 					}}
+					onReverseChange={(checked) => {
+						if (!isMobile) {
+							setAttributes({
+								default_pos: { ...default_pos, reverse: checked },
+							});
+						} else {
+							setAttributes({
+								mobile_pos: { ...mobile_pos, reverse: checked },
+							});
+						}
+					}}
 					onFlexChange={(position) => {
 						if (!isMobile) {
 							setAttributes({
@@ -600,7 +611,7 @@ export default function Edit(props) {
 							setAttributes(
 								!isMobile
 									? { default_pos: { ...default_pos, padding_content: value } }
-									: { mobile_pos: { ...mobile_pos, padding_content: value } }
+									: { mobile_pos: { ...mobile_pos, padding_content: value } },
 							)
 						}
 						units={units} // 許可する単位

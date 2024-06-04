@@ -39,6 +39,7 @@
 			"type": "object",
 			"default": {
 				"direction": "horizen",
+				"reverse":false,
 				"inner_align": "flex-start",
 				"outer_align": "center",
 				"outer_vertical": "center",
@@ -83,6 +84,7 @@
 			"type": "object",
 			"default": {
 				"direction": "vertical",
+				"reverse":false,
 				"inner_align": "flex-start",
 				"outer_align": "center",
 				"outer_vertical": "center",

@@ -65,19 +65,19 @@ const StyledDiv = styled.div`
 		//ブロック幅
 		const default_width_style = width_prm(
 			default_pos.width_val,
-			default_pos.free_val
+			default_pos.free_val,
 		);
 		const mobile_width_style = width_prm(
 			mobile_pos.width_val,
-			default_pos.free_val
+			default_pos.free_val,
 		);
 		const default_max_width_style = max_width_prm(
 			default_pos.width_val,
-			default_pos.free_val
+			default_pos.free_val,
 		);
 		const mobile_max_width_style = max_width_prm(
 			mobile_pos.width_val,
-			default_pos.free_val
+			default_pos.free_val,
 		);
 		//ブロックの高さ
 		const height_style = height_prm(heightValue);
@@ -90,11 +90,11 @@ const StyledDiv = styled.div`
 		//ブロックの位置
 		const default_block_position = position_prm(
 			default_pos.posValue,
-			positionType
+			positionType,
 		);
 		const mobile_block_position = position_prm(
 			mobile_pos.posValue,
-			positionType
+			positionType,
 		);
 		//位置調整
 		const tranceform = is_moveable
@@ -174,12 +174,13 @@ const StyledDiv = styled.div`
 			> div {
 				> .group_contents {
 					display: flex;
-					flex-direction: row;
+					flex-direction: ${!default_pos.reverse ? "row" : "row-reverse"};
 					justify-content: ${default_pos.inner_align};
 					> div {
 						margin: 0;
 					}
 					@media (max-width: 767px) {
+						flex-direction: ${!mobile_pos.reverse ? "row" : "row-reverse"};
 						justify-content: ${mobile_pos.inner_align};
 					}
 				}
@@ -191,7 +192,7 @@ const StyledDiv = styled.div`
 			> div {
 				> .group_contents {
 					display: flex;
-					flex-direction: column;
+					flex-direction: ${!default_pos.reverse ? "column" : "column-reverse"};
 					justify-content: ${default_pos.inner_align};
 					> div {
 						margin: 0;
@@ -212,19 +213,19 @@ const StyledDiv = styled.div`
 						// 各座標の最小値と最大値を計算
 						const minCol = Math.min(
 							element.startCell.colInx,
-							element.endCell.colInx
+							element.endCell.colInx,
 						);
 						const maxCol = Math.max(
 							element.startCell.colInx,
-							element.endCell.colInx
+							element.endCell.colInx,
 						);
 						const minRow = Math.min(
 							element.startCell.rowInx,
-							element.endCell.rowInx
+							element.endCell.rowInx,
 						);
 						const maxRow = Math.max(
 							element.startCell.rowInx,
-							element.endCell.rowInx
+							element.endCell.rowInx,
 						);
 
 						const verPos =
