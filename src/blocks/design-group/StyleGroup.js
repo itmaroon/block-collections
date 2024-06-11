@@ -65,22 +65,29 @@ const StyledDiv = styled.div`
 		//ブロック幅
 		const default_width_style = width_prm(
 			default_pos.width_val,
-			default_pos.free_val,
+			default_pos.free_width,
 		);
 		const mobile_width_style = width_prm(
 			mobile_pos.width_val,
-			default_pos.free_val,
+			default_pos.free_width,
 		);
 		const default_max_width_style = max_width_prm(
 			default_pos.width_val,
-			default_pos.free_val,
+			default_pos.free_width,
 		);
 		const mobile_max_width_style = max_width_prm(
 			mobile_pos.width_val,
-			default_pos.free_val,
+			default_pos.free_width,
 		);
 		//ブロックの高さ
-		const height_style = height_prm(heightValue);
+		const default_height_style = height_prm(
+			default_pos.height_val,
+			default_pos.free_height,
+		);
+		const mobile_height_style = height_prm(
+			mobile_pos.height_val,
+			default_pos.free_height,
+		);
 		//ブロックの配置
 		const default_block_align = align_prm(default_pos.outer_align);
 		const mobile_block_align = align_prm(mobile_pos.outer_align);
@@ -114,7 +121,7 @@ const StyledDiv = styled.div`
 				z-index: 100;
 			`}
 			${is_submenu ? default_width_style : default_max_width_style}
-      ${height_style}
+      ${default_height_style}
       ${default_block_align}
       align-self: ${default_pos.outer_vertical};
 			@media (max-width: 767px) {
@@ -122,6 +129,7 @@ const StyledDiv = styled.div`
 				margin: ${mobile_margin_prm};
 				padding: ${mobile_padding_prm};
 				${is_submenu ? mobile_width_style : mobile_max_width_style}
+				${mobile_height_style}
 				${mobile_block_align}
         ${is_menu &&
 				css`

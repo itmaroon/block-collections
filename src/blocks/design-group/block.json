@@ -31,10 +31,7 @@
 			"type": "string",
 			"default": "relative"
 		},
-		"heightValue": {
-			"type": "string",
-			"default": "fit"
-		},
+		
 		"default_pos": {
 			"type": "object",
 			"default": {
@@ -44,7 +41,9 @@
 				"outer_align": "center",
 				"outer_vertical": "center",
 				"width_val": "wideSize",
-				"free_val": "400px",
+				"free_width": "400px",
+				"height_val": "fit",
+				"free_height": "300px",
 				"posValue": {
 					"vertBase": "top",
 					"horBase": "left",
@@ -89,7 +88,9 @@
 				"outer_align": "center",
 				"outer_vertical": "center",
 				"width_val": "wideSize",
-				"free_val": "200px",
+				"free_width": "200px",
+				"height_val": "fit",
+				"free_height": "300px",
 				"posValue": {
 					"vertBase": "top",
 					"horBase": "left",

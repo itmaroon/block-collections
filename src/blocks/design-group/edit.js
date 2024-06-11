@@ -554,16 +554,37 @@ export default function Edit(props) {
 							});
 						}
 					}}
-					onHeightChange={(value) => {
-						setAttributes({ heightValue: value });
-					}}
-					onFreevalChange={(value) => {
+					onHeightChange={(position) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, free_val: value },
+								default_pos: { ...default_pos, height_val: position },
 							});
 						} else {
-							setAttributes({ mobile_pos: { ...mobile_pos, free_val: value } });
+							setAttributes({
+								mobile_pos: { ...mobile_pos, height_val: position },
+							});
+						}
+					}}
+					onFreeWidthChange={(value) => {
+						if (!isMobile) {
+							setAttributes({
+								default_pos: { ...default_pos, free_width: value },
+							});
+						} else {
+							setAttributes({
+								mobile_pos: { ...mobile_pos, free_width: value },
+							});
+						}
+					}}
+					onFreeHeightChange={(value) => {
+						if (!isMobile) {
+							setAttributes({
+								default_pos: { ...default_pos, free_height: value },
+							});
+						} else {
+							setAttributes({
+								mobile_pos: { ...mobile_pos, free_height: value },
+							});
 						}
 					}}
 					onGridChange={(value) => {
