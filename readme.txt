@@ -83,6 +83,7 @@ OR…
 - Fixed page of Design Title and Design Button and combo box for selecting archive page have been fixed due to improvement of PageSelectControl and ArchiveSelectControl.
 - Fixed bug in save.js of Design Title
 - Fixed an issue where the root div element was wrapped twice in front-end rendering of Design Title.
+- Added the ability to add position:relative to the figure element of higher-order components of core/image.
 
 = 1.3.0 =
 - Modified to be compatible with WordPress 6.5.

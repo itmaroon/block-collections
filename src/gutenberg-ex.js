@@ -553,6 +553,7 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
 					...extraStyle,
 					width: setWidth,
 					height: setHeight,
+					position: "relative",
 				};
 				if (attributes.align === "center") {
 					//中央ぞろえの時
