@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import {
 	radius_prm,
 	space_prm,
+	align_prm,
 	convertToScss,
 	borderProperty,
 	Arrow,
@@ -17,12 +18,17 @@ const StyledDiv = styled.div`
 		const {
 			buttonType,
 			displayType,
+			align,
 			font_style_label,
 			pseudoInfo,
 			default_pos,
 			mobile_pos,
+			disableOpacity,
 			labelColor,
+			disableLabelColor,
 			buttonColor,
+			disableButtonColor,
+			disableButtonGradient,
 			buttonGradient,
 			radius_value,
 			border_value,
@@ -36,6 +42,7 @@ const StyledDiv = styled.div`
 
 		//単色かグラデーションかの選択
 		const bgColor = buttonColor || buttonGradient;
+		const disableColor = disableButtonColor || disableButtonGradient;
 		//斜体の設定
 		const fontStyle_label = font_style_label.isItalic ? "italic" : "normal";
 		//角丸の設定
@@ -62,6 +69,7 @@ const StyledDiv = styled.div`
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
 			${button_type} {
+				position: relative;
 				width: ${default_pos.width};
 				height: ${default_pos.height};
 				margin: ${default_heading_margin_prm};
@@ -93,6 +101,15 @@ const StyledDiv = styled.div`
 					}
 				}
 				${displayType === "pseudo" ? arrow : null}
+				&[disabled] {
+					color: ${disableLabelColor};
+					background: ${disableColor};
+					cursor: not-allowed;
+					opacity: ${disableOpacity};
+				}
+				> div {
+					${align_prm(align)};
+				}
 
 				@media (max-width: 767px) {
 					width: ${mobile_pos.width};

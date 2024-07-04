@@ -1,12 +1,14 @@
 import { __ } from "@wordpress/i18n";
 import { StyleComp } from "./StyleButton";
 import { useStyleIframe } from "../iframeFooks";
+
 import {
 	PanelBody,
 	PanelRow,
 	RadioControl,
 	TextControl,
 	ToggleControl,
+	RangeControl,
 	__experimentalUnitControl as UnitControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl,
@@ -58,7 +60,8 @@ const units = [
 	{ value: "%", label: "%" },
 ];
 
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit(props) {
+	const { attributes, setAttributes } = props;
 	const {
 		buttonType,
 		displayType,
@@ -69,13 +72,18 @@ export default function Edit({ attributes, setAttributes }) {
 		bgColor,
 		align,
 		labelContent,
+		disabled,
+		disableOpacity,
 		pseudoInfo,
 		font_style_label,
 		default_pos,
 		mobile_pos,
 		buttonColor,
 		buttonGradient,
+		disableButtonColor,
+		disableButtonGradient,
 		labelColor,
+		disableLabelColor,
 		radius_value,
 		border_value,
 		shadow_element,
@@ -83,12 +91,12 @@ export default function Edit({ attributes, setAttributes }) {
 	} = attributes;
 
 	//テキストの配置
-	const align_style =
-		align === "center"
-			? { marginLeft: "auto", marginRight: "auto" }
-			: align === "right"
-			? { marginLeft: "auto" }
-			: null;
+	// const align_style =
+	// 	align === "center"
+	// 		? { marginLeft: "auto", marginRight: "auto" }
+	// 		: align === "right"
+	// 		? { marginLeft: "auto" }
+	// 		: null;
 
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
@@ -97,7 +105,7 @@ export default function Edit({ attributes, setAttributes }) {
 	const blockRef = useRef(null);
 	const blockProps = useBlockProps({
 		ref: blockRef, // ここで参照を blockProps に渡しています
-		style: { ...align_style, backgroundColor: bgColor },
+		style: { backgroundColor: bgColor },
 	});
 
 	//背景色の取得
@@ -123,7 +131,10 @@ export default function Edit({ attributes, setAttributes }) {
 		return (
 			<>
 				{buttonType === "button" ? (
-					<button>
+					<button
+						onClick={() => setAttributes({ isClick: true })}
+						disabled={disabled}
+					>
 						{displayType === "string" && (
 							<RichText
 								onChange={(newContent) => {
@@ -303,6 +314,15 @@ export default function Edit({ attributes, setAttributes }) {
 							},
 						]}
 					/>
+
+					<RangeControl
+						value={disableOpacity}
+						label={__("Disabled Opacity", "block-collections")}
+						max={1}
+						min={0}
+						step={0.1}
+						onChange={(val) => setAttributes({ disableOpacity: val })}
+					/>
 					<PanelBody
 						title={
 							!isMobile
@@ -472,6 +492,12 @@ export default function Edit({ attributes, setAttributes }) {
 									setAttributes({ labelColor: newValue }),
 							},
 							{
+								colorValue: disableLabelColor,
+								label: __("Choose Disabled Input color", "block-collections"),
+								onColorChange: (newValue) =>
+									setAttributes({ disableLabelColor: newValue }),
+							},
+							{
 								colorValue: buttonColor,
 								gradientValue: buttonGradient,
 								label: __(
@@ -485,6 +511,21 @@ export default function Edit({ attributes, setAttributes }) {
 								},
 								onGradientChange: (newValue) =>
 									setAttributes({ buttonGradient: newValue }),
+							},
+							{
+								colorValue: disableButtonColor,
+								gradientValue: disableButtonGradient,
+								label: __(
+									"Choose Disable Button Background color",
+									"block-collections",
+								),
+								onColorChange: (newValue) => {
+									setAttributes({
+										disableButtonColor: newValue === undefined ? "" : newValue,
+									});
+								},
+								onGradientChange: (newValue) =>
+									setAttributes({ disableButtonGradient: newValue }),
 							},
 						]}
 					/>

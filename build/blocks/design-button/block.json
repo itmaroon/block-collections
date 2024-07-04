@@ -25,6 +25,10 @@
       "type": "string",
       "default": ""
     },
+    "isClick": {
+      "type": "boolean",
+      "default": false
+    },
     "buttonId": {
       "type": "string"
     },
@@ -38,6 +42,14 @@
     },
     "labelContent": {
       "type": "string"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "disableOpacity": {
+      "type": "number",
+      "default": 0.7
     },
     "mediaID": {
       "type": "number",
@@ -65,6 +77,10 @@
       }
     },
     "labelColor": {
+      "type": "string",
+      "default": "var(--wp--preset--color--content)"
+    },
+    "disableLabelColor": {
       "type": "string",
       "default": "var(--wp--preset--color--content)"
     },
@@ -108,9 +124,16 @@
     },
     "buttonColor": {
       "type": "string",
-      "default": "#D5D7D8"
+      "default": "var(--wp--preset--color--background)"
     },
     "buttonGradient": {
+      "type": "string"
+    },
+    "disableButtonColor": {
+      "type": "string",
+      "default": "var(--wp--preset--color--accent-1)"
+    },
+    "disableButtonGradient": {
       "type": "string"
     },
     "radius_value": {
