@@ -85,6 +85,9 @@ OR…
 - Fixed an issue where the root div element was wrapped twice in front-end rendering of Design Title.
 - Added the ability to add position:relative to the figure element of higher-order components of core/image.
 - We've made it possible to set a disabled attribute for the Design Button, and accordingly to set the button color and text color when disabled. Also, when using the button type, a flag is set for the isClick attribute when the button is clicked.
+- Design CheckBox now allows the value of the checkbox element to be stored in the block attribute.
+- Design Radio is now open.
+- The modal display function used in Design Select has been made into a React component, making it available for use in the newly established Design Radio.
 
 = 1.3.0 =
 - Modified to be compatible with WordPress 6.5.

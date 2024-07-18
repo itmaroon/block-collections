@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 					},
 					(err) => {
 						console.error("Could not copy text: ", err);
-					}
+					},
 				);
 			});
 		});
@@ -168,7 +168,7 @@ jQuery(function ($) {
   design-text-ctrl
   ------------------------------ */
 	let input_elm = $(".wp-block-itmar-design-text-ctrl.is-style-line").find(
-		"input, textarea"
+		"input, textarea",
 	);
 	input_elm.change(function () {
 		let content = $(this).val();
@@ -204,7 +204,7 @@ jQuery(function ($) {
 		function (e) {
 			$(this).toggleClass("open");
 			$(this).siblings("div").toggleClass("open");
-		}
+		},
 	);
 
 	/* ------------------------------
@@ -309,7 +309,7 @@ jQuery(function ($) {
 								}, 200);
 							});
 						}
-					}
+					},
 				);
 				selItem.remove();
 			}, 400);
@@ -340,7 +340,7 @@ jQuery(function ($) {
 					$(this).attr("class") +
 					'" data-value="' +
 					$(this).val() +
-					'"/>'
+					'"/>',
 			)
 				.text($(this).text())
 				.appendTo(select.find("ul"));
@@ -383,7 +383,7 @@ jQuery(function ($) {
 							$(this).attr("id") +
 							'" data-value="' +
 							$(this).val() +
-							'"/>'
+							'"/>',
 					)
 						.text($(this).text())
 						.addClass("notShown")
@@ -396,7 +396,7 @@ jQuery(function ($) {
 							$(this).attr("class") +
 							'" data-value="' +
 							$(this).val() +
-							'"/>'
+							'"/>',
 					)
 						.text($(this).text())
 						.appendTo(select.find("ul"));
@@ -426,10 +426,26 @@ jQuery(function ($) {
 								}, 400);
 							});
 							self.remove();
-						}
+						},
 					);
 				}, 300);
 			}, 400);
-		}
+		},
 	);
+
+	/* ------------------------------
+  design-radioイベントハンドラ
+  ------------------------------ */
+	$(document).on("change", ".itmar_radio input:radio", function () {
+		let radio_list = $(this).parent().parent().find("label");
+		radio_list.each(function () {
+			if ($(this).find("input").is(":checked")) {
+				radio_list.removeClass("checked check_prev check_next");
+
+				$(this).addClass("checked ready");
+				$(this).prevAll("label").addClass("check_prev");
+				$(this).nextAll("label").addClass("check_next");
+			}
+		});
+	});
 });

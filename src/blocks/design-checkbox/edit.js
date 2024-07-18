@@ -55,6 +55,7 @@ const units = [
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		inputName,
+		inputValue,
 		proceedCheck,
 		bgColor,
 		align,
@@ -113,7 +114,14 @@ export default function Edit({ attributes, setAttributes }) {
 		return (
 			<>
 				<label>
-					<input type="checkbox" name={inputName} />
+					<input
+						type="checkbox"
+						name={inputName}
+						checked={inputValue}
+						onChange={(event) => {
+							setAttributes({ inputValue: event.target.checked });
+						}}
+					/>
 					<span></span>
 				</label>
 				<RichText
@@ -140,7 +148,7 @@ export default function Edit({ attributes, setAttributes }) {
 						value={inputName}
 						help={__(
 							"When using another design-checkbox as one of the options as an inner block, please use the same name.",
-							"block-collections"
+							"block-collections",
 						)}
 						onChange={(newVal) => setAttributes({ inputName: newVal })}
 					/>
@@ -150,7 +158,7 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={(newValue) => setAttributes({ proceedCheck: newValue })}
 						help={__(
 							"When it is the inner block of the block where the submit button is placed, the submit button is enabled by checking it.",
-							"block-collections"
+							"block-collections",
 						)}
 					/>
 				</PanelBody>

@@ -3,11 +3,9 @@ import { __ } from "@wordpress/i18n";
 import { StyleComp } from "./StyleSelect";
 import { NomalSelect } from "./initSelect";
 import { useStyleIframe } from "../iframeFooks";
-//import ShadowStyle, { ShadowElm } from "../ShadowStyle";
-import { useState, useEffect, useRef } from "@wordpress/element";
-//import { useElementBackgroundColor, useIsIframeMobile } from "../CustomFooks";
+import { useEffect, useRef } from "@wordpress/element";
 import LabelBox from "../LabelBox ";
-import { nanoid } from "nanoid";
+import OptionModal from "../OptionModal";
 import {
 	useElementBackgroundColor,
 	useIsIframeMobile,
@@ -20,7 +18,6 @@ import {
 	Button,
 	PanelBody,
 	PanelRow,
-	Notice,
 	Modal,
 	RadioControl,
 	TextControl,
@@ -139,73 +136,6 @@ export default function Edit({ attributes, setAttributes, context }) {
 	useEffect(() => {
 		setAttributes({ selectedValues: [] });
 	}, [selPattern]);
-
-	//オプション要素の情報編集モーダルの操作
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [selectedOption, setSelectedOption] = useState(null);
-	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-	const [optionToDelete, setOptionToDelete] = useState(null);
-	const openModal = () => setIsModalOpen(true);
-	const closeModal = () => setIsModalOpen(false);
-	const openDeleteModal = (item) => {
-		setOptionToDelete(item);
-		setIsDeleteModalOpen(true);
-	};
-	const closeDeleteModal = () => {
-		setIsDeleteModalOpen(false);
-		setOptionToDelete(null);
-	};
-	const confirmDelete = () => {
-		if (optionToDelete) {
-			handleOptionDelete(optionToDelete.id);
-		}
-		closeDeleteModal();
-	};
-	//オプション値の編集ハンドラ
-	const handleOptionChange = (key, value) => {
-		setSelectedOption((prevData) => ({ ...prevData, [key]: value }));
-	};
-
-	//オプション新規追加
-	const handleOptionAddNew = () => {
-		const id = nanoid(5);
-		setSelectedOption({ id: id, value: "", label: "", classname: "" });
-		openModal();
-	};
-	//オプションの更新
-	const handleNoticeClick = (item) => {
-		setSelectedOption(item);
-		openModal();
-	};
-
-	// オプション要素の削除
-	const handleOptionDelete = (idToDelete) => {
-		// IDをもとに該当する要素を削除
-		const updatedValues = selectValues.filter((item) => item.id !== idToDelete);
-		setAttributes({ selectValues: updatedValues });
-	};
-
-	//オプション値の保存
-	const handleOptionSave = () => {
-		if (
-			selectedOption &&
-			selectValues.some((item) => item.id === selectedOption.id)
-		) {
-			// Update existing item
-			const updatedValues = selectValues.map((item) => {
-				if (item.id === selectedOption.id) {
-					return selectedOption;
-				}
-				return item;
-			});
-			setAttributes({ selectValues: updatedValues });
-		} else {
-			// Add new item
-			setAttributes({ selectValues: [...selectValues, selectedOption] });
-		}
-
-		closeModal();
-	};
 
 	function renderContent() {
 		return (
@@ -327,22 +257,17 @@ export default function Edit({ attributes, setAttributes, context }) {
 						className={"itmar_notice_select_panel"}
 						title={__("Option info Setting", "block-collections")}
 					>
-						<Button
-							label={__("add", "block-collections")}
-							icon={"insert"}
-							onClick={handleOptionAddNew}
+						<OptionModal
+							optionValues={selectValues}
+							onAddOption={(selectedOption) => {
+								setAttributes({
+									selectValues: [...selectValues, selectedOption],
+								});
+							}}
+							onUpdateOption={(updatedValues) => {
+								setAttributes({ selectValues: updatedValues });
+							}}
 						/>
-						{selectValues.map((item) => (
-							<Notice
-								key={item.id}
-								status="info"
-								onRemove={() => openDeleteModal(item)}
-							>
-								<span onClick={() => handleNoticeClick(item)}>
-									{item.label}
-								</span>
-							</Notice>
-						))}
 					</PanelBody>
 				</PanelBody>
 			</InspectorControls>
@@ -368,7 +293,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 								label: __(
 									"Choose Select Background color",
-									"block-collections"
+									"block-collections",
 								),
 								onColorChange: (newValue) => {
 									setAttributes({
@@ -502,7 +427,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 								colorValue: hoverBgColor,
 								label: __(
 									"Choose Background color on mouse hover",
-									"block-collections"
+									"block-collections",
 								),
 								onColorChange: (newValue) =>
 									setAttributes({ hoverBgColor: newValue }),
@@ -511,52 +436,6 @@ export default function Edit({ attributes, setAttributes, context }) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-
-			{isModalOpen && (
-				<Modal
-					title={__("Option Info Edit", "block-collections")}
-					onRequestClose={closeModal}
-				>
-					<TextControl
-						label={__("Display Label", "block-collections")}
-						value={selectedOption.label}
-						onChange={(newVal) => handleOptionChange("label", newVal)}
-					/>
-					<TextControl
-						label={__("Option Value", "block-collections")}
-						value={selectedOption.value}
-						onChange={(newVal) => handleOptionChange("value", newVal)}
-					/>
-					<TextControl
-						label={__("Class Name", "block-collections")}
-						value={selectedOption.classname}
-						onChange={(newVal) => handleOptionChange("classname", newVal)}
-					/>
-					<Button variant="primary" onClick={handleOptionSave}>
-						{__("Save Changes", "block-collections")}
-					</Button>
-				</Modal>
-			)}
-
-			{isDeleteModalOpen && (
-				<Modal
-					title={__("Confirm Deletion", "block-collections")}
-					onRequestClose={closeDeleteModal}
-				>
-					<p>
-						{__(
-							"Are you sure you want to delete this item?",
-							"block-collections"
-						)}
-					</p>
-					<Button variant="primary" onClick={confirmDelete}>
-						{__("Yes, Delete", "block-collections")}
-					</Button>
-					<Button variant="secondary" onClick={closeDeleteModal}>
-						{__("Cancel", "block-collections")}
-					</Button>
-				</Modal>
-			)}
 
 			<div {...blockProps}>
 				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>

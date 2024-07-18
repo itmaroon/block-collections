@@ -1,0 +1,203 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "itmar/design-radio",
+	"version": "1.0.0",
+	"title": "Design Radio",
+	"category": "design",
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"inputName": {
+			"type": "string"
+		},
+		"optionValues": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"value": {
+						"type": "string"
+					},
+					"label": {
+						"type": "string"
+					},
+					"classname": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"selectedValues": {
+			"type": "string",
+			"default": ""
+		},
+		
+		
+		"bgColor": {
+			"type": "string",
+			"default": "var(--wp--preset--color--content-back)"
+		},
+		
+		"font_style_input": {
+			"type": "object",
+			"default": {
+				"default_fontSize": "16px",
+				"mobile_fontSize": "12px",
+				"fontFamily": "Noto Sans JP, sans-serif",
+				"fontWeight": "500",
+				"isItalic": false
+			}
+		},
+		
+		"default_pos": {
+			"type": "object",
+			"default": {
+				"direction": "horizen",
+				"wrap": false,
+				"inner_align": "flex-start",
+				"margin": {
+					"top": "0px",
+					"left": "0px",
+					"bottom": "0px",
+					"right": "0px"
+				},
+				"padding": {
+					"top": "0px",
+					"left": "0px",
+					"bottom": "0px",
+					"right": "0px"
+				}
+			}
+		},
+		"mobile_pos": {
+			"type": "object",
+			"default": {
+				"direction": "vertical",
+				"wrap":false,
+				"inner_align": "flex-start",
+				"margin": {
+					"top": "0px",
+					"left": "0px",
+					"bottom": "0px",
+					"right": "0px"
+				},
+				"padding": {
+					"top": "0px",
+					"left": "0px",
+					"bottom": "0px",
+					"right": "0px"
+				}
+				
+			}
+		},
+		"radius_box": {
+			"type": "object",
+			"default": {
+				"topLeft": "0px",
+				"topRight": "0px",
+				"bottomRight": "0px",
+				"bottomLeft": "0px",
+				"value": "0px"
+			}
+		},
+		"border_box": {
+			"type": "object"
+		},
+		"shadow_box": {
+			"type": "object",
+			"default": {
+				"shadowType": "nomal",
+				"spread": 2,
+				"lateral": 2,
+				"longitude": 2,
+				"nomalBlur": 3,
+				"shadowColor": "#9F9F9F",
+				"distance": 5,
+				"intensity": 5,
+				"opacity": 0.5,
+				"depth": 5,
+				"blur": 5,
+				"bdBlur": 5,
+				"expand": 5,
+				"glassblur": 5,
+				"glassopa": 0.5,
+				"newDirection": "top_left",
+				"clayDirection": "top",
+				"embos": "swell",
+				"hasOutline": true,
+				"baseColor": "#ffffff"
+			}
+		},
+		"shadow_result_box": {
+			"type": "object"
+		},
+		"is_shadow_box": {
+			"type": "boolean",
+			"default": false
+		},
+		
+		"inputColor": {
+			"type": "string",
+			"default": "var(--wp--preset--color--content)"
+		},
+		"inputBgColor": {
+			"type": "string",
+			"default": "var(--wp--preset--color--accent-1)"
+		},
+		"radius_input": {
+			"type": "object",
+			"default": {
+				"topLeft": "0px",
+				"topRight": "0px",
+				"bottomRight": "0px",
+				"bottomLeft": "0px",
+				"value": "0px"
+			}
+		},
+		"border_input": {
+			"type": "object"
+		},
+		"shadow_input": {
+			"type": "object",
+			"default": {
+				"shadowType": "nomal",
+				"spread": 2,
+				"lateral": 2,
+				"longitude": 2,
+				"nomalBlur": 3,
+				"shadowColor": "#9F9F9F",
+				"distance": 5,
+				"intensity": 5,
+				"opacity": 0.5,
+				"depth": 5,
+				"blur": 5,
+				"bdBlur": 5,
+				"expand": 5,
+				"glassblur": 5,
+				"glassopa": 0.5,
+				"newDirection": "top_left",
+				"clayDirection": "top",
+				"embos": "swell",
+				"hasOutline": true,
+				"baseColor": "#ffffff"
+			}
+		},
+		"shadow_result_input": {
+			"type": "object"
+		},
+		"is_shadow_input": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"textdomain": "block-collections",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}
