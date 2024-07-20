@@ -37,7 +37,10 @@
 			"type": "string",
 			"default": ""
 		},
-		
+		"isReleaseButton":{
+			"type":"boolean",
+			"default":false
+		},
 		
 		"bgColor": {
 			"type": "string",
@@ -72,7 +75,20 @@
 					"left": "0px",
 					"bottom": "0px",
 					"right": "0px"
-				}
+				},
+				"margin_input": {
+					"top": "0px",
+					"left": "0px",
+					"bottom": "0px",
+					"right": "0px"
+				},
+				"padding_input": {
+					"top": "0.5em",
+					"left": "1em",
+					"bottom": "0.5em",
+					"right": "1em"
+				},
+				"button_scale": "24px"
 			}
 		},
 		"mobile_pos": {
@@ -92,8 +108,20 @@
 					"left": "0px",
 					"bottom": "0px",
 					"right": "0px"
-				}
-				
+				},
+				"margin_input": {
+					"top": "0px",
+					"left": "0px",
+					"bottom": "0px",
+					"right": "0px"
+				},
+				"padding_input": {
+					"top": "0.5em",
+					"left": "0.3em",
+					"bottom": "0.5em",
+					"right": "0.3em"
+				},
+				"button_scale": "18px"
 			}
 		},
 		"radius_box": {
@@ -194,6 +222,55 @@
 		"is_shadow_input": {
 			"type": "boolean",
 			"default": false
+		},
+		"buttonColor": {
+			"type": "string",
+			"default": "var(--wp--preset--color--accent-2)"
+		},
+		"buttonBgColor": {
+			"type": "string",
+			"default": "var(--wp--preset--color--placeholder)"
+		},
+		"shadow_select": {
+			"type": "object",
+			"default": {
+				"shadowType": "nomal",
+				"spread": 2,
+				"lateral": 2,
+				"longitude": 2,
+				"nomalBlur": 3,
+				"shadowColor": "#9F9F9F",
+				"distance": 5,
+				"intensity": 5,
+				"opacity": 0.5,
+				"depth": 5,
+				"blur": 5,
+				"bdBlur": 5,
+				"expand": 5,
+				"glassblur": 5,
+				"glassopa": 0.5,
+				"newDirection": "top_left",
+				"clayDirection": "top",
+				"embos": "swell",
+				"hasOutline": true,
+				"baseColor": "#ffffff"
+			}
+		},
+		"shadow_result_select": {
+			"type": "object"
+		},
+		"is_shadow_select": {
+			"type": "boolean",
+			"default": false
+		},
+		"color_select": {
+			"type": "string"
+		},
+		"bgColor_select": {
+			"type": "string"
+		},
+		"bgGradient_select": {
+			"type": "string"
 		}
 	},
 	"textdomain": "block-collections",

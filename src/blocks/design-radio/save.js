@@ -32,7 +32,6 @@ export default function save({ attributes }) {
 							labelClass = "check_next"; //チェックされている後のボタンのラベルにはcheck_nextクラスを付加
 						}
 					}
-
 					return (
 						<label key={item.id} className={`itmar_radio ready ${labelClass}`}>
 							<input

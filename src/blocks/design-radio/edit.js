@@ -20,6 +20,7 @@ import {
 	ToolbarGroup,
 	ToolbarItem,
 	__experimentalBoxControl as BoxControl,
+	__experimentalUnitControl as UnitControl,
 	__experimentalBorderBoxControl as BorderBoxControl,
 } from "@wordpress/components";
 import {
@@ -98,6 +99,16 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		border_input,
 		shadow_input,
 		is_shadow_input,
+		buttonColor,
+		buttonBgColor,
+		color_select,
+		bgColor_select,
+		bgGradient_select,
+		shadow_select,
+
+		is_shadow_select,
+		isReleaseButton,
+		className,
 	} = attributes;
 
 	//モバイルの判定
@@ -124,7 +135,31 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				setAttributes({ shadow_result_box: new_shadow.style });
 			}
 		}
-	}, [baseColor]);
+		if (inputBgColor) {
+			setAttributes({
+				shadow_input: { ...shadow_input, baseColor: inputBgColor },
+			});
+			const new_shadow = ShadowElm({
+				...shadow_input,
+				baseColor: inputBgColor,
+			});
+			if (new_shadow) {
+				setAttributes({ shadow_result_input: new_shadow.style });
+			}
+		}
+		if (bgColor_select) {
+			setAttributes({
+				shadow_select: { ...shadow_select, baseColor: bgColor_select },
+			});
+			const new_shadow = ShadowElm({
+				...shadow_select,
+				baseColor: bgColor_select,
+			});
+			if (new_shadow) {
+				setAttributes({ shadow_result_select: new_shadow.style });
+			}
+		}
+	}, [baseColor, inputBgColor, bgColor_select]);
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -141,18 +176,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					);
 
 					if (isChecked) {
-						labelClass = "checked"; //チェックされているボタンのラベルにはcheckedクラスを付加
+						labelClass = "ready checked"; //チェックされているボタンのラベルにはcheckedクラスを付加
 					} else if (selectedIndex !== -1) {
 						// 選択された項目が存在する場合
 						if (index < selectedIndex) {
-							labelClass = "check_prev"; //チェックされている前のボタンのラベルにはcheck_prevクラスを付加
+							labelClass = "ready check_prev"; //チェックされている前のボタンのラベルにはcheck_prevクラスを付加
 						} else if (index > selectedIndex) {
-							labelClass = "check_next"; //チェックされている後のボタンのラベルにはcheck_nextクラスを付加
+							labelClass = "ready check_next"; //チェックされている後のボタンのラベルにはcheck_nextクラスを付加
 						}
 					}
 
 					return (
-						<label key={item.id} className={`itmar_radio ready ${labelClass}`}>
+						<label key={item.id} className={`itmar_radio ${labelClass}`}>
 							<input
 								type="radio"
 								name={inputName}
@@ -166,6 +201,17 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						</label>
 					);
 				})}
+				{isReleaseButton && (
+					<label className="itmar_radio">
+						<button
+							onClick={() => {
+								setAttributes({ selectedValues: "" });
+							}}
+						>
+							{__("Select Release", "block-collections")}
+						</button>
+					</label>
+				)}
 			</>
 		);
 	};
@@ -191,7 +237,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			: __("right alignment", "block-collections");
 	//属性のセットハンドル
 	const handleResponsive = (property, value) => {
-		console.log(property);
 		if (!isMobile) {
 			setAttributes({
 				default_pos: { ...default_pos, [property]: value },
@@ -230,6 +275,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						}}
 						onUpdateOption={(updatedValues) => {
 							setAttributes({ optionValues: updatedValues });
+						}}
+					/>
+				</PanelBody>
+				<PanelBody
+					className={"itmar_notice_select_panel"}
+					title={__("Select Release Setting", "block-collections")}
+				>
+					<ToggleControl
+						label={__("Is Select Release Button", "block-collections")}
+						checked={isReleaseButton}
+						onChange={(newVal) => {
+							setAttributes({ isReleaseButton: newVal });
 						}}
 					/>
 				</PanelBody>
@@ -449,6 +506,164 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							},
 						]}
 					/>
+
+					{(className === undefined ||
+						className?.split(" ").includes("is-style-nomal")) && (
+						<>
+							<PanelColorGradientSettings
+								title={__("Radiobutton Color Setting", "block-collections")}
+								settings={[
+									{
+										colorValue: buttonColor,
+										label: __("Choose Radiobutton color", "block-collections"),
+										onColorChange: (newValue) =>
+											setAttributes({ buttonColor: newValue }),
+									},
+									{
+										colorValue: buttonBgColor,
+										label: __(
+											"Choose Button Background color",
+											"block-collections",
+										),
+										onColorChange: (newValue) =>
+											setAttributes({ buttonBgColor: newValue }),
+									},
+								]}
+							/>
+
+							<UnitControl
+								dragDirection="e"
+								label={
+									!isMobile
+										? __("Button Scale(desk top)", "block-collections")
+										: __("Button Scale(mobile)", "block-collections")
+								}
+								onChange={(value) => handleResponsive("button_scale", value)}
+								value={sel_pos.button_scale}
+							/>
+						</>
+					)}
+					{className?.split(" ").includes("is-style-button") && (
+						<PanelBody
+							title={__("Selected Button settings", "block-collections")}
+							initialOpen={false}
+							className="itmar_group_direction"
+						>
+							<PanelColorGradientSettings
+								title={__("Selected Button Color Setting", "block-collections")}
+								settings={[
+									{
+										colorValue: color_select,
+										label: __(
+											"Choose Selected Text color",
+											"block-collections",
+										),
+										onColorChange: (newValue) =>
+											setAttributes({ color_select: newValue }),
+									},
+									{
+										colorValue: bgColor_select,
+										gradientValue: bgGradient_select,
+										label: __(
+											"Choose Selected Button color",
+											"block-collections",
+										),
+
+										onColorChange: (newValue) => {
+											setAttributes({
+												bgColor_select: newValue === undefined ? "" : newValue,
+											});
+										},
+										onGradientChange: (newValue) => {
+											setAttributes({ bgGradient_select: newValue });
+										},
+									},
+								]}
+							/>
+							<ToggleControl
+								label={__("Is Shadow", "block-collections")}
+								checked={is_shadow_select}
+								onChange={(newVal) => {
+									setAttributes({ is_shadow_select: newVal });
+								}}
+							/>
+							{is_shadow_select && (
+								<ShadowStyle
+									shadowStyle={{ ...shadow_select }}
+									onChange={(newStyle, newState) => {
+										setAttributes({ shadow_result_select: newStyle.style });
+										setAttributes({ shadow_select: newState });
+									}}
+								/>
+							)}
+						</PanelBody>
+					)}
+
+					<BoxControl
+						label={
+							!isMobile
+								? __("Margin settings(desk top)", "block-collections")
+								: __("Margin settings(mobile)", "block-collections")
+						}
+						values={sel_pos.margin_input}
+						onChange={(value) => handleResponsive("margin_input", value)}
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
+					/>
+
+					<BoxControl
+						label={
+							!isMobile
+								? __("Padding settings(desk top)", "block-collections")
+								: __("Padding settings(mobile)", "block-collections")
+						}
+						values={sel_pos.padding_input}
+						onChange={(value) => handleResponsive("padding_input", value)}
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
+					/>
+
+					<PanelBody
+						title={__("Border Settings", "block-collections")}
+						initialOpen={false}
+						className="border_design_ctrl"
+					>
+						<BorderBoxControl
+							onChange={(newValue) => setAttributes({ border_input: newValue })}
+							value={border_input}
+							allowReset={true} // リセットの可否
+							resetValues={border_resetValues} // リセット時の値
+						/>
+						<BorderRadiusControl
+							values={radius_input}
+							onChange={(newBrVal) =>
+								setAttributes({
+									radius_input:
+										typeof newBrVal === "string"
+											? { value: newBrVal }
+											: newBrVal,
+								})
+							}
+						/>
+					</PanelBody>
+					<ToggleControl
+						label={__("Is Shadow", "block-collections")}
+						checked={is_shadow_input}
+						onChange={(newVal) => {
+							setAttributes({ is_shadow_input: newVal });
+						}}
+					/>
+					{is_shadow_input && (
+						<ShadowStyle
+							shadowStyle={{ ...shadow_input }}
+							onChange={(newStyle, newState) => {
+								setAttributes({ shadow_result_input: newStyle.style });
+								setAttributes({ shadow_input: newState });
+							}}
+						/>
+					)}
 				</PanelBody>
 			</InspectorControls>
 
