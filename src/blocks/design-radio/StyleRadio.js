@@ -144,7 +144,11 @@ const StyledDiv = styled.div`
 
 		// classNameに基づいて特定のスタイルを定義します
 		let specificStyle = null;
-		switch (className) {
+
+		const classes = className?.split(" ");
+		const styleClass =
+			classes?.find((cls) => cls.startsWith("is-style-")) || null;
+		switch (styleClass) {
 			case "is-style-button":
 				specificStyle = css`
 					label {
@@ -198,6 +202,7 @@ const StyledDiv = styled.div`
 								background-position 0.15s cubic-bezier(0.8, 0, 1, 1),
 								-webkit-transform 0.25s cubic-bezier(0.8, 0, 1, 1);
 							outline: none;
+
 							@media (max-width: 767px) {
 								width: ${mobile_pos.button_scale};
 								height: ${mobile_pos.button_scale};

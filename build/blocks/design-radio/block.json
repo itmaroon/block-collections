@@ -172,7 +172,7 @@
     },
     "inputBgColor": {
       "type": "string",
-      "default": "var(--wp--preset--color--accent-1)"
+      "default": "var(--wp--preset--color--content-back)"
     },
     "radius_input": {
       "type": "object",

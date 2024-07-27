@@ -121,8 +121,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		style: { backgroundColor: bgColor },
 	});
 
-	//背景色の取得
+	//ラベルの参照
+	const labelRef = useRef(null); //レンダリングで参照の設定を忘れないこと
+
+	//背景色の取得(カスタムプロパティの時はシャドウの背景色設定ができないため)
 	const baseColor = useElementBackgroundColor(blockRef, blockProps.style);
+	const labelBaseColor = useElementBackgroundColor(labelRef, blockProps, {
+		backgroundColor: inputBgColor,
+	});
 
 	//背景色変更によるシャドー属性の書き換え
 	useEffect(() => {
@@ -135,13 +141,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				setAttributes({ shadow_result_box: new_shadow.style });
 			}
 		}
-		if (inputBgColor) {
+		if (labelBaseColor) {
 			setAttributes({
-				shadow_input: { ...shadow_input, baseColor: inputBgColor },
+				shadow_input: { ...shadow_input, baseColor: labelBaseColor },
 			});
 			const new_shadow = ShadowElm({
 				...shadow_input,
-				baseColor: inputBgColor,
+				baseColor: labelBaseColor,
 			});
 			if (new_shadow) {
 				setAttributes({ shadow_result_input: new_shadow.style });
@@ -187,7 +193,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					}
 
 					return (
-						<label key={item.id} className={`itmar_radio ${labelClass}`}>
+						<label
+							ref={labelRef}
+							key={item.id}
+							className={`itmar_radio ${labelClass}`}
+						>
 							<input
 								type="radio"
 								name={inputName}
