@@ -85,6 +85,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		inputName,
 		optionValues,
 		selectedValues,
+		isSetSelect,
 		bgColor,
 		font_style_input,
 		default_pos,
@@ -218,7 +219,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								setAttributes({ selectedValues: "" });
 							}}
 						>
-							{__("Select Release", "block-collections")}
+							{__("Clear", "block-collections")}
 						</button>
 					</label>
 				)}
@@ -272,22 +273,24 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						onChange={(newVal) => setAttributes({ inputName: newVal })}
 					/>
 				</PanelBody>
-				<PanelBody
-					className={"itmar_notice_select_panel"}
-					title={__("Option info Setting", "block-collections")}
-				>
-					<OptionModal
-						optionValues={optionValues}
-						onAddOption={(selectedOption) => {
-							setAttributes({
-								optionValues: [...optionValues, selectedOption],
-							});
-						}}
-						onUpdateOption={(updatedValues) => {
-							setAttributes({ optionValues: updatedValues });
-						}}
-					/>
-				</PanelBody>
+				{isSetSelect && (
+					<PanelBody
+						className={"itmar_notice_select_panel"}
+						title={__("Option info Setting", "block-collections")}
+					>
+						<OptionModal
+							optionValues={optionValues}
+							onAddOption={(selectedOption) => {
+								setAttributes({
+									optionValues: [...optionValues, selectedOption],
+								});
+							}}
+							onUpdateOption={(updatedValues) => {
+								setAttributes({ optionValues: updatedValues });
+							}}
+						/>
+					</PanelBody>
+				)}
 				<PanelBody
 					className={"itmar_notice_select_panel"}
 					title={__("Select Release Setting", "block-collections")}

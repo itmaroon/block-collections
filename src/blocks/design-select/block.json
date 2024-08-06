@@ -38,6 +38,10 @@
 				}
 			}
 		},
+		"isSetSelect":{
+			"type":"boolean",
+			"default":true
+		},
 		"selectedValues": {
 			"type": "array",
 			"default": []
@@ -74,7 +78,8 @@
 					"left": "1em",
 					"bottom": "0.5em",
 					"right": "1em"
-				}
+				},
+				"labelPos": "center left"
 			}
 		},
 		"mobile_pos": {
@@ -91,7 +96,8 @@
 					"left": "0em",
 					"bottom": "0.5em",
 					"right": "0em"
-				}
+				},
+				"labelPos": "top left"
 			}
 		},
 		"bgColor": {
@@ -127,10 +133,7 @@
 			"type": "string",
 			"default": "auto"
 		},
-		"labelVertAlign": {
-			"type": "string",
-			"default": "center"
-		},
+		
 		"font_style_label": {
 			"type": "object",
 			"default": {

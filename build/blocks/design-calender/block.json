@@ -10,7 +10,8 @@
   },
   "attributes": {
     "inputName": {
-      "type": "string"
+      "type": "string",
+      "default": "default_name"
     },
     "selectedValue": {
       "type": "number",
@@ -23,6 +24,10 @@
     "weekTop": {
       "type": "string",
       "default": "sun"
+    },
+    "isReleaseButton": {
+      "type": "boolean",
+      "default": false
     },
     "bgColor": {
       "type": "string",

@@ -21,6 +21,7 @@ const StyledDiv = styled.div`
 			align,
 			font_style_label,
 			pseudoInfo,
+			iconStyle,
 			default_pos,
 			mobile_pos,
 			disableOpacity,
@@ -65,9 +66,13 @@ const StyledDiv = styled.div`
 		}
 		//擬似要素
 		const arrow = Arrow({ direction: pseudoInfo.option });
+		//アイコン
 
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
+			display: flex;
+			align-items: center;
+			height: 100%;
 			${button_type} {
 				position: relative;
 				width: ${default_pos.width};
@@ -101,6 +106,22 @@ const StyledDiv = styled.div`
 					}
 				}
 				${displayType === "pseudo" ? arrow : null}
+				${displayType === "icon" &&
+				css`
+					&::after {
+						content: "\\${iconStyle.icon_name}";
+						font-family: "${iconStyle.icon_family}";
+						font-weight: ${iconStyle.icon_family === "Font Awesome 6 Free"
+							? "900"
+							: "400"};
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+						font-size: ${iconStyle.icon_size};
+						color: ${iconStyle.icon_color};
+					}
+				`}
 				&[disabled] {
 					color: ${disableLabelColor};
 					background: ${disableColor};

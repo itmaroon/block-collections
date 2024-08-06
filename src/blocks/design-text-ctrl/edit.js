@@ -73,18 +73,7 @@ export default function Edit(props) {
 		default_pos,
 		mobile_pos,
 		labelContent,
-		font_style_label,
-		bgColor_label,
-		bgGradient_label,
-		textColor_label,
-		radius_label,
-		border_label,
-		padding_label,
-		labelSpace,
-		labelWidth,
-		labelVertAlign,
 		shadow_element,
-		shadow_result,
 		is_shadow,
 		className,
 	} = attributes;
@@ -389,25 +378,8 @@ export default function Edit(props) {
 					)}
 
 					<LabelBox
-						attributes={{
-							required,
-							labelContent,
-							font_style_label,
-							bgColor_label,
-							bgGradient_label,
-							textColor_label,
-							radius_label,
-							border_label,
-							padding_label,
-							labelSpace,
-							labelWidth,
-							labelVertAlign,
-							shadow_result,
-							is_shadow,
-							isMobile,
-							className,
-						}}
-						setAttributes={setAttributes}
+						attributes={{ ...attributes, isMobile: isMobile }}
+						onChange={(target, newVal) => setAttributes({ [target]: newVal })}
 					/>
 				</StyleComp>
 			</div>

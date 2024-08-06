@@ -22,9 +22,11 @@ const StyledDiv = styled.label`
 			padding_label,
 			labelSpace,
 			labelWidth,
-			labelVertAlign,
+			default_pos,
+			mobile_pos,
 			shadow_result,
 			is_shadow,
+			isMobile,
 			className,
 		} = attributes;
 
@@ -37,13 +39,24 @@ const StyledDiv = styled.label`
 		//スペースの設定
 		const label_padding_prm = space_prm(padding_label);
 
+		//インプットボックスとの距離
+		const alignMap = {
+			"top left": "margin-bottom",
+			"top center": "margin-bottom",
+			"top right": "margin-bottom",
+			"center left": "margin-right",
+			"center right": "margin-left",
+			"bottom left": "margin-top",
+			"bottom center": "margin-top",
+			"bottom right": "margin-top",
+		};
+		const defaultMargin = `${alignMap[default_pos.labelPos]}: ${labelSpace};`;
+		const mobileMargin = `${alignMap[mobile_pos.labelPos]}: ${labelSpace};`;
 		//ボックスシャドーの設定
 		const box_shadow_style =
 			is_shadow && shadow_result ? convertToScss(shadow_result) : "";
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
-			display: flex;
-			align-items: ${labelVertAlign};
 			white-space: nowrap;
 			background: ${bgLabelColor};
 			border-radius: ${label_radius_prm};
@@ -81,9 +94,9 @@ const StyledDiv = styled.label`
 			default:
 				specificStyle = css`
 					width: ${labelWidth};
-					margin-right: ${labelSpace};
+					${defaultMargin}
 					@media (max-width: 767px) {
-						margin-bottom: 15px;
+						${mobileMargin}
 					}
 				`;
 		}

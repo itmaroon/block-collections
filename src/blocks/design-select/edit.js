@@ -62,6 +62,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 		selPattern,
 		selectValues,
 		selectedValues,
+		isSetSelect,
 		folder_val,
 		required,
 		bgColor,
@@ -74,19 +75,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 		bgSelectGradient,
 		radius_value,
 		border_value,
-		labelContent,
-		labelWidth,
-		labelVertAlign,
-		font_style_label,
-		bgColor_label,
-		bgGradient_label,
-		textColor_label,
-		radius_label,
-		border_label,
-		padding_label,
-		labelSpace,
 		shadow_element,
-		shadow_result,
 		is_shadow,
 		className,
 	} = attributes;
@@ -187,25 +176,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 				</NomalSelect>
 
 				<LabelBox
-					attributes={{
-						required,
-						labelContent,
-						font_style_label,
-						bgColor_label,
-						bgGradient_label,
-						textColor_label,
-						radius_label,
-						border_label,
-						padding_label,
-						labelSpace,
-						labelWidth,
-						labelVertAlign,
-						shadow_result,
-						is_shadow,
-						isMobile,
-						className,
-					}}
-					setAttributes={setAttributes}
+					attributes={{ ...attributes, isMobile: isMobile }}
+					onChange={(target, newVal) => setAttributes({ [target]: newVal })}
 				/>
 			</>
 		);
@@ -253,22 +225,24 @@ export default function Edit({ attributes, setAttributes, context }) {
 						value={folder_val}
 						onChange={(newVal) => setAttributes({ folder_val: newVal })}
 					/>
-					<PanelBody
-						className={"itmar_notice_select_panel"}
-						title={__("Option info Setting", "block-collections")}
-					>
-						<OptionModal
-							optionValues={selectValues}
-							onAddOption={(selectedOption) => {
-								setAttributes({
-									selectValues: [...selectValues, selectedOption],
-								});
-							}}
-							onUpdateOption={(updatedValues) => {
-								setAttributes({ selectValues: updatedValues });
-							}}
-						/>
-					</PanelBody>
+					{isSetSelect && (
+						<PanelBody
+							className={"itmar_notice_select_panel"}
+							title={__("Option info Setting", "block-collections")}
+						>
+							<OptionModal
+								optionValues={selectValues}
+								onAddOption={(selectedOption) => {
+									setAttributes({
+										selectValues: [...selectValues, selectedOption],
+									});
+								}}
+								onUpdateOption={(updatedValues) => {
+									setAttributes({ selectValues: updatedValues });
+								}}
+							/>
+						</PanelBody>
+					)}
 				</PanelBody>
 			</InspectorControls>
 

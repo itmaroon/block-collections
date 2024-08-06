@@ -88,6 +88,70 @@ document.addEventListener("DOMContentLoaded", (event) => {
 		});
 });
 
+/* ------------------------------
+カレンダー表示関数
+------------------------------ */
+const generateMonthCalendar = (dateString) => {
+	const [year, month] = dateString.split("/").map(Number);
+	const date = new Date(year, month - 1, 1);
+	const lastDay = new Date(year, month, 0).getDate();
+
+	const calendar = [];
+
+	for (let day = 1; day <= lastDay; day++) {
+		date.setDate(day);
+		calendar.push({
+			date: day,
+			weekday: date.getDay(),
+		});
+	}
+
+	return calendar;
+};
+/* ------------------------------
+カレンダー用グリッドAreasの生成関数
+------------------------------ */
+const week = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+const generateGridAreas = (firstDayOfMonth, totalDays, isMonday) => {
+	let areas = [];
+	let currentDay = 1;
+	//月曜日を先頭に持ってくる場合の係数
+	const mondayFirstDay = firstDayOfMonth - 1 < 0 ? 6 : firstDayOfMonth - 1;
+	//先頭曜日の選択
+	const modifyFirstDay = isMonday ? mondayFirstDay : firstDayOfMonth;
+
+	//曜日ラベル
+	let weekLabels = [];
+	let week_index;
+	for (let i = 0; i < 7; i++) {
+		week_index = isMonday ? i + 1 : i; //月曜日を先頭に持ってくる場合の補正
+		if (week_index > 6) week_index = 0;
+		weekLabels.push(week[week_index]);
+	}
+	areas.push(weekLabels.join(" "));
+
+	for (let i = 0; i < 6; i++) {
+		// 6週分のループ
+		let week = [];
+		for (let j = 0; j < 7; j++) {
+			// 1週間の7日分のループ
+			if ((i === 0 && j < modifyFirstDay) || currentDay > totalDays) {
+				week.push(`empty${i}`);
+			} else {
+				week.push(`day${currentDay}`);
+				currentDay++;
+			}
+			if (i == 5) {
+				//最後の週
+				week[5] = "day_clear";
+				week[6] = "day_clear";
+			}
+		}
+		areas.push(week.join(" "));
+	}
+	return areas.map((week) => `"${week}"`).join("\n");
+};
+
 jQuery(function ($) {
 	/* ------------------------------
  design-titleのためのサイトタイトル・キャッチフレーズの読込
@@ -191,9 +255,11 @@ jQuery(function ($) {
   design-buttonイベントハンドラ
   ------------------------------ */
 	$(document).on("click", ".itmar_design_button", function (e) {
-		let redirectUrl = $(this).data("selected_page");
-		//リダイレクト
-		window.location.href = redirectUrl;
+		if ($(this).data("selected_page")) {
+			let redirectUrl = $(this).data("selected_page");
+			//リダイレクト
+			window.location.href = redirectUrl;
+		}
 	});
 	/* ------------------------------
   design-groupのハンバーガー
@@ -263,7 +329,13 @@ jQuery(function ($) {
 		let slug = li.data("value");
 		let kind = li.attr("class");
 		let id = li.attr("id");
+		let text = li.text();
 
+		//選択されたli要素の属性を関数に渡す
+		setSelectValue(select, id, text, slug, kind);
+	});
+
+	function setSelectValue(select, id, text, slug, kind) {
 		//選択済みのアイテム
 		let selItem = $(".itmar_block_selectSingle > div a");
 		let a = null;
@@ -283,7 +355,7 @@ jQuery(function ($) {
 			//選択された要素の生成
 			a = $('<a id="' + id + '" data-value="' + slug + '"/>')
 				.addClass("notShown")
-				.html('<em class="' + kind + '">' + li.text() + "</em><i></i>")
+				.html('<em class="' + kind + '">' + text + "</em><i></i>")
 				.hide();
 		}
 
@@ -345,7 +417,7 @@ jQuery(function ($) {
 				.text($(this).text())
 				.appendTo(select.find("ul"));
 		});
-	});
+	}
 
 	//select要素の選択済み要素を押したとき
 	$(document).on(
@@ -436,16 +508,184 @@ jQuery(function ($) {
 	/* ------------------------------
   design-radioイベントハンドラ
   ------------------------------ */
-	$(document).on("change", ".itmar_radio input:radio", function () {
-		let radio_list = $(this).parent().parent().find("label");
-		radio_list.each(function () {
-			if ($(this).find("input").is(":checked")) {
-				radio_list.removeClass("checked check_prev check_next");
+	$(document).on(
+		"change",
+		".wp-block-itmar-design-radio .itmar_radio input",
+		function () {
+			let radio_list = $(this).parent().parent().find("label");
+			radio_list.removeClass("checked check_prev check_next");
+			radio_list.each(function () {
+				if ($(this).find("input").is(":checked")) {
+					$(this).addClass("checked ready");
+					$(this).prevAll("label").addClass("check_prev");
+					$(this).nextAll("label").addClass("check_next");
+				}
+			});
+		},
+	);
+	$(document).on(
+		"click",
+		".wp-block-itmar-design-radio .itmar_radio button",
+		function () {
+			//ラベルのクラス名を削除
+			let radio_list = $(this).parent().parent().find("label");
+			console.log(radio_list);
+			radio_list.removeClass("checked check_prev check_next");
+			//input要素の選択を解除
+			let checkElm = $(this).closest(".wp-block-itmar-design-radio");
+			let inputName = checkElm.data("input_name");
+			checkElm
+				.find(`input[name="${inputName}"]:checked`)
+				.prop("checked", false)
+				.each(function () {
+					//changeイベントをJavaScriptでも捕捉できるようにする
+					this.dispatchEvent(new Event("change", { bubbles: true }));
+				});
+		},
+	);
 
-				$(this).addClass("checked ready");
-				$(this).prevAll("label").addClass("check_prev");
-				$(this).nextAll("label").addClass("check_next");
-			}
+	/* ------------------------------
+  design-calenderイベントハンドラ
+  ------------------------------ */
+	//デフォルトの月をセレクトボックスにセット
+	$(function () {
+		let select = $(".itmar_select_month .itmar_block_selectSingle");
+		let setMonth = select
+			.closest(".wp-block-itmar-design-calender")
+			.data("selected_month");
+		let li_arr = select.find("ul li");
+		let li = li_arr.filter(function () {
+			return $(this).attr("data-value") === setMonth;
 		});
+		//設定された月が選択肢に含まれる場合
+		if (li.length != 0) {
+			let slug = li.data("value");
+			let kind = li.attr("class");
+			let id = li.attr("id");
+			let text = li.text();
+			//選択されたli要素の属性を関数に渡す
+			setSelectValue(select, id, text, slug, kind);
+		}
+	});
+	//先月・次月ボタンが押されたとき
+	$(document).on(
+		"click",
+		".wp-block-itmar-design-calender .itmar_prev_month, .wp-block-itmar-design-calender .itmar_next_month",
+		function () {
+			let select = $(".itmar_select_month .itmar_block_selectSingle");
+			let selectedOption = select.find("select").find("option:selected");
+			//前後の月の取得
+			let changeOption = null;
+			if ($(this).hasClass("itmar_prev_month")) {
+				changeOption = selectedOption.prev("option");
+			} else if ($(this).hasClass("itmar_next_month")) {
+				changeOption = selectedOption.next("option");
+			}
+			if (changeOption.length != 0) {
+				//前後の月がある場合
+				let slug = changeOption.attr("value");
+				let kind = changeOption.attr("class");
+				let id = changeOption.attr("id");
+				let text = changeOption.text();
+				//選択されたli要素の属性を関数に渡す
+				setSelectValue(select, id, text, slug, kind);
+			}
+		},
+	);
+
+	//セレクトブロックのセレクト要素に変更があったとき
+	$(document).on(
+		"change",
+		".itmar_select_month .itmar_block_selectSingle select",
+		function () {
+			//表示月の日付オブジェクトを生成
+			let selectedOption = $(this).find("option:selected");
+			let monthData = generateMonthCalendar(selectedOption.attr("value"));
+			//クリアボタンの有無
+			const isClear = $(this)
+				.closest(".wp-block-itmar-design-calender")
+				.data("is_release");
+			//日付エリアを取得
+			const dateArea = $(this)
+				.closest(".wp-block-itmar-design-calender")
+				.find(".itmar_date_area");
+			//Name属性の取得
+			const name = $(this)
+				.closest(".wp-block-itmar-design-calender")
+				.data("input_name");
+			//日付ボタンをいったん削除
+			dateArea.find(".itmar_radio").remove();
+			//日付のDOM要素の挿入
+			monthData.forEach((item) => {
+				const weekClass =
+					item.weekday === 0 ? "holiday" : item.weekday === 6 ? "saturday" : "";
+				const label = $("<label>")
+					.addClass(`itmar_radio ${weekClass}`)
+					.css("grid-area", `day${item.date}`);
+				const input = $("<input>")
+					.attr("type", "radio")
+					.attr("name", name)
+					.attr("value", item.date);
+
+				const span = $("<span>").text(item.date);
+
+				label.append(input).append(span);
+				dateArea.append(label);
+			});
+			//クリアボタン
+			if (isClear) {
+				const { __ } = wp.i18n;
+				const clearLabel = $("<label>")
+					.addClass("itmar_radio")
+					.css("grid-area", "day_clear");
+				const clearButton = $("<button>").text(
+					__("Clear", "block-collections"),
+				);
+				clearLabel.append(clearButton);
+				dateArea.append(clearLabel);
+			}
+			//その月のgridAreasの適用
+			const weekTop = $(this)
+				.closest(".wp-block-itmar-design-calender")
+				.data("week_top");
+			let areas = generateGridAreas(
+				monthData[0].weekday,
+				monthData.length,
+				weekTop === "mon",
+			);
+			dateArea.css("grid-template-areas", areas);
+		},
+	);
+	//日付ボタンをクリックしたとき
+	$(document).on("change", ".itmar_date_area input", function () {
+		//日付エリアを取得
+		const dateArea = $(this)
+			.closest(".wp-block-itmar-design-calender")
+			.find(".itmar_date_area");
+		// 全てのラベルから'checked'クラスを削除
+		dateArea.find("label").removeClass("checked");
+		// クリックされたラベルにcheckedを付加(input要素がcheckされているとき)
+		if ($(this).is(":checked")) {
+			$(this).parent("label").addClass("checked");
+		}
+	});
+	//クリアボタンをクリックしたとき
+	$(document).on("click", ".itmar_date_area button", function () {
+		//日付エリアを取得
+		const dateArea = $(this)
+			.closest(".wp-block-itmar-design-calender")
+			.find(".itmar_date_area");
+		// 全てのラベルから'checked'クラスを削除
+		dateArea.find("label").removeClass("checked");
+		//input要素の選択を解除
+		let checkElm = $(this).closest(".wp-block-itmar-design-calender");
+		let inputName = checkElm.data("input_name");
+		checkElm
+			.find(`input[name="${inputName}"]:checked`)
+			.prop("checked", false)
+			.each(function () {
+				//changeイベントをJavaScriptでも捕捉できるようにする
+				this.dispatchEvent(new Event("change", { bubbles: true }));
+			});
 	});
 });

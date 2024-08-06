@@ -69,6 +69,15 @@
 				"option": "left"
 			}
 		},
+		"iconStyle":{
+			"type":"object",
+			"default":{
+				"icon_name": "f030",
+				"icon_size": "24px",
+				"icon_color": "var(--wp--preset--color--content)",
+				"icon_family": "Font Awesome 6 Free"
+			}
+		},
 		"font_style_label": {
 			"type": "object",
 			"default": {

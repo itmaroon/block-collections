@@ -86,8 +86,13 @@ OR…
 - Added the ability to add position:relative to the figure element of higher-order components of core/image.
 - We've made it possible to set a disabled attribute for the Design Button, and accordingly to set the button color and text color when disabled. Also, when using the button type, a flag is set for the isClick attribute when the button is clicked.
 - Design CheckBox now allows the value of the checkbox element to be stored in the block attribute.
-- Design Radio is now open.
+- We have launched Design Radio.
 - The modal display function used in Design Select has been made into a React component, making it available for use in the newly established Design Radio.
+- We have created a new Design Callender.
+- We have added icons to the display type of Design Button, and you can now select icons from Font Awesom.
+- Fixed the way props are passed to LabelBox components in Design Text Ctrl and Design Select.
+- Added the ability to set the label position for Design Text Ctrl and Design Select.
+- Added No Link to the link type of Design Button.
 
 = 1.3.0 =
 - Modified to be compatible with WordPress 6.5.

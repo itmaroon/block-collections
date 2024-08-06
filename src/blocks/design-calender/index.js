@@ -22,11 +22,28 @@ const getTodayYearMonth = () => {
 	const month = String(today.getMonth() + 1).padStart(2, "0");
 	return `${year}/${month}`;
 };
+const getTodayYear = () => {
+	const today = new Date();
+	return today.getFullYear();
+};
+const getTodayMonth = () => {
+	const today = new Date();
+	return today.getMonth() + 1;
+};
 
 registerBlockType(metadata.name, {
 	icon: <Calenderbutton />,
 	attributes: {
 		...metadata.attributes,
+		dateSpan: {
+			type: "object",
+			default: {
+				startYear: getTodayYear() - 3,
+				startMonth: getTodayMonth(),
+				endYear: getTodayYear() + 1,
+				endMonth: getTodayMonth(),
+			},
+		},
 		selectedMonth: {
 			type: "string",
 			default: getTodayYearMonth(),

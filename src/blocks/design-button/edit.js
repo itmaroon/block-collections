@@ -34,6 +34,7 @@ import {
 	PageSelectControl,
 	ArchiveSelectControl,
 	SingleImageSelect,
+	IconSelectControl,
 	TypographyControls,
 } from "itmar-block-packages";
 
@@ -75,6 +76,7 @@ export default function Edit(props) {
 		disabled,
 		disableOpacity,
 		pseudoInfo,
+		iconStyle,
 		font_style_label,
 		default_pos,
 		mobile_pos,
@@ -200,6 +202,7 @@ export default function Edit(props) {
 										value: "archive",
 									},
 									{ label: __("Free URL", "block-collections"), value: "free" },
+									{ label: __("No Link", "block-collections"), value: "none" },
 								]}
 								onChange={(changeOption) =>
 									setAttributes({ linkKind: changeOption })
@@ -278,6 +281,7 @@ export default function Edit(props) {
 								{ label: __("String", "block-collections"), value: "string" },
 								{ label: __("Image", "block-collections"), value: "image" },
 								{ label: __("Pseudo", "block-collections"), value: "pseudo" },
+								{ label: __("Icon", "block-collections"), value: "icon" },
 							]}
 							onChange={(changeOption) => {
 								setAttributes({ displayType: changeOption });
@@ -291,6 +295,15 @@ export default function Edit(props) {
 									setAttributes({
 										pseudoInfo: { ...pseudoInfo, option: direction },
 									});
+								}}
+							/>
+						)}
+						{displayType === "icon" && (
+							<IconSelectControl
+								iconStyle={iconStyle}
+								setPosition={false}
+								onChange={(newValue) => {
+									setAttributes({ iconStyle: newValue });
 								}}
 							/>
 						)}

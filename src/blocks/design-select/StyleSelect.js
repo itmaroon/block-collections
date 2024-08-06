@@ -41,18 +41,36 @@ const StyledDiv = styled.div`
 		//ボックスシャドーの設定
 		const box_shadow_style =
 			is_shadow && shadow_result ? convertToScss(shadow_result) : "";
+		//配置場所
+		const alignMap = {
+			"top left":
+				"display: flex;flex-direction: column-reverse;align-items: flex-start;",
+			"top center":
+				"display: flex;flex-direction: column-reverse;align-items: center;",
+			"top right":
+				"display: flex;flex-direction: column-reverse;align-items: flex-end;",
+			"center left":
+				"display: flex;flex-direction: row-reverse;align-items: center;",
+			"center center": "label{display: none;}",
+			"center right": "display: flex;align-items: center;",
+			"bottom left":
+				"display: flex;flex-direction: column;align-items: flex-start;",
+			"bottom center":
+				"display: flex;flex-direction: column;align-items: center;",
+			"bottom right":
+				"display: flex;flex-direction: column;align-items: flex-end;",
+		};
 
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
 			margin: ${default_heading_margin_prm};
 			padding: ${default_heading_padding_prm};
 			position: relative;
-			display: flex;
-			flex-direction: row-reverse;
+			${alignMap[default_pos.labelPos]}
 			@media (max-width: 767px) {
 				margin: ${mobile_heading_margin_prm};
 				padding: ${mobile_heading_padding_prm};
-				flex-direction: column-reverse;
+				${alignMap[mobile_pos.labelPos]}
 			}
 			.itmar_block_select {
 				position: relative;
@@ -268,7 +286,8 @@ const StyledDiv = styled.div`
 					transform: translate(0, 20px) scale(0.8);
 					transform-origin: 0 0;
 					filter: drop-shadow(0 12px 20px rgba(22, 42, 90, 0.08));
-					transition: all 0.4s ease,
+					transition:
+						all 0.4s ease,
 						transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44),
 						filter 0.3s ease 0.2s;
 
@@ -280,8 +299,11 @@ const StyledDiv = styled.div`
 						cursor: pointer;
 						overflow: hidden;
 						position: relative;
-						transition: background 0.3s ease, color 0.3s ease,
-							transform 0.3s ease 0.3s, opacity 0.5s ease 0.3s,
+						transition:
+							background 0.3s ease,
+							color 0.3s ease,
+							transform 0.3s ease 0.3s,
+							opacity 0.5s ease 0.3s,
 							border-radius 0.3s ease 0.3s;
 						@media (max-width: 767px) {
 							font-size: ${font_style_option.mobile_fontSize};
@@ -335,7 +357,9 @@ const StyledDiv = styled.div`
 						&.notShown {
 							transform: scale(0);
 							opacity: 0;
-							transition: transform 0.35s ease, opacity 0.4s ease;
+							transition:
+								transform 0.35s ease,
+								opacity 0.4s ease;
 
 							&.show {
 								transform: scale(1);

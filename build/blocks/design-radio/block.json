@@ -10,7 +10,8 @@
   },
   "attributes": {
     "inputName": {
-      "type": "string"
+      "type": "string",
+      "default": "default_name"
     },
     "optionValues": {
       "type": "array",
@@ -36,6 +37,10 @@
     "selectedValues": {
       "type": "string",
       "default": ""
+    },
+    "isSetSelect": {
+      "type": "boolean",
+      "default": true
     },
     "isReleaseButton": {
       "type": "boolean",

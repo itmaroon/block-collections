@@ -8,6 +8,10 @@ import {
 	ShadowStyle,
 	ShadowElm,
 	TypographyControls,
+	generateDateArray,
+	generateMonthCalendar,
+	PeriodCtrl,
+	flattenBlocks,
 } from "itmar-block-packages";
 import {
 	PanelBody,
@@ -22,9 +26,11 @@ import {
 	__experimentalBoxControl as BoxControl,
 	__experimentalUnitControl as UnitControl,
 	__experimentalBorderBoxControl as BorderBoxControl,
+	__experimentalNumberControl as NumberControl,
 } from "@wordpress/components";
 import {
 	useBlockProps,
+	useInnerBlocksProps,
 	BlockControls,
 	AlignmentToolbar,
 	InspectorControls,
@@ -32,7 +38,8 @@ import {
 	__experimentalBorderRadiusControl as BorderRadiusControl,
 } from "@wordpress/block-editor";
 
-import { useEffect, useRef, useState } from "@wordpress/element";
+import { useEffect, useRef, useMemo } from "@wordpress/element";
+import { useSelect, useDispatch } from "@wordpress/data";
 
 import "./editor.scss";
 
@@ -61,32 +68,15 @@ const units = [
 const weekLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const week = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
-//与えられた月から日付と曜日を要素とする配列を生成する
-const generateMonthCalendar = (dateString) => {
-	const [year, month] = dateString.split("/").map(Number);
-	const date = new Date(year, month - 1, 1);
-	const lastDay = new Date(year, month, 0).getDate();
-
-	const calendar = [];
-
-	for (let day = 1; day <= lastDay; day++) {
-		date.setDate(day);
-		calendar.push({
-			date: day,
-			weekday: date.getDay(),
-		});
-	}
-
-	return calendar;
-};
-
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		inputName,
+		isReleaseButton,
 		bgColor,
 		selectedValue,
 		dateValues,
 		weekTop,
+		dateSpan,
 		selectedMonth,
 		default_pos,
 		mobile_pos,
@@ -120,15 +110,264 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		className,
 	} = attributes;
 
+	//選択可能期間取得
+	const periodArray = generateDateArray(dateSpan, true);
+
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
 
 	//ブロックの参照
 	const blockRef = useRef(null);
 	const blockProps = useBlockProps({
-		//ref: blockRef, // ここで参照を blockProps に渡しています
 		style: { width: "fit-content" },
 	});
+
+	//インナーブロックのひな型を用意
+	const TEMPLATE = [
+		//同一ブロックを２つ以上入れないこと（名称の文字列が重ならないこと）
+		[
+			"itmar/design-group",
+			{},
+			[
+				[
+					"itmar/design-button",
+					{
+						linkKind: "none",
+						displayType: "pseudo",
+						pseudoInfo: { element: "Arrow", option: "left" },
+						default_pos: {
+							width: "2.5em",
+							height: "2.5em",
+							margin_value: {
+								top: "10px",
+								left: "10px",
+								bottom: "10px",
+								right: "10px",
+							},
+							padding_value: {
+								top: "10px",
+								left: "10px",
+								bottom: "10px",
+								right: "10px",
+							},
+						},
+						mobile_pos: {
+							width: "2em",
+							height: "2em",
+							margin_value: {
+								top: "10px",
+								left: "0",
+								bottom: "10px",
+								right: "0",
+							},
+							padding_value: {
+								top: "10px",
+								left: "10px",
+								bottom: "10px",
+								right: "10px",
+							},
+						},
+						radius_value: { value: "50%" },
+						className: "itmar_prev_month",
+					},
+				],
+				[
+					"itmar/design-select",
+					{
+						selectValues: periodArray,
+						isSetSelect: false,
+						default_pos: {
+							margin_value: {
+								top: "0",
+								left: "0",
+								bottom: "0",
+								right: "0",
+							},
+							padding_value: {
+								top: "0.5em",
+								left: "1em",
+								bottom: "0.5em",
+								right: "1em",
+							},
+							labelPos: "center center",
+						},
+
+						mobile_pos: {
+							margin_value: {
+								top: "0",
+								left: "0",
+								bottom: "0",
+								right: "0",
+							},
+							padding_value: {
+								top: "0.5em",
+								left: "0em",
+								bottom: "0.5em",
+								right: "0em",
+							},
+							labelPos: "center center",
+						},
+						className: "itmar_select_month",
+					},
+				],
+				[
+					"itmar/design-button",
+					{
+						linkKind: "none",
+						displayType: "pseudo",
+						pseudoInfo: { element: "Arrow", option: "right" },
+						default_pos: {
+							width: "2.5em",
+							height: "2.5em",
+							margin_value: {
+								top: "10px",
+								left: "10px",
+								bottom: "10px",
+								right: "10px",
+							},
+							padding_value: {
+								top: "10px",
+								left: "10px",
+								bottom: "10px",
+								right: "10px",
+							},
+						},
+						mobile_pos: {
+							width: "2em",
+							height: "2em",
+							margin_value: {
+								top: "10px",
+								left: "0",
+								bottom: "10px",
+								right: "0",
+							},
+							padding_value: {
+								top: "10px",
+								left: "10px",
+								bottom: "10px",
+								right: "10px",
+							},
+						},
+						radius_value: { value: "50%" },
+						className: "itmar_next_month",
+					},
+				],
+			],
+		],
+	];
+	const innerBlocksProps = useInnerBlocksProps(
+		{},
+		{
+			template: TEMPLATE,
+			templateLock: "all",
+		},
+	);
+
+	//属性変更関数を取得
+	const { updateBlockAttributes } = useDispatch("core/block-editor");
+
+	//エディタ内ブロックの取得
+	const { innerBlocks } = useSelect(
+		(select) => ({
+			innerBlocks: select("core/block-editor").getBlocks(clientId),
+		}),
+		[],
+	);
+	//インナーブロックを平坦化
+	const innerFlattenedBlocks = useMemo(() => {
+		return flattenBlocks(innerBlocks);
+	}, [innerBlocks]);
+
+	//インナーブロック内のDesign Select
+	const selectMonthBlock = useMemo(() => {
+		return innerFlattenedBlocks.find(
+			(block) => block.name === "itmar/design-select",
+		);
+	}, [innerBlocks]);
+	//インナーブロック内のDesign Button（前）
+	const prevButtonBlock = useMemo(() => {
+		return innerFlattenedBlocks.find(
+			(block) =>
+				block.attributes.className &&
+				block.attributes.className?.split(" ").includes("itmar_prev_month"),
+		);
+	}, [innerBlocks]);
+	//インナーブロック内のDesign Button（後）
+	const nextButtonBlock = useMemo(() => {
+		return innerFlattenedBlocks.find(
+			(block) =>
+				block.attributes.className &&
+				block.attributes.className?.split(" ").includes("itmar_next_month"),
+		);
+	}, [innerBlocks]);
+	//カレンダーの表示月の更新
+	useEffect(() => {
+		if (selectMonthBlock) {
+			const selectMonthAttr = selectMonthBlock.attributes;
+			const selectMonth = selectMonthAttr.selectValues.find(
+				(item) => item.id === selectMonthAttr.selectedValues[0],
+			);
+			if (selectMonth) {
+				setAttributes({ selectedMonth: selectMonth.label });
+			} else {
+				//初期値を設定
+				const selectItem = selectMonthAttr.selectValues.find(
+					(item) => item.value === selectedMonth,
+				);
+				if (selectItem) {
+					updateBlockAttributes(selectMonthBlock.clientId, {
+						selectedValues: [selectItem.id],
+					});
+				}
+			}
+		}
+	}, [selectMonthBlock]);
+	//前後ボタンによる表示月の更新
+
+	useEffect(() => {
+		if (prevButtonBlock && nextButtonBlock && selectMonthBlock) {
+			const selectMonthAttr = selectMonthBlock.attributes;
+			const selectIndex = selectMonthAttr.selectValues.findIndex(
+				(item) => item.value === selectedMonth,
+			);
+
+			if (prevButtonBlock.attributes.isClick) {
+				//ボタンのクリックフラグを元に戻す
+				updateBlockAttributes(prevButtonBlock.clientId, {
+					isClick: false,
+				});
+				//選択されている月の前のインデックス
+				const newIndex = selectIndex - 1 > 0 ? selectIndex - 1 : 0;
+				//セレクトボックスの更新
+				const newId = selectMonthAttr.selectValues[newIndex].id;
+				updateBlockAttributes(selectMonthBlock.clientId, {
+					selectedValues: [newId],
+				});
+				//カレンダーの更新
+				const newValue = selectMonthAttr.selectValues[newIndex].id;
+				setAttributes({ selectedMonth: newValue });
+			}
+			if (nextButtonBlock.attributes.isClick) {
+				//ボタンのクリックフラグを元に戻す
+				updateBlockAttributes(nextButtonBlock.clientId, {
+					isClick: false,
+				});
+				//選択されている月の次のインデックス
+				const newIndex =
+					selectIndex + 1 < selectMonthAttr.selectValues.length
+						? selectIndex + 1
+						: selectIndex;
+				//セレクトボックスの更新
+				const newId = selectMonthAttr.selectValues[newIndex].id;
+				updateBlockAttributes(selectMonthBlock.clientId, {
+					selectedValues: [newId],
+				});
+				//カレンダーの更新
+				const newValue = selectMonthAttr.selectValues[newIndex].id;
+				setAttributes({ selectedMonth: newValue });
+			}
+		}
+	}, [prevButtonBlock, nextButtonBlock]);
 
 	//ラベルの参照
 	const labelRef = useRef(null); //レンダリングで参照の設定を忘れないこと
@@ -196,7 +435,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				setAttributes({ shadow_result_select: new_shadow.style });
 			}
 		}
-		console.log(labelBaseColor);
 	}, [baseColor, labelBaseColor, weekBaseColor, bgColor_select]);
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
@@ -212,7 +450,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	const renderContent = () => {
 		return (
-			<div ref={blockRef}>
+			<div ref={blockRef} className="itmar_date_area">
 				{week.map((item, index) => (
 					<label
 						ref={weekRef}
@@ -254,6 +492,21 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						</label>
 					);
 				})}
+				{isReleaseButton && (
+					<label
+						ref={labelRef}
+						className="itmar_radio"
+						style={{ gridArea: "day_clear" }}
+					>
+						<button
+							onClick={() => {
+								setAttributes({ selectedValue: 0 });
+							}}
+						>
+							{__("Clear", "block-collections")}
+						</button>
+					</label>
+				)}
 			</div>
 		);
 	};
@@ -310,7 +563,21 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							)}
 						/>
 					</div>
+					<ToggleControl
+						label={__("Is Select Release Button", "block-collections")}
+						checked={isReleaseButton}
+						onChange={(newVal) => {
+							setAttributes({ isReleaseButton: newVal });
+						}}
+					/>
 				</PanelBody>
+				<PeriodCtrl
+					startYear={2010}
+					endYear={2030}
+					dateSpan={dateSpan}
+					isMonth={true}
+					onChange={(newObj) => setAttributes(newObj)}
+				/>
 			</InspectorControls>
 			<InspectorControls group="styles">
 				<PanelBody
@@ -676,7 +943,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				<StyleComp attributes={attributes}>
+					<div {...innerBlocksProps}></div>
+					{renderContent()}
+				</StyleComp>
 			</div>
 		</>
 	);

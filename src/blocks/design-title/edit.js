@@ -1046,6 +1046,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 													icon_space: "5px",
 											  }
 									}
+									setPosition={true}
 									onChange={(newValue) => {
 										setLocalOptionStyle((prev) => ({
 											...prev,

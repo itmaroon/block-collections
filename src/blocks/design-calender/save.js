@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { useBlockProps, RichText } from "@wordpress/block-editor";
+import { useBlockProps, InnerBlocks } from "@wordpress/block-editor";
 import { ServerStyleSheet } from "styled-components";
 import { renderToString } from "react-dom/server";
 import { StyleComp } from "./StyleCalender";
@@ -7,7 +7,8 @@ import { StyleComp } from "./StyleCalender";
 const week = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
 export default function save({ attributes }) {
-	const { bgColor, inputName, dateValues, selectedValue } = attributes;
+	const { bgColor, selectedMonth, inputName, weekTop, isReleaseButton } =
+		attributes;
 
 	const blockProps = useBlockProps.save({
 		style: {
@@ -19,7 +20,7 @@ export default function save({ attributes }) {
 
 	function renderContent() {
 		return (
-			<>
+			<div className="itmar_date_area">
 				{week.map((item, index) => (
 					<label
 						key={index}
@@ -29,49 +30,36 @@ export default function save({ attributes }) {
 						<span>{item}</span>
 					</label>
 				))}
-				{dateValues.map((item, index) => {
-					const checkClass =
-						selectedValue === item.date ? "ready checked" : "ready";
-					const weekClass =
-						item.weekday === 0
-							? "holiday"
-							: item.weekday === 6
-							? "saturday"
-							: "";
-
-					return (
-						<label
-							key={item.id}
-							className={`itmar_radio ${checkClass} ${weekClass}`}
-							style={{ gridArea: `day${item.date}` }}
-						>
-							<input
-								type="radio"
-								name={inputName}
-								value={item.date}
-								checked={selectedValue === item.date}
-							/>
-							<span>{String(item.date)}</span>
-						</label>
-					);
-				})}
-			</>
+			</div>
 		);
 	}
 
+	//styled-componentsのHTML化
 	const sheet = new ServerStyleSheet();
 	const html = renderToString(
-		sheet.collectStyles(
-			<div {...blockProps}>
-				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
-			</div>,
-		),
+		sheet.collectStyles(<StyleComp attributes={attributes} />),
 	);
 	const styleTags = sheet.getStyleTags();
 
+	// 正規表現で styled-components のクラス名を取得
+	const classMatch = html.match(/class="([^"]+)"/);
+	const className = classMatch ? classMatch[1] : "";
+
 	return (
 		<>
-			<div dangerouslySetInnerHTML={{ __html: html }} />
+			<div
+				{...blockProps}
+				data-selected_month={selectedMonth}
+				data-week_top={weekTop}
+				data-input_name={inputName}
+				data-is_release={isReleaseButton ? "true" : "false"}
+			>
+				<div className={className}>
+					<InnerBlocks.Content />
+					{renderContent()}
+				</div>
+			</div>
+
 			<div dangerouslySetInnerHTML={{ __html: styleTags }} />
 		</>
 	);

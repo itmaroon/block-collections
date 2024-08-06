@@ -28,8 +28,8 @@ const generateGridAreas = (firstDayOfMonth, totalDays, isMonday) => {
 	areas.push(weekLabels.join(" "));
 
 	for (let i = 0; i < 6; i++) {
-		// 6週分のループ
 		let week = [];
+
 		for (let j = 0; j < 7; j++) {
 			// 1週間の7日分のループ
 			if ((i === 0 && j < modifyFirstDay) || currentDay > totalDays) {
@@ -38,6 +38,11 @@ const generateGridAreas = (firstDayOfMonth, totalDays, isMonday) => {
 				week.push(`day${currentDay}`);
 				currentDay++;
 			}
+		}
+		if (i == 5) {
+			//最後の週
+			week[5] = "day_clear";
+			week[6] = "day_clear";
 		}
 		areas.push(week.join(" "));
 	}
@@ -138,7 +143,7 @@ const StyledDiv = styled.div`
 				: null;
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
-			> div {
+			.itmar_date_area {
 				display: grid;
 				grid-template-areas: ${gridAreas};
 				margin: ${default_margin_prm};
@@ -215,6 +220,12 @@ const StyledDiv = styled.div`
 					@media (max-width: 767px) {
 						font-size: ${font_style_input.mobile_fontSize};
 					}
+				}
+				button {
+					text-align: center;
+					margin: 0 auto;
+					background-color: transparent;
+					border: none;
 				}
 			}
 			.itmar_week_label {

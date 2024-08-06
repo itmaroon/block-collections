@@ -14,6 +14,7 @@ import {
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl,
 	__experimentalUnitControl as UnitControl,
+	__experimentalAlignmentMatrixControl as AlignmentMatrixControl,
 } from "@wordpress/components";
 import StyleLabel from "./StyleLabel";
 
@@ -40,11 +41,13 @@ const units = [
 ];
 
 export default function LabelBox(props) {
-	const { attributes, setAttributes } = props;
+	const { attributes } = props;
 
 	const {
 		required,
 		labelContent,
+		default_pos,
+		mobile_pos,
 		font_style_label,
 		bgColor_label,
 		bgGradient_label,
@@ -73,7 +76,8 @@ export default function LabelBox(props) {
 							checked={required.flg}
 							onChange={(newVal) => {
 								const newObj = { ...required, flg: newVal };
-								setAttributes({ required: newObj });
+
+								props.onChange("required", newObj);
 							}}
 						/>
 					</PanelRow>
@@ -85,7 +89,8 @@ export default function LabelBox(props) {
 								isPressEnterToChange
 								onChange={(newVal) => {
 									const newObj = { ...required, display: newVal };
-									setAttributes({ required: newObj });
+
+									props.onChange("required", newObj);
 								}}
 							/>
 						</PanelRow>
@@ -102,9 +107,37 @@ export default function LabelBox(props) {
 							labelPosition="top"
 							value={labelContent}
 							isPressEnterToChange
-							onChange={(newValue) => setAttributes({ labelContent: newValue })}
+							onChange={(newValue) => props.onChange("labelContent", newValue)}
 						/>
 					</PanelRow>
+
+					<AlignmentMatrixControl
+						label={
+							!isMobile
+								? __("Label Alignment(desk top)", "block-collections")
+								: __("Label Alignment(mobile)", "block-collections")
+						}
+						value={!isMobile ? default_pos.labelPos : mobile_pos.labelPos}
+						onChange={(newValue) => {
+							if (!isMobile) {
+								props.onChange("default_pos", {
+									...default_pos,
+									labelPos: newValue,
+								});
+							} else {
+								props.onChange("mobile_pos", {
+									...mobile_pos,
+									labelPos: newValue,
+								});
+							}
+						}}
+					/>
+					<label>
+						{__(
+							"Selecting the center vertically or horizontally will hide it.",
+							"block-collections",
+						)}
+					</label>
 				</PanelBody>
 			</InspectorControls>
 			<InspectorControls group="styles">
@@ -117,7 +150,7 @@ export default function LabelBox(props) {
 						title={__("Typography", "block-collections")}
 						fontStyle={font_style_label}
 						onChange={(newStyle) => {
-							setAttributes({ font_style_label: newStyle });
+							props.onChange("font_style_label", newStyle);
 						}}
 						isMobile={isMobile}
 						initialOpen={false}
@@ -129,7 +162,7 @@ export default function LabelBox(props) {
 								colorValue: textColor_label,
 								label: __("Choose Text color", "block-collections"),
 								onColorChange: (newValue) =>
-									setAttributes({ textColor_label: newValue }),
+									props.onChange("textColor_label", newValue),
 							},
 							{
 								colorValue: bgColor_label,
@@ -137,9 +170,10 @@ export default function LabelBox(props) {
 
 								label: __("Choose Background color", "block-collections"),
 								onColorChange: (newValue) =>
-									setAttributes({ bgColor_label: newValue }),
+									props.onChange("bgColor_label", newValue),
+
 								onGradientChange: (newValue) =>
-									setAttributes({ bgGradient_label: newValue }),
+									props.onChange("bgGradient_label", newValue),
 							},
 						]}
 					/>
@@ -149,7 +183,7 @@ export default function LabelBox(props) {
 						className="border_design_ctrl"
 					>
 						<BorderBoxControl
-							onChange={(newValue) => setAttributes({ border_label: newValue })}
+							onChange={(newValue) => props.onChange("border_label", newValue)}
 							value={border_label}
 							allowReset={true} // リセットの可否
 							resetValues={border_resetValues} // リセット時の値
@@ -157,26 +191,24 @@ export default function LabelBox(props) {
 						<BorderRadiusControl
 							values={radius_label}
 							onChange={(newBrVal) =>
-								setAttributes({
-									radius_label:
-										typeof newBrVal === "string"
-											? { value: newBrVal }
-											: newBrVal,
-								})
+								props.onChange(
+									"radius_label",
+									typeof newBrVal === "string" ? { value: newBrVal } : newBrVal,
+								)
 							}
 						/>
 					</PanelBody>
 					<BoxControl
 						label={__("Padding settings", "block-collections")}
 						values={padding_label}
-						onChange={(value) => setAttributes({ padding_label: value })}
+						onChange={(value) => props.onChange("padding_label", value)}
 						units={units} // 許可する単位
 						allowReset={true} // リセットの可否
 						resetValues={padding_resetValues} // リセット時の値
 					/>
 					<UnitControl
 						dragDirection="e"
-						onChange={(newValue) => setAttributes({ labelSpace: newValue })}
+						onChange={(newValue) => props.onChange("labelSpace", newValue)}
 						label={__("Spacing with textbox", "block-collections")}
 						value={labelSpace}
 					/>

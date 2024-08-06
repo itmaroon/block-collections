@@ -80,7 +80,8 @@
 					"left": "1em",
 					"bottom": "0.5em",
 					"right": "1em"
-				}
+				},
+				"labelPos": "center left"
 			}
 		},
 		"mobile_pos": {
@@ -97,7 +98,8 @@
 					"left": "0em",
 					"bottom": "0.5em",
 					"right": "0em"
-				}
+				},
+				"labelPos": "top left"
 			}
 		},
 		"labelContent": {

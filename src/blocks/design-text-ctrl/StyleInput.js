@@ -6,6 +6,24 @@ import {
 	borderProperty,
 } from "itmar-block-packages";
 
+//配置場所
+const alignMap = {
+	"top left":
+		"display: flex;flex-direction: column-reverse;align-items: flex-start;",
+	"top center":
+		"display: flex;flex-direction: column-reverse;align-items: center;",
+	"top right":
+		"display: flex;flex-direction: column-reverse;align-items: flex-end;",
+	"center left":
+		"display: flex;flex-direction: row-reverse;align-items: center;",
+	"center center": "label{display: none;}",
+	"center right": "display: flex;align-items: center;",
+	"bottom left":
+		"display: flex;flex-direction: column;align-items: flex-start;",
+	"bottom center": "display: flex;flex-direction: column;align-items: center;",
+	"bottom right": "display: flex;flex-direction: column;align-items: flex-end;",
+};
+
 export const StyleComp = ({ attributes, children }) => {
 	return <StyledDiv attributes={attributes}>{children}</StyledDiv>;
 };
@@ -128,10 +146,9 @@ const StyledDiv = styled.div`
 				break;
 			default:
 				specificStyle = css`
-					display: flex;
-					flex-direction: row-reverse;
+					${alignMap[default_pos.labelPos]}
 					@media (max-width: 767px) {
-						flex-direction: column-reverse;
+						${alignMap[mobile_pos.labelPos]}
 					}
 					input,
 					textarea {

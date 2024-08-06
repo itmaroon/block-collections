@@ -7,6 +7,7 @@ import { StyleComp } from "./StyleButton";
 export default function save({ attributes }) {
 	const {
 		buttonType,
+		linkKind,
 		displayType,
 		buttonId,
 		align,
@@ -37,7 +38,7 @@ export default function save({ attributes }) {
 						{buttonType === "button" ? (
 							<button
 								className="itmar_design_button"
-								data-selected_page={selectedPageUrl}
+								data-selected_page={linkKind != "none" ? selectedPageUrl : null}
 							>
 								{displayType === "string" && (
 									<RichText.Content value={labelContent} />

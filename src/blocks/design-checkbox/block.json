@@ -10,12 +10,14 @@
 	},
 	"attributes": {
 		"inputName": {
-			"type": "string"
+			"type": "string",
+			"default": "default_name"
 		},
 		"inputValue": {
 			"type": "boolean",
 			"default": false
 		},
+		
 		"proceedCheck": {
 			"type": "boolean",
 			"default": false
