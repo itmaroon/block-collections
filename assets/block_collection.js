@@ -206,7 +206,7 @@ jQuery(function ($) {
 		$(".wp-block-itmar-design-group .group_contents")
 			.filter(function () {
 				// data-anime_prm属性が'visible'である要素を選択
-				return $(this).data("anime_prm").trigger === "visible";
+				return $(this).data("anime_prm")?.trigger === "visible";
 			})
 			.each(function () {
 				const $element = $(this);
@@ -529,7 +529,6 @@ jQuery(function ($) {
 		function () {
 			//ラベルのクラス名を削除
 			let radio_list = $(this).parent().parent().find("label");
-			console.log(radio_list);
 			radio_list.removeClass("checked check_prev check_next");
 			//input要素の選択を解除
 			let checkElm = $(this).closest(".wp-block-itmar-design-radio");

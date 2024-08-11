@@ -9,27 +9,11 @@ import Edit from "./edit";
 import save from "./save";
 import metadata from "./block.json";
 import { ReactComponent as Calenderbutton } from "./calender.svg";
-//ブロックを遅延読込
-// const LazyEditComponent = React.lazy(() => import('./edit'));
-// const BlockEdit = (props) => {
-// 	return <BlockEditWrapper lazyComponent={LazyEditComponent} {...props} />;
-// };
-
-//本日の日付から'YYYY/MM'形式の日付文字列を生成する
-const getTodayYearMonth = () => {
-	const today = new Date();
-	const year = today.getFullYear();
-	const month = String(today.getMonth() + 1).padStart(2, "0");
-	return `${year}/${month}`;
-};
-const getTodayYear = () => {
-	const today = new Date();
-	return today.getFullYear();
-};
-const getTodayMonth = () => {
-	const today = new Date();
-	return today.getMonth() + 1;
-};
+import {
+	getTodayYear,
+	getTodayMonth,
+	getTodayYearMonth,
+} from "itmar-block-packages";
 
 registerBlockType(metadata.name, {
 	icon: <Calenderbutton />,

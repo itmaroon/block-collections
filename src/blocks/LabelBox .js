@@ -110,7 +110,11 @@ export default function LabelBox(props) {
 							onChange={(newValue) => props.onChange("labelContent", newValue)}
 						/>
 					</PanelRow>
-
+					<label>
+						{!isMobile
+							? __("Label Alignment(desk top)", "block-collections")
+							: __("Label Alignment(mobile)", "block-collections")}
+					</label>
 					<AlignmentMatrixControl
 						label={
 							!isMobile
