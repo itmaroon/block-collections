@@ -17,7 +17,7 @@
 			span {
 				color: var(--wp--preset--color--accent-1);
 			}
-		`;let O=null;return O="is-style-line"===b?o.AH`
+		`;let O=null;const I=b?.split(" ").find((e=>e.startsWith("is-style")));return O="is-style-line"===I?o.AH`
 					position: absolute;
 					width: fit-content;
 					opacity: 0;

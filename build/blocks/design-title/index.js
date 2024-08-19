@@ -29,8 +29,8 @@
 						height: ${c.circleScale};
 						border-radius: 50%;
 						background: ${e};
-						top: ${c.first_long}%;
-						left: ${c.first_lat}%;
+						top: ${c.first_long}px;
+						left: ${c.first_lat}px;
 						z-index: -1;
 					}
 					${c.isSecond&&o.AH`
@@ -43,8 +43,8 @@
 							height: ${c.secondScale};
 							border-radius: 50%;
 							background: ${t};
-							top: ${c.second_long}%;
-							left: ${c.second_lat}%;
+							top: ${c.second_long}px;
+							left: ${c.second_lat}px;
 							z-index: -1;
 						}
 					`}

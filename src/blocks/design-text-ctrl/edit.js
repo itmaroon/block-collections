@@ -19,6 +19,7 @@ import {
 	ToggleControl,
 	RadioControl,
 	TextControl,
+	RangeControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl,
 } from "@wordpress/components";
@@ -277,6 +278,33 @@ export default function Edit(props) {
 						isMobile={isMobile}
 						initialOpen={false}
 					/>
+					<RangeControl
+						value={
+							!isMobile
+								? default_pos.inputLineHeight
+								: mobile_pos.inputLineHeight
+						}
+						label={
+							!isMobile
+								? __("Line Height(desk top)", "block-collections")
+								: __("Line Height(mobile)", "block-collections")
+						}
+						max={3}
+						min={1}
+						step={0.1}
+						onChange={(value) => {
+							if (!isMobile) {
+								setAttributes({
+									default_pos: { ...default_pos, inputLineHeight: value },
+								});
+							} else {
+								setAttributes({
+									mobile_pos: { ...mobile_pos, inputLineHeight: value },
+								});
+							}
+						}}
+						withInputField={true}
+					/>
 					<PanelColorGradientSettings
 						title={__("Color Settings", "block-collections")}
 						settings={[
@@ -331,7 +359,7 @@ export default function Edit(props) {
 							type="text"
 							name={inputName}
 							placeholder={
-								className === "is-style-line" ? dispLabel : placeFolder
+								className?.includes("is-style-line") ? dispLabel : placeFolder
 							}
 							className={`contact_text ${stateValue ? "" : "empty"}`}
 							value={stateValue}
@@ -346,7 +374,7 @@ export default function Edit(props) {
 						<input
 							type="email"
 							placeholder={
-								className === "is-style-line" ? dispLabel : placeFolder
+								className?.includes("is-style-line") ? dispLabel : placeFolder
 							}
 							className={`contact_text ${stateValue ? "" : "empty"}`}
 							value={stateValue}
@@ -363,7 +391,7 @@ export default function Edit(props) {
 							style={{ height }}
 							name={inputName}
 							placeholder={
-								className === "is-style-line" ? dispLabel : placeFolder
+								className?.includes("is-style-line") ? dispLabel : placeFolder
 							}
 							className={`contact_text ${stateValue ? "" : "empty"}`}
 							value={stateValue}

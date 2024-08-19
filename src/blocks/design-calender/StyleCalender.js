@@ -146,6 +146,7 @@ const StyledDiv = styled.div`
 			.itmar_date_area {
 				display: grid;
 				grid-template-areas: ${gridAreas};
+				grid-template-columns: repeat(auto-fit, minmax(5px, 1fr));
 				margin: ${default_margin_prm};
 				padding: ${default_padding_prm};
 				${borderProperty(border_box)};

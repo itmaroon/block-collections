@@ -4,6 +4,7 @@
 			.itmar_date_area {
 				display: grid;
 				grid-template-areas: ${te};
+				grid-template-columns: repeat(auto-fit, minmax(5px, 1fr));
 				margin: ${N};
 				padding: ${j};
 				${(0,De.borderProperty)(u)};

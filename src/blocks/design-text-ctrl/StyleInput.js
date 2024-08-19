@@ -75,6 +75,7 @@ const StyledDiv = styled.div`
 				margin: ${mobile_form_margin_prm};
 				padding: ${mobile_form_padding_prm};
 			}
+
 			input,
 			textarea {
 				flex-grow: 1;
@@ -92,6 +93,12 @@ const StyledDiv = styled.div`
 					color: var(--wp--preset--color--placeholder);
 				}
 			}
+			input {
+				line-height: ${default_pos.inputLineHeight};
+				@media (max-width: 767px) {
+					line-height: ${mobile_pos.inputLineHeight};
+				}
+			}
 			textarea {
 				min-height: 60px;
 				box-sizing: border-box;
@@ -101,7 +108,11 @@ const StyledDiv = styled.div`
 
 		// classNameに基づいて特定のスタイルを定義します
 		let specificStyle = null;
-		switch (className) {
+		//スタイルのクラスを抽出
+		const styleClass = className
+			?.split(" ") // スペースで文字列を分割
+			.find((cls) => cls.startsWith("is-style"));
+		switch (styleClass) {
 			case "is-style-line":
 				specificStyle = css`
 					display: flex;

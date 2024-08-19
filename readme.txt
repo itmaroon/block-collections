@@ -93,6 +93,8 @@ OR…
 - Fixed the way props are passed to LabelBox components in Design Text Ctrl and Design Select.
 - Added the ability to set the label position for Design Text Ctrl and Design Select.
 - Added No Link to the link type of Design Button.
+- Changed the unit of the circle position setting of the circle marker style in Design Title from % to px
+- Added the ability to set the line height of input text in Design Text Control
 
 = 1.3.0 =
 - Modified to be compatible with WordPress 6.5.

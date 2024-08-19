@@ -78,7 +78,11 @@ const StyledDiv = styled.label`
 
 		// classNameに基づいて特定のスタイルを定義します
 		let specificStyle = null;
-		switch (className) {
+		//スタイルのクラスを抽出
+		const styleClass = className
+			?.split(" ") // スペースで文字列を分割
+			.find((cls) => cls.startsWith("is-style"));
+		switch (styleClass) {
 			case "is-style-line":
 				specificStyle = css`
 					position: absolute;

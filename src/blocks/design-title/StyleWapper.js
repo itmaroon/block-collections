@@ -109,7 +109,7 @@ const StyledDiv = styled.div`
 				? ajust_padding(
 						space_prm(padding_heading),
 						menu_pos.split(" ")[1],
-						"center"
+						"center",
 				  )
 				: space_prm(padding_heading);
 
@@ -203,8 +203,8 @@ const StyledDiv = styled.div`
 						height: ${optionStyle.circleScale};
 						border-radius: 50%;
 						background: ${circleColor};
-						top: ${optionStyle.first_long}%;
-						left: ${optionStyle.first_lat}%;
+						top: ${optionStyle.first_long}px;
+						left: ${optionStyle.first_lat}px;
 						z-index: -1;
 					}
 					${optionStyle.isSecond &&
@@ -218,8 +218,8 @@ const StyledDiv = styled.div`
 							height: ${optionStyle.secondScale};
 							border-radius: 50%;
 							background: ${secondColor};
-							top: ${optionStyle.second_long}%;
-							left: ${optionStyle.second_lat}%;
+							top: ${optionStyle.second_long}px;
+							left: ${optionStyle.second_lat}px;
 							z-index: -1;
 						}
 					`}
@@ -345,7 +345,7 @@ const StyledDiv = styled.div`
 					"0px 0px 0px 0px",
 					alignment_copy.split(" ")[1],
 					alignment_copy.split(" ")[0],
-					copy_space
+					copy_space,
 				);
 
 				//CSSの生成

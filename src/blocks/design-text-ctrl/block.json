@@ -81,7 +81,8 @@
 					"bottom": "0.5em",
 					"right": "1em"
 				},
-				"labelPos": "center left"
+				"labelPos": "center left",
+				"inputLineHeight":"2"
 			}
 		},
 		"mobile_pos": {
@@ -99,7 +100,8 @@
 					"bottom": "0.5em",
 					"right": "0em"
 				},
-				"labelPos": "top left"
+				"labelPos": "top left",
+				"inputLineHeight":"2"
 			}
 		},
 		"labelContent": {

@@ -34,7 +34,7 @@ export default function save({ attributes }) {
 							name={inputName}
 							className="contact_text empty"
 							placeholder={
-								className === "is-style-line" ? dispLabel : placeFolder
+								className?.includes("is-style-line") ? dispLabel : placeFolder
 							}
 						/>
 					)}
@@ -44,7 +44,7 @@ export default function save({ attributes }) {
 							name={inputName}
 							className="contact_text empty"
 							placeholder={
-								className === "is-style-line" ? dispLabel : placeFolder
+								className?.includes("is-style-line") ? dispLabel : placeFolder
 							}
 						/>
 					)}
@@ -53,7 +53,7 @@ export default function save({ attributes }) {
 							name={inputName}
 							className="contact_text empty"
 							placeholder={
-								className === "is-style-line" ? dispLabel : placeFolder
+								className?.includes("is-style-line") ? dispLabel : placeFolder
 							}
 						/>
 					)}
@@ -68,8 +68,8 @@ export default function save({ attributes }) {
 						)}
 					</StyleLabel>
 				</StyleComp>
-			</div>
-		)
+			</div>,
+		),
 	);
 	const styleTags = sheet.getStyleTags();
 	return (
