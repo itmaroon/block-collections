@@ -4,50 +4,10 @@ import {
 	space_prm,
 	convertToScss,
 	borderProperty,
+	generateGridAreas,
 } from "itmar-block-packages";
 
-const week = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-
 // grid-template-areasの文字列を生成
-const generateGridAreas = (firstDayOfMonth, totalDays, isMonday) => {
-	let areas = [];
-	let currentDay = 1;
-	//月曜日を先頭に持ってくる場合の係数
-	const mondayFirstDay = firstDayOfMonth - 1 < 0 ? 6 : firstDayOfMonth - 1;
-	//先頭曜日の選択
-	const modifyFirstDay = isMonday ? mondayFirstDay : firstDayOfMonth;
-
-	//曜日ラベル
-	let weekLabels = [];
-	let week_index;
-	for (let i = 0; i < 7; i++) {
-		week_index = isMonday ? i + 1 : i; //月曜日を先頭に持ってくる場合の補正
-		if (week_index > 6) week_index = 0;
-		weekLabels.push(week[week_index]);
-	}
-	areas.push(weekLabels.join(" "));
-
-	for (let i = 0; i < 6; i++) {
-		let week = [];
-
-		for (let j = 0; j < 7; j++) {
-			// 1週間の7日分のループ
-			if ((i === 0 && j < modifyFirstDay) || currentDay > totalDays) {
-				week.push(`empty${i}`);
-			} else {
-				week.push(`day${currentDay}`);
-				currentDay++;
-			}
-		}
-		if (i == 5) {
-			//最後の週
-			week[5] = "day_clear";
-			week[6] = "day_clear";
-		}
-		areas.push(week.join(" "));
-	}
-	return areas.map((week) => `"${week}"`).join("\n");
-};
 
 export const StyleComp = ({ attributes, children }) => {
 	return <StyledDiv attributes={attributes}>{children}</StyledDiv>;

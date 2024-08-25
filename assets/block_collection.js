@@ -1,3 +1,9 @@
+import {
+	generateMonthCalendar,
+	generateGridAreas,
+	JapaneseHolidays,
+} from "itmar-block-packages";
+
 /* ------------------------------
 Loading イメージ表示関数
 引数： msg 画面に表示する文言
@@ -87,70 +93,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 			});
 		});
 });
-
-/* ------------------------------
-カレンダー表示関数
------------------------------- */
-const generateMonthCalendar = (dateString) => {
-	const [year, month] = dateString.split("/").map(Number);
-	const date = new Date(year, month - 1, 1);
-	const lastDay = new Date(year, month, 0).getDate();
-
-	const calendar = [];
-
-	for (let day = 1; day <= lastDay; day++) {
-		date.setDate(day);
-		calendar.push({
-			date: day,
-			weekday: date.getDay(),
-		});
-	}
-
-	return calendar;
-};
-/* ------------------------------
-カレンダー用グリッドAreasの生成関数
------------------------------- */
-const week = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-const generateGridAreas = (firstDayOfMonth, totalDays, isMonday) => {
-	let areas = [];
-	let currentDay = 1;
-	//月曜日を先頭に持ってくる場合の係数
-	const mondayFirstDay = firstDayOfMonth - 1 < 0 ? 6 : firstDayOfMonth - 1;
-	//先頭曜日の選択
-	const modifyFirstDay = isMonday ? mondayFirstDay : firstDayOfMonth;
-
-	//曜日ラベル
-	let weekLabels = [];
-	let week_index;
-	for (let i = 0; i < 7; i++) {
-		week_index = isMonday ? i + 1 : i; //月曜日を先頭に持ってくる場合の補正
-		if (week_index > 6) week_index = 0;
-		weekLabels.push(week[week_index]);
-	}
-	areas.push(weekLabels.join(" "));
-
-	for (let i = 0; i < 6; i++) {
-		// 6週分のループ
-		let week = [];
-		for (let j = 0; j < 7; j++) {
-			// 1週間の7日分のループ
-			if ((i === 0 && j < modifyFirstDay) || currentDay > totalDays) {
-				week.push(`empty${i}`);
-			} else {
-				week.push(`day${currentDay}`);
-				currentDay++;
-			}
-			if (i == 5) {
-				//最後の週
-				week[5] = "day_clear";
-				week[6] = "day_clear";
-			}
-		}
-		areas.push(week.join(" "));
-	}
-	return areas.map((week) => `"${week}"`).join("\n");
-};
 
 jQuery(function ($) {
 	/* ------------------------------
@@ -592,14 +534,69 @@ jQuery(function ($) {
 		},
 	);
 
+	//カレンダーのレンダリング関数
+	const calenderRender = (
+		dateArea,
+		monthData,
+		name,
+		weekTop,
+		tipsClass,
+		isClear,
+	) => {
+		//日付ボタンをいったん削除
+		dateArea.find(".itmar_radio").remove();
+		//日付のDOM要素の挿入
+		monthData.forEach((item) => {
+			const weekClass =
+				item.weekday === 0
+					? "holiday"
+					: item.weekday === 6
+					? "saturday"
+					: item.holiday
+					? "holiday"
+					: "";
+			const label = $("<label>")
+				.addClass(`itmar_radio ${weekClass}`)
+				.css("grid-area", `day${item.date}`);
+			const input = $("<input>")
+				.attr("type", "radio")
+				.attr("name", name)
+				.attr("value", item.date);
+
+			let span = $("<span>").text(item.date);
+			if (item.holiday) {
+				span.addClass(tipsClass); //styled-componentのスタイル適用クラス
+				span.attr("data-tooltip", item.holiday); //祝日の名称をdata-tooltipで保持
+			}
+
+			label.append(input).append(span);
+			dateArea.append(label);
+		});
+		//クリアボタン
+		if (isClear) {
+			const { __ } = wp.i18n;
+			const clearLabel = $("<label>")
+				.addClass("itmar_radio")
+				.css("grid-area", "day_clear");
+			const clearButton = $("<button>").text(__("Clear", "block-collections"));
+			clearLabel.append(clearButton);
+			dateArea.append(clearLabel);
+		}
+		//その月のgridAreasの適用
+
+		let areas = generateGridAreas(
+			monthData[0].weekday,
+			monthData.length,
+			weekTop === "mon",
+		);
+		dateArea.css("grid-template-areas", areas);
+	};
+
 	//セレクトブロックのセレクト要素に変更があったとき
 	$(document).on(
 		"change",
 		".itmar_select_month .itmar_block_selectSingle select",
 		function () {
-			//表示月の日付オブジェクトを生成
-			let selectedOption = $(this).find("option:selected");
-			let monthData = generateMonthCalendar(selectedOption.attr("value"));
 			//クリアボタンの有無
 			const isClear = $(this)
 				.closest(".wp-block-itmar-design-calender")
@@ -612,47 +609,48 @@ jQuery(function ($) {
 			const name = $(this)
 				.closest(".wp-block-itmar-design-calender")
 				.data("input_name");
-			//日付ボタンをいったん削除
-			dateArea.find(".itmar_radio").remove();
-			//日付のDOM要素の挿入
-			monthData.forEach((item) => {
-				const weekClass =
-					item.weekday === 0 ? "holiday" : item.weekday === 6 ? "saturday" : "";
-				const label = $("<label>")
-					.addClass(`itmar_radio ${weekClass}`)
-					.css("grid-area", `day${item.date}`);
-				const input = $("<input>")
-					.attr("type", "radio")
-					.attr("name", name)
-					.attr("value", item.date);
-
-				const span = $("<span>").text(item.date);
-
-				label.append(input).append(span);
-				dateArea.append(label);
-			});
-			//クリアボタン
-			if (isClear) {
-				const { __ } = wp.i18n;
-				const clearLabel = $("<label>")
-					.addClass("itmar_radio")
-					.css("grid-area", "day_clear");
-				const clearButton = $("<button>").text(
-					__("Clear", "block-collections"),
-				);
-				clearLabel.append(clearButton);
-				dateArea.append(clearLabel);
-			}
-			//その月のgridAreasの適用
+			//カレンダーの曜日のトップを取得
 			const weekTop = $(this)
 				.closest(".wp-block-itmar-design-calender")
 				.data("week_top");
-			let areas = generateGridAreas(
-				monthData[0].weekday,
-				monthData.length,
-				weekTop === "mon",
-			);
-			dateArea.css("grid-template-areas", areas);
+			//ツールチップのスタイルを適用するクラス名を取得
+			const tipsClass = $(this)
+				.closest(".wp-block-itmar-design-calender")
+				.data("tips_class");
+			//表示月の日付オブジェクトを生成
+			let selectedOption = $(this).find("option:selected");
+			//祝日表示の有無
+			const isHoliday = $(this)
+				.closest(".wp-block-itmar-design-calender")
+				.data("is_holiday");
+			if (isHoliday) {
+				const calenderApiKey = $(this)
+					.closest(".wp-block-itmar-design-calender")
+					.data("api_key");
+				//祝日の表示処理
+				JapaneseHolidays(calenderApiKey, selectedOption.attr("value"))
+					.then((data) => {
+						// ここで祝日データを使用する処理を行う
+						const dateValues = generateMonthCalendar(
+							selectedOption.attr("value"),
+							data,
+						);
+						calenderRender(
+							dateArea,
+							dateValues,
+							name,
+							weekTop,
+							tipsClass,
+							isClear,
+						);
+					})
+					.catch((error) => {
+						console.error("エラーが発生しました:", error);
+					});
+			} else {
+				const dateValues = generateMonthCalendar(selectedOption.attr("value"));
+				calenderRender(dateArea, dateValues, name, weekTop, tipsClass, isClear);
+			}
 		},
 	);
 	//日付ボタンをクリックしたとき

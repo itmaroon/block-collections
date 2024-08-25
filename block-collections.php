@@ -101,10 +101,10 @@ function itmar_highlight_scripts_and_styles()
 			true
 		);
 		//独自jsのエンキュー
-		$script_path = plugin_dir_path(__FILE__) . 'assets/block_collection.js';
+		$script_path = plugin_dir_path(__FILE__) . 'build/block_collection.js';
 		wp_enqueue_script(
 			'itmar_block_collection_js',
-			plugins_url('/assets/block_collection.js', __FILE__),
+			plugins_url('build/block_collection.js', __FILE__),
 			array('jquery', 'wp-i18n'),
 			filemtime($script_path),
 			true

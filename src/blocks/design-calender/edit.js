@@ -1,6 +1,9 @@
 import { __ } from "@wordpress/i18n";
 import { StyleComp } from "./StyleCalender";
+
 import { useStyleIframe } from "../iframeFooks";
+import ToolTips from "../ToolTips";
+import StyleTooltips from "../StyleTooltips";
 
 import {
 	useElementBackgroundColor,
@@ -10,35 +13,28 @@ import {
 	TypographyControls,
 	generateDateArray,
 	generateMonthCalendar,
+	JapaneseHolidays,
 	PeriodCtrl,
 	flattenBlocks,
 } from "itmar-block-packages";
+
 import {
 	PanelBody,
-	PanelRow,
 	TextControl,
 	ToggleControl,
 	RadioControl,
-	Button,
-	Icon,
-	ToolbarGroup,
-	ToolbarItem,
 	__experimentalBoxControl as BoxControl,
-	__experimentalUnitControl as UnitControl,
 	__experimentalBorderBoxControl as BorderBoxControl,
-	__experimentalNumberControl as NumberControl,
 } from "@wordpress/components";
 import {
 	useBlockProps,
 	useInnerBlocksProps,
-	BlockControls,
-	AlignmentToolbar,
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl,
 } from "@wordpress/block-editor";
 
-import { useEffect, useRef, useMemo } from "@wordpress/element";
+import { useState, useEffect, useRef, useMemo } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 
 import "./editor.scss";
@@ -68,6 +64,22 @@ const units = [
 const weekLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const week = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
+const helpLink = createElement(
+	"a",
+	{ href: "https://console.cloud.google.com/welcome", target: "_blank" },
+	"Google Cloud Console",
+);
+
+const helpTextCode = createElement(
+	"span",
+	{},
+	helpLink,
+	__(
+		"Go to the Google Cloud Console, create a new project, enable the Google Calendar API in the project, and enter the API key you just created. ",
+		"block-collections",
+	),
+);
+
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		inputName,
@@ -76,6 +88,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		selectedValue,
 		dateValues,
 		weekTop,
+		isHoliday,
+		calenderApiKey,
 		dateSpan,
 		selectedMonth,
 		default_pos,
@@ -107,6 +121,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		border_week,
 		shadow_week,
 		is_shadow_week,
+		tooltip_style,
 		className,
 	} = attributes;
 
@@ -443,10 +458,23 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	//選択された月の変更による書き換え
 	useEffect(() => {
 		if (selectedMonth) {
-			const newDateValues = generateMonthCalendar(selectedMonth);
-			setAttributes({ dateValues: newDateValues });
+			if (isHoliday) {
+				//祝日の表示処理
+				JapaneseHolidays(calenderApiKey, selectedMonth)
+					.then((data) => {
+						// ここで祝日データを使用する処理を行う
+						const newDateValues = generateMonthCalendar(selectedMonth, data);
+						setAttributes({ dateValues: newDateValues });
+					})
+					.catch((error) => {
+						console.error("エラーが発生しました:", error);
+					});
+			} else {
+				const newDateValues = generateMonthCalendar(selectedMonth);
+				setAttributes({ dateValues: newDateValues });
+			}
 		}
-	}, [selectedMonth]);
+	}, [selectedMonth, isHoliday]);
 
 	const renderContent = () => {
 		return (
@@ -470,7 +498,16 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							? "holiday"
 							: item.weekday === 6
 							? "saturday"
+							: item.holiday
+							? "holiday"
 							: "";
+					const dispSpan = item.holiday ? (
+						<StyleTooltips attributes={tooltip_style} tooltip={item.holiday}>
+							{String(item.date)}
+						</StyleTooltips>
+					) : (
+						<span>{String(item.date)}</span>
+					);
 
 					return (
 						<label
@@ -488,7 +525,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									setAttributes({ selectedValue: item.date });
 								}}
 							/>
-							<span>{String(item.date)}</span>
+
+							{dispSpan}
 						</label>
 					);
 				})}
@@ -570,6 +608,21 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							setAttributes({ isReleaseButton: newVal });
 						}}
 					/>
+					<ToggleControl
+						label={__("Is Holiday Display", "block-collections")}
+						checked={isHoliday}
+						onChange={(newVal) => {
+							setAttributes({ isHoliday: newVal });
+						}}
+					/>
+					{isHoliday && (
+						<TextControl
+							label={__("Google Calender API KEY", "block-collections")}
+							value={calenderApiKey}
+							onChange={(newVal) => setAttributes({ calenderApiKey: newVal })}
+							help={helpTextCode}
+						/>
+					)}
 				</PanelBody>
 				<PeriodCtrl
 					startYear={2010}
@@ -940,6 +993,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						/>
 					)}
 				</PanelBody>
+				<ToolTips
+					attributes={tooltip_style}
+					isMobile={isMobile}
+					onChange={(newValue) => {
+						setAttributes({ tooltip_style: newValue });
+					}}
+				/>
 			</InspectorControls>
 
 			<div {...blockProps}>

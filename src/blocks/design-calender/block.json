@@ -25,6 +25,14 @@
 			"type": "string",
 			"default":"sun"
 		},
+		"isHoliday":{
+			"type":"boolean",
+			"default":false
+		},
+		"calenderApiKey":{
+			"type":"string",
+			"default":""
+		},
 		"isReleaseButton":{
 			"type":"boolean",
 			"default":false
@@ -340,6 +348,44 @@
 		},
 		"bgGradient_select": {
 			"type": "string"
+		},
+		"tooltip_style":{
+			"type":"object",
+			"default":{
+				"font_style":{
+					"default_fontSize": "16px",
+					"mobile_fontSize": "12px",
+					"fontFamily": "Noto Sans JP, sans-serif",
+					"fontWeight": "500",
+					"isItalic": false
+				},
+				"color":"var(--wp--preset--color--content)",
+				"bgColor":"var(--wp--preset--color--content-back)",
+				"bgGradient":"",
+				"border":{
+					"top": "0px",
+					"left": "0px",
+					"right": "0px",
+					"bottom": "0px"
+				},
+				"borderRadius":{
+					"value": "5px"
+				},
+				"padding":{
+					"default":{
+						"top": "5px",
+						"left": "10px",
+						"bottom": "5px",
+						"right": "10px"
+					},
+					"mobile":{
+						"top": "5px",
+						"left": "5px",
+						"bottom": "5px",
+						"right": "5px"
+					}
+				}
+			}
 		}
 	},
 	"textdomain": "block-collections",
