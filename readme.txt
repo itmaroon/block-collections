@@ -95,6 +95,8 @@ OR…
 - Added No Link to the link type of Design Button.
 - Changed the unit of the circle position setting of the circle marker style in Design Title from % to px
 - Added the ability to set the line height of input text in Design Text Control
+- Added date to the title type of Design Title. Also, you can select the date format.
+- Added URL to the link type of Design Title. This link type checks whether the input string is in URL format and automatically sets it as the link destination.
 
 = 1.3.0 =
 - Modified to be compatible with WordPress 6.5.

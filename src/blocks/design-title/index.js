@@ -38,10 +38,14 @@ registerBlockType(metadata.name, {
 			type: "string",
 			default: block_collections.home_url,
 		},
+		dateValue: {
+			type: "string",
+			default: new Date().toISOString(),
+		},
 	},
 	description: __(
 		"A block with various styles applied to heading tags",
-		"block-collections"
+		"block-collections",
 	),
 	icon: <Title />,
 	edit: BlockEdit,

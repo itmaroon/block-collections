@@ -2,6 +2,7 @@ import { useBlockProps, InnerBlocks, RichText } from "@wordpress/block-editor";
 import { ServerStyleSheet } from "styled-components";
 import { renderToString } from "react-dom/server";
 import { StyleComp } from "./StyleWapper";
+import { format, getSettings } from "@wordpress/date";
 
 export default function save({ attributes }) {
 	const {
@@ -9,11 +10,13 @@ export default function save({ attributes }) {
 		align,
 		titleType,
 		headingContent,
+		dateFormat,
 		linkKind,
 		menu_pos,
 		is_title_menu,
 		selectedPageUrl,
 	} = attributes;
+
 	//テキストの配置
 	const align_style =
 		align === "center"
@@ -32,16 +35,24 @@ export default function save({ attributes }) {
 	const sheet = new ServerStyleSheet();
 
 	//リッチテキストをコンテンツにする
-	const renderRichText = () => (
-		<RichText.Content tagName={headingType} value={headingContent} />
-	);
+	const renderRichText = () => {
+		//タイトルタイプがdateのときは日付のフォーマットを当てて表示
+		const dispContent =
+			titleType === "date"
+				? format(dateFormat, headingContent, getSettings())
+				: headingContent;
+		return <RichText.Content tagName={headingType} value={dispContent} />;
+	};
 	//ヘッダー要素をコンテンツにする
 	const renderElement = () =>
 		React.createElement(headingType.toLowerCase(), {
 			className: `itmar_${titleType}_title`,
 		});
 	//コンテンツの選択
-	const content = titleType === "plaine" ? renderRichText() : renderElement();
+	const content =
+		titleType === "plaine" || titleType === "date"
+			? renderRichText()
+			: renderElement();
 
 	//フロントエンドに出力
 	const html = renderToString(
@@ -58,7 +69,7 @@ export default function save({ attributes }) {
 	const styleTags = sheet.getStyleTags();
 
 	return (
-		<div {...blockProps}>
+		<div {...blockProps} data-date_format={dateFormat}>
 			<div dangerouslySetInnerHTML={{ __html: html }} />
 
 			{linkKind === "submenu" && (

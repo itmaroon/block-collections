@@ -26,8 +26,10 @@ import {
 	RangeControl,
 	RadioControl,
 	Modal,
+	DateTimePicker,
 	TextControl,
 	ToolbarDropdownMenu,
+	SelectControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalUnitControl as UnitControl,
 	__experimentalAlignmentMatrixControl as AlignmentMatrixControl,
@@ -45,7 +47,8 @@ import {
 
 import "./editor.scss";
 import { useEffect, useState, useRef } from "@wordpress/element";
-import { useSelect } from "@wordpress/data";
+import { useSelect, dispatch } from "@wordpress/data";
+import { format, getSettings } from "@wordpress/date";
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -61,6 +64,19 @@ const units = [
 	{ value: "px", label: "px" },
 	{ value: "em", label: "em" },
 	{ value: "rem", label: "rem" },
+];
+
+//日付のフォーマット
+const dateFormats = [
+	{ label: "YYYY-MM-DD HH:mm:ss", value: "Y-m-d H:i:s" },
+	{ label: "MM/DD/YYYY", value: "m/d/Y" },
+	{ label: "DD/MM/YYYY", value: "d/m/Y" },
+	{ label: "MMMM D, YYYY", value: "F j, Y" },
+	{ label: "HH:mm:ss", value: "H:i:s" },
+	{ label: "YYYY.M.D", value: "Y.n.j" },
+	{ label: "Day, MMMM D, YYYY", value: "l, F j, Y" },
+	{ label: "ddd, MMM D, YYYY", value: "D, M j, Y" },
+	{ label: "YYYY年M月D日 (曜日)", value: "Y年n月j日 (l)" },
 ];
 //ヘッダーレベルアイコン
 const getIconForLevel = (level) => {
@@ -78,6 +94,16 @@ const measureTextWidth = (text, fontSize, fontFamily) => {
 	const metrics = context.measureText(text);
 	return metrics.width;
 };
+
+//URLのバリデーションチェック
+function isValidUrlWithUrlApi(string) {
+	try {
+		new URL(string);
+		return true;
+	} catch (err) {
+		return false;
+	}
+}
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
@@ -101,6 +127,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		is_title_menu,
 		selectedSlug,
 		selectedPageUrl,
+		dateValue,
+		dateFormat,
 		className,
 	} = attributes;
 
@@ -169,7 +197,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	// titleTypeの変更があるたびに titleの内容を変える
 	const [siteTitle, setSiteTitle] = useState("");
 	useEffect(() => {
-		if (titleType === "plaine") return; //plainのときは何もしない
+		if (titleType === "plaine" || titleType === "date") return; //plain,dateのときは何もしない
 
 		const fetchSiteInfo = async () => {
 			try {
@@ -334,6 +362,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		},
 		[clientId],
 	);
+
 	//メニューアイテムフラグをオンにする
 	useEffect(() => {
 		setAttributes({ isMenuItem: menuItemFlg });
@@ -361,27 +390,74 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	);
 
 	//リッチテキストをコンテンツにする
-	const renderRichText = () => (
-		<RichText
-			tagName={headingType}
-			onChange={(newContent) => {
-				setAttributes({ headingContent: newContent });
-			}}
-			value={headingContent}
-			placeholder={__("Write Title text...", "block-collections")}
-		/>
-	);
+	const renderRichText = () => {
+		//タイトルタイプがdateのときは日付のフォーマットを当てて表示
+		const dispContent =
+			titleType === "date"
+				? format(dateFormat, headingContent, getSettings())
+				: headingContent;
+		return (
+			<RichText
+				tagName={headingType}
+				onChange={(newContent) => {
+					let processedContent;
+					//リッチテキストの戻り値がオブジェクトの場合に対応
+					if (typeof newContent === "object" && newContent !== null) {
+						// オブジェクトの場合、textプロパティを使用
+						processedContent = newContent.text || "";
+					} else {
+						// 文字列の場合はそのまま使用
+						processedContent = newContent;
+					}
+					setAttributes({ headingContent: processedContent });
+					//リンクタイプがurlのときはリンク先を表示された文字と同じにする
+					if (linkKind === "url" && isValidUrlWithUrlApi(processedContent)) {
+						//URLの形式を確認してリンク先をセット
+						setAttributes({ selectedPageUrl: processedContent });
+					}
+				}}
+				onFocus={() => {
+					if (titleType === "date") {
+						//タイトルタイプがdateの時は日付入力ダイアログをだす
+						setIsDateModal(true);
+					}
+				}}
+				onBlur={() => {
+					//URLバリデーションチェック
+					if (linkKind === "url" && !isValidUrlWithUrlApi(headingContent)) {
+						dispatch("core/notices").createNotice(
+							"error",
+							__("The input string is not in URL format.", "block-collections"),
+							{ type: "snackbar", isDismissible: true },
+						);
+						// バリデーションエラーがある場合、selectedPageUrlにセットされた値をheadingContentの値とする
+						setAttributes({ headingContent: selectedPageUrl });
+					}
+				}}
+				value={dispContent}
+				placeholder={__("Write Title text...", "block-collections")}
+			/>
+		);
+	};
+
 	//ヘッダー要素をコンテンツにする
 	const renderElement = () =>
 		React.createElement(headingType.toLowerCase(), {}, siteTitle);
 
 	//コンテンツの選択
-	const content = titleType === "plaine" ? renderRichText() : renderElement();
+	const content =
+		titleType === "plaine" || titleType === "date"
+			? renderRichText()
+			: renderElement();
 
 	//コンテンツを返す
 	function renderContent() {
 		return content;
 	}
+	//編集中の値を確保するための状態変数
+	const [url_editing, setUrlValue] = useState(selectedPageUrl);
+	//日付入力用のダイアログ表示用フラグ
+	const [isDateModal, setIsDateModal] = useState(false);
 
 	return (
 		<>
@@ -393,6 +469,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							selected={titleType}
 							options={[
 								{ label: __("Plaine", "block-collections"), value: "plaine" },
+								{ label: __("Date", "block-collections"), value: "date" },
 								{ label: __("Site Title", "block-collections"), value: "site" },
 								{
 									label: __("Chatch Phrase", "block-collections"),
@@ -403,10 +480,20 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								setAttributes({ titleType: changeOption })
 							}
 							help={__(
-								"You can display the site title and catchphrase in addition to the blank title.",
+								"The Site Title and Tagline provide the ability to display whatever you set in the WordPress General Settings.",
 								"block-collections",
 							)}
 						/>
+						{titleType === "date" && (
+							<SelectControl
+								label={__("Date Format", "block-collections")}
+								value={dateFormat}
+								options={dateFormats}
+								onChange={(newFormat) => {
+									setAttributes({ dateFormat: newFormat });
+								}}
+							/>
+						)}
 					</div>
 
 					<div className="itmar_link_type">
@@ -423,15 +510,36 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									label: __("Archive Page", "block-collections"),
 									value: "archive",
 								},
-								{ label: __("Free URL", "block-collections"), value: "free" },
+								{ label: __("Free Link", "block-collections"), value: "free" },
+								{ label: __("URL", "block-collections"), value: "url" },
 								{
 									label: __("Sub Menu", "block-collections"),
 									value: "submenu",
 								},
 							]}
-							onChange={(changeOption) =>
-								setAttributes({ linkKind: changeOption })
-							}
+							onChange={(changeOption) => {
+								if (changeOption === "url") {
+									//リンク種別がURLの場合
+									//URLのバリデーションチェック
+									if (isValidUrlWithUrlApi(headingContent)) {
+										setAttributes({ linkKind: changeOption });
+										//してリンク先に設定
+										setAttributes({ selectedPageUrl: headingContent });
+									} else {
+										//エラーの通知
+										dispatch("core/notices").createNotice(
+											"error",
+											__(
+												"The input string is not in URL format.",
+												"block-collections",
+											),
+											{ type: "snackbar", isDismissible: true },
+										);
+									}
+								} else {
+									setAttributes({ linkKind: changeOption });
+								}
+							}}
 							help={__(
 								"You can select the type of URL to link to the title.",
 								"block-collections",
@@ -469,11 +577,27 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					)}
 					{linkKind === "free" && (
 						<TextControl
-							label={__("Link to URL", "block-collections")}
+							label={__("Link URL", "block-collections")}
 							labelPosition="top"
-							value={selectedPageUrl}
-							onChange={(newValue) => {
-								setAttributes({ selectedPageUrl: newValue });
+							value={url_editing}
+							onChange={(newVal) => setUrlValue(newVal)} // 一時的な編集値として保存する
+							onBlur={() => {
+								//URLバリデーションチェック
+								if (!isValidUrlWithUrlApi(url_editing)) {
+									dispatch("core/notices").createNotice(
+										"error",
+										__(
+											"The input string is not in URL format.",
+											"block-collections",
+										),
+										{ type: "snackbar", isDismissible: true },
+									);
+									// バリデーションエラーがある場合、編集値を元の値にリセットする
+									setUrlValue(selectedPageUrl);
+								} else {
+									// バリデーションが成功した場合、編集値を確定する
+									setAttributes({ selectedPageUrl: url_editing });
+								}
 							}}
 						/>
 					)}
@@ -1102,6 +1226,25 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			<div {...blockProps}>
 				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
 				{linkKind === "submenu" && <div {...subMenuBlocksProps}></div>}
+				{isDateModal && (
+					<Modal
+						title={__("Select Date and Time", "block-collections")}
+						onRequestClose={() => setIsDateModal(false)}
+					>
+						<DateTimePicker
+							currentDate={dateValue}
+							onChange={(newDatetime) => {
+								setAttributes({
+									headingContent: newDatetime,
+								});
+								setIsDateModal(false);
+							}}
+						/>
+						<Button variant="primary" onClick={() => setIsDateModal(false)}>
+							Close
+						</Button>
+					</Modal>
+				)}
 			</div>
 		</>
 	);
