@@ -69,7 +69,11 @@ export default function save({ attributes }) {
 	const styleTags = sheet.getStyleTags();
 
 	return (
-		<div {...blockProps} data-date_format={dateFormat}>
+		<div
+			{...blockProps}
+			data-title_type={titleType}
+			data-date_format={dateFormat}
+		>
 			<div dangerouslySetInnerHTML={{ __html: html }} />
 
 			{linkKind === "submenu" && (

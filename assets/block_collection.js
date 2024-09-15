@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import {
 	generateMonthCalendar,
 	generateGridAreas,
@@ -81,7 +82,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 				navigator.clipboard.writeText(code).then(
 					() => {
-						const { __ } = wp.i18n;
+						//const { __ } = wp.i18n;
 						const msg = __("copied", "block-collections");
 						console.log(msg);
 						ctrlMsg(__("copied", "block-collections"));
@@ -574,7 +575,6 @@ jQuery(function ($) {
 		});
 		//クリアボタン
 		if (isClear) {
-			const { __ } = wp.i18n;
 			const clearLabel = $("<label>")
 				.addClass("itmar_radio")
 				.css("grid-area", "day_clear");
@@ -684,5 +684,142 @@ jQuery(function ($) {
 				//changeイベントをJavaScriptでも捕捉できるようにする
 				this.dispatchEvent(new Event("change", { bubbles: true }));
 			});
+	});
+
+	/* ------------------------------
+  core/paragraphのもっと見るボタンの処理
+  ------------------------------ */
+	$("p.itmar_ex_block[data-more_style]").each(function () {
+		let $p = $(this);
+		//moreが適用されたときのcssオブジェクト
+		let moreStyle = $p.data("more_style");
+		//もっと見るボタン
+		let $button = $p.next("div").find("button");
+		let expand_flg = false; // 初期状態は非展開
+		let $wrapper, $gradientOverlay;
+
+		// グラデーションオーバーレイ要素を作成する関数
+		function createGradientOverlay() {
+			let effectiveBackgroundColor = $p.css("background-color");
+			if (
+				effectiveBackgroundColor === "rgba(0, 0, 0, 0)" ||
+				effectiveBackgroundColor === "transparent"
+			) {
+				effectiveBackgroundColor = "white";
+			} //レンダリングされた色が透明なら白にする
+
+			let perGradient = moreStyle.perGradient || 50; // デフォルト値を50%とする
+
+			return $("<div>").css({
+				position: "absolute",
+				width: "100%",
+				height: perGradient + "%",
+				bottom: "0",
+				left: "0",
+				backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0) 0%, ${effectiveBackgroundColor} 70%)`,
+				zIndex: "3",
+			});
+		}
+
+		// スタイルを設定し、必要に応じてグラデーションオーバーレイを追加/削除する関数
+		function setStyles() {
+			let maxHeight =
+				window.innerWidth >= 768
+					? moreStyle.defaultMaxHeight
+					: moreStyle.mobileMaxHeight;
+
+			if (expand_flg) {
+				$p.css({ "max-height": "", overflow: "visible" });
+				// ラップとグラデーションオーバーレイを解除
+				if ($wrapper) {
+					$p.unwrap();
+					$wrapper = null;
+				}
+				if ($gradientOverlay) {
+					$gradientOverlay.remove();
+					$gradientOverlay = null;
+				}
+			} else {
+				//もっと見るボタンのスタイルをセット
+				$p.css({ "max-height": maxHeight, overflow: "hidden" });
+				//ボタンを取得
+				const moreBtnDiv = $button.parent(".more_btn");
+
+				// scrollHeight と clientHeight を比較
+				if ($p[0].scrollHeight > $p[0].clientHeight) {
+					// pをラップ
+					if (!$wrapper) {
+						$wrapper = $(
+							'<div class="itmar_ex_block_wrapper" style="position: relative;"></div>',
+						);
+						$p.wrap($wrapper);
+					}
+					// グラデーションオーバーレイを追加
+					if (!$gradientOverlay) {
+						$gradientOverlay = createGradientOverlay();
+						$p.after($gradientOverlay);
+					}
+					//ボタンを表示
+					moreBtnDiv.removeClass("more_hide");
+				} else {
+					// コンテンツが切り詰められていない場合、グラデーションオーバーレイを削除
+					if ($gradientOverlay) {
+						$gradientOverlay.remove();
+						$gradientOverlay = null;
+					}
+					//ボタンを非表示
+					moreBtnDiv.addClass("more_hide");
+				}
+			}
+		}
+		// 初期スタイルを設定
+		$p.css({
+			transition: "max-height 0.3s ease-out, overflow 0s linear 0.3s", // overflow の遷移を遅らせる
+		});
+
+		// ボタンにクリックイベントリスナーを追加
+		$button.on("click", function () {
+			expand_flg = !expand_flg; // フラグを反転
+			setStyles(); // スタイルを設定
+			// ボタンのテキストを変更（オプション）
+			$(this).text(
+				!expand_flg
+					? __("See more...", "block-collections")
+					: __("Collapse...", "block-collections"),
+			);
+		});
+
+		// MutationObserverの設定
+		const observer = new MutationObserver(function (mutations) {
+			mutations.forEach(function (mutation) {
+				if (
+					mutation.type === "childList" ||
+					mutation.type === "characterData"
+				) {
+					setStyles();
+				}
+			});
+		});
+
+		// MutationObserverの開始
+		observer.observe($p[0], {
+			childList: true,
+			characterData: true,
+			subtree: true,
+		});
+
+		// ResizeObserverの設定（ブラウザがサポートしている場合）
+		if (typeof ResizeObserver !== "undefined") {
+			const resizeObserver = new ResizeObserver(function (entries) {
+				setStyles();
+			});
+			resizeObserver.observe($p[0]);
+		}
+
+		// ウィンドウのリサイズイベントにリスナーを追加
+		$(window).on("resize", setStyles);
+
+		// 初期状態でのスタイル設定
+		setStyles();
 	});
 });

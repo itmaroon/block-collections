@@ -514,5 +514,14 @@ figure.itmar_ex_block {
 	border-radius: 5px;
 }
 
+//もっと見るボタンの表示切替
+.wp-block-itmar-design-button{
+	&.more_btn {
+		display: block;
+		&.more_hide{
+			display: none;
+		}
+	}
+}
 
 

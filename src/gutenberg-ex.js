@@ -11,20 +11,19 @@ import {
 } from "@wordpress/block-editor";
 
 import {
-	Button,
-	Panel,
 	PanelBody,
 	PanelRow,
 	ToggleControl,
 	RangeControl,
-	RadioControl,
-	TextControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalUnitControl as UnitControl,
 	__experimentalBorderBoxControl as BorderBoxControl,
 } from "@wordpress/components";
+import { useEffect, useState } from "@wordpress/element";
+import { createBlock } from "@wordpress/blocks";
+import { useSelect, useDispatch, dispatch } from "@wordpress/data";
 
-import { borderProperty } from "itmar-block-packages";
+import { borderProperty, useIsIframeMobile } from "itmar-block-packages";
 
 // カスタマイズ対象とするブロック
 const allowedBlocks = [
@@ -90,6 +89,32 @@ function addExSettings(settings, name) {
 				lineHeight: {
 					type: "number",
 					default: 1.6,
+				},
+			};
+		}
+
+		if (name === "core/paragraph") {
+			newAttributes = {
+				...newAttributes,
+				isMore: {
+					type: "boolean",
+					default: false,
+				},
+				isExpand: {
+					type: "boolean",
+					default: true,
+				},
+				defaultMaxHeight: {
+					type: "string",
+					default: "30em",
+				},
+				mobileMaxHeight: {
+					type: "string",
+					default: "40em",
+				},
+				perGradient: {
+					type: "number",
+					default: 25,
 				},
 			};
 		}
@@ -176,6 +201,11 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 	];
 
 	return (props) => {
+		//モバイルの判定
+		const isMobile = useIsIframeMobile();
+		//最大高さ設定用の一時保管
+		const [heightVal, setHeightVal] = useState(null);
+		//拡張コアブロックのクラスを持つかの判定
 		const classNames = props.attributes.className
 			? props.attributes.className.split(" ")
 			: [];
@@ -186,6 +216,10 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 			if (allowedBlocks.includes(props.name)) {
 				const {
 					lineHeight,
+					isMore,
+					defaultMaxHeight,
+					mobileMaxHeight,
+					perGradient,
 					margin_val,
 					padding_val,
 					border_list,
@@ -262,6 +296,55 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 									</PanelBody>
 								</>
 							)}
+							{props.name === "core/paragraph" && (
+								<>
+									<PanelBody title={__("See More", "block-collections")}>
+										<ToggleControl
+											label={__("Is See More Setting", "block-collections")}
+											checked={isMore}
+											onChange={(newValue) => {
+												setAttributes({ isMore: newValue });
+											}}
+										/>
+										{isMore && (
+											<>
+												<UnitControl
+													dragDirection="e"
+													onChange={(value) => {
+														setHeightVal(value);
+													}}
+													// コントロールからフォーカスが離れたとき属性に記録
+													onBlur={() => {
+														setAttributes(
+															!isMobile
+																? { defaultMaxHeight: heightVal }
+																: { mobileMaxHeight: heightVal },
+														);
+													}}
+													label={
+														!isMobile
+															? __("Max Height(desk top)", "block-collections")
+															: __("Max Height(mobile)", "block-collections")
+													}
+													value={!isMobile ? defaultMaxHeight : mobileMaxHeight}
+												/>
+												<RangeControl
+													value={perGradient}
+													label={__("Ratio of gradation", "block-collections")}
+													max={50}
+													min={10}
+													step={1}
+													onChange={(val) =>
+														setAttributes({ perGradient: val })
+													}
+													withInputField={false}
+												/>
+											</>
+										)}
+									</PanelBody>
+								</>
+							)}
+
 							{(props.name === "core/list" ||
 								props.name === "core/quote" ||
 								props.name === "core/table") && (
@@ -349,10 +432,13 @@ addFilter(
 const applyExtraAttributesInEditor = createHigherOrderComponent(
 	(BlockListBlock) => {
 		return (props) => {
+			//モバイルの判定
+			const isMobile = useIsIframeMobile();
 			//propsを展開
 			const {
 				attributes,
 				name,
+				clientId,
 				isValid,
 				wrapperProps = {}, // wrapperPropsが未定義の場合は空のオブジェクトをデフォルト値として設定
 			} = props;
@@ -361,6 +447,133 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 				? props.attributes.className.split(" ")
 				: [];
 			const hasItmarBlockClass = classNames.includes("itmar_ex_block");
+
+			//コアブロックの直近のデザイングループ・もっと見るボタンを取得しておく
+			const { nearestDesignGroupParent, moreButton, blockElement } = useSelect(
+				(select) => {
+					const {
+						getBlockParents,
+						getBlock,
+						getBlockName,
+						getBlockAttributes,
+					} = select("core/block-editor");
+					// ClientIdに基づくブロック限定情報の収集
+					const blockName = getBlockName(clientId);
+					const { className } = getBlockAttributes(clientId) || {};
+					//処理対象のブロックが要件にあてはまらなければnullを返して終了
+					if (
+						blockName !== "core/paragraph" ||
+						!className ||
+						!className.includes("itmar_ex_block")
+					) {
+						return {
+							nearestDesignGroupParent: null,
+							moreButton: null,
+							blockElement: null,
+						}; // Return early if conditions are not met
+					}
+
+					const parentIds = getBlockParents(clientId);
+
+					const groupIds = parentIds.filter(
+						(pId) => getBlockName(pId) === "itmar/design-group",
+					);
+					const parentId =
+						groupIds.length > 0 ? groupIds[groupIds.length - 1] : null;
+					//親ブロックがなければnullを返して終了
+					if (!parentId) {
+						return {
+							nearestDesignGroupParent: null,
+							moreButton: null,
+							blockElement: null,
+						};
+					}
+
+					//親ブロックを取得
+					const parentBlock = getBlock(parentId);
+
+					// moreButtonの取得
+					const moreButton = parentBlock.innerBlocks.find(
+						(block) =>
+							block.name === "itmar/design-button" &&
+							block.attributes.className &&
+							block.attributes.className.includes("more_btn"),
+					);
+					//拡張したcore/paragraphの直近上位のグループブロックとその中のmoreButtonを返す
+					return {
+						nearestDesignGroupParent: { id: parentId, block: parentBlock },
+						moreButton: moreButton || null,
+						blockElement: document.querySelector(`[data-block="${clientId}"]`),
+					};
+				},
+				[clientId],
+			);
+
+			//ブロックツールの取得
+			const { insertBlocks, removeBlock, updateBlockAttributes } =
+				useDispatch("core/block-editor");
+			//コアパラグラフでisMoreがtrueの場合は「もっと見る」ボタンを挿入
+			useEffect(() => {
+				if (!nearestDesignGroupParent) return; //親ブロックが見つからないなら処理終了
+
+				//拡張コアブロックであることのチェック
+				if (hasItmarBlockClass) {
+					//コアパラグラフである
+					if (name === "core/paragraph") {
+						const parentBlock = nearestDesignGroupParent.block;
+						//インナーブロックの数
+						const innerBlockNum = parentBlock.innerBlocks.length;
+						//すでにボタンがあるか
+						const existingButtonIndex = parentBlock.innerBlocks.findIndex(
+							(block) =>
+								block.name === "itmar/design-button" &&
+								block.attributes.className &&
+								block.attributes.className.includes("more_btn"),
+						);
+						//ボタンの挿入（isMoreがtrueでボタンがレンダリングされていない場合）
+						if (
+							attributes.isMore &&
+							existingButtonIndex === -1 &&
+							innerBlockNum == 1 //インナーブロックが複数ある場合は挿入しない
+						) {
+							const buttonBlock = createBlock("itmar/design-button", {
+								className: "more_btn",
+								linkKind: "none",
+								labelContent: __("See more...", "block-collections"),
+							});
+							insertBlocks(
+								buttonBlock,
+								parentBlock.innerBlocks.length,
+								nearestDesignGroupParent.id,
+							);
+						} else if (
+							attributes.isMore &&
+							existingButtonIndex === -1 &&
+							innerBlockNum > 1
+						) {
+							//親のグループ内に「もっと見る」ボタンがないのに、複数のインナーブロックがあるときはエラー表示してフラグを戻す
+							dispatch("core/notices").createNotice(
+								"error",
+								__(
+									"The 'See more' button cannot be set when there are multiple inner blocks",
+									"block-collections",
+								),
+								{ type: "snackbar", isDismissible: true },
+							);
+							updateBlockAttributes(clientId, { isMore: false });
+						}
+						//ボタンの削除（isMoreがfalseでボタンがレンダリングされている場合）
+						if (!attributes.isMore && existingButtonIndex !== -1) {
+							removeBlock(
+								nearestDesignGroupParent.block.innerBlocks[existingButtonIndex]
+									.clientId,
+							);
+						}
+					}
+				}
+			}, [attributes.isMore, nearestDesignGroupParent]);
+
+			//エディタへのレンダリング処理
 			if (hasItmarBlockClass) {
 				//itmar_ex_blockをクラス名に持つブロックに限定
 				if (allowedBlocks.includes(name)) {
@@ -368,6 +581,10 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 						//属性の取り出し
 						const {
 							lineHeight,
+							isExpand,
+							defaultMaxHeight,
+							mobileMaxHeight,
+							perGradient,
 							margin_val,
 							padding_val,
 							radius_list,
@@ -378,16 +595,17 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 						} = attributes;
 
 						//拡張したスタイル・クラス
-
 						let extraStyle = {};
 						let extraClassNames = wrapperProps.className
 							? wrapperProps.className
 							: ""; // 既存の className を取得、または空文字列を設定
+						let afterElement = null;
 
 						extraStyle = {
 							margin: `${margin_val.top} ${margin_val.right} ${margin_val.bottom} ${margin_val.left}`,
 							padding: `${padding_val.top} ${padding_val.right} ${padding_val.bottom} ${padding_val.left}`,
 						};
+
 						if (
 							name === "core/paragraph" ||
 							name === "core/list" ||
@@ -397,6 +615,88 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 								...extraStyle,
 								lineHeight: lineHeight,
 							};
+						}
+						//もっと見るを適用
+						if (name === "core/paragraph") {
+							if (moreButton) {
+								//moreButtonが押されたらisExpandを反転
+								if (moreButton.attributes.isClick) {
+									updateBlockAttributes(clientId, {
+										isExpand: !isExpand,
+									});
+
+									//moreボタンのクリック属性を戻してボタンのラベルを更新
+									updateBlockAttributes(moreButton.clientId, {
+										isClick: false,
+										labelContent: isExpand
+											? __("See more...", "block-collections")
+											: __("Collapse...", "block-collections"),
+									});
+								}
+								//isExpandのフラグによってスタイルをセット
+								if (!isExpand) {
+									//maxHeightをセット
+									extraStyle = {
+										...extraStyle,
+										overflow: "hidden",
+										maxHeight: !isMobile ? defaultMaxHeight : mobileMaxHeight,
+									};
+
+									//コアパラグラフがレンダリングされていること
+									if (blockElement) {
+										//コアパラグラフの背景色
+										const computedStyle = getComputedStyle(blockElement);
+										const effectiveBackgroundColor =
+											computedStyle.backgroundColor;
+										//moreButtonのクラス名
+										const moreClassName = moreButton.attributes.className || "";
+										const moreClassNames = moreClassName.split(" ");
+
+										//スクロール高がクライアント高より大きいこと
+										if (blockElement.scrollHeight > blockElement.clientHeight) {
+											//インラインSVGをセット
+											afterElement = (
+												<svg
+													style={{
+														position: "absolute",
+														width: "100%",
+														height: `${perGradient}%`,
+														bottom: "0",
+														left: "0",
+														backgroundImage: `linear-gradient(to bottom, rgba(255,255 ,255 , 0) 0%, ${
+															effectiveBackgroundColor === "rgba(0, 0, 0, 0)" ||
+															effectiveBackgroundColor === "transparent"
+																? "white"
+																: effectiveBackgroundColor
+														} 70%)`, //レンダリングされた色が透明なら白にする
+														zIndex: "3",
+													}}
+												/>
+											);
+											//もっと見るボタンの表示
+											if (moreClassNames.includes("more_hide")) {
+												const removeHideName = moreClassNames.filter(
+													(className) => className !== "more_hide",
+												);
+												const newClassName = removeHideName.join(" ").trim();
+												updateBlockAttributes(moreButton.clientId, {
+													className: newClassName,
+												});
+											}
+										} else {
+											//もっと見るボタンの非表示
+											if (!moreClassNames.includes("more_hide")) {
+												const hideClassName = [...moreClassNames, "more_hide"]
+													.join(" ")
+													.trim();
+												updateBlockAttributes(moreButton.clientId, {
+													className: hideClassName,
+												});
+											}
+										}
+									}
+								}
+							}
 						}
 
 						if (name === "core/list" || name === "core/quote") {
@@ -458,18 +758,34 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 							};
 						}
 						//既存スタイルとマージ
+
 						const newWrapperProps = {
 							...wrapperProps,
 							style: { ...wrapperProps.style, ...extraStyle },
 							className: extraClassNames.trim(), // trim() で余分なスペースを削除
 						};
 
-						return <BlockListBlock {...props} wrapperProps={newWrapperProps} />;
+						//高階コンポーネントを返す
+
+						// afterElementが存在する場合のみ、ラッパーdivを使用
+						if (afterElement) {
+							return (
+								<div style={{ position: "relative" }}>
+									<BlockListBlock {...props} wrapperProps={newWrapperProps} />
+									{afterElement}
+								</div>
+							);
+						} else {
+							// afterElementが存在しない場合は、高階コンポーネントのBlockListBlockを返す
+							return (
+								<BlockListBlock {...props} wrapperProps={newWrapperProps} />
+							);
+						}
 					}
 				}
 			}
 
-			//デフォルト
+			//デフォルトのまま返す
 			return <BlockListBlock {...props} />;
 		};
 	},
@@ -490,6 +806,10 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
 			//属性の取り出し
 			const {
 				lineHeight,
+				isMore,
+				defaultMaxHeight,
+				mobileMaxHeight,
+				perGradient,
 				margin_val,
 				padding_val,
 				radius_list,
@@ -502,6 +822,7 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
 			//拡張したスタイル
 			let extraStyle = {};
 			let extraClassNames = props.className ? props.className : ""; // 既存の className を取得、または空文字列を設定
+			let dataAttributes = {}; // data属性
 
 			extraStyle = {
 				margin: `${margin_val.top} ${margin_val.right} ${margin_val.bottom} ${margin_val.left}`,
@@ -516,6 +837,19 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
 					...extraStyle,
 					lineHeight: lineHeight,
 				};
+			}
+
+			if (blockType.name === "core/paragraph") {
+				//もっと見るボタンが有効
+				if (isMore) {
+					dataAttributes = {
+						"data-more_style": JSON.stringify({
+							defaultMaxHeight: defaultMaxHeight,
+							mobileMaxHeight: mobileMaxHeight,
+							perGradient: perGradient,
+						}),
+					};
+				}
 			}
 
 			if (blockType.name === "core/list" || blockType.name === "core/quote") {
@@ -571,6 +905,10 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
 			return Object.assign(props, {
 				style: { ...props.style, ...extraStyle },
 				className: extraClassNames.trim(), // trim() で余分なスペースを削除
+				...Object.entries(dataAttributes).reduce((acc, [key, value]) => {
+					acc[key] = value;
+					return acc;
+				}, {}),
 			});
 		}
 	}

@@ -97,6 +97,7 @@ OR…
 - Added the ability to set the line height of input text in Design Text Control
 - Added date to the title type of Design Title. Also, you can select the date format.
 - Added URL to the link type of Design Title. This link type checks whether the input string is in URL format and automatically sets it as the link destination.
+- Added a setting to display a "See more" button to the core paragraph extension block. The block can be set to a maximum height, and if the scroll height exceeds that, the button will be hidden with a gradient.
 
 = 1.3.0 =
 - Modified to be compatible with WordPress 6.5.
