@@ -4,6 +4,7 @@ import {
 	useElementBackgroundColor,
 	useIsIframeMobile,
 	ShadowStyle,
+	align_prm,
 	ShadowElm,
 	PageSelectControl,
 	ArchiveSelectControl,
@@ -133,12 +134,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	} = attributes;
 
 	//テキストの配置
-	const align_style =
-		align === "center"
-			? { marginLeft: "auto", marginRight: "auto" }
-			: align === "right"
-			? { marginLeft: "auto" }
-			: {};
+	const align_style = align_prm(align, true);
 
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
@@ -171,7 +167,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	}, [baseColor]);
 
 	//最初の状態
-	const prevClassRef = useRef(false);
+	const prevClassRef = useRef(null);
 
 	// ローカル状態の作成
 	const [localOptionStyle, setLocalOptionStyle] = useState(optionStyle);
@@ -277,6 +273,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 		//refの更新
 		prevClassRef.current = className;
+		//確認待ちフラグをオフ
+		const removeClass = className.replace(/\bauto_attr_change\b/, "").trim();
+
+		setAttributes({
+			isIdle: false,
+			className: removeClass,
+		});
 		//確認ダイアログを消す
 		setIsChangeModalOpen(false);
 	};
@@ -296,20 +299,37 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//スタイル変更によるoptionStyleの初期化
 	useEffect(() => {
-		if (prevClassRef.current != false) {
-			//最初のレンダリングでは初期化しない
+		//最初のレンダリングでは初期化
+		if (prevClassRef.current !== null) {
+			//auto_attr_changeの取り外しのみの時は処理しない
+			// const removeAuto = prevClassRef.current
+			// 	.replace(/\bauto_attr_change\b/, "")
+			// 	.trim();
+			// if (removeAuto === className) {
+			// 	return;
+			// }
+			//isCancelFlgがtrueのときはfalseに戻して何もしない
 			if (isCancelFlg) {
-				//isCancelFlgがtrueのときはfalseに戻して何もしない
+				//確認待ちフラグをオン
+				//setAttributes({ isIdle: false });
 				setIsCancelFlg(false);
 				return;
 			}
+			//itmar_filter_titleがクラス名に含まれていればモーダルは表示しない
+			if (className?.includes("itmar_filter_title")) {
+				execHandle();
+				return;
+			}
+			//デフォルトスタイルの時は初期化実行
 			if (
-				prevClassRef.current === undefined ||
-				prevClassRef.current?.split(" ").includes("is-style-default")
+				prevClassRef.current?.includes("is-style-default") ||
+				!prevClassRef.current?.includes("is-style")
 			) {
 				execHandle();
 				return;
 			}
+			//確認待ちフラグをオン
+			//setAttributes({ isIdle: true });
 			//確認ダイアログの表示
 			setIsChangeModalOpen(true);
 		} else {

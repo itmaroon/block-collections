@@ -106,6 +106,10 @@
 		"optionStyle": {
 			"type": "object"
 		},
+		"isIdle":{
+			"type":"boolean",
+			"default":false
+		},
 		"shadow_element": {
 			"type": "object",
 			"default": {

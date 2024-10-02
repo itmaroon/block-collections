@@ -297,7 +297,6 @@ export default function Edit(props) {
 		},
 		[clientId],
 	);
-	//パララックスの値
 
 	return (
 		<>

@@ -3,6 +3,7 @@ import { useBlockProps, RichText } from "@wordpress/block-editor";
 import { ServerStyleSheet } from "styled-components";
 import { renderToString } from "react-dom/server";
 import { StyleComp } from "./StyleButton";
+import { align_prm } from "itmar-block-packages";
 
 export default function save({ attributes }) {
 	const {
@@ -10,20 +11,16 @@ export default function save({ attributes }) {
 		linkKind,
 		displayType,
 		buttonId,
-		align,
+		outer_align,
 		bgColor,
 		labelContent,
 		selectedPageUrl,
 		media,
 	} = attributes;
 
-	//テキストの配置
-	const align_style =
-		align === "center"
-			? { marginLeft: "auto", marginRight: "auto" }
-			: align === "right"
-			? { marginLeft: "auto" }
-			: null;
+	//ブロックの配置
+	const align_style = align_prm(outer_align, true);
+
 	const blockProps = useBlockProps.save({
 		style: { ...align_style, backgroundColor: bgColor, overflow: "hidden" },
 	});

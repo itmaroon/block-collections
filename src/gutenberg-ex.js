@@ -203,6 +203,7 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 	return (props) => {
 		//モバイルの判定
 		const isMobile = useIsIframeMobile();
+
 		//最大高さ設定用の一時保管
 		const [heightVal, setHeightVal] = useState(null);
 		//拡張コアブロックのクラスを持つかの判定
@@ -434,6 +435,14 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 		return (props) => {
 			//モバイルの判定
 			const isMobile = useIsIframeMobile();
+
+			//documentの取得
+			const iframe = document.getElementsByName("editor-canvas")[0]; // name属性を利用
+			//ブロックエディタにおけるiframeの有無で操作するドキュメント要素を峻別
+			const target_doc = iframe
+				? iframe.contentDocument || iframe.contentWindow.document
+				: document;
+
 			//propsを展開
 			const {
 				attributes,
@@ -500,10 +509,13 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 							block.attributes.className.includes("more_btn"),
 					);
 					//拡張したcore/paragraphの直近上位のグループブロックとその中のmoreButtonを返す
+
 					return {
 						nearestDesignGroupParent: { id: parentId, block: parentBlock },
 						moreButton: moreButton || null,
-						blockElement: document.querySelector(`[data-block="${clientId}"]`),
+						blockElement: target_doc.querySelector(
+							`[data-block="${clientId}"]`,
+						),
 					};
 				},
 				[clientId],
@@ -634,6 +646,7 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 									});
 								}
 								//isExpandのフラグによってスタイルをセット
+
 								if (!isExpand) {
 									//maxHeightをセット
 									extraStyle = {

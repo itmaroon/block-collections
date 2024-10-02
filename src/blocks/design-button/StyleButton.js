@@ -66,13 +66,13 @@ const StyledDiv = styled.div`
 		}
 		//擬似要素
 		const arrow = Arrow({ direction: pseudoInfo.option });
-		//アイコン
 
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
 			display: flex;
 			align-items: center;
 			height: 100%;
+
 			${button_type} {
 				position: relative;
 				width: ${default_pos.width};

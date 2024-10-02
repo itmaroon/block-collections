@@ -170,7 +170,7 @@ const StyledDiv = styled.div`
 					padding: ${default_content_padding_prm};
 					@media (max-width: 767px) {
 						padding: ${mobile_contnt_padding_prm};
-						max-height: 90vh;
+
 						overflow-y: ${over_flow};
 					}
 				}
@@ -184,9 +184,7 @@ const StyledDiv = styled.div`
 					display: flex;
 					flex-direction: ${!default_pos.reverse ? "row" : "row-reverse"};
 					justify-content: ${default_pos.inner_align};
-					> div {
-						margin: 0;
-					}
+
 					@media (max-width: 767px) {
 						flex-direction: ${!mobile_pos.reverse ? "row" : "row-reverse"};
 						justify-content: ${mobile_pos.inner_align};
@@ -202,10 +200,11 @@ const StyledDiv = styled.div`
 					display: flex;
 					flex-direction: ${!default_pos.reverse ? "column" : "column-reverse"};
 					justify-content: ${default_pos.inner_align};
-					> div {
-						margin: 0;
-					}
+
 					@media (max-width: 767px) {
+						flex-direction: ${!mobile_pos.reverse
+							? "column"
+							: "column-reverse"};
 						justify-content: ${mobile_pos.inner_align};
 					}
 				}

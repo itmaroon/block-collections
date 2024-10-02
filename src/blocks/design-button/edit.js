@@ -9,6 +9,9 @@ import {
 	TextControl,
 	ToggleControl,
 	RangeControl,
+	Button,
+	ToolbarGroup,
+	ToolbarItem,
 	__experimentalUnitControl as UnitControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl,
@@ -31,12 +34,15 @@ import {
 	PseudoElm,
 	ShadowStyle,
 	ShadowElm,
+	align_prm,
 	PageSelectControl,
 	ArchiveSelectControl,
 	SingleImageSelect,
 	IconSelectControl,
 	TypographyControls,
 } from "itmar-block-packages";
+
+import { justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -72,6 +78,7 @@ export default function Edit(props) {
 		selectedPageUrl,
 		bgColor,
 		align,
+		outer_align,
 		labelContent,
 		disabled,
 		disableOpacity,
@@ -92,14 +99,8 @@ export default function Edit(props) {
 		is_shadow,
 	} = attributes;
 
-	//テキストの配置
-	// const align_style =
-	// 	align === "center"
-	// 		? { marginLeft: "auto", marginRight: "auto" }
-	// 		: align === "right"
-	// 		? { marginLeft: "auto" }
-	// 		: null;
-
+	//ブロックの配置
+	const align_style = align_prm(outer_align, true);
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
 
@@ -107,7 +108,7 @@ export default function Edit(props) {
 	const blockRef = useRef(null);
 	const blockProps = useBlockProps({
 		ref: blockRef, // ここで参照を blockProps に渡しています
-		style: { backgroundColor: bgColor },
+		style: { backgroundColor: bgColor, ...align_style },
 	});
 
 	//背景色の取得
@@ -387,6 +388,42 @@ export default function Edit(props) {
 							/>
 						</PanelRow>
 					</PanelBody>
+					<p>{__("Button alignment", "block-collections")}</p>
+					<ToolbarGroup>
+						<ToolbarItem>
+							{(itemProps) => (
+								<Button
+									{...itemProps}
+									isPressed={outer_align === "left"}
+									onClick={() => setAttributes({ outer_align: "left" })}
+									icon={justifyLeft}
+									label={__("left alignment", "block-collections")}
+								/>
+							)}
+						</ToolbarItem>
+						<ToolbarItem>
+							{(itemProps) => (
+								<Button
+									{...itemProps}
+									isPressed={outer_align === "center"}
+									onClick={() => setAttributes({ outer_align: "center" })}
+									icon={justifyCenter}
+									label={__("center alignment", "block-collections")}
+								/>
+							)}
+						</ToolbarItem>
+						<ToolbarItem>
+							{(itemProps) => (
+								<Button
+									{...itemProps}
+									isPressed={outer_align === "right"}
+									onClick={() => setAttributes({ outer_align: "right" })}
+									icon={justifyRight}
+									label={__("right alignment", "block-collections")}
+								/>
+							)}
+						</ToolbarItem>
+					</ToolbarGroup>
 					<BoxControl
 						label={
 							!isMobile

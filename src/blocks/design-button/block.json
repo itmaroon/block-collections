@@ -37,6 +37,10 @@
 			"type": "string",
 			"default": "left"
 		},
+		"outer_align": {
+			"type": "string",
+			"default": "left"
+		},
 		"bgColor": {
 			"type": "string",
 			"default": "var(--wp--preset--color--content-back)"
