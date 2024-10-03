@@ -112,9 +112,14 @@ function addExSettings(settings, name) {
 					type: "string",
 					default: "40em",
 				},
-				perGradient: {
+
+				defaultGradient: {
 					type: "number",
 					default: 25,
+				},
+				mobileGradient: {
+					type: "number",
+					default: 35,
 				},
 			};
 		}
@@ -220,7 +225,8 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 					isMore,
 					defaultMaxHeight,
 					mobileMaxHeight,
-					perGradient,
+					defaultGradient,
+					mobileGradient,
 					margin_val,
 					padding_val,
 					border_list,
@@ -330,13 +336,27 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 													value={!isMobile ? defaultMaxHeight : mobileMaxHeight}
 												/>
 												<RangeControl
-													value={perGradient}
-													label={__("Ratio of gradation", "block-collections")}
+													value={!isMobile ? defaultGradient : mobileGradient}
+													label={
+														!isMobile
+															? __(
+																	"Ratio of gradation(desk top)",
+																	"block-collections",
+															  )
+															: __(
+																	"Ratio of gradation(mobile)",
+																	"block-collections",
+															  )
+													}
 													max={50}
 													min={10}
 													step={1}
 													onChange={(val) =>
-														setAttributes({ perGradient: val })
+														setAttributes(
+															!isMobile
+																? { defaultGradient: val }
+																: { mobileGradient: val },
+														)
 													}
 													withInputField={false}
 												/>
@@ -596,7 +616,8 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 							isExpand,
 							defaultMaxHeight,
 							mobileMaxHeight,
-							perGradient,
+							defaultGradient,
+							mobileGradient,
 							margin_val,
 							padding_val,
 							radius_list,
@@ -673,7 +694,9 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 													style={{
 														position: "absolute",
 														width: "100%",
-														height: `${perGradient}%`,
+														height: `${
+															!isMobile ? defaultGradient : mobileGradient
+														}%`,
 														bottom: "0",
 														left: "0",
 														backgroundImage: `linear-gradient(to bottom, rgba(255,255 ,255 , 0) 0%, ${
@@ -822,7 +845,8 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
 				isMore,
 				defaultMaxHeight,
 				mobileMaxHeight,
-				perGradient,
+				defaultGradient,
+				mobileGradient,
 				margin_val,
 				padding_val,
 				radius_list,
@@ -859,7 +883,8 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
 						"data-more_style": JSON.stringify({
 							defaultMaxHeight: defaultMaxHeight,
 							mobileMaxHeight: mobileMaxHeight,
-							perGradient: perGradient,
+							defaultGradient: defaultGradient,
+							mobileGradient: mobileGradient,
 						}),
 					};
 				}

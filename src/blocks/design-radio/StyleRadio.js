@@ -109,7 +109,6 @@ const StyledDiv = styled.div`
 				padding: ${default_padding_input_prm};
 				${borderProperty(border_input)};
 				border-radius: ${input_radius_prm};
-				background-color: ${inputBgColor};
 				${input_shadow_style};
 				@media (max-width: 767px) {
 					margin: ${mobile_margin_input_prm};

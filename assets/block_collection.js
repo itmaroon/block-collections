@@ -708,7 +708,10 @@ jQuery(function ($) {
 				effectiveBackgroundColor = "white";
 			} //レンダリングされた色が透明なら白にする
 
-			let perGradient = moreStyle.perGradient || 50; // デフォルト値を50%とする
+			let perGradient =
+				window.innerWidth >= 768
+					? moreStyle.defaultGradient
+					: moreStyle.mobileGradient || 50; // デフォルト値を50%とする
 
 			return $("<div>").css({
 				position: "absolute",

@@ -127,7 +127,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//背景色の取得(カスタムプロパティの時はシャドウの背景色設定ができないため)
 	const baseColor = useElementBackgroundColor(blockRef, blockProps.style);
-	const labelBaseColor = useElementBackgroundColor(labelRef, blockProps, {
+	const labelBaseColor = useElementBackgroundColor(labelRef, {
 		backgroundColor: inputBgColor,
 	});
 
@@ -197,6 +197,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<label
 							ref={labelRef}
 							key={item.id}
+							style={{ backgroundColor: inputBgColor }}
 							className={`itmar_radio ${labelClass}`}
 						>
 							<input
