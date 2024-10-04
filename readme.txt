@@ -2,11 +2,11 @@
 Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.3
-Tested up to:      6.5.2
-Stable tag:        1.3.0
+Tested up to:      6.6.2
+Stable tag:        1.4.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
-Requires PHP: 8.1.22
+Requires PHP: 8.2.10
 
 It is a plug-in that collects small scale blocks.
 
@@ -79,7 +79,7 @@ OR…
 10. Blocks that slide in with animation
 
 == Changelog ==
-= 1.3.1 =
+= 1.4.0 =
 - Fixed page of Design Title and Design Button and combo box for selecting archive page have been fixed due to improvement of PageSelectControl and ArchiveSelectControl.
 - Fixed bug in save.js of Design Title
 - Fixed an issue where the root div element was wrapped twice in front-end rendering of Design Title.

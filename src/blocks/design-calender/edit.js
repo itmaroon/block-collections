@@ -35,7 +35,7 @@ import {
 } from "@wordpress/block-editor";
 
 import { useState, useEffect, useRef, useMemo } from "@wordpress/element";
-import { useSelect, useDispatch } from "@wordpress/data";
+import { useSelect, useDispatch, dispatch } from "@wordpress/data";
 
 import "./editor.scss";
 
@@ -337,6 +337,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			}
 		}
 	}, [selectMonthBlock]);
+
+	//CalenderAPIキーの一時保存
+	const [calenderApiVal, setCalenderApiVal] = useState("");
+
 	//前後ボタンによる表示月の更新
 
 	useEffect(() => {
@@ -458,7 +462,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	//選択された月の変更による書き換え
 	useEffect(() => {
 		if (selectedMonth) {
-			if (isHoliday) {
+			if (isHoliday && calenderApiKey) {
+				//祝日フラグとAPIキーに入力があること
 				//祝日の表示処理
 				JapaneseHolidays(calenderApiKey, selectedMonth)
 					.then((data) => {
@@ -468,13 +473,26 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					})
 					.catch((error) => {
 						console.error("エラーが発生しました:", error);
+						const errorMess = __(
+							"Failed to get holiday data.",
+							"block-collections",
+						);
+
+						dispatch("core/notices").createNotice(
+							"error",
+							`${errorMess}\n${error.error.message}`,
+							{
+								type: "snackbar",
+								isDismissible: true,
+							},
+						);
 					});
 			} else {
 				const newDateValues = generateMonthCalendar(selectedMonth);
 				setAttributes({ dateValues: newDateValues });
 			}
 		}
-	}, [selectedMonth, isHoliday]);
+	}, [selectedMonth, isHoliday, calenderApiKey]);
 
 	const renderContent = () => {
 		return (
@@ -618,8 +636,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					{isHoliday && (
 						<TextControl
 							label={__("Google Calender API KEY", "block-collections")}
-							value={calenderApiKey}
-							onChange={(newVal) => setAttributes({ calenderApiKey: newVal })}
+							value={calenderApiVal}
+							onChange={(newVal) => setCalenderApiVal(newVal)}
+							onBlur={() => {
+								setAttributes({ calenderApiKey: calenderApiVal }); //フォーカスが離れてから記録
+							}}
 							help={helpTextCode}
 						/>
 					)}

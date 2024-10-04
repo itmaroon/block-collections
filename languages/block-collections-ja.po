@@ -5,15 +5,15 @@ msgstr ""
 "Project-Id-Version: Block Collections 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-"
 "collections\n"
-"POT-Creation-Date: 2024-06-10T12:02:37+02:00\n"
-"PO-Revision-Date: 2024-06-11 11:31+0900\n"
+"POT-Creation-Date: 2024-10-03T11:39:51+02:00\n"
+"PO-Revision-Date: 2024-10-03 19:31+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 "X-Domain: block-collections\n"
 
 #. Plugin Name of the plugin
@@ -38,123 +38,172 @@ msgstr ""
 msgid "Web Creator ITmaroon"
 msgstr "WebクリエイターITmaroon"
 
-#: assets/block_collection.js:79 assets/block_collection.js:81
+#: assets/block_collection.js:86 assets/block_collection.js:88
+#: build/block_collection.js:25
 msgid "copied"
 msgstr "コピーしました"
 
+#: assets/block_collection.js:581 build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:145
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/blocks/design-calender/edit.js:562
+#: src/blocks/design-radio/edit.js:223 src/blocks/design-radio/save.js:45
+msgid "Clear"
+msgstr "クリア"
+
+#: assets/block_collection.js:790 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:574 src/gutenberg-ex.js:665
+msgid "See more..."
+msgstr "もっと見る..."
+
+#: assets/block_collection.js:791 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:666
+msgid "Collapse..."
+msgstr "折りたたむ..."
+
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:371
+#: src/blocks/design-title/edit.js:450 src/blocks/design-title/edit.js:552
+#: src/blocks/design-title/edit.js:609
+msgid "The input string is not in URL format."
+msgstr "入力文字列が URL 形式ではありません。"
+
+#: build/547.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:458
 msgid "Write Title text..."
 msgstr "テキストを入力してください..."
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:389
+#: src/blocks/design-title/edit.js:485
 msgid "Title Source Setting"
 msgstr "タイトルソースの設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:392
+#: src/blocks/design-title/edit.js:488
 msgid "Title type"
 msgstr "タイトルタイプ"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:395
+#: src/blocks/design-title/edit.js:491
 msgid "Plaine"
 msgstr "プレーン"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:396
+#: src/blocks/design-title/edit.js:492
+msgid "Date"
+msgstr "日付"
+
+#: build/547.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:493
 msgid "Site Title"
 msgstr "サイトタイトル"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:398
+#: src/blocks/design-title/edit.js:495
 msgid "Chatch Phrase"
 msgstr "キャッチフレーズ"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:405
+#: src/blocks/design-title/edit.js:502
 msgid ""
-"You can display the site title and catchphrase in addition to the blank "
-"title."
+"The Site Title and Tagline provide the ability to display whatever you set "
+"in the WordPress General Settings."
 msgstr ""
-"空白のタイトルに加えて、サイトタイトルやキャッチコピーを表示することもできま"
-"す。"
+"サイトタイトルとタグラインは、WordPress の一般設定で設定した内容を表示できる"
+"機能を提供します。"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:180
-#: src/blocks/design-title/edit.js:414
+#: src/blocks/design-title/edit.js:509
+msgid "Date Format"
+msgstr "日付形式"
+
+#: build/547.js:1 build/blocks/design-title/index.js
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:194
+#: src/blocks/design-title/edit.js:521
 msgid "Link type"
 msgstr "リンクタイプ"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:417
+#: src/blocks/design-title/edit.js:524
 msgid "None"
 msgstr "なし"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:184
-#: src/blocks/design-title/edit.js:419
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:198
+#: src/blocks/design-title/edit.js:526
 msgid "Fixed Page"
 msgstr "固定ページ"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:188
-#: src/blocks/design-title/edit.js:423
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:202
+#: src/blocks/design-title/edit.js:530
 msgid "Archive Page"
 msgstr "アーカイブページ"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:191
-#: src/blocks/design-title/edit.js:426
-msgid "Free URL"
-msgstr "フリーのURL"
+#: src/blocks/design-title/edit.js:533
+msgid "Free Link"
+msgstr "フリーのリンク"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:428
+#: src/blocks/design-title/edit.js:534
+msgid "URL"
+msgstr "URL"
+
+#: build/547.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:536
 msgid "Sub Menu"
 msgstr "サブメニュー"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:435
+#: src/blocks/design-title/edit.js:563
 msgid "You can select the type of URL to link to the title."
 msgstr "タイトルにリンクするURLの種類を選択できます。"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:207
-#: src/blocks/design-title/edit.js:445
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:222
+#: src/blocks/design-title/edit.js:573
 msgid "Select a fixed page to link to"
 msgstr "リンク先の固定ページを選択してください"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:222
-#: src/blocks/design-title/edit.js:460
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:237
+#: src/blocks/design-title/edit.js:588
 msgid "Select archive page to link to"
 msgstr "リンク先のアーカイブ ページを選択してください"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:234
-#: src/blocks/design-title/edit.js:472
-msgid "Link to URL"
+#: src/blocks/design-title/edit.js:600
+#, fuzzy
+#| msgid "Link to URL"
+msgid "Link URL"
 msgstr "URLへのリンク"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:482
+#: src/blocks/design-title/edit.js:626
 msgid "Submenu position settings"
 msgstr "サブメニュー位置設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:485
+#: src/blocks/design-title/edit.js:629
 msgid "Menu Alignment"
 msgstr "メニューの配置"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:494
+#: src/blocks/design-title/edit.js:638
 msgid "Based on title"
 msgstr "タイトルのベース"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:496
+#: src/blocks/design-title/edit.js:640
 msgid ""
 "If unchecked, the parent menu will be used as the reference. If there is no "
 "parent menu, do not uncheck it."
@@ -163,572 +212,673 @@ msgstr ""
 "合はチェックを外さないでください。"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:511
+#: src/blocks/design-title/edit.js:655
 msgid "Title settings"
 msgstr "タイトル設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:527
+#: src/blocks/design-title/edit.js:671
 msgid "Font Size(mobile)"
 msgstr "フォントサイズ（モバイル）"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:526
+#: src/blocks/design-title/edit.js:670
 msgid "Font Size(desk top)"
 msgstr "フォントサイズ（デスクトップ）"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:532
+#: src/blocks/design-title/edit.js:676
 msgid "Padding"
 msgstr "パディング"
 
-#: build/547.js:1 build/blocks/design-title/index.js build/652.js:1
+#: build/547.js:1 build/blocks/design-title/index.js build/866.js:1
 #: build/blocks/design-select/index.js build/903.js:1
 #: build/blocks/design-text-ctrl/index.js
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:435
-#: src/blocks/design-checkbox/edit.js:256 src/blocks/design-group/edit.js:646
-#: src/blocks/design-process/edit.js:259 src/blocks/design-select/edit.js:460
-#: src/blocks/design-table/edit.js:522 src/blocks/design-text-ctrl/edit.js:261
-#: src/blocks/design-title/edit.js:540
+#: build/blocks/design-radio/index.js:184 build/blocks/design-table/index.js:78
+#: src/blocks/design-button/edit.js:505 src/blocks/design-calender/edit.js:722
+#: src/blocks/design-calender/edit.js:835
+#: src/blocks/design-calender/edit.js:902
+#: src/blocks/design-calender/edit.js:1001
+#: src/blocks/design-checkbox/edit.js:264 src/blocks/design-group/edit.js:645
+#: src/blocks/design-process/edit.js:259 src/blocks/design-radio/edit.js:476
+#: src/blocks/design-radio/edit.js:598 src/blocks/design-radio/edit.js:666
+#: src/blocks/design-select/edit.js:359 src/blocks/design-table/edit.js:522
+#: src/blocks/design-text-ctrl/edit.js:251 src/blocks/design-title/edit.js:684
 msgid "Is Shadow"
 msgstr "シャドーをつける"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:557
+#: src/blocks/design-title/edit.js:701
 msgid "Add an underline"
 msgstr "アンダーラインを付ける"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:565
+#: src/blocks/design-title/edit.js:709
 msgid "UnderLine settings"
 msgstr "アンダーライン設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
-#: src/blocks/design-button/edit.js:348 src/blocks/design-title/edit.js:576
-#: src/gutenberg-ex.js:321
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/blocks/design-button/edit.js:382
+#: src/blocks/design-title/edit.js:720 src/gutenberg-ex.js:425
 msgid "Height"
 msgstr "高さ"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47 build/gutenberg-ex.js:25
-#: src/blocks/design-button/edit.js:328 src/blocks/design-title/edit.js:585
-#: src/gutenberg-ex.js:309
+#: build/blocks/design-button/index.js:74 build/gutenberg-ex.js:25
+#: src/blocks/design-button/edit.js:362 src/blocks/design-title/edit.js:729
+#: src/gutenberg-ex.js:413
 msgid "Width"
 msgstr "幅"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
-#: src/blocks/design-title/edit.js:594
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1 src/blocks/design-title/edit.js:738
 msgid "Distance"
 msgstr "距離"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:599
+#: src/blocks/design-title/edit.js:743
 msgid "Under Line Color Setting"
 msgstr "アンダーライン色設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:604
+#: src/blocks/design-title/edit.js:748
 msgid "Choose Under Line color"
 msgstr "アンダーライン色を選択"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:619
+#: src/blocks/design-title/edit.js:763
 msgid "Animation on hover"
 msgstr "ホバー時のアニメーション"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:629
+#: src/blocks/design-title/edit.js:773
 msgid "Write vertically"
 msgstr "縦書き"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:639
+#: src/blocks/design-title/edit.js:783
 msgid "Circle Marker Settings"
 msgstr "円マーカー設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:644 src/blocks/design-title/edit.js:754
+#: src/blocks/design-title/edit.js:788 src/blocks/design-title/edit.js:898
 msgid "Circle Color Setting"
 msgstr "円の背景色を選択"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:656 src/blocks/design-title/edit.js:766
+#: src/blocks/design-title/edit.js:800 src/blocks/design-title/edit.js:910
 msgid "Choose Circle Background"
 msgstr "円のグラデーションを選択"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:681 src/blocks/design-title/edit.js:811
+#: src/blocks/design-title/edit.js:825 src/blocks/design-title/edit.js:955
 msgid "Circle Scale Setting"
 msgstr "円の大きさ設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:689 src/blocks/design-title/edit.js:819
+#: src/blocks/design-title/edit.js:833 src/blocks/design-title/edit.js:963
 msgid "Position Settings"
 msgstr "位置設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
-#: src/blocks/design-title/edit.js:699 src/blocks/design-title/edit.js:829
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1 src/blocks/design-title/edit.js:843
+#: src/blocks/design-title/edit.js:973
 msgid "Lateral direction"
 msgstr "横方向"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
-#: src/blocks/design-title/edit.js:717 src/blocks/design-title/edit.js:847
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1 src/blocks/design-title/edit.js:861
+#: src/blocks/design-title/edit.js:991
 msgid "Longitudinal direction"
 msgstr "縦方向"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:731
+#: src/blocks/design-title/edit.js:875
 msgid "Second Circle Settings"
 msgstr "２番目の円設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:735
+#: src/blocks/design-title/edit.js:879
 msgid "Second Circle"
 msgstr "２番目の円"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
-#: src/blocks/design-group/edit.js:377 src/blocks/design-title/edit.js:791
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1 src/blocks/design-group/edit.js:376
+#: src/blocks/design-title/edit.js:935
 msgid "Opacity"
 msgstr "透明度"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:867
+#: src/blocks/design-title/edit.js:1011
 msgid "Sub Copy Settings"
 msgstr "サブコピー設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:872
+#: src/blocks/design-title/edit.js:1016
 msgid "Copy Color Setting"
 msgstr "コピーの色設定"
 
-#: build/547.js:1 build/blocks/design-title/index.js build/652.js:1
+#: build/547.js:1 build/blocks/design-title/index.js build/866.js:1
 #: build/blocks/design-select/index.js build/903.js:1
 #: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-calender/index.js:124
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78 src/blocks/design-checkbox/edit.js:315
-#: src/blocks/design-process/edit.js:300 src/blocks/design-process/edit.js:333
-#: src/blocks/design-select/edit.js:497 src/blocks/design-table/edit.js:568
-#: src/blocks/design-table/edit.js:658 src/blocks/design-text-ctrl/edit.js:296
-#: src/blocks/design-title/edit.js:879 src/blocks/LabelBox .js:130
+#: build/blocks/design-table/index.js:78 src/blocks/design-calender/edit.js:938
+#: src/blocks/design-checkbox/edit.js:323 src/blocks/design-process/edit.js:300
+#: src/blocks/design-process/edit.js:333 src/blocks/design-select/edit.js:396
+#: src/blocks/design-table/edit.js:568 src/blocks/design-table/edit.js:658
+#: src/blocks/design-text-ctrl/edit.js:313 src/blocks/design-title/edit.js:1023
+#: src/blocks/LabelBox .js:167 src/blocks/ToolTips.js:89
 msgid "Choose Text color"
 msgstr "テキスト色を選択"
 
-#: build/547.js:1 build/blocks/design-title/index.js build/652.js:1
+#: build/547.js:1 build/blocks/design-title/index.js build/866.js:1
 #: build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js build/blocks/design-table/index.js:78
-#: src/blocks/design-table/edit.js:576 src/blocks/design-table/edit.js:666
-#: src/blocks/design-text-ctrl/edit.js:195
-#: src/blocks/design-text-ctrl/edit.js:304 src/blocks/design-title/edit.js:897
-#: src/blocks/LabelBox .js:138
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-calender/index.js:124
+#: build/blocks/design-table/index.js:78 src/blocks/design-table/edit.js:576
+#: src/blocks/design-table/edit.js:666 src/blocks/design-text-ctrl/edit.js:185
+#: src/blocks/design-text-ctrl/edit.js:321 src/blocks/design-title/edit.js:1041
+#: src/blocks/LabelBox .js:175 src/blocks/ToolTips.js:99
 msgid "Choose Background color"
 msgstr "背景色を選択"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:916
+#: src/blocks/design-title/edit.js:1060
 msgid "Copy Text"
 msgstr "コピーテキスト"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:929
+#: src/blocks/design-title/edit.js:1073
 msgid "Copy Alignment"
 msgstr "コピーの配置"
 
-#: build/547.js:1 build/blocks/design-title/index.js build/652.js:1
+#: build/547.js:1 build/blocks/design-title/index.js build/866.js:1
 #: build/blocks/design-select/index.js build/903.js:1
 #: build/blocks/design-text-ctrl/index.js
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:124
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:457
-#: src/blocks/design-checkbox/edit.js:301 src/blocks/design-process/edit.js:287
-#: src/blocks/design-process/edit.js:320 src/blocks/design-select/edit.js:483
-#: src/blocks/design-table/edit.js:555 src/blocks/design-table/edit.js:644
-#: src/blocks/design-text-ctrl/edit.js:283 src/blocks/design-title/edit.js:946
-#: src/blocks/LabelBox .js:117
+#: build/blocks/design-radio/index.js:184 build/blocks/design-table/index.js:78
+#: src/blocks/design-button/edit.js:527 src/blocks/design-calender/edit.js:745
+#: src/blocks/design-calender/edit.js:925
+#: src/blocks/design-checkbox/edit.js:309 src/blocks/design-process/edit.js:287
+#: src/blocks/design-process/edit.js:320 src/blocks/design-radio/edit.js:498
+#: src/blocks/design-select/edit.js:382 src/blocks/design-table/edit.js:555
+#: src/blocks/design-table/edit.js:644 src/blocks/design-text-ctrl/edit.js:273
+#: src/blocks/design-title/edit.js:1090 src/blocks/LabelBox .js:154
+#: src/blocks/ToolTips.js:75
 msgid "Typography"
 msgstr "タイポグラフィー"
 
-#: build/547.js:1 build/blocks/design-title/index.js build/652.js:1
+#: build/547.js:1 build/blocks/design-title/index.js build/866.js:1
 #: build/blocks/design-select/index.js build/903.js:1
 #: build/blocks/design-text-ctrl/index.js
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:124
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:406
-#: src/blocks/design-checkbox/edit.js:231 src/blocks/design-process/edit.js:188
-#: src/blocks/design-select/edit.js:432 src/blocks/design-table/edit.js:494
-#: src/blocks/design-text-ctrl/edit.js:313 src/blocks/design-title/edit.js:969
-#: src/blocks/LabelBox .js:147
+#: build/blocks/design-radio/index.js:184 build/blocks/design-table/index.js:78
+#: src/blocks/design-button/edit.js:476 src/blocks/design-calender/edit.js:699
+#: src/blocks/design-calender/edit.js:879
+#: src/blocks/design-calender/edit.js:978
+#: src/blocks/design-checkbox/edit.js:239 src/blocks/design-process/edit.js:188
+#: src/blocks/design-radio/edit.js:453 src/blocks/design-radio/edit.js:643
+#: src/blocks/design-select/edit.js:331 src/blocks/design-table/edit.js:494
+#: src/blocks/design-text-ctrl/edit.js:330 src/blocks/design-title/edit.js:1113
+#: src/blocks/LabelBox .js:185 src/blocks/ToolTips.js:113
 msgid "Border Settings"
 msgstr "ボーダー設定"
 
-#: build/547.js:1 build/blocks/design-title/index.js build/652.js:1
+#: build/547.js:1 build/blocks/design-title/index.js build/866.js:1
 #: build/blocks/design-select/index.js build/903.js:1
 #: build/blocks/design-text-ctrl/index.js
 #: build/blocks/code-highlight/index.js:1 build/gutenberg-ex.js:25
-#: src/blocks/code-highlight/edit.js:226 src/blocks/design-title/edit.js:996
-#: src/blocks/LabelBox .js:170 src/gutenberg-ex.js:236
+#: src/blocks/code-highlight/edit.js:226 src/blocks/design-title/edit.js:1140
+#: src/blocks/LabelBox .js:206 src/gutenberg-ex.js:277
 msgid "Padding settings"
 msgstr "パディング設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1019
+#: src/blocks/design-title/edit.js:1163
 msgid "Icon settings"
 msgstr "アイコン設定"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1023
+#: src/blocks/design-title/edit.js:1167
 msgid "Append icon"
 msgstr "アイコンを付加"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1070
+#: src/blocks/design-title/edit.js:1215
 msgid "Change heading level"
 msgstr "ヘディングレベル変更"
 
-#: build/547.js:1 build/blocks/design-title/index.js build/652.js:1
-#: build/blocks/design-select/index.js src/blocks/design-select/edit.js:543
-#: src/blocks/design-title/edit.js:1083
+#: build/547.js:1 build/blocks/design-title/index.js build/866.js:1
+#: build/blocks/design-select/index.js build/blocks/design-radio/index.js:184
+#: src/blocks/design-title/edit.js:1228 src/blocks/OptionModal.js:122
 msgid "Confirm Deletion"
 msgstr "削除の確認"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1087
+#: src/blocks/design-title/edit.js:1232
 msgid "Changing a style resets the style-specific settings. Are you sure?"
 msgstr ""
 "スタイルを変更するとそのスタイル固有の設定は初期化されます。よろしいか？"
 
 #: build/547.js:1 build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1093
+#: src/blocks/design-title/edit.js:1238
 msgid "Yes, Change"
 msgstr "はい。変更します"
 
-#: build/547.js:1 build/blocks/design-title/index.js build/652.js:1
-#: build/blocks/design-select/index.js src/blocks/design-select/edit.js:556
-#: src/blocks/design-title/edit.js:1096
+#: build/547.js:1 build/blocks/design-title/index.js build/866.js:1
+#: build/blocks/design-select/index.js build/blocks/design-radio/index.js:184
+#: src/blocks/design-title/edit.js:1241 src/blocks/OptionModal.js:135
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:66
+#: build/547.js:1 build/blocks/design-title/index.js
+#: src/blocks/design-title/edit.js:1251
+msgid "Select Date and Time"
+msgstr "日付と時刻の選択"
+
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:69
 msgid "Required Settings"
 msgstr "必須項目設定"
 
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:72
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:75
 msgid "Required input"
 msgstr "入力必須項目"
 
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:83
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:87
 msgid "Show 'required'"
 msgstr "必須の表示"
 
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:95
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:100
 msgid "Label Settings"
 msgstr "ラベル設定"
 
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:101
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:106
 msgid "Text of Label"
 msgstr "ラベルのテキスト"
 
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:116 .js:122
+msgid "Label Alignment(mobile)"
+msgstr "ラベルの配置(モバイル)"
+
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:115 .js:121
+msgid "Label Alignment(desk top)"
+msgstr "ラベルの配置(デスクトップ)"
+
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:140
+msgid "Selecting the center vertically or horizontally will hide it."
+msgstr "縦位置と横位置を中央にすると非表示になります。"
+
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
 #: build/blocks/design-text-ctrl/index.js
 #: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-checkbox/edit.js:296 src/blocks/LabelBox .js:112
+#: src/blocks/design-checkbox/edit.js:304 src/blocks/LabelBox .js:149
 msgid "Label style settings"
 msgstr "ラベルスタイル設定"
 
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
 #: build/blocks/design-text-ctrl/index.js
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-button/edit.js:466 src/blocks/design-checkbox/edit.js:311
-#: src/blocks/LabelBox .js:126
+#: src/blocks/design-button/edit.js:536 src/blocks/design-calender/edit.js:934
+#: src/blocks/design-checkbox/edit.js:319 src/blocks/LabelBox .js:163
 msgid "Label Color Setting"
 msgstr "ラベル色設定"
 
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:180
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js src/blocks/LabelBox .js:216
 msgid "Spacing with textbox"
 msgstr "テキストボックスとの距離"
 
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:288
-msgid "Select Element Settings"
-msgstr "セレクト要素設定"
-
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js
-#: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-checkbox/edit.js:139 src/blocks/design-select/edit.js:294
-#: src/blocks/design-text-ctrl/edit.js:155
-msgid "name attribute name"
-msgstr "name属性の名称"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:300
-msgid "Select Pattern"
-msgstr "選択のパターン"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:307
-msgid "Single Select"
-msgstr "単一選択"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:311
-msgid "Nulti Select"
-msgstr "複数選択"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:322
-msgid "Place Folder Display"
-msgstr "プレイスフォルダ表示"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:328
-msgid "Option info Setting"
-msgstr "オプション情報設定"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:331
+#: build/866.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-radio/index.js:184 src/blocks/OptionModal.js:81
 msgid "add"
 msgstr "追加"
 
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js
-#: build/blocks/design-button/index.js:47
-#: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:291
-#: src/blocks/design-checkbox/edit.js:160 src/blocks/design-process/edit.js:162
-#: src/blocks/design-select/edit.js:352 src/blocks/design-table/edit.js:430
-#: src/blocks/design-text-ctrl/edit.js:186
-msgid "Global settings"
-msgstr "全体設定"
-
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js
-#: build/blocks/design-button/index.js:47
-#: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:296
-#: src/blocks/design-checkbox/edit.js:165 src/blocks/design-process/edit.js:167
-#: src/blocks/design-select/edit.js:357 src/blocks/design-table/edit.js:435
-#: src/blocks/design-text-ctrl/edit.js:191
-msgid "Background Color Setting"
-msgstr "背景色設定"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: build/blocks/design-button/index.js:47
-#: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:300
-#: src/blocks/design-checkbox/edit.js:169 src/blocks/design-process/edit.js:171
-#: src/blocks/design-select/edit.js:361 src/blocks/design-table/edit.js:439
-msgid "Choose Block Background color"
-msgstr "ブロックの背景色を選択"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:369
-msgid "Choose Select Background color"
-msgstr "セレクトの背景色を選択"
-
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js
-#: build/blocks/design-button/index.js:47
-#: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
-#: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:361
-#: src/blocks/design-checkbox/edit.js:185 src/blocks/design-group/edit.js:446
-#: src/blocks/design-process/edit.js:214 src/blocks/design-select/edit.js:387
-#: src/blocks/design-table/edit.js:449 src/blocks/design-text-ctrl/edit.js:216
-msgid "Margin settings(mobile)"
-msgstr "マージン設定(モバイル)"
-
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js
-#: build/blocks/design-button/index.js:47
-#: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
-#: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:360
-#: src/blocks/design-checkbox/edit.js:184 src/blocks/design-group/edit.js:445
-#: src/blocks/design-process/edit.js:213 src/blocks/design-select/edit.js:386
-#: src/blocks/design-table/edit.js:448 src/blocks/design-text-ctrl/edit.js:215
-msgid "Margin settings(desk top)"
-msgstr "マージン設定(デスクトップ)"
-
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js
-#: build/blocks/design-button/index.js:47
-#: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
-#: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:385
-#: src/blocks/design-checkbox/edit.js:209 src/blocks/design-group/edit.js:466
-#: src/blocks/design-group/edit.js:624 src/blocks/design-process/edit.js:238
-#: src/blocks/design-select/edit.js:411 src/blocks/design-table/edit.js:473
-#: src/blocks/design-table/edit.js:618 src/blocks/design-table/edit.js:681
-#: src/blocks/design-text-ctrl/edit.js:240
-msgid "Padding settings(mobile)"
-msgstr "パディング設定(モバイル)"
-
-#: build/652.js:1 build/blocks/design-select/index.js build/903.js:1
-#: build/blocks/design-text-ctrl/index.js
-#: build/blocks/design-button/index.js:47
-#: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
-#: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78 src/blocks/design-button/edit.js:384
-#: src/blocks/design-checkbox/edit.js:208 src/blocks/design-group/edit.js:465
-#: src/blocks/design-group/edit.js:623 src/blocks/design-process/edit.js:237
-#: src/blocks/design-select/edit.js:410 src/blocks/design-table/edit.js:472
-#: src/blocks/design-table/edit.js:617 src/blocks/design-table/edit.js:680
-#: src/blocks/design-text-ctrl/edit.js:239
-msgid "Padding settings(desk top)"
-msgstr "パディング設定(デスクトップ)"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:478
-msgid "Option Style Settings"
-msgstr "オプションスタイル設定"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:493
-msgid "Option Color Setting"
-msgstr "オプション色設定"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:503
-msgid "Choose Background color on mouse hover"
-msgstr "マウスホバー時の背景色を選択"
-
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:517
+#: build/866.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-radio/index.js:184 src/blocks/OptionModal.js:96
 msgid "Option Info Edit"
 msgstr "オプション情報編集"
 
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:521
+#: build/866.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-radio/index.js:184 src/blocks/OptionModal.js:100
 msgid "Display Label"
 msgstr "ラベルの表示"
 
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:526
+#: build/866.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-radio/index.js:184 src/blocks/OptionModal.js:105
 msgid "Option Value"
 msgstr "オプションの値"
 
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:531
+#: build/866.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-radio/index.js:184 src/blocks/OptionModal.js:110
 msgid "Class Name"
 msgstr "クラス名"
 
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:536
+#: build/866.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-radio/index.js:184 src/blocks/OptionModal.js:115
 msgid "Save Changes"
 msgstr "変更を保存"
 
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:547
+#: build/866.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-radio/index.js:184 src/blocks/OptionModal.js:126
 msgid "Are you sure you want to delete this item?"
 msgstr "この項目を削除してもよろしいですか?"
 
-#: build/652.js:1 build/blocks/design-select/index.js
-#: src/blocks/design-select/edit.js:553
+#: build/866.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-radio/index.js:184 src/blocks/OptionModal.js:132
 msgid "Yes, Delete"
 msgstr "はい。削除します"
 
-#: build/652.js:1 build/blocks/design-select/index.js
-#: build/blocks/design-select/index.js:384 src/blocks/design-select/edit.js:241
+#: build/866.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:190
+msgid "Select Element Settings"
+msgstr "セレクト要素設定"
+
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-checkbox/index.js:117
+#: build/blocks/design-radio/index.js:184
+#: src/blocks/design-calender/edit.js:595
+#: src/blocks/design-checkbox/edit.js:147 src/blocks/design-radio/edit.js:272
+#: src/blocks/design-select/edit.js:196 src/blocks/design-text-ctrl/edit.js:145
+msgid "name attribute name"
+msgstr "name属性の名称"
+
+#: build/866.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:202
+msgid "Select Pattern"
+msgstr "選択のパターン"
+
+#: build/866.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:209
+msgid "Single Select"
+msgstr "単一選択"
+
+#: build/866.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:213
+msgid "Nulti Select"
+msgstr "複数選択"
+
+#: build/866.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:224
+msgid "Place Folder Display"
+msgstr "プレイスフォルダ表示"
+
+#: build/866.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/edit.js:280
+#: src/blocks/design-select/edit.js:231
+msgid "Option info Setting"
+msgstr "オプション情報設定"
+
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-checkbox/index.js:117
+#: build/blocks/design-process/index.js:214
+#: build/blocks/design-radio/index.js:184 build/blocks/design-table/index.js:78
+#: src/blocks/design-button/edit.js:316 src/blocks/design-calender/edit.js:658
+#: src/blocks/design-checkbox/edit.js:168 src/blocks/design-process/edit.js:162
+#: src/blocks/design-radio/edit.js:310 src/blocks/design-select/edit.js:251
+#: src/blocks/design-table/edit.js:430 src/blocks/design-text-ctrl/edit.js:176
+msgid "Global settings"
+msgstr "全体設定"
+
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-checkbox/index.js:117
+#: build/blocks/design-process/index.js:214
+#: build/blocks/design-radio/index.js:184 build/blocks/design-table/index.js:78
+#: src/blocks/design-button/edit.js:321 src/blocks/design-calender/edit.js:663
+#: src/blocks/design-checkbox/edit.js:173 src/blocks/design-process/edit.js:167
+#: src/blocks/design-radio/edit.js:417 src/blocks/design-select/edit.js:256
+#: src/blocks/design-table/edit.js:435 src/blocks/design-text-ctrl/edit.js:181
+msgid "Background Color Setting"
+msgstr "背景色設定"
+
+#: build/866.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-checkbox/index.js:117
+#: build/blocks/design-process/index.js:214
+#: build/blocks/design-radio/index.js:184 build/blocks/design-table/index.js:78
+#: src/blocks/design-button/edit.js:325 src/blocks/design-calender/edit.js:667
+#: src/blocks/design-checkbox/edit.js:177 src/blocks/design-process/edit.js:171
+#: src/blocks/design-radio/edit.js:421 src/blocks/design-select/edit.js:260
+#: src/blocks/design-table/edit.js:439
+msgid "Choose Block Background color"
+msgstr "ブロックの背景色を選択"
+
+#: build/866.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:268
+msgid "Choose Select Background color"
+msgstr "セレクトの背景色を選択"
+
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-checkbox/index.js:117
+#: build/blocks/design-group/index.js:121
+#: build/blocks/design-process/index.js:214
+#: build/blocks/design-radio/index.js:184 build/blocks/design-table/index.js:78
+#: src/blocks/design-button/edit.js:431 src/blocks/design-calender/edit.js:677
+#: src/blocks/design-calender/edit.js:856
+#: src/blocks/design-calender/edit.js:955
+#: src/blocks/design-checkbox/edit.js:193 src/blocks/design-group/edit.js:445
+#: src/blocks/design-process/edit.js:214 src/blocks/design-radio/edit.js:431
+#: src/blocks/design-radio/edit.js:620 src/blocks/design-select/edit.js:286
+#: src/blocks/design-table/edit.js:449 src/blocks/design-text-ctrl/edit.js:206
+msgid "Margin settings(mobile)"
+msgstr "マージン設定(モバイル)"
+
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-checkbox/index.js:117
+#: build/blocks/design-group/index.js:121
+#: build/blocks/design-process/index.js:214
+#: build/blocks/design-radio/index.js:184 build/blocks/design-table/index.js:78
+#: src/blocks/design-button/edit.js:430 src/blocks/design-calender/edit.js:676
+#: src/blocks/design-calender/edit.js:855
+#: src/blocks/design-calender/edit.js:954
+#: src/blocks/design-checkbox/edit.js:192 src/blocks/design-group/edit.js:444
+#: src/blocks/design-process/edit.js:213 src/blocks/design-radio/edit.js:430
+#: src/blocks/design-radio/edit.js:619 src/blocks/design-select/edit.js:285
+#: src/blocks/design-table/edit.js:448 src/blocks/design-text-ctrl/edit.js:205
+msgid "Margin settings(desk top)"
+msgstr "マージン設定(デスクトップ)"
+
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:124
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-checkbox/index.js:117
+#: build/blocks/design-group/index.js:121
+#: build/blocks/design-process/index.js:214
+#: build/blocks/design-radio/index.js:184 build/blocks/design-table/index.js:78
+#: src/blocks/design-button/edit.js:455 src/blocks/design-calender/edit.js:689
+#: src/blocks/design-calender/edit.js:869
+#: src/blocks/design-calender/edit.js:968
+#: src/blocks/design-checkbox/edit.js:217 src/blocks/design-group/edit.js:465
+#: src/blocks/design-group/edit.js:623 src/blocks/design-process/edit.js:238
+#: src/blocks/design-radio/edit.js:443 src/blocks/design-radio/edit.js:633
+#: src/blocks/design-select/edit.js:310 src/blocks/design-table/edit.js:473
+#: src/blocks/design-table/edit.js:618 src/blocks/design-table/edit.js:681
+#: src/blocks/design-text-ctrl/edit.js:230 src/blocks/ToolTips.js:140
+msgid "Padding settings(mobile)"
+msgstr "パディング設定(モバイル)"
+
+#: build/866.js:1 build/blocks/design-select/index.js build/903.js:1
+#: build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:124
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-checkbox/index.js:117
+#: build/blocks/design-group/index.js:121
+#: build/blocks/design-process/index.js:214
+#: build/blocks/design-radio/index.js:184 build/blocks/design-table/index.js:78
+#: src/blocks/design-button/edit.js:454 src/blocks/design-calender/edit.js:688
+#: src/blocks/design-calender/edit.js:868
+#: src/blocks/design-calender/edit.js:967
+#: src/blocks/design-checkbox/edit.js:216 src/blocks/design-group/edit.js:464
+#: src/blocks/design-group/edit.js:622 src/blocks/design-process/edit.js:237
+#: src/blocks/design-radio/edit.js:442 src/blocks/design-radio/edit.js:632
+#: src/blocks/design-select/edit.js:309 src/blocks/design-table/edit.js:472
+#: src/blocks/design-table/edit.js:617 src/blocks/design-table/edit.js:680
+#: src/blocks/design-text-ctrl/edit.js:229 src/blocks/ToolTips.js:139
+msgid "Padding settings(desk top)"
+msgstr "パディング設定(デスクトップ)"
+
+#: build/866.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:377
+msgid "Option Style Settings"
+msgstr "オプションスタイル設定"
+
+#: build/866.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:392
+msgid "Option Color Setting"
+msgstr "オプション色設定"
+
+#: build/866.js:1 build/blocks/design-select/index.js
+#: src/blocks/design-select/edit.js:402
+msgid "Choose Background color on mouse hover"
+msgstr "マウスホバー時の背景色を選択"
+
+#: build/866.js:1 build/blocks/design-select/index.js
+#: build/blocks/design-select/index.js:387 src/blocks/design-select/edit.js:160
 #: src/blocks/design-select/index.js:31 src/blocks/design-select/save.js:43
 msgid "Please Select."
 msgstr "選択してください。"
 
 #: build/903.js:1 build/blocks/design-text-ctrl/index.js
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-checkbox/edit.js:134
-#: src/blocks/design-text-ctrl/edit.js:149
+#: build/blocks/design-radio/index.js:184
+#: src/blocks/design-calender/edit.js:590
+#: src/blocks/design-checkbox/edit.js:142 src/blocks/design-radio/edit.js:267
+#: src/blocks/design-text-ctrl/edit.js:139
 msgid "Input element information setting"
 msgstr "インプット要素情報設定"
 
 #: build/903.js:1 build/blocks/design-text-ctrl/index.js
-#: src/blocks/design-text-ctrl/edit.js:162
+#: src/blocks/design-text-ctrl/edit.js:152
 msgid "PlaceHolder"
 msgstr "プレイスフォルダ"
 
 #: build/903.js:1 build/blocks/design-text-ctrl/index.js
-#: src/blocks/design-text-ctrl/edit.js:171
+#: src/blocks/design-text-ctrl/edit.js:161
 msgid "Kind of Input Element"
 msgstr "インプット要素の種類"
 
 #: build/903.js:1 build/blocks/design-text-ctrl/index.js
-#: src/blocks/design-text-ctrl/edit.js:202
+#: src/blocks/design-text-ctrl/edit.js:192
 msgid "Focus Color Setting"
 msgstr "フォーカス時の色設定"
 
 #: build/903.js:1 build/blocks/design-text-ctrl/index.js
-#: src/blocks/design-text-ctrl/edit.js:206
+#: src/blocks/design-text-ctrl/edit.js:196
 msgid "Choose Focus color"
 msgstr "フォーカス時の色を選択"
 
 #: build/903.js:1 build/blocks/design-text-ctrl/index.js
-#: src/blocks/design-text-ctrl/edit.js:278
+#: src/blocks/design-text-ctrl/edit.js:268
 msgid "Input Box style settings"
 msgstr "インプット要素スタイル設定"
 
 #: build/903.js:1 build/blocks/design-text-ctrl/index.js
-#: src/blocks/design-text-ctrl/edit.js:292
+#: src/blocks/design-text-ctrl/edit.js:290
+msgid "Line Height(mobile)"
+msgstr "行の高さ(モバイル)"
+
+#: build/903.js:1 build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:289
+msgid "Line Height(desk top)"
+msgstr "行の高さ(デスクトップ)"
+
+#: build/903.js:1 build/blocks/design-text-ctrl/index.js
+#: src/blocks/design-text-ctrl/edit.js:309
 msgid "Color Settings"
 msgstr "色設定"
 
@@ -765,7 +915,7 @@ msgid "Spacing Settings"
 msgstr "空白設定"
 
 #: build/blocks/code-highlight/index.js:1 build/gutenberg-ex.js:25
-#: src/blocks/code-highlight/edit.js:216 src/gutenberg-ex.js:225
+#: src/blocks/code-highlight/edit.js:216 src/gutenberg-ex.js:266
 msgid "Margin settings"
 msgstr "マージン設定"
 
@@ -793,1033 +943,1333 @@ msgstr "編集モード"
 msgid "Copy"
 msgstr "コピー"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/index.js:15
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/index.js:15
 msgid "A block that decorates buttons with designs."
 msgstr "デザインをあしらったボタンを作成するブロックです。"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:158
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:172
 msgid "Button Type setting"
 msgstr "ボタンタイプ設定"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:163
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:177
 msgid "Select Button Type"
 msgstr "ボタンタイプを選択"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:169
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-radio/index.js:184 src/blocks/design-button/edit.js:183
+#: src/blocks/design-radio/index.js:32
 msgid "Button"
 msgstr "ボタン"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:170
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:184
 msgid "Submit"
 msgstr "サブミット"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:196
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:205
+msgid "Free URL"
+msgstr "フリーのURL"
+
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:206
+msgid "No Link"
+msgstr "リンクなし"
+
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:211
 msgid "You can select the type of URL to link to the button."
 msgstr "タイトルにリンクするURLの種類を選択できます。"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:246
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:249
+msgid "Link to URL"
+msgstr "URLへのリンク"
+
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:261
 msgid "Button Label"
 msgstr "ボタンのラベル"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:251
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:266
 msgid "Button ID"
 msgstr "ボタンID"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:259
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:274
 msgid "Display Type setting"
 msgstr "表示タイプ設定"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:267
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:282
 msgid "String"
 msgstr "文字列"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:268
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:283
 msgid "Image"
 msgstr "画像"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:269
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:284
 msgid "Pseudo"
 msgstr "擬似要素"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:310
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:285
+msgid "Icon"
+msgstr "アイコン"
+
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:334
+msgid "Disabled Opacity"
+msgstr "使用不可時の透明度"
+
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:344
 msgid "Scale settings(mobile)"
 msgstr "大きさ設定(モバイル)"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:309
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:343
 msgid "Scale settings(desk top)"
 msgstr "大きさ設定(デスクトップ)"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:452
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:391
+msgid "Button alignment"
+msgstr "ボタンの配置"
+
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:145
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/blocks/design-button/edit.js:400
+#: src/blocks/design-radio/edit.js:245
+msgid "left alignment"
+msgstr "左"
+
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:145
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/blocks/design-button/edit.js:411
+#: src/blocks/design-radio/edit.js:374
+msgid "center alignment"
+msgstr "中央"
+
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:145
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/blocks/design-button/edit.js:422
+#: src/blocks/design-radio/edit.js:249
+msgid "right alignment"
+msgstr "右"
+
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:522
 msgid "Button style settings"
 msgstr "ボタンスタイル設定"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-button/edit.js:470 src/blocks/design-checkbox/edit.js:282
+#: build/blocks/design-radio/index.js:184 src/blocks/design-button/edit.js:540
+#: src/blocks/design-calender/edit.js:758
+#: src/blocks/design-checkbox/edit.js:290 src/blocks/design-radio/edit.js:511
 msgid "Choose Input color"
 msgstr "インプット要素色を選択"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:477
-msgid "Choose Button Background color"
-msgstr "ボタンの背景色を選択"
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:546
+msgid "Choose Disabled Input color"
+msgstr "使用不可時の要素色"
 
-#: build/blocks/design-button/index.js:47 src/blocks/design-button/edit.js:133
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-radio/index.js:184 src/blocks/design-button/edit.js:553
+#: src/blocks/design-radio/edit.js:538
+msgid "Choose Button Background color"
+msgstr "ボタンの背景色"
+
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:568
+msgid "Choose Disable Button Background color"
+msgstr "使用不可時のボタン背景色"
+
+#: build/blocks/design-button/index.js:74 src/blocks/design-button/edit.js:147
 msgid "Button Name..."
 msgstr "ボタンの名前..."
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Shadow Type"
 msgstr "シャドータイプ"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Nomal"
 msgstr "ノーマル"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Neumorphism"
 msgstr "ニューモフィズム"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Claymorphism"
 msgstr "クレイモフィズム"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Grassmophism"
 msgstr "グラスモフィズム"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "unevenness"
 msgstr "凹凸"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Nomal settings"
 msgstr "ノーマルの設定"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Spread"
 msgstr "広がり"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Blur"
 msgstr "ぼかし"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Shadow Color Setting"
 msgstr "色設定"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Choose Shadow color"
 msgstr "影の色を選択"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Neumorphism settings"
 msgstr "ニューモフィズム設定"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Intensity"
 msgstr "強度"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Claymorphism settings"
 msgstr "クレイモフィズム設定"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Grassmophism settings"
 msgstr "グラスモフィズム設定"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Glass blur"
 msgstr "ぼかし"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Glass Opacity"
 msgstr "透明度"
 
-#: build/blocks/design-button/index.js:47
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:124
+#: build/blocks/design-group/index.js:121
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-select/index.js:384
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
 #: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
-#: build/blocks/design-title/index.js:87 build/gutenberg-ex.js:1
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87 build/block_collection.js:1
+#: build/gutenberg-ex.js:1
 msgid "Show outline"
 msgstr "アウトライン"
 
-#: build/blocks/design-button/index.js:60
+#: build/blocks/design-button/index.js:87
+#: build/blocks/design-calender/index.js:208
 #: build/blocks/design-checkbox/index.js:130
-#: build/blocks/design-group/index.js:137
+#: build/blocks/design-group/index.js:134
 #: build/blocks/design-process/index.js:227
-#: build/blocks/design-select/index.js:397
+#: build/blocks/design-radio/index.js:197
+#: build/blocks/design-select/index.js:400
 #: build/blocks/design-table/index.js:91
-#: build/blocks/design-text-ctrl/index.js:145
-#: build/blocks/design-title/index.js:100 build/gutenberg-ex.js:14
+#: build/blocks/design-text-ctrl/index.js:149
+#: build/blocks/design-title/index.js:100 build/block_collection.js:14
+#: build/gutenberg-ex.js:14
 msgid "Position Setting"
 msgstr "位置設定"
 
-#: build/blocks/design-button/index.js:60
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:87
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:208
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:130
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:137
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:134
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:227
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:397
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:197
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:400
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:91 build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:145
-#: build/blocks/design-text-ctrl/index.js:156
+#: build/blocks/design-text-ctrl/index.js:149
+#: build/blocks/design-text-ctrl/index.js:160
 #: build/blocks/design-title/index.js:100
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:14
+#: build/blocks/design-title/index.js:111 build/block_collection.js:14
+#: build/block_collection.js:25 build/gutenberg-ex.js:14
 #: build/gutenberg-ex.js:25
 msgid "Vertical"
 msgstr "縦方向"
 
-#: build/blocks/design-button/index.js:60
+#: build/blocks/design-button/index.js:87
+#: build/blocks/design-calender/index.js:208
 #: build/blocks/design-checkbox/index.js:130
-#: build/blocks/design-group/index.js:137
+#: build/blocks/design-group/index.js:134
 #: build/blocks/design-process/index.js:227
-#: build/blocks/design-select/index.js:397
+#: build/blocks/design-radio/index.js:197
+#: build/blocks/design-select/index.js:400
 #: build/blocks/design-table/index.js:91
-#: build/blocks/design-text-ctrl/index.js:145
-#: build/blocks/design-title/index.js:100 build/gutenberg-ex.js:14
+#: build/blocks/design-text-ctrl/index.js:149
+#: build/blocks/design-title/index.js:100 build/block_collection.js:14
+#: build/gutenberg-ex.js:14
 msgid "Horizen"
 msgstr "横方向"
 
-#: build/blocks/design-button/index.js:60
+#: build/blocks/design-button/index.js:87
+#: build/blocks/design-calender/index.js:208
 #: build/blocks/design-checkbox/index.js:130
-#: build/blocks/design-group/index.js:137
+#: build/blocks/design-group/index.js:134
 #: build/blocks/design-process/index.js:227
-#: build/blocks/design-select/index.js:397
+#: build/blocks/design-radio/index.js:197
+#: build/blocks/design-select/index.js:400
 #: build/blocks/design-table/index.js:91
-#: build/blocks/design-text-ctrl/index.js:145
-#: build/blocks/design-title/index.js:100 build/gutenberg-ex.js:14
+#: build/blocks/design-text-ctrl/index.js:149
+#: build/blocks/design-title/index.js:100 build/block_collection.js:14
+#: build/gutenberg-ex.js:14
 msgid "Reset"
 msgstr "リセット"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Animation Setting"
 msgstr "アニメーション設定"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Is Animation"
 msgstr "アニメーションさせる"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Animation Pattern"
 msgstr "パターン"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Animation duration time"
 msgstr "継続時間"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Animation delay time"
 msgstr "遅延時間"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Animation Trigger"
 msgstr "開始トリガー"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Page Opend"
 msgstr "ページが開いた時"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Enter Visible"
 msgstr "可視領域表示時"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Number of Row "
 msgstr "行番号"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Number of Colum"
 msgstr "列番号"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Row Gap"
 msgstr "行間"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Colum Gap"
 msgstr "列間"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Element placement"
 msgstr "要素の配置"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
-msgid "Clear"
-msgstr "クリア"
-
-#: build/blocks/design-button/index.js:71
-#: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
-#: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
-#: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Lateral Alignment"
 msgstr "横配置"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Vertical Alignment"
 msgstr "縦配置"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "InnerBlock Name"
 msgstr "インナーブロック名"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/blocks/design-radio/edit.js:244
 msgid "upper alignment"
 msgstr "上"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
-msgid "left alignment"
-msgstr "左"
-
-#: build/blocks/design-button/index.js:71
-#: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
-#: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
-#: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/blocks/design-radio/edit.js:248
 msgid "lower alignment"
 msgstr "下"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
-msgid "right alignment"
-msgstr "右"
-
-#: build/blocks/design-button/index.js:71
-#: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
-#: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
-#: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block Max Width(Mobile)"
 msgstr "ブロックの最大幅(モバイル)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block Width(Mobile)"
 msgstr "ブロックの幅(モバイル)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block Max Width(DeskTop)"
 msgstr "ブロックの最大幅(デスクトップ)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block Width(DeskTop)"
 msgstr "ブロックの幅(デスクトップ)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block placement"
 msgstr "ブロックの配置"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "InnerBlock direction(Mobile)"
 msgstr "インナーブロックの方向(モバイル)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "InnerBlock direction(DeskTop)"
 msgstr "インナーブロックの方向(デスクトップ)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "block"
 msgstr "ブロック"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/blocks/design-radio/edit.js:328
 msgid "virtical"
 msgstr "縦方向"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/blocks/design-radio/edit.js:339
 msgid "horizen"
 msgstr "横方向"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "grid"
 msgstr "グリッド"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "reverse"
 msgstr "反転"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "InnerBlock alignment(Mobile)"
 msgstr "インナーブロックの配置(モバイル)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "InnerBlock alignment(DeskTop)"
 msgstr "インナーブロックの配置(デスクトップ)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
-msgid "center alignment"
-msgstr "中央"
-
-#: build/blocks/design-button/index.js:71
-#: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
-#: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
-#: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/blocks/design-radio/edit.js:398
 msgid "beteen stretch"
 msgstr "均等(余白なし)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25 src/blocks/design-radio/edit.js:411
 msgid "around stretch"
 msgstr "均等(余白あり)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block alignment(Mobile)"
 msgstr "ブロックの配置(モバイル)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block alignment(DeskTop)"
 msgstr "ブロックの配置(デスクトップ)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Wide Size"
 msgstr "幅広"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Content Size"
 msgstr "コンテント幅"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Max width"
 msgstr "最大幅"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block Height(Mobile)"
 msgstr "ブロックの高さ(モバイル)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block Height(DeskTop)"
 msgstr "ブロックの高さ(デスクトップ)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Grid Info settings(Mobile)"
 msgstr "グリッド設定(モバイル)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Grid Info settings(DeskTop)"
 msgstr "グリッド設定(デスクトップ)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Open Setting Modal"
 msgstr "設定画面を開く"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Position Type"
 msgstr "ポジションタイプ"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Static"
 msgstr "静的"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Relative"
 msgstr "相対位置"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Absolute"
 msgstr "絶対位置"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Fix"
 msgstr "固定"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Sticky"
 msgstr "粘着"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block Position(Mobile)"
 msgstr "ブロックの位置(モバイル)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block Position(DeskTop)"
 msgstr "ブロックの位置(デスクトップ)"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Horizon"
 msgstr "横方向"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Size(mobile)"
 msgstr "フォントサイズ（モバイル）"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Size(desk top)"
 msgstr "フォントサイズ（デスクトップ）"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "font family"
 msgstr "フォントファミリー"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "font weight"
 msgstr "フォントウェイト"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Italic display"
 msgstr "斜体表示"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid ""
 "Select the icon from and enter Unicode (the upper right four digits of the "
 "selection dialog). "
 msgstr "からアイコンを選択し、Unicode（選択ダイアログの右上4桁）を入力します。"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid ""
 "Please select the first class name shown in the HTML code field of the "
 "selection dialog. "
@@ -1827,82 +2277,318 @@ msgstr ""
 "選択ダイアログのHTMLコードフィールドに表示される最初のクラス名を選択してくだ"
 "さい。"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "icon name"
 msgstr "アイコン名"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Icon Family"
 msgstr "アイコンファミリー"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Size"
 msgstr "サイズ"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "spacing to end"
 msgstr "終端までの空白"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Arrangement"
 msgstr "配置"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "left"
 msgstr "左"
 
-#: build/blocks/design-button/index.js:71
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:148
+#: build/blocks/design-group/index.js:145
 #: build/blocks/design-process/index.js:238
-#: build/blocks/design-select/index.js:408
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
 #: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:156
-#: build/blocks/design-title/index.js:111 build/gutenberg-ex.js:25
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "right"
 msgstr "右"
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:145
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
+msgid "Period Setting"
+msgstr "期間設定"
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:145
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
+msgid "Start of period"
+msgstr "期間の始期"
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:145
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
+msgid "Year"
+msgstr "年"
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:145
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
+msgid "Month"
+msgstr "月"
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:145
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111 build/block_collection.js:25
+#: build/gutenberg-ex.js:25
+msgid "End of period"
+msgstr "期間の終期"
+
+#: build/blocks/design-calender/index.js:124 src/blocks/ToolTips.js:70
+msgid "Tooltip style settings"
+msgstr "ツールチップのスタイル"
+
+#: build/blocks/design-calender/index.js:124 src/blocks/ToolTips.js:85
+msgid "Tooltip Color Setting"
+msgstr "ツールチップの色"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:77
+msgid ""
+"Go to the Google Cloud Console, create a new project, enable the Google "
+"Calendar API in the project, and enter the API key you just created. "
+msgstr ""
+"Google Cloud Console にアクセスし、新しいプロジェクトを作成し、プロジェクト"
+"で Google Calendar API を有効にして、作成した API キーを入力します。"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/index.js:36
+msgid "A block for display calender with designs"
+msgstr "デザインをあしらったカレンダーを作成するブロックです"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:476
+msgid "Failed to get holiday data."
+msgstr "祝日データの取得に失敗しました。"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:601
+msgid "Date Alignment Setting"
+msgstr "日付の位置設定"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:607
+msgid "First day of the week"
+msgstr "週の最初の曜日"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:610
+msgid "Sunday"
+msgstr "日曜"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:611
+msgid "Monday"
+msgstr "月曜"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:616
+msgid ""
+"Select the day of the week that you want to place at the top of the calendar."
+msgstr "カレンダーの最初に配置する曜日を選択します。"
+
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-radio/index.js:184
+#: src/blocks/design-calender/edit.js:623 src/blocks/design-radio/edit.js:300
+msgid "Is Select Release Button"
+msgstr "リリースボタンをセット"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:630
+msgid "Is Holiday Display"
+msgstr "祝日を表示"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:638
+msgid "Google Calender API KEY"
+msgstr "Google Calender APIキー"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:740
+msgid "Day style settings"
+msgstr "日付スタイル設定"
+
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-checkbox/index.js:117
+#: build/blocks/design-radio/index.js:184
+#: src/blocks/design-calender/edit.js:754
+#: src/blocks/design-checkbox/edit.js:286 src/blocks/design-radio/edit.js:507
+msgid "Input Color Setting"
+msgstr "インプット要素色設定"
+
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-checkbox/index.js:117
+#: build/blocks/design-radio/index.js:184
+#: src/blocks/design-calender/edit.js:764
+#: src/blocks/design-checkbox/edit.js:183
+#: src/blocks/design-checkbox/edit.js:296 src/blocks/design-radio/edit.js:517
+msgid "Choose Input Background color"
+msgstr "インプット要素背景色を選択"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:770
+msgid "Choose Holiday color"
+msgstr "祝日の文字色を選択"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:776
+msgid "Choose Horiday Background color"
+msgstr "祝日の背景色を選択"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:785
+msgid "Choose Saturday color"
+msgstr "土曜日の文字色を選択"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:791
+msgid "Choose Saturday Background color"
+msgstr "土曜日の背景色を選択"
+
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-radio/index.js:184
+#: src/blocks/design-calender/edit.js:802 src/blocks/design-radio/edit.js:562
+msgid "Selected Button settings"
+msgstr "ボタン設定"
+
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-radio/index.js:184
+#: src/blocks/design-calender/edit.js:807 src/blocks/design-radio/edit.js:567
+msgid "Selected Button Color Setting"
+msgstr "ボタン色設定"
+
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-radio/index.js:184
+#: src/blocks/design-calender/edit.js:811 src/blocks/design-radio/edit.js:571
+msgid "Choose Selected Text color"
+msgstr "文字色を選択"
+
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-radio/index.js:184
+#: src/blocks/design-calender/edit.js:818 src/blocks/design-radio/edit.js:581
+msgid "Choose Selected Button color"
+msgstr "ボタン色を選択"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:920
+msgid "Week Label style settings"
+msgstr "週ラベルスタイル設定"
+
+#: build/blocks/design-calender/index.js:195
+#: src/blocks/design-calender/edit.js:944
+msgid "Choose Label Background color"
+msgstr "背景色を選択"
 
 #: build/blocks/design-checkbox/index.js:117
 #: src/blocks/design-checkbox/index.js:20
@@ -1910,7 +2596,7 @@ msgid "A block for creating check boxes with designs"
 msgstr "デザインをあしらったチェックボックスを作成するブロックです"
 
 #: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-checkbox/edit.js:141
+#: src/blocks/design-checkbox/edit.js:149
 msgid ""
 "When using another design-checkbox as one of the options as an inner block, "
 "please use the same name."
@@ -1919,12 +2605,12 @@ msgstr ""
 "併せて下さい。"
 
 #: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-checkbox/edit.js:148
+#: src/blocks/design-checkbox/edit.js:156
 msgid "Check to proceed"
 msgstr "続行のためのチェック"
 
 #: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-checkbox/edit.js:151
+#: src/blocks/design-checkbox/edit.js:159
 msgid ""
 "When it is the inner block of the block where the submit button is placed, "
 "the submit button is enabled by checking it."
@@ -1933,94 +2619,84 @@ msgstr ""
 "ことで送信ボタンが有効になります。"
 
 #: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-checkbox/edit.js:175
-#: src/blocks/design-checkbox/edit.js:288
-msgid "Choose Input Background color"
-msgstr "インプット要素背景色を選択"
-
-#: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-checkbox/edit.js:273
+#: build/blocks/design-radio/index.js:184
+#: src/blocks/design-checkbox/edit.js:281 src/blocks/design-radio/edit.js:493
 msgid "Input style settings"
 msgstr "インプット要素スタイル設定"
 
 #: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-checkbox/edit.js:278
-msgid "Input Color Setting"
-msgstr "インプット要素色設定"
-
-#: build/blocks/design-checkbox/index.js:117
-#: src/blocks/design-checkbox/edit.js:124
+#: src/blocks/design-checkbox/edit.js:132
 msgid "Write Checkbox Label..."
 msgstr "チェックボックスのラベルを入力..."
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/index.js:13
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/index.js:13
 msgid ""
 "A block for storing and arranging multiple blocks. The position can be "
 "adjusted."
 msgstr "複数のブロックを格納、配置するためのブロック。 位置調整が可能です。"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:307
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:306
 msgid "Menu or Group"
 msgstr "メニュー・グループ"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:312
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:311
 msgid "Is Menu"
 msgstr "メニューにする"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:337
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:336
 msgid "Slide Parallax"
 msgstr "スライドの視差"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:342
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:341
 msgid "Is Parallax"
 msgstr "視差効果"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:361
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:360
 msgid "Parallax Type"
 msgstr "視差のタイプ"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:365
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:364
 msgid "Lateral"
 msgstr "横方向"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:369
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:368
 msgid "Longitudinal"
 msgstr "縦方向"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:373
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:372
 msgid "Scale"
 msgstr "大きさ"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:391
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:390
 msgid "Value"
 msgstr "値"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:412
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:411
 msgid "unit"
 msgstr "単位"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:438
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:437
 msgid "Dimensions"
 msgstr "余白設定"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:616
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:615
 msgid "Content Style"
 msgstr "内容のスタイル"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:664
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:663
 msgid "Position moveable"
 msgstr "配置可動"
 
-#: build/blocks/design-group/index.js:124 src/blocks/design-group/edit.js:668
+#: build/blocks/design-group/index.js:121 src/blocks/design-group/edit.js:667
 msgid "make it moveable"
 msgstr "動かせるようにする"
 
 #: build/blocks/design-process/index.js:214
-#: build/blocks/design-table/index.js:78
-#: build/blocks/design-text-ctrl/index.js:132
+#: build/blocks/design-radio/index.js:184 build/blocks/design-table/index.js:78
+#: build/blocks/design-text-ctrl/index.js:136
 #: build/blocks/design-title/index.js:87 src/blocks/design-process/index.js:18
-#: src/blocks/design-table/index.js:19 src/blocks/design-text-ctrl/index.js:22
-#: src/blocks/design-title/index.js:23
+#: src/blocks/design-radio/index.js:27 src/blocks/design-table/index.js:19
+#: src/blocks/design-text-ctrl/index.js:22 src/blocks/design-title/index.js:23
 msgid "Default"
 msgstr "デフォルト"
 
@@ -2073,12 +2749,56 @@ msgstr "背景色を選択してください"
 msgid "Process Display"
 msgstr "プロセス表示"
 
-#: build/blocks/design-select/index.js:384 src/blocks/design-select/index.js:18
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/index.js:20
+msgid "A block for creating radio button with designs"
+msgstr "デザインをあしらったラジオボタンを作成するブロックです"
+
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/edit.js:297
+msgid "Select Release Setting"
+msgstr "リリースの設定"
+
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/edit.js:315
+msgid "Radiobutton direction(Mobile)"
+msgstr "ラジオボタンの方向(モバイル)"
+
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/edit.js:317
+msgid "Radiobutton direction(DeskTop)"
+msgstr "ラジオボタンの方向(デスクトップ)"
+
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/edit.js:345
+msgid "Wrap"
+msgstr "折り返し"
+
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/edit.js:351
+msgid "Radiobutton alignment(Mobile)"
+msgstr "ラジオボタンの配置(モバイル)"
+
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/edit.js:353
+msgid "Radiobutton alignment(DeskTop)"
+msgstr "ラジオボタンの配置(デスクトップ)"
+
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/edit.js:528
+msgid "Radiobutton Color Setting"
+msgstr "文字色設定"
+
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/edit.js:532
+msgid "Choose Radiobutton color"
+msgstr "色を選択"
+
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/edit.js:553
+msgid "Button Scale(mobile)"
+msgstr "ボタンの大きさ（モバイル）"
+
+#: build/blocks/design-radio/index.js:184 src/blocks/design-radio/edit.js:552
+msgid "Button Scale(desk top)"
+msgstr "ボタンの大きさ（デスクトップ）"
+
+#: build/blocks/design-select/index.js:387 src/blocks/design-select/index.js:18
 msgid "A block for designing select elements"
 msgstr "デザインをあしらったセレクト要素を生成するブロックです"
 
-#: build/blocks/design-select/index.js:384
-#: build/blocks/design-text-ctrl/index.js:132
+#: build/blocks/design-select/index.js:387
+#: build/blocks/design-text-ctrl/index.js:136
 #: src/blocks/design-select/index.js:26 src/blocks/design-text-ctrl/index.js:40
 msgid "Required"
 msgstr "必須"
@@ -2145,17 +2865,17 @@ msgstr "データ要素色設定"
 msgid "Enter header..."
 msgstr "ヘッダーを入力..."
 
-#: build/blocks/design-text-ctrl/index.js:132
+#: build/blocks/design-text-ctrl/index.js:136
 #: src/blocks/design-text-ctrl/index.js:18
 msgid "A block for styling text controls."
 msgstr "デザインをあしらったテキストインップット要素を生成するブロックです"
 
-#: build/blocks/design-text-ctrl/index.js:132
+#: build/blocks/design-text-ctrl/index.js:136
 #: src/blocks/design-text-ctrl/index.js:27
 msgid "Line"
 msgstr "ライン"
 
-#: build/blocks/design-text-ctrl/index.js:132
+#: build/blocks/design-text-ctrl/index.js:136
 #: src/blocks/design-text-ctrl/index.js:34
 msgid "Please Input ..."
 msgstr "入力してください..."
@@ -2168,45 +2888,74 @@ msgstr "円マーカー"
 msgid "Sub Copy"
 msgstr "サブコピー"
 
-#: build/blocks/design-title/index.js:87 src/blocks/design-title/index.js:42
+#: build/blocks/design-title/index.js:87 src/blocks/design-title/index.js:46
 msgid "A block with various styles applied to heading tags"
 msgstr "見出しタグにさまざまなスタイルが適用されたブロックです。"
 
-#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:135
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:165
 msgid "Gradient"
 msgstr "グラデーション"
 
-#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:206
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:247
 msgid "Size of Image"
 msgstr "イメージサイズ"
 
-#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:210
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:251
 msgid "Fit Parent Element"
 msgstr "親要素に合わせる"
 
-#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:221
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:262
 msgid "Dimension"
 msgstr "余白設定"
 
-#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:251
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:292
 msgid "LineHight settings"
 msgstr "行間設定"
 
-#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:255
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:296
 msgid "lineHeight"
 msgstr "行間"
 
-#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:269
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:308
+msgid "See More"
+msgstr "もっと見る"
+
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:310
+msgid "Is See More Setting"
+msgstr "「もっと見る」の設定"
+
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:334
+msgid "Max Height(mobile)"
+msgstr "最大の高さ(モバイル)"
+
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:333
+msgid "Max Height(desk top)"
+msgstr "最大の高さ(デスクトップ)"
+
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:346
+msgid "Ratio of gradation(mobile)"
+msgstr "ぼかしの高さ（モバイル）"
+
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:342
+msgid "Ratio of gradation(desk top)"
+msgstr "ぼかしの高さ(デスクトップ)"
+
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:373
 msgid "Border settings"
 msgstr "ボーダー設定"
 
-#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:300
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:404
 msgid "Scale settings"
 msgstr "大きさ設定"
 
-#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:311 src/gutenberg-ex.js:323
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:415 src/gutenberg-ex.js:427
 msgid "If left blank, it will not be set."
 msgstr "空白のままにすると設定されません。"
+
+#: build/gutenberg-ex.js:25 src/gutenberg-ex.js:589
+msgid ""
+"The 'See more' button cannot be set when there are multiple inner blocks"
+msgstr "内部ブロックが複数ある場合、「もっと見る」ボタンは設定できません"
 
 #: build/blocks/code-highlight/block.json src/blocks/code-highlight/block.json
 msgctxt "block title"
@@ -2218,6 +2967,14 @@ msgstr ""
 #| msgid "Single Select"
 msgctxt "block title"
 msgid "Design Button"
+msgstr "単一選択"
+
+#: build/blocks/design-calender/block.json
+#: src/blocks/design-calender/block.json
+#, fuzzy
+#| msgid "Single Select"
+msgctxt "block title"
+msgid "Design Calender"
 msgstr "単一選択"
 
 #: build/blocks/design-checkbox/block.json
@@ -2237,6 +2994,13 @@ msgstr ""
 msgctxt "block title"
 msgid "Design Process"
 msgstr ""
+
+#: build/blocks/design-radio/block.json src/blocks/design-radio/block.json
+#, fuzzy
+#| msgid "Single Select"
+msgctxt "block title"
+msgid "Design Radio"
+msgstr "単一選択"
 
 #: build/blocks/design-select/block.json src/blocks/design-select/block.json
 #, fuzzy
@@ -2262,6 +3026,13 @@ msgstr ""
 msgctxt "block title"
 msgid "Design Title"
 msgstr ""
+
+#~ msgid ""
+#~ "You can display the site title and catchphrase in addition to the blank "
+#~ "title."
+#~ msgstr ""
+#~ "空白のタイトルに加えて、サイトタイトルやキャッチコピーを表示することもでき"
+#~ "ます。"
 
 #~ msgid "Block Height"
 #~ msgstr "高さ"
