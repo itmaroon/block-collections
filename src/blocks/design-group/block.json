@@ -31,6 +31,10 @@
 			"type": "string",
 			"default": "relative"
 		},
+		"isPosCenter": {
+			"type": "boolean",
+			"default": false
+		},
 		
 		"default_pos": {
 			"type": "object",
@@ -48,7 +52,9 @@
 					"vertBase": "top",
 					"horBase": "left",
 					"vertValue": "3em",
-					"horValue": "3em"
+					"horValue": "3em",
+					"isVertCenter": false,
+					"isHorCenter": false
 				},
 				"margin": {
 					"top": "0px",
@@ -95,7 +101,9 @@
 					"vertBase": "top",
 					"horBase": "left",
 					"vertValue": "2em",
-					"horValue": "1em"
+					"horValue": "1em",
+					"isVertCenter": false,
+					"isHorCenter": false
 				},
 				"margin": {
 					"top": "0px",

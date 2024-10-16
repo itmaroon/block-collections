@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Block Collections 1.3.0\n"
+"Project-Id-Version: Block Collections 1.4.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-collections\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-03T11:39:51+02:00\n"
+"POT-Creation-Date: 2024-10-16T03:39:16+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: block-collections\n"
@@ -73,63 +73,63 @@ msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:450
-#: src/blocks/design-title/edit.js:552
-#: src/blocks/design-title/edit.js:609
+#: src/blocks/design-title/edit.js:468
+#: src/blocks/design-title/edit.js:580
+#: src/blocks/design-title/edit.js:637
 msgid "The input string is not in URL format."
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:458
+#: src/blocks/design-title/edit.js:485
 msgid "Write Title text..."
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:485
+#: src/blocks/design-title/edit.js:513
 msgid "Title Source Setting"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:488
+#: src/blocks/design-title/edit.js:516
 msgid "Title type"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:491
+#: src/blocks/design-title/edit.js:519
 msgid "Plaine"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:492
+#: src/blocks/design-title/edit.js:520
 msgid "Date"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:493
+#: src/blocks/design-title/edit.js:521
 msgid "Site Title"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:495
+#: src/blocks/design-title/edit.js:523
 msgid "Chatch Phrase"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:502
+#: src/blocks/design-title/edit.js:530
 msgid "The Site Title and Tagline provide the ability to display whatever you set in the WordPress General Settings."
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:509
+#: src/blocks/design-title/edit.js:537
 msgid "Date Format"
 msgstr ""
 
@@ -137,13 +137,13 @@ msgstr ""
 #: build/blocks/design-title/index.js
 #: build/blocks/design-button/index.js:74
 #: src/blocks/design-button/edit.js:194
-#: src/blocks/design-title/edit.js:521
+#: src/blocks/design-title/edit.js:549
 msgid "Link type"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:524
+#: src/blocks/design-title/edit.js:552
 msgid "None"
 msgstr ""
 
@@ -151,7 +151,7 @@ msgstr ""
 #: build/blocks/design-title/index.js
 #: build/blocks/design-button/index.js:74
 #: src/blocks/design-button/edit.js:198
-#: src/blocks/design-title/edit.js:526
+#: src/blocks/design-title/edit.js:554
 msgid "Fixed Page"
 msgstr ""
 
@@ -159,31 +159,31 @@ msgstr ""
 #: build/blocks/design-title/index.js
 #: build/blocks/design-button/index.js:74
 #: src/blocks/design-button/edit.js:202
-#: src/blocks/design-title/edit.js:530
+#: src/blocks/design-title/edit.js:558
 msgid "Archive Page"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:533
+#: src/blocks/design-title/edit.js:561
 msgid "Free Link"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:534
+#: src/blocks/design-title/edit.js:562
 msgid "URL"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:536
+#: src/blocks/design-title/edit.js:564
 msgid "Sub Menu"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:563
+#: src/blocks/design-title/edit.js:591
 msgid "You can select the type of URL to link to the title."
 msgstr ""
 
@@ -191,7 +191,7 @@ msgstr ""
 #: build/blocks/design-title/index.js
 #: build/blocks/design-button/index.js:74
 #: src/blocks/design-button/edit.js:222
-#: src/blocks/design-title/edit.js:573
+#: src/blocks/design-title/edit.js:601
 msgid "Select a fixed page to link to"
 msgstr ""
 
@@ -199,61 +199,61 @@ msgstr ""
 #: build/blocks/design-title/index.js
 #: build/blocks/design-button/index.js:74
 #: src/blocks/design-button/edit.js:237
-#: src/blocks/design-title/edit.js:588
+#: src/blocks/design-title/edit.js:616
 msgid "Select archive page to link to"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:600
+#: src/blocks/design-title/edit.js:628
 msgid "Link URL"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:626
+#: src/blocks/design-title/edit.js:654
 msgid "Submenu position settings"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:629
+#: src/blocks/design-title/edit.js:657
 msgid "Menu Alignment"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:638
+#: src/blocks/design-title/edit.js:666
 msgid "Based on title"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:640
+#: src/blocks/design-title/edit.js:668
 msgid "If unchecked, the parent menu will be used as the reference. If there is no parent menu, do not uncheck it."
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:655
+#: src/blocks/design-title/edit.js:683
 msgid "Title settings"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:671
+#: src/blocks/design-title/edit.js:699
 msgid "Font Size(mobile)"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:670
+#: src/blocks/design-title/edit.js:698
 msgid "Font Size(desk top)"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:676
+#: src/blocks/design-title/edit.js:704
 msgid "Padding"
 msgstr ""
 
@@ -276,7 +276,7 @@ msgstr ""
 #: src/blocks/design-calender/edit.js:902
 #: src/blocks/design-calender/edit.js:1001
 #: src/blocks/design-checkbox/edit.js:264
-#: src/blocks/design-group/edit.js:645
+#: src/blocks/design-group/edit.js:670
 #: src/blocks/design-process/edit.js:259
 #: src/blocks/design-radio/edit.js:476
 #: src/blocks/design-radio/edit.js:598
@@ -284,39 +284,28 @@ msgstr ""
 #: src/blocks/design-select/edit.js:359
 #: src/blocks/design-table/edit.js:522
 #: src/blocks/design-text-ctrl/edit.js:251
-#: src/blocks/design-title/edit.js:684
+#: src/blocks/design-title/edit.js:712
 msgid "Is Shadow"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:701
+#: src/blocks/design-title/edit.js:729
 msgid "Add an underline"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:709
+#: src/blocks/design-title/edit.js:737
 msgid "UnderLine settings"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
 #: build/blocks/design-button/index.js:74
-#: build/blocks/design-button/index.js:98
-#: build/blocks/design-calender/index.js:219
-#: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:145
-#: build/blocks/design-process/index.js:238
-#: build/blocks/design-radio/index.js:208
-#: build/blocks/design-select/index.js:411
-#: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:160
-#: build/blocks/design-title/index.js:111
-#: build/block_collection.js:25
 #: build/gutenberg-ex.js:25
 #: src/blocks/design-button/edit.js:382
-#: src/blocks/design-title/edit.js:720
+#: src/blocks/design-title/edit.js:748
 #: src/gutenberg-ex.js:425
 msgid "Height"
 msgstr ""
@@ -326,7 +315,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/gutenberg-ex.js:25
 #: src/blocks/design-button/edit.js:362
-#: src/blocks/design-title/edit.js:729
+#: src/blocks/design-title/edit.js:757
 #: src/gutenberg-ex.js:413
 msgid "Width"
 msgstr ""
@@ -345,65 +334,65 @@ msgstr ""
 #: build/blocks/design-title/index.js:87
 #: build/block_collection.js:1
 #: build/gutenberg-ex.js:1
-#: src/blocks/design-title/edit.js:738
+#: src/blocks/design-title/edit.js:766
 msgid "Distance"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:743
+#: src/blocks/design-title/edit.js:771
 msgid "Under Line Color Setting"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:748
+#: src/blocks/design-title/edit.js:776
 msgid "Choose Under Line color"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:763
+#: src/blocks/design-title/edit.js:791
 msgid "Animation on hover"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:773
+#: src/blocks/design-title/edit.js:801
 msgid "Write vertically"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:783
+#: src/blocks/design-title/edit.js:811
 msgid "Circle Marker Settings"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:788
-#: src/blocks/design-title/edit.js:898
+#: src/blocks/design-title/edit.js:816
+#: src/blocks/design-title/edit.js:926
 msgid "Circle Color Setting"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:800
-#: src/blocks/design-title/edit.js:910
+#: src/blocks/design-title/edit.js:828
+#: src/blocks/design-title/edit.js:938
 msgid "Choose Circle Background"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:825
-#: src/blocks/design-title/edit.js:955
+#: src/blocks/design-title/edit.js:853
+#: src/blocks/design-title/edit.js:983
 msgid "Circle Scale Setting"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:833
-#: src/blocks/design-title/edit.js:963
+#: src/blocks/design-title/edit.js:861
+#: src/blocks/design-title/edit.js:991
 msgid "Position Settings"
 msgstr ""
 
@@ -421,8 +410,8 @@ msgstr ""
 #: build/blocks/design-title/index.js:87
 #: build/block_collection.js:1
 #: build/gutenberg-ex.js:1
-#: src/blocks/design-title/edit.js:843
-#: src/blocks/design-title/edit.js:973
+#: src/blocks/design-title/edit.js:871
+#: src/blocks/design-title/edit.js:1001
 msgid "Lateral direction"
 msgstr ""
 
@@ -440,20 +429,20 @@ msgstr ""
 #: build/blocks/design-title/index.js:87
 #: build/block_collection.js:1
 #: build/gutenberg-ex.js:1
-#: src/blocks/design-title/edit.js:861
-#: src/blocks/design-title/edit.js:991
+#: src/blocks/design-title/edit.js:889
+#: src/blocks/design-title/edit.js:1019
 msgid "Longitudinal direction"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:875
+#: src/blocks/design-title/edit.js:903
 msgid "Second Circle Settings"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:879
+#: src/blocks/design-title/edit.js:907
 msgid "Second Circle"
 msgstr ""
 
@@ -471,20 +460,20 @@ msgstr ""
 #: build/blocks/design-title/index.js:87
 #: build/block_collection.js:1
 #: build/gutenberg-ex.js:1
-#: src/blocks/design-group/edit.js:376
-#: src/blocks/design-title/edit.js:935
+#: src/blocks/design-group/edit.js:397
+#: src/blocks/design-title/edit.js:963
 msgid "Opacity"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1011
+#: src/blocks/design-title/edit.js:1039
 msgid "Sub Copy Settings"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1016
+#: src/blocks/design-title/edit.js:1044
 msgid "Copy Color Setting"
 msgstr ""
 
@@ -507,7 +496,7 @@ msgstr ""
 #: src/blocks/design-table/edit.js:568
 #: src/blocks/design-table/edit.js:658
 #: src/blocks/design-text-ctrl/edit.js:313
-#: src/blocks/design-title/edit.js:1023
+#: src/blocks/design-title/edit.js:1051
 #: src/blocks/LabelBox .js:167
 #: src/blocks/ToolTips.js:89
 msgid "Choose Text color"
@@ -525,7 +514,7 @@ msgstr ""
 #: src/blocks/design-table/edit.js:666
 #: src/blocks/design-text-ctrl/edit.js:185
 #: src/blocks/design-text-ctrl/edit.js:321
-#: src/blocks/design-title/edit.js:1041
+#: src/blocks/design-title/edit.js:1069
 #: src/blocks/LabelBox .js:175
 #: src/blocks/ToolTips.js:99
 msgid "Choose Background color"
@@ -533,13 +522,13 @@ msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1060
+#: src/blocks/design-title/edit.js:1088
 msgid "Copy Text"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1073
+#: src/blocks/design-title/edit.js:1101
 msgid "Copy Alignment"
 msgstr ""
 
@@ -567,7 +556,7 @@ msgstr ""
 #: src/blocks/design-table/edit.js:555
 #: src/blocks/design-table/edit.js:644
 #: src/blocks/design-text-ctrl/edit.js:273
-#: src/blocks/design-title/edit.js:1090
+#: src/blocks/design-title/edit.js:1118
 #: src/blocks/LabelBox .js:154
 #: src/blocks/ToolTips.js:75
 msgid "Typography"
@@ -597,7 +586,7 @@ msgstr ""
 #: src/blocks/design-select/edit.js:331
 #: src/blocks/design-table/edit.js:494
 #: src/blocks/design-text-ctrl/edit.js:330
-#: src/blocks/design-title/edit.js:1113
+#: src/blocks/design-title/edit.js:1141
 #: src/blocks/LabelBox .js:185
 #: src/blocks/ToolTips.js:113
 msgid "Border Settings"
@@ -612,7 +601,7 @@ msgstr ""
 #: build/blocks/code-highlight/index.js:1
 #: build/gutenberg-ex.js:25
 #: src/blocks/code-highlight/edit.js:226
-#: src/blocks/design-title/edit.js:1140
+#: src/blocks/design-title/edit.js:1168
 #: src/blocks/LabelBox .js:206
 #: src/gutenberg-ex.js:277
 msgid "Padding settings"
@@ -620,19 +609,19 @@ msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1163
+#: src/blocks/design-title/edit.js:1191
 msgid "Icon settings"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1167
+#: src/blocks/design-title/edit.js:1195
 msgid "Append icon"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1215
+#: src/blocks/design-title/edit.js:1243
 msgid "Change heading level"
 msgstr ""
 
@@ -641,20 +630,20 @@ msgstr ""
 #: build/866.js:1
 #: build/blocks/design-select/index.js
 #: build/blocks/design-radio/index.js:184
-#: src/blocks/design-title/edit.js:1228
+#: src/blocks/design-title/edit.js:1256
 #: src/blocks/OptionModal.js:122
 msgid "Confirm Deletion"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1232
+#: src/blocks/design-title/edit.js:1260
 msgid "Changing a style resets the style-specific settings. Are you sure?"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1238
+#: src/blocks/design-title/edit.js:1266
 msgid "Yes, Change"
 msgstr ""
 
@@ -663,14 +652,14 @@ msgstr ""
 #: build/866.js:1
 #: build/blocks/design-select/index.js
 #: build/blocks/design-radio/index.js:184
-#: src/blocks/design-title/edit.js:1241
+#: src/blocks/design-title/edit.js:1269
 #: src/blocks/OptionModal.js:135
 msgid "Cancel"
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:1251
+#: src/blocks/design-title/edit.js:1279
 msgid "Select Date and Time"
 msgstr ""
 
@@ -963,7 +952,7 @@ msgstr ""
 #: src/blocks/design-calender/edit.js:856
 #: src/blocks/design-calender/edit.js:955
 #: src/blocks/design-checkbox/edit.js:193
-#: src/blocks/design-group/edit.js:445
+#: src/blocks/design-group/edit.js:466
 #: src/blocks/design-process/edit.js:214
 #: src/blocks/design-radio/edit.js:431
 #: src/blocks/design-radio/edit.js:620
@@ -989,7 +978,7 @@ msgstr ""
 #: src/blocks/design-calender/edit.js:855
 #: src/blocks/design-calender/edit.js:954
 #: src/blocks/design-checkbox/edit.js:192
-#: src/blocks/design-group/edit.js:444
+#: src/blocks/design-group/edit.js:465
 #: src/blocks/design-process/edit.js:213
 #: src/blocks/design-radio/edit.js:430
 #: src/blocks/design-radio/edit.js:619
@@ -1016,8 +1005,8 @@ msgstr ""
 #: src/blocks/design-calender/edit.js:869
 #: src/blocks/design-calender/edit.js:968
 #: src/blocks/design-checkbox/edit.js:217
-#: src/blocks/design-group/edit.js:465
-#: src/blocks/design-group/edit.js:623
+#: src/blocks/design-group/edit.js:486
+#: src/blocks/design-group/edit.js:648
 #: src/blocks/design-process/edit.js:238
 #: src/blocks/design-radio/edit.js:443
 #: src/blocks/design-radio/edit.js:633
@@ -1047,8 +1036,8 @@ msgstr ""
 #: src/blocks/design-calender/edit.js:868
 #: src/blocks/design-calender/edit.js:967
 #: src/blocks/design-checkbox/edit.js:216
-#: src/blocks/design-group/edit.js:464
-#: src/blocks/design-group/edit.js:622
+#: src/blocks/design-group/edit.js:485
+#: src/blocks/design-group/edit.js:647
 #: src/blocks/design-process/edit.js:237
 #: src/blocks/design-radio/edit.js:442
 #: src/blocks/design-radio/edit.js:632
@@ -1420,6 +1409,21 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: src/blocks/design-button/edit.js:147
 msgid "Button Name..."
+msgstr ""
+
+#: build/blocks/design-button/index.js:74
+#: build/blocks/design-calender/index.js:195
+#: build/blocks/design-checkbox/index.js:117
+#: build/blocks/design-group/index.js:121
+#: build/blocks/design-process/index.js:214
+#: build/blocks/design-radio/index.js:184
+#: build/blocks/design-select/index.js:387
+#: build/blocks/design-table/index.js:78
+#: build/blocks/design-text-ctrl/index.js:136
+#: build/blocks/design-title/index.js:87
+#: build/block_collection.js:1
+#: build/gutenberg-ex.js:1
+msgid "A new block cannot be inserted because a block has already been placed."
 msgstr ""
 
 #: build/blocks/design-button/index.js:74
@@ -2358,21 +2362,6 @@ msgstr ""
 #: build/blocks/design-title/index.js:111
 #: build/block_collection.js:25
 #: build/gutenberg-ex.js:25
-msgid "Max width"
-msgstr ""
-
-#: build/blocks/design-button/index.js:98
-#: build/blocks/design-calender/index.js:219
-#: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:145
-#: build/blocks/design-process/index.js:238
-#: build/blocks/design-radio/index.js:208
-#: build/blocks/design-select/index.js:411
-#: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:160
-#: build/blocks/design-title/index.js:111
-#: build/block_collection.js:25
-#: build/gutenberg-ex.js:25
 msgid "Block Height(Mobile)"
 msgstr ""
 
@@ -2538,6 +2527,21 @@ msgstr ""
 #: build/blocks/design-title/index.js:111
 #: build/block_collection.js:25
 #: build/gutenberg-ex.js:25
+msgid "Center Vertically and Horizontally"
+msgstr ""
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:145
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111
+#: build/block_collection.js:25
+#: build/gutenberg-ex.js:25
 msgid "Block Position(Mobile)"
 msgstr ""
 
@@ -2554,6 +2558,21 @@ msgstr ""
 #: build/block_collection.js:25
 #: build/gutenberg-ex.js:25
 msgid "Block Position(DeskTop)"
+msgstr ""
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:145
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111
+#: build/block_collection.js:25
+#: build/gutenberg-ex.js:25
+msgid "Is Center"
 msgstr ""
 
 #: build/blocks/design-button/index.js:98
@@ -3063,52 +3082,52 @@ msgid "Is Parallax"
 msgstr ""
 
 #: build/blocks/design-group/index.js:121
-#: src/blocks/design-group/edit.js:360
+#: src/blocks/design-group/edit.js:381
 msgid "Parallax Type"
 msgstr ""
 
 #: build/blocks/design-group/index.js:121
-#: src/blocks/design-group/edit.js:364
+#: src/blocks/design-group/edit.js:385
 msgid "Lateral"
 msgstr ""
 
 #: build/blocks/design-group/index.js:121
-#: src/blocks/design-group/edit.js:368
+#: src/blocks/design-group/edit.js:389
 msgid "Longitudinal"
 msgstr ""
 
 #: build/blocks/design-group/index.js:121
-#: src/blocks/design-group/edit.js:372
+#: src/blocks/design-group/edit.js:393
 msgid "Scale"
 msgstr ""
 
 #: build/blocks/design-group/index.js:121
-#: src/blocks/design-group/edit.js:390
+#: src/blocks/design-group/edit.js:411
 msgid "Value"
 msgstr ""
 
 #: build/blocks/design-group/index.js:121
-#: src/blocks/design-group/edit.js:411
+#: src/blocks/design-group/edit.js:432
 msgid "unit"
 msgstr ""
 
 #: build/blocks/design-group/index.js:121
-#: src/blocks/design-group/edit.js:437
+#: src/blocks/design-group/edit.js:458
 msgid "Dimensions"
 msgstr ""
 
 #: build/blocks/design-group/index.js:121
-#: src/blocks/design-group/edit.js:615
+#: src/blocks/design-group/edit.js:640
 msgid "Content Style"
 msgstr ""
 
 #: build/blocks/design-group/index.js:121
-#: src/blocks/design-group/edit.js:663
+#: src/blocks/design-group/edit.js:688
 msgid "Position moveable"
 msgstr ""
 
 #: build/blocks/design-group/index.js:121
-#: src/blocks/design-group/edit.js:667
+#: src/blocks/design-group/edit.js:692
 msgid "make it moveable"
 msgstr ""
 

@@ -47,7 +47,7 @@ import {
 } from "@wordpress/block-editor";
 
 import "./editor.scss";
-import { useEffect, useState, useRef } from "@wordpress/element";
+import { useEffect, useState, useRef, useCallback } from "@wordpress/element";
 import { useSelect, dispatch } from "@wordpress/data";
 import { format, getSettings } from "@wordpress/date";
 
@@ -409,18 +409,40 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		},
 	);
 
+	const onChangeContent = useCallback((newContent) => {
+		let processedContent;
+
+		//リッチテキストの戻り値がオブジェクトの場合に対応
+		if (typeof newContent === "object" && newContent !== null) {
+			// オブジェクトの場合、textプロパティを使用
+			processedContent = newContent.text || "";
+		} else {
+			// 文字列の場合はそのまま使用
+			processedContent = newContent;
+		}
+		setAttributes({ headingContent: processedContent });
+		//リンクタイプがurlのときはリンク先を表示された文字と同じにする
+		if (linkKind === "url" && isValidUrlWithUrlApi(processedContent)) {
+			//URLの形式を確認してリンク先をセット
+			setAttributes({ selectedPageUrl: processedContent });
+		}
+	}, []);
+
+	const [headingContentVal, setHeadingContentVal] = useState(headingContent);
+
 	//リッチテキストをコンテンツにする
 	const renderRichText = () => {
 		//タイトルタイプがdateのときは日付のフォーマットを当てて表示
 		const dispContent =
 			titleType === "date"
-				? format(dateFormat, headingContent, getSettings())
-				: headingContent;
+				? format(dateFormat, headingContentVal, getSettings())
+				: headingContentVal;
 		return (
 			<RichText
 				tagName={headingType}
 				onChange={(newContent) => {
 					let processedContent;
+
 					//リッチテキストの戻り値がオブジェクトの場合に対応
 					if (typeof newContent === "object" && newContent !== null) {
 						// オブジェクトの場合、textプロパティを使用
@@ -429,12 +451,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						// 文字列の場合はそのまま使用
 						processedContent = newContent;
 					}
-					setAttributes({ headingContent: processedContent });
-					//リンクタイプがurlのときはリンク先を表示された文字と同じにする
-					if (linkKind === "url" && isValidUrlWithUrlApi(processedContent)) {
-						//URLの形式を確認してリンク先をセット
-						setAttributes({ selectedPageUrl: processedContent });
-					}
+					setHeadingContentVal(processedContent);
 				}}
 				onFocus={() => {
 					if (titleType === "date") {
@@ -444,18 +461,29 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				}}
 				onBlur={() => {
 					//URLバリデーションチェック
-					if (linkKind === "url" && !isValidUrlWithUrlApi(headingContent)) {
-						dispatch("core/notices").createNotice(
-							"error",
-							__("The input string is not in URL format.", "block-collections"),
-							{ type: "snackbar", isDismissible: true },
-						);
-						// バリデーションエラーがある場合、selectedPageUrlにセットされた値をheadingContentの値とする
-						setAttributes({ headingContent: selectedPageUrl });
+					if (linkKind === "url") {
+						if (!isValidUrlWithUrlApi(headingContentVal)) {
+							dispatch("core/notices").createNotice(
+								"error",
+								__(
+									"The input string is not in URL format.",
+									"block-collections",
+								),
+								{ type: "snackbar", isDismissible: true },
+							);
+							// バリデーションエラーがある場合、selectedPageUrlにセットされた値をheadingContentの値とする
+							setAttributes({ headingContent: selectedPageUrl });
+						} else {
+							//URLの形式を確認してリンク先をセット
+							setAttributes({ selectedPageUrl: headingContentVal });
+						}
+					} else {
+						setAttributes({ headingContent: headingContentVal });
 					}
 				}}
 				value={dispContent}
 				placeholder={__("Write Title text...", "block-collections")}
+				keepPlaceholderOnFocus={true}
 			/>
 		);
 	};
@@ -1254,9 +1282,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<DateTimePicker
 							currentDate={dateValue}
 							onChange={(newDatetime) => {
-								setAttributes({
-									headingContent: newDatetime,
-								});
+								// setAttributes({
+								// 	headingContent: newDatetime,
+								// });
+								setHeadingContentVal(newDatetime);
 								setIsDateModal(false);
 							}}
 						/>

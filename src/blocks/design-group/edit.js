@@ -342,15 +342,36 @@ export default function Edit(props) {
 							checked={parallax_obj != null}
 							onChange={(newVal) => {
 								if (newVal) {
+									//パララックスオブジェクトをセットして、中央揃えを解除
 									setAttributes({
 										parallax_obj: {
 											type: "y",
 											scale: 300,
 											unit: "",
 										},
+										isPosCenter: false,
+										default_pos: {
+											...default_pos,
+											posValue: {
+												...default_pos.posValue,
+												isVertCenter: false,
+												isHorCenter: false,
+											},
+										},
+										mobile_pos: {
+											...mobile_pos,
+											posValue: {
+												...mobile_pos.posValue,
+												isVertCenter: false,
+												isHorCenter: false,
+											},
+										},
 									});
 								} else {
 									setAttributes({ parallax_obj: null });
+									// transformインラインスタイルをリセット
+									const parentElement = blockRef.current.parentElement;
+									parentElement.style.transform = "";
 								}
 							}}
 						/>
@@ -487,6 +508,7 @@ export default function Edit(props) {
 					blockRef={blockRef}
 					isMobile={isMobile}
 					isSubmenu={is_submenu}
+					isParallax={parallax_obj != null}
 					onDirectionChange={(position) => {
 						if (!isMobile) {
 							setAttributes({
@@ -599,6 +621,9 @@ export default function Edit(props) {
 					}}
 					onPositionChange={(value) => {
 						setAttributes({ positionType: value });
+					}}
+					onIsPosCenterChange={(value) => {
+						setAttributes({ isPosCenter: value });
 					}}
 					onPosValueChange={(value) => {
 						if (!isMobile) {

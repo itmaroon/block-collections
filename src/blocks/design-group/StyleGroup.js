@@ -42,7 +42,7 @@ const StyledDiv = styled.div`
 	${({ attributes }) => {
 		const {
 			positionType,
-			heightValue,
+			isPosCenter,
 			default_pos,
 			mobile_pos,
 			shadow_result,
@@ -69,7 +69,7 @@ const StyledDiv = styled.div`
 		);
 		const mobile_width_style = width_prm(
 			mobile_pos.width_val,
-			default_pos.free_width,
+			mobile_pos.free_width,
 		);
 		const default_max_width_style = max_width_prm(
 			default_pos.width_val,
@@ -77,7 +77,7 @@ const StyledDiv = styled.div`
 		);
 		const mobile_max_width_style = max_width_prm(
 			mobile_pos.width_val,
-			default_pos.free_width,
+			mobile_pos.free_width,
 		);
 		//ブロックの高さ
 		const default_height_style = height_prm(
@@ -86,7 +86,7 @@ const StyledDiv = styled.div`
 		);
 		const mobile_height_style = height_prm(
 			mobile_pos.height_val,
-			default_pos.free_height,
+			mobile_pos.free_height,
 		);
 		//ブロックの配置
 		const default_block_align = align_prm(default_pos.outer_align);
@@ -96,13 +96,14 @@ const StyledDiv = styled.div`
 			is_shadow && shadow_result ? convertToScss(shadow_result) : "";
 		//ブロックの位置
 		const default_block_position = position_prm(
-			default_pos.posValue,
+			isPosCenter ? isPosCenter : default_pos.posValue,
 			positionType,
 		);
 		const mobile_block_position = position_prm(
-			mobile_pos.posValue,
+			isPosCenter ? isPosCenter : mobile_pos.posValue,
 			positionType,
 		);
+
 		//位置調整
 		const tranceform = is_moveable
 			? `transform: translate(${position.x}, ${position.y});`

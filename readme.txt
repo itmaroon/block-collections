@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.3
 Tested up to:      6.6.2
-Stable tag:        1.4.0
+Stable tag:        1.4.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -17,6 +17,10 @@ It is a plug-in that collects small scale blocks.
 * [block-class-package:Packagist](https://packagist.org/packages/itmar/block-class-package) 
 * [itmar-block-packages:npm](https://www.npmjs.com/package/itmar-block-packages)  
 * [itmar-block-packages:GitHub](https://github.com/itmaroon/itmar-block-packages)
+* [Google Cloud Console](https://console.cloud.google.com/welcome)
+* This plugin uses the API of "Google Cloud Translation API".
+ * Get the project ID and API key obtained by creating a project and enabling the Cloud Translation API from the [Google Cloud Platform dashboard](https://console.cloud.google.com/home/dashboard).
+ * You can register the authentication information from the setting screen.
 
 
 == Description ==
@@ -26,7 +30,7 @@ Below is a brief explanation of each block.
 1 Design Title
 A block that allows you to style HTML heading tags. In addition to the normal style, we have prepared a type that allows you to insert a circular marker, and a type that allows you to add sub copies and icons.
 2 Design Text Control
-This is a block that allows you to style text controls and text area controls for HTML input elements. This time, we have prepared a normal box type and a line type. It is now possible to display required inputs, and it is a block that can be used for validation checks as an inner block of the Guest Contact Block, which will be released soon.
+This is a block that allows you to style text controls and text area controls for HTML input elements. This time, we have prepared a normal box type and a line type. It is now possible to display required inputs, and it is a block that can be used for validation checks as an inner block of the Form Send Block.
 3 Design CheckBox
 This is a block that allows you to style checkboxes in HTML input elements. Check animation. At the moment, we only have one type available, but we plan to gradually offer other variations in the future.
 4 Design Select
@@ -47,6 +51,34 @@ The placement can be selected according to the CSS display property block, flex(
 - By setting it to "Make it a menu", it will become a hamburger button in mobile mode (displayed on devices with a width of 767px or less), and when you click it, it will stick out from the left.
 - These settings can be set separately for desktop mode (displayed on devices with a width of 768px or more) and mobile mode (displayed on devices with a width of 767px or less).
 - By setting it to be movable, you can adjust the placement by dragging. With this feature installed, the old version of Draggble Box has been discontinued.
+10. Design Radio
+This block allows you to set styles for HTML radio button input elements. This time, we have prepared a normal radio button type and a button type. It is possible to add a button to deselect the element.
+11. Design Calender
+- This block allows you to select and enter a date from a calendar. You can choose the start day of the week to be Sunday or Monday. 
+- You can also set the display of holidays. To set holidays, you need to obtain an API key for the Google Calendar API.  
+
+This plugin contains the ability to extend the core blocks: core/paragraph, core/image, core/table, core/list, and core/quote.
+The extended core blocks act as inner blocks of the blocks specified by the plugin, so they cannot function independently outside of the plugin.
+
+1. core/paragraph
+- Added ability to set margins and padding.
+- Added the ability to set line height.
+- A function has been added that allows you to set a maximum height, and if the height exceeds that, a "See more" button will be displayed and displayed using that button.
+2. core/list
+- Added ability to set margins and padding.
+- Added the ability to set line height.
+- Added the ability to set borderlines and rounded corners.
+3. core/quote
+- Added ability to set margins and padding.
+- Added the ability to set borderlines and rounded corners.
+- Added the ability to set line height.
+4. core/table
+- Added ability to set margins and padding.
+- Added the ability to set borderlines and rounded corners.
+5. core/image
+- Added the ability to choose whether to fit the size to the parent element.
+- Added ability to set margins and padding.
+- Added the ability to set the image size.
 
 == Installation ==
 
@@ -77,8 +109,16 @@ OR…
 8. Design Table and Design Button
 9. A block icon registered by the plugin. Divided into design group and widget group
 10. Blocks that slide in with animation
+11. Design Calender
+12. Design Radio
 
 == Changelog ==
+= 1.4.1 =
+- The absolute position setting in the Design group now allows you to set center alignment vertically and horizontally.
+- Fixed a bug where the focus would be lost while entering the Design Title title and it would become impossible to enter the title.
+- Fixed an issue where Design Group sizing did not reflect free size in mobile mode.
+- Removed centering of blocks when Design Group's "Slide Parallax" is turned on, making it impossible to set centering.
+
 = 1.4.0 =
 - Fixed page of Design Title and Design Button and combo box for selecting archive page have been fixed due to improvement of PageSelectControl and ArchiveSelectControl.
 - Fixed bug in save.js of Design Title
@@ -208,3 +248,5 @@ Please note that responsiveness for tablet display is not supported.
 5. I decided to make functions and components common to other plugins into npm packages, and install and use them from npm.  
 [npm](https://www.npmjs.com/package/itmar-block-packages)  
 [GitHub](https://github.com/itmaroon/itmar-block-packages)
+6. To set holidays for Design Calendar, you need to obtain an API key for the Google Calendar API.  
+ [Google Cloud Console](https://console.cloud.google.com/welcome)
