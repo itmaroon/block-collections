@@ -13,6 +13,11 @@
 			"gradients": true,
 			"custom": true
 		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		},
 		"__experimentalBorder": {
 			"color": true,
 			"radius": true,
@@ -36,16 +41,19 @@
 			"default": false
 		},
 		
-		"default_pos": {
+		"default_val": {
 			"type": "object",
 			"default": {
 				"direction": "horizen",
 				"reverse":false,
+				"wrap":false,
 				"inner_align": "flex-start",
 				"outer_align": "center",
 				"outer_vertical": "center",
 				"width_val": "wideSize",
+				"max_width": "100%",
 				"free_width": "400px",
+				"max_free_width": "100%",
 				"height_val": "fit",
 				"free_height": "300px",
 				"posValue": {
@@ -85,16 +93,19 @@
 				}
 			}
 		},
-		"mobile_pos": {
+		"mobile_val": {
 			"type": "object",
 			"default": {
 				"direction": "vertical",
 				"reverse":false,
+				"wrap":false,
 				"inner_align": "flex-start",
 				"outer_align": "center",
 				"outer_vertical": "center",
 				"width_val": "wideSize",
+				"max_width": "100%",
 				"free_width": "200px",
+				"max_free_width": "100%",
 				"height_val": "fit",
 				"free_height": "300px",
 				"posValue": {
@@ -211,7 +222,12 @@
 		"has_submenu": {
 			"type": "boolean",
 			"default": false
+		},
+		"block_style":{
+			"type":"object",
+			"default":null
 		}
+
 	},
 	"textdomain": "block-collections",
 	"editorScript": "file:./index.js",

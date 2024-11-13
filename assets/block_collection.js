@@ -84,7 +84,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 					() => {
 						//const { __ } = wp.i18n;
 						const msg = __("copied", "block-collections");
-						console.log(msg);
 						ctrlMsg(__("copied", "block-collections"));
 					},
 					(err) => {
@@ -824,5 +823,11 @@ jQuery(function ($) {
 
 		// 初期状態でのスタイル設定
 		setStyles();
+	});
+	/* ------------------------------
+  core/imageのimage要素をラップする処理
+  ------------------------------ */
+	$("figure.fit-scale-image img").each(function () {
+		$(this).wrap('<div class="wrapper"></div>');
 	});
 });

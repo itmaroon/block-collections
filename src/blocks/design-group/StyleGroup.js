@@ -43,8 +43,8 @@ const StyledDiv = styled.div`
 		const {
 			positionType,
 			isPosCenter,
-			default_pos,
-			mobile_pos,
+			default_val,
+			mobile_val,
 			shadow_result,
 			is_shadow,
 			is_moveable,
@@ -56,51 +56,51 @@ const StyledDiv = styled.div`
 		} = attributes;
 
 		//スペースの設定
-		const default_margin_prm = space_prm(default_pos.margin);
-		const mobile_margin_prm = space_prm(mobile_pos.margin);
-		const default_padding_prm = space_prm(default_pos.padding);
-		const mobile_padding_prm = space_prm(mobile_pos.padding);
-		const default_content_padding_prm = space_prm(default_pos.padding_content);
-		const mobile_contnt_padding_prm = space_prm(mobile_pos.padding_content);
+		const default_margin_prm = space_prm(default_val.margin);
+		const mobile_margin_prm = space_prm(mobile_val.margin);
+		const default_padding_prm = space_prm(default_val.padding);
+		const mobile_padding_prm = space_prm(mobile_val.padding);
+		const default_content_padding_prm = space_prm(default_val.padding_content);
+		const mobile_contnt_padding_prm = space_prm(mobile_val.padding_content);
 		//ブロック幅
 		const default_width_style = width_prm(
-			default_pos.width_val,
-			default_pos.free_width,
+			default_val.width_val,
+			default_val.free_width,
 		);
 		const mobile_width_style = width_prm(
-			mobile_pos.width_val,
-			mobile_pos.free_width,
+			mobile_val.width_val,
+			mobile_val.free_width,
 		);
 		const default_max_width_style = max_width_prm(
-			default_pos.width_val,
-			default_pos.free_width,
+			default_val.width_val,
+			default_val.free_width,
 		);
 		const mobile_max_width_style = max_width_prm(
-			mobile_pos.width_val,
-			mobile_pos.free_width,
+			mobile_val.width_val,
+			mobile_val.free_width,
 		);
 		//ブロックの高さ
 		const default_height_style = height_prm(
-			default_pos.height_val,
-			default_pos.free_height,
+			default_val.height_val,
+			default_val.free_height,
 		);
 		const mobile_height_style = height_prm(
-			mobile_pos.height_val,
-			mobile_pos.free_height,
+			mobile_val.height_val,
+			mobile_val.free_height,
 		);
 		//ブロックの配置
-		const default_block_align = align_prm(default_pos.outer_align);
-		const mobile_block_align = align_prm(mobile_pos.outer_align);
+		const default_block_align = align_prm(default_val.outer_align);
+		const mobile_block_align = align_prm(mobile_val.outer_align);
 		//シャドースタイル
 		const box_shadow_style =
 			is_shadow && shadow_result ? convertToScss(shadow_result) : "";
 		//ブロックの位置
 		const default_block_position = position_prm(
-			isPosCenter ? isPosCenter : default_pos.posValue,
+			isPosCenter ? isPosCenter : default_val.posValue,
 			positionType,
 		);
 		const mobile_block_position = position_prm(
-			isPosCenter ? isPosCenter : mobile_pos.posValue,
+			isPosCenter ? isPosCenter : mobile_val.posValue,
 			positionType,
 		);
 
@@ -113,6 +113,7 @@ const StyledDiv = styled.div`
 
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
+			box-sizing: border-box;
 			position: ${positionType};
 			${default_block_position}
 			margin: ${default_margin_prm};
@@ -121,15 +122,17 @@ const StyledDiv = styled.div`
 			css`
 				z-index: 100;
 			`}
-			${is_submenu ? default_width_style : default_max_width_style}
-      ${default_height_style}
-      ${default_block_align}
-      align-self: ${default_pos.outer_vertical};
+			${default_width_style}
+			${default_max_width_style}
+      		${default_height_style}
+      		${default_block_align}
+      		align-self: ${default_val.outer_vertical};
 			@media (max-width: 767px) {
 				${mobile_block_position}
 				margin: ${mobile_margin_prm};
 				padding: ${mobile_padding_prm};
-				${is_submenu ? mobile_width_style : mobile_max_width_style}
+				${mobile_width_style}
+				${mobile_max_width_style}
 				${mobile_height_style}
 				${mobile_block_align}
         ${is_menu &&
@@ -183,12 +186,14 @@ const StyledDiv = styled.div`
 			> div {
 				> .group_contents {
 					display: flex;
-					flex-direction: ${!default_pos.reverse ? "row" : "row-reverse"};
-					justify-content: ${default_pos.inner_align};
+					flex-direction: ${!default_val.reverse ? "row" : "row-reverse"};
+					flex-wrap: ${default_val.wrap ? "wrap" : "nowrap"};
+					justify-content: ${default_val.inner_align};
 
 					@media (max-width: 767px) {
-						flex-direction: ${!mobile_pos.reverse ? "row" : "row-reverse"};
-						justify-content: ${mobile_pos.inner_align};
+						flex-direction: ${!mobile_val.reverse ? "row" : "row-reverse"};
+						flex-wrap: ${mobile_val.wrap ? "wrap" : "nowrap"};
+						justify-content: ${mobile_val.inner_align};
 					}
 				}
 			}
@@ -199,14 +204,16 @@ const StyledDiv = styled.div`
 			> div {
 				> .group_contents {
 					display: flex;
-					flex-direction: ${!default_pos.reverse ? "column" : "column-reverse"};
-					justify-content: ${default_pos.inner_align};
+					flex-direction: ${!default_val.reverse ? "column" : "column-reverse"};
+					flex-wrap: ${default_val.wrap ? "wrap" : "nowrap"};
+					justify-content: ${default_val.inner_align};
 
 					@media (max-width: 767px) {
-						flex-direction: ${!mobile_pos.reverse
+						flex-direction: ${!mobile_val.reverse
 							? "column"
 							: "column-reverse"};
-						justify-content: ${mobile_pos.inner_align};
+						flex-wrap: ${mobile_val.wrap ? "wrap" : "nowrap"};
+						justify-content: ${mobile_val.inner_align};
 					}
 				}
 			}
@@ -261,22 +268,22 @@ const StyledDiv = styled.div`
 			> div {
 				> .group_contents {
 					display: grid;
-					grid-template-columns: ${default_pos.grid_info?.colUnit?.join(" ")};
-					grid-template-rows: ${default_pos.grid_info?.rowUnit?.join(" ")};
-					gap: ${default_pos.grid_info?.rowGap} ${default_pos.grid_info?.colGap};
+					grid-template-columns: ${default_val.grid_info?.colUnit?.join(" ")};
+					grid-template-rows: ${default_val.grid_info?.rowUnit?.join(" ")};
+					gap: ${default_val.grid_info?.rowGap} ${default_val.grid_info?.colGap};
 					> div,
 					> figure {
-						${createNthChildStyles(default_pos.grid_info?.gridElms)}
+						${createNthChildStyles(default_val.grid_info?.gridElms)}
 						margin:0;
 					}
 
 					@media (max-width: 767px) {
-						grid-template-columns: ${mobile_pos.grid_info?.colUnit?.join(" ")};
-						grid-template-rows: ${mobile_pos.grid_info?.rowUnit?.join(" ")};
-						gap: ${mobile_pos.grid_info?.rowGap} ${mobile_pos.grid_info?.colGap};
+						grid-template-columns: ${mobile_val.grid_info?.colUnit?.join(" ")};
+						grid-template-rows: ${mobile_val.grid_info?.rowUnit?.join(" ")};
+						gap: ${mobile_val.grid_info?.rowGap} ${mobile_val.grid_info?.colGap};
 						> div,
 						> figure {
-							${createNthChildStyles(mobile_pos.grid_info?.gridElms)}
+							${createNthChildStyles(mobile_val.grid_info?.gridElms)}
 						}
 					}
 				}
@@ -290,8 +297,8 @@ const StyledDiv = styled.div`
 			grid: gridStyle,
 		};
 
-		const optionStyle = cssMap[default_pos.direction] || null;
-		const mobileOptionStyle = cssMap[mobile_pos.direction] || null;
+		const optionStyle = cssMap[default_val.direction] || null;
+		const mobileOptionStyle = cssMap[mobile_val.direction] || null;
 
 		// 共通のスタイルを組み合わせて返します
 		return css`

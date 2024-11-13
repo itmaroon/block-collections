@@ -160,6 +160,10 @@
 		},
 		"bgGradient_underLine": {
 			"type": "string"
+		},
+		"block_style":{
+			"type":"object",
+			"default":null
 		}
 	},
 	"textdomain": "block-collections",

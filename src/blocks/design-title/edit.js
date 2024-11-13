@@ -1,8 +1,8 @@
 import { __ } from "@wordpress/i18n";
 
 import {
-	useElementBackgroundColor,
 	useIsIframeMobile,
+	useElementStyleObject,
 	ShadowStyle,
 	align_prm,
 	ShadowElm,
@@ -47,7 +47,7 @@ import {
 } from "@wordpress/block-editor";
 
 import "./editor.scss";
-import { useEffect, useState, useRef, useCallback } from "@wordpress/element";
+import { useEffect, useState, useRef } from "@wordpress/element";
 import { useSelect, dispatch } from "@wordpress/data";
 import { format, getSettings } from "@wordpress/date";
 
@@ -99,7 +99,8 @@ const measureTextWidth = (text, fontSize, fontFamily) => {
 //URLのバリデーションチェック
 function isValidUrlWithUrlApi(string) {
 	try {
-		new URL(string);
+		const cleanString = string.replace(/<[^>]+>/g, "");
+		new URL(cleanString);
 		return true;
 	} catch (err) {
 		return false;
@@ -150,21 +151,32 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		},
 	});
 
-	//背景色の取得
-	const baseColor = useElementBackgroundColor(blockRef, blockProps.style);
+	//ブロックのインナースタイルを取得
+	const styleObject = useElementStyleObject(blockRef, blockProps.style);
 
-	//背景色変更によるシャドー属性の書き換え
 	useEffect(() => {
-		if (baseColor) {
-			setAttributes({
-				shadow_element: { ...shadow_element, baseColor: baseColor },
-			});
-			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
-			if (new_shadow) {
-				setAttributes({ shadow_result: new_shadow.style });
+		if (styleObject) {
+			const parseObj = JSON.parse(styleObject);
+			if (Object.keys(parseObj).length !== 0) {
+				//背景色変更によるシャドー属性の書き換え
+				const baseColor = parseObj.backgroundColor;
+				if (baseColor) {
+					setAttributes({
+						shadow_element: { ...shadow_element, baseColor: baseColor },
+					});
+					const new_shadow = ShadowElm({
+						...shadow_element,
+						baseColor: baseColor,
+					});
+					if (new_shadow) {
+						setAttributes({ shadow_result: new_shadow.style });
+					}
+				}
+				//スタイルオブジェクトをブロックの属性に書き込む
+				setAttributes({ block_style: parseObj });
 			}
 		}
-	}, [baseColor]);
+	}, [styleObject]);
 
 	//最初の状態
 	const prevClassRef = useRef(null);
@@ -193,21 +205,23 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	// titleTypeの変更があるたびに titleの内容を変える
 	const [siteTitle, setSiteTitle] = useState("");
 	useEffect(() => {
-		if (titleType === "plaine" || titleType === "date") return; //plain,dateのときは何もしない
-
-		const fetchSiteInfo = async () => {
-			try {
-				const response = await apiFetch({ path: "/" });
-				if (titleType === "site") {
-					setSiteTitle(response.name);
-				} else {
-					setSiteTitle(response.description);
+		if (titleType === "site" || titleType === "catch") {
+			const fetchSiteInfo = async () => {
+				try {
+					const response = await apiFetch({ path: "/" });
+					if (titleType === "site") {
+						setSiteTitle(response.name);
+					} else {
+						setSiteTitle(response.description);
+					}
+				} catch (error) {
+					console.error("Error fetching data:", error.message);
 				}
-			} catch (error) {
-				console.error("Error fetching data:", error.message);
-			}
-		};
-		fetchSiteInfo();
+			};
+			fetchSiteInfo();
+		} else if (titleType === "date") {
+			setHeadingContentVal(format(dateFormat, headingContent, getSettings()));
+		}
 	}, [titleType]);
 
 	//スタイル変更時のデフォルト再設定
@@ -316,7 +330,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				return;
 			}
 			//itmar_filter_titleがクラス名に含まれていればモーダルは表示しない
-			if (className?.includes("itmar_filter_title")) {
+			if (
+				className?.includes("itmar_filter_title") ||
+				className?.includes("itmar_design_crumbs")
+			) {
 				execHandle();
 				return;
 			}
@@ -408,35 +425,15 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			templateLock: false,
 		},
 	);
-
-	const onChangeContent = useCallback((newContent) => {
-		let processedContent;
-
-		//リッチテキストの戻り値がオブジェクトの場合に対応
-		if (typeof newContent === "object" && newContent !== null) {
-			// オブジェクトの場合、textプロパティを使用
-			processedContent = newContent.text || "";
-		} else {
-			// 文字列の場合はそのまま使用
-			processedContent = newContent;
-		}
-		setAttributes({ headingContent: processedContent });
-		//リンクタイプがurlのときはリンク先を表示された文字と同じにする
-		if (linkKind === "url" && isValidUrlWithUrlApi(processedContent)) {
-			//URLの形式を確認してリンク先をセット
-			setAttributes({ selectedPageUrl: processedContent });
-		}
-	}, []);
-
-	const [headingContentVal, setHeadingContentVal] = useState(headingContent);
+	//タイトルタイプがdateのときは日付のフォーマットを当てて表示
+	const [headingContentVal, setHeadingContentVal] = useState(
+		titleType === "date"
+			? format(dateFormat, headingContent, getSettings())
+			: headingContent,
+	);
 
 	//リッチテキストをコンテンツにする
 	const renderRichText = () => {
-		//タイトルタイプがdateのときは日付のフォーマットを当てて表示
-		const dispContent =
-			titleType === "date"
-				? format(dateFormat, headingContentVal, getSettings())
-				: headingContentVal;
 		return (
 			<RichText
 				tagName={headingType}
@@ -471,17 +468,20 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								),
 								{ type: "snackbar", isDismissible: true },
 							);
-							// バリデーションエラーがある場合、selectedPageUrlにセットされた値をheadingContentの値とする
-							setAttributes({ headingContent: selectedPageUrl });
+							// バリデーションエラーがある場合、表示を元の値に戻す
+							setHeadingContentVal(headingContent);
 						} else {
 							//URLの形式を確認してリンク先をセット
-							setAttributes({ selectedPageUrl: headingContentVal });
+							setAttributes({
+								headingContent: headingContentVal,
+								selectedPageUrl: headingContentVal,
+							});
 						}
 					} else {
 						setAttributes({ headingContent: headingContentVal });
 					}
 				}}
-				value={dispContent}
+				value={headingContentVal}
 				placeholder={__("Write Title text...", "block-collections")}
 				keepPlaceholderOnFocus={true}
 			/>
@@ -1282,10 +1282,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<DateTimePicker
 							currentDate={dateValue}
 							onChange={(newDatetime) => {
-								// setAttributes({
-								// 	headingContent: newDatetime,
-								// });
-								setHeadingContentVal(newDatetime);
+								setAttributes({
+									headingContent: newDatetime,
+								});
+								const newDisp = format(dateFormat, newDatetime, getSettings());
+								setHeadingContentVal(newDisp);
 								setIsDateModal(false);
 							}}
 						/>

@@ -244,8 +244,12 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 						{props.name === "core/image" && (
 							<InspectorControls group="settings">
 								<PanelBody
-									title={__("Size of Image", "block-collections")}
+									title={__("Link with parent element", "block-collections")}
 									initialOpen={false}
+									help={__(
+										"Sets the size of the image to fit the parent element.",
+										"block-collections",
+									)}
 								>
 									<ToggleControl
 										label={__("Fit Parent Element", "block-collections")}
@@ -254,6 +258,34 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 											setAttributes({ isFitScale: newValue });
 										}}
 									/>
+									{isFitScale && (
+										<PanelRow className="distance_row">
+											<UnitControl
+												dragDirection="e"
+												onChange={(value) => {
+													setAttributes({ scaleWidth: value });
+												}}
+												label={__("Width", "block-collections")}
+												value={scaleWidth}
+												help={__(
+													"If left blank, it will not be set.",
+													"block-collections",
+												)}
+											/>
+											<UnitControl
+												dragDirection="e"
+												onChange={(value) =>
+													setAttributes({ scaleHeight: value })
+												}
+												label={__("Height", "block-collections")}
+												value={scaleHeight}
+												help={__(
+													"If left blank, it will not be set.",
+													"block-collections",
+												)}
+											/>
+										</PanelRow>
+									)}
 								</PanelBody>
 							</InspectorControls>
 						)}
@@ -397,41 +429,6 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 										}
 									/>
 								</PanelBody>
-							)}
-							{props.name === "core/image" && (
-								<>
-									<PanelBody
-										title={__("Scale settings", "block-collections")}
-										initialOpen={false}
-									>
-										<PanelRow className="distance_row">
-											<UnitControl
-												dragDirection="e"
-												onChange={(value) => {
-													setAttributes({ scaleWidth: value });
-												}}
-												label={__("Width", "block-collections")}
-												value={scaleWidth}
-												help={__(
-													"If left blank, it will not be set.",
-													"block-collections",
-												)}
-											/>
-											<UnitControl
-												dragDirection="e"
-												onChange={(value) =>
-													setAttributes({ scaleHeight: value })
-												}
-												label={__("Height", "block-collections")}
-												value={scaleHeight}
-												help={__(
-													"If left blank, it will not be set.",
-													"block-collections",
-												)}
-											/>
-										</PanelRow>
-									</PanelBody>
-								</>
 							)}
 						</InspectorControls>
 					</>
@@ -754,32 +751,35 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 						}
 
 						if (name === "core/image") {
-							const setWidth =
-								scaleWidth === "" ||
-								scaleWidth === null ||
-								scaleWidth === undefined
-									? undefined
-									: scaleWidth;
-							const setHeight =
-								scaleHeight === "" ||
-								scaleHeight === null ||
-								scaleHeight === undefined
-									? undefined
-									: scaleHeight;
+							if (isFitScale) {
+								//親要素にスケールを合わせたとき
+								const setWidth =
+									scaleWidth === "" ||
+									scaleWidth === null ||
+									scaleWidth === undefined
+										? undefined
+										: scaleWidth;
+								const setHeight =
+									scaleHeight === "" ||
+									scaleHeight === null ||
+									scaleHeight === undefined
+										? undefined
+										: scaleHeight;
 
-							extraStyle = {
-								...extraStyle,
-								...(setWidth !== undefined && { width: setWidth }),
-								...(setHeight !== undefined && { height: setHeight }),
-							};
-							if (attributes.align === "center") {
-								//中央ぞろえの時
 								extraStyle = {
 									...extraStyle,
-									margin: `${margin_val.top} auto ${margin_val.bottom}`,
+									boxSizing: "border-box",
+									...(setWidth !== undefined && { width: setWidth }),
+									...(setHeight !== undefined && { height: setHeight }),
 								};
-							}
-							if (isFitScale) {
+								if (attributes.align === "center") {
+									//中央ぞろえの時
+									extraStyle = {
+										...extraStyle,
+										margin: `${margin_val.top} auto ${margin_val.bottom}`,
+									};
+								}
+
 								//画像スタイルを合わせる
 								extraClassNames += " fit-scale-image"; // クラス名を追加
 							}
@@ -921,21 +921,22 @@ const applyExtraAttributesInFrontEnd = (props, blockType, attributes) => {
 					scaleHeight === undefined
 						? undefined
 						: scaleHeight;
-				extraStyle = {
-					...extraStyle,
-					width: setWidth,
-					height: setHeight,
-					position: "relative",
-				};
-				if (attributes.align === "center") {
-					//中央ぞろえの時
+				//画像スタイルを合わせる
+				if (isFitScale) {
 					extraStyle = {
 						...extraStyle,
-						margin: `${margin_val.top} auto ${margin_val.bottom}`,
+						boxSizing: "border-box",
+						width: setWidth,
+						height: setHeight,
+						position: "relative",
 					};
-				}
-				if (isFitScale) {
-					//画像スタイルを合わせる
+					if (attributes.align === "center") {
+						//中央ぞろえの時
+						extraStyle = {
+							...extraStyle,
+							margin: `${margin_val.top} auto ${margin_val.bottom}`,
+						};
+					}
 					extraClassNames += " fit-scale-image"; // クラス名を追加
 				}
 			}

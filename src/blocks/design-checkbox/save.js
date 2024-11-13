@@ -5,8 +5,15 @@ import { renderToString } from "react-dom/server";
 import { StyleComp } from "./StyleCheckbox";
 
 export default function save({ attributes }) {
-	const { align, bgColor, labelContent, inputName, inputValue, proceedCheck } =
-		attributes;
+	const {
+		align,
+		bgColor,
+		labelContent,
+		inputName,
+		inputValue,
+		proceedCheck,
+		className,
+	} = attributes;
 
 	//テキストの配置
 	const align_style =
@@ -28,10 +35,14 @@ export default function save({ attributes }) {
 						<input
 							type="checkbox"
 							name={inputName}
-							checked={inputValue}
+							checked={
+								className?.includes("itmar_filter_checkbox")
+									? false
+									: inputValue
+							}
 							data-is_proceed={proceedCheck}
 						/>
-						<span></span>
+						<span className="frontSpan"></span>
 						<RichText.Content value={labelContent} />
 					</label>
 				</StyleComp>

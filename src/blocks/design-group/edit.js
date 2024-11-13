@@ -4,7 +4,7 @@ import { StyleComp } from "./StyleGroup";
 import { useStyleIframe } from "../iframeFooks";
 import { useSelect, dispatch } from "@wordpress/data";
 import {
-	useElementBackgroundColor,
+	useElementStyleObject,
 	useIsIframeMobile,
 	DraggableBox,
 	useDraggingMove,
@@ -99,8 +99,8 @@ export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
 
 	const {
-		default_pos,
-		mobile_pos,
+		default_val,
+		mobile_val,
 		shadow_element,
 		anime_prm,
 		is_shadow,
@@ -132,21 +132,32 @@ export default function Edit(props) {
 		ref: blockRef, // ここで参照を blockProps に渡しています
 	});
 
-	//背景色の取得
-	const baseColor = useElementBackgroundColor(blockRef, blockProps.style);
+	//ブロックのインナースタイルを取得
+	const styleObject = useElementStyleObject(blockRef, blockProps.style);
 
-	//背景色変更によるシャドー属性の書き換え
 	useEffect(() => {
-		if (baseColor) {
-			setAttributes({
-				shadow_element: { ...shadow_element, baseColor: baseColor },
-			});
-			const new_shadow = ShadowElm({ ...shadow_element, baseColor: baseColor });
-			if (new_shadow) {
-				setAttributes({ shadow_result: new_shadow.style });
+		if (styleObject) {
+			const parseObj = JSON.parse(styleObject);
+			if (Object.keys(parseObj).length !== 0) {
+				//背景色変更によるシャドー属性の書き換え
+				const baseColor = parseObj.backgroundColor;
+				if (baseColor) {
+					setAttributes({
+						shadow_element: { ...shadow_element, baseColor: baseColor },
+					});
+					const new_shadow = ShadowElm({
+						...shadow_element,
+						baseColor: baseColor,
+					});
+					if (new_shadow) {
+						setAttributes({ shadow_result: new_shadow.style });
+					}
+				}
+				//スタイルオブジェクトをブロックの属性に書き込む
+				setAttributes({ block_style: parseObj });
 			}
 		}
-	}, [baseColor]);
+	}, [styleObject]);
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
@@ -311,7 +322,8 @@ export default function Edit(props) {
 						label={__("Is Menu", "block-collections")}
 						checked={is_menu}
 						onChange={(newVal) => {
-							if (!isMenuBlockPresent) {
+							if (!isMenuBlockPresent || is_menu) {
+								//他にメニューの設定があるブロックがないか、既にメニュー設定されている場合は更新
 								setAttributes({ is_menu: newVal });
 							} else {
 								dispatch("core/notices").createNotice(
@@ -350,18 +362,18 @@ export default function Edit(props) {
 											unit: "",
 										},
 										isPosCenter: false,
-										default_pos: {
-											...default_pos,
+										default_val: {
+											...default_val,
 											posValue: {
-												...default_pos.posValue,
+												...default_val.posValue,
 												isVertCenter: false,
 												isHorCenter: false,
 											},
 										},
-										mobile_pos: {
-											...mobile_pos,
+										mobile_val: {
+											...mobile_val,
 											posValue: {
-												...mobile_pos.posValue,
+												...mobile_val.posValue,
 												isVertCenter: false,
 												isHorCenter: false,
 											},
@@ -465,14 +477,14 @@ export default function Edit(props) {
 								? __("Margin settings(desk top)", "block-collections")
 								: __("Margin settings(mobile)", "block-collections")
 						}
-						values={!isMobile ? default_pos.margin : mobile_pos.margin}
+						values={!isMobile ? default_val.margin : mobile_val.margin}
 						onChange={(value) => {
 							if (!isMobile) {
 								setAttributes({
-									default_pos: { ...default_pos, margin: value },
+									default_val: { ...default_val, margin: value },
 								});
 							} else {
-								setAttributes({ mobile_pos: { ...mobile_pos, margin: value } });
+								setAttributes({ mobile_val: { ...mobile_val, margin: value } });
 							}
 						}}
 						units={units} // 許可する単位
@@ -485,15 +497,15 @@ export default function Edit(props) {
 								? __("Padding settings(desk top)", "block-collections")
 								: __("Padding settings(mobile)", "block-collections")
 						}
-						values={!isMobile ? default_pos.padding : mobile_pos.padding}
+						values={!isMobile ? default_val.padding : mobile_val.padding}
 						onChange={(value) => {
 							if (!isMobile) {
 								setAttributes({
-									default_pos: { ...default_pos, padding: value },
+									default_val: { ...default_val, padding: value },
 								});
 							} else {
 								setAttributes({
-									mobile_pos: { ...mobile_pos, padding: value },
+									mobile_val: { ...mobile_val, padding: value },
 								});
 							}
 						}}
@@ -512,110 +524,121 @@ export default function Edit(props) {
 					onDirectionChange={(position) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, direction: position },
+								default_val: { ...default_val, direction: position },
 							});
 						} else {
 							setAttributes({
-								mobile_pos: { ...mobile_pos, direction: position },
+								mobile_val: { ...mobile_val, direction: position },
 							});
 						}
 					}}
 					onReverseChange={(checked) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, reverse: checked },
+								default_val: { ...default_val, reverse: checked },
 							});
 						} else {
 							setAttributes({
-								mobile_pos: { ...mobile_pos, reverse: checked },
+								mobile_val: { ...mobile_val, reverse: checked },
+							});
+						}
+					}}
+					onWrapChange={(checked) => {
+						if (!isMobile) {
+							setAttributes({
+								default_val: { ...default_val, wrap: checked },
+							});
+						} else {
+							setAttributes({
+								mobile_val: { ...mobile_val, wrap: checked },
 							});
 						}
 					}}
 					onFlexChange={(position) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, inner_align: position },
+								default_val: { ...default_val, inner_align: position },
 							});
 						} else {
 							setAttributes({
-								mobile_pos: { ...mobile_pos, inner_align: position },
+								mobile_val: { ...mobile_val, inner_align: position },
 							});
 						}
 					}}
 					onAlignChange={(position) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, outer_align: position },
+								default_val: { ...default_val, outer_align: position },
 							});
 						} else {
 							setAttributes({
-								mobile_pos: { ...mobile_pos, outer_align: position },
+								mobile_val: { ...mobile_val, outer_align: position },
 							});
 						}
 					}}
 					onVerticalChange={(position) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, outer_vertical: position },
+								default_val: { ...default_val, outer_vertical: position },
 							});
 						} else {
 							setAttributes({
-								mobile_pos: { ...mobile_pos, outer_vertical: position },
+								mobile_val: { ...mobile_val, outer_vertical: position },
 							});
 						}
 					}}
-					onWidthChange={(position) => {
+					onWidthChange={(key, position) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, width_val: position },
+								default_val: { ...default_val, [key]: position },
 							});
 						} else {
 							setAttributes({
-								mobile_pos: { ...mobile_pos, width_val: position },
+								mobile_val: { ...mobile_val, [key]: position },
 							});
 						}
 					}}
 					onHeightChange={(position) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, height_val: position },
+								default_val: { ...default_val, height_val: position },
 							});
 						} else {
 							setAttributes({
-								mobile_pos: { ...mobile_pos, height_val: position },
+								mobile_val: { ...mobile_val, height_val: position },
 							});
 						}
 					}}
-					onFreeWidthChange={(value) => {
+					onFreeWidthChange={(key, value) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, free_width: value },
+								default_val: { ...default_val, [key]: value },
 							});
 						} else {
 							setAttributes({
-								mobile_pos: { ...mobile_pos, free_width: value },
+								mobile_val: { ...mobile_val, [key]: value },
 							});
 						}
 					}}
 					onFreeHeightChange={(value) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, free_height: value },
+								default_val: { ...default_val, free_height: value },
 							});
 						} else {
 							setAttributes({
-								mobile_pos: { ...mobile_pos, free_height: value },
+								mobile_val: { ...mobile_val, free_height: value },
 							});
 						}
 					}}
 					onGridChange={(value) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, grid_info: value },
+								default_val: { ...default_val, grid_info: value },
 							});
 						} else {
 							setAttributes({
-								mobile_pos: { ...mobile_pos, grid_info: value },
+								mobile_val: { ...mobile_val, grid_info: value },
 							});
 						}
 					}}
@@ -628,10 +651,10 @@ export default function Edit(props) {
 					onPosValueChange={(value) => {
 						if (!isMobile) {
 							setAttributes({
-								default_pos: { ...default_pos, posValue: value },
+								default_val: { ...default_val, posValue: value },
 							});
 						} else {
-							setAttributes({ mobile_pos: { ...mobile_pos, posValue: value } });
+							setAttributes({ mobile_val: { ...mobile_val, posValue: value } });
 						}
 					}}
 				/>
@@ -649,14 +672,14 @@ export default function Edit(props) {
 						}
 						values={
 							!isMobile
-								? default_pos.padding_content
-								: mobile_pos.padding_content
+								? default_val.padding_content
+								: mobile_val.padding_content
 						}
 						onChange={(value) =>
 							setAttributes(
 								!isMobile
-									? { default_pos: { ...default_pos, padding_content: value } }
-									: { mobile_pos: { ...mobile_pos, padding_content: value } },
+									? { default_val: { ...default_val, padding_content: value } }
+									: { mobile_val: { ...mobile_val, padding_content: value } },
 							)
 						}
 						units={units} // 許可する単位

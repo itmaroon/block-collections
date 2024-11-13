@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.3
 Tested up to:      6.6.2
-Stable tag:        1.4.1
+Stable tag:        1.4.2
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,14 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 1.4.2 =
+- Fixed a problem with the validation check when the link type was set to URL in Design Title and an HTML format string was entered.
+- Fixed a bug in displaying updated results when setting the title type to date in Design Title.
+- Fixed Design Checkbox so that the cursor becomes a pointer when hovering over the label (front-end only).  
+- When flexbox was selected in the Design Group, a feature was added to allow wrapping.
+- Organized the function to fit to parent element in the core/image extension.
+- It is now possible to set padding and margins around the outer border of a Design Group.
+
 = 1.4.1 =
 - The absolute position setting in the Design group now allows you to set center alignment vertically and horizontally.
 - Fixed a bug where the focus would be lost while entering the Design Title title and it would become impossible to enter the title.

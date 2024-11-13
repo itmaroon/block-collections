@@ -4,10 +4,13 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-calender {
+.wp-block-itmar-design-checkbox {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   color: #000;
+}
+.wp-block-itmar-design-checkbox .frontSpan + div:hover {
+  cursor: pointer;
 }
 /*# sourceMappingURL=style.css.map */
