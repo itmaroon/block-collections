@@ -246,11 +246,13 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 								<PanelBody
 									title={__("Link with parent element", "block-collections")}
 									initialOpen={false}
-									help={__(
-										"Sets the size of the image to fit the parent element.",
-										"block-collections",
-									)}
 								>
+									<p>
+										{__(
+											"Sets the size of the image to fit the parent element.",
+											"block-collections",
+										)}
+									</p>
 									<ToggleControl
 										label={__("Fit Parent Element", "block-collections")}
 										checked={isFitScale}

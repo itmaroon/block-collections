@@ -2,45 +2,45 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Block Collections 1.4.1\n"
+"Project-Id-Version: Block Collections 1.4.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-collections\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-19T12:17:48+02:00\n"
+"POT-Creation-Date: 2024-11-18T11:01:09+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.10.0\n"
+"X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: block-collections\n"
 
 #. Plugin Name of the plugin
-#: C:\Users\itmaroon\Local Sites\block-test\app\public\wp-content\plugins\block-collections\block-collections.php
+#: block-collections.php
 msgid "Block Collections"
 msgstr ""
 
 #. Description of the plugin
-#: C:\Users\itmaroon\Local Sites\block-test\app\public\wp-content\plugins\block-collections\block-collections.php
+#: block-collections.php
 msgid "A plug-in collects multiple blocks of small-scale user interface functionality."
 msgstr ""
 
 #. Author of the plugin
-#: C:\Users\itmaroon\Local Sites\block-test\app\public\wp-content\plugins\block-collections\block-collections.php
+#: block-collections.php
 msgid "Web Creator ITmaroon"
 msgstr ""
 
 #: assets/block_collection.js:86
-#: assets/block_collection.js:88
+#: assets/block_collection.js:87
 #: build/block_collection.js:25
 msgid "copied"
 msgstr ""
 
-#: assets/block_collection.js:581
+#: assets/block_collection.js:580
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-radio/index.js:208
@@ -56,24 +56,24 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: assets/block_collection.js:790
+#: assets/block_collection.js:789
 #: build/block_collection.js:25
 #: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:574
-#: src/gutenberg-ex.js:665
+#: src/gutenberg-ex.js:571
+#: src/gutenberg-ex.js:662
 msgid "See more..."
 msgstr ""
 
-#: assets/block_collection.js:791
+#: assets/block_collection.js:790
 #: build/block_collection.js:25
 #: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:666
+#: src/gutenberg-ex.js:663
 msgid "Collapse..."
 msgstr ""
 
 #: build/547.js:1
 #: build/blocks/design-title/index.js
-#: src/blocks/design-title/edit.js:468
+#: src/blocks/design-title/edit.js:465
 #: src/blocks/design-title/edit.js:580
 #: src/blocks/design-title/edit.js:637
 msgid "The input string is not in URL format."
@@ -108,7 +108,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -278,7 +278,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-table/index.js:78
@@ -288,7 +288,7 @@ msgstr ""
 #: src/blocks/design-calender/edit.js:902
 #: src/blocks/design-calender/edit.js:1001
 #: src/blocks/design-checkbox/edit.js:264
-#: src/blocks/design-group/edit.js:671
+#: src/blocks/design-group/edit.js:693
 #: src/blocks/design-process/edit.js:259
 #: src/blocks/design-radio/edit.js:476
 #: src/blocks/design-radio/edit.js:598
@@ -318,7 +318,7 @@ msgstr ""
 #: build/gutenberg-ex.js:25
 #: src/blocks/design-button/edit.js:382
 #: src/blocks/design-title/edit.js:748
-#: src/gutenberg-ex.js:425
+#: src/gutenberg-ex.js:280
 msgid "Height"
 msgstr ""
 
@@ -328,7 +328,7 @@ msgstr ""
 #: build/gutenberg-ex.js:25
 #: src/blocks/design-button/edit.js:362
 #: src/blocks/design-title/edit.js:757
-#: src/gutenberg-ex.js:413
+#: src/gutenberg-ex.js:268
 msgid "Width"
 msgstr ""
 
@@ -337,7 +337,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -413,7 +413,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -432,7 +432,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -463,7 +463,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -472,7 +472,7 @@ msgstr ""
 #: build/blocks/design-title/index.js:87
 #: build/block_collection.js:1
 #: build/gutenberg-ex.js:1
-#: src/blocks/design-group/edit.js:398
+#: src/blocks/design-group/edit.js:409
 #: src/blocks/design-title/edit.js:963
 msgid "Opacity"
 msgstr ""
@@ -612,10 +612,10 @@ msgstr ""
 #: build/blocks/design-text-ctrl/index.js
 #: build/blocks/code-highlight/index.js:1
 #: build/gutenberg-ex.js:25
-#: src/blocks/code-highlight/edit.js:226
+#: src/blocks/code-highlight/edit.js:237
 #: src/blocks/design-title/edit.js:1168
 #: src/blocks/LabelBox .js:206
-#: src/gutenberg-ex.js:277
+#: src/gutenberg-ex.js:309
 msgid "Padding settings"
 msgstr ""
 
@@ -955,7 +955,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-table/index.js:78
@@ -964,7 +964,7 @@ msgstr ""
 #: src/blocks/design-calender/edit.js:856
 #: src/blocks/design-calender/edit.js:955
 #: src/blocks/design-checkbox/edit.js:193
-#: src/blocks/design-group/edit.js:467
+#: src/blocks/design-group/edit.js:478
 #: src/blocks/design-process/edit.js:214
 #: src/blocks/design-radio/edit.js:431
 #: src/blocks/design-radio/edit.js:620
@@ -981,7 +981,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-table/index.js:78
@@ -990,7 +990,7 @@ msgstr ""
 #: src/blocks/design-calender/edit.js:855
 #: src/blocks/design-calender/edit.js:954
 #: src/blocks/design-checkbox/edit.js:192
-#: src/blocks/design-group/edit.js:466
+#: src/blocks/design-group/edit.js:477
 #: src/blocks/design-process/edit.js:213
 #: src/blocks/design-radio/edit.js:430
 #: src/blocks/design-radio/edit.js:619
@@ -1008,7 +1008,7 @@ msgstr ""
 #: build/blocks/design-calender/index.js:124
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-table/index.js:78
@@ -1017,8 +1017,8 @@ msgstr ""
 #: src/blocks/design-calender/edit.js:869
 #: src/blocks/design-calender/edit.js:968
 #: src/blocks/design-checkbox/edit.js:217
-#: src/blocks/design-group/edit.js:487
-#: src/blocks/design-group/edit.js:649
+#: src/blocks/design-group/edit.js:498
+#: src/blocks/design-group/edit.js:671
 #: src/blocks/design-process/edit.js:238
 #: src/blocks/design-radio/edit.js:443
 #: src/blocks/design-radio/edit.js:633
@@ -1039,7 +1039,7 @@ msgstr ""
 #: build/blocks/design-calender/index.js:124
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-table/index.js:78
@@ -1048,8 +1048,8 @@ msgstr ""
 #: src/blocks/design-calender/edit.js:868
 #: src/blocks/design-calender/edit.js:967
 #: src/blocks/design-checkbox/edit.js:216
-#: src/blocks/design-group/edit.js:486
-#: src/blocks/design-group/edit.js:648
+#: src/blocks/design-group/edit.js:497
+#: src/blocks/design-group/edit.js:670
 #: src/blocks/design-process/edit.js:237
 #: src/blocks/design-radio/edit.js:442
 #: src/blocks/design-radio/edit.js:632
@@ -1155,69 +1155,69 @@ msgid "A block that highlights code."
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:163
+#: src/blocks/code-highlight/edit.js:169
 msgid "SyntaxHighLight Settings"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:168
+#: src/blocks/code-highlight/edit.js:176
 msgid "Line Number(display)"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:168
+#: src/blocks/code-highlight/edit.js:177
 msgid "Line Number(hidden)"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:176
+#: src/blocks/code-highlight/edit.js:186
 msgid "Starting Line Number"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:186
+#: src/blocks/code-highlight/edit.js:198
 msgid "languege"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:198
+#: src/blocks/code-highlight/edit.js:210
 msgid "Skin"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:212
+#: src/blocks/code-highlight/edit.js:224
 msgid "Spacing Settings"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
 #: build/gutenberg-ex.js:25
-#: src/blocks/code-highlight/edit.js:216
-#: src/gutenberg-ex.js:266
+#: src/blocks/code-highlight/edit.js:228
+#: src/gutenberg-ex.js:298
 msgid "Margin settings"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:242
+#: src/blocks/code-highlight/edit.js:253
 msgid "Preview"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:242
+#: src/blocks/code-highlight/edit.js:254
 msgid "Edit"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:257
+#: src/blocks/code-highlight/edit.js:270
 msgid "File Name"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:264
+#: src/blocks/code-highlight/edit.js:277
 msgid "Code:"
 msgstr ""
 
 #: build/blocks/code-highlight/index.js:1
-#: src/blocks/code-highlight/edit.js:281
+#: src/blocks/code-highlight/edit.js:294
 msgid "edit mode"
 msgstr ""
 
@@ -1332,7 +1332,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-radio/index.js:208
@@ -1351,7 +1351,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-radio/index.js:208
@@ -1370,7 +1370,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-radio/index.js:208
@@ -1426,7 +1426,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1441,7 +1441,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1456,7 +1456,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1471,7 +1471,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1486,7 +1486,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1501,7 +1501,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1516,7 +1516,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1531,7 +1531,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1546,7 +1546,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1561,7 +1561,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1576,7 +1576,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1591,7 +1591,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1606,7 +1606,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1621,7 +1621,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1636,7 +1636,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1651,7 +1651,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1666,7 +1666,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1681,7 +1681,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1696,7 +1696,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1711,7 +1711,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1726,7 +1726,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1741,7 +1741,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1756,7 +1756,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:74
 #: build/blocks/design-calender/index.js:195
 #: build/blocks/design-checkbox/index.js:117
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: build/blocks/design-process/index.js:214
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-select/index.js:387
@@ -1771,7 +1771,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:87
 #: build/blocks/design-calender/index.js:208
 #: build/blocks/design-checkbox/index.js:130
-#: build/blocks/design-group/index.js:135
+#: build/blocks/design-group/index.js:141
 #: build/blocks/design-process/index.js:227
 #: build/blocks/design-radio/index.js:197
 #: build/blocks/design-select/index.js:400
@@ -1789,8 +1789,8 @@ msgstr ""
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:130
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:135
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:141
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:227
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:197
@@ -1813,7 +1813,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:87
 #: build/blocks/design-calender/index.js:208
 #: build/blocks/design-checkbox/index.js:130
-#: build/blocks/design-group/index.js:135
+#: build/blocks/design-group/index.js:141
 #: build/blocks/design-process/index.js:227
 #: build/blocks/design-radio/index.js:197
 #: build/blocks/design-select/index.js:400
@@ -1828,7 +1828,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:87
 #: build/blocks/design-calender/index.js:208
 #: build/blocks/design-checkbox/index.js:130
-#: build/blocks/design-group/index.js:135
+#: build/blocks/design-group/index.js:141
 #: build/blocks/design-process/index.js:227
 #: build/blocks/design-radio/index.js:197
 #: build/blocks/design-select/index.js:400
@@ -1843,7 +1843,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -1858,7 +1858,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -1873,7 +1873,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -1888,7 +1888,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -1903,7 +1903,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -1918,7 +1918,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -1933,7 +1933,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -1948,7 +1948,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -1963,7 +1963,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -1978,7 +1978,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -1993,7 +1993,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2008,7 +2008,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2023,7 +2023,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2038,7 +2038,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2053,7 +2053,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2068,7 +2068,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2083,7 +2083,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-radio/index.js:208
@@ -2100,7 +2100,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-radio/index.js:208
@@ -2117,7 +2117,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2132,7 +2132,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2147,7 +2147,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2162,7 +2162,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2177,7 +2177,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2192,7 +2192,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2207,7 +2207,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2222,7 +2222,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2237,7 +2237,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-radio/index.js:208
@@ -2254,7 +2254,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-radio/index.js:208
@@ -2271,7 +2271,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2286,7 +2286,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2301,7 +2301,22 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111
+#: build/block_collection.js:25
+#: build/gutenberg-ex.js:25
+msgid "wrap"
+msgstr ""
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2316,7 +2331,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2331,7 +2346,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-radio/index.js:208
@@ -2348,7 +2363,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:184
 #: build/blocks/design-radio/index.js:208
@@ -2365,7 +2380,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2380,7 +2395,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2395,7 +2410,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2404,13 +2419,13 @@ msgstr ""
 #: build/blocks/design-title/index.js:111
 #: build/block_collection.js:25
 #: build/gutenberg-ex.js:25
-msgid "Wide Size"
+msgid "Alignment in container(Mobile)"
 msgstr ""
 
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2419,43 +2434,13 @@ msgstr ""
 #: build/blocks/design-title/index.js:111
 #: build/block_collection.js:25
 #: build/gutenberg-ex.js:25
-msgid "Content Size"
+msgid "Alignment in container(DeskTop)"
 msgstr ""
 
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
-#: build/blocks/design-process/index.js:238
-#: build/blocks/design-radio/index.js:208
-#: build/blocks/design-select/index.js:411
-#: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:160
-#: build/blocks/design-title/index.js:111
-#: build/block_collection.js:25
-#: build/gutenberg-ex.js:25
-msgid "Block Height(Mobile)"
-msgstr ""
-
-#: build/blocks/design-button/index.js:98
-#: build/blocks/design-calender/index.js:219
-#: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
-#: build/blocks/design-process/index.js:238
-#: build/blocks/design-radio/index.js:208
-#: build/blocks/design-select/index.js:411
-#: build/blocks/design-table/index.js:102
-#: build/blocks/design-text-ctrl/index.js:160
-#: build/blocks/design-title/index.js:111
-#: build/block_collection.js:25
-#: build/gutenberg-ex.js:25
-msgid "Block Height(DeskTop)"
-msgstr ""
-
-#: build/blocks/design-button/index.js:98
-#: build/blocks/design-calender/index.js:219
-#: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2470,7 +2455,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2485,7 +2470,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2500,7 +2485,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2515,7 +2500,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2530,7 +2515,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2545,7 +2530,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2560,7 +2545,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2575,7 +2560,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2590,7 +2575,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2605,7 +2590,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2620,7 +2605,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2635,7 +2620,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2650,7 +2635,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2665,7 +2650,67 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111
+#: build/block_collection.js:25
+#: build/gutenberg-ex.js:25
+msgid "Wide Size"
+msgstr ""
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:152
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111
+#: build/block_collection.js:25
+#: build/gutenberg-ex.js:25
+msgid "Content Size"
+msgstr ""
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:152
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111
+#: build/block_collection.js:25
+#: build/gutenberg-ex.js:25
+msgid "Block Height(Mobile)"
+msgstr ""
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:152
+#: build/blocks/design-process/index.js:238
+#: build/blocks/design-radio/index.js:208
+#: build/blocks/design-select/index.js:411
+#: build/blocks/design-table/index.js:102
+#: build/blocks/design-text-ctrl/index.js:160
+#: build/blocks/design-title/index.js:111
+#: build/block_collection.js:25
+#: build/gutenberg-ex.js:25
+msgid "Block Height(DeskTop)"
+msgstr ""
+
+#: build/blocks/design-button/index.js:98
+#: build/blocks/design-calender/index.js:219
+#: build/blocks/design-checkbox/index.js:141
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2680,7 +2725,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2695,7 +2740,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2710,7 +2755,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2725,7 +2770,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2740,7 +2785,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2755,7 +2800,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2770,7 +2815,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2785,7 +2830,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2800,7 +2845,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2815,7 +2860,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2830,7 +2875,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2845,7 +2890,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2860,7 +2905,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2875,7 +2920,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2890,7 +2935,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2905,7 +2950,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2920,7 +2965,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -2935,7 +2980,7 @@ msgstr ""
 #: build/blocks/design-button/index.js:98
 #: build/blocks/design-calender/index.js:219
 #: build/blocks/design-checkbox/index.js:141
-#: build/blocks/design-group/index.js:146
+#: build/blocks/design-group/index.js:152
 #: build/blocks/design-process/index.js:238
 #: build/blocks/design-radio/index.js:208
 #: build/blocks/design-select/index.js:411
@@ -3128,78 +3173,78 @@ msgstr ""
 msgid "Write Checkbox Label..."
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
+#: build/blocks/design-group/index.js:128
 #: src/blocks/design-group/index.js:13
 msgid "A block for storing and arranging multiple blocks. The position can be adjusted."
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:307
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:317
 msgid "Menu or Group"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:312
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:322
 msgid "Is Menu"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:337
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:348
 msgid "Slide Parallax"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:342
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:353
 msgid "Is Parallax"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:382
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:393
 msgid "Parallax Type"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:386
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:397
 msgid "Lateral"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:390
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:401
 msgid "Longitudinal"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:394
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:405
 msgid "Scale"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:412
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:423
 msgid "Value"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:433
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:444
 msgid "unit"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:459
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:470
 msgid "Dimensions"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:641
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:663
 msgid "Content Style"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:689
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:711
 msgid "Position moveable"
 msgstr ""
 
-#: build/blocks/design-group/index.js:122
-#: src/blocks/design-group/edit.js:693
+#: build/blocks/design-group/index.js:128
+#: src/blocks/design-group/edit.js:715
 msgid "make it moveable"
 msgstr ""
 
@@ -3441,77 +3486,77 @@ msgstr ""
 
 #: build/gutenberg-ex.js:25
 #: src/gutenberg-ex.js:247
-msgid "Size of Image"
+msgid "Link with parent element"
 msgstr ""
 
 #: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:251
+#: src/gutenberg-ex.js:249
+msgid "Sets the size of the image to fit the parent element."
+msgstr ""
+
+#: build/gutenberg-ex.js:25
+#: src/gutenberg-ex.js:255
 msgid "Fit Parent Element"
 msgstr ""
 
 #: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:262
-msgid "Dimension"
-msgstr ""
-
-#: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:292
-msgid "LineHight settings"
-msgstr ""
-
-#: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:296
-msgid "lineHeight"
-msgstr ""
-
-#: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:308
-msgid "See More"
-msgstr ""
-
-#: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:310
-msgid "Is See More Setting"
-msgstr ""
-
-#: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:334
-msgid "Max Height(mobile)"
-msgstr ""
-
-#: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:333
-msgid "Max Height(desk top)"
-msgstr ""
-
-#: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:346
-msgid "Ratio of gradation(mobile)"
-msgstr ""
-
-#: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:342
-msgid "Ratio of gradation(desk top)"
-msgstr ""
-
-#: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:373
-msgid "Border settings"
-msgstr ""
-
-#: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:404
-msgid "Scale settings"
-msgstr ""
-
-#: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:415
-#: src/gutenberg-ex.js:427
+#: src/gutenberg-ex.js:270
+#: src/gutenberg-ex.js:282
 msgid "If left blank, it will not be set."
 msgstr ""
 
 #: build/gutenberg-ex.js:25
-#: src/gutenberg-ex.js:589
+#: src/gutenberg-ex.js:294
+msgid "Dimension"
+msgstr ""
+
+#: build/gutenberg-ex.js:25
+#: src/gutenberg-ex.js:324
+msgid "LineHight settings"
+msgstr ""
+
+#: build/gutenberg-ex.js:25
+#: src/gutenberg-ex.js:328
+msgid "lineHeight"
+msgstr ""
+
+#: build/gutenberg-ex.js:25
+#: src/gutenberg-ex.js:340
+msgid "See More"
+msgstr ""
+
+#: build/gutenberg-ex.js:25
+#: src/gutenberg-ex.js:342
+msgid "Is See More Setting"
+msgstr ""
+
+#: build/gutenberg-ex.js:25
+#: src/gutenberg-ex.js:366
+msgid "Max Height(mobile)"
+msgstr ""
+
+#: build/gutenberg-ex.js:25
+#: src/gutenberg-ex.js:365
+msgid "Max Height(desk top)"
+msgstr ""
+
+#: build/gutenberg-ex.js:25
+#: src/gutenberg-ex.js:378
+msgid "Ratio of gradation(mobile)"
+msgstr ""
+
+#: build/gutenberg-ex.js:25
+#: src/gutenberg-ex.js:374
+msgid "Ratio of gradation(desk top)"
+msgstr ""
+
+#: build/gutenberg-ex.js:25
+#: src/gutenberg-ex.js:405
+msgid "Border settings"
+msgstr ""
+
+#: build/gutenberg-ex.js:25
+#: src/gutenberg-ex.js:586
 msgid "The 'See more' button cannot be set when there are multiple inner blocks"
 msgstr ""
 
