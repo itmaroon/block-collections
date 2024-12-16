@@ -197,10 +197,15 @@ jQuery(function ($) {
   design-buttonイベントハンドラ
   ------------------------------ */
 	$(document).on("click", ".itmar_design_button", function (e) {
-		if ($(this).data("selected_page")) {
-			let redirectUrl = $(this).data("selected_page");
+		if ($(this).attr("data-selected_page")) {
+			let redirectUrl = $(this).attr("data-selected_page");
+			let isBlank = $(this).data("open_blank");
 			//リダイレクト
-			window.location.href = redirectUrl;
+			if (isBlank) {
+				window.open(redirectUrl, "_blank");
+			} else {
+				window.location.href = redirectUrl;
+			}
 		}
 	});
 	/* ------------------------------
@@ -465,13 +470,14 @@ jQuery(function ($) {
 			});
 		},
 	);
+	//クリアボタンをクリックしたとき
 	$(document).on(
 		"click",
 		".wp-block-itmar-design-radio .itmar_radio button",
 		function () {
 			//ラベルのクラス名を削除
 			let radio_list = $(this).parent().parent().find("label");
-			radio_list.removeClass("checked check_prev check_next");
+			radio_list.removeClass("checked check_prev check_next ready");
 			//input要素の選択を解除
 			let checkElm = $(this).closest(".wp-block-itmar-design-radio");
 			let inputName = checkElm.data("input_name");
@@ -490,10 +496,21 @@ jQuery(function ($) {
   ------------------------------ */
 	//デフォルトの月をセレクトボックスにセット
 	$(function () {
+		//URLからパラメータを取得して期間のクエリーパラメータを取得
+		const params = new URLSearchParams(window.location.search);
+		const periodString = params.get("period");
+		var match = decodeURIComponent(periodString).match(/^(\d{4})\/(\d{2})/);
+		const urlMonth = match
+			? match[1] + "/" + match[2] // 年/月形式に組み立て
+			: null;
+
 		let select = $(".itmar_select_month .itmar_block_selectSingle");
-		let setMonth = select
-			.closest(".wp-block-itmar-design-calender")
-			.data("selected_month");
+		//期間のクエリーパラメータが設定されているときはそちらを優先（設定がなければdata属性値）
+		let setMonth = periodString
+			? urlMonth
+			: select
+					.closest(".wp-block-itmar-design-calender")
+					.data("selected_month");
 		let li_arr = select.find("ul li");
 		let li = li_arr.filter(function () {
 			return $(this).attr("data-value") === setMonth;
@@ -550,10 +567,10 @@ jQuery(function ($) {
 			const weekClass =
 				item.weekday === 0
 					? "holiday"
-					: item.weekday === 6
-					? "saturday"
 					: item.holiday
 					? "holiday"
+					: item.weekday === 6
+					? "saturday"
 					: "";
 			const label = $("<label>")
 				.addClass(`itmar_radio ${weekClass}`)
@@ -642,6 +659,12 @@ jQuery(function ($) {
 							tipsClass,
 							isClear,
 						);
+						// カスタムイベントを発生させる
+						const calenderRenderedEvent = new CustomEvent("calender_rendered");
+						const parentElement = $(this).closest(
+							".wp-block-itmar-design-calender",
+						)[0];
+						parentElement.dispatchEvent(calenderRenderedEvent);
 					})
 					.catch((error) => {
 						console.error("エラーが発生しました:", error);
@@ -649,6 +672,12 @@ jQuery(function ($) {
 			} else {
 				const dateValues = generateMonthCalendar(selectedOption.attr("value"));
 				calenderRender(dateArea, dateValues, name, weekTop, tipsClass, isClear);
+				// カスタムイベントを発生させる
+				const calenderRenderedEvent = new CustomEvent("calender_rendered");
+				const parentElement = $(this).closest(
+					".wp-block-itmar-design-calender",
+				)[0];
+				parentElement.dispatchEvent(calenderRenderedEvent);
 			}
 		},
 	);
@@ -673,6 +702,7 @@ jQuery(function ($) {
 			.find(".itmar_date_area");
 		// 全てのラベルから'checked'クラスを削除
 		dateArea.find("label").removeClass("checked");
+
 		//input要素の選択を解除
 		let checkElm = $(this).closest(".wp-block-itmar-design-calender");
 		let inputName = checkElm.data("input_name");

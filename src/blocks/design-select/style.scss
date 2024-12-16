@@ -7,13 +7,11 @@
 
 .wp-block-itmar-design-select {
 	width: 100%;
-
-	.itmar_block_select {
-		flex-grow: 1;
-	}
+	* {
+		box-sizing: border-box;
+	  }
 
 	select {
 		display: none;
-
 	}
 }

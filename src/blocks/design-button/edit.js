@@ -1,6 +1,8 @@
 import { __ } from "@wordpress/i18n";
 import { StyleComp } from "./StyleButton";
 import { useStyleIframe } from "../iframeFooks";
+import ToolTips from "../ToolTips";
+import StyleTooltips from "../StyleTooltips";
 
 import {
 	PanelBody,
@@ -76,6 +78,7 @@ export default function Edit(props) {
 		linkKind,
 		selectedSlug,
 		selectedPageUrl,
+		isBlank,
 		bgColor,
 		align,
 		outer_align,
@@ -97,6 +100,9 @@ export default function Edit(props) {
 		border_value,
 		shadow_element,
 		is_shadow,
+		is_tooltip,
+		tooltip_style,
+		tooltip_text,
 	} = attributes;
 
 	//ブロックの配置
@@ -129,35 +135,50 @@ export default function Edit(props) {
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
+	useStyleIframe(StyleTooltips, tooltip_style);
 
 	function renderContent() {
+		// ボタンの中身を変数に格納
+		const buttonContent = (
+			<button
+				onClick={() => setAttributes({ isClick: true })}
+				disabled={disabled}
+			>
+				{displayType === "string" && (
+					<RichText
+						onChange={(newContent) => {
+							setAttributes({ labelContent: newContent });
+						}}
+						value={labelContent}
+						placeholder={__("Button Name...", "block-collections")}
+					/>
+				)}
+				{displayType === "image" && (
+					<SingleImageSelect
+						attributes={attributes}
+						onSelectChange={(media) => {
+							setAttributes({ media: media, mediaID: media.id });
+						}}
+					/>
+				)}
+
+				{displayType === "pseudo" && <div className={displayType} />}
+			</button>
+		);
 		return (
 			<>
 				{buttonType === "button" ? (
-					<button
-						onClick={() => setAttributes({ isClick: true })}
-						disabled={disabled}
-					>
-						{displayType === "string" && (
-							<RichText
-								onChange={(newContent) => {
-									setAttributes({ labelContent: newContent });
-								}}
-								value={labelContent}
-								placeholder={__("Button Name...", "block-collections")}
-							/>
-						)}
-						{displayType === "image" && (
-							<SingleImageSelect
-								attributes={attributes}
-								onSelectChange={(media) => {
-									setAttributes({ media: media, mediaID: media.id });
-								}}
-							/>
-						)}
-
-						{displayType === "pseudo" && <div className={displayType} />}
-					</button>
+					is_tooltip ? (
+						<StyleTooltips attributes={tooltip_style} tooltip={tooltip_text}>
+							{buttonContent}
+						</StyleTooltips>
+					) : (
+						buttonContent
+					)
+				) : is_tooltip ? (
+					<StyleTooltips attributes={tooltip_style} tooltip={tooltip_text}>
+						<input type="submit" value={labelContent} id={buttonId} />
+					</StyleTooltips>
 				) : (
 					<input type="submit" value={labelContent} id={buttonId} />
 				)}
@@ -255,6 +276,16 @@ export default function Edit(props) {
 						/>
 					)}
 
+					{buttonType === "button" && linkKind !== "none" && (
+						<ToggleControl
+							label={__("Open in new tab", "block-collections")}
+							checked={isBlank}
+							onChange={(newVal) => {
+								setAttributes({ isBlank: newVal });
+							}}
+						/>
+					)}
+
 					{buttonType === "submit" && (
 						<>
 							<TextControl
@@ -309,6 +340,35 @@ export default function Edit(props) {
 							/>
 						)}
 					</div>
+				</PanelBody>
+				<PanelBody
+					title={__("Tool Hint setting", "block-collections")}
+					initialOpen={true}
+					className="form_setteing_ctrl"
+				>
+					<ToggleControl
+						label={__("Is Tool Hint", "block-collections")}
+						checked={is_tooltip}
+						onChange={(newVal) => {
+							setAttributes({ is_tooltip: newVal });
+						}}
+					/>
+					{is_tooltip && (
+						<>
+							<TextControl
+								label={__("Hint wording", "block-collections")}
+								value={tooltip_text}
+								onChange={(newVal) => setAttributes({ tooltip_text: newVal })}
+							/>
+							<ToolTips
+								attributes={tooltip_style}
+								isMobile={isMobile}
+								onChange={(newValue) => {
+									setAttributes({ tooltip_style: newValue });
+								}}
+							/>
+						</>
+					)}
 				</PanelBody>
 			</InspectorControls>
 			<InspectorControls group="styles">

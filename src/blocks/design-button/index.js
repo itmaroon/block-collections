@@ -14,7 +14,7 @@ registerBlockType(metadata.name, {
 	icon: <Button />,
 	description: __(
 		"A block that decorates buttons with designs.",
-		"block-collections"
+		"block-collections",
 	),
 	attributes: {
 		...metadata.attributes,

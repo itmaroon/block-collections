@@ -6,7 +6,6 @@ export function useStyleIframe(StyleComp, attributes) {
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useDeepCompareEffect(() => {
 		const iframeInstance = document.getElementsByName("editor-canvas")[0];
-
 		//個別
 		if (iframeInstance) {
 			const iframeDocument =

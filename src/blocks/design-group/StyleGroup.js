@@ -189,11 +189,13 @@ const StyledDiv = styled.div`
 					flex-direction: ${!default_val.reverse ? "row" : "row-reverse"};
 					flex-wrap: ${default_val.wrap ? "wrap" : "nowrap"};
 					justify-content: ${default_val.inner_align};
+					align-items: ${default_val.inner_items};
 
 					@media (max-width: 767px) {
 						flex-direction: ${!mobile_val.reverse ? "row" : "row-reverse"};
 						flex-wrap: ${mobile_val.wrap ? "wrap" : "nowrap"};
 						justify-content: ${mobile_val.inner_align};
+						align-items: ${mobile_val.inner_items};
 					}
 				}
 			}
@@ -207,6 +209,7 @@ const StyledDiv = styled.div`
 					flex-direction: ${!default_val.reverse ? "column" : "column-reverse"};
 					flex-wrap: ${default_val.wrap ? "wrap" : "nowrap"};
 					justify-content: ${default_val.inner_align};
+					align-items: ${default_val.inner_items};
 
 					@media (max-width: 767px) {
 						flex-direction: ${!mobile_val.reverse
@@ -214,6 +217,7 @@ const StyledDiv = styled.div`
 							: "column-reverse"};
 						flex-wrap: ${mobile_val.wrap ? "wrap" : "nowrap"};
 						justify-content: ${mobile_val.inner_align};
+						align-items: ${mobile_val.inner_items};
 					}
 				}
 			}

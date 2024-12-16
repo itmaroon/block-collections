@@ -40,6 +40,7 @@ const StyledDiv = styled.span.attrs((props) => ({
 
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
+			position: relative;
 			&::before,
 			&::after {
 				text-transform: none;

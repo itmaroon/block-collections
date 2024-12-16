@@ -140,7 +140,7 @@ const StyledDiv = styled.div`
 
 					a {
 						position: relative;
-						padding: 0 24px 6px 8px;
+						padding: 0 0 6px 0;
 						line-height: 1.4em;
 						text-decoration-line: none;
 						color: ${optionColor};

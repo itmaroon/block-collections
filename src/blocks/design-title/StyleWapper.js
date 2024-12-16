@@ -147,6 +147,7 @@ const StyledDiv = styled.div`
 			position: relative;
 			z-index: 10;
 			font-size: ${defaultHeadingSize};
+			${box_shadow_style};
 			@media (max-width: 767px) {
 				font-size: ${mobileHeadingSize};
 			}
@@ -157,7 +158,6 @@ const StyledDiv = styled.div`
 				margin: 0;
 				font-weight: inherit;
 				${underLine};
-				${box_shadow_style};
 				${vertical_style};
 			}
 			a {

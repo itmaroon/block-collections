@@ -554,14 +554,14 @@ export default function Edit(props) {
 							});
 						}
 					}}
-					onFlexChange={(position) => {
+					onFlexChange={(position, axis) => {
 						if (!isMobile) {
 							setAttributes({
-								default_val: { ...default_val, inner_align: position },
+								default_val: { ...default_val, [axis]: position },
 							});
 						} else {
 							setAttributes({
-								mobile_val: { ...mobile_val, inner_align: position },
+								mobile_val: { ...mobile_val, [axis]: position },
 							});
 						}
 					}}

@@ -36,8 +36,8 @@ export default function save({ attributes }) {
 	const blockProps = useBlockProps.save({
 		style: {
 			backgroundColor: bgColor,
-			width: "fit-content",
-			overflow: "hidden",
+			width: "100%",
+			// overflow: "hidden",
 		},
 	});
 

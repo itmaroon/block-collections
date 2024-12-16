@@ -34,7 +34,7 @@ export default function save({ attributes }) {
 					// 	}
 					// }
 					return (
-						<label key={item.id} className={`itmar_radio ready`}>
+						<label key={item.id} className={`itmar_radio`}>
 							<input type="radio" name={inputName} value={item.value} />
 							<span>{item.label}</span>
 						</label>

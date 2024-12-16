@@ -134,7 +134,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	//ブロックの参照
 	const blockRef = useRef(null);
 	const blockProps = useBlockProps({
-		style: { width: "fit-content" },
+		style: { width: "100%" },
 	});
 
 	//インナーブロックのひな型を用意
@@ -142,7 +142,104 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		//同一ブロックを２つ以上入れないこと（名称の文字列が重ならないこと）
 		[
 			"itmar/design-group",
-			{},
+			{
+				default_val: {
+					direction: "horizen",
+					reverse: false,
+					wrap: false,
+					inner_align: "flex-start",
+					outer_align: "center",
+					outer_vertical: "center",
+					width_val: "full",
+					max_width: "full",
+					free_width: "400px",
+					max_free_width: "100%",
+					height_val: "fit",
+					free_height: "300px",
+					posValue: {
+						vertBase: "top",
+						horBase: "left",
+						vertValue: "3em",
+						horValue: "3em",
+						isVertCenter: false,
+						isHorCenter: false,
+					},
+					margin: {
+						top: "0px",
+						left: "0px",
+						bottom: "0px",
+						right: "0px",
+					},
+					padding: {
+						top: "0px",
+						left: "0px",
+						bottom: "0px",
+						right: "0px",
+					},
+					padding_content: {
+						top: "0px",
+						left: "0px",
+						bottom: "0px",
+						right: "0px",
+					},
+					grid_info: {
+						gridElms: [],
+						rowNum: 2,
+						colNum: 2,
+						rowGap: "5px",
+						colGap: "5px",
+						rowUnit: [],
+						colUnit: [],
+					},
+				},
+				mobile_val: {
+					direction: "vertical",
+					reverse: false,
+					wrap: false,
+					inner_align: "flex-start",
+					outer_align: "center",
+					outer_vertical: "center",
+					width_val: "full",
+					max_width: "100%",
+					free_width: "200px",
+					max_free_width: "100%",
+					height_val: "fit",
+					free_height: "300px",
+					posValue: {
+						vertBase: "top",
+						horBase: "left",
+						vertValue: "2em",
+						horValue: "1em",
+						isVertCenter: false,
+						isHorCenter: false,
+					},
+					margin: {
+						top: "0px",
+						left: "0px",
+						bottom: "0px",
+						right: "0px",
+					},
+					padding: {
+						top: "0px",
+						left: "0px",
+						bottom: "0px",
+						right: "0px",
+					},
+					padding_content: {
+						top: "20px",
+						left: "10px",
+						bottom: "20px",
+						right: "10px",
+					},
+					grid_info: {
+						gridElms: [],
+						rowNum: 2,
+						colNum: 2,
+						rowGap: "5px",
+						colGap: "5px",
+					},
+				},
+			},
 			[
 				[
 					"itmar/design-button",
@@ -339,7 +436,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	}, [selectMonthBlock]);
 
 	//CalenderAPIキーの一時保存
-	const [calenderApiVal, setCalenderApiVal] = useState("");
+	const [calenderApiVal, setCalenderApiVal] = useState(calenderApiKey);
 
 	//前後ボタンによる表示月の更新
 
@@ -351,10 +448,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			);
 
 			if (prevButtonBlock.attributes.isClick) {
-				//ボタンのクリックフラグを元に戻す
-				updateBlockAttributes(prevButtonBlock.clientId, {
-					isClick: false,
-				});
 				//選択されている月の前のインデックス
 				const newIndex = selectIndex - 1 > 0 ? selectIndex - 1 : 0;
 				//セレクトボックスの更新
@@ -363,14 +456,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					selectedValues: [newId],
 				});
 				//カレンダーの更新
-				const newValue = selectMonthAttr.selectValues[newIndex].id;
+				const newValue = selectMonthAttr.selectValues[newIndex].value;
 				setAttributes({ selectedMonth: newValue });
-			}
-			if (nextButtonBlock.attributes.isClick) {
 				//ボタンのクリックフラグを元に戻す
-				updateBlockAttributes(nextButtonBlock.clientId, {
+				updateBlockAttributes(prevButtonBlock.clientId, {
 					isClick: false,
 				});
+			}
+			if (nextButtonBlock.attributes.isClick) {
 				//選択されている月の次のインデックス
 				const newIndex =
 					selectIndex + 1 < selectMonthAttr.selectValues.length
@@ -382,8 +475,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					selectedValues: [newId],
 				});
 				//カレンダーの更新
-				const newValue = selectMonthAttr.selectValues[newIndex].id;
+				const newValue = selectMonthAttr.selectValues[newIndex].value;
 				setAttributes({ selectedMonth: newValue });
+				//ボタンのクリックフラグを元に戻す
+				updateBlockAttributes(nextButtonBlock.clientId, {
+					isClick: false,
+				});
 			}
 		}
 	}, [prevButtonBlock, nextButtonBlock]);
@@ -458,6 +555,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
+	useStyleIframe(StyleTooltips, tooltip_style);
 
 	//選択された月の変更による書き換え
 	useEffect(() => {
@@ -514,10 +612,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					const weekClass =
 						item.weekday === 0
 							? "holiday"
-							: item.weekday === 6
-							? "saturday"
 							: item.holiday
 							? "holiday"
+							: item.weekday === 6
+							? "saturday"
 							: "";
 					const dispSpan = item.holiday ? (
 						<StyleTooltips attributes={tooltip_style} tooltip={item.holiday}>

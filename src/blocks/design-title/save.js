@@ -15,6 +15,7 @@ export default function save({ attributes }) {
 		menu_pos,
 		is_title_menu,
 		selectedPageUrl,
+		isBlank,
 	} = attributes;
 
 	//テキストの配置
@@ -55,14 +56,18 @@ export default function save({ attributes }) {
 			: renderElement();
 
 	//フロントエンドに出力
+	const linkContent = isBlank ? (
+		<a href={selectedPageUrl} target="_blank">
+			{content}
+		</a>
+	) : (
+		<a href={selectedPageUrl}>{content}</a>
+	);
+
 	const html = renderToString(
 		sheet.collectStyles(
 			<StyleComp attributes={attributes}>
-				{linkKind === "none" || linkKind === "submenu" ? (
-					content
-				) : (
-					<a href={selectedPageUrl}>{content}</a>
-				)}
+				{linkKind === "none" || linkKind === "submenu" ? content : linkContent}
 			</StyleComp>,
 		),
 	);

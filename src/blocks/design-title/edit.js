@@ -129,6 +129,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		is_title_menu,
 		selectedSlug,
 		selectedPageUrl,
+		isBlank,
 		dateValue,
 		dateFormat,
 		className,
@@ -646,6 +647,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									// バリデーションが成功した場合、編集値を確定する
 									setAttributes({ selectedPageUrl: url_editing });
 								}
+							}}
+						/>
+					)}
+					{(linkKind === "fixed" ||
+						linkKind === "archive" ||
+						linkKind === "url" ||
+						linkKind === "free") && (
+						<ToggleControl
+							label={__("Open in new tab", "block-collections")}
+							checked={isBlank}
+							onChange={(newVal) => {
+								setAttributes({ isBlank: newVal });
 							}}
 						/>
 					)}

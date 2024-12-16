@@ -1,9 +1,9 @@
 === Block Collections ===
-Contributors: itmaroon
+Contributors: Web Creator ITmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.3
-Tested up to:      6.6.2
-Stable tag:        1.4.2
+Tested up to:      6.7
+Stable tag:        1.4.3
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,14 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 1.4.3 =
+- In Design Block, when a holiday overlapped with a Saturday, the date style was changed to the Saturday style. This has been corrected so that it will be the holiday style.
+- Added a function to display tooltips on Design Buttons.
+- Change the element that sets the shadow of the Design Title from the h element to its parent element.
+- Added a function to generate an event that indicates that the display of the date button has been completed due to the display month of the Design Calendar being changed.
+- Fixed the issue where the Google Calendar API Key for obtaining holiday data for Design Calendar was not displayed after reloading.
+- Fixed an issue where tooltips were not displayed in the site editor for Design Button and Design Calendar.
+
 = 1.4.2 =
 - Fixed a problem with the validation check when the link type was set to URL in Design Title and an HTML format string was entered.
 - Fixed a bug in displaying updated results when setting the title type to date in Design Title.
