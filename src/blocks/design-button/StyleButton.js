@@ -83,6 +83,7 @@ const StyledDiv = styled.div`
 				border-radius: ${button_radius_prm};
 				${borderProperty(border_value)};
 				display: flex;
+				align-items: center;
 				${box_shadow_style};
 				font-size: ${font_style_label.default_fontSize};
 				font-family: ${font_style_label.fontFamily};

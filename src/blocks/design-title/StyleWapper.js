@@ -22,6 +22,7 @@ const StyledDiv = styled.div`
 			shadow_result,
 			is_shadow,
 			is_underLine,
+			is_wrap,
 			underLine_prop,
 			linkKind,
 			menu_pos,
@@ -136,7 +137,7 @@ const StyledDiv = styled.div`
 		};
 		const arrow_direction = directionMap[menu_pos];
 
-		const wrap = isMenuItem ? "nowrap !important" : "pre-wrap";
+		const wrap = !is_wrap ? "nowrap !important" : "pre-wrap";
 
 		const vertical_style = isVertical
 			? "writing-mode: vertical-rl;text-orientation: upright;"

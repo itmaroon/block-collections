@@ -4,7 +4,16 @@ import { renderToString } from "react-dom/server";
 import { StyleComp } from "./StyleGroup";
 
 export default function save({ attributes }) {
-	const { is_menu, is_submenu, is_anime, anime_prm, is_swiper } = attributes;
+	const {
+		is_menu,
+		is_submenu,
+		is_anime,
+		anime_prm,
+		is_link,
+		selectedPageUrl,
+		isBlank,
+		is_swiper,
+	} = attributes;
 
 	const blockProps = useBlockProps.save();
 
@@ -33,11 +42,11 @@ export default function save({ attributes }) {
 		return attributes;
 	});
 
-	const ContentComponent = ({ blockProps, is_anime, anime_prm }) => {
+	const ContentComponent = ({ blockProps, is_anime, anime_prm, is_link }) => {
 		return (
 			<div {...blockProps}>
 				<div
-					className={`group_contents ${is_anime ? "fadeTrigger" : ""}`}
+					className={`group_contents${is_anime ? " fadeTrigger" : ""}`}
 					data-is_anime={is_anime}
 					data-anime_prm={JSON.stringify(anime_prm)}
 				>
@@ -80,6 +89,16 @@ export default function save({ attributes }) {
 			/>,
 		);
 	};
+	const linkRender = (
+		<a
+			href={selectedPageUrl}
+			style={{ textDecoration: "none" }}
+			target={isBlank ? "_blank" : "_self"}
+			rel={isBlank ? "noopener noreferrer" : undefined} // 別タブの場合にセキュリティ対策として追加
+		>
+			{renderNestedDivs(divObjects)}
+		</a>
+	);
 
 	return (
 		<>
@@ -93,7 +112,7 @@ export default function save({ attributes }) {
 					<div className="itmar_back_ground"></div>
 				</>
 			)}
-			{renderNestedDivs(divObjects)}
+			{is_link ? linkRender : renderNestedDivs(divObjects)}
 		</>
 	);
 }

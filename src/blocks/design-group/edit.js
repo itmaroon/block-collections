@@ -27,6 +27,7 @@ import {
 	ToggleControl,
 	RadioControl,
 	RangeControl,
+	TextControl,
 	__experimentalBoxControl as BoxControl,
 } from "@wordpress/components";
 
@@ -110,6 +111,9 @@ export default function Edit(props) {
 		is_menu,
 		parallax_obj,
 		is_submenu,
+		is_link,
+		selectedPageUrl,
+		isBlank,
 	} = attributes;
 
 	//モバイルの判定
@@ -337,6 +341,38 @@ export default function Edit(props) {
 							}
 						}}
 					/>
+				</PanelBody>
+				<PanelBody
+					title={__("Link Setting", "block-collections")}
+					initialOpen={true}
+					className="form_design_ctrl"
+				>
+					<ToggleControl
+						label={__("Is Link", "block-collections")}
+						checked={is_link}
+						onChange={(newVal) => {
+							setAttributes({ is_link: newVal });
+						}}
+					/>
+					{is_link && (
+						<>
+							<TextControl
+								label={__("Link to URL", "block-collections")}
+								labelPosition="top"
+								value={selectedPageUrl}
+								onChange={(newValue) => {
+									setAttributes({ selectedPageUrl: newValue });
+								}}
+							/>
+							<ToggleControl
+								label={__("Open in new tab", "block-collections")}
+								checked={isBlank}
+								onChange={(newVal) => {
+									setAttributes({ isBlank: newVal });
+								}}
+							/>
+						</>
+					)}
 				</PanelBody>
 
 				<AnimationBlock

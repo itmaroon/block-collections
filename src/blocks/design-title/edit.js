@@ -121,6 +121,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		shadow_element,
 		is_shadow,
 		is_underLine,
+		is_wrap,
 		underLine_prop,
 		bgColor_underLine,
 		bgGradient_underLine,
@@ -815,6 +816,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						checked={isVertical}
 						onChange={(newVal) => {
 							setAttributes({ isVertical: newVal });
+						}}
+					/>
+					<ToggleControl
+						label={__("Wrap display", "block-collections")}
+						checked={is_wrap}
+						onChange={(newVal) => {
+							setAttributes({ is_wrap: newVal });
 						}}
 					/>
 				</PanelBody>

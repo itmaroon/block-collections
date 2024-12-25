@@ -120,6 +120,8 @@ OR…
 - Added a function to generate an event that indicates that the display of the date button has been completed due to the display month of the Design Calendar being changed.
 - Fixed the issue where the Google Calendar API Key for obtaining holiday data for Design Calendar was not displayed after reloading.
 - Fixed an issue where tooltips were not displayed in the site editor for Design Button and Design Calendar.
+- Added the ability to set wrapping for Design Title.
+- Added functionality to allow links to be set in Design Groups.
 
 = 1.4.2 =
 - Fixed a problem with the validation check when the link type was set to URL in Design Title and an HTML format string was entered.

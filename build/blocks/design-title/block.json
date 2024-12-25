@@ -150,6 +150,10 @@
       "type": "boolean",
       "default": false
     },
+    "is_wrap": {
+      "type": "boolean",
+      "default": true
+    },
     "underLine_prop": {
       "type": "object",
       "default": {
