@@ -3,7 +3,7 @@ Contributors: Web Creator ITmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.3
 Tested up to:      6.7
-Stable tag:        1.4.3
+Stable tag:        1.4.4
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,9 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 1.4.4 =
+- Fixed the home URL for the link settings of Design Title to be set by front-end rendering.
+  
 = 1.4.3 =
 - In Design Block, when a holiday overlapped with a Saturday, the date style was changed to the Saturday style. This has been corrected so that it will be the holiday style.
 - Added a function to display tooltips on Design Buttons.

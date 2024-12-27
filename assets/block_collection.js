@@ -96,9 +96,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 jQuery(function ($) {
 	/* ------------------------------
- design-titleのためのサイトタイトル・キャッチフレーズの読込
+ design-titleの処理
  ------------------------------ */
 	$(document).ready(function () {
+		//サイトタイトル・キャッチフレーズの読込
 		if ($(".itmar_site_title").length || $(".itmar_catch_title").length) {
 			// '.itmar_site_title' クラスを持つ要素が読み込まれたときの処理
 			fetch(`${itmar_block_option.home_url}/wp-json`)
@@ -108,6 +109,25 @@ jQuery(function ($) {
 					$(".itmar_catch_title").text(data.description);
 				});
 		}
+		//アーカイブ・固定ページのホームURL設定
+		// wp-block-itmar-design-titleクラスを持つ要素内の条件に合う<a>要素を抽出
+		$(".wp-block-itmar-design-title a")
+			.filter(function () {
+				return (
+					$(this).attr("href") && $(this).attr("href").includes("[home_url]")
+				);
+			})
+			.each(function () {
+				// href属性を取得
+				var currentHref = $(this).attr("href");
+				// href属性の[home_url]をhomeUrlに置き換え
+				var updatedHref = currentHref.replace(
+					"[home_url]",
+					block_collections.home_url,
+				);
+				// href属性を更新
+				$(this).attr("href", updatedHref);
+			});
 	});
 
 	/* ------------------------------

@@ -601,7 +601,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<PageSelectControl
 							selectedSlug={selectedSlug}
 							label={__("Select a fixed page to link to", "block-collections")}
-							homeUrl={block_collections.home_url}
+							homeUrl="[home_url]"
 							onChange={(pageInfo) => {
 								if (pageInfo) {
 									setAttributes({
@@ -616,7 +616,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						<ArchiveSelectControl
 							selectedSlug={selectedSlug}
 							label={__("Select archive page to link to", "block-collections")}
-							homeUrl={block_collections.home_url}
+							homeUrl="[home_url]"
 							onChange={(postInfo) => {
 								setAttributes({
 									selectedSlug: postInfo.slug,
