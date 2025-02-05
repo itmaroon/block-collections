@@ -3,7 +3,7 @@ Contributors: Web Creator ITmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.3
 Tested up to:      6.7
-Stable tag:        1.4.4
+Stable tag:        1.4.5
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,10 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 1.4.5 =
+- Fixed the issue where the icon inverted display was not displayed properly when selecting a block.
+
+  
 = 1.4.4 =
 - Fixed the home URL for the link settings of Design Title to be set by front-end rendering.
   
