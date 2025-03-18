@@ -34,7 +34,7 @@ if (!function_exists('get_plugin_data')) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 $block_entry = new \Itmar\BlockClassPakage\ItmarEntryClass();
-\Itmar\BlockClassPakage\ItmarProgressClass::get_instance();
+
 
 //ブロックの初期登録
 add_action('init', function () use ($block_entry) {
