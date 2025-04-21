@@ -10,6 +10,7 @@ class ComposerStaticInit481591d89d4af860e573ccc3f579b13b
         'I' => 
         array (
             'Itmar\\BlockClassPakage\\' => 23,
+            'Itmar\\Autoloader\\' => 17,
         ),
     );
 
@@ -17,6 +18,10 @@ class ComposerStaticInit481591d89d4af860e573ccc3f579b13b
         'Itmar\\BlockClassPakage\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Itmar\\Autoloader\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/itmar/loader-package/src',
         ),
     );
 

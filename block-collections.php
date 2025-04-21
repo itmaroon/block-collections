@@ -30,8 +30,7 @@ if (!function_exists('get_plugin_data')) {
 	require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 }
 
-//composerによるリモートリポジトリからの読み込みを要求
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '\vendor\itmar\loader-package\src\register_autoloader.php';
 
 $block_entry = new \Itmar\BlockClassPakage\ItmarEntryClass();
 
