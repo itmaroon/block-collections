@@ -6,6 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Itmar\\BlockClassPakage\\' => array($vendorDir . '/itmar/block-class-package/src'),
+    'Itmar\\BlockClassPackage\\' => array($vendorDir . '/itmar/block-class-package/src'),
     'Itmar\\Autoloader\\' => array($vendorDir . '/itmar/loader-package/src'),
 );

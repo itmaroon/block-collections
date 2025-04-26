@@ -32,7 +32,7 @@ if (!function_exists('get_plugin_data')) {
 
 require_once __DIR__ . '\vendor\itmar\loader-package\src\register_autoloader.php';
 
-$block_entry = new \Itmar\BlockClassPakage\ItmarEntryClass();
+$block_entry = new \Itmar\BlockClassPackage\ItmarEntryClass();
 
 
 //ブロックの初期登録

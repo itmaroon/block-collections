@@ -9,13 +9,13 @@ class ComposerStaticInitab015168147af054190c06099dec3dfa
     public static $prefixLengthsPsr4 = array (
         'I' => 
         array (
-            'Itmar\\BlockClassPakage\\' => 23,
+            'Itmar\\BlockClassPackage\\' => 24,
             'Itmar\\Autoloader\\' => 17,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Itmar\\BlockClassPakage\\' => 
+        'Itmar\\BlockClassPackage\\' => 
         array (
             0 => __DIR__ . '/..' . '/itmar/block-class-package/src',
         ),
