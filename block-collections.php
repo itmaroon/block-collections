@@ -3,9 +3,9 @@
 /**
  * Plugin Name:       Block Collections
  * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
- * Requires at least: 6.3
+ * Requires at least: 6.4
  * Requires PHP:      8.2.10
- * Version:           1.4.5
+ * Version:           1.5.0
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -30,7 +30,7 @@ if (!function_exists('get_plugin_data')) {
 	require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 }
 
-require_once __DIR__ . '\vendor\itmar\loader-package\src\register_autoloader.php';
+require_once __DIR__ . '/vendor/itmar/loader-package/src/register_autoloader.php';
 
 $block_entry = new \Itmar\BlockClassPackage\ItmarEntryClass();
 
