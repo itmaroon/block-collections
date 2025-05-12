@@ -1,5 +1,5 @@
 === Block Collections ===
-Contributors: Web Creator ITmaroon
+Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      6.8

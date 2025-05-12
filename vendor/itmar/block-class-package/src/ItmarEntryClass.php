@@ -47,7 +47,7 @@ class ItmarEntryClass
 
 
     //PHP用のテキストドメインの読込（国際化）
-    load_plugin_textdomain($text_domain, false, basename(dirname($file_path)) . '/languages');
+    //load_plugin_textdomain($text_domain, false, basename(dirname($file_path)) . '/languages');
   }
 
   // 依存関係のチェック関数
