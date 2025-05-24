@@ -23,6 +23,7 @@
 		"@fortawesome/free-solid-svg-icons": "^6.4.0",
 		"@fortawesome/react-fontawesome": "^0.2.0",
 		"ionicons": "^7.1.0",
+		"itmar-block-packages": "^1.5.0",
 		"nano-id": "^1.1.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",

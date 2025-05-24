@@ -4,13 +4,48 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-select {
+.wp-block-itmar-design-text-ctrl .password-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.wp-block-itmar-design-text-ctrl .password-wrapper input.contact_text {
+  width: 100%;
+  padding-right: 40px;
+}
+.wp-block-itmar-design-text-ctrl .password-wrapper .toggle-password-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.wp-block-itmar-design-text-ctrl .password-wrapper .toggle-password-button img {
+  width: 24px;
+  height: 24px;
+  display: block;
+  pointer-events: none;
+}
+.wp-block-itmar-design-text-ctrl .zip-search-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.wp-block-itmar-design-text-ctrl .zip-search-wrapper .contact_text {
   width: 100%;
 }
-.wp-block-itmar-design-select * {
-  box-sizing: border-box;
+.wp-block-itmar-design-text-ctrl .zip-search-wrapper .zip-search-button {
+  align-self: flex-start;
+  padding: 6px 12px;
+  background: #0073aa;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
 }
-.wp-block-itmar-design-select select {
-  display: none;
+.wp-block-itmar-design-text-ctrl .zip-search-wrapper .zip-search-button:hover {
+  background: #005177;
 }
 /*# sourceMappingURL=style.css.map */

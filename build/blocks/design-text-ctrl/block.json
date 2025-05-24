@@ -21,6 +21,10 @@
       "type": "string",
       "default": "text"
     },
+    "addressInput": {
+      "type": "string",
+      "default": "address_name"
+    },
     "focusColor": {
       "type": "string"
     },

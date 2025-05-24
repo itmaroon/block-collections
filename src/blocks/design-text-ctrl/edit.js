@@ -1,8 +1,13 @@
 import { __ } from "@wordpress/i18n";
-//import TypographyControls from '../TypographyControls'
+
+import visibleIcon from "./visible.svg";
+import hideIcon from "./hide.svg";
 
 import { StyleComp } from "./StyleInput";
 import { useState, useEffect, useRef } from "@wordpress/element";
+import { dispatch } from "@wordpress/data";
+import { store as blockEditorStore } from "@wordpress/block-editor";
+
 import { useStyleIframe } from "../iframeFooks";
 import LabelBox from "../LabelBox ";
 import {
@@ -11,6 +16,7 @@ import {
 	ShadowStyle,
 	ShadowElm,
 	TypographyControls,
+	useTargetBlocks,
 } from "itmar-block-packages";
 
 import {
@@ -20,6 +26,7 @@ import {
 	RadioControl,
 	TextControl,
 	RangeControl,
+	SelectControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl,
 } from "@wordpress/components";
@@ -55,13 +62,14 @@ const units = [
 ];
 
 export default function Edit(props) {
-	const { attributes, setAttributes } = props;
+	const { attributes, setAttributes, clientId } = props;
 
 	const {
 		inputName,
 		inputValue,
 		placeFolder,
 		inputType,
+		addressInput,
 		required,
 		focusColor,
 		bgColor,
@@ -121,6 +129,9 @@ export default function Edit(props) {
 
 	//入力値の確保
 	const [stateValue, setInputValue] = useState(inputValue);
+	useEffect(() => {
+		setInputValue(inputValue); // ← 属性が変わったら useState も追従
+	}, [inputValue]);
 
 	//テキストエリアの高さ設定
 	const [height, setHeight] = useState("auto");
@@ -131,6 +142,54 @@ export default function Edit(props) {
 			setHeight(`${textAreaRef.current.scrollHeight}px`);
 		}
 	}, [className]);
+
+	//パスワードの表示トグル
+	const [showPassword, setShowPassword] = useState(false);
+
+	//郵便番号検索のデータと関数
+	const fetchZipToAddress = async (zipNum) => {
+		if (!/^\d{7}$/.test(zipNum)) {
+			alert(
+				__(
+					"Please enter your postal code as 7 digits without hyphens.",
+					"block-collections",
+				),
+			);
+			return null;
+		}
+
+		try {
+			const response = await fetch(
+				`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${inputValue.replace(
+					"-",
+					"",
+				)}`,
+			);
+			const data = await response.json();
+
+			if (data.results && data.results.length > 0) {
+				const result = data.results[0];
+				return result;
+			} else {
+				alert(__("No matching address found", "block-collections"));
+				return null;
+			}
+		} catch (error) {
+			alert(__("Communication failed", "block-collections"));
+			return null;
+		}
+	};
+
+	//住所の入力対象となるブロックの配列
+	const targetblocks = useTargetBlocks(clientId, "itmar/design-text-ctrl");
+	const targetArray = targetblocks.map((block) => ({
+		label: block.attributes.labelContent,
+		value: block.attributes.inputName,
+	}));
+	//住所の代入対象のブロック
+	const targetBlock = useTargetBlocks(clientId, "itmar/design-text-ctrl", {
+		inputName: addressInput,
+	});
 
 	return (
 		<>
@@ -162,6 +221,8 @@ export default function Edit(props) {
 							options={[
 								{ label: "TEXT", value: "text" },
 								{ label: "E-MAIL", value: "email" },
+								{ label: "PASSWORD", value: "pass" },
+								{ label: "ZIP", value: "zip" },
 								{ label: "AREA", value: "textarea" },
 							]}
 							onChange={(changeOption) => {
@@ -169,6 +230,18 @@ export default function Edit(props) {
 							}}
 						/>
 					</PanelRow>
+					{inputType === "zip" && (
+						<PanelRow>
+							<SelectControl
+								label={__("Address text box", "block-collections")}
+								value={addressInput}
+								options={targetArray}
+								onChange={(newName) => {
+									setAttributes({ addressInput: newName });
+								}}
+							/>
+						</PanelRow>
+					)}
 				</PanelBody>
 			</InspectorControls>
 			<InspectorControls group="styles">
@@ -385,6 +458,80 @@ export default function Edit(props) {
 							}}
 						/>
 					)}
+
+					{inputType === "pass" && (
+						<div className="password-wrapper">
+							<input
+								type={showPassword ? "text" : "password"}
+								placeholder={
+									className?.includes("is-style-line") ? dispLabel : placeFolder
+								}
+								className={`contact_text ${stateValue ? "" : "empty"}`}
+								value={stateValue}
+								onChange={(event) => {
+									const newValue = event.target.value;
+									setInputValue(newValue);
+									setAttributes({ inputValue: newValue });
+								}}
+							/>
+							<button
+								type="button"
+								className="toggle-password-button"
+								onClick={() => setShowPassword(!showPassword)}
+								aria-label={
+									showPassword ? "パスワードを非表示" : "パスワードを表示"
+								}
+							>
+								<img
+									src={showPassword ? visibleIcon : hideIcon}
+									alt=""
+									aria-hidden="true"
+								/>
+							</button>
+						</div>
+					)}
+					{inputType === "zip" && (
+						<div className="zip-search-wrapper">
+							<input
+								type="text"
+								value={stateValue}
+								placeholder={`${__("example", "block-collections")}) 1234567`}
+								className={`contact_text ${stateValue ? "" : "empty"}`}
+								onChange={(event) => {
+									const newValue = event.target.value;
+									setInputValue(newValue);
+									setAttributes({ inputValue: newValue });
+								}}
+							/>
+							<button
+								type="button"
+								onClick={async () => {
+									const address_obj = await fetchZipToAddress(stateValue);
+									if (!address_obj) return;
+
+									const fullAddress = `${address_obj.address1}${address_obj.address2}${address_obj.address3}`;
+									if (targetBlock) {
+										dispatch(blockEditorStore).updateBlockAttributes(
+											targetBlock.clientId,
+											{
+												inputValue: fullAddress,
+											},
+										);
+									} else {
+										alert(
+											__(
+												"The block to enter the address cannot be found.",
+												"block-collections",
+											),
+										);
+									}
+								}}
+								className="zip-search-button"
+							>
+								{__("Address Search", "block-collections")}
+							</button>
+						</div>
+					)}
 					{inputType === "textarea" && (
 						<textarea
 							ref={textAreaRef}
@@ -404,7 +551,6 @@ export default function Edit(props) {
 							}}
 						/>
 					)}
-
 					<LabelBox
 						attributes={{ ...attributes, isMobile: isMobile }}
 						onChange={(target, newVal) => setAttributes({ [target]: newVal })}

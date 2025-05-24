@@ -250,7 +250,8 @@ $breakpoints: (
 			flex-wrap: wrap;
 			flex-direction: row;
 			justify-content: center;
-			gap: 0;
+			gap: 2px;
+			row-gap: 6px;
 		}
 
 		&__option {

@@ -48,6 +48,16 @@ export default function save({ attributes }) {
 							}
 						/>
 					)}
+					{inputType === "pass" && (
+						<input
+							type="password"
+							name={inputName}
+							className="contact_text empty"
+							placeholder={
+								className?.includes("is-style-line") ? dispLabel : placeFolder
+							}
+						/>
+					)}
 					{inputType === "textarea" && (
 						<textarea
 							name={inputName}
