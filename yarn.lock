@@ -242,19 +242,19 @@
   resolved "https://registry.npmjs.org/@emotion/weak-memoize/-/weak-memoize-0.4.0.tgz"
   integrity sha512-snKqtPW01tN0ui7yu9rGv69aJXr/a/Ywvl11sUjNtEcRc+ng/mQriFL0wLXMef74iHa/EkftbDzU9F8iFbH+zg==
 
-"@floating-ui/core@^1.7.0":
-  version "1.7.0"
-  resolved "https://registry.npmjs.org/@floating-ui/core/-/core-1.7.0.tgz"
-  integrity sha512-FRdBLykrPPA6P76GGGqlex/e7fbe0F1ykgxHYNXQsH/iTEtjMj/f9bpY5oQqbjt5VgZvgz/uKXbGuROijh3VLA==
+"@floating-ui/core@^1.7.1":
+  version "1.7.1"
+  resolved "https://registry.npmjs.org/@floating-ui/core/-/core-1.7.1.tgz"
+  integrity sha512-azI0DrjMMfIug/ExbBaeDVJXcY0a7EPvPjb2xAJPa4HeimBX+Z18HK8QQR3jb6356SnDDdxx+hinMLcJEDdOjw==
   dependencies:
     "@floating-ui/utils" "^0.2.9"
 
 "@floating-ui/dom@^1.0.1":
-  version "1.7.0"
-  resolved "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.7.0.tgz"
-  integrity sha512-lGTor4VlXcesUMh1cupTUTDoCxMb0V6bm3CnxHzQcw8Eaf1jQbgQX4i02fYgT0vJ82tb5MZ4CZk1LRGkktJCzg==
+  version "1.7.1"
+  resolved "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.7.1.tgz"
+  integrity sha512-cwsmW/zyw5ltYTUeeYJ60CnQuPqmGwuGVhG9w0PRaRKkAyi38BT5CKrpIbb+jtahSwUl04cWzSx9ZOIxeS6RsQ==
   dependencies:
-    "@floating-ui/core" "^1.7.0"
+    "@floating-ui/core" "^1.7.1"
     "@floating-ui/utils" "^0.2.9"
 
 "@floating-ui/utils@^0.2.9":
@@ -1005,10 +1005,10 @@ is-promise@^4.0.0:
   resolved "https://registry.npmjs.org/is-promise/-/is-promise-4.0.0.tgz"
   integrity sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==
 
-itmar-block-packages@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.npmjs.org/itmar-block-packages/-/itmar-block-packages-1.5.0.tgz"
-  integrity sha512-JIzkEDWy1HQYh/IoAuZav8+r0yXJGtatzeFKGQXgu3fA4EjgK0VWzvOAEcP8rPtmAjy2SmZnOFqpIHPWQVA2qQ==
+itmar-block-packages@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.npmjs.org/itmar-block-packages/-/itmar-block-packages-1.6.2.tgz"
+  integrity sha512-iDfTNTykZ2t+lN5UWpxZBq0c8YOIkLtDXpIOmEJcSlgGpLHst869hGqaoqd+DolaGLf5aoPrEnXSK1H9gVDbxQ==
   dependencies:
     "@wordpress/icons" "^9.47.0"
     lodash "^4.17.21"

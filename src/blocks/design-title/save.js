@@ -10,7 +10,9 @@ export default function save({ attributes }) {
 		align,
 		titleType,
 		headingContent,
+		optionStyle,
 		dateFormat,
+		userFormat,
 		linkKind,
 		menu_pos,
 		is_title_menu,
@@ -49,13 +51,27 @@ export default function save({ attributes }) {
 		React.createElement(headingType.toLowerCase(), {
 			className: `itmar_${titleType}_title`,
 		});
+	// アイコン画像の条件判定
+	const isIcon = optionStyle?.isIcon;
+	const iconType = optionStyle?.icon_style?.icon_type;
+	const iconImg =
+		(iconType === "image" || iconType === "avatar") && isIcon
+			? React.createElement("img", {
+					className: "itmar_avatar_url",
+					alt: "",
+					"aria-hidden": true,
+			  })
+			: null;
 	//コンテンツの選択
-	const content =
+	let content =
 		titleType === "plaine" || titleType === "date"
 			? renderRichText()
 			: renderElement();
-
-	//フロントエンドに出力
+	// ラッパーを使わず複数要素を並べる
+	if (iconImg) {
+		content = React.createElement(React.Fragment, {}, content, iconImg);
+	}
+	//リンクをフロントエンドに出力
 	const linkContent = isBlank ? (
 		<a href={selectedPageUrl} target="_blank">
 			{content}
@@ -64,10 +80,25 @@ export default function save({ attributes }) {
 		<a href={selectedPageUrl}>{content}</a>
 	);
 
+	//ログオンボタン処理
+	const logon_btn = (
+		<div
+			id="itmar_logon_btn"
+			data-logon_url={selectedPageUrl}
+			data-target={isBlank}
+		>
+			{content}
+		</div>
+	);
+
 	const html = renderToString(
 		sheet.collectStyles(
 			<StyleComp attributes={attributes}>
-				{linkKind === "none" || linkKind === "submenu" ? content : linkContent}
+				{linkKind === "none" || linkKind === "submenu"
+					? content
+					: linkKind === "login"
+					? logon_btn
+					: linkContent}
 			</StyleComp>,
 		),
 	);
@@ -78,6 +109,7 @@ export default function save({ attributes }) {
 			{...blockProps}
 			data-title_type={titleType}
 			data-date_format={dateFormat}
+			data-user_format={userFormat}
 		>
 			<div dangerouslySetInnerHTML={{ __html: html }} />
 

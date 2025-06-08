@@ -6,16 +6,19 @@
  */
 
 .wp-block-itmar-design-text-ctrl {
-	//background-color: #21759b;
-	//color: #fff;
-	//padding: 2px;
+	input{
+		flex: 1;
+		min-width: 0;
+	}
 	.password-wrapper {
 		position: relative;
 		display: inline-block;
+		flex: 1;
 
 		input.contact_text {
 			width: 100%;
-			padding-right: 40px; // ボタン分の余白を確保
+			
+			//padding-right: 40px; // ボタン分の余白を確保
 		}
 
 		.toggle-password-button {
@@ -40,10 +43,11 @@
 	.zip-search-wrapper {
 		display: flex;
 		flex-direction: row;
+		align-items: center;
 		gap: 8px;
-
+		
 		.contact_text {
-			width: 100%;
+			width: 10em;
 		}
 
 		.zip-search-button {

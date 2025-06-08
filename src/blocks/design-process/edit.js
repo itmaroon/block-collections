@@ -116,11 +116,11 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			//自分を抜く
 			siblingBlocks = siblingBlocks.filter(
 				(block) =>
-					block.clientId !== clientId && allowedBlocks.includes(block.name)
+					block.clientId !== clientId && allowedBlocks.includes(block.name),
 			);
 			return siblingBlocks; //ブロックを返す
 		},
-		[clientId]
+		[clientId],
 	); // clientIdが変わるたびに監視対象のstateを更新する
 
 	// noticeの表示
@@ -131,9 +131,9 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			"error",
 			__(
 				"This block will not work unless the Form Send plugin block is a sibling block.",
-				"block-collections"
+				"block-collections",
 			),
-			{ type: "snackbar", isDismissible: true }
+			{ type: "snackbar", isDismissible: true },
 		);
 		// メッセージ表示後、ブロックを削除
 		removeBlock(clientId);
@@ -142,8 +142,12 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	//属性にブロック情報を格納
 	useEffect(() => {
 		const blocks = figureBlocks.map((block) => {
+			const infoTypeAttr = block.attributes.info_type;
+			const formTypeAttr = block.attributes.form_type;
+			const type_attr = infoTypeAttr || formTypeAttr || "";
 			return {
 				block_name: block.name,
+				block_type: type_attr,
 				stage_info: block.attributes.stage_info,
 			};
 		});
@@ -151,9 +155,15 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	}, [figureBlocks]);
 
 	//現在のステージはどこにあるか
-	const stage_index = figureBlocks.findIndex((block) =>
-		block.name.includes(state_process)
-	);
+	const stage_index = figureBlocks.findIndex((block) => {
+		const nameMatch = block.name.includes(state_process);
+		const attr = block.attributes || {};
+
+		const infoTypeMatch = attr.info_type === state_process;
+		const formTypeMatch = attr.form_type === state_process;
+
+		return nameMatch || infoTypeMatch || formTypeMatch;
+	});
 
 	return (
 		<>

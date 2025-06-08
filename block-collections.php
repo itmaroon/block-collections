@@ -111,7 +111,9 @@ function itmar_highlight_scripts_and_styles()
 		);
 		//jsで使えるようにhome_urlをローカライズ
 		wp_localize_script('itmar_block_collection_js', 'itmar_block_option', array(
-			'home_url' => home_url()
+			'home_url' => home_url(),
+			'login_url' => wp_login_url(home_url()),
+			'logout_url' => wp_logout_url(home_url()),
 		));
 
 
@@ -131,3 +133,32 @@ function itmar_block_collections_font_init()
 	wp_enqueue_style('awesome-solid', plugins_url('/assets/css/solid.css', __FILE__), array(), null);
 }
 add_action('enqueue_block_assets', 'itmar_block_collections_font_init');
+
+//ユーザー情報取得のためのカスタムエンドポイント
+add_action('rest_api_init', function () {
+	register_rest_route('itmar/v1', '/current-user', [
+		'methods'  => 'GET',
+		'callback' => 'itmar_get_current_user_info',
+		'permission_callback' => '__return_true', // ログイン不要
+	]);
+});
+
+function itmar_get_current_user_info()
+{
+	$user = wp_get_current_user();
+
+	if ($user && $user->exists()) {
+		return [
+			'is_logged_in'  => true,
+			'user_login'    => $user->user_login,
+			'display_name'  => $user->display_name,
+			'user_email'    => $user->user_email,
+			'avatar_url'    => get_avatar_url($user->ID),
+		];
+	} else {
+		return [
+			'is_logged_in'  => false,
+			'avatar_url'    => get_avatar_url(0), // デフォルトの匿名アバター
+		];
+	}
+}

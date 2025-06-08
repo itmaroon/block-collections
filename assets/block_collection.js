@@ -1,9 +1,15 @@
 import { __ } from "@wordpress/i18n";
+import visibleIcon from "./img/visible.svg";
+import hideIcon from "./img/hide.svg";
+
 import {
 	generateMonthCalendar,
 	generateGridAreas,
 	JapaneseHolidays,
+	fetchZipToAddress,
 } from "itmar-block-packages";
+
+import apiFetch from "@wordpress/api-fetch";
 
 /* ------------------------------
 Loading イメージ表示関数
@@ -102,12 +108,49 @@ jQuery(function ($) {
 		//サイトタイトル・キャッチフレーズの読込
 		if ($(".itmar_site_title").length || $(".itmar_catch_title").length) {
 			// '.itmar_site_title' クラスを持つ要素が読み込まれたときの処理
-			fetch(`${itmar_block_option.home_url}/wp-json`)
-				.then((response) => response.json())
-				.then((data) => {
-					$(".itmar_site_title").text(data.name);
-					$(".itmar_catch_title").text(data.description);
-				});
+			const fetchSiteInfo = async () => {
+				try {
+					const response = await apiFetch({ path: "/" });
+					$(".itmar_site_title").text(response.name);
+					$(".itmar_catch_title").text(response.description);
+				} catch (error) {
+					console.error("Error fetching data:", error.message);
+				}
+			};
+			fetchSiteInfo();
+		}
+		//ログインユーザーの読込
+		let isLogin = false;
+		if ($(".itmar_user_title").length) {
+			// '.itmar_site_title' クラスを持つ要素が読み込まれたときの処理
+			const fetchUserName = async () => {
+				try {
+					const res = await apiFetch({ path: "/itmar/v1/current-user" });
+
+					isLogin = res.is_logged_in; //ログイン状態の捕捉
+					//ボタンの表示切替
+					const $btn_div = $("#itmar_logon_btn"); // 該当のdivを取得
+					const html = $btn_div.html(); // 現在のHTMLを取得
+					const parts = html.split(/<br\s*\/?>/i); // <br> で分割（正規表現で <br> や <br /> に対応）
+					if (!isLogin) {
+						$btn_div.html(parts[0]); // ログイン時は前半だけ
+					} else {
+						$btn_div.html(parts[1]); // 未ログイン時は後半だけ
+					}
+
+					const name = res.is_logged_in
+						? res.display_name
+						: __("Guest", "block-collections");
+					const userFormat = $(".itmar_user_title")
+						.closest(".wp-block-itmar-design-title")
+						.data("user_format");
+					$(".itmar_user_title").text(userFormat.replace("%s", name));
+					$(".itmar_avatar_url").attr("src", res.avatar_url);
+				} catch (error) {
+					console.error("Error fetching data:", error.message);
+				}
+			};
+			fetchUserName();
 		}
 		//アーカイブ・固定ページのホームURL設定
 		// wp-block-itmar-design-titleクラスを持つ要素内の条件に合う<a>要素を抽出
@@ -128,6 +171,29 @@ jQuery(function ($) {
 				// href属性を更新
 				$(this).attr("href", updatedHref);
 			});
+
+		//ログアウト・ログインの処理
+		$("#itmar_logon_btn").on("click", function () {
+			if (isLogin) {
+				window.location.href = itmar_block_option.logout_url;
+			} else {
+				const loginUrl = $("#itmar_logon_btn").data("logon_url");
+				const pattern = new RegExp(
+					`^${"[home_url]".replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/?$`,
+				);
+
+				if (pattern.test(loginUrl)) {
+					//ビルトインのログイン画面
+					window.location.href = itmar_block_option.login_url;
+				} else {
+					//カスタムログイン画面
+					window.location.href = loginUrl.replace(
+						"[home_url]",
+						block_collections.home_url,
+					);
+				}
+			}
+		});
 	});
 
 	/* ------------------------------
@@ -211,6 +277,59 @@ jQuery(function ($) {
 		let scrollHeight = $(this).get(0).scrollHeight;
 		//textareaの高さに入力内容の高さを設定
 		$(this).css("height", scrollHeight + "px");
+	});
+	//パスワードの表示切替
+	$(".toggle-password-button").on("click", function () {
+		const $button = $(this);
+		const $input = $button.siblings(
+			"input[type='password'], input[type='text']",
+		);
+		const $img = $button.find("img");
+
+		if ($input.length === 0) return;
+
+		const isPasswordVisible = $input.attr("type") === "text";
+
+		// type属性を切り替え
+		$input.attr("type", isPasswordVisible ? "password" : "text");
+
+		// アイコンを切り替え
+		$img.attr("src", isPasswordVisible ? hideIcon : visibleIcon);
+	});
+	//住所の郵便番号検索
+	$(".zip-search-button").on("click", async function () {
+		const $button = $(this);
+		const $container = $button.closest(".zip-search-wrapper");
+		const $zipInput = $container.find("input[type='text']");
+		const zip = $zipInput.val().replace("-", "").trim();
+		const targetName = $zipInput.data("address-target"); // 👈 入力対象名
+		if (!/^\d{7}$/.test(zip)) {
+			alert(
+				__(
+					"Please enter your postal code as 7 digits without hyphens.",
+					"block-collections",
+				),
+			);
+			return;
+		}
+
+		const address_obj = await fetchZipToAddress(zip);
+		if (!address_obj) return;
+
+		const fullAddress = `${address_obj.address1}${address_obj.address2}${address_obj.address3}`;
+
+		// name属性でターゲットのinputを特定して値をセット
+		const $targetInput = $(`input[name='${targetName}']`);
+		if ($targetInput.length > 0) {
+			$targetInput.val(fullAddress);
+		} else {
+			alert(
+				__(
+					"The block to enter the address cannot be found.",
+					"block-collections",
+				),
+			);
+		}
 	});
 
 	/* ------------------------------

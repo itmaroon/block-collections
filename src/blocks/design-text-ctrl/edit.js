@@ -17,6 +17,7 @@ import {
 	ShadowElm,
 	TypographyControls,
 	useTargetBlocks,
+	fetchZipToAddress,
 } from "itmar-block-packages";
 
 import {
@@ -145,40 +146,6 @@ export default function Edit(props) {
 
 	//パスワードの表示トグル
 	const [showPassword, setShowPassword] = useState(false);
-
-	//郵便番号検索のデータと関数
-	const fetchZipToAddress = async (zipNum) => {
-		if (!/^\d{7}$/.test(zipNum)) {
-			alert(
-				__(
-					"Please enter your postal code as 7 digits without hyphens.",
-					"block-collections",
-				),
-			);
-			return null;
-		}
-
-		try {
-			const response = await fetch(
-				`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${inputValue.replace(
-					"-",
-					"",
-				)}`,
-			);
-			const data = await response.json();
-
-			if (data.results && data.results.length > 0) {
-				const result = data.results[0];
-				return result;
-			} else {
-				alert(__("No matching address found", "block-collections"));
-				return null;
-			}
-		} catch (error) {
-			alert(__("Communication failed", "block-collections"));
-			return null;
-		}
-	};
 
 	//住所の入力対象となるブロックの配列
 	const targetblocks = useTargetBlocks(clientId, "itmar/design-text-ctrl");

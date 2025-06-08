@@ -133,6 +133,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		isBlank,
 		dateValue,
 		dateFormat,
+		userFormat,
 		className,
 	} = attributes;
 
@@ -221,10 +222,31 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				}
 			};
 			fetchSiteInfo();
+		} else if (titleType === "user") {
+			async function fetchUserName() {
+				try {
+					const res = await apiFetch({ path: "/itmar/v1/current-user" });
+
+					const name = res.is_logged_in
+						? res.display_name
+						: __("Guest", "block-collections");
+					//setSiteTitle(`ようこそ、${name} さん`);
+					setSiteTitle(userFormat.replace("%s", name));
+					//アバターの情報をオプションスタイルに渡しておく
+					optionStyle.icon_style = {
+						...optionStyle.icon_style,
+						icon_type: "avatar",
+						avatar_url: res.avatar_url,
+					};
+				} catch (error) {
+					console.error("Error fetching data:", error.message);
+				}
+			}
+			fetchUserName();
 		} else if (titleType === "date") {
 			setHeadingContentVal(format(dateFormat, headingContent, getSettings()));
 		}
-	}, [titleType]);
+	}, [titleType, dateFormat, userFormat]);
 
 	//スタイル変更時のデフォルト再設定
 	const execHandle = () => {
@@ -428,11 +450,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		},
 	);
 	//タイトルタイプがdateのときは日付のフォーマットを当てて表示
-	const [headingContentVal, setHeadingContentVal] = useState(
-		titleType === "date"
-			? format(dateFormat, headingContent, getSettings())
-			: headingContent,
-	);
+	// const [headingContentVal, setHeadingContentVal] = useState(
+	// 	titleType === "date"
+	// 		? format(dateFormat, headingContent, getSettings())
+	// 		: headingContent,
+	// );
+	const [headingContentVal, setHeadingContentVal] = useState(headingContent);
 
 	//リッチテキストをコンテンツにする
 	const renderRichText = () => {
@@ -440,6 +463,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			<RichText
 				tagName={headingType}
 				onChange={(newContent) => {
+					setAttributes({ headingContent: newContent });
 					let processedContent;
 
 					//リッチテキストの戻り値がオブジェクトの場合に対応
@@ -480,7 +504,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							});
 						}
 					} else {
-						setAttributes({ headingContent: headingContentVal });
+						//setAttributes({ headingContent: headingContentVal });
 					}
 				}}
 				value={headingContentVal}
@@ -491,18 +515,44 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	};
 
 	//ヘッダー要素をコンテンツにする
-	const renderElement = () =>
-		React.createElement(headingType.toLowerCase(), {}, siteTitle);
-
-	//コンテンツの選択
-	const content =
-		titleType === "plaine" || titleType === "date"
-			? renderRichText()
-			: renderElement();
+	const renderElement = () => {
+		const headingTag = headingType.toLowerCase();
+		const heading = React.createElement(headingTag, {}, siteTitle);
+		return heading;
+	};
 
 	//コンテンツを返す
 	function renderContent() {
-		return content;
+		const iconType = optionStyle?.icon_style?.icon_type;
+		const iconUrl = optionStyle?.icon_style?.icon_url;
+		const avatarUrl = optionStyle?.icon_style?.avatar_url;
+
+		// アイコン画像の条件判定
+		const iconImg =
+			iconType === "image" && iconUrl
+				? React.createElement("img", {
+						src: iconUrl,
+						alt: "",
+						"aria-hidden": true,
+				  })
+				: iconType === "avatar" && avatarUrl
+				? React.createElement("img", {
+						src: avatarUrl,
+						alt: "",
+						"aria-hidden": true,
+				  })
+				: null;
+		//コンテンツの選択
+		const content =
+			titleType === "plaine" || titleType === "date"
+				? renderRichText()
+				: renderElement();
+		// ラッパーを使わず複数要素を並べる
+		if (iconImg) {
+			return React.createElement(React.Fragment, {}, content, iconImg);
+		} else {
+			return content;
+		}
 	}
 	//編集中の値を確保するための状態変数
 	const [url_editing, setUrlValue] = useState(selectedPageUrl);
@@ -525,14 +575,28 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									label: __("Chatch Phrase", "block-collections"),
 									value: "catch",
 								},
+								{
+									label: __("Login User", "block-collections"),
+									value: "user",
+								},
 							]}
 							onChange={(changeOption) =>
 								setAttributes({ titleType: changeOption })
 							}
-							help={__(
-								"The Site Title and Tagline provide the ability to display whatever you set in the WordPress General Settings.",
-								"block-collections",
-							)}
+							help={
+								titleType === "site" || titleType === "catch"
+									? __(
+											"The Site Title and Chatch Phrase provide the ability to display whatever you set in the WordPress General Settings.",
+											"block-collections",
+									  )
+									: titleType === "date"
+									? __("Select the date format from the select box.")
+									: titleType === "user"
+									? __(
+											"Please enter the string to display. User name should be %s.",
+									  )
+									: ""
+							}
 						/>
 						{titleType === "date" && (
 							<SelectControl
@@ -541,6 +605,15 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								options={dateFormats}
 								onChange={(newFormat) => {
 									setAttributes({ dateFormat: newFormat });
+								}}
+							/>
+						)}
+						{titleType === "user" && (
+							<TextControl
+								label={__("User Format", "block-collections")}
+								value={userFormat}
+								onChange={(newFormat) => {
+									setAttributes({ userFormat: newFormat });
 								}}
 							/>
 						)}
@@ -562,6 +635,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								},
 								{ label: __("Free Link", "block-collections"), value: "free" },
 								{ label: __("URL", "block-collections"), value: "url" },
+								{ label: __("Login", "block-collections"), value: "login" },
 								{
 									label: __("Sub Menu", "block-collections"),
 									value: "submenu",
@@ -591,16 +665,23 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								}
 							}}
 							help={__(
-								"You can select the type of URL to link to the title.",
+								"You can select the type of URL to link to the title. If you add a line break to the Login title text, the upper line will be the text displayed when logged in and the lower line will be the text displayed when logged out.",
 								"block-collections",
 							)}
 						/>
 					</div>
 
-					{linkKind === "fixed" && (
+					{(linkKind === "fixed" || linkKind === "login") && (
 						<PageSelectControl
 							selectedSlug={selectedSlug}
-							label={__("Select a fixed page to link to", "block-collections")}
+							label={
+								linkKind === "fixed"
+									? __("Select a fixed page to link to", "block-collections")
+									: __(
+											"Choose a static page to display when you log in (Home will display the built-in login page).",
+											"block-collections",
+									  )
+							}
 							homeUrl="[home_url]"
 							onChange={(pageInfo) => {
 								if (pageInfo) {
@@ -1232,6 +1313,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 										optionStyle && optionStyle.icon_style
 											? optionStyle.icon_style
 											: {
+													icon_type: "awesome",
+													icon_url: "",
 													icon_name: "f030",
 													icon_pos: "left",
 													icon_size: "24px",

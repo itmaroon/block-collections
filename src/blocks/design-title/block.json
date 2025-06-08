@@ -61,8 +61,9 @@
 		},
 		"dateFormat":{
 			"type":"string",
-			"default":"Y.n.j"
+			"default":"Y-n-j"
 		},
+		
 		"isMenuItem": {
 			"type": "boolean",
 			"default": false

@@ -1,51 +1,163 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@300;400;500;600;700;900&family=Zen+Maru+Gothic:wght@400;500;700;900&family=M+PLUS+1+Code:wght@300;400;500;600;700&display=swap");
+/* リセットCSS
+  ===================================== */
 /**
  * The following styles get applied both on the front of your site
  * and in the editor.
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-itmar-design-text-ctrl .password-wrapper {
-  position: relative;
-  display: inline-block;
+.wp-block-itmar-design-title {
+  box-sizing: border-box;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid transparent;
 }
-.wp-block-itmar-design-text-ctrl .password-wrapper input.contact_text {
-  width: 100%;
-  padding-right: 40px;
+.wp-block-itmar-design-title > div {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
-.wp-block-itmar-design-text-ctrl .password-wrapper .toggle-password-button {
+.wp-block-itmar-design-title #itmar_logon_btn:hover {
+  cursor: pointer;
+}
+.wp-block-itmar-design-title .submenu-block {
   position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: auto;
+  transition: all 0.3s ease 0s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
 }
-.wp-block-itmar-design-text-ctrl .password-wrapper .toggle-password-button img {
-  width: 24px;
-  height: 24px;
-  display: block;
-  pointer-events: none;
+.wp-block-itmar-design-title .submenu-block.bottom_right {
+  transform: scale(1, 0);
+  top: 100%;
+  right: 0;
+  transform-origin: left top;
 }
-.wp-block-itmar-design-text-ctrl .zip-search-wrapper {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title .submenu-block.bottom_right {
+    transform: none;
+  }
 }
-.wp-block-itmar-design-text-ctrl .zip-search-wrapper .contact_text {
-  width: 100%;
+.wp-block-itmar-design-title .submenu-block.bottom_center {
+  top: 100%;
+  left: 50%;
+  transform: scale(1, 0) translateX(-50%);
+  transform-origin: center top;
 }
-.wp-block-itmar-design-text-ctrl .zip-search-wrapper .zip-search-button {
-  align-self: flex-start;
-  padding: 6px 12px;
-  background: #0073aa;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title .submenu-block.bottom_center {
+    transform: none;
+  }
 }
-.wp-block-itmar-design-text-ctrl .zip-search-wrapper .zip-search-button:hover {
-  background: #005177;
+.wp-block-itmar-design-title .submenu-block.bottom_left {
+  transform: scale(1, 0);
+  top: 100%;
+  left: 0;
+  transform-origin: left top;
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title .submenu-block.bottom_left {
+    transform: none;
+  }
+}
+.wp-block-itmar-design-title .submenu-block.center_right {
+  transform: scale(0, 1);
+  top: 0;
+  left: 100%;
+  transform-origin: left top;
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title .submenu-block.center_right {
+    transform: none;
+  }
+}
+.wp-block-itmar-design-title .submenu-block.center_left {
+  transform: scale(0, 1);
+  top: 0;
+  right: 100%;
+  transform-origin: right top;
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title .submenu-block.center_left {
+    transform: none;
+  }
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title .submenu-block.mobile_virtical {
+    position: static;
+    max-height: 0;
+    transition: all 0.8s ease 0s;
+  }
+  .wp-block-itmar-design-title .submenu-block.mobile_horizen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scale(0, 1);
+    transform-origin: left center;
+    transition: all 0.8s ease 0s;
+  }
+}
+.wp-block-itmar-design-title:hover > .submenu-block,
+.wp-block-itmar-design-title .submenu-block:hover,
+.wp-block-itmar-design-title .submenu-block.visible {
+  transform: scale(1, 1);
+  opacity: 1;
+  visibility: visible;
+}
+.wp-block-itmar-design-title:hover > .submenu-block.bottom_right,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_right,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_right {
+  transform: scale(1, 1);
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title:hover > .submenu-block.bottom_right,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_right,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_right {
+    transform: none;
+  }
+}
+.wp-block-itmar-design-title:hover > .submenu-block.bottom_center,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_center,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_center {
+  transform: scale(1, 1) translateX(-50%);
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title:hover > .submenu-block.bottom_center,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_center,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_center {
+    transform: none;
+  }
+}
+.wp-block-itmar-design-title:hover > .submenu-block.bottom_left,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_left,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_left {
+  transform: scale(1, 1);
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title:hover > .submenu-block.bottom_left,
+.wp-block-itmar-design-title .submenu-block:hover.bottom_left,
+.wp-block-itmar-design-title .submenu-block.visible.bottom_left {
+    transform: none;
+  }
+}
+@media (max-width: 767px) {
+  .wp-block-itmar-design-title:hover > .submenu-block.mobile_virtical,
+.wp-block-itmar-design-title .submenu-block:hover.mobile_virtical,
+.wp-block-itmar-design-title .submenu-block.visible.mobile_virtical {
+    max-height: 100vh;
+  }
+  .wp-block-itmar-design-title:hover > .submenu-block.mobile_horizen,
+.wp-block-itmar-design-title .submenu-block:hover.mobile_horizen,
+.wp-block-itmar-design-title .submenu-block.visible.mobile_horizen {
+    transform: scale(1, 1);
+  }
 }
 /*# sourceMappingURL=style.css.map */

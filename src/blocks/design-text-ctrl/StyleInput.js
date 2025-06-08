@@ -15,7 +15,7 @@ const alignMap = {
 	"top right":
 		"display: flex;flex-direction: column-reverse;align-items: flex-end;",
 	"center left":
-		"display: flex;flex-direction: row-reverse;align-items: center;",
+		"display: flex;flex-direction: row-reverse;justify-content: flex-end;align-items: center;",
 	"center center": "label{display: none;}",
 	"center right": "display: flex;align-items: center;",
 	"bottom left":

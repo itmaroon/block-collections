@@ -16,6 +16,12 @@
 		width: fit-content;
 	}
 
+	#itmar_logon_btn{
+		&:hover{
+			cursor: pointer;
+		}
+	}
+
 	.submenu-block {
 		position: absolute;
 		width: fit-content;
@@ -23,7 +29,7 @@
 		transition: all 0.3s ease 0s;
 		opacity: 0;
 		visibility: hidden;
-		z-index: 20;
+		z-index: 1000;
 
 		&.bottom_right {
 			transform: scale(1, 0);

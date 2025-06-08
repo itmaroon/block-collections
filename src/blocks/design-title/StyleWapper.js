@@ -372,6 +372,7 @@ const StyledDiv = styled.div`
 						}
 					}
 					${isIcon &&
+					icon_style.icon_type === "awesome" &&
 					css`
 						&::after {
 							content: "\\${icon_style.icon_name}";
@@ -382,6 +383,17 @@ const StyledDiv = styled.div`
 							position: absolute;
 							font-size: ${icon_style.icon_size};
 							color: ${icon_style.icon_color};
+							${alignStyle.after}
+						}
+					`}
+					${isIcon &&
+					(icon_style.icon_type === "image" ||
+						icon_style.icon_type === "avatar") &&
+					css`
+						img {
+							position: absolute;
+							width: ${icon_style.icon_size};
+							height: ${icon_style.icon_size};
 							${alignStyle.after}
 						}
 					`}
