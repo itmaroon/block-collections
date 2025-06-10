@@ -233,15 +233,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					//setSiteTitle(`ようこそ、${name} さん`);
 					setSiteTitle(userFormat.replace("%s", name));
 					//アバターの情報をオプションスタイルに渡しておく
-					optionStyle.icon_style = {
-						...optionStyle.icon_style,
-						icon_type: "avatar",
-						avatar_url: res.avatar_url,
-					};
+					if (optionStyle) {
+						optionStyle.icon_style = {
+							...optionStyle?.icon_style,
+							icon_type: "avatar",
+							avatar_url: res.avatar_url,
+						};
+					}
 				} catch (error) {
 					console.error("Error fetching data:", error.message);
 				}
 			}
+
 			fetchUserName();
 		} else if (titleType === "date") {
 			setHeadingContentVal(format(dateFormat, headingContent, getSettings()));
@@ -590,10 +593,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 											"block-collections",
 									  )
 									: titleType === "date"
-									? __("Select the date format from the select box.")
+									? __(
+											"Select the date format from the select box.",
+											"block-collections",
+									  )
 									: titleType === "user"
 									? __(
 											"Please enter the string to display. User name should be %s.",
+											"block-collections",
 									  )
 									: ""
 							}

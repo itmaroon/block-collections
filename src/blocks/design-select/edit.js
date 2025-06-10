@@ -4,7 +4,7 @@ import { StyleComp } from "./StyleSelect";
 import { NomalSelect } from "./initSelect";
 import { useStyleIframe } from "../iframeFooks";
 import { useEffect, useRef } from "@wordpress/element";
-import LabelBox from "../LabelBox ";
+import LabelBox from "../LabelBox";
 import OptionModal from "../OptionModal";
 import {
 	useElementBackgroundColor,

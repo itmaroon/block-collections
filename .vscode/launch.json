@@ -8,7 +8,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "block test",
-      "url": "https://blocktest.local/wp-admin/edit.php",
+      "url": "https://develope-equip.local/wp-admin/edit.php",
       "webRoot": "${workspaceFolder}"
     },
     {

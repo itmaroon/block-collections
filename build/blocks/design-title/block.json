@@ -108,7 +108,8 @@
       }
     },
     "optionStyle": {
-      "type": "object"
+      "type": "object",
+      "default": {}
     },
     "isIdle": {
       "type": "boolean",

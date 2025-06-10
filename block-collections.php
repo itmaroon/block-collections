@@ -5,7 +5,7 @@
  * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
  * Requires at least: 6.4
  * Requires PHP:      8.2.10
- * Version:           1.5.0
+ * Version:           1.6.0
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -85,7 +85,8 @@ function itmar_highlight_scripts_and_styles()
 			'wp-edit-post',
 			'wp-compose'
 		),
-		filemtime("$dir/build/gutenberg-ex.js")
+		filemtime("$dir/build/gutenberg-ex.js"),
+		true
 	);
 	// コアブロックカスタマイズスクリプトの翻訳をセット
 	wp_set_script_translations('itmar-gutenberg-extensions-script', 'block-collections', plugin_dir_path(__FILE__) . 'languages');
@@ -128,9 +129,9 @@ function itmar_block_collections_font_init()
 {
 	wp_enqueue_style('itmar_google_fonts', 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Texturina:wght@300;400;500;600&display=swap', array(), null);
 
-	wp_enqueue_style('font-awesome', plugins_url('/assets/css/fontawesome.css', __FILE__), array(), null);
-	wp_enqueue_style('awesome-brands', plugins_url('/assets/css/brands.css', __FILE__), array(), null);
-	wp_enqueue_style('awesome-solid', plugins_url('/assets/css/solid.css', __FILE__), array(), null);
+	wp_enqueue_style('font-awesome', plugins_url('/assets/css/fontawesome.css', __FILE__), array(), '6.5.0');
+	wp_enqueue_style('awesome-brands', plugins_url('/assets/css/brands.css', __FILE__), array(), '6.5.0');
+	wp_enqueue_style('awesome-solid', plugins_url('/assets/css/solid.css', __FILE__), array(), '6.5.0');
 }
 add_action('enqueue_block_assets', 'itmar_block_collections_font_init');
 

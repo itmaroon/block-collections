@@ -34,7 +34,13 @@ import {
 	__experimentalBorderRadiusControl as BorderRadiusControl,
 } from "@wordpress/block-editor";
 
-import { useState, useEffect, useRef, useMemo } from "@wordpress/element";
+import {
+	useState,
+	useEffect,
+	useRef,
+	useMemo,
+	createElement,
+} from "@wordpress/element";
 import { useSelect, useDispatch, dispatch } from "@wordpress/data";
 
 import "./editor.scss";

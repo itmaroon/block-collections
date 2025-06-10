@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      6.8
-Stable tag:        1.5.0
+Stable tag:        1.6.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,12 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 1.6.0 =
+- Added functions for entering passwords and postal codes to Design Text Control.
+- The Design Process display has been improved to accommodate patterns such as user registration.
+- We added logged-in user to the title type of Design Title, and added the ability to select login/logout links to the link type.
+- The icon addition function for Design Title has been updated to include the ability to display images or avatars in addition to FontAwesome.
+
 = 1.5.0 =
 - Regarding the method of loading composer components, a mechanism has been introduced that does not conflict with other plugins. Accordingly, the composer components have been updated.
 - Operation check with WordPress 6.8

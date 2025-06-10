@@ -9,7 +9,7 @@ import { dispatch } from "@wordpress/data";
 import { store as blockEditorStore } from "@wordpress/block-editor";
 
 import { useStyleIframe } from "../iframeFooks";
-import LabelBox from "../LabelBox ";
+import LabelBox from "../LabelBox";
 import {
 	useElementBackgroundColor,
 	useIsIframeMobile,
