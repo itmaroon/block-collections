@@ -51,6 +51,7 @@ registerBlockType(metadata.name, {
 		"A block with various styles applied to heading tags",
 		"block-collections",
 	),
+	deprecated: [{ save: require("./save_old").save }],
 	icon: <Title />,
 	edit: BlockEdit,
 	save,
