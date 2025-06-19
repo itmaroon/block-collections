@@ -10,6 +10,7 @@ import {
 	ArchiveSelectControl,
 	IconSelectControl,
 	TypographyControls,
+	isValidUrlWithUrlApi,
 } from "itmar-block-packages";
 
 //import TypographyControls from "../TypographyControls";
@@ -95,17 +96,6 @@ const measureTextWidth = (text, fontSize, fontFamily) => {
 	const metrics = context.measureText(text);
 	return metrics.width;
 };
-
-//URLのバリデーションチェック
-function isValidUrlWithUrlApi(string) {
-	try {
-		const cleanString = string.replace(/<[^>]+>/g, "");
-		new URL(cleanString);
-		return true;
-	} catch (err) {
-		return false;
-	}
-}
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
