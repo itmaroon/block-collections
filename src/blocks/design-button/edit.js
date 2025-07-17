@@ -74,7 +74,7 @@ export default function Edit(props) {
 	const {
 		buttonType,
 		displayType,
-		buttonId,
+		buttonKey,
 		linkKind,
 		selectedSlug,
 		selectedPageUrl,
@@ -177,10 +177,10 @@ export default function Edit(props) {
 					)
 				) : is_tooltip ? (
 					<StyleTooltips attributes={tooltip_style} tooltip={tooltip_text}>
-						<input type="submit" value={labelContent} id={buttonId} />
+						<input type="submit" value={labelContent} data-key={buttonKey} />
 					</StyleTooltips>
 				) : (
-					<input type="submit" value={labelContent} id={buttonId} />
+					<input type="submit" value={labelContent} data-key={buttonKey} />
 				)}
 			</>
 		);
@@ -294,9 +294,9 @@ export default function Edit(props) {
 								onChange={(newVal) => setAttributes({ labelContent: newVal })}
 							/>
 							<TextControl
-								label={__("Button ID", "block-collections")}
-								value={buttonId}
-								onChange={(newVal) => setAttributes({ buttonId: newVal })}
+								label={__("Button Identification Key", "block-collections")}
+								value={buttonKey}
+								onChange={(newVal) => setAttributes({ buttonKey: newVal })}
 							/>
 						</>
 					)}

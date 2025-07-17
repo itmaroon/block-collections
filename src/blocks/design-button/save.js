@@ -11,7 +11,7 @@ export default function save({ attributes }) {
 		buttonType,
 		linkKind,
 		displayType,
-		buttonId,
+		buttonKey,
 		outer_align,
 		bgColor,
 		labelContent,
@@ -47,7 +47,7 @@ export default function save({ attributes }) {
 				{displayType === "pseudo" && <div className={displayType} />}
 			</button>
 		) : (
-			<input type="submit" value={labelContent} id={buttonId} />
+			<input type="submit" value={labelContent} data-key={buttonKey} />
 		);
 	const toolTipContent = is_tooltip ? (
 		<StyleTooltips attributes={tooltip_style} tooltip={tooltip_text}>

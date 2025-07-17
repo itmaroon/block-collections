@@ -55,6 +55,16 @@ const StyledDiv = styled.div`
 			anime_prm,
 		} = attributes;
 
+		//FlexItemの設定
+		const default_flexItem =
+			default_val.flex && Object.keys(default_val.flex).length !== 0
+				? `flex: ${default_val.flex.grow} ${default_val.flex.shrink} ${default_val.flex.basis}; min-width: 0; min-height: 0;`
+				: null;
+		const mobile_flexItem =
+			mobile_val.flex && Object.keys(mobile_val.flex).length !== 0
+				? `flex: ${mobile_val.flex.grow} ${mobile_val.flex.shrink} ${mobile_val.flex.basis}; min-width: 0; min-height: 0;`
+				: null;
+
 		//スペースの設定
 		const default_margin_prm = space_prm(default_val.margin);
 		const mobile_margin_prm = space_prm(mobile_val.margin);
@@ -113,21 +123,25 @@ const StyledDiv = styled.div`
 
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
+			${default_flexItem}
 			box-sizing: border-box;
 			position: ${positionType};
 			${default_block_position}
 			margin: ${default_margin_prm};
 			padding: ${default_padding_prm};
-			${is_menu &&
-			css`
-				z-index: 100;
-			`}
+			${
+				is_menu &&
+				css`
+					z-index: 100;
+				`
+			}
 			${default_width_style}
 			${default_max_width_style}
       		${default_height_style}
       		${default_block_align}
       		align-self: ${default_val.outer_vertical};
 			@media (max-width: 767px) {
+				flex:${mobile_flexItem}
 				${mobile_block_position}
 				margin: ${mobile_margin_prm};
 				padding: ${mobile_padding_prm};
@@ -135,36 +149,38 @@ const StyledDiv = styled.div`
 				${mobile_max_width_style}
 				${mobile_height_style}
 				${mobile_block_align}
-        ${is_menu &&
-				css`
-					position: fixed !important;
-					top: 0;
-					left: 0;
-					margin-top: 0;
-					transform: translateX(-100%);
-					transition: all 0.5s ease 0s;
-					z-index: 120;
-					height: 100vh;
-					width: 80% !important;
-					background-color: var(--wp--preset--color--content-back);
-					> div {
-						height: 100%;
-						> .group_contents {
+        ${
+					is_menu &&
+					css`
+						position: fixed !important;
+						top: 0;
+						left: 0;
+						margin-top: 0;
+						transform: translateX(-100%);
+						transition: all 0.5s ease 0s;
+						z-index: 120;
+						height: 100vh;
+						width: 80% !important;
+						background-color: var(--wp--preset--color--content-back);
+						> div {
 							height: 100%;
+							> .group_contents {
+								height: 100%;
+							}
 						}
-					}
 
-					&.open {
-						transform: translateX(0);
-					}
+						&.open {
+							transform: translateX(0);
+						}
 
-					&.sub_menu {
-						position: relative !important;
-						transform: translateX(0);
-						width: auto !important;
-						height: auto;
-					}
-				`}
+						&.sub_menu {
+							position: relative !important;
+							transform: translateX(0);
+							width: auto !important;
+							height: auto;
+						}
+					`
+				}
 			}
 			> div {
 				${tranceform}

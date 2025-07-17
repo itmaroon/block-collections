@@ -42,10 +42,6 @@ registerBlockType(metadata.name, {
 			type: "string",
 			default: new Date().toISOString(),
 		},
-		userFormat: {
-			type: "string",
-			default: __("Dear %s", "block-collections"),
-		},
 	},
 	description: __(
 		"A block with various styles applied to heading tags",

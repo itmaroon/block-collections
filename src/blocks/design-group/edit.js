@@ -100,6 +100,7 @@ export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
 
 	const {
+		domType,
 		default_val,
 		mobile_val,
 		shadow_element,
@@ -317,6 +318,32 @@ export default function Edit(props) {
 		<>
 			{/* インスペクター領域内 */}
 			<InspectorControls group="settings">
+				<PanelBody
+					title={__("DOM Type", "block-collections")}
+					initialOpen={true}
+					className="form_design_ctrl"
+				>
+					<div className="itmar_title_type">
+						<RadioControl
+							selected={domType}
+							options={[
+								{
+									label: "DIV",
+									value: "div",
+								},
+								{
+									label: "FORM",
+									value: "form",
+								},
+							]}
+							onChange={(newVal) => {
+								setAttributes({
+									domType: newVal,
+								});
+							}}
+						/>
+					</div>
+				</PanelBody>
 				<PanelBody
 					title={__("Menu or Group", "block-collections")}
 					initialOpen={true}
@@ -568,6 +595,17 @@ export default function Edit(props) {
 							});
 						}
 					}}
+					onFlexItemChange={(flexObj) => {
+						if (!isMobile) {
+							setAttributes({
+								default_val: { ...default_val, flex: flexObj },
+							});
+						} else {
+							setAttributes({
+								mobile_val: { ...mobile_val, flex: flexObj },
+							});
+						}
+					}}
 					onReverseChange={(checked) => {
 						if (!isMobile) {
 							setAttributes({
@@ -788,7 +826,10 @@ export default function Edit(props) {
 
 			<StyleComp attributes={attributes} isMenuOpen={isMenuOpen}>
 				<div {...blockProps}>
-					<div {...innerBlocksProps}></div>
+					{domType === "div" && <div {...innerBlocksProps}></div>}
+					{domType === "form" && (
+						<form method="POST" {...innerBlocksProps}></form>
+					)}
 				</div>
 			</StyleComp>
 		</>

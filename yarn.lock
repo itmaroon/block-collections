@@ -3,7 +3,7 @@
 
 
 "itmar-block-packages@file:../../../../../../itmar-block-packages":
-  version "1.6.2"
+  version "1.6.3"
   resolved "file:../../../../../../itmar-block-packages"
   dependencies:
     "@wordpress/icons" "^9.47.0"

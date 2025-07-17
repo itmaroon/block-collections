@@ -32,6 +32,14 @@
     }
   },
   "attributes": {
+    "className": {
+      "type": "string",
+      "default": ""
+    },
+    "domType": {
+      "type": "string",
+      "default": "div"
+    },
     "positionType": {
       "type": "string",
       "default": "relative"
@@ -44,6 +52,7 @@
       "type": "object",
       "default": {
         "direction": "horizen",
+        "flex": {},
         "reverse": false,
         "wrap": false,
         "inner_align": "flex-start",
@@ -97,6 +106,7 @@
       "type": "object",
       "default": {
         "direction": "vertical",
+        "flex": {},
         "reverse": false,
         "wrap": false,
         "inner_align": "flex-start",

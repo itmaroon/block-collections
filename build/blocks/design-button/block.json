@@ -33,7 +33,7 @@
       "type": "boolean",
       "default": false
     },
-    "buttonId": {
+    "buttonKey": {
       "type": "string"
     },
     "align": {

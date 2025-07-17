@@ -11,10 +11,9 @@ import {
 	IconSelectControl,
 	TypographyControls,
 	isValidUrlWithUrlApi,
+	FormatSelectControl,
+	displayFormated,
 } from "itmar-block-packages";
-
-//import TypographyControls from "../TypographyControls";
-//import { TypographyControls } from "itmar-block-packages";
 
 import { StyleComp } from "./StyleWapper";
 import apiFetch from "@wordpress/api-fetch";
@@ -80,6 +79,38 @@ const dateFormats = [
 	{ label: "ddd, MMM D, YYYY", value: "D, M j, Y" },
 	{ label: "YYYY年M月D日 (曜日)", value: "Y年n月j日 (l)" },
 ];
+//プレーンのフォーマット
+const plaineFormats = [
+	{
+		key: "str_free",
+		label: __("Free String", "block-collections"),
+		value: "%s",
+	},
+	{
+		key: "num_comma",
+		label: __("Numbers (comma separated)", "block-collections"),
+		value: {
+			style: "decimal",
+			useGrouping: true, // カンマ区切り
+		},
+	},
+	{
+		key: "num_no_comma",
+		label: __("Numbers (no commas)", "block-collections"),
+		value: {
+			style: "decimal",
+			useGrouping: false,
+		},
+	},
+	{
+		key: "num_amount",
+		label: __("Amount", "block-collections"),
+		value: {
+			style: "currency",
+			currency: "JPY",
+		},
+	},
+];
 //ヘッダーレベルアイコン
 const getIconForLevel = (level) => {
 	return (
@@ -100,6 +131,7 @@ const measureTextWidth = (text, fontSize, fontFamily) => {
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		headingContent,
+		uniqueID,
 		headingType,
 		defaultHeadingSize,
 		mobileHeadingSize,
@@ -122,8 +154,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		selectedPageUrl,
 		isBlank,
 		dateValue,
-		dateFormat,
 		userFormat,
+		freeStrFormat,
+		decimal,
 		className,
 	} = attributes;
 
@@ -221,7 +254,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						? res.display_name
 						: __("Guest", "block-collections");
 					//setSiteTitle(`ようこそ、${name} さん`);
-					setSiteTitle(userFormat.replace("%s", name));
+					setSiteTitle(freeStrFormat.replace("%s", name));
 					//アバターの情報をオプションスタイルに渡しておく
 					if (optionStyle) {
 						optionStyle.icon_style = {
@@ -236,10 +269,16 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			}
 
 			fetchUserName();
-		} else if (titleType === "date") {
-			setHeadingContentVal(format(dateFormat, headingContent, getSettings()));
+		} else {
+			const formatedValue = displayFormated(
+				headingContent,
+				userFormat,
+				freeStrFormat,
+				decimal,
+			);
+			setHeadingContentVal(formatedValue);
 		}
-	}, [titleType, dateFormat, userFormat]);
+	}, [titleType, userFormat, freeStrFormat, decimal]);
 
 	//スタイル変更時のデフォルト再設定
 	const execHandle = () => {
@@ -442,12 +481,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			templateLock: false,
 		},
 	);
-	//タイトルタイプがdateのときは日付のフォーマットを当てて表示
-	// const [headingContentVal, setHeadingContentVal] = useState(
-	// 	titleType === "date"
-	// 		? format(dateFormat, headingContent, getSettings())
-	// 		: headingContent,
-	// );
+
 	const [headingContentVal, setHeadingContentVal] = useState(headingContent);
 
 	//リッチテキストをコンテンツにする
@@ -595,25 +629,19 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									: ""
 							}
 						/>
-						{titleType === "date" && (
-							<SelectControl
-								label={__("Date Format", "block-collections")}
-								value={dateFormat}
-								options={dateFormats}
-								onChange={(newFormat) => {
-									setAttributes({ dateFormat: newFormat });
-								}}
-							/>
-						)}
-						{titleType === "user" && (
-							<TextControl
-								label={__("User Format", "block-collections")}
-								value={userFormat}
-								onChange={(newFormat) => {
-									setAttributes({ userFormat: newFormat });
-								}}
-							/>
-						)}
+						<FormatSelectControl
+							titleType={titleType}
+							userFormat={userFormat}
+							freeStrFormat={freeStrFormat}
+							decimal={decimal}
+							onFormatChange={(formatInfo) => {
+								setAttributes({
+									userFormat: formatInfo.userFormat,
+									freeStrFormat: formatInfo.freeStrFormat,
+									decimal: formatInfo.decimal,
+								});
+							}}
+						/>
 					</div>
 
 					<div className="itmar_link_type">
@@ -767,6 +795,17 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							/>
 						</PanelBody>
 					)}
+					<TextControl
+						label={__("Unique ID", "block-collections")}
+						value={uniqueID}
+						help={__(
+							"Set an ID for this block. Since this is an ID, please be careful not to duplicate it on the page by duplicating it, etc.",
+							"block-collections",
+						)}
+						onChange={(newValue) => {
+							setAttributes({ uniqueID: newValue });
+						}}
+					/>
 				</PanelBody>
 			</InspectorControls>
 
@@ -1386,7 +1425,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								setAttributes({
 									headingContent: newDatetime,
 								});
-								const newDisp = format(dateFormat, newDatetime, getSettings());
+								const newDisp = format(userFormat, newDatetime, getSettings());
 								setHeadingContentVal(newDisp);
 								setIsDateModal(false);
 							}}

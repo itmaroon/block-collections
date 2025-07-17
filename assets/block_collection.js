@@ -143,7 +143,7 @@ jQuery(function ($) {
 						: __("Guest", "block-collections");
 					const userFormat = $(".itmar_user_title")
 						.closest(".wp-block-itmar-design-title")
-						.data("user_format");
+						.data("free_format");
 					$(".itmar_user_title").text(userFormat.replace("%s", name));
 					$(".itmar_avatar_url").attr("src", res.avatar_url);
 				} catch (error) {
@@ -175,7 +175,7 @@ jQuery(function ($) {
 		//ログアウト・ログインの処理
 		$("#itmar_logon_btn").on("click", function () {
 			if (isLogin) {
-				window.location.href = itmar_block_option.logout_url;
+				window.location.href = itmar_block_option.logout_base_url;
 			} else {
 				const loginUrl = $("#itmar_logon_btn").data("logon_url");
 				const pattern = new RegExp(
@@ -187,10 +187,13 @@ jQuery(function ($) {
 					window.location.href = itmar_block_option.login_url;
 				} else {
 					//カスタムログイン画面
-					window.location.href = loginUrl.replace(
+					const redirectUrl = window.location.href;
+					const loginPageUrl = loginUrl.replace(
 						"[home_url]",
-						block_collections.home_url,
+						itmar_block_option.home_url,
 					);
+					window.location.href =
+						loginPageUrl + "?redirect_to=" + encodeURIComponent(redirectUrl);
 				}
 			}
 		});

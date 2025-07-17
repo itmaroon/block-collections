@@ -2,17 +2,19 @@ import { useBlockProps, InnerBlocks, RichText } from "@wordpress/block-editor";
 import { ServerStyleSheet } from "styled-components";
 import { renderToString } from "react-dom/server";
 import { StyleComp } from "./StyleWapper";
-import { format, getSettings } from "@wordpress/date";
+import { displayFormated } from "itmar-block-packages";
 
 export default function save({ attributes }) {
 	const {
 		headingType,
+		uniqueID,
 		align,
 		titleType,
 		headingContent,
 		optionStyle,
-		dateFormat,
 		userFormat,
+		freeStrFormat,
+		decimal,
 		linkKind,
 		menu_pos,
 		is_title_menu,
@@ -39,12 +41,14 @@ export default function save({ attributes }) {
 
 	//リッチテキストをコンテンツにする
 	const renderRichText = () => {
-		//タイトルタイプがdateのときは日付のフォーマットを当てて表示
-		const dispContent =
-			titleType === "date"
-				? format(dateFormat, headingContent, getSettings())
-				: headingContent;
-		return <RichText.Content tagName={headingType} value={dispContent} />;
+		//フォーマットを当てて表示
+		const formatedValue = displayFormated(
+			headingContent,
+			userFormat,
+			freeStrFormat,
+			decimal,
+		);
+		return <RichText.Content tagName={headingType} value={formatedValue} />;
 	};
 	//ヘッダー要素をコンテンツにする
 	const renderElement = () =>
@@ -108,8 +112,10 @@ export default function save({ attributes }) {
 		<div
 			{...blockProps}
 			data-title_type={titleType}
-			data-date_format={dateFormat}
 			data-user_format={userFormat}
+			data-free_format={freeStrFormat}
+			data-decimal={decimal}
+			data-unique_id={uniqueID}
 		>
 			<div dangerouslySetInnerHTML={{ __html: html }} />
 

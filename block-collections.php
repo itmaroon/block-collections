@@ -5,7 +5,7 @@
  * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
  * Requires at least: 6.4
  * Requires PHP:      8.2.10
- * Version:           1.6.0
+ * Version:           1.7.0
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -111,10 +111,12 @@ function itmar_highlight_scripts_and_styles()
 			true
 		);
 		//jsで使えるようにhome_urlをローカライズ
+		$current_url = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		wp_localize_script('itmar_block_collection_js', 'itmar_block_option', array(
 			'home_url' => home_url(),
-			'login_url' => wp_login_url(home_url()),
+			'login_url' => wp_login_url($current_url),
 			'logout_url' => wp_logout_url(home_url()),
+			'logout_base_url' => wp_logout_url($current_url)
 		));
 
 

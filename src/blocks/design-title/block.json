@@ -43,6 +43,9 @@
 		"headingContent": {
 			"type": "string"
 		},
+		"uniqueID": {
+			"type": "string"
+		},
 		"headingType": {
 			"type": "string",
 			"default": "H2"
@@ -59,11 +62,18 @@
 			"type": "string",
 			"default": "plaine"
 		},
-		"dateFormat":{
-			"type":"string",
-			"default":"Y-n-j"
+		"userFormat": { 
+			"type": "string",
+			"default": ""
 		},
-		
+		"freeStrFormat": { 
+			"type": "string",
+			"default": "%s"
+		},
+		"decimal": { 
+			"type": "number",
+			"default": 0
+		},
 		"isMenuItem": {
 			"type": "boolean",
 			"default": false

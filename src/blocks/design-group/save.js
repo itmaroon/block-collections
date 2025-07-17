@@ -5,6 +5,8 @@ import { StyleComp } from "./StyleGroup";
 
 export default function save({ attributes }) {
 	const {
+		className,
+		domType,
 		is_menu,
 		is_submenu,
 		is_anime,
@@ -15,7 +17,7 @@ export default function save({ attributes }) {
 		is_swiper,
 	} = attributes;
 
-	const blockProps = useBlockProps.save();
+	const blockProps = useBlockProps.save({ className: className });
 
 	//styled-componentsのHTML化
 	const sheet = new ServerStyleSheet();
@@ -42,16 +44,30 @@ export default function save({ attributes }) {
 		return attributes;
 	});
 
+	const contentDom =
+		domType === "div" ? (
+			<div
+				className={`group_contents${is_anime ? " fadeTrigger" : ""}`}
+				data-is_anime={is_anime}
+				data-anime_prm={JSON.stringify(anime_prm)}
+			>
+				<InnerBlocks.Content />
+			</div>
+		) : (
+			<form
+				method="POST"
+				className={`group_contents${is_anime ? " fadeTrigger" : ""}`}
+				data-is_anime={is_anime}
+				data-anime_prm={JSON.stringify(anime_prm)}
+			>
+				<InnerBlocks.Content />
+			</form>
+		);
+
 	const ContentComponent = ({ blockProps, is_anime, anime_prm, is_link }) => {
 		return (
 			<div {...blockProps}>
-				<div
-					className={`group_contents${is_anime ? " fadeTrigger" : ""}`}
-					data-is_anime={is_anime}
-					data-anime_prm={JSON.stringify(anime_prm)}
-				>
-					<InnerBlocks.Content />
-				</div>
+				{contentDom}
 				<div
 					className="itmar_style_div"
 					dangerouslySetInnerHTML={{ __html: styleTags }}
