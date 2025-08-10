@@ -140,10 +140,7 @@ export default function Edit(props) {
 	function renderContent() {
 		// ボタンの中身を変数に格納
 		const buttonContent = (
-			<button
-				onClick={() => setAttributes({ isClick: true })}
-				disabled={disabled}
-			>
+			<button type={buttonType} disabled={disabled} data-key={buttonKey}>
 				{displayType === "string" && (
 					<RichText
 						onChange={(newContent) => {
@@ -165,24 +162,12 @@ export default function Edit(props) {
 				{displayType === "pseudo" && <div className={displayType} />}
 			</button>
 		);
-		return (
-			<>
-				{buttonType === "button" ? (
-					is_tooltip ? (
-						<StyleTooltips attributes={tooltip_style} tooltip={tooltip_text}>
-							{buttonContent}
-						</StyleTooltips>
-					) : (
-						buttonContent
-					)
-				) : is_tooltip ? (
-					<StyleTooltips attributes={tooltip_style} tooltip={tooltip_text}>
-						<input type="submit" value={labelContent} data-key={buttonKey} />
-					</StyleTooltips>
-				) : (
-					<input type="submit" value={labelContent} data-key={buttonKey} />
-				)}
-			</>
+		return is_tooltip ? (
+			<StyleTooltips attributes={tooltip_style} tooltip={tooltip_text}>
+				{buttonContent}
+			</StyleTooltips>
+		) : (
+			buttonContent
 		);
 	}
 
@@ -209,35 +194,48 @@ export default function Edit(props) {
 							}}
 						/>
 					</PanelRow>
-					{buttonType === "button" && (
-						<div className="itmar_link_type">
-							<RadioControl
-								label={__("Link type", "block-collections")}
-								selected={linkKind}
-								options={[
-									{
-										label: __("Fixed Page", "block-collections"),
-										value: "fixed",
-									},
-									{
-										label: __("Archive Page", "block-collections"),
-										value: "archive",
-									},
-									{ label: __("Free URL", "block-collections"), value: "free" },
-									{ label: __("No Link", "block-collections"), value: "none" },
-								]}
-								onChange={(changeOption) =>
-									setAttributes({ linkKind: changeOption })
-								}
-								help={__(
-									"You can select the type of URL to link to the button.",
-									"block-collections",
-								)}
-							/>
-						</div>
-					)}
 
-					{buttonType === "button" && linkKind === "fixed" && (
+					<div className="itmar_link_type">
+						<RadioControl
+							label={__("Link type", "block-collections")}
+							selected={linkKind}
+							options={[
+								{
+									label: __("Fixed Page", "block-collections"),
+									value: "fixed",
+								},
+								{
+									label: __("Archive Page", "block-collections"),
+									value: "archive",
+								},
+								{ label: __("Free URL", "block-collections"), value: "free" },
+								{
+									label: __("Close Modal", "block-collections"),
+									value: "close",
+								},
+								{ label: __("No Link", "block-collections"), value: "none" },
+							]}
+							onChange={(changeOption) =>
+								setAttributes({ linkKind: changeOption })
+							}
+							help={
+								linkKind === "fixed"
+									? __("Link to the selected fixed page.", "block-collections")
+									: linkKind === "archive"
+									? __("Link to the selected archive page", "block-collections")
+									: linkKind === "free"
+									? __(
+											"Enter the URL freely. If you add [home_url]/ at the beginning, it will become the URL from the top of the site.",
+											"block-collections",
+									  )
+									: linkKind === "close"
+									? __("Hides the parent form.", "block-collections")
+									: ""
+							}
+						/>
+					</div>
+
+					{linkKind === "fixed" && (
 						<PageSelectControl
 							selectedSlug={selectedSlug}
 							label={__("Select a fixed page to link to", "block-collections")}
@@ -252,7 +250,7 @@ export default function Edit(props) {
 							}}
 						/>
 					)}
-					{buttonType === "button" && linkKind === "archive" && (
+					{linkKind === "archive" && (
 						<ArchiveSelectControl
 							selectedSlug={selectedSlug}
 							label={__("Select archive page to link to", "block-collections")}
@@ -265,7 +263,7 @@ export default function Edit(props) {
 							}}
 						/>
 					)}
-					{buttonType === "button" && linkKind === "free" && (
+					{linkKind === "free" && (
 						<TextControl
 							label={__("Link to URL", "block-collections")}
 							labelPosition="top"
@@ -276,7 +274,7 @@ export default function Edit(props) {
 						/>
 					)}
 
-					{buttonType === "button" && linkKind !== "none" && (
+					{linkKind !== "none" && (
 						<ToggleControl
 							label={__("Open in new tab", "block-collections")}
 							checked={isBlank}
@@ -286,20 +284,11 @@ export default function Edit(props) {
 						/>
 					)}
 
-					{buttonType === "submit" && (
-						<>
-							<TextControl
-								label={__("Button Label", "block-collections")}
-								value={labelContent}
-								onChange={(newVal) => setAttributes({ labelContent: newVal })}
-							/>
-							<TextControl
-								label={__("Button Identification Key", "block-collections")}
-								value={buttonKey}
-								onChange={(newVal) => setAttributes({ buttonKey: newVal })}
-							/>
-						</>
-					)}
+					<TextControl
+						label={__("Button Identification Key", "block-collections")}
+						value={buttonKey}
+						onChange={(newVal) => setAttributes({ buttonKey: newVal })}
+					/>
 				</PanelBody>
 				<PanelBody
 					title={__("Display Type setting", "block-collections")}

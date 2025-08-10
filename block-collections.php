@@ -116,7 +116,8 @@ function itmar_highlight_scripts_and_styles()
 			'home_url' => home_url(),
 			'login_url' => wp_login_url($current_url),
 			'logout_url' => wp_logout_url(home_url()),
-			'logout_base_url' => wp_logout_url($current_url)
+			'logout_base_url' => wp_logout_url($current_url),
+			'logout_custom_url' => wp_logout_url(),
 		));
 
 

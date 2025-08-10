@@ -61,6 +61,12 @@ const StyledDiv = styled.div`
 		const mobile_form_margin_prm = space_prm(mobile_pos.margin_input);
 		const mobile_form_padding_prm = space_prm(mobile_pos.padding_input);
 
+		//幅の設定
+		const default_width = default_pos.free_width
+			? default_pos.free_width
+			: "100%";
+		const mobile_width = mobile_pos.free_width ? mobile_pos.free_width : "100%";
+
 		//ボックスシャドーの設定
 		const box_shadow_style =
 			is_shadow && shadow_result ? convertToScss(shadow_result) : "";
@@ -94,8 +100,10 @@ const StyledDiv = styled.div`
 				}
 			}
 			input {
+				width: ${default_width};
 				line-height: ${default_pos.inputLineHeight};
 				@media (max-width: 767px) {
+					width: ${mobile_width};
 					line-height: ${mobile_pos.inputLineHeight};
 				}
 			}

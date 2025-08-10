@@ -40,6 +40,10 @@
       "type": "string",
       "default": "div"
     },
+    "formID": {
+      "type": "string",
+      "default": ""
+    },
     "positionType": {
       "type": "string",
       "default": "relative"
@@ -241,6 +245,10 @@
     "isBlank": {
       "type": "boolean",
       "default": false
+    },
+    "isAppear": {
+      "type": "boolean",
+      "default": true
     },
     "has_submenu": {
       "type": "boolean",

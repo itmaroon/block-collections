@@ -120,6 +120,11 @@ OR…
 - Fixed issue whereby when you select submit in the Design Buuton, the data-key attribute is set on the button element instead of the ID.
 - It is now possible to set an ID for the Design Title.
 - In the Design Title logon type, the redirect destination after logout processing has been changed to the page from which it was called.
+- When the Design Group position becomes absolute, it can now be toggled on and off.
+- When the DOM type of Design Group is form, it is now possible to set an ID for the form.
+- Added a new mode for numeric input to Design Text Control. Also, the width of the input element can now be set.
+- Change the submit type DOM element of Design Button from input element to button element.
+  
   
 = 1.6.0 =
 - Added functions for entering passwords and postal codes to Design Text Control.

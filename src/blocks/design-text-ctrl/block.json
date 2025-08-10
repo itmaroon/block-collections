@@ -21,6 +21,14 @@
 			"type": "string",
 			"default": "text"
 		},
+		"numberOption":{
+			"type":"object",
+			"default":{
+				"max":100,
+				"min":1,
+				"step":1
+			}
+		},
 		"addressInput": {
 			"type": "string",
 			"default": "address_name"
@@ -86,7 +94,8 @@
 					"right": "1em"
 				},
 				"labelPos": "center left",
-				"inputLineHeight":"2"
+				"inputLineHeight":"2",
+				"freeWidth":""
 			}
 		},
 		"mobile_pos": {
@@ -105,7 +114,8 @@
 					"right": "0em"
 				},
 				"labelPos": "top left",
-				"inputLineHeight":"2"
+				"inputLineHeight":"2",
+				"free_width":""
 			}
 		},
 		"labelContent": {

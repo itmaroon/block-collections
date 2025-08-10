@@ -6,6 +6,7 @@
  */
 
 .wp-block-itmar-design-text-ctrl {
+	width: 100%;
 	input{
 		flex: 1;
 		min-width: 0;
@@ -62,6 +63,27 @@
 			&:hover {
 			background: #005177;
 			}
+		}
+	}
+	.number-input-wrapper{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 2px;
+		input {
+  			text-align: right;
+			padding-right: 1em;
+		}
+		//ナンバー要素の上下ボタンを消す
+		/* Chrome, Safari, Edge, Opera */
+		input[type="number"]::-webkit-inner-spin-button,
+		input[type="number"]::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+		/* Firefox */
+		input[type="number"] {
+			-moz-appearance: textfield;
 		}
 	}
 }

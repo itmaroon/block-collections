@@ -19,7 +19,7 @@
     },
     "linkKind": {
       "type": "string",
-      "default": "free"
+      "default": "none"
     },
     "selectedSlug": {
       "type": "string",

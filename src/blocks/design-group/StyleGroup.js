@@ -51,6 +51,7 @@ const StyledDiv = styled.div`
 			position,
 			is_menu,
 			is_submenu,
+			isAppear,
 			has_submenu,
 			anime_prm,
 		} = attributes;
@@ -121,27 +122,28 @@ const StyledDiv = styled.div`
 		//オーバーフロー
 		const over_flow = has_submenu ? "visible" : "scroll";
 
+		//表示位置
+		const appear_style = !isAppear ? "display: none;" : "";
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
+			${appear_style}
 			${default_flexItem}
 			box-sizing: border-box;
 			position: ${positionType};
 			${default_block_position}
 			margin: ${default_margin_prm};
 			padding: ${default_padding_prm};
-			${
-				is_menu &&
-				css`
-					z-index: 100;
-				`
-			}
+			${(is_menu || positionType === "absolute") &&
+			css`
+				z-index: 100;
+			`}
 			${default_width_style}
 			${default_max_width_style}
       		${default_height_style}
       		${default_block_align}
       		align-self: ${default_val.outer_vertical};
 			@media (max-width: 767px) {
-				flex:${mobile_flexItem}
+				${mobile_flexItem}
 				${mobile_block_position}
 				margin: ${mobile_margin_prm};
 				padding: ${mobile_padding_prm};
@@ -149,38 +151,36 @@ const StyledDiv = styled.div`
 				${mobile_max_width_style}
 				${mobile_height_style}
 				${mobile_block_align}
-        ${
-					is_menu &&
-					css`
-						position: fixed !important;
-						top: 0;
-						left: 0;
-						margin-top: 0;
-						transform: translateX(-100%);
-						transition: all 0.5s ease 0s;
-						z-index: 120;
-						height: 100vh;
-						width: 80% !important;
-						background-color: var(--wp--preset--color--content-back);
-						> div {
+        ${is_menu &&
+				css`
+					position: fixed !important;
+					top: 0;
+					left: 0;
+					margin-top: 0;
+					transform: translateX(-100%);
+					transition: all 0.5s ease 0s;
+					z-index: 120;
+					height: 100vh;
+					width: 80% !important;
+					background-color: var(--wp--preset--color--content-back);
+					> div {
+						height: 100%;
+						> .group_contents {
 							height: 100%;
-							> .group_contents {
-								height: 100%;
-							}
 						}
+					}
 
-						&.open {
-							transform: translateX(0);
-						}
+					&.open {
+						transform: translateX(0);
+					}
 
-						&.sub_menu {
-							position: relative !important;
-							transform: translateX(0);
-							width: auto !important;
-							height: auto;
-						}
-					`
-				}
+					&.sub_menu {
+						position: relative !important;
+						transform: translateX(0);
+						width: auto !important;
+						height: auto;
+					}
+				`}
 			}
 			> div {
 				${tranceform}

@@ -19,6 +19,7 @@ import {
 	useBlockProps,
 	useInnerBlocksProps,
 	InspectorControls,
+	BlockControls,
 	store as blockEditorStore,
 } from "@wordpress/block-editor";
 
@@ -28,10 +29,15 @@ import {
 	RadioControl,
 	RangeControl,
 	TextControl,
+	Toolbar,
+	Button,
 	__experimentalBoxControl as BoxControl,
 } from "@wordpress/components";
 
 import { useEffect, useRef, useState } from "@wordpress/element";
+
+import { ReactComponent as toFront } from "../../../assets/img/turn-up.svg";
+import { ReactComponent as toBack } from "../../../assets/img/turn-down.svg";
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -101,6 +107,8 @@ export default function Edit(props) {
 
 	const {
 		domType,
+		formID,
+		positionType,
 		default_val,
 		mobile_val,
 		shadow_element,
@@ -115,6 +123,7 @@ export default function Edit(props) {
 		is_link,
 		selectedPageUrl,
 		isBlank,
+		isAppear,
 	} = attributes;
 
 	//モバイルの判定
@@ -181,6 +190,7 @@ export default function Edit(props) {
 			templateLock: false,
 		},
 	);
+
 	//移動可能ブロックならドラッグのカスタムフックを付加
 	const handlePositionChange = (newPosition) => {
 		setAttributes({ position: newPosition });
@@ -313,6 +323,10 @@ export default function Edit(props) {
 		},
 		[clientId],
 	);
+	//フォームの送信を止めておく
+	const handleSubmit = (e) => {
+		e.preventDefault();
+	};
 
 	return (
 		<>
@@ -343,6 +357,18 @@ export default function Edit(props) {
 							}}
 						/>
 					</div>
+					{domType === "form" && (
+						<>
+							<TextControl
+								label={__("Form ID", "block-collections")}
+								labelPosition="top"
+								value={formID}
+								onChange={(newValue) => {
+									setAttributes({ formID: newValue });
+								}}
+							/>
+						</>
+					)}
 				</PanelBody>
 				<PanelBody
 					title={__("Menu or Group", "block-collections")}
@@ -802,6 +828,26 @@ export default function Edit(props) {
 					)}
 				</PanelBody>
 			</InspectorControls>
+			{positionType === "absolute" && (
+				<BlockControls>
+					<Toolbar>
+						<Button
+							//表示するラベルを切り替え
+							label={
+								isAppear
+									? __("To Back", "block-collections")
+									: __("To Front", "block-collections")
+							}
+							//表示するアイコンを切り替え
+							icon={isAppear ? toBack : toFront}
+							//setAttributes を使って属性の値を更新（真偽値を反転）
+							onClick={() => {
+								setAttributes({ isAppear: !isAppear });
+							}}
+						/>
+					</Toolbar>
+				</BlockControls>
+			)}
 
 			{/* ブロックエディタ領域内 */}
 
@@ -827,8 +873,11 @@ export default function Edit(props) {
 			<StyleComp attributes={attributes} isMenuOpen={isMenuOpen}>
 				<div {...blockProps}>
 					{domType === "div" && <div {...innerBlocksProps}></div>}
-					{domType === "form" && (
-						<form method="POST" {...innerBlocksProps}></form>
+					{domType === "form" && formID && (
+						<form onSubmit={handleSubmit} {...innerBlocksProps}></form>
+					)}
+					{domType === "form" && !formID && (
+						<form onSubmit={handleSubmit} {...innerBlocksProps}></form>
 					)}
 				</div>
 			</StyleComp>

@@ -79,38 +79,7 @@ const dateFormats = [
 	{ label: "ddd, MMM D, YYYY", value: "D, M j, Y" },
 	{ label: "YYYY年M月D日 (曜日)", value: "Y年n月j日 (l)" },
 ];
-//プレーンのフォーマット
-const plaineFormats = [
-	{
-		key: "str_free",
-		label: __("Free String", "block-collections"),
-		value: "%s",
-	},
-	{
-		key: "num_comma",
-		label: __("Numbers (comma separated)", "block-collections"),
-		value: {
-			style: "decimal",
-			useGrouping: true, // カンマ区切り
-		},
-	},
-	{
-		key: "num_no_comma",
-		label: __("Numbers (no commas)", "block-collections"),
-		value: {
-			style: "decimal",
-			useGrouping: false,
-		},
-	},
-	{
-		key: "num_amount",
-		label: __("Amount", "block-collections"),
-		value: {
-			style: "currency",
-			currency: "JPY",
-		},
-	},
-];
+
 //ヘッダーレベルアイコン
 const getIconForLevel = (level) => {
 	return (
@@ -659,8 +628,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									value: "archive",
 								},
 								{ label: __("Free Link", "block-collections"), value: "free" },
-								{ label: __("URL", "block-collections"), value: "url" },
+
 								{ label: __("Login", "block-collections"), value: "login" },
+								{ label: __("Modal Open", "block-collections"), value: "open" },
 								{
 									label: __("Sub Menu", "block-collections"),
 									value: "submenu",
@@ -689,10 +659,33 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									setAttributes({ linkKind: changeOption });
 								}
 							}}
-							help={__(
-								"You can select the type of URL to link to the title. If you add a line break to the Login title text, the upper line will be the text displayed when logged in and the lower line will be the text displayed when logged out.",
-								"block-collections",
-							)}
+							help={
+								linkKind === "fixed"
+									? __("Link to the selected fixed page.", "block-collections")
+									: linkKind === "archive"
+									? __("Link to the selected archive page", "block-collections")
+									: linkKind === "free"
+									? __(
+											"Enter the URL freely. If you add [home_url]/ at the beginning, it will become the URL from the top of the site.",
+											"block-collections",
+									  )
+									: linkKind === "login"
+									? __(
+											"By specifying the title and two lines, the first line will be a link to the specified custom login static page, and the second line will be used for the logout process.",
+											"block-collections",
+									  )
+									: linkKind === "open"
+									? __(
+											"Brings the element with the specified ID to the front.",
+											"block-collections",
+									  )
+									: linkKind === "submenu"
+									? __(
+											"Allows the title to have a submenu.",
+											"block-collections",
+									  )
+									: ""
+							}
 						/>
 					</div>
 
@@ -738,22 +731,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							value={url_editing}
 							onChange={(newVal) => setUrlValue(newVal)} // 一時的な編集値として保存する
 							onBlur={() => {
-								//URLバリデーションチェック
-								if (!isValidUrlWithUrlApi(url_editing)) {
-									dispatch("core/notices").createNotice(
-										"error",
-										__(
-											"The input string is not in URL format.",
-											"block-collections",
-										),
-										{ type: "snackbar", isDismissible: true },
-									);
-									// バリデーションエラーがある場合、編集値を元の値にリセットする
-									setUrlValue(selectedPageUrl);
-								} else {
-									// バリデーションが成功した場合、編集値を確定する
-									setAttributes({ selectedPageUrl: url_editing });
-								}
+								setAttributes({ selectedPageUrl: url_editing });
+							}}
+						/>
+					)}
+					{linkKind === "open" && (
+						<TextControl
+							label={__("Modal ID", "block-collections")}
+							labelPosition="top"
+							value={url_editing}
+							onChange={(newVal) => setUrlValue(newVal)} // 一時的な編集値として保存する
+							onBlur={() => {
+								setAttributes({ selectedPageUrl: url_editing });
 							}}
 						/>
 					)}

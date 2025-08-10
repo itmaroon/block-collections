@@ -7,6 +7,7 @@ export default function save({ attributes }) {
 	const {
 		className,
 		domType,
+		formID,
 		is_menu,
 		is_submenu,
 		is_anime,
@@ -53,6 +54,16 @@ export default function save({ attributes }) {
 			>
 				<InnerBlocks.Content />
 			</div>
+		) : domType === "form" && formID ? (
+			<form
+				id={formID}
+				method="POST"
+				className={`group_contents${is_anime ? " fadeTrigger" : ""}`}
+				data-is_anime={is_anime}
+				data-anime_prm={JSON.stringify(anime_prm)}
+			>
+				<InnerBlocks.Content />
+			</form>
 		) : (
 			<form
 				method="POST"

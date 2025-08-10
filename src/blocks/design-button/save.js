@@ -31,24 +31,28 @@ export default function save({ attributes }) {
 	});
 
 	const sheet = new ServerStyleSheet();
-	const buttonContent =
-		buttonType === "button" ? (
-			<button
-				className="itmar_design_button"
-				data-selected_page={linkKind != "none" ? selectedPageUrl : null}
-				data-open_blank={isBlank}
-			>
-				{displayType === "string" && <RichText.Content value={labelContent} />}
-				{displayType === "image" && (
-					<figure>
-						<img src={media.url} className="image" alt="アップロード画像" />
-					</figure>
-				)}
-				{displayType === "pseudo" && <div className={displayType} />}
-			</button>
-		) : (
-			<input type="submit" value={labelContent} data-key={buttonKey} />
-		);
+	const isCloseButton = buttonType === "button" && linkKind === "close";
+
+	const buttonContent = (
+		<button
+			type={buttonType}
+			className="itmar_design_button"
+			data-key={buttonKey}
+			data-selected_page={
+				linkKind != "none" && linkKind != "close" ? selectedPageUrl : null
+			}
+			data-open_blank={isCloseButton ? "form_close" : isBlank}
+		>
+			{displayType === "string" && <RichText.Content value={labelContent} />}
+			{displayType === "image" && (
+				<figure>
+					<img src={media.url} className="image" alt="アップロード画像" />
+				</figure>
+			)}
+			{displayType === "pseudo" && <div className={displayType} />}
+		</button>
+	);
+
 	const toolTipContent = is_tooltip ? (
 		<StyleTooltips attributes={tooltip_style} tooltip={tooltip_text}>
 			{buttonContent}

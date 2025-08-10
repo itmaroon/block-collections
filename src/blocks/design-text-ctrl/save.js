@@ -15,6 +15,7 @@ export default function save({ attributes }) {
 		inputType,
 		required,
 		labelContent,
+		numberOption,
 		className,
 	} = attributes;
 	const blockProps = useBlockProps.save({
@@ -62,6 +63,37 @@ export default function save({ attributes }) {
 							/>
 							<button type="button" className="toggle-password-button">
 								<img src={hideIcon} alt="" aria-hidden="true" />
+							</button>
+						</div>
+					)}
+					{inputType === "number" && (
+						<div className="number-input-wrapper">
+							<button
+								type="button"
+								className="number-stepper-minus"
+								aria-label="Decrease value"
+							>
+								-
+							</button>
+							<input
+								type="number"
+								name={inputName}
+								min={numberOption.min}
+								max={numberOption.max}
+								step={numberOption.step}
+								className="contact_text empty"
+								placeholder={
+									className && className.includes("is-style-line")
+										? dispLabel
+										: ""
+								}
+							/>
+							<button
+								type="button"
+								className="number-stepper-plus"
+								aria-label="Increase value"
+							>
+								+
 							</button>
 						</div>
 					)}

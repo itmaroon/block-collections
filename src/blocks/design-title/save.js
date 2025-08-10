@@ -95,17 +95,30 @@ export default function save({ attributes }) {
 		</div>
 	);
 
-	const html = renderToString(
-		sheet.collectStyles(
-			<StyleComp attributes={attributes}>
-				{linkKind === "none" || linkKind === "submenu"
-					? content
-					: linkKind === "login"
-					? logon_btn
-					: linkContent}
-			</StyleComp>,
-		),
+	const open_modal_btn = (
+		<div className="modal_open_btn" data-modal_id={selectedPageUrl}>
+			{content}
+		</div>
 	);
+
+	const wrappedContent =
+		linkKind === "none" || linkKind === "submenu" ? (
+			<StyleComp attributes={attributes}>{content}</StyleComp>
+		) : linkKind === "login" ? (
+			<StyleComp attributes={attributes}>{logon_btn}</StyleComp>
+		) : linkKind === "open" ? (
+			<StyleComp attributes={attributes}>{open_modal_btn}</StyleComp>
+		) : isBlank ? (
+			<a href={selectedPageUrl} target="_blank" rel="noopener noreferrer">
+				<StyleComp attributes={attributes}>{content}</StyleComp>
+			</a>
+		) : (
+			<a href={selectedPageUrl}>
+				<StyleComp attributes={attributes}>{content}</StyleComp>
+			</a>
+		);
+
+	const html = renderToString(sheet.collectStyles(wrappedContent));
 	const styleTags = sheet.getStyleTags();
 
 	return (

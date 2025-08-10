@@ -39,8 +39,6 @@ const StyledDiv = styled.div`
 			className,
 		} = attributes;
 
-		const button_type = buttonType === "button" ? "button" : "input";
-
 		//単色かグラデーションかの選択
 		const bgColor = buttonColor || buttonGradient;
 		const disableColor = disableButtonColor || disableButtonGradient;
@@ -73,7 +71,7 @@ const StyledDiv = styled.div`
 			align-items: center;
 			height: 100%;
 
-			${button_type} {
+			button {
 				position: relative;
 				width: ${default_pos.width};
 				height: ${default_pos.height};

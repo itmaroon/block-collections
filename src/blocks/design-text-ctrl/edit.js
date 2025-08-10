@@ -28,6 +28,9 @@ import {
 	TextControl,
 	RangeControl,
 	SelectControl,
+	__experimentalNumberControl as NumberControl,
+	Notice,
+	__experimentalUnitControl as UnitControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalBorderBoxControl as BorderBoxControl,
 } from "@wordpress/components";
@@ -70,6 +73,7 @@ export default function Edit(props) {
 		inputValue,
 		placeFolder,
 		inputType,
+		numberOption,
 		addressInput,
 		required,
 		focusColor,
@@ -157,6 +161,11 @@ export default function Edit(props) {
 	const targetBlock = useTargetBlocks(clientId, "itmar/design-text-ctrl", {
 		inputName: addressInput,
 	});
+	//Numberのバリデーション
+	const isInRange = (value, min, max) => {
+		const num = Number(value);
+		return !isNaN(num) && num >= min && num <= max;
+	};
 
 	return (
 		<>
@@ -187,6 +196,7 @@ export default function Edit(props) {
 							label={__("Kind of Input Element", "block-collections")}
 							options={[
 								{ label: "TEXT", value: "text" },
+								{ label: "NUMBER", value: "number" },
 								{ label: "E-MAIL", value: "email" },
 								{ label: "PASSWORD", value: "pass" },
 								{ label: "ZIP", value: "zip" },
@@ -197,6 +207,56 @@ export default function Edit(props) {
 							}}
 						/>
 					</PanelRow>
+					{inputType === "number" && (
+						<PanelBody
+							title={__("Number Options", "block-collections")}
+							initialOpen={true}
+						>
+							<RangeControl
+								label={__("Minimum value (min)", "block-collections")}
+								value={numberOption.min}
+								onChange={(min) =>
+									setAttributes({ numberOption: { ...numberOption, min } })
+								}
+								min={-100}
+								max={numberOption.max}
+								help={__("Set the minimum allowed value.", "block-collections")}
+							/>
+							<RangeControl
+								label={__("Maximum value (max)", "block-collections")}
+								value={numberOption.max}
+								onChange={(max) =>
+									setAttributes({ numberOption: { ...numberOption, max } })
+								}
+								min={numberOption.min}
+								max={100}
+								help={__("Set the maximum allowed value.", "block-collections")}
+							/>
+							<NumberControl
+								label={__("Step", "block-collections")}
+								value={numberOption.step}
+								min={1}
+								max={Math.max(numberOption.max - numberOption.min, 1)}
+								onChange={(step) =>
+									setAttributes({
+										numberOption: { ...numberOption, step: Number(step) },
+									})
+								}
+								help={__(
+									"Change the increment/decrement step for the value.",
+									"block-collections",
+								)}
+							/>
+							{numberOption.min > numberOption.max && (
+								<Notice status="error" isDismissible={false}>
+									{__(
+										"The minimum value (min) should not be greater than the maximum value (max).",
+										"block-collections",
+									)}
+								</Notice>
+							)}
+						</PanelBody>
+					)}
 					{inputType === "zip" && (
 						<PanelRow>
 							<SelectControl
@@ -287,6 +347,7 @@ export default function Edit(props) {
 						allowReset={true} // リセットの可否
 						resetValues={padding_resetValues} // リセット時の値
 					/>
+
 					<ToggleControl
 						label={__("Is Shadow", "block-collections")}
 						checked={is_shadow}
@@ -317,6 +378,26 @@ export default function Edit(props) {
 						}}
 						isMobile={isMobile}
 						initialOpen={false}
+					/>
+					<UnitControl
+						label={
+							!isMobile
+								? __("Free Width(desk top)", "block-collections")
+								: __("Free Width(mobile)", "block-collections")
+						}
+						dragDirection="e"
+						onChange={(value) => {
+							if (!isMobile) {
+								setAttributes({
+									default_pos: { ...default_pos, free_width: value },
+								});
+							} else {
+								setAttributes({
+									mobile_pos: { ...mobile_pos, free_width: value },
+								});
+							}
+						}}
+						value={!isMobile ? default_pos.free_width : mobile_pos.free_width}
 					/>
 					<RangeControl
 						value={
@@ -496,6 +577,71 @@ export default function Edit(props) {
 								className="zip-search-button"
 							>
 								{__("Address Search", "block-collections")}
+							</button>
+						</div>
+					)}
+					{inputType === "number" && (
+						<div className="number-input-wrapper">
+							<button
+								type="button"
+								onClick={() => {
+									const min = Number(numberOption.min);
+									const max = Number(numberOption.max);
+									let newValue =
+										(parseInt(stateValue, 10) || 0) -
+										Number(numberOption.step || 1);
+									if (newValue < min) newValue = min;
+									if (newValue > max) newValue = max;
+									setInputValue(newValue);
+									setAttributes({ inputValue: newValue });
+								}}
+							>
+								-
+							</button>
+							<input
+								type="number"
+								name={inputName}
+								min={numberOption.min}
+								max={numberOption.max}
+								step={numberOption.step}
+								placeholder={
+									className?.includes("is-style-line") ? dispLabel : ""
+								}
+								className={`contact_text ${stateValue ? "" : "empty"}`}
+								value={stateValue}
+								onChange={(event) => {
+									const min = Number(numberOption.min);
+									const max = Number(numberOption.max);
+									let newValue = event.target.value;
+									// 入力値が範囲内かどうかをチェック
+									if (newValue === "") {
+										setInputValue("");
+										setAttributes({ inputValue: "" });
+										return;
+									}
+									newValue = Number(newValue);
+									if (isNaN(newValue)) return;
+									if (newValue < min) newValue = min;
+									if (newValue > max) newValue = max;
+									setInputValue(newValue);
+									setAttributes({ inputValue: newValue });
+								}}
+							/>
+							<button
+								type="button"
+								onClick={() => {
+									const min = Number(numberOption.min);
+									const max = Number(numberOption.max);
+									let newValue =
+										(parseInt(stateValue, 10) || 0) +
+										Number(numberOption.step || 1);
+									if (newValue > max) newValue = max;
+									if (newValue < min) newValue = min;
+									setInputValue(newValue);
+									setAttributes({ inputValue: newValue });
+								}}
+							>
+								+
 							</button>
 						</div>
 					)}
