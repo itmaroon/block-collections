@@ -1,10 +1,36 @@
 import styled, { css } from "styled-components";
 import { radius_prm, space_prm, convertToScss } from "itmar-block-packages";
 
-export const StyleComp = ({ attributes, children }) => {
+export const StyleComp = ({ attributes, children, onBurstEnd }) => {
 	return (
 		<StyledDiv id={attributes.headingID} attributes={attributes}>
 			{children}
+			{attributes.is_waiting && (
+				<>
+					<div className={`spinner ${attributes.waiting_state}`}></div>
+					<div
+						className={`particles ${attributes.waiting_state}`}
+						onAnimationEnd={(e) => {
+							// 「done」状態で、particles コンテナの burst 終了を拾う
+							if (
+								attributes.waiting_state === "done" &&
+								e.currentTarget === e.target // 子<i>ではなくコンテナ自身
+							) {
+								onBurstEnd && onBurstEnd();
+							}
+						}}
+					>
+						<i />
+						<i />
+						<i />
+						<i />
+						<i />
+						<i />
+						<i />
+						<i />
+					</div>
+				</>
+			)}
 		</StyledDiv>
 	);
 };
@@ -22,6 +48,7 @@ const StyledDiv = styled.div`
 			shadow_result,
 			is_shadow,
 			is_underLine,
+			is_waiting,
 			is_wrap,
 			underLine_prop,
 			linkKind,
@@ -104,6 +131,88 @@ const StyledDiv = styled.div`
 			}
       `
 			: null;
+
+		//処理中のアニメーション
+		const pendding_anime = is_waiting
+			? `
+	.spinner{
+		position:absolute;
+		inset:0;
+		border:3px solid #e0e0e0;
+		border-top-color:currentColor;
+		border-radius:50%;
+		animation:spin 1s linear infinite;
+		&.hold{
+			display: none;
+		}
+		&.exec{
+			display: block;
+		}
+		&.done{
+			animation: explode 1s ease-out forwards;
+			border-color:transparent;
+		} 
+	}
+
+	.particles {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+
+		i {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 8px;
+			height: 8px;
+			background: currentColor;
+			border-radius: 50%;
+			transform: translate(-50%, -50%) scale(0);
+			opacity: 0;
+		}
+		&.hold{
+			display: none;
+		}
+		&.exec{
+			display: block;
+		}
+		&.done {
+			i {
+				animation: pop 1s ease-out forwards;
+			}
+  			animation: burst 1s ease-out 1 forwards;
+		}
+		i:nth-child(1) { --dx:  0;  --dy: -12; }
+		i:nth-child(2) { --dx: 10;  --dy:  -6; }
+		i:nth-child(3) { --dx: 12;  --dy:   0; }
+		i:nth-child(4) { --dx: 10;  --dy:   6; }
+		i:nth-child(5) { --dx:  0;  --dy:  12; }
+		i:nth-child(6) { --dx:-10;  --dy:   6; }
+		i:nth-child(7) { --dx:-12;  --dy:   0; }
+		i:nth-child(8) { --dx:-10;  --dy:  -6; }
+	}
+		/* KEYFRAMES */
+		@keyframes spin{to{transform:rotate(360deg)}}
+		@keyframes explode {
+			0%{transform:scale(1);opacity:1}
+			60%{transform:scale(1.4);opacity:.7}
+			100%{transform:scale(0);opacity:0}
+		}
+		@keyframes pop{
+			0%{transform:translate(-50%,-50%) scale(0);opacity:0}
+			10%{transform:translate(-50%,-50%) scale(1);opacity:1}
+			100%{
+				transform:translate(calc(-50% + var(--dx)*5px), calc(-50% + var(--dy)*5px)) scale(.2);
+				opacity:0
+			}
+		}
+		@keyframes burst {
+		from { opacity: 1; }
+		to   { opacity: 1; } 
+		}
+      `
+			: null;
+
 		//paddingの調整（サブメニューの印分の幅）
 		const render_padding =
 			linkKind === "submenu"
@@ -146,6 +255,7 @@ const StyledDiv = styled.div`
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
 			position: relative;
+			${pendding_anime}
 			z-index: 10;
 			font-size: ${defaultHeadingSize};
 			${box_shadow_style};

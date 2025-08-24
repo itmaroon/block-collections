@@ -176,7 +176,7 @@ jQuery(function ($) {
 		$("#itmar_logon_btn").on("click", function () {
 			if (isLogin) {
 				//ShopIDを持ったec-relate-bloksがある場合のログアウト処理
-				const headlessShopId = $(".wp-block-itmar-ec-relate-bloks").data(
+				const headlessShopId = $(".wp-block-itmar-product-block").data(
 					"shop_id",
 				);
 				const redirectUri = localStorage.getItem("shopify_redirect_uri");
@@ -198,6 +198,7 @@ jQuery(function ($) {
 						"post_logout_redirect_uri",
 						`${redirectUri}?shopify_logout_completed=1`,
 					);
+
 					window.location.href = url.toString();
 				} else {
 					//それ以外のログアウト処理
@@ -221,10 +222,9 @@ jQuery(function ($) {
 					//リダイレクト情報
 					const redirectUrl = window.location.href;
 					//その他付加情報
-					const ec_block = $(".wp-block-itmar-ec-relate-bloks");
+					const ec_block = $(".wp-block-itmar-product-block");
 					let shop_id = "";
 					let headless_id = "";
-
 					if (ec_block.length > 0) {
 						shop_id = ec_block.data("shop_id") || "";
 						headless_id = ec_block.data("headless_id") || "";
@@ -358,33 +358,48 @@ jQuery(function ($) {
 		$img.attr("src", isPasswordVisible ? hideIcon : visibleIcon);
 	});
 	//ナンバーの操作
-	$(".number-input-wrapper").each(function () {
-		var $wrapper = $(this);
-		var $input = $wrapper.find('input[type="number"]');
-		var min = Number($input.attr("min"));
-		var max = Number($input.attr("max"));
-		var step = Number($input.attr("step")) || 1;
 
-		// マイナスボタン
-		$wrapper.find(".number-stepper-minus").on("click", function () {
-			var current = Number($input.val()) || 0;
-			var next = current - step;
-			if (typeof min === "number" && !isNaN(min)) {
-				next = Math.max(next, min);
-			}
-			$input.val(next).trigger("change");
-		});
+	$(document).on(
+		"click",
+		".number-input-wrapper .number-stepper-minus",
+		function () {
+			const $wrapper = $(this).closest(".number-input-wrapper");
+			const $input = $wrapper.find('input[type="number"]').first();
+			if (!$input.length) return;
 
-		// プラスボタン
-		$wrapper.find(".number-stepper-plus").on("click", function () {
-			var current = Number($input.val()) || 0;
-			var next = current + step;
-			if (typeof max === "number" && !isNaN(max)) {
-				next = Math.min(next, max);
-			}
-			$input.val(next).trigger("change");
-		});
-	});
+			const min = Number($input.attr("min"));
+			const step = Number($input.attr("step")) || 1;
+
+			let current = Number($input.val());
+			if (isNaN(current)) current = 0;
+
+			let next = current - step;
+			if (!isNaN(min)) next = Math.max(next, min);
+
+			$input.val(next).trigger("input").trigger("change");
+		},
+	);
+
+	$(document).on(
+		"click",
+		".number-input-wrapper .number-stepper-plus",
+		function () {
+			const $wrapper = $(this).closest(".number-input-wrapper");
+			const $input = $wrapper.find('input[type="number"]').first();
+			if (!$input.length) return;
+
+			const max = Number($input.attr("max"));
+			const step = Number($input.attr("step")) || 1;
+
+			let current = Number($input.val());
+			if (isNaN(current)) current = 0;
+
+			let next = current + step;
+			if (!isNaN(max)) next = Math.min(next, max);
+
+			$input.val(next).trigger("input").trigger("change");
+		},
+	);
 	//住所の郵便番号検索
 	$(".zip-search-button").on("click", async function () {
 		const $button = $(this);
@@ -435,6 +450,7 @@ jQuery(function ($) {
 				window.location.href = redirectUrl;
 			}
 		} else if ($(this).data("open_blank") === "form_close") {
+			//modal closeボタンの処理
 			$(this).closest("form").parent().parent().hide();
 		}
 	});

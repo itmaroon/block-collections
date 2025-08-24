@@ -124,7 +124,7 @@ OR…
 - When the DOM type of Design Group is form, it is now possible to set an ID for the form.
 - Added a new mode for numeric input to Design Text Control. Also, the width of the input element can now be set.
 - Change the submit type DOM element of Design Button from input element to button element.
-  
+- Added the ability to set animation effects to the Design Title to indicate processing is in progress.  
   
 = 1.6.0 =
 - Added functions for entering passwords and postal codes to Design Text Control.

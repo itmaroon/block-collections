@@ -18,6 +18,8 @@ import {
 import { StyleComp } from "./StyleWapper";
 import apiFetch from "@wordpress/api-fetch";
 import { useStyleIframe } from "../iframeFooks";
+import { ReactComponent as Play } from "../../../assets/img/circle-play.svg";
+import { ReactComponent as Stop } from "../../../assets/img/circle-stop.svg";
 
 import {
 	Button,
@@ -30,6 +32,9 @@ import {
 	DateTimePicker,
 	TextControl,
 	ToolbarDropdownMenu,
+	ToolbarGroup,
+	ToolbarButton,
+	Icon,
 	SelectControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalUnitControl as UnitControl,
@@ -113,6 +118,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		is_shadow,
 		is_underLine,
 		is_wrap,
+		is_waiting,
+		waiting_state,
 		underLine_prop,
 		bgColor_underLine,
 		bgGradient_underLine,
@@ -554,6 +561,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const [url_editing, setUrlValue] = useState(selectedPageUrl);
 	//日付入力用のダイアログ表示用フラグ
 	const [isDateModal, setIsDateModal] = useState(false);
+
+	const handleBurstEnd = () => {
+		// パーティクル完了で完全停止
+		setAttributes({ waiting_state: "hold" });
+	};
 
 	return (
 		<>
@@ -1333,28 +1345,45 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							{(optionStyle && optionStyle.isIcon
 								? optionStyle.isIcon
 								: false) && (
-								<IconSelectControl
-									iconStyle={
-										optionStyle && optionStyle.icon_style
-											? optionStyle.icon_style
-											: {
-													icon_type: "awesome",
-													icon_url: "",
-													icon_name: "f030",
-													icon_pos: "left",
-													icon_size: "24px",
-													icon_color: "var(--wp--preset--color--content)",
-													icon_space: "5px",
-											  }
-									}
-									setPosition={true}
-									onChange={(newValue) => {
-										setLocalOptionStyle((prev) => ({
-											...prev,
-											icon_style: newValue,
-										}));
-									}}
-								/>
+								<>
+									<IconSelectControl
+										iconStyle={
+											optionStyle && optionStyle.icon_style
+												? optionStyle.icon_style
+												: {
+														icon_type: "awesome",
+														icon_url: "",
+														icon_name: "f030",
+														icon_pos: "left",
+														icon_size: "24px",
+														icon_color: "var(--wp--preset--color--content)",
+														icon_space: "5px",
+												  }
+										}
+										setPosition={true}
+										onChange={(newValue) => {
+											setLocalOptionStyle((prev) => ({
+												...prev,
+												icon_style: newValue,
+											}));
+										}}
+									/>
+									<PanelBody
+										title={__(
+											"Pending animations settings",
+											"block-collections",
+										)}
+										initialOpen={true}
+									>
+										<ToggleControl
+											label={__("Pending animations", "block-collections")}
+											checked={is_waiting}
+											onChange={(newVal) => {
+												setAttributes({ is_waiting: newVal });
+											}}
+										/>
+									</PanelBody>
+								</>
 							)}
 						</PanelBody>
 					</PanelBody>
@@ -1378,6 +1407,29 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						onClick: () => setAttributes({ headingType: `H${level}` }),
 					}))}
 				/>
+				{is_waiting && (
+					<ToolbarGroup>
+						<ToolbarButton
+							icon={
+								<Icon
+									icon={waiting_state === "hold" ? <Play /> : <Stop />}
+									size={24}
+								/>
+							}
+							label={
+								waiting_state === "hold"
+									? __("Run", "opening-block")
+									: __("Stop", "opening-block")
+							}
+							showTooltip
+							isPressed={waiting_state === "exec"} // 押下状態の視覚反映（任意）
+							onClick={() => {
+								const next = waiting_state === "hold" ? "exec" : "done";
+								setAttributes({ waiting_state: next });
+							}}
+						/>
+					</ToolbarGroup>
+				)}
 			</BlockControls>
 
 			{isCangeModalOpen && (
@@ -1401,7 +1453,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			)}
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				<StyleComp attributes={attributes} onBurstEnd={handleBurstEnd}>
+					{renderContent()}
+				</StyleComp>
 				{linkKind === "submenu" && <div {...subMenuBlocksProps}></div>}
 				{isDateModal && (
 					<Modal

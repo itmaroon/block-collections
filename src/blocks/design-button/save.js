@@ -27,7 +27,7 @@ export default function save({ attributes }) {
 	const align_style = align_prm(outer_align, true);
 
 	const blockProps = useBlockProps.save({
-		style: { ...align_style, backgroundColor: bgColor },
+		style: { backgroundColor: bgColor },
 	});
 
 	const sheet = new ServerStyleSheet();
@@ -72,7 +72,10 @@ export default function save({ attributes }) {
 
 	return (
 		<>
-			<div dangerouslySetInnerHTML={{ __html: html }} />
+			<div
+				dangerouslySetInnerHTML={{ __html: html }}
+				style={{ ...align_style }}
+			/>
 			<div dangerouslySetInnerHTML={{ __html: styleTags }} />
 		</>
 	);

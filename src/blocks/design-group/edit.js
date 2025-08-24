@@ -31,13 +31,16 @@ import {
 	TextControl,
 	Toolbar,
 	Button,
+	ToolbarGroup,
+	ToolbarButton,
+	Icon,
 	__experimentalBoxControl as BoxControl,
 } from "@wordpress/components";
 
 import { useEffect, useRef, useState } from "@wordpress/element";
 
-import { ReactComponent as toFront } from "../../../assets/img/turn-up.svg";
-import { ReactComponent as toBack } from "../../../assets/img/turn-down.svg";
+import { ReactComponent as ToFront } from "../../../assets/img/turn-up.svg";
+import { ReactComponent as ToBack } from "../../../assets/img/turn-down.svg";
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -830,22 +833,24 @@ export default function Edit(props) {
 			</InspectorControls>
 			{positionType === "absolute" && (
 				<BlockControls>
-					<Toolbar>
-						<Button
+					<ToolbarGroup>
+						<ToolbarButton
+							icon={
+								<Icon icon={isAppear ? <ToBack /> : <ToFront />} size={24} />
+							}
 							//表示するラベルを切り替え
 							label={
 								isAppear
 									? __("To Back", "block-collections")
 									: __("To Front", "block-collections")
 							}
-							//表示するアイコンを切り替え
-							icon={isAppear ? toBack : toFront}
+							showTooltip
 							//setAttributes を使って属性の値を更新（真偽値を反転）
 							onClick={() => {
 								setAttributes({ isAppear: !isAppear });
 							}}
 						/>
-					</Toolbar>
+					</ToolbarGroup>
 				</BlockControls>
 			)}
 

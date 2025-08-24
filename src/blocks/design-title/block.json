@@ -166,6 +166,14 @@
 			"type": "boolean",
 			"default": true
 		},
+		"is_waiting": {
+			"type": "boolean",
+			"default": false
+		},
+		"waiting_state": {
+			"type": "string",
+			"default": "hold"
+		},
 		"underLine_prop": {
 			"type": "object",
 			"default": {

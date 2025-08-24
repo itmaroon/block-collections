@@ -136,13 +136,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		const filteredBlocks = inputInnerBlocks.filter(
 			(block) =>
 				block.name !== "itmar/design-checkbox" &&
-				block.name !== "itmar/design-button"
+				block.name !== "itmar/design-button",
 		);
 		return filteredBlocks.map((input_elm) => {
 			//design-selectで選択された要素を抽出
 			const sel_content = input_elm.attributes.selectValues
 				? input_elm.attributes.selectValues.filter((obj) =>
-						input_elm.attributes.selectedValues.includes(obj.id)
+						input_elm.attributes.selectedValues.includes(obj.id),
 				  )
 				: undefined;
 			//選択された要素をカンマ区切りの文字列にして、input要素と選択
@@ -170,7 +170,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		const topBlockId = getTopLevelClientId(select, clientId);
 		const topBlock = select("core/block-editor").getBlock(topBlockId);
 		const targetBlocks = getFlattenedBlocks(topBlock).filter(
-			(block) => block.name === "itmar/input-figure-block"
+			(block) => block.name === "itmar/input-figure-block",
 		);
 
 		//選択用のコンボボックスのオプションを生成
@@ -197,12 +197,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			const topBlockId = getTopLevelClientId(select, clientId);
 			const topBlock = select("core/block-editor").getBlock(topBlockId);
 			const targetBlocks = getFlattenedBlocks(topBlock).find(
-				(block) => block.attributes.form_name === dataSource
+				(block) => block.attributes.form_name === dataSource,
 			);
 
 			return targetBlocks;
 		},
-		[dataSource]
+		[dataSource],
 	);
 
 	//inputFigureBlockの変化に合わせてテーブルソースを更新
@@ -227,12 +227,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 				//最低幅の確保
 				const newvalue = Math.round(
-					((moveX - rect.left) / (rect.right - rect.left)) * 100
+					((moveX - rect.left) / (rect.right - rect.left)) * 100,
 				);
 				if (newvalue < 15) return; //幅１５％以下にはしない
 				const distanceX = startX - moveX; //移動幅
 				const newlastCellvalue = Math.round(
-					((lastCellWidth + distanceX) / (rect.right - rect.left)) * 100
+					((lastCellWidth + distanceX) / (rect.right - rect.left)) * 100,
 				);
 				if (newlastCellvalue < 15) return; //最終セルも幅１５％以下にはしない
 
@@ -268,7 +268,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				document.addEventListener("mouseup", handleMouseUp);
 			}
 		},
-		[columWidth]
+		[columWidth],
 	);
 
 	//クリックされたセルの取得
@@ -315,12 +315,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
-
 	function renderContent() {
 		//レンダリングするテーブル
 		return (
 			<>
-				{tableSource && (
+				{tableSource && tableSource.length > 0 && (
 					<table>
 						{is_heading && (
 							<thead>
@@ -406,7 +405,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						value={dataSource}
 						help={__(
 							"Please specify the form object that will be the data source for the table.",
-							"block-collections"
+							"block-collections",
 						)}
 						options={dataSources}
 						onChange={(newValue) => {
@@ -419,7 +418,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						onChange={(newValue) => setAttributes({ is_heading: newValue })}
 						help={__(
 							"Turn this on if you want to add a table header.",
-							"block-collections"
+							"block-collections",
 						)}
 					/>
 				</PanelBody>
