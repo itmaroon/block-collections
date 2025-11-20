@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      6.8
-Stable tag:        1.7.0
+Stable tag:        1.7.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,10 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 1.7.1 =
+- I set a click event on the Design Button and inverted the isClick attribute.
+- Fixed an error that occurred when additional class names were deleted in Design Title.
+
 = 1.7.0 =
 - Flex-grow, flex-shrink, and flex-basis can now be set for items treated as flex items in the Design Group. In addition, by setting min-width: 0;, items will shrink regardless of the size of their child elements when they are set.
 - In Design Group, className can now be explicitly saved as an attribute value.

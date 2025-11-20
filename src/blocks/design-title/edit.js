@@ -320,7 +320,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		//refの更新
 		prevClassRef.current = className;
 		//確認待ちフラグをオフ
-		const removeClass = className.replace(/\bauto_attr_change\b/, "").trim();
+		const removeClass = className
+			? className.replace(/\bauto_attr_change\b/, "").trim()
+			: "";
 
 		setAttributes({
 			isIdle: false,

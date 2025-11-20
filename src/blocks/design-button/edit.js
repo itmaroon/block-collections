@@ -79,6 +79,7 @@ export default function Edit(props) {
 		selectedSlug,
 		selectedPageUrl,
 		isBlank,
+		isClick,
 		bgColor,
 		align,
 		outer_align,
@@ -140,7 +141,14 @@ export default function Edit(props) {
 	function renderContent() {
 		// ボタンの中身を変数に格納
 		const buttonContent = (
-			<button type={buttonType} disabled={disabled} data-key={buttonKey}>
+			<button
+				type={buttonType}
+				disabled={disabled}
+				data-key={buttonKey}
+				onClick={() => {
+					setAttributes({ isClick: !isClick });
+				}}
+			>
 				{displayType === "string" && (
 					<RichText
 						onChange={(newContent) => {
