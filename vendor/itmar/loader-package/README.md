@@ -8,6 +8,42 @@ WordPress 環境下でも **クラス競合なく安全にオートロードと�
 
 ---
 
+## 🎯 変更履歴
+= 1.2.1 = 
+二重読みこみ防止のための
+define(__NAMESPACE__ . '\_ITMAR_SAFE_AUTOLOADER_LOADED', true);
+を
+define('ITMAR_SAFE_AUTOLOADER_LOADED', true);
+に修正
+ 
+### 問題の概要
+
+- これまでのローダーは **`vendor/composer/autoload_psr4.php`（PSR-4）** と **`autoload_classmap.php`（classmap）** のみを参照。
+- Composer にはクラス以外（関数 / polyfill 初期化 等）をロードする仕組みとして **`vendor/composer/autoload_files.php`（files オートロード）** がある。
+- 例：AWS SDK は `Aws\\manifest()` を **`src/functions.php`** に定義し、`autoload_files.php` 経由で読み込ませる前提。  
+  PSR-4/classmap だけではこのファイルが読み込まれず、**`Call to undefined function Aws\\manifest()`** が発生。
+
+#### 代表的なエラーログ
+```
+PHP Fatal error: Uncaught Error: Call to undefined function Aws\manifest()
+```
+
+---
+
+### 修正ポイント
+
+1. **`autoload_files.php` に列挙されたファイルを `require_once`** で読み込む処理を追加  
+   - これにより、関数定義や polyfill 等、**クラス以外の初期化コードも確実に実行**される。
+2. （任意）**`autoload_classmap.php` も併用**  
+   - PSR-4 に乗らないクラスを補完でき、解決精度が上がる。
+3. **読み込み順を「files → classmap → PSR-4」** に統一  
+   - 依存コードの初期化を先に済ませ、クラス解決時の安定性を高める。
+4. **再入防止ガード**（同ファイル多重読込防止）を追加  
+   - `spl_autoload_register` の多重登録や、files の多重実行を防ぐ。
+
+
+---
+
 ## 🎯 特徴
 
 - ✅ `spl_autoload_register()` により PSR-4 クラスの自動読み込みを実現
