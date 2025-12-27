@@ -831,7 +831,7 @@ export default function Edit(props) {
 					)}
 				</PanelBody>
 			</InspectorControls>
-			{positionType === "absolute" && (
+			{(positionType === "absolute" || positionType === "fixed") && (
 				<BlockControls>
 					<ToolbarGroup>
 						<ToolbarButton

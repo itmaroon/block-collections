@@ -78,6 +78,7 @@ export default function Edit(props) {
 		linkKind,
 		selectedSlug,
 		selectedPageUrl,
+		modalClassName,
 		isBlank,
 		isClick,
 		bgColor,
@@ -237,7 +238,10 @@ export default function Edit(props) {
 											"block-collections",
 									  )
 									: linkKind === "close"
-									? __("Hides the parent form.", "block-collections")
+									? __(
+											"Hides child elements with the specified class name. If not specified, hides the parent element of the button.",
+											"block-collections",
+									  )
 									: ""
 							}
 						/>
@@ -282,7 +286,18 @@ export default function Edit(props) {
 						/>
 					)}
 
-					{linkKind !== "none" && (
+					{linkKind === "close" && (
+						<TextControl
+							label={__("Modal Child ClassName", "block-collections")}
+							labelPosition="top"
+							value={modalClassName}
+							onChange={(newValue) => {
+								setAttributes({ modalClassName: newValue });
+							}}
+						/>
+					)}
+
+					{linkKind !== "none" && linkKind !== "close" && (
 						<ToggleControl
 							label={__("Open in new tab", "block-collections")}
 							checked={isBlank}

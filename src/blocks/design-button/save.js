@@ -10,6 +10,7 @@ export default function save({ attributes }) {
 	const {
 		buttonType,
 		linkKind,
+		modalClassName,
 		displayType,
 		buttonKey,
 		outer_align,
@@ -41,6 +42,7 @@ export default function save({ attributes }) {
 			data-selected_page={
 				linkKind != "none" && linkKind != "close" ? selectedPageUrl : null
 			}
+			data-close_modal={linkKind === "close" ? modalClassName : null}
 			data-open_blank={isCloseButton ? "form_close" : isBlank}
 		>
 			{displayType === "string" && <RichText.Content value={labelContent} />}

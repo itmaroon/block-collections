@@ -25,6 +25,10 @@
       "type": "string",
       "default": ""
     },
+    "modalClassName": {
+      "type": "string",
+      "default": ""
+    },
     "isBlank": {
       "type": "boolean",
       "default": false

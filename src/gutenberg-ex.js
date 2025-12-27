@@ -686,7 +686,10 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 										const moreClassNames = moreClassName.split(" ");
 
 										//スクロール高がクライアント高より大きいこと
-										if (blockElement.scrollHeight > blockElement.clientHeight) {
+
+										if (
+											blockElement.scrollHeight >= blockElement.clientHeight
+										) {
 											//インラインSVGをセット
 											afterElement = (
 												<svg

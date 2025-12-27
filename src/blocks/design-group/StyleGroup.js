@@ -137,6 +137,10 @@ const StyledDiv = styled.div`
 			css`
 				z-index: 100;
 			`}
+			${positionType === "fixed" &&
+			css`
+				z-index: 999;
+			`}
 			${default_width_style}
 			${default_max_width_style}
       		${default_height_style}

@@ -12,58 +12,6 @@ import {
 import apiFetch from "@wordpress/api-fetch";
 
 /* ------------------------------
-Loading イメージ表示関数
-引数： msg 画面に表示する文言
------------------------------- */
-function dispLoading(msg, target) {
-	// 引数なし（メッセージなし）を許容
-	if (msg == undefined) {
-		msg = "";
-	}
-	// 画面表示メッセージ
-	let dispMsg =
-		"<div class='loadingMsg'><div class='loading_icon'></div><p>" +
-		msg +
-		"</p></div>";
-	// ローディング画像が表示されていない場合のみ出力
-	if (target == undefined) {
-		//ターゲット指定がないときはbodyにつける
-		target = jQuery("body");
-		if (target.find(".loading").length == 0) {
-			target.append("<div class='loading body'>" + dispMsg + "</div>");
-		}
-	} else {
-		if (target.find(".loading").length == 0) {
-			target.append("<div class='loading'>" + dispMsg + "</div>");
-		}
-	}
-}
-
-/* ------------------------------
-Loading イメージ削除関数
------------------------------- */
-function removeLoading(dispMsg, target) {
-	if (target == undefined) {
-		//ターゲット指定がないときはbodyにつける
-		target = jQuery("body");
-	}
-	target.find(".loading").fadeOut(300, function () {
-		jQuery(this).remove();
-		if (dispMsg != undefined && dispMsg.length > 0) {
-			// 引数ありのとき
-			jQuery("body").append("<div id='result_msg' >" + dispMsg + "</div>");
-			jQuery("#result_msg").slideDown(300, function () {
-				setTimeout(function () {
-					jQuery("#result_msg").slideUp(300, function () {
-						jQuery(this).remove();
-					});
-				}, 2000);
-			});
-		}
-	});
-}
-
-/* ------------------------------
 メッセージ表示関数
 ------------------------------ */
 function ctrlMsg(dispMsg) {
@@ -101,6 +49,148 @@ document.addEventListener("DOMContentLoaded", (event) => {
 });
 
 jQuery(function ($) {
+	/* ------------------------------
+  core/paragraphのもっと見るボタンの処理
+  ------------------------------ */
+	//DOM要素（監視対象）ごとに作った ResizeObserver を紐づけて覚えておくための入れ物
+	const roMap = new WeakMap();
+	//DOM要素が追加されたされたときに呼び出されるコールバック関数
+	function attachResizeObserverFromNode(node) {
+		const $scope = $(node);
+
+		// node自身が対象なら自身も、子孫にもいるなら子孫も拾う
+		const $targets = $scope.is("p.itmar_ex_block[data-more_style]")
+			? $scope
+			: $scope.find("p.itmar_ex_block[data-more_style]");
+
+		$targets.each(function () {
+			const el = this;
+			if (roMap.has(el)) return; // もう監視済み
+			//moreが適用されたときのcssオブジェクト
+			let moreStyle = $(this).data("more_style");
+			//もっと見るボタン
+			let $button = $(this).closest(".group_contents").find("button");
+
+			let expand_flg = false; // 初期状態は非展開
+
+			let $wrapper, $gradientOverlay;
+
+			// グラデーションオーバーレイ要素を作成する関数
+			function createGradientOverlay($target) {
+				let effectiveBackgroundColor = $target.css("background-color");
+				if (
+					effectiveBackgroundColor === "rgba(0, 0, 0, 0)" ||
+					effectiveBackgroundColor === "transparent"
+				) {
+					effectiveBackgroundColor = "white";
+				} //レンダリングされた色が透明なら白にする
+
+				let perGradient =
+					window.innerWidth >= 768
+						? moreStyle.defaultGradient
+						: moreStyle.mobileGradient || 50; // デフォルト値を50%とする
+
+				return $("<div>").css({
+					position: "absolute",
+					width: "100%",
+					height: perGradient + "%",
+					bottom: "0",
+					left: "0",
+					backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0) 0%, ${effectiveBackgroundColor} 70%)`,
+					zIndex: "3",
+				});
+			}
+
+			// スタイルを設定し、必要に応じてグラデーションオーバーレイを追加/削除する関数
+			function setStyles($target) {
+				let maxHeight =
+					window.innerWidth >= 768
+						? moreStyle.defaultMaxHeight
+						: moreStyle.mobileMaxHeight;
+
+				if (expand_flg) {
+					$target.css({ "max-height": "", overflow: "visible" });
+					// ラップとグラデーションオーバーレイを解除
+					if ($wrapper) {
+						$target.unwrap();
+						$wrapper = null;
+					}
+					if ($gradientOverlay) {
+						$gradientOverlay.remove();
+						$gradientOverlay = null;
+					}
+				} else {
+					//「もっと見る」のスタイルをセット
+					$target.css({ "max-height": maxHeight, overflow: "hidden" });
+					//ボタンを取得
+					const moreBtnDiv = $button.closest(".more_btn");
+
+					// scrollHeight と clientHeight を比較
+					if ($target[0].scrollHeight > $target[0].clientHeight) {
+						// pをラップ
+						if (!$wrapper) {
+							$wrapper = $(
+								'<div class="itmar_ex_block_wrapper" style="position: relative;"></div>',
+							);
+							$target.wrap($wrapper);
+						}
+						// グラデーションオーバーレイを追加
+						if (!$gradientOverlay) {
+							$gradientOverlay = createGradientOverlay($target);
+							$target.after($gradientOverlay);
+						}
+						//ボタンを表示
+						moreBtnDiv.removeClass("more_hide");
+					} else {
+						// コンテンツが切り詰められていない場合、グラデーションオーバーレイを削除
+						if ($gradientOverlay) {
+							$gradientOverlay.remove();
+							$gradientOverlay = null;
+						}
+						//ボタンを非表示
+						moreBtnDiv.addClass("more_hide");
+					}
+				}
+			}
+
+			// ボタンにクリックイベントリスナーを追加
+			$button.on("click", function () {
+				expand_flg = !expand_flg; // フラグを反転
+				const $target_p = $(this).closest(".group_contents").find("p");
+				setStyles($target_p); // スタイルを設定
+				// ボタンのテキストを変更（オプション）
+				$(this).text(
+					!expand_flg
+						? __("See more...", "block-collections")
+						: __("Collapse...", "block-collections"),
+				);
+			});
+
+			const ro = new ResizeObserver(() => setStyles($(this)));
+			ro.observe(el);
+			roMap.set(el, ro);
+
+			setStyles($(el));
+		});
+	}
+
+	//pickup-postsがあればクローンの挿入を検出して初期化
+	const container = document.querySelector(".wp-block-itmar-pickup-posts");
+	if (container) {
+		const mo = new MutationObserver((mutations) => {
+			for (const m of mutations) {
+				for (const node of m.addedNodes) {
+					if (!(node instanceof Element)) continue;
+					attachResizeObserverFromNode(node);
+				}
+			}
+		});
+
+		mo.observe(container, { childList: true, subtree: true });
+	}
+	//pickup-postsの外の要素を初期化
+	attachResizeObserverFromNode(document);
+
 	/* ------------------------------
  design-titleの処理
  ------------------------------ */
@@ -451,7 +541,12 @@ jQuery(function ($) {
 			}
 		} else if ($(this).data("open_blank") === "form_close") {
 			//modal closeボタンの処理
-			$(this).closest("form").parent().parent().hide();
+			if ($(this).data("close_modal")) {
+				const target_modal = $(this).data("close_modal");
+				$(`.${target_modal}`).children().hide();
+			} else {
+				$(this).parent().parent().hide();
+			}
 		}
 	});
 	/* ------------------------------
@@ -961,145 +1056,6 @@ jQuery(function ($) {
 			});
 	});
 
-	/* ------------------------------
-  core/paragraphのもっと見るボタンの処理
-  ------------------------------ */
-	$("p.itmar_ex_block[data-more_style]").each(function () {
-		let $p = $(this);
-		//moreが適用されたときのcssオブジェクト
-		let moreStyle = $p.data("more_style");
-		//もっと見るボタン
-		let $button = $p.next("div").find("button");
-		let expand_flg = false; // 初期状態は非展開
-		let $wrapper, $gradientOverlay;
-
-		// グラデーションオーバーレイ要素を作成する関数
-		function createGradientOverlay() {
-			let effectiveBackgroundColor = $p.css("background-color");
-			if (
-				effectiveBackgroundColor === "rgba(0, 0, 0, 0)" ||
-				effectiveBackgroundColor === "transparent"
-			) {
-				effectiveBackgroundColor = "white";
-			} //レンダリングされた色が透明なら白にする
-
-			let perGradient =
-				window.innerWidth >= 768
-					? moreStyle.defaultGradient
-					: moreStyle.mobileGradient || 50; // デフォルト値を50%とする
-
-			return $("<div>").css({
-				position: "absolute",
-				width: "100%",
-				height: perGradient + "%",
-				bottom: "0",
-				left: "0",
-				backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0) 0%, ${effectiveBackgroundColor} 70%)`,
-				zIndex: "3",
-			});
-		}
-
-		// スタイルを設定し、必要に応じてグラデーションオーバーレイを追加/削除する関数
-		function setStyles() {
-			let maxHeight =
-				window.innerWidth >= 768
-					? moreStyle.defaultMaxHeight
-					: moreStyle.mobileMaxHeight;
-
-			if (expand_flg) {
-				$p.css({ "max-height": "", overflow: "visible" });
-				// ラップとグラデーションオーバーレイを解除
-				if ($wrapper) {
-					$p.unwrap();
-					$wrapper = null;
-				}
-				if ($gradientOverlay) {
-					$gradientOverlay.remove();
-					$gradientOverlay = null;
-				}
-			} else {
-				//もっと見るボタンのスタイルをセット
-				$p.css({ "max-height": maxHeight, overflow: "hidden" });
-				//ボタンを取得
-				const moreBtnDiv = $button.parent(".more_btn");
-
-				// scrollHeight と clientHeight を比較
-				if ($p[0].scrollHeight > $p[0].clientHeight) {
-					// pをラップ
-					if (!$wrapper) {
-						$wrapper = $(
-							'<div class="itmar_ex_block_wrapper" style="position: relative;"></div>',
-						);
-						$p.wrap($wrapper);
-					}
-					// グラデーションオーバーレイを追加
-					if (!$gradientOverlay) {
-						$gradientOverlay = createGradientOverlay();
-						$p.after($gradientOverlay);
-					}
-					//ボタンを表示
-					moreBtnDiv.removeClass("more_hide");
-				} else {
-					// コンテンツが切り詰められていない場合、グラデーションオーバーレイを削除
-					if ($gradientOverlay) {
-						$gradientOverlay.remove();
-						$gradientOverlay = null;
-					}
-					//ボタンを非表示
-					moreBtnDiv.addClass("more_hide");
-				}
-			}
-		}
-		// 初期スタイルを設定
-		$p.css({
-			transition: "max-height 0.3s ease-out, overflow 0s linear 0.3s", // overflow の遷移を遅らせる
-		});
-
-		// ボタンにクリックイベントリスナーを追加
-		$button.on("click", function () {
-			expand_flg = !expand_flg; // フラグを反転
-			setStyles(); // スタイルを設定
-			// ボタンのテキストを変更（オプション）
-			$(this).text(
-				!expand_flg
-					? __("See more...", "block-collections")
-					: __("Collapse...", "block-collections"),
-			);
-		});
-
-		// MutationObserverの設定
-		const observer = new MutationObserver(function (mutations) {
-			mutations.forEach(function (mutation) {
-				if (
-					mutation.type === "childList" ||
-					mutation.type === "characterData"
-				) {
-					setStyles();
-				}
-			});
-		});
-
-		// MutationObserverの開始
-		observer.observe($p[0], {
-			childList: true,
-			characterData: true,
-			subtree: true,
-		});
-
-		// ResizeObserverの設定（ブラウザがサポートしている場合）
-		if (typeof ResizeObserver !== "undefined") {
-			const resizeObserver = new ResizeObserver(function (entries) {
-				setStyles();
-			});
-			resizeObserver.observe($p[0]);
-		}
-
-		// ウィンドウのリサイズイベントにリスナーを追加
-		$(window).on("resize", setStyles);
-
-		// 初期状態でのスタイル設定
-		setStyles();
-	});
 	/* ------------------------------
   core/imageのimage要素をラップする処理
   ------------------------------ */

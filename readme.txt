@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      6.8
-Stable tag:        1.7.1
+Stable tag:        1.7.2
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,9 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 1.7.2 =
+- Design Group now appears in the foreground when a fixed position is selected, and can be toggled on or off in the editor.
+
 = 1.7.1 =
 - I set a click event on the Design Button and inverted the isClick attribute.
 - Fixed an error that occurred when additional class names were deleted in Design Title.
