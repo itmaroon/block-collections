@@ -44,7 +44,6 @@ export default function save({ attributes }) {
 		}
 		return attributes;
 	});
-
 	const contentDom =
 		domType === "div" ? (
 			<div

@@ -542,10 +542,23 @@ jQuery(function ($) {
 		} else if ($(this).data("open_blank") === "form_close") {
 			//modal closeボタンの処理
 			if ($(this).data("close_modal")) {
+				//IDかクラス名が指定されているとき
 				const target_modal = $(this).data("close_modal");
-				$(`.${target_modal}`).children().hide();
+				//指定された要素（.wp-block-itmar-design-group）の親を非表示
+				const $target = $(this).closest(`${target_modal}`);
+				if ($target.length) {
+					$target.parent().parent().hide();
+				}
 			} else {
-				$(this).parent().parent().hide();
+				//IDかクラス名が指定されていないとき
+				const $button_group = $(this)
+					.closest(".wp-block-itmar-design-group")
+					.parent();
+				//ボタンをラップした要素（.wp-block-itmar-design-group）のさらに上の要素（.wp-block-itmar-design-group）を非表示
+				const $target = $button_group
+					.closest(".wp-block-itmar-design-group")
+					.parent();
+				$target.hide();
 			}
 		}
 	});
