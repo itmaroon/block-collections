@@ -613,6 +613,7 @@ export default function Edit(props) {
 									const min = Number(numberOption.min);
 									const max = Number(numberOption.max);
 									let newValue = event.target.value;
+
 									// 入力値が範囲内かどうかをチェック
 									if (newValue === "") {
 										setInputValue("");

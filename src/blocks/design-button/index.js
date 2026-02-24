@@ -20,7 +20,7 @@ registerBlockType(metadata.name, {
 		...metadata.attributes,
 		selectedPageUrl: {
 			type: "string",
-			default: block_collections.home_url,
+			default: itmar_option.home_url,
 		},
 	},
 	edit: Edit,

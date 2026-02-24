@@ -21,41 +21,64 @@ export default function save({ attributes }) {
 	});
 
 	const sheet = new ServerStyleSheet();
+
+	// ✅ セルHTMLを安全に注入するためのヘルパ（null/undefined対策）
+	const cellHtml = (v) => (typeof v === "string" ? v : "");
+
+	// ✅ ボディはヘッダー行を除外（ヘッダー行は thead 側で描画する設計）
+	const bodyRows =
+		Array.isArray(tableSource) && tableSource.length > 0
+			? is_heading
+				? tableSource.slice(1)
+				: tableSource
+			: [];
+
 	const html = renderToString(
 		sheet.collectStyles(
 			<div {...blockProps} data-source={dataSource}>
 				<StyleComp attributes={attributes}>
-					{tableSource.length > 0 && (
+					{Array.isArray(tableSource) && tableSource.length > 0 && (
 						<table>
-							{is_heading && (
+							{is_heading && tableSource[0]?.cells?.length > 0 && (
 								<thead>
 									<tr>
 										{tableSource[0].cells.map((cell, index) => (
 											<th
+												key={`h-${index}`}
 												style={{
-													width: columWidth[index],
+													width: columWidth?.[index],
 													textAlign: columAlignTH,
 												}}
 											>
-												<RichText.Content value={tableHeading[index]} />
+												<RichText.Content value={tableHeading?.[index]} />
 											</th>
 										))}
 									</tr>
 								</thead>
 							)}
+
 							<tbody>
-								{tableSource.map((row) => (
-									<tr>
+								{bodyRows.map((row, rowIndex) => (
+									<tr key={`r-${rowIndex}`}>
 										{row.cells.map((cell, cellIndex) => {
-											const CellTag = cell.tag;
+											// ✅ タグはホワイトリスト（th/td以外が来ても壊れない）
+											const CellTag = cell.tag === "th" ? "th" : "td";
+
+											// ✅ ここが重要：HTML文字列は children ではなく dangerouslySetInnerHTML
+											// こうしないと React がエスケープしてしまう
 											return (
 												<CellTag
+													key={`c-${rowIndex}-${cellIndex}`}
 													style={{
-														width: columWidth[cellIndex],
-														textAlign: columAlign[cellIndex],
+														width: columWidth?.[cellIndex],
+														textAlign: columAlign?.[cellIndex],
 													}}
 												>
-													{cell.content}
+													<span
+														dangerouslySetInnerHTML={{
+															__html: cellHtml(cell.content),
+														}}
+													/>
 												</CellTag>
 											);
 										})}
@@ -68,6 +91,7 @@ export default function save({ attributes }) {
 			</div>,
 		),
 	);
+
 	const styleTags = sheet.getStyleTags();
 
 	return (

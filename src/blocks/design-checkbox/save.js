@@ -43,8 +43,8 @@ export default function save({ attributes }) {
 							data-is_proceed={proceedCheck}
 						/>
 						<span className="frontSpan"></span>
-						<RichText.Content value={labelContent} />
 					</label>
+					<RichText.Content value={labelContent} />
 				</StyleComp>
 			</div>,
 		),

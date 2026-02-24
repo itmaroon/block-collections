@@ -72,7 +72,38 @@ function itmar_highlight_scripts_and_styles()
 		filemtime("$dir/code-prettify/prettify.css")
 	);
 
-	//コアブロックカスタマイズスクリプトのエンキュー
+
+	// コアブロックカスタマイズスクリプトの翻訳をセット
+	wp_set_script_translations('itmar-gutenberg-extensions-script', 'block-collections', plugin_dir_path(__FILE__) . 'languages');
+
+	//管理画面以外（フロントエンド側でのみ読み込む）
+	if (!is_admin()) {
+		//PR.prettyPrint() を実行する JavaScript ファイルの読み込み（エンキュー）
+		wp_enqueue_script(
+			'code-prettify-init',
+			plugins_url('/code-prettify/init-prettify.js', __FILE__),
+			array('code-prettify'),
+			filemtime("$dir/code-prettify/init-prettify.js"),
+			true
+		);
+
+		//jsで使えるようにhome_urlをローカライズ
+		$current_url = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		wp_localize_script('code-prettify-init', 'itmar_block_option', array(
+			'home_url' => home_url(),
+			'login_url' => wp_login_url($current_url),
+			'logout_url' => wp_logout_url(home_url()),
+			'logout_base_url' => wp_logout_url($current_url),
+			'logout_custom_url' => wp_logout_url(),
+		));
+	}
+}
+add_action('enqueue_block_assets', 'itmar_highlight_scripts_and_styles');
+
+//コアブロックの高階コンポーネントのエンキューはこのフックで行う
+add_action('enqueue_block_editor_assets', function () {
+	$dir = plugin_dir_path(__FILE__);
+
 	wp_enqueue_script(
 		'itmar-gutenberg-extensions-script',
 		plugins_url('build/gutenberg-ex.js', __FILE__),
@@ -88,44 +119,8 @@ function itmar_highlight_scripts_and_styles()
 		filemtime("$dir/build/gutenberg-ex.js"),
 		true
 	);
-	// コアブロックカスタマイズスクリプトの翻訳をセット
-	wp_set_script_translations('itmar-gutenberg-extensions-script', 'block-collections', plugin_dir_path(__FILE__) . 'languages');
+});
 
-	//管理画面以外（フロントエンド側でのみ読み込む）
-	if (!is_admin()) {
-		//PR.prettyPrint() を実行する JavaScript ファイルの読み込み（エンキュー）
-		wp_enqueue_script(
-			'code-prettify-init',
-			plugins_url('/code-prettify/init-prettify.js', __FILE__),
-			array('code-prettify'),
-			filemtime("$dir/code-prettify/init-prettify.js"),
-			true
-		);
-		//独自jsのエンキュー
-		$script_path = plugin_dir_path(__FILE__) . 'build/block_collection.js';
-		wp_enqueue_script(
-			'itmar_block_collection_js',
-			plugins_url('build/block_collection.js', __FILE__),
-			array('jquery', 'wp-i18n'),
-			filemtime($script_path),
-			true
-		);
-		//jsで使えるようにhome_urlをローカライズ
-		$current_url = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		wp_localize_script('itmar_block_collection_js', 'itmar_block_option', array(
-			'home_url' => home_url(),
-			'login_url' => wp_login_url($current_url),
-			'logout_url' => wp_logout_url(home_url()),
-			'logout_base_url' => wp_logout_url($current_url),
-			'logout_custom_url' => wp_logout_url(),
-		));
-
-
-		// スクリプトの翻訳をセット
-		wp_set_script_translations('itmar_block_collection_js', 'block-collections', plugin_dir_path(__FILE__) . 'languages');
-	}
-}
-add_action('enqueue_block_assets', 'itmar_highlight_scripts_and_styles');
 
 //Googleフォント,FontAwesomeの読み込み
 function itmar_block_collections_font_init()

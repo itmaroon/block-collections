@@ -239,7 +239,7 @@ export default function Edit(props) {
 									  )
 									: linkKind === "close"
 									? __(
-											"Hides child elements with the specified class name. If not specified, hides the parent element of the button.",
+											"Hides child elements with the specified ID or class name. If not specified, hides the parent element of the button.",
 											"block-collections",
 									  )
 									: ""
@@ -251,7 +251,7 @@ export default function Edit(props) {
 						<PageSelectControl
 							selectedSlug={selectedSlug}
 							label={__("Select a fixed page to link to", "block-collections")}
-							homeUrl={block_collections.home_url}
+							homeUrl={itmar_option.home_url}
 							onChange={(pageInfo) => {
 								if (pageInfo) {
 									setAttributes({
@@ -266,7 +266,7 @@ export default function Edit(props) {
 						<ArchiveSelectControl
 							selectedSlug={selectedSlug}
 							label={__("Select archive page to link to", "block-collections")}
-							homeUrl={block_collections.home_url}
+							homeUrl={itmar_option.home_url}
 							onChange={(postInfo) => {
 								setAttributes({
 									selectedSlug: postInfo.slug,
@@ -288,7 +288,7 @@ export default function Edit(props) {
 
 					{linkKind === "close" && (
 						<TextControl
-							label={__("Modal Child ClassName", "block-collections")}
+							label={__("Modal Child ID or ClassName", "block-collections")}
 							labelPosition="top"
 							value={modalClassName}
 							onChange={(newValue) => {

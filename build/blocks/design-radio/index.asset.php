@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('react', 'react-jsx-runtime', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-element', 'wp-i18n', 'wp-primitives'), 'version' => '18431dae503e2f1639eb');
+<?php return array('dependencies' => array('react', 'react-dom', 'react-jsx-runtime', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-data', 'wp-element', 'wp-i18n', 'wp-primitives'), 'version' => 'fe57d4206fc252eddfae');

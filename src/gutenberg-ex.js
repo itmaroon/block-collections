@@ -237,6 +237,7 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 				} = props.attributes;
 
 				const setAttributes = props.setAttributes;
+
 				return (
 					<>
 						<BlockEdit {...props} />
@@ -291,6 +292,68 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 								</PanelBody>
 							</InspectorControls>
 						)}
+						{props.name === "core/paragraph" && (
+							<InspectorControls group="settings">
+								<PanelBody title={__("See More", "block-collections")}>
+									<ToggleControl
+										label={__("Is See More Setting", "block-collections")}
+										checked={isMore}
+										onChange={(newValue) => {
+											setAttributes({ isMore: newValue });
+										}}
+									/>
+									{isMore && (
+										<>
+											<UnitControl
+												dragDirection="e"
+												onChange={(value) => {
+													setHeightVal(value);
+												}}
+												// コントロールからフォーカスが離れたとき属性に記録
+												onBlur={() => {
+													setAttributes(
+														!isMobile
+															? { defaultMaxHeight: heightVal }
+															: { mobileMaxHeight: heightVal },
+													);
+												}}
+												label={
+													!isMobile
+														? __("Max Height(desk top)", "block-collections")
+														: __("Max Height(mobile)", "block-collections")
+												}
+												value={!isMobile ? defaultMaxHeight : mobileMaxHeight}
+											/>
+											<RangeControl
+												value={!isMobile ? defaultGradient : mobileGradient}
+												label={
+													!isMobile
+														? __(
+																"Ratio of gradation(desk top)",
+																"block-collections",
+														  )
+														: __(
+																"Ratio of gradation(mobile)",
+																"block-collections",
+														  )
+												}
+												max={50}
+												min={10}
+												step={1}
+												onChange={(val) =>
+													setAttributes(
+														!isMobile
+															? { defaultGradient: val }
+															: { mobileGradient: val },
+													)
+												}
+												withInputField={false}
+											/>
+										</>
+									)}
+								</PanelBody>
+							</InspectorControls>
+						)}
 						<InspectorControls group="styles">
 							<PanelBody
 								title={__("Dimension", "block-collections")}
@@ -334,68 +397,6 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit) => {
 											onChange={(val) => setAttributes({ lineHeight: val })}
 											withInputField={true}
 										/>
-									</PanelBody>
-								</>
-							)}
-							{props.name === "core/paragraph" && (
-								<>
-									<PanelBody title={__("See More", "block-collections")}>
-										<ToggleControl
-											label={__("Is See More Setting", "block-collections")}
-											checked={isMore}
-											onChange={(newValue) => {
-												setAttributes({ isMore: newValue });
-											}}
-										/>
-										{isMore && (
-											<>
-												<UnitControl
-													dragDirection="e"
-													onChange={(value) => {
-														setHeightVal(value);
-													}}
-													// コントロールからフォーカスが離れたとき属性に記録
-													onBlur={() => {
-														setAttributes(
-															!isMobile
-																? { defaultMaxHeight: heightVal }
-																: { mobileMaxHeight: heightVal },
-														);
-													}}
-													label={
-														!isMobile
-															? __("Max Height(desk top)", "block-collections")
-															: __("Max Height(mobile)", "block-collections")
-													}
-													value={!isMobile ? defaultMaxHeight : mobileMaxHeight}
-												/>
-												<RangeControl
-													value={!isMobile ? defaultGradient : mobileGradient}
-													label={
-														!isMobile
-															? __(
-																	"Ratio of gradation(desk top)",
-																	"block-collections",
-															  )
-															: __(
-																	"Ratio of gradation(mobile)",
-																	"block-collections",
-															  )
-													}
-													max={50}
-													min={10}
-													step={1}
-													onChange={(val) =>
-														setAttributes(
-															!isMobile
-																? { defaultGradient: val }
-																: { mobileGradient: val },
-														)
-													}
-													withInputField={false}
-												/>
-											</>
-										)}
 									</PanelBody>
 								</>
 							)}

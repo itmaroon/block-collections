@@ -58,10 +58,12 @@ const units = [
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
+		is_data_form,
 		dataSource,
 		tableSource,
 		is_heading,
 		tableHeading,
+		tableLayout,
 		bgColor,
 		font_style_th,
 		font_style_td,
@@ -127,7 +129,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	};
 
 	// セル要素を生成する関数
-	const cellObjects = (inputFigureBlock) => {
+	const cellObjectsForm = (inputFigureBlock) => {
 		//その中のインナーブロック
 		const inputInnerBlocks = inputFigureBlock
 			? inputFigureBlock.innerBlocks
@@ -207,8 +209,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//inputFigureBlockの変化に合わせてテーブルソースを更新
 	useEffect(() => {
-		const bodySource = inputFigureBlock ? cellObjects(inputFigureBlock) : null;
-		setAttributes({ tableSource: bodySource });
+		if (is_data_form) {
+			const bodySource = inputFigureBlock
+				? cellObjectsForm(inputFigureBlock)
+				: null;
+			setAttributes({ tableSource: bodySource });
+		}
 	}, [inputFigureBlock]);
 
 	//マウスドラッグの処理（カラム幅の変更）
@@ -315,12 +321,19 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
+	const CellHtml = ({ html }) => (
+		<span
+			className="cell-html"
+			dangerouslySetInnerHTML={{ __html: html || "" }}
+		/>
+	);
+
 	function renderContent() {
 		//レンダリングするテーブル
 		return (
 			<>
 				{tableSource && tableSource.length > 0 && (
-					<table>
+					<table style={{ tableLayout: tableLayout || "auto" }}>
 						{is_heading && (
 							<thead>
 								<tr>
@@ -355,37 +368,37 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								</tr>
 							</thead>
 						)}
-						<tbody>
-							{tableSource.map((row, rowIndex) => (
-								<tr key={rowIndex}>
-									{row.cells.map((cell, cellIndex) => {
-										const CellTag = cell.tag;
-										return (
-											<CellTag
-												key={cellIndex}
-												style={{
-													position: "relative",
-													backgroundClip: "padding-box",
-													width: columWidth[cellIndex],
-													textAlign: columAlign[cellIndex],
-												}}
-												onClick={() =>
-													bodyCellClick(cell.tag, rowIndex, cellIndex)
-												}
-											>
-												{cell.content}
-												{cellIndex !== row.cells.length - 1 && (
-													<div
-														className="resize-handle"
-														onMouseDown={handleMouseDown(cellIndex)}
-													/>
-												)}
-											</CellTag>
-										);
-									})}
-								</tr>
-							))}
-						</tbody>
+
+						{tableSource.map((row, rowIndex) => (
+							<tr key={rowIndex}>
+								{row.cells.map((cell, cellIndex) => {
+									const CellTag = cell.tag;
+
+									return (
+										<CellTag
+											key={cellIndex}
+											style={{
+												position: "relative",
+												backgroundClip: "padding-box",
+												width: columWidth[cellIndex],
+												textAlign: columAlign[cellIndex],
+											}}
+											onClick={() =>
+												bodyCellClick(cell.tag, rowIndex, cellIndex)
+											}
+										>
+											<CellHtml html={cell.content} />
+											{cellIndex !== row.cells.length - 1 && (
+												<div
+													className="resize-handle"
+													onMouseDown={handleMouseDown(cellIndex)}
+												/>
+											)}
+										</CellTag>
+									);
+								})}
+							</tr>
+						))}
 					</table>
 				)}
 			</>
@@ -400,18 +413,26 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					initialOpen={true}
 					className="form_setteing_ctrl"
 				>
-					<ComboboxControl
-						label={__("Form Object name", "block-collections")}
-						value={dataSource}
-						help={__(
-							"Please specify the form object that will be the data source for the table.",
-							"block-collections",
-						)}
-						options={dataSources}
-						onChange={(newValue) => {
-							setAttributes({ dataSource: newValue });
-						}}
+					<ToggleControl
+						label={__("Table Data form Form", "block-collections")}
+						checked={is_data_form}
+						onChange={(newValue) => setAttributes({ is_data_form: newValue })}
 					/>
+					{is_data_form && (
+						<ComboboxControl
+							label={__("Form Object name", "block-collections")}
+							value={dataSource}
+							help={__(
+								"Please specify the form object that will be the data source for the table.",
+								"block-collections",
+							)}
+							options={dataSources}
+							onChange={(newValue) => {
+								setAttributes({ dataSource: newValue });
+							}}
+						/>
+					)}
+
 					<ToggleControl
 						label={__("table header", "block-collections")}
 						checked={is_heading}
