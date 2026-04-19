@@ -37,6 +37,10 @@
 			"type": "boolean",
 			"default":false
 		},
+		"isEditing": {
+			"type": "boolean",
+			"default":false
+		},
 		
 		"buttonKey": {
 			"type": "string"

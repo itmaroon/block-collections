@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      6.8
-Stable tag:        1.7.2
+Stable tag:        1.7.3
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,13 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 1.7.3 =
+- Fixed an issue in the block editor where clicking the Design Button would not transfer focus to the block.
+- In the Design Table, when the parent block contains an itmar/reservation-block, clicking on a cell will no longer move the focus.
+- Added a text editing mode switching function to Design Button.
+- Changed the process progress management method for the Art Process.
+- Added a feature to the Design Text Control that allows linking a label element to an input element using a for loop.
+
 = 1.7.2 =
 - Design Group now appears in the foreground when a fixed position is selected, and can be toggled on or off in the editor.
 

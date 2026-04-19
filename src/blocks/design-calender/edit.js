@@ -13,7 +13,7 @@ import {
 	TypographyControls,
 	generateDateArray,
 	generateMonthCalendar,
-	JapaneseHolidays,
+	//JapaneseHolidays,
 	PeriodCtrl,
 	flattenBlocks,
 } from "itmar-block-packages";
@@ -23,8 +23,8 @@ import {
 	TextControl,
 	ToggleControl,
 	RadioControl,
-	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
+	BoxControl,
+	BorderBoxControl,
 } from "@wordpress/components";
 import {
 	useBlockProps,
@@ -90,12 +90,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		inputName,
 		isReleaseButton,
+		isDateArea,
 		bgColor,
 		selectedValue,
 		dateValues,
 		weekTop,
 		isHoliday,
-		calenderApiKey,
+		calendarApiMask,
 		dateSpan,
 		selectedMonth,
 		default_pos,
@@ -442,10 +443,48 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	}, [selectMonthBlock]);
 
 	//CalenderAPIキーの一時保存
-	const [calenderApiVal, setCalenderApiVal] = useState(calenderApiKey);
+	const [calendar_key_editing, setCalendarApiVal] = useState(calendarApiMask);
+	//wp_optionに保存するための変数
+	const [calendarKey, setCalendarKey] = useState("");
+	//キーがあればサーバーに格納
+	useEffect(() => {
+		// 内部で async 関数を定義
+		const saveKey = async () => {
+			if (calendarKey) {
+				try {
+					const key_obj = {
+						calendar_api_key: calendarKey,
+					};
+					const res = await fetch(
+						"/wp-json/itmar/v1/save-calendar-key", // 'kay' は PHP 側の登録名と一致していますか？
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+								"X-WP-Nonce": itmar_option.nonce,
+							},
+							credentials: "include",
+							body: JSON.stringify(key_obj),
+						},
+					);
+
+					if (!res.ok) {
+						const errorData = await res.json();
+						console.error("保存失敗:", errorData.message);
+					} else {
+						const result = await res.json();
+						console.log("保存成功:", result);
+					}
+				} catch (err) {
+					console.error("ネットワークエラーなど:", err);
+				}
+			}
+		};
+
+		saveKey(); // 実行
+	}, [calendarKey]);
 
 	//前後ボタンによる表示月の更新
-
 	useEffect(() => {
 		if (prevButtonBlock && nextButtonBlock && selectMonthBlock) {
 			const selectMonthAttr = selectMonthBlock.attributes;
@@ -566,37 +605,28 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	//選択された月の変更による書き換え
 	useEffect(() => {
 		if (selectedMonth) {
-			if (isHoliday && calenderApiKey) {
-				//祝日フラグとAPIキーに入力があること
-				//祝日の表示処理
-				JapaneseHolidays(calenderApiKey, selectedMonth)
-					.then((data) => {
-						// ここで祝日データを使用する処理を行う
-						const newDateValues = generateMonthCalendar(selectedMonth, data);
-						setAttributes({ dateValues: newDateValues });
-					})
-					.catch((error) => {
-						console.error("エラーが発生しました:", error);
-						const errorMess = __(
-							"Failed to get holiday data.",
-							"block-collections",
-						);
-
-						dispatch("core/notices").createNotice(
-							"error",
-							`${errorMess}\n${error.error.message}`,
-							{
-								type: "snackbar",
-								isDismissible: true,
-							},
-						);
-					});
+			if (isHoliday) {
+				//祝日の処理
+				const get_holiday_info = async () => {
+					// スラッシュ「/」をハイフン「-」に置換する
+					const formattedMonth = selectedMonth.replace(/\//g, "-");
+					const res = await fetch(
+						`/wp-json/itmar/v1/get-holidays?month=${formattedMonth}`,
+					);
+					const holidayList = await res.json();
+					const newDateValues = generateMonthCalendar(
+						selectedMonth,
+						holidayList,
+					);
+					setAttributes({ dateValues: newDateValues });
+				};
+				get_holiday_info();
 			} else {
 				const newDateValues = generateMonthCalendar(selectedMonth);
 				setAttributes({ dateValues: newDateValues });
 			}
 		}
-	}, [selectedMonth, isHoliday, calenderApiKey]);
+	}, [selectedMonth, isHoliday]);
 
 	const renderContent = () => {
 		return (
@@ -731,6 +761,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						}}
 					/>
 					<ToggleControl
+						label={__("Is display date area", "block-collections")}
+						checked={isDateArea}
+						onChange={(newVal) => {
+							setAttributes({ isDateArea: newVal });
+						}}
+					/>
+					<ToggleControl
 						label={__("Is Holiday Display", "block-collections")}
 						checked={isHoliday}
 						onChange={(newVal) => {
@@ -739,11 +776,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 					{isHoliday && (
 						<TextControl
-							label={__("Google Calender API KEY", "block-collections")}
-							value={calenderApiVal}
-							onChange={(newVal) => setCalenderApiVal(newVal)}
+							label={__("Google Calendar API KEY", "block-collections")}
+							value={calendar_key_editing}
+							onChange={(newVal) => setCalendarApiVal(newVal)}
 							onBlur={() => {
-								setAttributes({ calenderApiKey: calenderApiVal }); //フォーカスが離れてから記録
+								setAttributes({ calendarApiMask: "**********" });
+								setCalendarKey(calendar_key_editing);
 							}}
 							help={helpTextCode}
 						/>
@@ -1130,7 +1168,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			<div {...blockProps}>
 				<StyleComp attributes={attributes}>
 					<div {...innerBlocksProps}></div>
-					{renderContent()}
+					{isDateArea && renderContent()}
 				</StyleComp>
 			</div>
 		</>

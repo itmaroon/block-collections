@@ -177,7 +177,7 @@ export default function Edit(props) {
 				>
 					<PanelRow>
 						<TextControl
-							label={__("name attribute name", "block-collections")}
+							label={__("ID and Name attribute name", "block-collections")}
 							value={inputName}
 							onChange={(newVal) => setAttributes({ inputName: newVal })}
 						/>

@@ -136,7 +136,8 @@
     }
   },
   "usesContext": [
-    "itmar/state_process"
+    "itmar/state_process",
+    "itmar/current_step"
   ],
   "textdomain": "block-collections",
   "editorScript": "file:./index.js",

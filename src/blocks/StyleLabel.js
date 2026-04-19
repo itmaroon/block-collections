@@ -7,11 +7,19 @@ import {
 } from "itmar-block-packages";
 
 export default function StyleLabel({ attributes, children }) {
-	return <StyledDiv attributes={attributes}>{children}</StyledDiv>;
+	// 1. attributesの中から htmlFor とスタイル用を分ける
+	const { htmlFor, ...styleConfig } = attributes;
+
+	return (
+		/* 2. $attrs という名前（Transient props）でスタイル用オブジェクトを渡す */
+		<StyledDiv htmlFor={htmlFor} $attrs={styleConfig}>
+			{children}
+		</StyledDiv>
+	);
 }
 
 const StyledDiv = styled.label`
-	${({ attributes }) => {
+	${({ $attrs }) => {
 		const {
 			font_style_label,
 			bgColor_label,
@@ -28,7 +36,7 @@ const StyledDiv = styled.label`
 			is_shadow,
 			isMobile,
 			className,
-		} = attributes;
+		} = $attrs;
 
 		//単色かグラデーションかの選択
 		const bgLabelColor = bgColor_label || bgGradient_label;

@@ -14,9 +14,10 @@ import {
 	Button,
 	ToolbarGroup,
 	ToolbarItem,
+	ToolbarButton,
 	__experimentalUnitControl as UnitControl,
-	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
+	BoxControl,
+	BorderBoxControl,
 } from "@wordpress/components";
 import {
 	useBlockProps,
@@ -79,6 +80,7 @@ export default function Edit(props) {
 		selectedSlug,
 		selectedPageUrl,
 		modalClassName,
+		isEditing,
 		isBlank,
 		isClick,
 		bgColor,
@@ -146,7 +148,16 @@ export default function Edit(props) {
 				type={buttonType}
 				disabled={disabled}
 				data-key={buttonKey}
-				onClick={() => {
+				// onMouseDown={(e) => {
+				// 	// これにより、クリックしても親ブロックの選択状態が解除されず、
+				// 	// かつこのボタンを持つインナーブロックが「選択」されるのを防ぎます
+				// 	e.preventDefault();
+				// }}
+				onClick={(e) => {
+					if (isEditing) {
+						e.preventDefault();
+						return;
+					}
 					setAttributes({ isClick: !isClick });
 				}}
 			>
@@ -661,6 +672,18 @@ export default function Edit(props) {
 						setAttributes({ align: nextAlign });
 					}}
 				/>
+				{displayType === "string" && (
+					<ToolbarButton
+						icon={isEditing ? "saved" : "edit"}
+						label={
+							isEditing
+								? __("Finish Editing", "block-collections")
+								: __("Edit Label", "block-collections")
+						}
+						onClick={() => setAttributes({ isEditing: !isEditing })}
+						isPressed={isEditing}
+					/>
+				)}
 			</BlockControls>
 
 			<div {...blockProps}>

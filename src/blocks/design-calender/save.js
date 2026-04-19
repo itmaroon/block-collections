@@ -28,8 +28,8 @@ export default function save({ attributes }) {
 		inputName,
 		weekTop,
 		isReleaseButton,
+		isDateArea,
 		isHoliday,
-		calenderApiKey,
 		tooltip_style,
 	} = attributes;
 
@@ -70,12 +70,11 @@ export default function save({ attributes }) {
 				data-input_name={inputName}
 				data-is_release={isReleaseButton ? "true" : "false"}
 				data-is_holiday={isHoliday ? "true" : "false"}
-				data-api_key={calenderApiKey}
 				data-tips_class={tipsDom.className}
 			>
 				<div className={mainDom.className}>
 					<InnerBlocks.Content />
-					{renderContent()}
+					{isDateArea && renderContent()}
 				</div>
 			</div>
 

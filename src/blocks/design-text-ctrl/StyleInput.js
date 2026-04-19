@@ -25,11 +25,11 @@ const alignMap = {
 };
 
 export const StyleComp = ({ attributes, children }) => {
-	return <StyledDiv attributes={attributes}>{children}</StyledDiv>;
+	return <StyledDiv $attr={attributes}>{children}</StyledDiv>;
 };
 
 const StyledDiv = styled.div`
-	${({ attributes }) => {
+	${({ $attr }) => {
 		const {
 			focusColor,
 			bgColor,
@@ -44,7 +44,7 @@ const StyledDiv = styled.div`
 			shadow_result,
 			is_shadow,
 			className,
-		} = attributes;
+		} = $attr;
 
 		//単色かグラデーションかの選択
 		const bgInputColor = bgColor_input || bgGradient_input;

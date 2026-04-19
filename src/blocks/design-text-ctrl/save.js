@@ -27,6 +27,7 @@ export default function save({ attributes }) {
 		: labelContent;
 
 	const sheet = new ServerStyleSheet();
+
 	const html = renderToString(
 		sheet.collectStyles(
 			<div {...blockProps} data-required={required.flg}>
@@ -34,6 +35,7 @@ export default function save({ attributes }) {
 					{inputType === "text" && (
 						<input
 							type="text"
+							id={inputName}
 							name={inputName}
 							className="contact_text empty"
 							placeholder={
@@ -44,6 +46,7 @@ export default function save({ attributes }) {
 					{inputType === "email" && (
 						<input
 							type="email"
+							id={inputName}
 							name={inputName}
 							className="contact_text empty"
 							placeholder={
@@ -55,6 +58,7 @@ export default function save({ attributes }) {
 						<div className="password-wrapper">
 							<input
 								type="password"
+								id={inputName}
 								name={inputName}
 								placeholder={
 									className?.includes("is-style-line") ? dispLabel : placeFolder
@@ -77,6 +81,7 @@ export default function save({ attributes }) {
 							</button>
 							<input
 								type="number"
+								id={inputName}
 								name={inputName}
 								min={numberOption.min}
 								max={numberOption.max}
@@ -101,6 +106,7 @@ export default function save({ attributes }) {
 						<div className="zip-search-wrapper">
 							<input
 								type="text"
+								id={inputName}
 								name={inputName}
 								placeholder={`${__("example", "block-collections")}) 1234567`}
 								className="contact_text empty"
@@ -113,6 +119,7 @@ export default function save({ attributes }) {
 					)}
 					{inputType === "textarea" && (
 						<textarea
+							id={inputName}
 							name={inputName}
 							className="contact_text empty"
 							placeholder={
@@ -120,7 +127,7 @@ export default function save({ attributes }) {
 							}
 						/>
 					)}
-					<StyleLabel attributes={attributes}>
+					<StyleLabel attributes={{ ...attributes, htmlFor: inputName }}>
 						{required.flg ? (
 							<>
 								{labelContent}

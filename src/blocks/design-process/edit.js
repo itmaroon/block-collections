@@ -20,8 +20,8 @@ import {
 import {
 	PanelBody,
 	ToggleControl,
-	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
+	BoxControl,
+	BorderBoxControl,
 } from "@wordpress/components";
 
 import { useSelect, useDispatch } from "@wordpress/data";
@@ -96,8 +96,8 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
 
-	//ステージの状態を親ブロックから取得
-	const state_process = context["itmar/state_process"];
+	//親のcontextから今のステップ数を取得
+	const stage_index = context["itmar/current_step"];
 
 	// 兄弟ブロックの取得
 	const figureBlocks = useSelect(
@@ -153,17 +153,6 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		});
 		setAttributes({ figure_blocks: blocks });
 	}, [figureBlocks]);
-
-	//現在のステージはどこにあるか
-	const stage_index = figureBlocks.findIndex((block) => {
-		const nameMatch = block.name.includes(state_process);
-		const attr = block.attributes || {};
-
-		const infoTypeMatch = attr.info_type === state_process;
-		const formTypeMatch = attr.form_type === state_process;
-
-		return nameMatch || infoTypeMatch || formTypeMatch;
-	});
 
 	return (
 		<>

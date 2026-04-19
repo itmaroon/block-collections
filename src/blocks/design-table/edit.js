@@ -1,11 +1,8 @@
 import { __ } from "@wordpress/i18n";
-//import TypographyControls from '../TypographyControls'
 import { StyleComp } from "./StyleTable";
 import { useStyleIframe } from "../iframeFooks";
-//import ShadowStyle, { ShadowElm } from '../ShadowStyle';
 import { useSelect } from "@wordpress/data";
 import { useEffect, useState, useCallback, useRef } from "@wordpress/element";
-//import { useElementBackgroundColor, useIsIframeMobile } from '../CustomFooks';
 import {
 	useElementBackgroundColor,
 	useIsIframeMobile,
@@ -16,11 +13,13 @@ import {
 
 import {
 	PanelBody,
+	PanelRow,
 	ToggleControl,
 	RangeControl,
-	ComboboxControl,
-	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
+	TextControl,
+	BoxControl,
+	BorderBoxControl,
+	__experimentalNumberControl as NumberControl,
 } from "@wordpress/components";
 import {
 	useBlockProps,
@@ -59,8 +58,10 @@ const units = [
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const {
 		is_data_form,
-		dataSource,
+		tableColRow,
+		defineID,
 		tableSource,
+		clickCellPos,
 		is_heading,
 		tableHeading,
 		tableLayout,
@@ -69,10 +70,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		font_style_td,
 		th_color,
 		td_color,
+		sel_color,
 		bgColor_th,
 		bgGradient_th,
 		bgColor_td,
 		bgGradient_td,
+		bgColor_sel,
+		bgGradient_sel,
 		default_pos,
 		mobile_pos,
 		radius_value,
@@ -87,7 +91,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	} = attributes;
 
 	//データソースの選択オプション配列
-	const [dataSources, setdataSources] = useState([]);
+	//const [dataSources, setdataSources] = useState([]);
 
 	//テーブルの選択カラム
 	const [selCulumn, setSelCulumn] = useState();
@@ -95,202 +99,196 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	//テーブルヘッダーの選択中か否か
 	const [isSelHeader, setIsSelHeader] = useState(false);
 
-	//インナーブロックを含む全てのブロックを配列にする関数
-	const getFlattenedBlocks = (blocks) => {
-		let flatBlocks = [];
-		const blocksArray = Array.isArray(blocks) ? blocks : [blocks];
-
-		blocksArray.forEach((block) => {
-			flatBlocks.push(block);
-
-			if (block.innerBlocks && block.innerBlocks.length) {
-				flatBlocks = flatBlocks.concat(getFlattenedBlocks(block.innerBlocks));
-			}
-		});
-		return flatBlocks;
-	};
-	//トップレベルのブロック（親ブロックがないブロック）のIDを取得する関数
-	const getTopLevelClientId = (select, clientId) => {
-		const { getBlockRootClientId, getBlock } = select("core/block-editor");
-
-		let currentClientId = clientId;
-
-		while (true) {
-			const parentClientId = getBlockRootClientId(currentClientId);
-			const parentBlock = getBlock(parentClientId);
-			// 親ブロックがないか親ブロックが'core/post-content'（サイトエディタの投稿コンテンツ）なら終了
-			if (!parentClientId || parentBlock.name === "core/post-content") {
-				return currentClientId;
-			}
-
-			// IDを入れ替えてループを続ける
-			currentClientId = parentClientId;
-		}
-	};
-
-	// セル要素を生成する関数
-	const cellObjectsForm = (inputFigureBlock) => {
-		//その中のインナーブロック
-		const inputInnerBlocks = inputFigureBlock
-			? inputFigureBlock.innerBlocks
-			: [];
-		//'itmar/design-checkbox''itmar/design-button'を除外
-		const filteredBlocks = inputInnerBlocks.filter(
-			(block) =>
-				block.name !== "itmar/design-checkbox" &&
-				block.name !== "itmar/design-button",
-		);
-		return filteredBlocks.map((input_elm) => {
-			//design-selectで選択された要素を抽出
-			const sel_content = input_elm.attributes.selectValues
-				? input_elm.attributes.selectValues.filter((obj) =>
-						input_elm.attributes.selectedValues.includes(obj.id),
-				  )
-				: undefined;
-			//選択された要素をカンマ区切りの文字列にして、input要素と選択
-			const content_td = sel_content
-				? sel_content.map((obj) => obj.label).join(", ")
-				: input_elm.attributes.inputValue;
-
-			return {
-				cells: [
-					{
-						content: input_elm.attributes.labelContent,
-						tag: "th",
-					},
-					{
-						content: content_td,
-						tag: "td",
-					},
-				],
-			};
-		});
-	};
-
-	//itmar/input-figure-blockを抽出
-	useSelect((select) => {
-		const topBlockId = getTopLevelClientId(select, clientId);
-		const topBlock = select("core/block-editor").getBlock(topBlockId);
-		const targetBlocks = getFlattenedBlocks(topBlock).filter(
-			(block) => block.name === "itmar/input-figure-block",
-		);
-
-		//選択用のコンボボックスのオプションを生成
-		const sourceOption = targetBlocks.map((block) => ({
-			value: block.attributes.form_name,
-			label: block.attributes.form_name,
-		}));
-
-		if (sourceOption.length > 0) {
-			setdataSources(sourceOption); //コンボボックスにセット
-		}
-	}, []);
-
-	//コンボボックスの初期値を設定
-	useEffect(() => {
-		if (!dataSource && dataSources.length > 0) {
-			setAttributes({ dataSource: dataSources[0].value });
-		}
-	}, [dataSources, dataSource]);
-
-	//選択されたitmar/input-figure-blockを返す
-	const inputFigureBlock = useSelect(
+	// 子ブロック（design-table）の Edit コンポーネント内
+	const isInsideParent = useSelect(
 		(select) => {
-			const topBlockId = getTopLevelClientId(select, clientId);
-			const topBlock = select("core/block-editor").getBlock(topBlockId);
-			const targetBlocks = getFlattenedBlocks(topBlock).find(
-				(block) => block.attributes.form_name === dataSource,
-			);
+			const { getBlockName, getBlockParents } = select("core/block-editor");
 
-			return targetBlocks;
+			// 1. 自分の「すべての親・先祖」の clientId 配列を取得
+			const parentClientIds = getBlockParents(clientId);
+
+			// 2. その中のいずれかが "itmar/reservation-block" であるか確認
+			return parentClientIds.some((id) => {
+				return getBlockName(id) === "itmar/reservation-block";
+			});
 		},
-		[dataSource],
+		[clientId],
 	);
 
-	//inputFigureBlockの変化に合わせてテーブルソースを更新
+	//ヘッダー配列の生成
+	// useEffect(() => {
+	// 	if (!tableSource || tableSource.length === 0) return;
+
+	// 	// 1. 各行のセル数を取得し、その中の最大値を求める
+	// 	const maxCols = Math.max(
+	// 		...tableSource.map((row) => (row.cells ? row.cells.length : 0)),
+	// 	);
+
+	// 	// 2. 現在のヘッダー配列をコピーし、最大列数に合わせて長さを調整する
+	// 	let newHeading = [...tableHeading];
+
+	// 	if (newHeading.length < maxCols) {
+	// 		// 足りない分だけ空文字で埋める
+	// 		const diff = maxCols - newHeading.length;
+	// 		const extraPadding = Array(diff).fill("");
+	// 		newHeading = [...newHeading, ...extraPadding];
+
+	// 		setAttributes({ tableHeading: newHeading });
+	// 	} else if (newHeading.length > maxCols && maxCols > 0) {
+	// 		// 逆に列が減った場合にヘッダーも切り詰めたいならここ
+	// 		newHeading = newHeading.slice(0, maxCols);
+	// 		setAttributes({ tableHeading: newHeading });
+	// 	}
+	// }, [tableSource, is_heading]);
+
 	useEffect(() => {
-		if (is_data_form) {
-			const bodySource = inputFigureBlock
-				? cellObjectsForm(inputFigureBlock)
-				: null;
-			setAttributes({ tableSource: bodySource });
+		// 1. 期待される列数（targetCols）を決定する
+		let targetCols = 0;
+
+		if (!is_data_form) {
+			// 静的モード：インスペクターで設定された数値を優先
+			targetCols = tableColRow.colNum;
+		} else if (tableSource && tableSource.length > 0) {
+			// 動的モード：流し込まれたデータの最大列数を計算
+			targetCols = Math.max(
+				...tableSource.map((row) => (row.cells ? row.cells.length : 0)),
+			);
 		}
-	}, [inputFigureBlock]);
+
+		// 2. ターゲットとなる列数が決まらない場合は何もしない
+		if (targetCols === 0) return;
+
+		// 3. 現在のヘッダー長と比較して調整
+		let newHeading = [...tableHeading];
+
+		if (newHeading.length !== targetCols) {
+			if (newHeading.length < targetCols) {
+				// 足りない分を追加
+				const diff = targetCols - newHeading.length;
+				newHeading = [...newHeading, ...Array(diff).fill("")];
+			} else {
+				// 多い分をカット
+				newHeading = newHeading.slice(0, targetCols);
+			}
+
+			// 属性を更新
+			setAttributes({ tableHeading: newHeading });
+		}
+
+		// 依存配列に tableColRow.colNum と is_data_form を追加して、切り替え時に即座に反応させる
+	}, [tableSource, is_heading, is_data_form, tableColRow.colNum]);
 
 	//マウスドラッグの処理（カラム幅の変更）
 	const handleMouseDown = useCallback(
 		(index) => (e) => {
-			const startX = e.pageX; //スタート地点を記録
-			//クリックされたハンドルの親要素であるtr要素を取得
-			const trElement = e.target.parentElement.parentElement;
-			const rect = trElement.getBoundingClientRect(); //位置を取得
-			//そのtr要素の最後のcellの幅を取得
-			const lastCell = trElement.children[trElement.children.length - 1];
-			const lastCellWidth = lastCell.offsetWidth;
+			e.preventDefault();
+			e.stopPropagation();
 
-			const handleMouseMove = (e) => {
-				const moveX = e.pageX;
+			const ownerDocument = e.target.ownerDocument;
 
-				//最低幅の確保
-				const newvalue = Math.round(
-					((moveX - rect.left) / (rect.right - rect.left)) * 100,
+			// ✅ 1. 画面全体を覆う透明なガードパネルを作成
+			const overlay = ownerDocument.createElement("div");
+			Object.assign(overlay.style, {
+				position: "fixed",
+				top: 0,
+				left: 0,
+				width: "100vw",
+				height: "100vh",
+				zIndex: 999999,
+				cursor: "col-resize",
+				backgroundColor: "transparent",
+				userSelect: "none",
+			});
+			ownerDocument.body.appendChild(overlay);
+
+			// ✅ 2. columWidth の初期化（依存関係を安全に処理）
+			const currentCount = tableHeading.length;
+			let safeWidths = Array.isArray(columWidth) ? [...columWidth] : [];
+			if (safeWidths.length < currentCount) {
+				const defaultW = `${Math.floor(100 / currentCount)}%`;
+				safeWidths = Array.from(
+					{ length: currentCount },
+					(_, i) => columWidth[i] || defaultW,
 				);
-				if (newvalue < 15) return; //幅１５％以下にはしない
-				const distanceX = startX - moveX; //移動幅
-				const newlastCellvalue = Math.round(
-					((lastCellWidth + distanceX) / (rect.right - rect.left)) * 100,
-				);
-				if (newlastCellvalue < 15) return; //最終セルも幅１５％以下にはしない
+			}
 
-				//幅の変更
-				const newWidth = `${newvalue}%`;
+			const tableElement = e.currentTarget.closest("table");
+			if (!tableElement) {
+				if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+				return;
+			}
 
-				const newColumWidth = [...columWidth];
-				newColumWidth[index] = newWidth;
-				setAttributes({ columWidth: newColumWidth });
+			const tableRect = tableElement.getBoundingClientRect();
+			const startX = e.pageX;
+
+			const cols = tableElement.querySelectorAll("colgroup col");
+			const targetCol = cols[index];
+
+			if (!targetCol) {
+				if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+				return;
+			}
+
+			// 開始時の物理幅(px)を基準として取得
+			const startWidthPx = targetCol.getBoundingClientRect().width;
+
+			// ✅ マウス移動時の処理
+			const handleMouseMove = (moveEvent) => {
+				const diffX = moveEvent.pageX - startX;
+				const currentWidthPx = startWidthPx + diffX;
+
+				// テーブル幅に対する割合を計算
+				let finalPercent = (currentWidthPx / tableRect.width) * 100;
+				finalPercent = Math.max(15, finalPercent); // 最小幅15%
+
+				// DOMへ即時反映
+				targetCol.style.width = `${finalPercent.toFixed(2)}%`;
 			};
 
-			//サイトエディタの場合のドキュメント
-			const iframeInstance = document.getElementsByName("editor-canvas")[0];
+			// ✅ マウスを離した時の処理
+			const handleMouseUp = (upEvent) => {
+				const diffX = upEvent.pageX - startX;
+				let finalPercent = ((startWidthPx + diffX) / tableRect.width) * 100;
+				finalPercent = Math.max(15, finalPercent);
 
-			if (iframeInstance) {
-				const iframeDocument =
-					iframeInstance.contentDocument ||
-					iframeInstance.contentWindow.document;
-				const handleMouseUp = () => {
-					iframeDocument.removeEventListener("mousemove", handleMouseMove);
-					iframeDocument.removeEventListener("mouseup", handleMouseUp);
-				};
+				// 属性の保存
+				const newColWidths = [...safeWidths];
+				newColWidths[index] = `${finalPercent.toFixed(2)}%`;
+				setAttributes({ columWidth: newColWidths });
 
-				iframeDocument.addEventListener("mousemove", handleMouseMove);
-				iframeDocument.addEventListener("mouseup", handleMouseUp);
-			} else {
-				const handleMouseUp = () => {
-					document.removeEventListener("mousemove", handleMouseMove);
-					document.removeEventListener("mouseup", handleMouseUp);
-				};
+				// クリーンアップ
+				if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+				ownerDocument.removeEventListener("mousemove", handleMouseMove);
+				ownerDocument.removeEventListener("mouseup", handleMouseUp);
+			};
 
-				document.addEventListener("mousemove", handleMouseMove);
-				document.addEventListener("mouseup", handleMouseUp);
-			}
+			// ✅ 登録先を ownerDocument に統一（overlay越しでも確実に拾うため）
+			ownerDocument.addEventListener("mousemove", handleMouseMove, {
+				passive: true,
+			});
+			ownerDocument.addEventListener("mouseup", handleMouseUp);
 		},
-		[columWidth],
+		[columWidth, tableHeading, setAttributes],
 	);
 
 	//クリックされたセルの取得
-	const bodyCellClick = (tag, rowIndex, cellIndex) => {
+	const bodyCellClick = (tag, rowIndex, colIndex) => {
 		//theaderの選択状態は解除
 		setIsSelHeader(false);
 		//初期値の設定
 		const nextAlign =
-			tag === "th" && columAlign[cellIndex] === undefined
+			tag === "th" && columAlign[colIndex] === undefined
 				? "center"
-				: columAlign[cellIndex];
+				: columAlign[colIndex];
 		const newColumAlign = [...columAlign];
-		newColumAlign[cellIndex] = nextAlign;
-		setAttributes({ columAlign: newColumAlign });
+		newColumAlign[colIndex] = nextAlign;
+		//属性に記録
+		setAttributes({
+			columAlign: newColumAlign,
+			clickCellPos: { row: rowIndex, col: colIndex },
+		});
 		//クリックされた列を記録
-		setSelCulumn(cellIndex);
+		setSelCulumn(colIndex);
 	};
 
 	//モバイルの判定
@@ -332,12 +330,17 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		//レンダリングするテーブル
 		return (
 			<>
-				{tableSource && tableSource.length > 0 && (
-					<table style={{ tableLayout: tableLayout || "auto" }}>
-						{is_heading && (
+				<table style={{ tableLayout: tableLayout || "auto" }}>
+					{is_heading && (
+						<>
+							<colgroup>
+								{tableHeading.map((_, i) => (
+									<col key={i} style={{ width: columWidth[i] || "auto" }} />
+								))}
+							</colgroup>
 							<thead>
 								<tr>
-									{tableSource[0].cells.map((cell, index) => (
+									{tableHeading.map((cell, index) => (
 										<th
 											key={index}
 											style={{
@@ -352,12 +355,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 												onChange={(newContent) => {
 													const updatedTableHeading = [...tableHeading];
 													updatedTableHeading[index] = newContent;
-													setAttributes({ tableHeading: updatedTableHeading });
+													setAttributes({
+														tableHeading: updatedTableHeading,
+													});
 												}}
 												value={tableHeading[index]}
 												placeholder={__("Enter header...", "block-collections")}
 											/>
-											{index !== tableSource[0].cells.length - 1 && (
+											{index !== tableHeading.length - 1 && (
 												<div
 													className="resize-handle"
 													onMouseDown={handleMouseDown(index)}
@@ -367,40 +372,92 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 									))}
 								</tr>
 							</thead>
-						)}
+						</>
+					)}
+					<tbody>
+						{is_data_form
+							? tableSource &&
+							  tableSource.map((row, rowIndex) => (
+									<tr key={rowIndex}>
+										{/* 重要：row.cells の数ではなく、tableHeading の数に合わせてループを回す。
+                    これにより、データが足りないセルも空として描画されます。
+                */}
+										{tableHeading.map((_, colIndex) => {
+											const cell = row.cells[colIndex] || {
+												content: "",
+												tag: "td",
+											}; // データがない場合の補完
+											const CellTag = cell.tag || "td";
 
-						{tableSource.map((row, rowIndex) => (
-							<tr key={rowIndex}>
-								{row.cells.map((cell, cellIndex) => {
-									const CellTag = cell.tag;
-
-									return (
-										<CellTag
-											key={cellIndex}
-											style={{
-												position: "relative",
-												backgroundClip: "padding-box",
-												width: columWidth[cellIndex],
-												textAlign: columAlign[cellIndex],
-											}}
-											onClick={() =>
-												bodyCellClick(cell.tag, rowIndex, cellIndex)
-											}
-										>
-											<CellHtml html={cell.content} />
-											{cellIndex !== row.cells.length - 1 && (
-												<div
-													className="resize-handle"
-													onMouseDown={handleMouseDown(cellIndex)}
+											return (
+												<CellTag
+													key={colIndex}
+													className={
+														CellTag === "td" &&
+														clickCellPos.row === rowIndex &&
+														clickCellPos.col === colIndex
+															? "currentSel"
+															: undefined
+													}
+													style={{
+														position: "relative",
+														width: columWidth[colIndex],
+														textAlign: columAlign[colIndex],
+													}}
+													onMouseDown={(e) => {
+														// 予約管理モード時は、クリックしても親ブロック（予約ブロック）の選択を維持
+														if (isInsideParent) e.preventDefault();
+													}}
+													onClick={() =>
+														bodyCellClick(CellTag, rowIndex, colIndex)
+													}
+												>
+													<CellHtml html={cell.content || ""} />
+													{/* ボディ側にもリサイズハンドルが必要な場合はここに追加 */}
+												</CellTag>
+											);
+										})}
+									</tr>
+							  ))
+							: // --- 静的データモード (ユーザー設定の colNum / rowNum で作成) ---
+							  // rowNum 分の配列を生成してループ
+							  [...Array(tableColRow.rowNum)].map((_, rowIndex) => (
+									<tr key={`static-row-${rowIndex}`}>
+										{/* colNum 分の配列を生成してループ */}
+										{[...Array(tableColRow.colNum)].map((_, colIndex) => (
+											<td
+												key={`static-col-${colIndex}`}
+												style={{
+													width: columWidth[colIndex] || "auto",
+													textAlign: columAlign[colIndex] || "left",
+													position: "relative",
+												}}
+											>
+												{/* 自分で入力できるように RichText を配置 */}
+												<RichText
+													value={
+														tableSource[rowIndex]?.cells[colIndex]?.content ||
+														""
+													}
+													onChange={(newContent) => {
+														// tableSource を手動で更新するロジック
+														const newSource = [...tableSource];
+														if (!newSource[rowIndex])
+															newSource[rowIndex] = { cells: [] };
+														newSource[rowIndex].cells[colIndex] = {
+															content: newContent,
+															tag: "td",
+														};
+														setAttributes({ tableSource: newSource });
+													}}
+													placeholder={__("...", "itmar")}
 												/>
-											)}
-										</CellTag>
-									);
-								})}
-							</tr>
-						))}
-					</table>
-				)}
+											</td>
+										))}
+									</tr>
+							  ))}
+					</tbody>
+				</table>
 			</>
 		);
 	}
@@ -414,25 +471,52 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					className="form_setteing_ctrl"
 				>
 					<ToggleControl
-						label={__("Table Data form Form", "block-collections")}
+						label={__("Table Data form Extra", "block-collections")}
 						checked={is_data_form}
 						onChange={(newValue) => setAttributes({ is_data_form: newValue })}
 					/>
 					{is_data_form && (
-						<ComboboxControl
-							label={__("Form Object name", "block-collections")}
-							value={dataSource}
-							help={__(
-								"Please specify the form object that will be the data source for the table.",
-								"block-collections",
-							)}
-							options={dataSources}
+						<TextControl
+							label={__("Identification ID", "block-collections")}
+							value={defineID}
 							onChange={(newValue) => {
-								setAttributes({ dataSource: newValue });
+								setAttributes({ defineID: newValue });
 							}}
 						/>
 					)}
+					{!is_data_form && (
+						<PanelRow className="itmar_date_span">
+							<NumberControl
+								label={__("Col Num", "block-collections")}
+								labelPosition="side"
+								max={50}
+								min={1}
+								onChange={(newValue) => {
+									const newTableObj = {
+										...tableColRow,
+										colNum: Number(newValue),
+									};
+									setAttributes({ tableColRow: newTableObj });
+								}}
+								value={tableColRow.colNum}
+							/>
 
+							<NumberControl
+								label={__("Row Num", "block-collections")}
+								labelPosition="side"
+								max={50}
+								min={1}
+								onChange={(newValue) => {
+									const newTableObj = {
+										...tableColRow,
+										rowNum: Number(newValue),
+									};
+									setAttributes({ tableColRow: newTableObj });
+								}}
+								value={tableColRow.rowNum}
+							/>
+						</PanelRow>
+					)}
 					<ToggleControl
 						label={__("table header", "block-collections")}
 						checked={is_heading}
@@ -691,6 +775,30 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 								},
 								onGradientChange: (newValue) =>
 									setAttributes({ bgGradient_td: newValue }),
+							},
+						]}
+					/>
+					<PanelColorGradientSettings
+						title={__("Select Cell Color Setting", "block-collections")}
+						settings={[
+							{
+								colorValue: sel_color,
+								label: __("Choose Text color", "block-collections"),
+								onColorChange: (newValue) =>
+									setAttributes({ sel_color: newValue }),
+							},
+							{
+								colorValue: bgColor_sel,
+								gradientValue: bgGradient_sel,
+
+								label: __("Choose Background color", "block-collections"),
+								onColorChange: (newValue) => {
+									setAttributes({
+										bgColor_sel: newValue === undefined ? "" : newValue,
+									});
+								},
+								onGradientChange: (newValue) =>
+									setAttributes({ bgGradient_sel: newValue }),
 							},
 						]}
 					/>

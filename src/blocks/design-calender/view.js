@@ -1,11 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import { setSelectValue } from "../../front-common";
 
-import {
-	generateMonthCalendar,
-	generateGridAreas,
-	JapaneseHolidays,
-} from "itmar-block-packages";
+import { generateMonthCalendar, generateGridAreas } from "itmar-block-packages";
 
 jQuery(function ($) {
 	/* ------------------------------
@@ -77,6 +73,27 @@ jQuery(function ($) {
 		tipsClass,
 		isClear,
 	) => {
+		//データエリアがレンダリングされていないときはdata属性に祝日情報を記録
+		if (dateArea.hasClass("wp-block-itmar-design-calender")) {
+			//選択月の取得
+			const select = dateArea.find(
+				".itmar_select_month .itmar_block_selectSingle",
+			);
+			const selectedOption = select.find("select").find("option:selected");
+			const selMonth = selectedOption.attr("value");
+			//祝日リストを収集
+			const holidayList = monthData
+				.filter((item) => item && item.holiday) // holiday オブジェクトが存在する要素のみ抽出
+				.map((item) => ({
+					date: `${selMonth.replace(/\//g, "")}${String(item.date).padStart(
+						2,
+						"0",
+					)}`, // 元の date オブジェクト（または文字列/数値）
+					name: item.holiday, // holiday オブジェクト
+				}));
+			dateArea.attr("data-holiday_array", JSON.stringify(holidayList));
+			return;
+		}
 		//日付ボタンをいったん削除
 		dateArea.find(".itmar_radio").remove();
 		//日付のDOM要素の挿入
@@ -129,63 +146,55 @@ jQuery(function ($) {
 	$(document).on(
 		"change",
 		".itmar_select_month .itmar_block_selectSingle select",
-		function () {
+		async function () {
+			const rootBlock = $(this).closest(".wp-block-itmar-design-calender");
 			//クリアボタンの有無
-			const isClear = $(this)
-				.closest(".wp-block-itmar-design-calender")
-				.data("is_release");
+			const isClear = rootBlock.data("is_release");
 			//日付エリアを取得
-			const dateArea = $(this)
-				.closest(".wp-block-itmar-design-calender")
-				.find(".itmar_date_area");
+			const dateArea = rootBlock.find(".itmar_date_area");
 			//Name属性の取得
-			const name = $(this)
-				.closest(".wp-block-itmar-design-calender")
-				.data("input_name");
+			const name = rootBlock.data("input_name");
 			//カレンダーの曜日のトップを取得
-			const weekTop = $(this)
-				.closest(".wp-block-itmar-design-calender")
-				.data("week_top");
+			const weekTop = rootBlock.data("week_top");
 			//ツールチップのスタイルを適用するクラス名を取得
-			const tipsClass = $(this)
-				.closest(".wp-block-itmar-design-calender")
-				.data("tips_class");
+			const tipsClass = rootBlock.data("tips_class");
 			//表示月の日付オブジェクトを生成
 			let selectedOption = $(this).find("option:selected");
 			//祝日表示の有無
-			const isHoliday = $(this)
-				.closest(".wp-block-itmar-design-calender")
-				.data("is_holiday");
+			const isHoliday = rootBlock.data("is_holiday");
 			if (isHoliday) {
-				const calenderApiKey = $(this)
-					.closest(".wp-block-itmar-design-calender")
-					.data("api_key");
-				//祝日の表示処理
-				JapaneseHolidays(calenderApiKey, selectedOption.attr("value"))
-					.then((data) => {
-						// ここで祝日データを使用する処理を行う
-						const dateValues = generateMonthCalendar(
-							selectedOption.attr("value"),
-							data,
-						);
-						calenderRender(
-							dateArea,
-							dateValues,
-							name,
-							weekTop,
-							tipsClass,
-							isClear,
-						);
-						// カスタムイベントを発生させる
-						const calenderRenderedEvent = new CustomEvent("calender_rendered");
-						const parentElement = $(this).closest(
-							".wp-block-itmar-design-calender",
-						)[0];
-						parentElement.dispatchEvent(calenderRenderedEvent);
-					})
-					.catch((error) => {
-						console.error("エラーが発生しました:", error);
-					});
+				try {
+					//祝日の表示処理
+					const formattedMonth = selectedOption
+						.attr("value")
+						.replace(/\//g, "-");
+					const res = await fetch(
+						`/wp-json/itmar/v1/get-holidays?month=${formattedMonth}`,
+					);
+					const holidayList = await res.json();
+
+					// ここで祝日データを使用する処理を行う
+					const dateValues = generateMonthCalendar(
+						selectedOption.attr("value"),
+						holidayList,
+					);
+					calenderRender(
+						dateArea.length > 0 ? dateArea : rootBlock,
+						dateValues,
+						name,
+						weekTop,
+						tipsClass,
+						isClear,
+					);
+					// カスタムイベントを発生させる
+					const calenderRenderedEvent = new CustomEvent("calender_rendered");
+					const parentElement = $(this).closest(
+						".wp-block-itmar-design-calender",
+					)[0];
+					parentElement.dispatchEvent(calenderRenderedEvent);
+				} catch (error) {
+					console.error("祝日取得中にエラーが発生しました:", error);
+				}
 			} else {
 				const dateValues = generateMonthCalendar(selectedOption.attr("value"));
 				calenderRender(dateArea, dateValues, name, weekTop, tipsClass, isClear);

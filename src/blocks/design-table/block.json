@@ -1,5 +1,5 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"$schema": "https://schemas.wp.org/wp/7.4/block.json",
 	"apiVersion": 3,
 	"name": "itmar/design-table",
 	"version": "0.1.0",
@@ -13,13 +13,21 @@
 			"type": "boolean",
 			"default": false
 		},
-		"dataSource": {
+		"defineID": {
 			"type": "string",
 			"default": ""
+		},
+		"tableColRow":{
+			"type": "object",
+			"default": {"colNum":2,"rowNum":3}
 		},
 		"tableSource": {
 			"type": "array",
 			"default": []
+		},
+		"clickCellPos": {
+			"type": "object",
+			"default": {"row":1,"col":0}
 		},
 		"tableLayout": {
 			"type": "string", 
@@ -77,6 +85,17 @@
 			"default": "var(--wp--preset--color--background)"
 		},
 		"bgGradient_td": {
+			"type": "string"
+		},
+		"sel_color": {
+			"type": "string",
+			"default": "var(--wp--preset--color--content)"
+		},
+		"bgColor_sel": {
+			"type": "string",
+			"default": "var(--wp--preset--color--background)"
+		},
+		"bgGradient_sel": {
 			"type": "string"
 		},
 		"radius_value": {

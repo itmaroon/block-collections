@@ -36,9 +36,9 @@ import {
 	ToolbarButton,
 	Icon,
 	SelectControl,
-	__experimentalBoxControl as BoxControl,
+	BoxControl,
 	__experimentalUnitControl as UnitControl,
-	__experimentalAlignmentMatrixControl as AlignmentMatrixControl,
+	AlignmentMatrixControl,
 } from "@wordpress/components";
 import {
 	useBlockProps,

@@ -29,13 +29,16 @@
       "type": "boolean",
       "default": false
     },
-    "calenderApiKey": {
-      "type": "string",
-      "default": ""
+    "calendarApiMask": {
+      "type": "string"
     },
     "isReleaseButton": {
       "type": "boolean",
       "default": false
+    },
+    "isDateArea": {
+      "type": "boolean",
+      "default": true
     },
     "bgColor": {
       "type": "string",

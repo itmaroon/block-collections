@@ -27,6 +27,9 @@ const StyledDiv = styled.div`
 			td_color,
 			bgColor_td,
 			bgGradient_td,
+			sel_color,
+			bgColor_sel,
+			bgGradient_sel,
 			radius_value,
 			border_value,
 			intensity,
@@ -38,6 +41,7 @@ const StyledDiv = styled.div`
 		//単色かグラデーションかの選択
 		const bgColorTh = bgColor_th || bgGradient_th;
 		const bgColorTd = bgColor_td || bgGradient_td;
+		const bgColorSel = bgColor_sel || bgGradient_sel;
 		//斜体の設定
 		const fontStyle_th = font_style_th.isItalic ? "italic" : "normal";
 		const fontStyle_td = font_style_td.isItalic ? "italic" : "normal";
@@ -106,6 +110,10 @@ const StyledDiv = styled.div`
 					color: ${td_color};
 					background: ${bgColorTd};
 					padding: ${default_td_padding_prm};
+					&.currentSel {
+						color: ${sel_color};
+						background: ${bgColorSel};
+					}
 					@media (max-width: 767px) {
 						font-size: ${font_style_td.mobile_fontSize};
 						padding: ${mobile_td_padding_prm};
@@ -148,9 +156,9 @@ const StyledDiv = styled.div`
 				"error",
 				__(
 					"If the background color of the cell is set to gradient, stripes will not be applied.",
-					"itmar_block_collections"
+					"itmar_block_collections",
 				),
-				{ type: "snackbar" }
+				{ type: "snackbar" },
 			);
 		}
 

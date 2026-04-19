@@ -11,10 +11,10 @@ import {
 	TextControl,
 	PanelBody,
 	PanelRow,
-	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
+	BoxControl,
+	BorderBoxControl,
 	__experimentalUnitControl as UnitControl,
-	__experimentalAlignmentMatrixControl as AlignmentMatrixControl,
+	AlignmentMatrixControl,
 } from "@wordpress/components";
 import StyleLabel from "./StyleLabel";
 

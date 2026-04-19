@@ -6,8 +6,9 @@ import { StyleComp } from "./StyleTable";
 
 export default function save({ attributes }) {
 	const {
-		dataSource,
 		tableSource,
+		is_data_form,
+		defineID,
 		is_heading,
 		columWidth,
 		columAlign,
@@ -27,7 +28,7 @@ export default function save({ attributes }) {
 
 	// ✅ ボディはヘッダー行を除外（ヘッダー行は thead 側で描画する設計）
 	const bodyRows =
-		Array.isArray(tableSource) && tableSource.length > 0
+		!is_data_form && Array.isArray(tableSource) && tableSource.length > 0
 			? is_heading
 				? tableSource.slice(1)
 				: tableSource
@@ -35,7 +36,7 @@ export default function save({ attributes }) {
 
 	const html = renderToString(
 		sheet.collectStyles(
-			<div {...blockProps} data-source={dataSource}>
+			<div {...blockProps} data-define_id={defineID}>
 				<StyleComp attributes={attributes}>
 					{Array.isArray(tableSource) && tableSource.length > 0 && (
 						<table>
