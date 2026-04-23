@@ -115,32 +115,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		[clientId],
 	);
 
-	//ヘッダー配列の生成
-	// useEffect(() => {
-	// 	if (!tableSource || tableSource.length === 0) return;
-
-	// 	// 1. 各行のセル数を取得し、その中の最大値を求める
-	// 	const maxCols = Math.max(
-	// 		...tableSource.map((row) => (row.cells ? row.cells.length : 0)),
-	// 	);
-
-	// 	// 2. 現在のヘッダー配列をコピーし、最大列数に合わせて長さを調整する
-	// 	let newHeading = [...tableHeading];
-
-	// 	if (newHeading.length < maxCols) {
-	// 		// 足りない分だけ空文字で埋める
-	// 		const diff = maxCols - newHeading.length;
-	// 		const extraPadding = Array(diff).fill("");
-	// 		newHeading = [...newHeading, ...extraPadding];
-
-	// 		setAttributes({ tableHeading: newHeading });
-	// 	} else if (newHeading.length > maxCols && maxCols > 0) {
-	// 		// 逆に列が減った場合にヘッダーも切り詰めたいならここ
-	// 		newHeading = newHeading.slice(0, maxCols);
-	// 		setAttributes({ tableHeading: newHeading });
-	// 	}
-	// }, [tableSource, is_heading]);
-
 	useEffect(() => {
 		// 1. 期待される列数（targetCols）を決定する
 		let targetCols = 0;

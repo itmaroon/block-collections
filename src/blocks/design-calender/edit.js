@@ -411,6 +411,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				block.attributes.className?.split(" ").includes("itmar_prev_month"),
 		);
 	}, [innerBlocks]);
+
 	//インナーブロック内のDesign Button（後）
 	const nextButtonBlock = useMemo(() => {
 		return innerFlattenedBlocks.find(
@@ -426,6 +427,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			const selectMonth = selectMonthAttr.selectValues.find(
 				(item) => item.id === selectMonthAttr.selectedValues[0],
 			);
+
 			if (selectMonth) {
 				setAttributes({ selectedMonth: selectMonth.label });
 			} else {
