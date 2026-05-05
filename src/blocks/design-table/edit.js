@@ -361,6 +361,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 												content: "",
 												tag: "td",
 											}; // データがない場合の補完
+
 											const CellTag = cell.tag || "td";
 
 											return (
@@ -377,6 +378,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 														position: "relative",
 														width: columWidth[colIndex],
 														textAlign: columAlign[colIndex],
+														...cell.style,
 													}}
 													onMouseDown={(e) => {
 														// 予約管理モード時は、クリックしても親ブロック（予約ブロック）の選択を維持

@@ -112,7 +112,7 @@ const StyledDiv = styled.div`
 					padding: ${default_td_padding_prm};
 					&.currentSel {
 						color: ${sel_color};
-						background: ${bgColorSel};
+						background: ${bgColorSel} !important;
 					}
 					@media (max-width: 767px) {
 						font-size: ${font_style_td.mobile_fontSize};
