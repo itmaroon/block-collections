@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { ReactNode } from "react";
 import {
 	radius_prm,
 	space_prm,
@@ -11,11 +12,11 @@ import {
 import { dispatch } from "@wordpress/data";
 
 export const StyleComp = ({ attributes, children }) => {
-	return <StyledDiv attributes={attributes}>{children}</StyledDiv>;
+	return <StyledDiv $attr={attributes}>{children}</StyledDiv>;
 };
 
 const StyledDiv = styled.div`
-	${({ attributes }) => {
+	${({ $attr }) => {
 		const {
 			font_style_th,
 			font_style_td,
@@ -36,7 +37,7 @@ const StyledDiv = styled.div`
 			shadow_result,
 			is_shadow,
 			className,
-		} = attributes;
+		} = $attr;
 
 		//単色かグラデーションかの選択
 		const bgColorTh = bgColor_th || bgGradient_th;

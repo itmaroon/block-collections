@@ -19,6 +19,7 @@ import {
 	TextControl,
 	BoxControl,
 	BorderBoxControl,
+	CheckboxControl,
 	__experimentalNumberControl as NumberControl,
 } from "@wordpress/components";
 import {
@@ -64,6 +65,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		clickCellPos,
 		is_heading,
 		tableHeading,
+		is_rowHeading,
+		rowTableHeading,
 		tableLayout,
 		bgColor,
 		font_style_th,
@@ -118,39 +121,59 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	useEffect(() => {
 		// 1. 期待される列数（targetCols）を決定する
 		let targetCols = 0;
+		let targetRows = 0;
 
 		if (!is_data_form) {
 			// 静的モード：インスペクターで設定された数値を優先
 			targetCols = tableColRow.colNum;
+			targetRows = tableColRow.rowNum;
 		} else if (tableSource && tableSource.length > 0) {
 			// 動的モード：流し込まれたデータの最大列数を計算
 			targetCols = Math.max(
 				...tableSource.map((row) => (row.cells ? row.cells.length : 0)),
 			);
+			targetRows = Math.max(
+				...tableSource.map((col) => (col.cells ? col.cells.length : 0)),
+			);
 		}
 
 		// 2. ターゲットとなる列数が決まらない場合は何もしない
-		if (targetCols === 0) return;
+		if (targetCols === 0 || targetRows === 0) return;
 
 		// 3. 現在のヘッダー長と比較して調整
-		let newHeading = [...tableHeading];
+		const setHeading = (newHeading, targetCells, attrName) => {
+			if (newHeading.length !== targetCells) {
+				if (newHeading.length < targetCells) {
+					// 足りない分を追加
+					const diff = targetCells - newHeading.length;
+					newHeading = [...newHeading, ...Array(diff).fill("")];
+				} else {
+					// 多い分をカット
+					newHeading = newHeading.slice(0, targetCells);
+				}
 
-		if (newHeading.length !== targetCols) {
-			if (newHeading.length < targetCols) {
-				// 足りない分を追加
-				const diff = targetCols - newHeading.length;
-				newHeading = [...newHeading, ...Array(diff).fill("")];
-			} else {
-				// 多い分をカット
-				newHeading = newHeading.slice(0, targetCols);
+				// 属性を更新
+				setAttributes({ [attrName]: newHeading });
 			}
+		};
 
-			// 属性を更新
-			setAttributes({ tableHeading: newHeading });
-		}
+		let newHeading = [...tableHeading];
+		setHeading(newHeading, targetCols, "tableHeading");
+
+		//let newRowHeading = [...rowTableHeading];
+		//console.log(rowTableHeading);
+		//setHeading(newRowHeading, targetRows, "rowTableHeading");
 
 		// 依存配列に tableColRow.colNum と is_data_form を追加して、切り替え時に即座に反応させる
-	}, [tableSource, is_heading, is_data_form, tableColRow.colNum]);
+	}, [
+		tableSource,
+		tableHeading,
+		//rowTableHeading,
+		is_heading,
+		is_rowHeading,
+		is_data_form,
+		tableColRow,
+	]);
 
 	//マウスドラッグの処理（カラム幅の変更）
 	const handleMouseDown = useCallback(
@@ -353,83 +376,155 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							? tableSource &&
 							  tableSource.map((row, rowIndex) => (
 									<tr key={rowIndex}>
+										{is_rowHeading && (
+											<th
+												scope="row"
+												style={{
+													position: "relative",
+													backgroundClip: "padding-box",
+													width: columWidth[0] || "auto",
+													textAlign: columAlignTH,
+												}}
+												onClick={() => setIsSelHeader(true)}
+											>
+												<RichText
+													onChange={(newContent) => {
+														const updatedRowTableHeading = [...rowTableHeading];
+
+														// 不足分を空文字で埋めてから代入
+														while (updatedRowTableHeading.length <= rowIndex) {
+															updatedRowTableHeading.push("");
+														}
+														updatedRowTableHeading[rowIndex] = newContent;
+
+														setAttributes({
+															rowTableHeading: updatedRowTableHeading,
+														});
+													}}
+													value={rowTableHeading[rowIndex]}
+													placeholder={__(
+														"Enter row header...",
+														"block-collections",
+													)}
+												/>
+											</th>
+										)}
 										{/* 重要：row.cells の数ではなく、tableHeading の数に合わせてループを回す。
                     これにより、データが足りないセルも空として描画されます。
                 */}
-										{tableHeading.map((_, colIndex) => {
-											const cell = row.cells[colIndex] || {
-												content: "",
-												tag: "td",
-											}; // データがない場合の補完
+										{tableHeading
+											.slice(is_rowHeading ? 1 : 0)
+											.map((_, renderColIndex) => {
+												const colIndex = is_rowHeading
+													? renderColIndex + 1
+													: renderColIndex;
+												const cell = row.cells[colIndex] || {
+													content: "",
+													tag: "td",
+												}; // データがない場合の補完
 
-											const CellTag = cell.tag || "td";
+												const CellTag = cell.tag || "td";
 
-											return (
-												<CellTag
-													key={colIndex}
-													className={
-														CellTag === "td" &&
-														clickCellPos.row === rowIndex &&
-														clickCellPos.col === colIndex
-															? "currentSel"
-															: undefined
-													}
-													style={{
-														position: "relative",
-														width: columWidth[colIndex],
-														textAlign: columAlign[colIndex],
-														...cell.style,
-													}}
-													onMouseDown={(e) => {
-														// 予約管理モード時は、クリックしても親ブロック（予約ブロック）の選択を維持
-														if (isInsideParent) e.preventDefault();
-													}}
-													onClick={() =>
-														bodyCellClick(CellTag, rowIndex, colIndex)
-													}
-												>
-													<CellHtml html={cell.content || ""} />
-													{/* ボディ側にもリサイズハンドルが必要な場合はここに追加 */}
-												</CellTag>
-											);
-										})}
+												return (
+													<CellTag
+														key={colIndex}
+														className={
+															CellTag === "td" &&
+															clickCellPos.row === rowIndex &&
+															clickCellPos.col === colIndex
+																? "currentSel"
+																: undefined
+														}
+														style={{
+															position: "relative",
+															width: columWidth[colIndex],
+															textAlign: columAlign[colIndex],
+															...cell.style,
+														}}
+														onMouseDown={(e) => {
+															// 予約管理モード時は、クリックしても親ブロック（予約ブロック）の選択を維持
+															if (isInsideParent) e.preventDefault();
+														}}
+														onClick={() =>
+															bodyCellClick(CellTag, rowIndex, colIndex)
+														}
+													>
+														<CellHtml html={cell.content || ""} />
+														{/* ボディ側にもリサイズハンドルが必要な場合はここに追加 */}
+													</CellTag>
+												);
+											})}
 									</tr>
 							  ))
 							: // --- 静的データモード (ユーザー設定の colNum / rowNum で作成) ---
 							  // rowNum 分の配列を生成してループ
 							  [...Array(tableColRow.rowNum)].map((_, rowIndex) => (
 									<tr key={`static-row-${rowIndex}`}>
-										{/* colNum 分の配列を生成してループ */}
-										{[...Array(tableColRow.colNum)].map((_, colIndex) => (
-											<td
-												key={`static-col-${colIndex}`}
+										{is_rowHeading && (
+											<th
+												scope="row"
 												style={{
-													width: columWidth[colIndex] || "auto",
-													textAlign: columAlign[colIndex] || "left",
+													width: columWidth[0] || "auto",
+													textAlign: columAlignTH,
 													position: "relative",
+													backgroundClip: "padding-box",
 												}}
+												onClick={() => setIsSelHeader(true)}
 											>
-												{/* 自分で入力できるように RichText を配置 */}
 												<RichText
-													value={
-														tableSource[rowIndex]?.cells[colIndex]?.content ||
-														""
-													}
+													value={rowTableHeading[rowIndex] || ""}
 													onChange={(newContent) => {
-														// tableSource を手動で更新するロジック
-														const newSource = [...tableSource];
-														if (!newSource[rowIndex])
-															newSource[rowIndex] = { cells: [] };
-														newSource[rowIndex].cells[colIndex] = {
-															content: newContent,
-															tag: "td",
-														};
-														setAttributes({ tableSource: newSource });
+														const updatedRowTableHeading = [...rowTableHeading];
+														updatedRowTableHeading[rowIndex] = newContent;
+														setAttributes({
+															rowTableHeading: updatedRowTableHeading,
+														});
 													}}
-													placeholder={__("...", "itmar")}
+													placeholder={__(
+														"Enter row header...",
+														"block-collections",
+													)}
 												/>
-											</td>
-										))}
+											</th>
+										)}
+										{/* colNum 分の配列を生成してループ */}
+										{[...Array(tableColRow.colNum)]
+											.slice(is_rowHeading ? 1 : 0)
+											.map((_, renderColIndex) => {
+												const colIndex = is_rowHeading
+													? renderColIndex + 1
+													: renderColIndex;
+												return (
+													<td
+														key={`static-col-${colIndex}`}
+														style={{
+															width: columWidth[colIndex] || "auto",
+															textAlign: columAlign[colIndex] || "left",
+															position: "relative",
+														}}
+													>
+														{/* 自分で入力できるように RichText を配置 */}
+														<RichText
+															value={
+																tableSource[rowIndex]?.cells[colIndex]
+																	?.content || ""
+															}
+															onChange={(newContent) => {
+																// tableSource を手動で更新するロジック
+																const newSource = [...tableSource];
+																if (!newSource[rowIndex])
+																	newSource[rowIndex] = { cells: [] };
+																newSource[rowIndex].cells[colIndex] = {
+																	content: newContent,
+																	tag: "td",
+																};
+																setAttributes({ tableSource: newSource });
+															}}
+															placeholder={__("...", "itmar")}
+														/>
+													</td>
+												);
+											})}
 									</tr>
 							  ))}
 					</tbody>
@@ -494,13 +589,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						</PanelRow>
 					)}
 					<ToggleControl
-						label={__("table header", "block-collections")}
+						label={__("Column Table header", "block-collections")}
 						checked={is_heading}
 						onChange={(newValue) => setAttributes({ is_heading: newValue })}
-						help={__(
-							"Turn this on if you want to add a table header.",
-							"block-collections",
-						)}
+					/>
+					<ToggleControl
+						label={__("Row Table header", "block-collections")}
+						checked={is_rowHeading}
+						onChange={(newValue) => setAttributes({ is_rowHeading: newValue })}
 					/>
 				</PanelBody>
 			</InspectorControls>

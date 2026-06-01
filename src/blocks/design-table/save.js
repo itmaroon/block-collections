@@ -1,104 +1,134 @@
-import { __ } from "@wordpress/i18n";
 import { useBlockProps, RichText } from "@wordpress/block-editor";
-import { ServerStyleSheet } from "styled-components";
-import { renderToString } from "react-dom/server";
-import { StyleComp } from "./StyleTable";
 
 export default function save({ attributes }) {
 	const {
 		tableSource,
 		is_data_form,
 		defineID,
+		tableColRow,
 		is_heading,
+		is_rowHeading,
 		columWidth,
 		columAlign,
 		columAlignTH,
 		tableHeading,
+		rowTableHeading,
+		tableLayout,
+		clickCellPos,
 		bgColor,
+		...styleAttr
 	} = attributes;
 
+	//ヘッダー情報を生成
+	const heading_props = {
+		"data-col_heading": is_heading ? JSON.stringify(tableHeading) : null,
+		"data-row_heading": is_rowHeading ? JSON.stringify(rowTableHeading) : null,
+	};
+
 	const blockProps = useBlockProps.save({
+		"data-attributes": JSON.stringify(styleAttr),
+		...heading_props,
 		style: { backgroundColor: bgColor, overflow: "hidden" },
 	});
 
-	const sheet = new ServerStyleSheet();
+	const renderCellContent = (value) => <RichText.Content value={value || ""} />;
 
-	// ✅ セルHTMLを安全に注入するためのヘルパ（null/undefined対策）
-	const cellHtml = (v) => (typeof v === "string" ? v : "");
+	const renderBodyCell = (rowIndex, colIndex) => {
+		const cell = tableSource[rowIndex]?.cells?.[colIndex] || {
+			content: "",
+			tag: "td",
+		};
+		const CellTag = cell.tag || "td";
 
-	// ✅ ボディはヘッダー行を除外（ヘッダー行は thead 側で描画する設計）
-	const bodyRows =
-		!is_data_form && Array.isArray(tableSource) && tableSource.length > 0
-			? is_heading
-				? tableSource.slice(1)
-				: tableSource
-			: [];
+		return (
+			<CellTag
+				key={colIndex}
+				style={{
+					position: "relative",
+					width: columWidth[colIndex] || "auto",
+					textAlign: columAlign[colIndex] || "left",
+					...cell.style,
+				}}
+			>
+				{renderCellContent(cell.content)}
+			</CellTag>
+		);
+	};
 
-	const html = renderToString(
-		sheet.collectStyles(
-			<div {...blockProps} data-define_id={defineID}>
-				<StyleComp attributes={attributes}>
-					{Array.isArray(tableSource) && tableSource.length > 0 && (
-						<table>
-							{is_heading && tableSource[0]?.cells?.length > 0 && (
-								<thead>
-									<tr>
-										{tableSource[0].cells.map((cell, index) => (
-											<th
-												key={`h-${index}`}
-												style={{
-													width: columWidth?.[index],
-													textAlign: columAlignTH,
-												}}
-											>
-												<RichText.Content value={tableHeading?.[index]} />
-											</th>
-										))}
-									</tr>
-								</thead>
-							)}
-
-							<tbody>
-								{bodyRows.map((row, rowIndex) => (
-									<tr key={`r-${rowIndex}`}>
-										{row.cells.map((cell, cellIndex) => {
-											// ✅ タグはホワイトリスト（th/td以外が来ても壊れない）
-											const CellTag = cell.tag === "th" ? "th" : "td";
-
-											// ✅ ここが重要：HTML文字列は children ではなく dangerouslySetInnerHTML
-											// こうしないと React がエスケープしてしまう
-											return (
-												<CellTag
-													key={`c-${rowIndex}-${cellIndex}`}
-													style={{
-														width: columWidth?.[cellIndex],
-														textAlign: columAlign?.[cellIndex],
-													}}
-												>
-													<span
-														dangerouslySetInnerHTML={{
-															__html: cellHtml(cell.content),
-														}}
-													/>
-												</CellTag>
-											);
-										})}
-									</tr>
-								))}
-							</tbody>
-						</table>
-					)}
-				</StyleComp>
-			</div>,
-		),
+	const renderRowHeading = (rowIndex) => (
+		<th
+			key="row-heading"
+			scope="row"
+			style={{
+				position: "relative",
+				backgroundClip: "padding-box",
+				width: columWidth[0] || "auto",
+				textAlign: columAlignTH,
+			}}
+		>
+			<RichText.Content value={rowTableHeading?.[rowIndex] || ""} />
+		</th>
 	);
 
-	const styleTags = sheet.getStyleTags();
+	const columnIndexes = [...Array(tableColRow.colNum)]
+		.map((_, colIndex) => colIndex)
+		.slice(is_rowHeading ? 1 : 0);
 
 	return (
-		<>
-			<div dangerouslySetInnerHTML={{ __html: html }} />
-			<div dangerouslySetInnerHTML={{ __html: styleTags }} />
-		</>
+		<div {...blockProps} data-define_id={defineID}>
+			<table style={{ tableLayout: tableLayout || "auto" }}>
+				{is_heading && tableHeading.length > 0 && (
+					<colgroup>
+						{tableHeading.map((_, i) => (
+							<col key={i} style={{ width: columWidth[i] || "auto" }} />
+						))}
+					</colgroup>
+				)}
+				{is_heading && tableHeading.length > 0 && (
+					<thead>
+						<tr>
+							{tableHeading.map((cell, index) => (
+								<th
+									key={index}
+									style={{
+										position: "relative",
+										backgroundClip: "padding-box",
+										width: columWidth[index],
+										textAlign: columAlignTH,
+									}}
+								>
+									<RichText.Content value={tableHeading?.[index]} />
+								</th>
+							))}
+						</tr>
+					</thead>
+				)}
+
+				<tbody>
+					{is_data_form
+						? tableSource?.map((row, rowIndex) => (
+								<tr key={rowIndex}>
+									{is_rowHeading && renderRowHeading(rowIndex)}
+									{tableHeading
+										.slice(is_rowHeading ? 1 : 0)
+										.map((_, renderColIndex) => {
+											const colIndex = is_rowHeading
+												? renderColIndex + 1
+												: renderColIndex;
+											return renderBodyCell(rowIndex, colIndex);
+										})}
+								</tr>
+						  ))
+						: [...Array(tableColRow.rowNum)].map((_, rowIndex) => (
+								<tr key={rowIndex}>
+									{is_rowHeading && renderRowHeading(rowIndex)}
+									{columnIndexes.map((colIndex) =>
+										renderBodyCell(rowIndex, colIndex),
+									)}
+								</tr>
+						  ))}
+				</tbody>
+			</table>
+		</div>
 	);
 }

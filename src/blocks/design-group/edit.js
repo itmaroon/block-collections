@@ -360,18 +360,15 @@ export default function Edit(props) {
 							}}
 						/>
 					</div>
-					{domType === "form" && (
-						<>
-							<TextControl
-								label={__("Form ID", "block-collections")}
-								labelPosition="top"
-								value={formID}
-								onChange={(newValue) => {
-									setAttributes({ formID: newValue });
-								}}
-							/>
-						</>
-					)}
+
+					<TextControl
+						label={__("BLOCK ID", "block-collections")}
+						labelPosition="top"
+						value={formID}
+						onChange={(newValue) => {
+							setAttributes({ formID: newValue });
+						}}
+					/>
 				</PanelBody>
 				<PanelBody
 					title={__("Menu or Group", "block-collections")}
@@ -878,10 +875,7 @@ export default function Edit(props) {
 			<StyleComp attributes={attributes} isMenuOpen={isMenuOpen}>
 				<div {...blockProps}>
 					{domType === "div" && <div {...innerBlocksProps}></div>}
-					{domType === "form" && formID && (
-						<form onSubmit={handleSubmit} {...innerBlocksProps}></form>
-					)}
-					{domType === "form" && !formID && (
+					{domType === "form" && (
 						<form onSubmit={handleSubmit} {...innerBlocksProps}></form>
 					)}
 				</div>

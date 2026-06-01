@@ -28,12 +28,15 @@ import {
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl,
 } from "@wordpress/block-editor";
-import { useEffect, useRef } from "@wordpress/element";
+import { useEffect, useRef, useState } from "@wordpress/element";
+import { store as blockEditorStore } from "@wordpress/block-editor";
+import { useSelect } from "@wordpress/data";
 
 import "./editor.scss";
 import {
 	useElementBackgroundColor,
 	useIsIframeMobile,
+	flattenBlocks,
 	PseudoElm,
 	ShadowStyle,
 	ShadowElm,
@@ -80,6 +83,7 @@ export default function Edit(props) {
 		selectedSlug,
 		selectedPageUrl,
 		modalClassName,
+		stretchInfo,
 		isEditing,
 		isBlank,
 		isClick,
@@ -141,6 +145,188 @@ export default function Edit(props) {
 	useStyleIframe(StyleComp, attributes);
 	useStyleIframe(StyleTooltips, tooltip_style);
 
+	//ブロックのストレッチ処理
+	const stretchTargetBlock = useSelect(
+		(select) => {
+			const groupId = stretchInfo?.groupId;
+			if (!groupId) return;
+
+			const { getBlocks } = select(blockEditorStore);
+
+			// トップレベルのブロックを再帰的に全取得
+			return flattenBlocks(getBlocks() || []).find(
+				(b) =>
+					b.name === "itmar/design-group" && b.attributes?.formID === groupId,
+			);
+		},
+		[stretchInfo?.groupId],
+	);
+	const stretchClientId = stretchTargetBlock?.clientId;
+
+	//ターゲットブロックの大きさ確保
+	const naturalHeightRef = useRef(0);
+	const naturalPaddingRef = useRef({
+		top: "",
+		bottom: "",
+	});
+	const prevIsOpenRef = useRef(null);
+	const isAnimatingRef = useRef(false);
+	const currentTransitionEndRef = useRef(null);
+
+	useEffect(() => {
+		if (!stretchClientId) return;
+
+		const iframeInstance = document.getElementsByName("editor-canvas")[0];
+		const targetDocument =
+			iframeInstance?.contentDocument ??
+			iframeInstance?.contentWindow?.document ??
+			document;
+
+		const el = targetDocument.querySelector(
+			`[data-block="${stretchClientId}"]`,
+		);
+		if (!el) return;
+
+		const isOpen = stretchInfo?.isOpen ?? true;
+		const isFirstTime = prevIsOpenRef.current === null;
+		prevIsOpenRef.current = isOpen;
+
+		// ① 前のアニメーションの transitionend リスナーを必ず除去
+		if (currentTransitionEndRef.current) {
+			el.removeEventListener("transitionend", currentTransitionEndRef.current);
+			currentTransitionEndRef.current = null;
+		}
+
+		// ── アニメーション関数 ─────────────────────────────
+
+		const closeImmediately = () => {
+			el.style.overflow = "hidden";
+			el.style.transition = "none";
+			el.style.height = "0px";
+			el.style.paddingTop = "0px";
+			el.style.paddingBottom = "0px";
+			isAnimatingRef.current = false;
+		};
+
+		const closeWithAnimation = () => {
+			isAnimatingRef.current = true;
+			el.style.overflow = "hidden";
+			el.style.transition = "none";
+			el.style.height = `${naturalHeightRef.current}px`;
+			void el.offsetHeight;
+			el.style.transition = "height 0.8s ease, padding 0.8s ease";
+			el.style.height = "0px";
+			el.style.paddingTop = "0px";
+			el.style.paddingBottom = "0px";
+
+			const onEnd = () => {
+				el.removeEventListener("transitionend", onEnd);
+				currentTransitionEndRef.current = null;
+				isAnimatingRef.current = false;
+			};
+			currentTransitionEndRef.current = onEnd;
+			el.addEventListener("transitionend", onEnd);
+		};
+
+		const openWithAnimation = () => {
+			isAnimatingRef.current = true;
+			el.style.overflow = "hidden";
+			el.style.transition = "none";
+			el.style.height = "0px";
+			void el.offsetHeight;
+			el.style.transition = "height 0.8s ease, padding 0.8s ease";
+			el.style.height = `${naturalHeightRef.current}px`;
+			el.style.paddingTop = naturalPaddingRef.current.top;
+			el.style.paddingBottom = naturalPaddingRef.current.bottom;
+
+			const onEnd = () => {
+				// スタイルを解放（height: auto に戻す）
+				el.style.height = "";
+				el.style.overflow = "";
+				el.style.transition = "";
+				// ✅ "" ではなく保存した値に戻す
+				el.style.paddingTop = naturalPaddingRef.current.top;
+				el.style.paddingBottom = naturalPaddingRef.current.bottom;
+				el.removeEventListener("transitionend", onEnd);
+				currentTransitionEndRef.current = null;
+				isAnimatingRef.current = false;
+			};
+			currentTransitionEndRef.current = onEnd;
+			el.addEventListener("transitionend", onEnd);
+		};
+
+		// ── 開く ──────────────────────────────────────────
+
+		if (isOpen) {
+			if (!isFirstTime) {
+				openWithAnimation();
+			}
+			return;
+		}
+
+		// ── 閉じる ────────────────────────────────────────
+
+		if (isAnimatingRef.current) return; // アニメーション中は再トリガーしない
+
+		const saveNaturalState = () => {
+			naturalHeightRef.current = el.offsetHeight;
+			naturalPaddingRef.current = {
+				top: el.style.paddingTop,
+				bottom: el.style.paddingBottom,
+			};
+		};
+
+		const applyClose = () => {
+			saveNaturalState();
+			isFirstTime ? closeImmediately() : closeWithAnimation();
+		};
+
+		// style が適用されてから閉じる
+		const applyCloseWhenStyleReady = () => {
+			if (el.style.paddingTop) {
+				applyClose();
+				return;
+			}
+			let applied = false;
+			const mutObserver = new MutationObserver(() => {
+				if (applied) return;
+				applied = true;
+				mutObserver.disconnect();
+				applyClose();
+			});
+			mutObserver.observe(el, { attributes: true, attributeFilter: ["style"] });
+			// フォールバック：2フレーム後に強制実行
+			requestAnimationFrame(() =>
+				requestAnimationFrame(() => {
+					if (!applied) {
+						applied = true;
+						mutObserver.disconnect();
+						applyClose();
+					}
+				}),
+			);
+		};
+
+		// ResizeObserver で高さが確定するまで待つ
+		let resizeObserver = undefined;
+
+		if (el.offsetHeight > 0) {
+			applyCloseWhenStyleReady();
+		} else {
+			let hasTriggered = false;
+			resizeObserver = new ResizeObserver(() => {
+				if (el.offsetHeight > 0 && !hasTriggered) {
+					hasTriggered = true;
+					resizeObserver?.disconnect();
+					applyCloseWhenStyleReady();
+				}
+			});
+			resizeObserver.observe(el);
+		}
+
+		return () => resizeObserver?.disconnect();
+	}, [stretchInfo?.isOpen, stretchClientId]);
+
 	function renderContent() {
 		// ボタンの中身を変数に格納
 		const buttonContent = (
@@ -159,17 +345,34 @@ export default function Edit(props) {
 						return;
 					}
 					setAttributes({ isClick: !isClick });
+					//ボタンのリンクタイプがstretchの場合
+					if (linkKind === "stretch") {
+						const newIsOpen = !stretchInfo.isOpen;
+						setAttributes({
+							stretchInfo: { ...stretchInfo, isOpen: newIsOpen },
+						});
+					}
 				}}
 			>
-				{displayType === "string" && (
-					<RichText
-						onChange={(newContent) => {
-							setAttributes({ labelContent: newContent });
-						}}
-						value={labelContent}
-						placeholder={__("Button Name...", "block-collections")}
-					/>
-				)}
+				{displayType === "string" &&
+					(linkKind === "stretch" ? (
+						<>
+							<div>
+								{stretchInfo.isOpen
+									? stretchInfo.openText
+									: stretchInfo.closeText}
+							</div>
+							<div className="pseudo" />
+						</>
+					) : (
+						<RichText
+							onChange={(newContent) => {
+								setAttributes({ labelContent: newContent });
+							}}
+							value={labelContent}
+							placeholder={__("Button Name...", "block-collections")}
+						/>
+					))}
 				{displayType === "image" && (
 					<SingleImageSelect
 						attributes={attributes}
@@ -232,6 +435,14 @@ export default function Edit(props) {
 								{
 									label: __("Close Modal", "block-collections"),
 									value: "close",
+								},
+								{
+									label: __("Stretchable", "block-collections"),
+									value: "stretch",
+								},
+								{
+									label: __("Back Page", "block-collections"),
+									value: "back",
 								},
 								{ label: __("No Link", "block-collections"), value: "none" },
 							]}
@@ -308,15 +519,62 @@ export default function Edit(props) {
 						/>
 					)}
 
-					{linkKind !== "none" && linkKind !== "close" && (
-						<ToggleControl
-							label={__("Open in new tab", "block-collections")}
-							checked={isBlank}
-							onChange={(newVal) => {
-								setAttributes({ isBlank: newVal });
-							}}
-						/>
+					{linkKind === "stretch" && (
+						<PanelBody
+							title={__("Stretch setting", "block-collections")}
+							initialOpen={true}
+						>
+							<TextControl
+								label={__("Target ID", "block-collections")}
+								value={stretchInfo.groupId}
+								onChange={(newValue) => {
+									setAttributes({
+										stretchInfo: { ...stretchInfo, groupId: newValue },
+									});
+								}}
+							/>
+							<ToggleControl
+								label={__("Is Arrow Display", "block-collections")}
+								checked={stretchInfo.isArrow}
+								onChange={(newVal) => {
+									setAttributes({
+										stretchInfo: { ...stretchInfo, isArrow: newValue },
+									});
+								}}
+							/>
+							<TextControl
+								label={__("Open Button Text", "block-collections")}
+								value={stretchInfo.openText}
+								onChange={(newValue) => {
+									setAttributes({
+										stretchInfo: { ...stretchInfo, openText: newValue },
+									});
+								}}
+							/>
+							<TextControl
+								label={__("Close Button Tex", "block-collections")}
+								value={stretchInfo.closeText}
+								onChange={(newValue) => {
+									setAttributes({
+										stretchInfo: { ...stretchInfo, closeText: newValue },
+									});
+								}}
+							/>
+						</PanelBody>
 					)}
+
+					{linkKind !== "none" &&
+						linkKind !== "close" &&
+						linkKind !== "back" &&
+						linkKind !== "stretch" && (
+							<ToggleControl
+								label={__("Open in new tab", "block-collections")}
+								checked={isBlank}
+								onChange={(newVal) => {
+									setAttributes({ isBlank: newVal });
+								}}
+							/>
+						)}
 
 					<TextControl
 						label={__("Button Identification Key", "block-collections")}

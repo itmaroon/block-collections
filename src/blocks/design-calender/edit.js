@@ -378,7 +378,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		{},
 		{
 			template: TEMPLATE,
-			templateLock: "all",
+			templateLock: false,
 		},
 	);
 

@@ -29,6 +29,16 @@
       "type": "string",
       "default": ""
     },
+    "stretchInfo": {
+      "type": "object",
+      "default": {
+        "groupId": "",
+        "isOpen": true,
+        "isArrow": true,
+        "openText": "",
+        "closeText": ""
+      }
+    },
     "isBlank": {
       "type": "boolean",
       "default": false

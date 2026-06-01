@@ -27,7 +27,7 @@
 		},
 		"clickCellPos": {
 			"type": "object",
-			"default": {"row":1,"col":0}
+			"default": {}
 		},
 		"tableLayout": {
 			"type": "string", 
@@ -37,7 +37,15 @@
 			"type": "boolean",
 			"default": false
 		},
+		"is_rowHeading": {
+			"type": "boolean",
+			"default": false
+		},
 		"tableHeading": {
+			"type": "array",
+			"default": []
+		},
+		"rowTableHeading": {
 			"type": "array",
 			"default": []
 		},

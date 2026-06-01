@@ -22,7 +22,7 @@ export const StyleComp = ({ attributes, isMenuOpen, children }) => {
 	const content = (
 		<StyledDiv
 			{...swiperParallaxAttributes}
-			attributes={{ ...attributes }}
+			$attr={{ ...attributes }}
 			className={`${isMenuOpen ? "open" : ""} ${
 				attributes.is_submenu ? "sub_menu" : ""
 			}`}
@@ -39,7 +39,7 @@ export const StyleComp = ({ attributes, isMenuOpen, children }) => {
 };
 
 const StyledDiv = styled.div`
-	${({ attributes }) => {
+	${({ $attr }) => {
 		const {
 			positionType,
 			isPosCenter,
@@ -54,7 +54,7 @@ const StyledDiv = styled.div`
 			isAppear,
 			has_submenu,
 			anime_prm,
-		} = attributes;
+		} = $attr;
 
 		//FlexItemの設定
 		const default_flexItem =
