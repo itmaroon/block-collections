@@ -1,6 +1,15 @@
 import { __ } from "@wordpress/i18n";
 
 import apiFetch from "@wordpress/api-fetch";
+import { styleComponentApply } from "itmar-block-packages";
+
+import { StyleComp } from "./StyleWapper";
+
+//styled_conponentの適用
+styleComponentApply(StyleComp, ".wp-block-itmar-design-title", {
+	selector: ".itmar-wrap",
+	target: "inner",
+});
 
 jQuery(function ($) {
 	/* ------------------------------

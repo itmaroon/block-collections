@@ -6,18 +6,12 @@ import {
 	borderProperty,
 } from "itmar-block-packages";
 
-export default function StyleTooltips({ attributes, tooltip, children }) {
-	return (
-		<StyledDiv attributes={attributes} tooltip={tooltip}>
-			{children}
-		</StyledDiv>
-	);
+export default function StyleTooltips({ attributes, children }) {
+	return <StyledDiv $attr={attributes}>{children}</StyledDiv>;
 }
 
-const StyledDiv = styled.span.attrs((props) => ({
-	"data-tooltip": props.tooltip,
-}))`
-	${({ attributes }) => {
+const StyledDiv = styled.span`
+	${({ $attr }) => {
 		const {
 			font_style,
 			color,
@@ -26,7 +20,8 @@ const StyledDiv = styled.span.attrs((props) => ({
 			border,
 			borderRadius,
 			padding,
-		} = attributes;
+			tooltip_text,
+		} = $attr;
 
 		//単色かグラデーションかの選択
 		const bgTooltipColor = bgColor || bgGradient;
@@ -58,7 +53,7 @@ const StyledDiv = styled.span.attrs((props) => ({
 				}
 			}
 			&::after {
-				content: attr(data-tooltip);
+				content: "${tooltip_text}";
 				font-family: ${font_style.fontFamily};
 				text-align: center;
 				min-width: 3em;

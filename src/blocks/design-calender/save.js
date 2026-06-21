@@ -59,6 +59,7 @@ export default function save({ attributes }) {
 
 	//styled-componentsのHTML化
 	const mainDom = styleCompToDom(<StyleComp attributes={attributes} />);
+
 	const tipsDom = styleCompToDom(<StyleTooltips attributes={tooltip_style} />);
 
 	return (

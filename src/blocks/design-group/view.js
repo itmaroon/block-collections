@@ -4,7 +4,10 @@ import { styleComponentApply } from "itmar-block-packages";
 import { StyleComp } from "./StyleGroup";
 
 //styled_conponentの適用
-styleComponentApply(StyleComp, ".wp-block-itmar-design-group");
+styleComponentApply(StyleComp, ".wp-block-itmar-design-group", {
+	selector: ".itmar-wrap",
+	target: "outer",
+});
 
 jQuery(function ($) {
 	/* ------------------------------

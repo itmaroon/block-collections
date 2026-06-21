@@ -3,7 +3,7 @@ import { radius_prm, space_prm, convertToScss } from "itmar-block-packages";
 
 export const StyleComp = ({ attributes, children, onBurstEnd }) => {
 	return (
-		<StyledDiv id={attributes.headingID} attributes={attributes}>
+		<StyledDiv id={attributes.headingID} $attr={attributes}>
 			{children}
 			{attributes.is_waiting && (
 				<>
@@ -36,7 +36,7 @@ export const StyleComp = ({ attributes, children, onBurstEnd }) => {
 };
 
 const StyledDiv = styled.div`
-	${({ attributes }) => {
+	${({ $attr }) => {
 		const {
 			headingType,
 			defaultHeadingSize,
@@ -56,7 +56,7 @@ const StyledDiv = styled.div`
 			bgColor_underLine,
 			bgGradient_underLine,
 			className,
-		} = attributes;
+		} = $attr;
 
 		//単色かグラデーションかテーマ色かの選択
 		const bgUnderLine =

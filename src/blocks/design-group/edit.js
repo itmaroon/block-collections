@@ -118,6 +118,7 @@ export default function Edit(props) {
 		anime_prm,
 		is_shadow,
 		is_anime,
+		is_swiper,
 		is_moveable,
 		position,
 		is_menu,
@@ -330,6 +331,17 @@ export default function Edit(props) {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 	};
+	//本体のレンダリング内容
+	const content = (
+		<StyleComp attributes={attributes} isMenuOpen={isMenuOpen}>
+			<div {...blockProps}>
+				{domType === "div" && <div {...innerBlocksProps}></div>}
+				{domType === "form" && (
+					<form onSubmit={handleSubmit} {...innerBlocksProps}></form>
+				)}
+			</div>
+		</StyleComp>
+	);
 
 	return (
 		<>
@@ -850,9 +862,7 @@ export default function Edit(props) {
 					</ToolbarGroup>
 				</BlockControls>
 			)}
-
 			{/* ブロックエディタ領域内 */}
-
 			{is_menu && !is_submenu && (
 				<>
 					<ToggleElement
@@ -872,14 +882,7 @@ export default function Edit(props) {
 				</>
 			)}
 
-			<StyleComp attributes={attributes} isMenuOpen={isMenuOpen}>
-				<div {...blockProps}>
-					{domType === "div" && <div {...innerBlocksProps}></div>}
-					{domType === "form" && (
-						<form onSubmit={handleSubmit} {...innerBlocksProps}></form>
-					)}
-				</div>
-			</StyleComp>
+			{is_swiper ? <div className="swiper-slide">{content}</div> : content}
 		</>
 	);
 }
