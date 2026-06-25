@@ -30,12 +30,12 @@ export const StyleComp = ({ attributes, isMenuOpen, children }) => {
 			{children}
 		</StyledDiv>
 	);
-
-	return attributes.is_swiper ? (
-		<div className="swiper-slide">{content}</div>
-	) : (
-		content
-	);
+	return content;
+	// return attributes.is_swiper ? (
+	// 	<div className="swiper-slide">{content}</div>
+	// ) : (
+	// 	content
+	// );
 };
 
 const StyledDiv = styled.div`

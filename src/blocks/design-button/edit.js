@@ -48,6 +48,11 @@ import {
 	TypographyControls,
 } from "itmar-block-packages";
 
+import {
+	createStretchPseudoCss,
+	applyStretchAccordion,
+} from "../../front-common";
+
 import { justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
 //スペースのリセットバリュー
@@ -143,7 +148,7 @@ export default function Edit(props) {
 
 	//サイトエディタの場合はiframeにスタイルをわたす。
 	useStyleIframe(StyleComp, attributes);
-	useStyleIframe(StyleTooltips, tooltip_style);
+	useStyleIframe(StyleTooltips, { ...tooltip_style, tooltip_text });
 
 	//ブロックのストレッチ処理
 	const stretchTargetBlock = useSelect(
@@ -173,10 +178,12 @@ export default function Edit(props) {
 	const isAnimatingRef = useRef(false);
 	const currentTransitionEndRef = useRef(null);
 
+	//アコーデオンボタンのアニメーション処理
 	useEffect(() => {
 		if (!stretchClientId) return;
 
 		const iframeInstance = document.getElementsByName("editor-canvas")[0];
+
 		const targetDocument =
 			iframeInstance?.contentDocument ??
 			iframeInstance?.contentWindow?.document ??
@@ -185,146 +192,12 @@ export default function Edit(props) {
 		const el = targetDocument.querySelector(
 			`[data-block="${stretchClientId}"]`,
 		);
+
 		if (!el) return;
 
 		const isOpen = stretchInfo?.isOpen ?? true;
-		const isFirstTime = prevIsOpenRef.current === null;
-		prevIsOpenRef.current = isOpen;
 
-		// ① 前のアニメーションの transitionend リスナーを必ず除去
-		if (currentTransitionEndRef.current) {
-			el.removeEventListener("transitionend", currentTransitionEndRef.current);
-			currentTransitionEndRef.current = null;
-		}
-
-		// ── アニメーション関数 ─────────────────────────────
-
-		const closeImmediately = () => {
-			el.style.overflow = "hidden";
-			el.style.transition = "none";
-			el.style.height = "0px";
-			el.style.paddingTop = "0px";
-			el.style.paddingBottom = "0px";
-			isAnimatingRef.current = false;
-		};
-
-		const closeWithAnimation = () => {
-			isAnimatingRef.current = true;
-			el.style.overflow = "hidden";
-			el.style.transition = "none";
-			el.style.height = `${naturalHeightRef.current}px`;
-			void el.offsetHeight;
-			el.style.transition = "height 0.8s ease, padding 0.8s ease";
-			el.style.height = "0px";
-			el.style.paddingTop = "0px";
-			el.style.paddingBottom = "0px";
-
-			const onEnd = () => {
-				el.removeEventListener("transitionend", onEnd);
-				currentTransitionEndRef.current = null;
-				isAnimatingRef.current = false;
-			};
-			currentTransitionEndRef.current = onEnd;
-			el.addEventListener("transitionend", onEnd);
-		};
-
-		const openWithAnimation = () => {
-			isAnimatingRef.current = true;
-			el.style.overflow = "hidden";
-			el.style.transition = "none";
-			el.style.height = "0px";
-			void el.offsetHeight;
-			el.style.transition = "height 0.8s ease, padding 0.8s ease";
-			el.style.height = `${naturalHeightRef.current}px`;
-			el.style.paddingTop = naturalPaddingRef.current.top;
-			el.style.paddingBottom = naturalPaddingRef.current.bottom;
-
-			const onEnd = () => {
-				// スタイルを解放（height: auto に戻す）
-				el.style.height = "";
-				el.style.overflow = "";
-				el.style.transition = "";
-				// ✅ "" ではなく保存した値に戻す
-				el.style.paddingTop = naturalPaddingRef.current.top;
-				el.style.paddingBottom = naturalPaddingRef.current.bottom;
-				el.removeEventListener("transitionend", onEnd);
-				currentTransitionEndRef.current = null;
-				isAnimatingRef.current = false;
-			};
-			currentTransitionEndRef.current = onEnd;
-			el.addEventListener("transitionend", onEnd);
-		};
-
-		// ── 開く ──────────────────────────────────────────
-
-		if (isOpen) {
-			if (!isFirstTime) {
-				openWithAnimation();
-			}
-			return;
-		}
-
-		// ── 閉じる ────────────────────────────────────────
-
-		if (isAnimatingRef.current) return; // アニメーション中は再トリガーしない
-
-		const saveNaturalState = () => {
-			naturalHeightRef.current = el.offsetHeight;
-			naturalPaddingRef.current = {
-				top: el.style.paddingTop,
-				bottom: el.style.paddingBottom,
-			};
-		};
-
-		const applyClose = () => {
-			saveNaturalState();
-			isFirstTime ? closeImmediately() : closeWithAnimation();
-		};
-
-		// style が適用されてから閉じる
-		const applyCloseWhenStyleReady = () => {
-			if (el.style.paddingTop) {
-				applyClose();
-				return;
-			}
-			let applied = false;
-			const mutObserver = new MutationObserver(() => {
-				if (applied) return;
-				applied = true;
-				mutObserver.disconnect();
-				applyClose();
-			});
-			mutObserver.observe(el, { attributes: true, attributeFilter: ["style"] });
-			// フォールバック：2フレーム後に強制実行
-			requestAnimationFrame(() =>
-				requestAnimationFrame(() => {
-					if (!applied) {
-						applied = true;
-						mutObserver.disconnect();
-						applyClose();
-					}
-				}),
-			);
-		};
-
-		// ResizeObserver で高さが確定するまで待つ
-		let resizeObserver = undefined;
-
-		if (el.offsetHeight > 0) {
-			applyCloseWhenStyleReady();
-		} else {
-			let hasTriggered = false;
-			resizeObserver = new ResizeObserver(() => {
-				if (el.offsetHeight > 0 && !hasTriggered) {
-					hasTriggered = true;
-					resizeObserver?.disconnect();
-					applyCloseWhenStyleReady();
-				}
-			});
-			resizeObserver.observe(el);
-		}
-
-		return () => resizeObserver?.disconnect();
+		return applyStretchAccordion(el, isOpen);
 	}, [stretchInfo?.isOpen, stretchClientId]);
 
 	function renderContent() {
@@ -334,6 +207,7 @@ export default function Edit(props) {
 				type={buttonType}
 				disabled={disabled}
 				data-key={buttonKey}
+				data-back={linkKind}
 				// onMouseDown={(e) => {
 				// 	// これにより、クリックしても親ブロックの選択状態が解除されず、
 				// 	// かつこのボタンを持つインナーブロックが「選択」されるのを防ぎます
@@ -357,12 +231,14 @@ export default function Edit(props) {
 				{displayType === "string" &&
 					(linkKind === "stretch" ? (
 						<>
-							<div>
+							{stretchInfo.isArrow && (
+								<style>{createStretchPseudoCss(stretchInfo)}</style>
+							)}
+							<div className={stretchInfo.isArrow ? "stretch_pseudo" : ""}>
 								{stretchInfo.isOpen
 									? stretchInfo.openText
 									: stretchInfo.closeText}
 							</div>
-							<div className="pseudo" />
 						</>
 					) : (
 						<RichText
@@ -386,7 +262,9 @@ export default function Edit(props) {
 			</button>
 		);
 		return is_tooltip ? (
-			<StyleTooltips attributes={tooltip_style} tooltip={tooltip_text}>
+			<StyleTooltips
+				attributes={{ ...tooltip_style, tooltip_text: tooltip_text }}
+			>
 				{buttonContent}
 			</StyleTooltips>
 		) : (
@@ -441,6 +319,10 @@ export default function Edit(props) {
 									value: "stretch",
 								},
 								{
+									label: __("Forward Page", "block-collections"),
+									value: "forward",
+								},
+								{
 									label: __("Back Page", "block-collections"),
 									value: "back",
 								},
@@ -462,6 +344,11 @@ export default function Edit(props) {
 									: linkKind === "close"
 									? __(
 											"Hides child elements with the specified ID or class name. If not specified, hides the parent element of the button.",
+											"block-collections",
+									  )
+									: linkKind === "back" || linkKind === "forward"
+									? __(
+											"This button is used to switch between multiple forms.",
 											"block-collections",
 									  )
 									: ""
@@ -536,11 +423,21 @@ export default function Edit(props) {
 							<ToggleControl
 								label={__("Is Arrow Display", "block-collections")}
 								checked={stretchInfo.isArrow}
-								onChange={(newVal) => {
+								onChange={(newValue) => {
 									setAttributes({
 										stretchInfo: { ...stretchInfo, isArrow: newValue },
 									});
 								}}
+							/>
+							<UnitControl
+								dragDirection="e"
+								onChange={(newValue) => {
+									setAttributes({
+										stretchInfo: { ...stretchInfo, arrowSize: newValue },
+									});
+								}}
+								label={__("Size", "block-collections")}
+								value={stretchInfo.arrowSize}
 							/>
 							<TextControl
 								label={__("Open Button Text", "block-collections")}
@@ -566,6 +463,7 @@ export default function Edit(props) {
 					{linkKind !== "none" &&
 						linkKind !== "close" &&
 						linkKind !== "back" &&
+						linkKind !== "forward" &&
 						linkKind !== "stretch" && (
 							<ToggleControl
 								label={__("Open in new tab", "block-collections")}

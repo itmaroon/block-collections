@@ -59,9 +59,15 @@ export default function save({ attributes }) {
 			</form>
 		);
 
-	const innerContent = (
-		<div {...blockProps}>
-			<div>{contentDom}</div>
+	const innerContent = is_swiper ? (
+		<div className="swiper-slide">
+			<div className="itmar-wrap">
+				<div {...blockProps}>{contentDom}</div>
+			</div>
+		</div>
+	) : (
+		<div className="itmar-wrap">
+			<div {...blockProps}>{contentDom}</div>
 		</div>
 	);
 

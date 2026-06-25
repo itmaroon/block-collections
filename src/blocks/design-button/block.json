@@ -36,6 +36,7 @@
 				"groupId":"",
 				"isOpen":true,
 				"isArrow":true,
+				"arrowSize":"10px",
 				"openText":"",
 				"closeText":""
 			}

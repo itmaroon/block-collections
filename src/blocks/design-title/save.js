@@ -1,7 +1,5 @@
 import { useBlockProps, InnerBlocks, RichText } from "@wordpress/block-editor";
-import { ServerStyleSheet } from "styled-components";
-import { renderToString } from "react-dom/server";
-import { StyleComp } from "./StyleWapper";
+
 import { displayFormated } from "itmar-block-packages";
 
 export default function save({ attributes }) {
@@ -20,7 +18,11 @@ export default function save({ attributes }) {
 		is_title_menu,
 		selectedPageUrl,
 		isBlank,
+		dateValue,
+		...styleAttributes
 	} = attributes;
+
+	const a = 1;
 
 	//テキストの配置
 	const align_style =
@@ -31,13 +33,18 @@ export default function save({ attributes }) {
 			: {};
 
 	const blockProps = useBlockProps.save({
+		"data-attributes": JSON.stringify({
+			...styleAttributes,
+			headingType,
+			optionStyle,
+			linkKind,
+			menu_pos,
+		}),
 		style: {
 			position: `${is_title_menu ? "relative" : "static"}`,
 			...align_style,
 		},
 	});
-
-	const sheet = new ServerStyleSheet();
 
 	//リッチテキストをコンテンツにする
 	const renderRichText = () => {
@@ -50,11 +57,13 @@ export default function save({ attributes }) {
 		);
 		return <RichText.Content tagName={headingType} value={formatedValue} />;
 	};
+
 	//ヘッダー要素をコンテンツにする
 	const renderElement = () =>
 		React.createElement(headingType.toLowerCase(), {
 			className: `itmar_${titleType}_title`,
 		});
+
 	// アイコン画像の条件判定
 	const isIcon = optionStyle?.isIcon;
 	const iconType = optionStyle?.icon_style?.icon_type;
@@ -103,23 +112,30 @@ export default function save({ attributes }) {
 
 	const wrappedContent =
 		linkKind === "none" || linkKind === "submenu" ? (
-			<StyleComp attributes={attributes}>{content}</StyleComp>
+			<div className="itmar-wrap" attributes={attributes}>
+				{content}
+			</div>
 		) : linkKind === "login" ? (
-			<StyleComp attributes={attributes}>{logon_btn}</StyleComp>
+			<div className="itmar-wrap" attributes={attributes}>
+				{logon_btn}
+			</div>
 		) : linkKind === "open" ? (
-			<StyleComp attributes={attributes}>{open_modal_btn}</StyleComp>
+			<div className="itmar-wrap" attributes={attributes}>
+				{open_modal_btn}
+			</div>
 		) : isBlank ? (
 			<a href={selectedPageUrl} target="_blank" rel="noopener noreferrer">
-				<StyleComp attributes={attributes}>{content}</StyleComp>
+				<div className="itmar-wrap" attributes={attributes}>
+					{content}
+				</div>
 			</a>
 		) : (
 			<a href={selectedPageUrl}>
-				<StyleComp attributes={attributes}>{content}</StyleComp>
+				<div className="itmar-wrap" attributes={attributes}>
+					{content}
+				</div>
 			</a>
 		);
-
-	const html = renderToString(sheet.collectStyles(wrappedContent));
-	const styleTags = sheet.getStyleTags();
 
 	return (
 		<div
@@ -130,7 +146,7 @@ export default function save({ attributes }) {
 			data-decimal={decimal}
 			data-unique_id={uniqueID}
 		>
-			<div dangerouslySetInnerHTML={{ __html: html }} />
+			{wrappedContent}
 
 			{linkKind === "submenu" && (
 				<div
@@ -141,10 +157,6 @@ export default function save({ attributes }) {
 					<InnerBlocks.Content />
 				</div>
 			)}
-			<div
-				className="itmar_style_div"
-				dangerouslySetInnerHTML={{ __html: styleTags }}
-			/>
 		</div>
 	);
 }

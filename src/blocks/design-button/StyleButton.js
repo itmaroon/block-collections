@@ -10,11 +10,11 @@ import {
 } from "itmar-block-packages";
 
 export const StyleComp = ({ attributes, children }) => {
-	return <StyledDiv attributes={attributes}>{children}</StyledDiv>;
+	return <StyledDiv $attr={attributes}>{children}</StyledDiv>;
 };
 
 const StyledDiv = styled.div`
-	${({ attributes }) => {
+	${({ $attr }) => {
 		const {
 			buttonType,
 			displayType,
@@ -37,7 +37,7 @@ const StyledDiv = styled.div`
 			shadow_result,
 			is_shadow,
 			className,
-		} = attributes;
+		} = $attr;
 
 		//単色かグラデーションかの選択
 		const bgColor = buttonColor || buttonGradient;

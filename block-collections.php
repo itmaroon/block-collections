@@ -72,7 +72,6 @@ function itmar_highlight_scripts_and_styles()
 		filemtime("$dir/code-prettify/prettify.css")
 	);
 
-
 	// コアブロックカスタマイズスクリプトの翻訳をセット
 	wp_set_script_translations('itmar-gutenberg-extensions-script', 'block-collections', plugin_dir_path(__FILE__) . 'languages');
 

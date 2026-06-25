@@ -656,7 +656,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							? "saturday"
 							: "";
 					const dispSpan = item.holiday ? (
-						<StyleTooltips attributes={tooltip_style} tooltip={item.holiday}>
+						<StyleTooltips
+							attributes={{ ...tooltip_style, tooltip_text: item.holiday }}
+						>
 							{String(item.date)}
 						</StyleTooltips>
 					) : (
