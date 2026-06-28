@@ -7,25 +7,23 @@ import {
 } from "itmar-block-packages";
 
 export const StyleComp = ({ attributes, children }) => {
-	return <StyledDiv attributes={attributes}>{children}</StyledDiv>;
+	return <StyledDiv $attr={attributes}>{children}</StyledDiv>;
 };
 
 const StyledDiv = styled.div`
-	${({ attributes }) => {
+	${({ $attr }) => {
 		const {
 			font_style_label,
 			default_pos,
 			mobile_pos,
 			bgColor_form,
 			labelColor,
-			boxColor,
 			boxBgColor,
 			radius_heading,
 			border_heading,
 			shadow_result,
 			is_shadow,
-			className,
-		} = attributes;
+		} = $attr;
 
 		//斜体の設定
 		const fontStyle_label = font_style_label.isItalic ? "italic" : "normal";

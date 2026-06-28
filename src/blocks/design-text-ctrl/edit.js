@@ -4,11 +4,12 @@ import visibleIcon from "./visible.svg";
 import hideIcon from "./hide.svg";
 
 import { StyleComp } from "./StyleInput";
-import { useState, useEffect, useRef } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { useMergeRefs } from "@wordpress/compose";
+import { StyleSheetManager } from "styled-components";
 import { dispatch } from "@wordpress/data";
 import { store as blockEditorStore } from "@wordpress/block-editor";
 
-import { useStyleIframe } from "../iframeFooks";
 import LabelBox from "../LabelBox";
 import {
 	useElementBackgroundColor,
@@ -97,8 +98,13 @@ export default function Edit(props) {
 
 	//ブロックの参照
 	const blockRef = useRef(null);
+	const [styleSheetTarget, setStyleSheetTarget] = useState(null);
+	const ownerDocumentRef = useCallback((node) => {
+		setStyleSheetTarget(node?.ownerDocument.head ?? null);
+	}, []);
+	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
 	const blockProps = useBlockProps({
-		ref: blockRef, // ここで参照を blockProps に渡しています
+		ref: mergedBlockRef,
 		style: { backgroundColor: bgColor },
 	});
 
@@ -117,9 +123,6 @@ export default function Edit(props) {
 			}
 		}
 	}, [baseColor]);
-
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleComp, attributes);
 
 	//必須項目の表示
 	const dispLabel = required.flg
@@ -474,7 +477,8 @@ export default function Edit(props) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes}>
+				<StyleSheetManager target={styleSheetTarget ?? undefined}>
+					<StyleComp attributes={attributes}>
 					{inputType === "text" && (
 						<input
 							type="text"
@@ -669,7 +673,8 @@ export default function Edit(props) {
 						attributes={{ ...attributes, isMobile: isMobile }}
 						onChange={(target, newVal) => setAttributes({ [target]: newVal })}
 					/>
-				</StyleComp>
+					</StyleComp>
+				</StyleSheetManager>
 			</div>
 		</>
 	);

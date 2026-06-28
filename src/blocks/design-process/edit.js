@@ -1,7 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import "./editor.scss";
 import { StyleComp } from "./StyleProcess";
-import { useStyleIframe } from "../iframeFooks";
 import {
 	TypographyControls,
 	ShadowStyle,
@@ -25,7 +24,9 @@ import {
 } from "@wordpress/components";
 
 import { useSelect, useDispatch } from "@wordpress/data";
-import { useEffect, useRef } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { useMergeRefs } from "@wordpress/compose";
+import { StyleSheetManager } from "styled-components";
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -72,8 +73,13 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 
 	//ブロックの参照
 	const blockRef = useRef(null);
+	const [styleSheetTarget, setStyleSheetTarget] = useState(null);
+	const ownerDocumentRef = useCallback((node) => {
+		setStyleSheetTarget(node?.ownerDocument.head ?? null);
+	}, []);
+	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
 	const blockProps = useBlockProps({
-		ref: blockRef, // ここで参照を blockProps に渡しています
+		ref: mergedBlockRef,
 		style: { backgroundColor: bgColor },
 	});
 
@@ -92,9 +98,6 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			}
 		}
 	}, [baseColor]);
-
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleComp, attributes);
 
 	//親のcontextから今のステップ数を取得
 	const stage_index = context["itmar/current_step"];
@@ -340,13 +343,15 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes}>
-					{figureBlocks.map((block, index) => (
-						<li key={index} className={stage_index >= index ? "ready" : ""}>
-							{block.attributes.stage_info}
-						</li>
-					))}
-				</StyleComp>
+				<StyleSheetManager target={styleSheetTarget ?? undefined}>
+					<StyleComp attributes={attributes}>
+						{figureBlocks.map((block, index) => (
+							<li key={index} className={stage_index >= index ? "ready" : ""}>
+								{block.attributes.stage_info}
+							</li>
+						))}
+					</StyleComp>
+				</StyleSheetManager>
 			</div>
 		</>
 	);

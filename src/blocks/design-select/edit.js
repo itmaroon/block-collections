@@ -2,8 +2,9 @@ import { __ } from "@wordpress/i18n";
 
 import { StyleComp } from "./StyleSelect";
 import { NomalSelect } from "./initSelect";
-import { useStyleIframe } from "../iframeFooks";
-import { useEffect, useRef } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { useMergeRefs } from "@wordpress/compose";
+import { StyleSheetManager } from "styled-components";
 import LabelBox from "../LabelBox";
 import OptionModal from "../OptionModal";
 import {
@@ -15,15 +16,13 @@ import {
 import { TypographyControls } from "itmar-block-packages";
 
 import {
-	Button,
 	PanelBody,
 	PanelRow,
-	Modal,
 	RadioControl,
 	TextControl,
 	ToggleControl,
-	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
+	BoxControl,
+	BorderBoxControl,
 } from "@wordpress/components";
 import {
 	useBlockProps,
@@ -85,8 +84,13 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 	//ブロックの参照
 	const blockRef = useRef(null);
+	const [styleSheetTarget, setStyleSheetTarget] = useState(null);
+	const ownerDocumentRef = useCallback((node) => {
+		setStyleSheetTarget(node?.ownerDocument.head ?? null);
+	}, []);
+	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
 	const blockProps = useBlockProps({
-		ref: blockRef, // ここで参照を blockProps に渡しています
+		ref: mergedBlockRef,
 		style: { backgroundColor: bgColor }, //背景色をブロックのルートにインラインでセット
 	});
 
@@ -106,14 +110,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 		}
 	}, [baseColor]);
 
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleComp, attributes);
-
 	// selPatternがtrueの場合、multiple属性を持つオブジェクトを返す
 	const selectAttributes = selPattern === "multi" ? { multiple: true } : {};
-
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleComp, attributes);
 
 	//親コンポーネントからのラベル幅の指定があればそれを採用して記録する
 	const label_width = context["itmar/label_width"] || "auto";
@@ -150,7 +148,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 					}}
 				>
 					<select
-						class="nomal"
+						className="nomal"
 						{...selectAttributes}
 						name={inputName}
 						data-placeholder={folder_val}
@@ -412,7 +410,9 @@ export default function Edit({ attributes, setAttributes, context }) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				<StyleSheetManager target={styleSheetTarget ?? undefined}>
+					<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				</StyleSheetManager>
 			</div>
 		</>
 	);

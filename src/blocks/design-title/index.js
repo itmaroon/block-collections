@@ -6,14 +6,18 @@ import "./style.scss";
  * Internal dependencies
  */
 import { BlockEditWrapper } from "itmar-block-packages";
-//import Edit from './edit';
+import Edit from "./edit";
 import save from "./save";
 import metadata from "./block.json";
 import { ReactComponent as Title } from "./title.svg";
 //ブロックを遅延読込
-const LazyEditComponent = React.lazy(() => import("./edit"));
+// const LazyEditComponent = React.lazy(() => import("./edit"));
+// const BlockEdit = (props) => {
+// 	return <BlockEditWrapper lazyComponent={LazyEditComponent} {...props} />;
+// };
+
 const BlockEdit = (props) => {
-	return <BlockEditWrapper lazyComponent={LazyEditComponent} {...props} />;
+	return <Edit {...props} />;
 };
 
 registerBlockType(metadata.name, {

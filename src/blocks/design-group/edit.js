@@ -1,7 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import "./editor.scss";
 import { StyleComp } from "./StyleGroup";
-import { useStyleIframe } from "../iframeFooks";
 import { useSelect, dispatch } from "@wordpress/data";
 import {
 	useElementStyleObject,
@@ -37,7 +36,9 @@ import {
 	__experimentalBoxControl as BoxControl,
 } from "@wordpress/components";
 
-import { useEffect, useRef, useState } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { useMergeRefs } from "@wordpress/compose";
+import { StyleSheetManager } from "styled-components";
 
 import { ReactComponent as ToFront } from "../../../assets/img/turn-up.svg";
 import { ReactComponent as ToBack } from "../../../assets/img/turn-down.svg";
@@ -135,6 +136,11 @@ export default function Edit(props) {
 
 	//ブロックの参照
 	const blockRef = useRef(null);
+	const [styleSheetTarget, setStyleSheetTarget] = useState(null);
+	const ownerDocumentRef = useCallback((node) => {
+		setStyleSheetTarget(node?.ownerDocument.head ?? null);
+	}, []);
+	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
 
 	//インナーブロックの参照
 	const innerRef = useRef(null);
@@ -147,7 +153,7 @@ export default function Edit(props) {
 
 	//blockPropsの参照
 	const blockProps = useBlockProps({
-		ref: blockRef, // ここで参照を blockProps に渡しています
+		ref: mergedBlockRef,
 	});
 
 	//ブロックのインナースタイルを取得
@@ -176,9 +182,6 @@ export default function Edit(props) {
 			}
 		}
 	}, [styleObject]);
-
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleComp, attributes);
 
 	//アニメーション開始のトリガーとなるクラスを付加するフラグ
 	const [startAnime, setStartAnime] = useState(false);
@@ -333,14 +336,16 @@ export default function Edit(props) {
 	};
 	//本体のレンダリング内容
 	const content = (
-		<StyleComp attributes={attributes} isMenuOpen={isMenuOpen}>
-			<div {...blockProps}>
-				{domType === "div" && <div {...innerBlocksProps}></div>}
-				{domType === "form" && (
-					<form onSubmit={handleSubmit} {...innerBlocksProps}></form>
-				)}
-			</div>
-		</StyleComp>
+		<StyleSheetManager target={styleSheetTarget ?? undefined}>
+			<StyleComp attributes={attributes} isMenuOpen={isMenuOpen}>
+				<div {...blockProps}>
+					{domType === "div" && <div {...innerBlocksProps}></div>}
+					{domType === "form" && (
+						<form onSubmit={handleSubmit} {...innerBlocksProps}></form>
+					)}
+				</div>
+			</StyleComp>
+		</StyleSheetManager>
 	);
 
 	return (

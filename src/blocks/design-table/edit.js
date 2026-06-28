@@ -1,8 +1,9 @@
 import { __ } from "@wordpress/i18n";
 import { StyleComp } from "./StyleTable";
-import { useStyleIframe } from "../iframeFooks";
 import { useSelect } from "@wordpress/data";
 import { useEffect, useState, useCallback, useRef } from "@wordpress/element";
+import { useMergeRefs } from "@wordpress/compose";
+import { StyleSheetManager } from "styled-components";
 import {
 	useElementBackgroundColor,
 	useIsIframeMobile,
@@ -293,8 +294,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//ブロックの参照
 	const blockRef = useRef(null);
+	const [styleSheetTarget, setStyleSheetTarget] = useState(null);
+	const ownerDocumentRef = useCallback((node) => {
+		setStyleSheetTarget(node?.ownerDocument.head ?? null);
+	}, []);
+	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
 	const blockProps = useBlockProps({
-		ref: blockRef, // ここで参照を blockProps に渡しています
+		ref: mergedBlockRef,
 		style: { backgroundColor: bgColor },
 	});
 
@@ -314,8 +320,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		}
 	}, [baseColor]);
 
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleComp, attributes);
 	const CellHtml = ({ html }) => (
 		<span
 			className="cell-html"
@@ -912,7 +916,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			</BlockControls>
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				<StyleSheetManager target={styleSheetTarget ?? undefined}>
+					<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				</StyleSheetManager>
 			</div>
 		</>
 	);

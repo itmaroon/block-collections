@@ -22,8 +22,6 @@ export default function save({ attributes }) {
 		...styleAttributes
 	} = attributes;
 
-	const a = 1;
-
 	//テキストの配置
 	const align_style =
 		align === "center"
@@ -31,15 +29,23 @@ export default function save({ attributes }) {
 			: align === "right"
 			? { marginLeft: "auto" }
 			: {};
+	const dataAttributes = {
+		...styleAttributes,
+		headingType,
+		linkKind,
+		menu_pos,
+	};
 
+	if (
+		optionStyle &&
+		typeof optionStyle === "object" &&
+		!Array.isArray(optionStyle) &&
+		Object.keys(optionStyle).length > 0
+	) {
+		dataAttributes.optionStyle = optionStyle;
+	}
 	const blockProps = useBlockProps.save({
-		"data-attributes": JSON.stringify({
-			...styleAttributes,
-			headingType,
-			optionStyle,
-			linkKind,
-			menu_pos,
-		}),
+		"data-attributes": JSON.stringify(dataAttributes),
 		style: {
 			position: `${is_title_menu ? "relative" : "static"}`,
 			...align_style,

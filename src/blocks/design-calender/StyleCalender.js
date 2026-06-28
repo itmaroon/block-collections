@@ -10,11 +10,11 @@ import {
 // grid-template-areasの文字列を生成
 
 export const StyleComp = ({ attributes, children }) => {
-	return <StyledDiv attributes={attributes}>{children}</StyledDiv>;
+	return <StyledDiv $attr={attributes}>{children}</StyledDiv>;
 };
 
 const StyledDiv = styled.div`
-	${({ attributes }) => {
+	${({ $attr }) => {
 		const {
 			dateValues,
 			weekTop,
@@ -49,7 +49,7 @@ const StyledDiv = styled.div`
 			bgColor_select,
 			bgGradient_select,
 			className,
-		} = attributes;
+		} = $attr;
 
 		//斜体の設定
 		const fontStyle_input = font_style_input.isItalic ? "italic" : "normal";

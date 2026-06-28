@@ -1,7 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import { StyleComp } from "./StyleCalender";
 
-import { useStyleIframe } from "../iframeFooks";
 import ToolTips from "../ToolTips";
 import StyleTooltips from "../StyleTooltips";
 
@@ -39,9 +38,12 @@ import {
 	useEffect,
 	useRef,
 	useMemo,
+	useCallback,
 	createElement,
 } from "@wordpress/element";
+import { useMergeRefs } from "@wordpress/compose";
 import { useSelect, useDispatch, dispatch } from "@wordpress/data";
+import { StyleSheetManager } from "styled-components";
 
 import "./editor.scss";
 
@@ -132,15 +134,19 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		className,
 	} = attributes;
 
-	//選択可能期間取得
-	const periodArray = generateDateArray(dateSpan, true);
-
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
 
 	//ブロックの参照
 	const blockRef = useRef(null);
+	const styleRootRef = useRef(null);
+	const [styleSheetTarget, setStyleSheetTarget] = useState(null);
+	const ownerDocumentRef = useCallback((node) => {
+		setStyleSheetTarget(node?.ownerDocument.head ?? null);
+	}, []);
+	const mergedStyleRootRef = useMergeRefs([styleRootRef, ownerDocumentRef]);
 	const blockProps = useBlockProps({
+		ref: mergedStyleRootRef,
 		style: { width: "100%" },
 	});
 
@@ -293,7 +299,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				[
 					"itmar/design-select",
 					{
-						selectValues: periodArray,
 						isSetSelect: false,
 						default_pos: {
 							margin_value: {
@@ -420,10 +425,28 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				block.attributes.className?.split(" ").includes("itmar_next_month"),
 		);
 	}, [innerBlocks]);
+
+	//カレンダーの表示月範囲の更新
+	useEffect(() => {
+		if (!selectMonthBlock?.clientId) return;
+		//選択可能期間取得
+		const periodArray = generateDateArray(dateSpan, true);
+		//取得した期間に変化がないときは処理しない
+		const currentValues = selectMonthBlock.attributes?.selectValues ?? [];
+		if (JSON.stringify(currentValues) === JSON.stringify(periodArray)) {
+			return;
+		}
+
+		updateBlockAttributes(selectMonthBlock?.clientId, {
+			selectValues: periodArray,
+		});
+	}, [dateSpan, selectMonthBlock?.clientId]);
+
 	//カレンダーの表示月の更新
 	useEffect(() => {
 		if (selectMonthBlock) {
 			const selectMonthAttr = selectMonthBlock.attributes;
+
 			const selectMonth = selectMonthAttr.selectValues.find(
 				(item) => item.id === selectMonthAttr.selectedValues[0],
 			);
@@ -600,10 +623,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		}
 	}, [baseColor, labelBaseColor, weekBaseColor, bgColor_select]);
 
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleComp, attributes);
-	useStyleIframe(StyleTooltips, tooltip_style);
-
 	//選択された月の変更による書き換え
 	useEffect(() => {
 		if (selectedMonth) {
@@ -616,6 +635,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						`/wp-json/itmar/v1/get-holidays?month=${formattedMonth}`,
 					);
 					const holidayList = await res.json();
+
 					const newDateValues = generateMonthCalendar(
 						selectedMonth,
 						holidayList,
@@ -796,7 +816,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					endYear={2030}
 					dateSpan={dateSpan}
 					isMonth={true}
-					onChange={(newObj) => setAttributes(newObj)}
+					onChange={(newObj) => {
+						setAttributes(newObj);
+					}}
 				/>
 			</InspectorControls>
 			<InspectorControls group="styles">
@@ -1170,10 +1192,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes}>
-					<div {...innerBlocksProps}></div>
-					{isDateArea && renderContent()}
-				</StyleComp>
+				<StyleSheetManager target={styleSheetTarget ?? undefined}>
+					<StyleComp attributes={attributes}>
+						<div {...innerBlocksProps}></div>
+						{isDateArea && renderContent()}
+					</StyleComp>
+				</StyleSheetManager>
 			</div>
 		</>
 	);

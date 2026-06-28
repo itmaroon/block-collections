@@ -1,6 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import { StyleComp } from "./StyleCheckbox";
-import { useStyleIframe } from "../iframeFooks";
 
 import {
 	useElementBackgroundColor,
@@ -13,8 +12,8 @@ import {
 	PanelBody,
 	TextControl,
 	ToggleControl,
-	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
+	BoxControl,
+	BorderBoxControl,
 } from "@wordpress/components";
 import {
 	useBlockProps,
@@ -26,7 +25,9 @@ import {
 	__experimentalBorderRadiusControl as BorderRadiusControl,
 } from "@wordpress/block-editor";
 
-import { useEffect, useRef } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { useMergeRefs } from "@wordpress/compose";
+import { StyleSheetManager } from "styled-components";
 
 import "./editor.scss";
 
@@ -86,8 +87,13 @@ export default function Edit({ attributes, setAttributes }) {
 
 	//ブロックの参照
 	const blockRef = useRef(null);
+	const [styleSheetTarget, setStyleSheetTarget] = useState(null);
+	const ownerDocumentRef = useCallback((node) => {
+		setStyleSheetTarget(node?.ownerDocument.head ?? null);
+	}, []);
+	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
 	const blockProps = useBlockProps({
-		ref: blockRef, // ここで参照を blockProps に渡しています
+		ref: mergedBlockRef,
 		style: { ...align_style, backgroundColor: bgColor },
 	});
 
@@ -106,9 +112,6 @@ export default function Edit({ attributes, setAttributes }) {
 			}
 		}
 	}, [baseColor]);
-
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleComp, attributes);
 
 	function renderContent() {
 		return (
@@ -339,7 +342,9 @@ export default function Edit({ attributes, setAttributes }) {
 			</BlockControls>
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				<StyleSheetManager target={styleSheetTarget ?? undefined}>
+					<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				</StyleSheetManager>
 			</div>
 		</>
 	);

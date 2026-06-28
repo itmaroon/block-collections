@@ -15,9 +15,9 @@ import {
 	PanelRow,
 	ToggleControl,
 	RangeControl,
-	__experimentalBoxControl as BoxControl,
+	BoxControl,
 	__experimentalUnitControl as UnitControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
+	BorderBoxControl,
 } from "@wordpress/components";
 import { useEffect, useState } from "@wordpress/element";
 import { createBlock } from "@wordpress/blocks";

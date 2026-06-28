@@ -1,6 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import { StyleComp } from "./StyleButton";
-import { useStyleIframe } from "../iframeFooks";
 import ToolTips from "../ToolTips";
 import StyleTooltips from "../StyleTooltips";
 
@@ -28,7 +27,9 @@ import {
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl,
 } from "@wordpress/block-editor";
-import { useEffect, useRef, useState } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { useMergeRefs } from "@wordpress/compose";
+import { StyleSheetManager } from "styled-components";
 import { store as blockEditorStore } from "@wordpress/block-editor";
 import { useSelect } from "@wordpress/data";
 
@@ -125,8 +126,13 @@ export default function Edit(props) {
 
 	//ブロックの参照
 	const blockRef = useRef(null);
+	const [styleSheetTarget, setStyleSheetTarget] = useState(null);
+	const ownerDocumentRef = useCallback((node) => {
+		setStyleSheetTarget(node?.ownerDocument.head ?? null);
+	}, []);
+	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
 	const blockProps = useBlockProps({
-		ref: blockRef, // ここで参照を blockProps に渡しています
+		ref: mergedBlockRef,
 		style: { backgroundColor: bgColor, ...align_style },
 	});
 
@@ -145,10 +151,6 @@ export default function Edit(props) {
 			}
 		}
 	}, [baseColor]);
-
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleComp, attributes);
-	useStyleIframe(StyleTooltips, { ...tooltip_style, tooltip_text });
 
 	//ブロックのストレッチ処理
 	const stretchTargetBlock = useSelect(
@@ -843,7 +845,9 @@ export default function Edit(props) {
 			</BlockControls>
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				<StyleSheetManager target={styleSheetTarget ?? undefined}>
+					<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				</StyleSheetManager>
 			</div>
 		</>
 	);

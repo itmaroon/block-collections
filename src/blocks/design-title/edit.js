@@ -17,7 +17,6 @@ import {
 
 import { StyleComp } from "./StyleWapper";
 import apiFetch from "@wordpress/api-fetch";
-import { useStyleIframe } from "../iframeFooks";
 import { ReactComponent as Play } from "../../../assets/img/circle-play.svg";
 import { ReactComponent as Stop } from "../../../assets/img/circle-stop.svg";
 
@@ -52,9 +51,17 @@ import {
 } from "@wordpress/block-editor";
 
 import "./editor.scss";
-import { useEffect, useState, useRef } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { useMergeRefs } from "@wordpress/compose";
+import { StyleSheetManager } from "styled-components";
 import { useSelect, dispatch } from "@wordpress/data";
 import { format, getSettings } from "@wordpress/date";
+
+console.log(
+	"useElementStyleObject:",
+	typeof useElementStyleObject,
+	useElementStyleObject,
+);
 
 //スペースのリセットバリュー
 const padding_resetValues = {
@@ -144,9 +151,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//ブロックの参照
 	const blockRef = useRef(null);
+	const [styleSheetTarget, setStyleSheetTarget] = useState(null);
+	const ownerDocumentRef = useCallback((node) => {
+		setStyleSheetTarget(node?.ownerDocument.head ?? null);
+	}, []);
+	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
 
 	const blockProps = useBlockProps({
-		ref: blockRef, // ここで参照を blockProps に渡しています
+		ref: mergedBlockRef,
 		style: {
 			position: `${is_title_menu ? "relative" : "static"}`,
 			...align_style,
@@ -388,8 +400,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		}
 	}, [className]);
 
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleComp, attributes);
 	//iframeにfontawesomeを読み込む
 	//useFontawesomeIframe();
 
@@ -1455,31 +1465,37 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			)}
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes} onBurstEnd={handleBurstEnd}>
-					{renderContent()}
-				</StyleComp>
-				{linkKind === "submenu" && <div {...subMenuBlocksProps}></div>}
-				{isDateModal && (
-					<Modal
-						title={__("Select Date and Time", "block-collections")}
-						onRequestClose={() => setIsDateModal(false)}
-					>
-						<DateTimePicker
-							currentDate={dateValue}
-							onChange={(newDatetime) => {
-								setAttributes({
-									headingContent: newDatetime,
-								});
-								const newDisp = format(userFormat, newDatetime, getSettings());
-								setHeadingContentVal(newDisp);
-								setIsDateModal(false);
-							}}
-						/>
-						<Button variant="primary" onClick={() => setIsDateModal(false)}>
-							Close
-						</Button>
-					</Modal>
-				)}
+				<StyleSheetManager target={styleSheetTarget ?? undefined}>
+					<StyleComp attributes={attributes} onBurstEnd={handleBurstEnd}>
+						{renderContent()}
+					</StyleComp>
+					{linkKind === "submenu" && <div {...subMenuBlocksProps}></div>}
+					{isDateModal && (
+						<Modal
+							title={__("Select Date and Time", "block-collections")}
+							onRequestClose={() => setIsDateModal(false)}
+						>
+							<DateTimePicker
+								currentDate={dateValue}
+								onChange={(newDatetime) => {
+									setAttributes({
+										headingContent: newDatetime,
+									});
+									const newDisp = format(
+										userFormat,
+										newDatetime,
+										getSettings(),
+									);
+									setHeadingContentVal(newDisp);
+									setIsDateModal(false);
+								}}
+							/>
+							<Button variant="primary" onClick={() => setIsDateModal(false)}>
+								Close
+							</Button>
+						</Modal>
+					)}
+				</StyleSheetManager>
 			</div>
 		</>
 	);

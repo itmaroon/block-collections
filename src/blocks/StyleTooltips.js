@@ -36,6 +36,7 @@ const StyledDiv = styled.span`
 		// 共通のスタイルをここで定義します
 		const commonStyle = css`
 			position: relative;
+
 			&::before,
 			&::after {
 				text-transform: none;

@@ -2,10 +2,24 @@ import { __ } from "@wordpress/i18n";
 import { setSelectValue } from "../../front-common";
 
 import { generateMonthCalendar, generateGridAreas } from "itmar-block-packages";
+import { styleComponentApply } from "itmar-block-packages";
+
+import { StyleComp } from "./StyleCalender";
+import StyleTooltips from "../StyleTooltips";
+
+//styled_conponentの適用
+styleComponentApply(StyleComp, ".wp-block-itmar-design-calender", {
+	selector: ".itmar-wrap",
+	target: "inner",
+});
+styleComponentApply(StyleTooltips, ".itmar-toolTip-style", {
+	selector: ".itmar_week_label",
+	target: "inner",
+});
 
 jQuery(function ($) {
 	/* ------------------------------
-  design-calenderイベントハンドラ
+	design-calenderイベントハンドラ
   ------------------------------ */
 	//デフォルトの月をセレクトボックスにセット
 	$(function () {

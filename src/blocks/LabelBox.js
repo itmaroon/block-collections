@@ -1,6 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import { TypographyControls } from "itmar-block-packages";
-import { useStyleIframe } from "./iframeFooks";
 import {
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
@@ -58,9 +57,6 @@ export default function LabelBox(props) {
 		labelSpace,
 		isMobile,
 	} = attributes;
-
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleLabel, props.attributes);
 
 	return (
 		<>

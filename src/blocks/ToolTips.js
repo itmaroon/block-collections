@@ -1,20 +1,10 @@
 import { __ } from "@wordpress/i18n";
 import { TypographyControls } from "itmar-block-packages";
 import {
-	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl,
 } from "@wordpress/block-editor";
-import {
-	ToggleControl,
-	TextControl,
-	PanelBody,
-	PanelRow,
-	__experimentalBoxControl as BoxControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
-	__experimentalUnitControl as UnitControl,
-	__experimentalAlignmentMatrixControl as AlignmentMatrixControl,
-} from "@wordpress/components";
+import { PanelBody, BoxControl, BorderBoxControl } from "@wordpress/components";
 import { useState, useEffect } from "@wordpress/element";
 
 //スペースのリセットバリュー

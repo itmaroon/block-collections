@@ -1,6 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import { StyleComp } from "./StyleRadio";
-import { useStyleIframe } from "../iframeFooks";
 import OptionModal from "../OptionModal";
 
 import {
@@ -19,20 +18,20 @@ import {
 	Icon,
 	ToolbarGroup,
 	ToolbarItem,
-	__experimentalBoxControl as BoxControl,
+	BoxControl,
 	__experimentalUnitControl as UnitControl,
-	__experimentalBorderBoxControl as BorderBoxControl,
+	BorderBoxControl,
 } from "@wordpress/components";
 import {
 	useBlockProps,
-	BlockControls,
-	AlignmentToolbar,
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl,
 } from "@wordpress/block-editor";
 
-import { useEffect, useRef } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { useMergeRefs } from "@wordpress/compose";
+import { StyleSheetManager } from "styled-components";
 
 import "./editor.scss";
 
@@ -117,8 +116,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	//ブロックの参照
 	const blockRef = useRef(null);
+	const [styleSheetTarget, setStyleSheetTarget] = useState(null);
+	const ownerDocumentRef = useCallback((node) => {
+		setStyleSheetTarget(node?.ownerDocument.head ?? null);
+	}, []);
+	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
 	const blockProps = useBlockProps({
-		ref: blockRef, // ここで参照を blockProps に渡しています
+		ref: mergedBlockRef,
 		style: { backgroundColor: bgColor },
 	});
 
@@ -167,9 +171,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			}
 		}
 	}, [baseColor, inputBgColor, bgColor_select]);
-
-	//サイトエディタの場合はiframeにスタイルをわたす。
-	useStyleIframe(StyleComp, attributes);
 
 	const renderContent = () => {
 		return (
@@ -682,7 +683,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				<StyleSheetManager target={styleSheetTarget ?? undefined}>
+					<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
+				</StyleSheetManager>
 			</div>
 		</>
 	);
