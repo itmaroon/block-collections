@@ -39,7 +39,7 @@ export default function save({ attributes }) {
 					/>
 					<span className="frontSpan"></span>
 				</label>
-				<RichText.Content value={labelContent} />
+				<RichText.Content tagName="div" value={labelContent} />
 			</div>
 		</div>
 	);

@@ -57,12 +57,6 @@ import { StyleSheetManager } from "styled-components";
 import { useSelect, dispatch } from "@wordpress/data";
 import { format, getSettings } from "@wordpress/date";
 
-console.log(
-	"useElementStyleObject:",
-	typeof useElementStyleObject,
-	useElementStyleObject,
-);
-
 //スペースのリセットバリュー
 const padding_resetValues = {
 	top: "10px",

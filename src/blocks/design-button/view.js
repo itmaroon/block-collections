@@ -1,17 +1,32 @@
 import { __ } from "@wordpress/i18n";
 
-import { styleComponentApply } from "itmar-block-packages";
+import { styleDataApply } from "itmar-block-packages";
 
-import { StyleComp } from "./StyleButton";
-import StyleTooltips from "../StyleTooltips";
+import { createButtonStyleCss } from "./StyleButton";
+import { createTooltipStyleCss } from "../StyleTooltips";
 import {
 	createStretchPseudoCss,
 	applyStretchAccordion,
 } from "../../front-common";
 
-//styled_conponentの適用
-styleComponentApply(StyleComp, ".wp-block-itmar-design-button");
-styleComponentApply(StyleTooltips, ".itmar-toolTip-style");
+//ボタン本体とツールチップを、それぞれの保存属性から適用
+styleDataApply(createButtonStyleCss, ".wp-block-itmar-design-button", {
+	target: "self",
+	classPrefix: "itmar-button-style-",
+	observe: true,
+	decorateTarget: (target) => {
+		requestAnimationFrame(() => {
+			target.querySelectorAll("img.image").forEach((image) => {
+				image.style.visibility = "visible";
+			});
+		});
+	},
+});
+styleDataApply(createTooltipStyleCss, ".itmar-toolTip-style", {
+	target: "self",
+	classPrefix: "itmar-button-tooltip-",
+	observe: true,
+});
 
 jQuery(function ($) {
 	$(".wp-block-itmar-design-button").each(function () {

@@ -1,64 +1,45 @@
 import { __ } from "@wordpress/i18n";
 import { setSelectValue } from "../../front-common";
 
-import { generateMonthCalendar, generateGridAreas } from "itmar-block-packages";
-import { styleComponentApply } from "itmar-block-packages";
+import {
+	generateMonthCalendar,
+	generateGridAreas,
+	styleDataApply,
+} from "itmar-block-packages";
 
-import { StyleComp } from "./StyleCalender";
-import StyleTooltips from "../StyleTooltips";
+import { createCalendarStyleCss } from "./StyleCalender";
+import { createTooltipStyleCss } from "../StyleTooltips";
 
-//styled_conponentの適用
-styleComponentApply(StyleComp, ".wp-block-itmar-design-calender", {
+const createCalendarFrontendCss = (attributes, scopeSelector) =>
+	`${createCalendarStyleCss(attributes, scopeSelector)}
+	${createTooltipStyleCss(
+		attributes.tooltip_style,
+		`${scopeSelector} [data-tooltip]`,
+	)}`;
+
+//カレンダー本体とツールチップを同一スコープへ適用
+styleDataApply(createCalendarFrontendCss, ".wp-block-itmar-design-calender", {
 	selector: ".itmar-wrap",
 	target: "inner",
-});
-styleComponentApply(StyleTooltips, ".itmar-toolTip-style", {
-	selector: ".itmar_week_label",
-	target: "inner",
+	classPrefix: "itmar-calendar-style-",
+	observe: true,
 });
 
 jQuery(function ($) {
 	/* ------------------------------
 	design-calenderイベントハンドラ
   ------------------------------ */
-	//デフォルトの月をセレクトボックスにセット
-	$(function () {
-		//URLからパラメータを取得して期間のクエリーパラメータを取得
-		const params = new URLSearchParams(window.location.search);
-		const periodString = params.get("period");
-		var match = decodeURIComponent(periodString).match(/^(\d{4})\/(\d{2})/);
-		const urlMonth = match
-			? match[1] + "/" + match[2] // 年/月形式に組み立て
-			: null;
-
-		let select = $(".itmar_select_month .itmar_block_selectSingle");
-		//期間のクエリーパラメータが設定されているときはそちらを優先（設定がなければdata属性値）
-		let setMonth = periodString
-			? urlMonth
-			: select
-					.closest(".wp-block-itmar-design-calender")
-					.data("selected_month");
-		let li_arr = select.find("ul li");
-		let li = li_arr.filter(function () {
-			return $(this).attr("data-value") === setMonth;
-		});
-		//設定された月が選択肢に含まれる場合
-		if (li.length != 0) {
-			let slug = li.data("value");
-			let kind = li.attr("class");
-			let id = li.attr("id");
-			let text = li.text();
-			//選択されたli要素の属性を関数に渡す
-			setSelectValue($, select, id, text, slug, kind);
-		}
-	});
 	//先月・次月ボタンが押されたとき
 	$(document).on(
 		"click",
 		".wp-block-itmar-design-calender .itmar_prev_month, .wp-block-itmar-design-calender .itmar_next_month",
 		function () {
-			let select = $(".itmar_select_month .itmar_block_selectSingle");
+			const rootBlock = $(this).closest(".wp-block-itmar-design-calender");
+			let select = rootBlock.find(
+				".itmar_select_month .itmar_block_selectSingle",
+			);
 			let selectedOption = select.find("select").find("option:selected");
+
 			//前後の月の取得
 			let changeOption = null;
 			if ($(this).hasClass("itmar_prev_month")) {
@@ -66,6 +47,7 @@ jQuery(function ($) {
 			} else if ($(this).hasClass("itmar_next_month")) {
 				changeOption = selectedOption.next("option");
 			}
+
 			if (changeOption.length != 0) {
 				//前後の月がある場合
 				let slug = changeOption.attr("value");
@@ -79,14 +61,13 @@ jQuery(function ($) {
 	);
 
 	//カレンダーのレンダリング関数
-	const calenderRender = (
-		dateArea,
-		monthData,
-		name,
-		weekTop,
-		tipsClass,
-		isClear,
-	) => {
+	const calenderRender = (dateArea, monthData, name, weekTop, isClear) => {
+		if (!Array.isArray(monthData) || monthData.length === 0) {
+			dateArea.find(".itmar_radio").remove();
+			dateArea.css("grid-template-areas", "none");
+			return;
+		}
+
 		//データエリアがレンダリングされていないときはdata属性に祝日情報を記録
 		if (dateArea.hasClass("wp-block-itmar-design-calender")) {
 			//選択月の取得
@@ -130,7 +111,6 @@ jQuery(function ($) {
 
 			let span = $("<span>").text(item.date);
 			if (item.holiday) {
-				span.addClass(tipsClass); //styled-componentのスタイル適用クラス
 				span.attr("data-tooltip", item.holiday); //祝日の名称をdata-tooltipで保持
 			}
 
@@ -170,34 +150,29 @@ jQuery(function ($) {
 			const name = rootBlock.data("input_name");
 			//カレンダーの曜日のトップを取得
 			const weekTop = rootBlock.data("week_top");
-			//ツールチップのスタイルを適用するクラス名を取得
-			const tipsClass = rootBlock.data("tips_class");
 			//表示月の日付オブジェクトを生成
 			let selectedOption = $(this).find("option:selected");
+			const selectedMonth = selectedOption.attr("value");
+			if (!selectedMonth) return;
+
 			//祝日表示の有無
 			const isHoliday = rootBlock.data("is_holiday");
 			if (isHoliday) {
 				try {
 					//祝日の表示処理
-					const formattedMonth = selectedOption
-						.attr("value")
-						.replace(/\//g, "-");
+					const formattedMonth = selectedMonth.replace(/\//g, "-");
 					const res = await fetch(
 						`/wp-json/itmar/v1/get-holidays?month=${formattedMonth}`,
 					);
 					const holidayList = await res.json();
 
 					// ここで祝日データを使用する処理を行う
-					const dateValues = generateMonthCalendar(
-						selectedOption.attr("value"),
-						holidayList,
-					);
+					const dateValues = generateMonthCalendar(selectedMonth, holidayList);
 					calenderRender(
 						dateArea.length > 0 ? dateArea : rootBlock,
 						dateValues,
 						name,
 						weekTop,
-						tipsClass,
 						isClear,
 					);
 					// カスタムイベントを発生させる
@@ -210,8 +185,8 @@ jQuery(function ($) {
 					console.error("祝日取得中にエラーが発生しました:", error);
 				}
 			} else {
-				const dateValues = generateMonthCalendar(selectedOption.attr("value"));
-				calenderRender(dateArea, dateValues, name, weekTop, tipsClass, isClear);
+				const dateValues = generateMonthCalendar(selectedMonth);
+				calenderRender(dateArea, dateValues, name, weekTop, isClear);
 				// カスタムイベントを発生させる
 				const calenderRenderedEvent = new CustomEvent("calender_rendered");
 				const parentElement = $(this).closest(
@@ -221,6 +196,34 @@ jQuery(function ($) {
 			}
 		},
 	);
+
+	//各カレンダーの初期月をセットし、日付エリアをレンダリング
+	const params = new URLSearchParams(window.location.search);
+	const periodString = params.get("period");
+	const match = periodString?.match(/^(\d{4})\/(\d{2})/);
+	const urlMonth = match ? `${match[1]}/${match[2]}` : null;
+
+	$(".wp-block-itmar-design-calender").each(function () {
+		const rootBlock = $(this);
+		const select = rootBlock.find(
+			".itmar_select_month .itmar_block_selectSingle",
+		);
+		if (select.length === 0) return;
+
+		const setMonth = urlMonth || rootBlock.data("selected_month");
+		const monthSelect = select.find("select");
+		const targetOption = monthSelect.find("option").filter(function () {
+			return $(this).attr("value") === setMonth;
+		});
+
+		if (targetOption.length !== 0) {
+			monthSelect.val(setMonth);
+		}
+
+		if (monthSelect.val()) {
+			monthSelect.trigger("change");
+		}
+	});
 	//日付ボタンをクリックしたとき
 	$(document).on("change", ".itmar_date_area input", function () {
 		//日付エリアを取得

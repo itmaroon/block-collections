@@ -69,7 +69,12 @@ export default function save({ attributes }) {
 
 			{displayType === "image" && (
 				<figure>
-					<img src={media.url} className="image" alt="アップロード画像" />
+					<img
+						src={media.url}
+						className="image"
+						alt="アップロード画像"
+						style={{ visibility: "hidden" }}
+					/>
 				</figure>
 			)}
 			{displayType === "pseudo" && <div className={displayType} />}

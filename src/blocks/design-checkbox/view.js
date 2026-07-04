@@ -1,7 +1,11 @@
 import { __ } from "@wordpress/i18n";
-import { styleComponentApply } from "itmar-block-packages";
+import { styleDataApply } from "itmar-block-packages";
 
-import { StyleComp } from "./StyleCheckbox";
+import { createCheckboxStyleCss } from "./StyleCheckbox";
 
-//styled_conponentの適用
-styleComponentApply(StyleComp, ".wp-block-itmar-design-checkbox");
+//保存済み属性から、React非依存のスコープ付きCSSを適用
+styleDataApply(createCheckboxStyleCss, ".wp-block-itmar-design-checkbox", {
+	target: "auto",
+	classPrefix: "itmar-checkbox-style-",
+	observe: true,
+});

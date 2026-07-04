@@ -1,41 +1,91 @@
 import { __ } from "@wordpress/i18n";
-import { useBlockProps, RichText } from "@wordpress/block-editor";
-import { ServerStyleSheet } from "styled-components";
-import { renderToString } from "react-dom/server";
-import { StyleComp } from "./StyleRadio";
+import { useBlockProps } from "@wordpress/block-editor";
 
 export default function save({ attributes }) {
-	const { bgColor, inputName, optionValues, selectedValues, isReleaseButton } =
-		attributes;
+	const {
+		bgColor,
+		inputName,
+		optionValues,
+		selectedValues,
+		isReleaseButton,
+		font_style_input,
+		default_pos,
+		mobile_pos,
+		inputColor,
+		radius_box,
+		border_box,
+		radius_input,
+		border_input,
+		shadow_result_box,
+		is_shadow_box,
+		shadow_result_input,
+		is_shadow_input,
+		buttonColor,
+		buttonBgColor,
+		shadow_result_select,
+		is_shadow_select,
+		color_select,
+		bgColor_select,
+		bgGradient_select,
+		className,
+	} = attributes;
+	const styleAttributes = {
+		font_style_input,
+		default_pos,
+		mobile_pos,
+		inputColor,
+		radius_box,
+		border_box,
+		radius_input,
+		border_input,
+		shadow_result_box,
+		is_shadow_box,
+		shadow_result_input,
+		is_shadow_input,
+		buttonColor,
+		buttonBgColor,
+		shadow_result_select,
+		is_shadow_select,
+		color_select,
+		bgColor_select,
+		bgGradient_select,
+		className,
+	};
 
 	const blockProps = useBlockProps.save({
+		"data-attributes": JSON.stringify(styleAttributes),
 		style: { backgroundColor: bgColor, overflow: "hidden" },
 	});
 
 	function renderContent() {
+		const selectedIndex = optionValues.findIndex(
+			(option) => option.value === selectedValues,
+		);
+
 		return (
 			<>
 				{optionValues.map((item, index) => {
-					// const isChecked = selectedValues === item.value;
-					// let labelClass = "";
-					// // 選択されたラジオボタンのインデックスを見つける
-					// const selectedIndex = optionValues.findIndex(
-					// 	(option) => option.value === selectedValues,
-					// );
+					const isChecked = selectedValues === item.value;
+					let labelClass = "";
 
-					// if (isChecked) {
-					// 	labelClass = "checked"; //チェックされているボタンのラベルにはcheckedクラスを付加
-					// } else if (selectedIndex !== -1) {
-					// 	// 選択された項目が存在する場合
-					// 	if (index < selectedIndex) {
-					// 		labelClass = "check_prev"; //チェックされている前のボタンのラベルにはcheck_prevクラスを付加
-					// 	} else if (index > selectedIndex) {
-					// 		labelClass = "check_next"; //チェックされている後のボタンのラベルにはcheck_nextクラスを付加
-					// 	}
-					// }
+					if (isChecked) {
+						labelClass = "checked ready";
+					} else if (selectedIndex !== -1) {
+						if (index < selectedIndex) {
+							labelClass = "check_prev";
+						} else if (index > selectedIndex) {
+							labelClass = "check_next";
+						}
+					}
+
 					return (
-						<label key={item.id} className={`itmar_radio`}>
-							<input type="radio" name={inputName} value={item.value} />
+						<label key={item.id} className={`itmar_radio ${labelClass}`.trim()}>
+							<input
+								type="radio"
+								name={inputName}
+								value={item.value}
+								defaultChecked={isChecked}
+							/>
 							<span>{item.label}</span>
 						</label>
 					);
@@ -49,20 +99,9 @@ export default function save({ attributes }) {
 		);
 	}
 
-	const sheet = new ServerStyleSheet();
-	const html = renderToString(
-		sheet.collectStyles(
-			<div {...blockProps} data-input_name={inputName}>
-				<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
-			</div>,
-		),
-	);
-	const styleTags = sheet.getStyleTags();
-
 	return (
-		<>
-			<div dangerouslySetInnerHTML={{ __html: html }} />
-			<div dangerouslySetInnerHTML={{ __html: styleTags }} />
-		</>
+		<div {...blockProps} data-input_name={inputName}>
+			<div className="itmar-wrap">{renderContent()}</div>
+		</div>
 	);
 }

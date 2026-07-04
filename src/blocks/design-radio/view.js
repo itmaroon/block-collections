@@ -1,4 +1,12 @@
 import { __ } from "@wordpress/i18n";
+import { styleDataApply } from "itmar-block-packages";
+import { createRadioStyleCss } from "./StyleRadio";
+
+styleDataApply(createRadioStyleCss, ".wp-block-itmar-design-radio", {
+	target: "auto",
+	classPrefix: "itmar-radio-",
+	observe: true,
+});
 
 jQuery(function ($) {
 	/* ------------------------------

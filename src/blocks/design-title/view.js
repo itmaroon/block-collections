@@ -1,17 +1,43 @@
 import { __ } from "@wordpress/i18n";
 
 import apiFetch from "@wordpress/api-fetch";
-import { styleComponentApply } from "itmar-block-packages";
+import { styleDataApply } from "itmar-block-packages";
 
-import { StyleComp } from "./StyleWapper";
+import { createTitleStyleCss } from "./StyleWapper";
 
-//styled_conponentの適用
-styleComponentApply(StyleComp, ".wp-block-itmar-design-title", {
+//保存済み属性から、React非依存のスコープ付きCSSを適用
+styleDataApply(createTitleStyleCss, ".wp-block-itmar-design-title", {
 	selector: ".itmar-wrap",
 	target: "inner",
+	classPrefix: "itmar-title-style-",
+	observe: true,
 });
 
 jQuery(function ($) {
+	/* ------------------------------
+    .spinner と .particles が出力
+     ------------------------------ */
+	$(".wp-block-itmar-design-title").each(function () {
+		const $title = $(this);
+		const attributes = JSON.parse($title.attr("data-attributes") || "{}");
+
+		if (!attributes.is_waiting) return;
+
+		const $wrap = $title.children(".itmar-wrap").first();
+		const state = attributes.waiting_state || "hold";
+
+		if (!$wrap.children(".spinner").length) {
+			$wrap.append(`<div class="spinner ${state}" aria-hidden="true"></div>`);
+		}
+
+		if (!$wrap.children(".particles").length) {
+			$wrap.append(`
+			<div class="particles ${state}" aria-hidden="true">
+				${"<i></i>".repeat(8)}
+			</div>
+		`);
+		}
+	});
 	/* ------------------------------
     design-titleの処理
      ------------------------------ */

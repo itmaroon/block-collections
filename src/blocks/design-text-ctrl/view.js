@@ -2,7 +2,14 @@ import { __ } from "@wordpress/i18n";
 import visibleIcon from "../../../assets/img/visible.svg";
 import hideIcon from "../../../assets/img/hide.svg";
 
-import { fetchZipToAddress } from "itmar-block-packages";
+import { fetchZipToAddress, styleDataApply } from "itmar-block-packages";
+import { createInputStyleCss } from "./StyleInput";
+
+styleDataApply(createInputStyleCss, ".wp-block-itmar-design-text-ctrl", {
+	target: "auto",
+	classPrefix: "itmar-text-ctrl-",
+	observe: true,
+});
 
 jQuery(function ($) {
 	/* ------------------------------

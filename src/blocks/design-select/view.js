@@ -1,5 +1,13 @@
 import { __ } from "@wordpress/i18n";
+import { styleDataApply } from "itmar-block-packages";
+import { createSelectStyleCss } from "./StyleSelect";
 import { setSelectValue } from "../../front-common";
+
+styleDataApply(createSelectStyleCss, ".wp-block-itmar-design-select", {
+	target: "auto",
+	classPrefix: "itmar-select-",
+	observe: true,
+});
 
 jQuery(function ($) {
 	/* ------------------------------

@@ -14,8 +14,21 @@ export default function save({ attributes }) {
 		...styleAttr
 	} = attributes;
 
+	//属性オブジェクトをキー順に並び変え
+	const dataAttributeValues = {
+		...styleAttr,
+		tooltip_style,
+	};
+	const sortedDataAttributes = Object.keys(dataAttributeValues)
+		.sort()
+		.reduce((result, key) => {
+			result[key] = dataAttributeValues[key];
+			return result;
+		}, {});
+	const dataAttributes = JSON.stringify(sortedDataAttributes);
+
 	const blockProps = useBlockProps.save({
-		"data-attributes": JSON.stringify(styleAttr),
+		"data-attributes": dataAttributes,
 		style: {
 			backgroundColor: styleAttr.bgColor,
 			width: "100%",

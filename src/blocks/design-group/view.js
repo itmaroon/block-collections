@@ -1,17 +1,29 @@
 import { __ } from "@wordpress/i18n";
-import { styleComponentApply } from "itmar-block-packages";
+import { styleDataApply } from "itmar-block-packages";
 
-import { StyleComp } from "./StyleGroup";
+import { createGroupStyleCss } from "./StyleGroup";
 
-//styled_conponentの適用
-styleComponentApply(StyleComp, ".wp-block-itmar-design-group", {
+//保存済み属性から、React非依存のスコープ付きCSSを適用
+styleDataApply(createGroupStyleCss, ".wp-block-itmar-design-group", {
 	selector: ".itmar-wrap",
 	target: "outer",
+	classPrefix: "itmar-group-style-",
+	observe: true,
+	decorateTarget: (target, attributes) => {
+		const parallax = attributes.parallax_obj;
+		if (!parallax?.type) return;
+
+		const suffix = parallax.unit === "%" ? "%" : "";
+		target.setAttribute(
+			`data-swiper-parallax-${parallax.type}`,
+			`${parallax.scale}${suffix}`,
+		);
+	},
 });
 
 jQuery(function ($) {
 	/* ------------------------------
-  core/paragraphのもっと見るボタンの処理
+	core/paragraphのもっと見るボタンの処理
   ------------------------------ */
 	//DOM要素（監視対象）ごとに作った ResizeObserver を紐づけて覚えておくための入れ物
 	const roMap = new WeakMap();
