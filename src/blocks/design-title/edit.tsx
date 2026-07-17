@@ -1,0 +1,1596 @@
+import { __ } from "@wordpress/i18n";
+import * as React from "react";
+import type { CSSProperties } from "react";
+
+import {
+	useIsIframeMobile,
+	useElementStyleObject,
+	ShadowStyle,
+	align_prm,
+	ShadowElm,
+	PageSelectControl,
+	ArchiveSelectControl,
+	IconSelectControl,
+	TypographyControls,
+	isValidUrlWithUrlApi,
+	FormatSelectControl,
+	displayFormated,
+} from "itmar-block-packages";
+
+import { StyleComp } from "./StyleWapper";
+import apiFetch from "@wordpress/api-fetch";
+import { ReactComponent as Play } from "../../../assets/img/circle-play.svg";
+import { ReactComponent as Stop } from "../../../assets/img/circle-stop.svg";
+
+import {
+	Button,
+	PanelBody,
+	PanelRow,
+	ToggleControl,
+	RangeControl,
+	RadioControl,
+	Modal,
+	DateTimePicker,
+	TextControl,
+	ToolbarDropdownMenu,
+	ToolbarGroup,
+	ToolbarButton,
+	Icon,
+	BoxControl,
+	__experimentalUnitControl as UnitControl,
+	AlignmentMatrixControl,
+} from "@wordpress/components";
+import {
+	useBlockProps,
+	useInnerBlocksProps,
+	RichText,
+	BlockControls,
+	AlignmentToolbar,
+	InspectorControls,
+	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
+	__experimentalBorderRadiusControl as BorderRadiusControl,
+} from "@wordpress/block-editor";
+
+import "./editor.scss";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { useMergeRefs } from "@wordpress/compose";
+import { StyleSheetManager } from "styled-components";
+import { useSelect, useDispatch } from "@wordpress/data";
+import { format } from "@wordpress/date";
+import { toStyleRecord } from "../front-common";
+import type {
+	CurrentUserResponse,
+	NoticesActions,
+	ShadowStyleResult,
+	SiteInfoResponse,
+	TitleAttributes,
+	TitleEditProps,
+	TitleOptionStyle,
+} from "./types";
+
+type ShadowState = Parameters<typeof ShadowElm>[0];
+type BoxControlValue = Partial<
+	Record<"top" | "right" | "bottom" | "left", string | undefined>
+>;
+type AlignmentMatrixValue = React.ComponentProps<
+	typeof AlignmentMatrixControl
+>["value"];
+type IconSelectValue = Parameters<
+	NonNullable<React.ComponentProps<typeof IconSelectControl>["onChange"]>
+>[0];
+
+interface BlockEditorSelectors {
+	hasSelectedInnerBlock: (clientId: string, deep?: boolean) => boolean;
+	getBlockParents: (clientId: string) => string[];
+	getBlock: (clientId: string) => { attributes?: Record<string, any> } | null;
+}
+
+const isSelectInfo = (
+	value: unknown,
+): value is { slug: string; link: string } =>
+	Boolean(
+		value && typeof value === "object" && "slug" in value && "link" in value,
+	);
+
+//スペースのリセットバリュー
+const padding_resetValues = {
+	top: "10px",
+	left: "10px",
+	right: "10px",
+	bottom: "10px",
+};
+
+//リセットバリュー
+
+const units = [
+	{ value: "px", label: "px" },
+	{ value: "em", label: "em" },
+	{ value: "rem", label: "rem" },
+];
+
+//ヘッダーレベルアイコン
+const getIconForLevel = (level: number) => {
+	return (
+		<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+			<text x="0" y="15" fontSize="15" fontWeight="bold">{`H${level}`}</text>
+		</svg>
+	);
+};
+//コピーの長さ
+const measureTextWidth = (
+	text: string,
+	fontSize = "16px",
+	fontFamily = "sans-serif",
+) => {
+	const canvas = document.createElement("canvas");
+	const context = canvas.getContext("2d");
+	if (!context) return 0;
+	context.font = `${fontSize} ${fontFamily} `;
+	const metrics = context.measureText(text);
+	return metrics.width;
+};
+
+const toStyleObject = (value: unknown): Record<string, unknown> => {
+	if (!value) return {};
+	if (typeof value === "string") {
+		try {
+			const parsed = JSON.parse(value);
+			return parsed && typeof parsed === "object" ? parsed : {};
+		} catch {
+			return {};
+		}
+	}
+	return typeof value === "object" ? (value as Record<string, unknown>) : {};
+};
+
+const toBoxValues = (
+	current: TitleAttributes["padding_heading"],
+	value: BoxControlValue,
+) => ({
+	...current,
+	...Object.fromEntries(
+		Object.entries(value).filter(
+			(entry): entry is ["top" | "right" | "bottom" | "left", string] =>
+				typeof entry[1] === "string",
+		),
+	),
+});
+
+export default function Edit({
+	attributes,
+	setAttributes,
+	clientId,
+}: TitleEditProps) {
+	const {
+		headingContent,
+		uniqueID,
+		headingType,
+		defaultHeadingSize,
+		mobileHeadingSize,
+		titleType,
+		align,
+		isVertical,
+		padding_heading,
+		optionStyle,
+		shadow_element,
+		is_shadow,
+		is_underLine,
+		is_wrap,
+		is_waiting,
+		waiting_state,
+		underLine_prop,
+		bgColor_underLine,
+		bgGradient_underLine,
+		linkKind,
+		menu_pos,
+		is_title_menu,
+		selectedSlug,
+		selectedPageUrl,
+		isBlank,
+		dateValue,
+		userFormat,
+		freeStrFormat,
+		decimal,
+		className,
+	} = attributes;
+
+	//テキストの配置
+	const align_style = align_prm(align, true);
+	const alignStyleObject =
+		typeof align_style === "object" && align_style !== null ? align_style : {};
+	const { createNotice } = useDispatch("core/notices") as NoticesActions;
+
+	//モバイルの判定
+	const isMobile = useIsIframeMobile();
+
+	//ブロックの参照
+	const blockRef = useRef<HTMLDivElement | null>(null);
+	const [styleSheetTarget, setStyleSheetTarget] = useState<HTMLElement | null>(
+		null,
+	);
+	const ownerDocumentRef = useCallback((node: HTMLDivElement | null) => {
+		setStyleSheetTarget(node?.ownerDocument.head ?? null);
+	}, []);
+	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
+
+	const blockStyle: CSSProperties = {
+		position: is_title_menu ? "relative" : "static",
+		...alignStyleObject,
+	};
+
+	const blockProps = useBlockProps({
+		ref: mergedBlockRef,
+		style: blockStyle,
+	});
+
+	//ブロックのインナースタイルを取得
+	const styleObject = useElementStyleObject(blockRef, blockStyle);
+
+	useEffect(() => {
+		if (styleObject) {
+			const parseObj = toStyleObject(styleObject);
+			if (Object.keys(parseObj).length !== 0) {
+				//背景色変更によるシャドー属性の書き換え
+				const baseColor = parseObj.backgroundColor;
+				if (baseColor) {
+					setAttributes({
+						shadow_element: { ...shadow_element, baseColor: baseColor },
+					});
+					const new_shadow = ShadowElm({
+						...(shadow_element as unknown as ShadowState),
+						baseColor: String(baseColor),
+					});
+					if (new_shadow) {
+						setAttributes({ shadow_result: toStyleRecord(new_shadow.style) });
+					}
+				}
+				//スタイルオブジェクトをブロックの属性に書き込む
+				setAttributes({ block_style: parseObj });
+			}
+		}
+	}, [styleObject]);
+
+	//最初の状態
+	const prevClassRef = useRef<string | null>(null);
+
+	// ローカル状態の作成
+	const [localOptionStyle, setLocalOptionStyle] = useState<TitleOptionStyle>(
+		optionStyle ?? {},
+	);
+
+	// localOptionStyle の変更があるたびに setAttributes を呼び出す
+	useEffect(() => {
+		let textWidth;
+		if (optionStyle?.copy_content) {
+			// textWidthの計算
+			textWidth = measureTextWidth(
+				optionStyle.copy_content,
+				optionStyle.font_style_copy?.fontSize,
+				optionStyle.font_style_copy?.fontFamily,
+			);
+		}
+		const setOption = optionStyle?.copy_content
+			? { ...localOptionStyle, copy_width: textWidth }
+			: localOptionStyle;
+
+		setAttributes({ optionStyle: setOption });
+	}, [localOptionStyle]);
+
+	// titleTypeの変更があるたびに titleの内容を変える
+	const [siteTitle, setSiteTitle] = useState("");
+	useEffect(() => {
+		if (titleType === "site" || titleType === "catch") {
+			const fetchSiteInfo = async () => {
+				try {
+					const response = (await apiFetch({ path: "/" })) as SiteInfoResponse;
+					if (titleType === "site") {
+						setSiteTitle(response.name ?? "");
+					} else {
+						setSiteTitle(response.description ?? "");
+					}
+				} catch (error) {
+					console.error("Error fetching data:", error);
+				}
+			};
+			fetchSiteInfo();
+		} else if (titleType === "user") {
+			async function fetchUserName() {
+				try {
+					const res = (await apiFetch({
+						path: "/itmar/v1/current-user",
+					})) as CurrentUserResponse;
+
+					const name = res.is_logged_in
+						? res.display_name ?? ""
+						: __("Guest", "block-collections");
+					//setSiteTitle(`ようこそ、${name} さん`);
+					setSiteTitle(freeStrFormat.replace("%s", name));
+					//アバターの情報をオプションスタイルに渡しておく
+					if (optionStyle) {
+						optionStyle.icon_style = {
+							...optionStyle?.icon_style,
+							icon_type: "avatar",
+							avatar_url: res.avatar_url ?? "",
+						};
+					}
+				} catch (error) {
+					console.error("Error fetching data:", error);
+				}
+			}
+
+			fetchUserName();
+		} else {
+			const formatedValue = displayFormated(
+				headingContent,
+				userFormat,
+				freeStrFormat,
+				decimal,
+			);
+			setHeadingContentVal(formatedValue);
+		}
+	}, [titleType, userFormat, freeStrFormat, decimal]);
+
+	//スタイル変更時のデフォルト再設定
+	const execHandle = () => {
+		let reset_style;
+		if (className?.split(" ").includes("is-style-circle_marker")) {
+			reset_style = {
+				styleName: "is-style-circle_marker",
+				colorVal_circle: "var(--wp--preset--color--accent-1)",
+				colorVal_second: "var(--wp--preset--color--accent-2)",
+				circleScale: "3em",
+				secondScale: "1.5em",
+				second_opacity: 0.7,
+				first_long: 10,
+				first_lat: -5,
+				second_long: -10,
+				second_lat: 10,
+				isSecond: true,
+			};
+		} else if (className?.split(" ").includes("is-style-sub_copy")) {
+			reset_style = {
+				styleName: "is-style-sub_copy",
+				alignment_copy: "top left",
+				color_text_copy: "var(--wp--preset--color--content)",
+				color_background_copy: "var(--wp--preset--color--accent-1)",
+				copy_content: "SAMPLE",
+				copy_width: 0,
+				font_style_copy: {
+					fontSize: "16px",
+					fontFamily: "Arial, sans-serif",
+					fontWeight: "500",
+					isItalic: false,
+				},
+				radius_copy: {
+					topLeft: "10px",
+					topRight: "10px",
+					bottomRight: "0px",
+					bottomLeft: "0px",
+					value: "0px",
+				},
+				padding_copy: {
+					top: "10px",
+					left: "10px",
+					bottom: "10px",
+					right: "10px",
+				},
+				isIcon: false,
+				icon_style: {
+					icon_name: "f030",
+					icon_pos: "left",
+					icon_size: "24px",
+					icon_color: "#000",
+					icon_space: "5px",
+					icon_family: "Font Awesome 6 Free",
+				},
+			};
+			setCopyInputValue("SAMPLE");
+		} else {
+			reset_style = {};
+		}
+
+		setLocalOptionStyle(reset_style);
+
+		//refの更新
+		prevClassRef.current = className ?? null;
+		//確認待ちフラグをオフ
+		const removeClass = className
+			? className.replace(/\bauto_attr_change\b/, "").trim()
+			: "";
+
+		setAttributes({
+			isIdle: false,
+			className: removeClass,
+		});
+		//確認ダイアログを消す
+		setIsChangeModalOpen(false);
+	};
+
+	const cancelHandle = () => {
+		//キャンセルが押されたことを記録
+		setIsCancelFlg(true);
+		//classNameを元に戻す
+		setAttributes({ className: prevClassRef.current ?? undefined });
+		//確認ダイアログを消す
+		setIsChangeModalOpen(false);
+	};
+
+	//スタイル変更確認ダイアログ操作関数
+	const [isCangeModalOpen, setIsChangeModalOpen] = useState(false);
+	const [isCancelFlg, setIsCancelFlg] = useState(false);
+
+	//スタイル変更によるoptionStyleの初期化
+	useEffect(() => {
+		//最初のレンダリングでは初期化
+		if (prevClassRef.current !== null) {
+			//auto_attr_changeの取り外しのみの時は処理しない
+			// const removeAuto = prevClassRef.current
+			// 	.replace(/\bauto_attr_change\b/, "")
+			// 	.trim();
+			// if (removeAuto === className) {
+			// 	return;
+			// }
+			//isCancelFlgがtrueのときはfalseに戻して何もしない
+			if (isCancelFlg) {
+				//確認待ちフラグをオン
+				//setAttributes({ isIdle: false });
+				setIsCancelFlg(false);
+				return;
+			}
+			//itmar_filter_titleがクラス名に含まれていればモーダルは表示しない
+			if (
+				className?.includes("itmar_filter_title") ||
+				className?.includes("itmar_design_crumbs")
+			) {
+				execHandle();
+				return;
+			}
+			//デフォルトスタイルの時は初期化実行
+			if (
+				prevClassRef.current?.includes("is-style-default") ||
+				!prevClassRef.current?.includes("is-style")
+			) {
+				execHandle();
+				return;
+			}
+			//確認待ちフラグをオン
+			//setAttributes({ isIdle: true });
+			//確認ダイアログの表示
+			setIsChangeModalOpen(true);
+		} else {
+			prevClassRef.current = className ?? null;
+		}
+	}, [className]);
+
+	//iframeにfontawesomeを読み込む
+	//useFontawesomeIframe();
+
+	//TextControlの表示用変数
+
+	const [copyInputValue, setCopyInputValue] = useState(
+		optionStyle && optionStyle.copy_content !== undefined
+			? optionStyle.copy_content
+			: "SAMPLE",
+	);
+
+	//サブメニュー（インナーブロック）
+	const hasSelectedInnerBlock = useSelect(
+		(select) => {
+			const blockEditor = select(
+				"core/block-editor",
+			) as unknown as BlockEditorSelectors;
+			return blockEditor.hasSelectedInnerBlock(clientId, true);
+		},
+		[clientId],
+	); //ブロックの選択状態を把握
+
+	//親ブロックがメニューかサブメニューの判定
+	const [menuItemFlg, setMenuItemFlg] = useState(false);
+	useSelect(
+		(select) => {
+			const blockEditor = select(
+				"core/block-editor",
+			) as unknown as BlockEditorSelectors;
+			//親IDを取得
+			const parentBlockIds = blockEditor.getBlockParents(clientId);
+			// 各親ブロックを走査
+			for (let i = 0; i < parentBlockIds.length; i++) {
+				const parentBlock = blockEditor.getBlock(parentBlockIds[i]);
+				if (!parentBlock) continue;
+				if (parentBlock.attributes?.is_menu) {
+					setMenuItemFlg(true);
+					break;
+				}
+				if (parentBlock.attributes?.is_submenu) {
+					setMenuItemFlg(true);
+					break;
+				}
+			}
+		},
+		[clientId],
+	);
+
+	//メニューアイテムフラグをオンにする
+	useEffect(() => {
+		setAttributes({ isMenuItem: menuItemFlg });
+	}, [menuItemFlg]);
+
+	const subMenuBlocksProps = useInnerBlocksProps(
+		{
+			className: `submenu-block ${
+				hasSelectedInnerBlock ? "visible" : ""
+			} ${menu_pos.replace(/ /g, "_")} ${
+				!is_title_menu ? "mobile_horizen" : "mobile_virtical"
+			}`,
+		},
+		{
+			allowedBlocks: ["itmar/design-group"],
+			template: [
+				[
+					"itmar/design-group",
+					{ is_submenu: true },
+					[["itmar/design-title", { headingType: "H3" }]],
+				],
+			],
+			templateLock: false,
+		},
+	);
+
+	const [headingContentVal, setHeadingContentVal] = useState(
+		headingContent ?? "",
+	);
+
+	//リッチテキストをコンテンツにする
+	const renderRichText = () => {
+		return (
+			<RichText
+				tagName={headingType.toLowerCase() as keyof HTMLElementTagNameMap}
+				onChange={(newContent: string | { text?: string }) => {
+					let processedContent: string;
+
+					//リッチテキストの戻り値がオブジェクトの場合に対応
+					if (typeof newContent === "object" && newContent !== null) {
+						// オブジェクトの場合、textプロパティを使用
+						processedContent = (newContent as { text?: string }).text || "";
+					} else {
+						// 文字列の場合はそのまま使用
+						processedContent = newContent;
+					}
+					setAttributes({ headingContent: processedContent });
+					setHeadingContentVal(processedContent);
+				}}
+				onFocus={() => {
+					if (titleType === "date") {
+						//タイトルタイプがdateの時は日付入力ダイアログをだす
+						setIsDateModal(true);
+					}
+				}}
+				onBlur={() => {
+					//URLバリデーションチェック
+					if (linkKind === "url") {
+						if (!isValidUrlWithUrlApi(headingContentVal)) {
+							createNotice(
+								"error",
+								__(
+									"The input string is not in URL format.",
+									"block-collections",
+								),
+								{ type: "snackbar", isDismissible: true },
+							);
+							// バリデーションエラーがある場合、表示を元の値に戻す
+							setHeadingContentVal(headingContent ?? "");
+						} else {
+							//URLの形式を確認してリンク先をセット
+							setAttributes({
+								headingContent: headingContentVal,
+								selectedPageUrl: headingContentVal,
+							});
+						}
+					} else {
+						//setAttributes({ headingContent: headingContentVal });
+					}
+				}}
+				value={headingContentVal}
+				placeholder={__("Write Title text...", "block-collections")}
+				keepPlaceholderOnFocus={true}
+			/>
+		);
+	};
+
+	//ヘッダー要素をコンテンツにする
+	const renderElement = () => {
+		const headingTag = headingType.toLowerCase();
+		const heading = React.createElement(headingTag, {}, siteTitle);
+		return heading;
+	};
+
+	//コンテンツを返す
+	function renderContent() {
+		const iconType = optionStyle?.icon_style?.icon_type;
+		const iconUrl = optionStyle?.icon_style?.icon_url;
+		const avatarUrl = optionStyle?.icon_style?.avatar_url;
+
+		// アイコン画像の条件判定
+		const iconImg =
+			iconType === "image" && iconUrl
+				? React.createElement("img", {
+						src: iconUrl,
+						alt: "",
+						"aria-hidden": true,
+				  })
+				: iconType === "avatar" && avatarUrl
+				? React.createElement("img", {
+						src: avatarUrl,
+						alt: "",
+						"aria-hidden": true,
+				  })
+				: null;
+		//コンテンツの選択
+		const content =
+			titleType === "plaine" || titleType === "date"
+				? renderRichText()
+				: renderElement();
+		// ラッパーを使わず複数要素を並べる
+		if (iconImg) {
+			return React.createElement(React.Fragment, {}, content, iconImg);
+		} else {
+			return content;
+		}
+	}
+	//編集中の値を確保するための状態変数
+	const [url_editing, setUrlValue] = useState(selectedPageUrl);
+	//日付入力用のダイアログ表示用フラグ
+	const [isDateModal, setIsDateModal] = useState(false);
+
+	const handleBurstEnd = () => {
+		// パーティクル完了で完全停止
+		setAttributes({ waiting_state: "hold" });
+	};
+
+	return (
+		<>
+			<InspectorControls group="settings">
+				<PanelBody title={__("Title Source Setting", "block-collections")}>
+					<div className="itmar_title_type">
+						<RadioControl
+							label={__("Title type", "block-collections")}
+							selected={titleType}
+							options={[
+								{ label: __("Plaine", "block-collections"), value: "plaine" },
+								{ label: __("Date", "block-collections"), value: "date" },
+								{ label: __("Site Title", "block-collections"), value: "site" },
+								{
+									label: __("Chatch Phrase", "block-collections"),
+									value: "catch",
+								},
+								{
+									label: __("Login User", "block-collections"),
+									value: "user",
+								},
+							]}
+							onChange={(changeOption: string) =>
+								setAttributes({ titleType: changeOption })
+							}
+							help={
+								titleType === "site" || titleType === "catch"
+									? __(
+											"The Site Title and Chatch Phrase provide the ability to display whatever you set in the WordPress General Settings.",
+											"block-collections",
+									  )
+									: titleType === "date"
+									? __(
+											"Select the date format from the select box.",
+											"block-collections",
+									  )
+									: titleType === "user"
+									? __(
+											"Please enter the string to display. User name should be %s.",
+											"block-collections",
+									  )
+									: ""
+							}
+						/>
+						<FormatSelectControl
+							titleType={titleType}
+							userFormat={userFormat}
+							freeStrFormat={freeStrFormat}
+							decimal={decimal}
+							onFormatChange={(formatInfo: {
+								userFormat: string;
+								freeStrFormat: string;
+								decimal: number;
+							}) => {
+								setAttributes({
+									userFormat: formatInfo.userFormat,
+									freeStrFormat: formatInfo.freeStrFormat,
+									decimal: formatInfo.decimal,
+								});
+							}}
+						/>
+					</div>
+
+					<div className="itmar_link_type">
+						<RadioControl
+							label={__("Link type", "block-collections")}
+							selected={linkKind}
+							options={[
+								{ label: __("None", "block-collections"), value: "none" },
+								{
+									label: __("Fixed Page", "block-collections"),
+									value: "fixed",
+								},
+								{
+									label: __("Archive Page", "block-collections"),
+									value: "archive",
+								},
+								{ label: __("Free Link", "block-collections"), value: "free" },
+
+								{ label: __("Login", "block-collections"), value: "login" },
+								{ label: __("Modal Open", "block-collections"), value: "open" },
+								{
+									label: __("Sub Menu", "block-collections"),
+									value: "submenu",
+								},
+							]}
+							onChange={(changeOption: string) => {
+								if (changeOption === "url") {
+									//リンク種別がURLの場合
+									//URLのバリデーションチェック
+									if (isValidUrlWithUrlApi(headingContent ?? "")) {
+										setAttributes({ linkKind: changeOption });
+										//してリンク先に設定
+										setAttributes({ selectedPageUrl: headingContent ?? "" });
+									} else {
+										//エラーの通知
+										createNotice(
+											"error",
+											__(
+												"The input string is not in URL format.",
+												"block-collections",
+											),
+											{ type: "snackbar", isDismissible: true },
+										);
+									}
+								} else {
+									setAttributes({ linkKind: changeOption });
+								}
+							}}
+							help={
+								linkKind === "fixed"
+									? __("Link to the selected fixed page.", "block-collections")
+									: linkKind === "archive"
+									? __("Link to the selected archive page", "block-collections")
+									: linkKind === "free"
+									? __(
+											"Enter the URL freely. If you add [home_url]/ at the beginning, it will become the URL from the top of the site.",
+											"block-collections",
+									  )
+									: linkKind === "login"
+									? __(
+											"By specifying the title and two lines, the first line will be a link to the specified custom login static page, and the second line will be used for the logout process.",
+											"block-collections",
+									  )
+									: linkKind === "open"
+									? __(
+											"Brings the element with the specified ID to the front.",
+											"block-collections",
+									  )
+									: linkKind === "submenu"
+									? __(
+											"Allows the title to have a submenu.",
+											"block-collections",
+									  )
+									: ""
+							}
+						/>
+					</div>
+
+					{(linkKind === "fixed" || linkKind === "login") && (
+						<PageSelectControl
+							selectedSlug={selectedSlug}
+							label={
+								linkKind === "fixed"
+									? __("Select a fixed page to link to", "block-collections")
+									: __(
+											"Choose a static page to display when you log in (Home will display the built-in login page).",
+											"block-collections",
+									  )
+							}
+							homeUrl="[home_url]"
+							onChange={(pageInfo: unknown) => {
+								if (isSelectInfo(pageInfo)) {
+									setAttributes({
+										selectedSlug: pageInfo.slug,
+										selectedPageUrl: pageInfo.link,
+									});
+								}
+							}}
+						/>
+					)}
+					{linkKind === "archive" && (
+						<ArchiveSelectControl
+							selectedSlug={selectedSlug}
+							label={__("Select archive page to link to", "block-collections")}
+							homeUrl="[home_url]"
+							onChange={(postInfo: unknown) => {
+								if (isSelectInfo(postInfo)) {
+									setAttributes({
+										selectedSlug: postInfo.slug,
+										selectedPageUrl: postInfo.link,
+									});
+								}
+							}}
+						/>
+					)}
+					{linkKind === "free" && (
+						<TextControl
+							label={__("Link URL", "block-collections")}
+							value={url_editing ?? ""}
+							onChange={(newVal: string) => setUrlValue(newVal)} // 一時的な編集値として保存する
+							onBlur={() => {
+								setAttributes({ selectedPageUrl: url_editing });
+							}}
+						/>
+					)}
+					{linkKind === "open" && (
+						<TextControl
+							label={__("Modal ID", "block-collections")}
+							value={url_editing ?? ""}
+							onChange={(newVal: string) => setUrlValue(newVal)} // 一時的な編集値として保存する
+							onBlur={() => {
+								setAttributes({ selectedPageUrl: url_editing });
+							}}
+						/>
+					)}
+					{(linkKind === "fixed" ||
+						linkKind === "archive" ||
+						linkKind === "url" ||
+						linkKind === "free") && (
+						<ToggleControl
+							label={__("Open in new tab", "block-collections")}
+							checked={isBlank}
+							onChange={(newVal: boolean) => {
+								setAttributes({ isBlank: newVal });
+							}}
+						/>
+					)}
+					{linkKind === "submenu" && (
+						<PanelBody
+							title={__("Submenu position settings", "block-collections")}
+						>
+							<PanelRow className="imgPos_row">
+								<label>{__("Menu Alignment", "block-collections")}</label>
+								<AlignmentMatrixControl
+									value={menu_pos as AlignmentMatrixValue}
+									onChange={(newVal: AlignmentMatrixValue) => {
+										setAttributes({ menu_pos: newVal ?? "bottom right" });
+									}}
+								/>
+							</PanelRow>
+							<ToggleControl
+								label={__("Based on title", "block-collections")}
+								checked={is_title_menu}
+								help={__(
+									"If unchecked, the parent menu will be used as the reference. If there is no parent menu, do not uncheck it.",
+									"block-collections",
+								)}
+								onChange={(newVal: boolean) => {
+									setAttributes({ is_title_menu: newVal });
+								}}
+							/>
+						</PanelBody>
+					)}
+					<TextControl
+						label={__("Unique ID", "block-collections")}
+						value={uniqueID ?? ""}
+						help={__(
+							"Set an ID for this block. Since this is an ID, please be careful not to duplicate it on the page by duplicating it, etc.",
+							"block-collections",
+						)}
+						onChange={(newValue: string) => {
+							setAttributes({ uniqueID: newValue });
+						}}
+					/>
+				</PanelBody>
+			</InspectorControls>
+
+			<InspectorControls group="styles">
+				<PanelBody
+					title={__("Title settings", "block-collections")}
+					initialOpen={true}
+					className="title_design_ctrl"
+				>
+					<UnitControl
+						dragDirection="e"
+						onChange={(value?: string) =>
+							setAttributes(
+								!isMobile
+									? { defaultHeadingSize: value ?? "" }
+									: { mobileHeadingSize: value ?? "" },
+							)
+						}
+						label={
+							!isMobile
+								? __("Font Size(desk top)", "block-collections")
+								: __("Font Size(mobile)", "block-collections")
+						}
+						value={!isMobile ? defaultHeadingSize : mobileHeadingSize}
+					/>
+					<BoxControl
+						label={__("Padding", "block-collections")}
+						values={padding_heading}
+						onChange={(value: BoxControlValue) =>
+							setAttributes({
+								padding_heading: toBoxValues(padding_heading, value),
+							})
+						}
+						units={units} // 許可する単位
+						allowReset={true} // リセットの可否
+						resetValues={padding_resetValues} // リセット時の値
+					/>
+					<ToggleControl
+						label={__("Is Shadow", "block-collections")}
+						checked={is_shadow}
+						onChange={(newVal: boolean) => {
+							setAttributes({ is_shadow: newVal });
+						}}
+					/>
+					{is_shadow && (
+						<ShadowStyle
+							shadowStyle={shadow_element as unknown as ShadowState}
+							onChange={(
+								newStyle: ShadowStyleResult,
+								newState: ShadowState,
+							) => {
+								setAttributes({ shadow_result: toStyleRecord(newStyle.style) });
+								setAttributes({ shadow_element: { ...newState } });
+							}}
+						/>
+					)}
+
+					<ToggleControl
+						label={__("Add an underline", "block-collections")}
+						checked={is_underLine}
+						onChange={(newVal: boolean) => {
+							setAttributes({ is_underLine: newVal });
+						}}
+					/>
+					{is_underLine && (
+						<PanelBody
+							title={__("UnderLine settings", "block-collections")}
+							initialOpen={true}
+							className="title_design_ctrl"
+						>
+							<PanelRow className="distance_row">
+								<UnitControl
+									dragDirection="e"
+									onChange={(newValue?: string) => {
+										const newStyle = {
+											...underLine_prop,
+											height: newValue ?? underLine_prop.height,
+										};
+										setAttributes({ underLine_prop: newStyle });
+									}}
+									label={__("Height", "block-collections")}
+									value={underLine_prop.height}
+								/>
+								<UnitControl
+									dragDirection="e"
+									onChange={(newValue?: string) => {
+										const newStyle = {
+											...underLine_prop,
+											width: newValue ?? underLine_prop.width,
+										};
+										setAttributes({ underLine_prop: newStyle });
+									}}
+									label={__("Width", "block-collections")}
+									value={underLine_prop.width}
+								/>
+								<UnitControl
+									dragDirection="e"
+									onChange={(newValue?: string) => {
+										const newStyle = {
+											...underLine_prop,
+											distance: newValue ?? underLine_prop.distance,
+										};
+										setAttributes({ underLine_prop: newStyle });
+									}}
+									label={__("Distance", "block-collections")}
+									value={underLine_prop.distance}
+								/>
+							</PanelRow>
+							<PanelColorGradientSettings
+								title={__("Under Line Color Setting", "block-collections")}
+								settings={[
+									{
+										colorValue: bgColor_underLine,
+										gradientValue: bgGradient_underLine,
+										label: __("Choose Under Line color", "block-collections"),
+
+										onColorChange: (newValue?: string) => {
+											setAttributes({
+												bgColor_underLine:
+													newValue === undefined ? "" : newValue,
+											});
+										},
+										onGradientChange: (newValue?: string) => {
+											setAttributes({ bgGradient_underLine: newValue });
+										},
+									},
+								]}
+							/>
+							<ToggleControl
+								label={__("Animation on hover", "block-collections")}
+								checked={underLine_prop.is_anime}
+								onChange={(newVal: boolean) => {
+									const newStyle = { ...underLine_prop, is_anime: newVal };
+									setAttributes({ underLine_prop: newStyle });
+								}}
+							/>
+						</PanelBody>
+					)}
+					<ToggleControl
+						label={__("Write vertically", "block-collections")}
+						checked={isVertical}
+						onChange={(newVal: boolean) => {
+							setAttributes({ isVertical: newVal });
+						}}
+					/>
+					<ToggleControl
+						label={__("Wrap display", "block-collections")}
+						checked={is_wrap}
+						onChange={(newVal: boolean) => {
+							setAttributes({ is_wrap: newVal });
+						}}
+					/>
+				</PanelBody>
+
+				{className?.split(" ").includes("is-style-circle_marker") && (
+					<PanelBody
+						title={__("Circle Marker Settings", "block-collections")}
+						initialOpen={false}
+						className="title_design_ctrl"
+					>
+						<PanelColorGradientSettings
+							title={__("Circle Color Setting", "block-collections")}
+							settings={[
+								{
+									colorValue:
+										optionStyle && optionStyle.colorVal_circle
+											? optionStyle.colorVal_circle
+											: "var(--wp--preset--color--accent-1)",
+									gradientValue:
+										optionStyle && optionStyle.gradientVal_circle
+											? optionStyle.gradientVal_circle
+											: undefined,
+
+									label: __("Choose Circle Background", "block-collections"),
+									onColorChange: (newValue?: string) => {
+										setLocalOptionStyle((prev) => ({
+											...prev,
+											colorVal_circle: newValue,
+										}));
+									},
+									onGradientChange: (newValue?: string) => {
+										setLocalOptionStyle((prev) => ({
+											...prev,
+											gradientVal_circle: newValue,
+										}));
+									},
+								},
+							]}
+						/>
+
+						<UnitControl
+							dragDirection="e"
+							onChange={(newValue?: string) => {
+								setLocalOptionStyle((prev) => ({
+									...prev,
+									circleScale: newValue ?? prev.circleScale ?? "3em",
+								}));
+							}}
+							label={__("Circle Scale Setting", "block-collections")}
+							value={
+								optionStyle && optionStyle.circleScale
+									? optionStyle.circleScale
+									: "3em"
+							}
+						/>
+						<PanelBody
+							title={__("Position Settings", "block-collections")}
+							initialOpen={true}
+							className="title_design_ctrl"
+						>
+							<RangeControl
+								value={
+									optionStyle && optionStyle.first_lat
+										? optionStyle.first_lat
+										: 10
+								}
+								label={__("Lateral direction", "block-collections")}
+								max={50}
+								min={-30}
+								step={1}
+								onChange={(newValue?: number) => {
+									setLocalOptionStyle((prev) => ({
+										...prev,
+										first_lat: newValue ?? prev.first_lat ?? 10,
+									}));
+								}}
+								withInputField={false}
+							/>
+							<RangeControl
+								value={
+									optionStyle && optionStyle.first_long
+										? optionStyle.first_long
+										: 10
+								}
+								label={__("Longitudinal direction", "block-collections")}
+								max={50}
+								min={-30}
+								step={1}
+								onChange={(newValue?: number) => {
+									setLocalOptionStyle((prev) => ({
+										...prev,
+										first_long: newValue ?? prev.first_long ?? 10,
+									}));
+								}}
+								withInputField={false}
+							/>
+						</PanelBody>
+						<PanelBody
+							title={__("Second Circle Settings", "block-collections")}
+							initialOpen={true}
+						>
+							<ToggleControl
+								label={__("Second Circle", "block-collections")}
+								checked={
+									optionStyle && optionStyle.isSecond
+										? optionStyle.isSecond
+										: true
+								}
+								onChange={(newValue: boolean) => {
+									setLocalOptionStyle((prev) => ({
+										...prev,
+										isSecond: newValue,
+									}));
+								}}
+							/>
+						</PanelBody>
+						{(optionStyle && optionStyle.isSecond
+							? optionStyle.isSecond
+							: false) && (
+							<>
+								<PanelColorGradientSettings
+									title={__("Circle Color Setting", "block-collections")}
+									settings={[
+										{
+											colorValue:
+												optionStyle && optionStyle.colorVal_second
+													? optionStyle.colorVal_second
+													: "var(--wp--preset--color--accent-2)",
+											gradientValue:
+												optionStyle && optionStyle.gradientVal_second
+													? optionStyle.gradientVal_second
+													: undefined,
+
+											label: __(
+												"Choose Circle Background",
+												"block-collections",
+											),
+											onColorChange: (newValue?: string) => {
+												setLocalOptionStyle((prev) => ({
+													...prev,
+													colorVal_second: newValue,
+												}));
+											},
+											onGradientChange: (newValue?: string) => {
+												setLocalOptionStyle((prev) => ({
+													...prev,
+													gradientVal_second: newValue,
+												}));
+											},
+										},
+									]}
+								/>
+								<RangeControl
+									value={
+										optionStyle && optionStyle.second_opacity
+											? optionStyle.second_opacity
+											: 0.7
+									}
+									label={__("Opacity", "block-collections")}
+									max={1}
+									min={0.1}
+									step={0.1}
+									onChange={(newValue?: number) => {
+										setLocalOptionStyle((prev) => ({
+											...prev,
+											second_opacity: newValue ?? prev.second_opacity ?? 0.7,
+										}));
+									}}
+									withInputField={false}
+								/>
+								<UnitControl
+									dragDirection="e"
+									onChange={(newValue?: string) => {
+										setLocalOptionStyle((prev) => ({
+											...prev,
+											secondScale: newValue ?? prev.secondScale ?? "1.5em",
+										}));
+									}}
+									label={__("Circle Scale Setting", "block-collections")}
+									value={
+										optionStyle && optionStyle.secondScale
+											? optionStyle.secondScale
+											: "1.5em"
+									}
+								/>
+								<PanelBody
+									title={__("Position Settings", "block-collections")}
+									initialOpen={true}
+									className="title_design_ctrl"
+								>
+									<RangeControl
+										value={
+											optionStyle && optionStyle.second_lat
+												? optionStyle.second_lat
+												: 20
+										}
+										label={__("Lateral direction", "block-collections")}
+										max={50}
+										min={-30}
+										step={1}
+										onChange={(newValue?: number) => {
+											setLocalOptionStyle((prev) => ({
+												...prev,
+												second_lat: newValue ?? prev.second_lat ?? 20,
+											}));
+										}}
+										withInputField={false}
+									/>
+									<RangeControl
+										value={
+											optionStyle && optionStyle.second_long
+												? optionStyle.second_long
+												: -10
+										}
+										label={__("Longitudinal direction", "block-collections")}
+										max={50}
+										min={-30}
+										step={1}
+										onChange={(newValue?: number) => {
+											setLocalOptionStyle((prev) => ({
+												...prev,
+												second_long: newValue ?? prev.second_long ?? -10,
+											}));
+										}}
+										withInputField={false}
+									/>
+								</PanelBody>
+							</>
+						)}
+					</PanelBody>
+				)}
+
+				{className?.split(" ").includes("is-style-sub_copy") && (
+					<PanelBody
+						title={__("Sub Copy Settings", "block-collections")}
+						initialOpen={false}
+						className="title_design_ctrl"
+					>
+						<PanelColorGradientSettings
+							title={__("Copy Color Setting", "block-collections")}
+							settings={[
+								{
+									colorValue:
+										optionStyle && optionStyle.color_text_copy
+											? optionStyle.color_text_copy
+											: "var(--wp--preset--color--content)",
+									label: __("Choose Text color", "block-collections"),
+									onColorChange: (newValue?: string) => {
+										setLocalOptionStyle((prev) => ({
+											...prev,
+											color_text_copy: newValue,
+										}));
+									},
+								},
+								{
+									colorValue:
+										optionStyle && optionStyle.color_background_copy
+											? optionStyle.color_background_copy
+											: "var(--wp--preset--color--accent-2)",
+									gradientValue:
+										optionStyle && optionStyle.gradient_background_copy
+											? optionStyle.gradient_background_copy
+											: undefined,
+
+									label: __("Choose Background color", "block-collections"),
+									onColorChange: (newValue?: string) => {
+										setLocalOptionStyle((prev) => ({
+											...prev,
+											color_background_copy: newValue,
+										}));
+									},
+									onGradientChange: (newValue?: string) => {
+										setLocalOptionStyle((prev) => ({
+											...prev,
+											gradient_background_copy: newValue,
+										}));
+									},
+								},
+							]}
+						/>
+
+						<PanelRow className="copyInfo_row">
+							<TextControl
+								label={__("Copy Text", "block-collections")}
+								value={copyInputValue}
+								onChange={(newValue: string) => {
+									setCopyInputValue(newValue);
+									setLocalOptionStyle((prev) => ({
+										...prev,
+										copy_content: newValue,
+									}));
+								}}
+							/>
+						</PanelRow>
+						<PanelRow className="copyInfo_row">
+							<label>{__("Copy Alignment", "block-collections")}</label>
+							<AlignmentMatrixControl
+								value={
+									optionStyle && optionStyle.alignment_copy
+										? optionStyle.alignment_copy
+										: "top left"
+								}
+								onChange={(newValue: string | undefined) => {
+									setLocalOptionStyle((prev) => ({
+										...prev,
+										alignment_copy: newValue ?? "top left",
+									}));
+								}}
+							/>
+						</PanelRow>
+
+						<TypographyControls
+							title={__("Typography", "block-collections")}
+							fontStyle={
+								optionStyle && optionStyle.font_style_copy
+									? optionStyle.font_style_copy
+									: {
+											default_fontSize: "16px",
+											mobile_fontSize: "12px",
+											fontFamily: "Arial, sans-serif",
+											fontWeight: "500",
+											isItalic: false,
+									  }
+							}
+							initialOpen={false}
+							isMobile={isMobile}
+							onChange={(newValue: TitleOptionStyle["font_style_copy"]) => {
+								setLocalOptionStyle((prev) => ({
+									...prev,
+									font_style_copy: newValue,
+								}));
+							}}
+						/>
+
+						<PanelBody
+							title={__("Border Settings", "block-collections")}
+							initialOpen={true}
+						>
+							<BorderRadiusControl
+								values={
+									optionStyle && optionStyle.radius_copy
+										? optionStyle.radius_copy
+										: {
+												topLeft: "10px",
+												topRight: "10px",
+												bottomRight: "0px",
+												bottomLeft: "0px",
+												value: "0px",
+										  }
+								}
+								onChange={(newBrVal: unknown) => {
+									setLocalOptionStyle((prev) => ({
+										...prev,
+										radius_copy:
+											typeof newBrVal === "string"
+												? { value: newBrVal }
+												: newBrVal && typeof newBrVal === "object"
+												? newBrVal
+												: {},
+									}));
+								}}
+							/>
+
+							<BoxControl
+								label={__("Padding settings", "block-collections")}
+								values={
+									optionStyle && optionStyle.padding_copy
+										? optionStyle.padding_copy
+										: {
+												top: "10px",
+												left: "10px",
+												bottom: "10px",
+												right: "10px",
+										  }
+								}
+								onChange={(newValue: BoxControlValue) => {
+									setLocalOptionStyle((prev) => ({
+										...prev,
+										padding_copy: toBoxValues(
+											prev.padding_copy ?? {
+												top: "10px",
+												left: "10px",
+												bottom: "10px",
+												right: "10px",
+											},
+											newValue,
+										),
+									}));
+								}}
+								units={units} // 許可する単位
+								allowReset={true} // リセットの可否
+								resetValues={padding_resetValues} // リセット時の値
+							/>
+						</PanelBody>
+						<PanelBody
+							title={__("Icon settings", "block-collections")}
+							initialOpen={true}
+						>
+							<ToggleControl
+								label={__("Append icon", "block-collections")}
+								checked={
+									optionStyle && optionStyle.isIcon ? optionStyle.isIcon : false
+								}
+								onChange={(newValue: boolean) => {
+									setLocalOptionStyle((prev) => ({
+										...prev,
+										isIcon: newValue,
+									}));
+								}}
+							/>
+							{(optionStyle && optionStyle.isIcon
+								? optionStyle.isIcon
+								: false) && (
+								<>
+									<IconSelectControl
+										iconStyle={
+											optionStyle && optionStyle.icon_style
+												? optionStyle.icon_style
+												: {
+														icon_type: "awesome",
+														icon_url: "",
+														icon_name: "f030",
+														icon_pos: "left",
+														icon_size: "24px",
+														icon_color: "var(--wp--preset--color--content)",
+														icon_space: "5px",
+												  }
+										}
+										setPosition={true}
+										onChange={(newValue: IconSelectValue) => {
+											setLocalOptionStyle((prev) => ({
+												...prev,
+												icon_style: newValue,
+											}));
+										}}
+									/>
+									<PanelBody
+										title={__(
+											"Pending animations settings",
+											"block-collections",
+										)}
+										initialOpen={true}
+									>
+										<ToggleControl
+											label={__("Pending animations", "block-collections")}
+											checked={is_waiting}
+											onChange={(newVal: boolean) => {
+												setAttributes({ is_waiting: newVal });
+											}}
+										/>
+									</PanelBody>
+								</>
+							)}
+						</PanelBody>
+					</PanelBody>
+				)}
+			</InspectorControls>
+
+			<BlockControls>
+				<AlignmentToolbar
+					value={align}
+					onChange={(nextAlign: string | undefined) => {
+						setAttributes({ align: nextAlign ?? "left" });
+					}}
+				/>
+				<ToolbarDropdownMenu
+					label={__("Change heading level", "block-collections")}
+					icon={getIconForLevel(parseInt(headingType.slice(1), 10))}
+					controls={[1, 2, 3, 4, 5, 6].map((level) => ({
+						icon: getIconForLevel(level),
+						title: `Heading ${level}`,
+						isActive: headingType === `H${level}`,
+						onClick: () => setAttributes({ headingType: `H${level}` }),
+					}))}
+				/>
+				{is_waiting && (
+					<ToolbarGroup>
+						<ToolbarButton
+							icon={
+								<Icon
+									icon={waiting_state === "hold" ? <Play /> : <Stop />}
+									size={24}
+								/>
+							}
+							label={
+								waiting_state === "hold"
+									? __("Run", "opening-block")
+									: __("Stop", "opening-block")
+							}
+							showTooltip
+							isPressed={waiting_state === "exec"} // 押下状態の視覚反映（任意）
+							onClick={() => {
+								const next = waiting_state === "hold" ? "exec" : "done";
+								setAttributes({ waiting_state: next });
+							}}
+						/>
+					</ToolbarGroup>
+				)}
+			</BlockControls>
+
+			{isCangeModalOpen && (
+				<Modal
+					title={__("Confirm Deletion", "block-collections")}
+					onRequestClose={cancelHandle}
+				>
+					<p>
+						{__(
+							"Changing a style resets the style-specific settings. Are you sure?",
+							"block-collections",
+						)}
+					</p>
+					<Button variant="primary" onClick={execHandle}>
+						{__("Yes, Change", "block-collections")}
+					</Button>
+					<Button variant="secondary" onClick={cancelHandle}>
+						{__("Cancel", "block-collections")}
+					</Button>
+				</Modal>
+			)}
+
+			<div {...blockProps}>
+				<StyleSheetManager target={styleSheetTarget ?? undefined}>
+					<StyleComp attributes={attributes} onBurstEnd={handleBurstEnd}>
+						{renderContent()}
+					</StyleComp>
+					{linkKind === "submenu" && <div {...subMenuBlocksProps}></div>}
+					{isDateModal && (
+						<Modal
+							title={__("Select Date and Time", "block-collections")}
+							onRequestClose={() => setIsDateModal(false)}
+						>
+							<DateTimePicker
+								currentDate={dateValue}
+								onChange={(newDatetime: string | null) => {
+									if (!newDatetime) return;
+									setAttributes({
+										headingContent: newDatetime,
+									});
+									const newDisp = format(userFormat, newDatetime);
+									setHeadingContentVal(newDisp);
+									setIsDateModal(false);
+								}}
+							/>
+							<Button variant="primary" onClick={() => setIsDateModal(false)}>
+								Close
+							</Button>
+						</Modal>
+					)}
+				</StyleSheetManager>
+			</div>
+		</>
+	);
+}

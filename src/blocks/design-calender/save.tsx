@@ -1,0 +1,73 @@
+import { __ } from "@wordpress/i18n";
+import { useBlockProps, InnerBlocks } from "@wordpress/block-editor";
+import type { CalendarSaveProps } from "./types";
+
+const week = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+
+export default function save({ attributes }: CalendarSaveProps) {
+	const {
+		selectedMonth,
+		inputName,
+		isReleaseButton,
+		isDateArea,
+		isHoliday,
+		tooltip_style,
+		...styleAttr
+	} = attributes;
+
+	//属性オブジェクトをキー順に並び変え
+	const dataAttributeValues = {
+		...styleAttr,
+		tooltip_style,
+	};
+
+	const sortedDataAttributes = Object.fromEntries(
+		Object.entries(dataAttributeValues).sort(([keyA], [keyB]) =>
+			keyA.localeCompare(keyB),
+		),
+	);
+	const dataAttributes = JSON.stringify(sortedDataAttributes);
+
+	const blockProps = useBlockProps.save({
+		"data-attributes": dataAttributes,
+		style: {
+			backgroundColor: styleAttr.bgColor,
+			width: "100%",
+			// overflow: "hidden",
+		},
+	});
+
+	function renderContent() {
+		return (
+			<div className="itmar_date_area">
+				{week.map((item, index) => (
+					<label
+						key={index}
+						className="itmar_week_label"
+						style={{ gridArea: item }}
+					>
+						<span>{item}</span>
+					</label>
+				))}
+			</div>
+		);
+	}
+
+	return (
+		<>
+			<div
+				{...blockProps}
+				data-selected_month={selectedMonth}
+				data-week_top={styleAttr.weekTop}
+				data-input_name={inputName}
+				data-is_release={isReleaseButton ? "true" : "false"}
+				data-is_holiday={isHoliday ? "true" : "false"}
+			>
+				<div className="itmar-wrap">
+					<InnerBlocks.Content />
+					{isDateArea && renderContent()}
+				</div>
+			</div>
+		</>
+	);
+}

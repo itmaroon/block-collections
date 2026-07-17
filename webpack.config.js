@@ -11,7 +11,7 @@ const newEntryConfig = async () => {
 
 	return {
 		...originalEntry,
-		"gutenberg-ex": path.resolve(__dirname, "./src/gutenberg-ex.js"),
+		"gutenberg-ex": path.resolve(__dirname, "./src/gutenberg-ex.tsx"),
 		//block_collection: path.resolve(__dirname, "./assets/block_collection.js"),
 	};
 };
