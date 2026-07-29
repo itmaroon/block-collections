@@ -45,9 +45,70 @@ const defaultUnderLineProp: UnderLineProp = {
 	height: "2px",
 	distance: "0",
 	is_anime: false,
+	direction: "center",
 };
 
-export const StyleComp = ({ attributes, children, onBurstEnd }: StyleCompProps) => {
+// 20px の線を 135 度方向へ折り返したときの水平・垂直成分。
+const underLineFoldOffset = "14.142px";
+
+const createUnderLineCss = (
+	selector: string,
+	underLineProp: UnderLineProp,
+	background: string,
+): string => {
+	const direction = underLineProp.direction ?? "center";
+	const isDirectional = direction === "right" || direction === "left";
+	const isRight = direction === "right";
+	const height = underLineProp.height;
+	const arrowInset = `calc(100% - ${underLineFoldOffset})`;
+	const clipPath = isRight
+		? `polygon(0 calc(100% - ${height}), calc(100% - ${height}) calc(100% - ${height}), ${arrowInset} ${height}, ${arrowInset} 0, 100% calc(100% - ${height}), 100% 100%, 0 100%)`
+		: `polygon(100% calc(100% - ${height}), ${height} calc(100% - ${height}), ${underLineFoldOffset} ${height}, ${underLineFoldOffset} 0, 0 calc(100% - ${height}), 0 100%, 100% 100%)`;
+	const position =
+		direction === "right"
+			? "left:0;right:auto;"
+			: direction === "left"
+			? "left:auto;right:0;"
+			: "left:50%;right:auto;";
+	const transformOrigin =
+		direction === "right"
+			? "left center"
+			: direction === "left"
+			? "right center"
+			: "center center";
+	const baseTransform = direction === "center" ? "translateX(-50%)" : "";
+	const scale = underLineProp.is_anime ? "scaleX(0)" : "scaleX(1)";
+	const expandedTransform = `${baseTransform} scaleX(1)`.trim();
+
+	return `
+		${selector}::after {
+			content:"";position:absolute;display:block;
+			width:${underLineProp.width};
+			height:${
+				isDirectional
+					? `calc(${underLineFoldOffset} + ${height})`
+					: height
+			};
+			bottom:${underLineProp.distance};
+			background:${background};${position}
+			transform:${baseTransform} ${scale};
+			transform-origin:${transformOrigin};
+			transition:transform .3s ease 0s;
+			${isDirectional ? `clip-path:${clipPath};` : ""}
+		}
+		${
+			underLineProp.is_anime
+				? `${selector}:hover::after { transform:${expandedTransform}; }`
+				: ""
+		}
+	`;
+};
+
+export const StyleComp = ({
+	attributes,
+	children,
+	onBurstEnd,
+}: StyleCompProps) => {
 	return (
 		<StyledDiv id={attributes.headingID} $attr={attributes}>
 			{children}
@@ -87,8 +148,9 @@ const StyledDiv = styled.div<{ $attr: TitleAttributes }>`
 			headingType,
 			defaultHeadingSize,
 			mobileHeadingSize,
-			isMenuItem,
-			padding_heading,
+			align,
+			default_val,
+			mobile_val,
 			isVertical,
 			optionStyle,
 			shadow_result,
@@ -114,6 +176,10 @@ const StyledDiv = styled.div<{ $attr: TitleAttributes }>`
 		const box_shadow_style =
 			is_shadow && shadow_result ? convertToScss(shadow_result) : "";
 
+		//スペースの設定
+		const default_padding_prm = space_prm(default_val.padding_heading);
+		const mobile_padding_prm = space_prm(mobile_val.padding_heading);
+
 		//paddingの修正関数
 		const ajust_padding = (
 			padding: string,
@@ -130,8 +196,8 @@ const StyledDiv = styled.div<{ $attr: TitleAttributes }>`
 					: pos_y === "top"
 					? 0
 					: pos_y === "bottom"
-				? 2
-				: null;
+					? 2
+					: null;
 			if (pos_num === null) return values.join(" ");
 			if (pos_y === "center") {
 				//横方向のパディング
@@ -150,38 +216,7 @@ const StyledDiv = styled.div<{ $attr: TitleAttributes }>`
 
 		//アンダーライン
 		const underLine = is_underLine
-			? `
-    position: relative;
-    &::after{
-        content: '';
-        position: absolute;
-        display: block;
-        ${
-					underLine_prop.is_anime
-						? `
-            width: 0;
-        `
-						: `width: ${underLine_prop.width};`
-				} 
-        height: ${underLine_prop.height};
-        bottom: ${underLine_prop.distance};
-        background: ${bgUnderLine};
-        left: 50%;
-        transform: translateX(-50%);
-        transition: all 0.3s ease 0s;
-      }
-      ${
-				underLine_prop.is_anime
-					? `
-          &:hover {
-            &::after {
-              width: ${underLine_prop.width};
-            }
-          }
-        `
-					: ""
-			}
-      `
+			? `position:relative;${createUnderLineCss("&", underLine_prop, bgUnderLine)}`
 			: null;
 
 		//処理中のアニメーション
@@ -262,18 +297,18 @@ const StyledDiv = styled.div<{ $attr: TitleAttributes }>`
 		from { opacity: 1; }
 		to   { opacity: 1; } 
 		}
-      `
+    `
 			: null;
 
 		//paddingの調整（サブメニューの印分の幅）
-		const render_padding =
+		const default_render_padding =
 			linkKind === "submenu"
-				? ajust_padding(
-						space_prm(padding_heading),
-						menu_pos.split(" ")[1],
-						"center",
-				  )
-				: space_prm(padding_heading);
+				? ajust_padding(default_padding_prm, menu_pos.split(" ")[1], "center")
+				: default_padding_prm;
+		const mobile_render_padding =
+			linkKind === "submenu"
+				? ajust_padding(mobile_padding_prm, menu_pos.split(" ")[1], "center")
+				: mobile_padding_prm;
 
 		//矢印の方向
 		const directionMap: Record<PositionKey, string> = {
@@ -316,13 +351,20 @@ const StyledDiv = styled.div<{ $attr: TitleAttributes }>`
 				font-size: ${mobileHeadingSize};
 			}
 			${headingType} {
+				box-sizing: border-box;
 				position: relative;
-				padding: ${render_padding};
+				padding: ${default_render_padding};
+				width: ${default_val.width ?? "fit-content"};
+				text-align: ${align};
 				white-space: ${wrap};
 				margin: 0;
 				font-weight: inherit;
 				${underLine};
 				${vertical_style};
+				@media (max-width: 767px) {
+					padding: ${mobile_render_padding};
+					width: ${mobile_val.width ?? "fit-content"};
+				}
 			}
 			a {
 				text-decoration: none !important;
@@ -460,45 +502,49 @@ const StyledDiv = styled.div<{ $attr: TitleAttributes }>`
 						: `right:calc(${padding_copy.left} + ${padding_copy.right} + ${textWidth}px)`;
 
 				//配置場所
-				const alignMap: Record<PositionKey, { before: string; after: string }> = {
-					"top left": {
-						before: "top:0;left: 0;",
-						after: `top:0;${tranceLeft}`,
-					},
-					"top center": {
-						before: "top:0;left:50%;transform: translateX(-50%);",
-						after: `top:0;${tranceCenter}`,
-					},
-					"top right": {
-						before: "top:0;right: 0;",
-						after: `top:0;${tranceRight}`,
-					},
-					"center left": {
-						before: "top:50%;transform: translateY(-50%);left:0;",
-						after: `top:50%;transform: translateY(-50%);${tranceLeft}`,
-					},
-					"center center": {
-						before: "top:50%;left:50%;transform: translate(-50%,-50%);",
-						after: "top:50%;left:50%;transform: translate(-50%,-50%);",
-					},
-					"center right": {
-						before: "top:50%;transform: translateY(-50%);right:0;",
-						after: `top:50%;transform: translateY(-50%);${tranceRight}`,
-					},
-					"bottom left": {
-						before: "bottom:0;left: 0;",
-						after: `bottom:0;${tranceLeft}`,
-					},
-					"bottom center": {
-						before: "bottom:0;left:50%;transform: translateX(-50%);",
-						after: `bottom:0;${tranceCenter}`,
-					},
-					"bottom right": {
-						before: "bottom:0;right: 0;",
-						after: `bottom:0;${tranceRight}`,
-					},
-				};
-				const alignmentPosition = normalizePositionKey(alignment_copy, "top left");
+				const alignMap: Record<PositionKey, { before: string; after: string }> =
+					{
+						"top left": {
+							before: "top:0;left: 0;",
+							after: `top:0;${tranceLeft}`,
+						},
+						"top center": {
+							before: "top:0;left:50%;transform: translateX(-50%);",
+							after: `top:0;${tranceCenter}`,
+						},
+						"top right": {
+							before: "top:0;right: 0;",
+							after: `top:0;${tranceRight}`,
+						},
+						"center left": {
+							before: "top:50%;transform: translateY(-50%);left:0;",
+							after: `top:50%;transform: translateY(-50%);${tranceLeft}`,
+						},
+						"center center": {
+							before: "top:50%;left:50%;transform: translate(-50%,-50%);",
+							after: "top:50%;left:50%;transform: translate(-50%,-50%);",
+						},
+						"center right": {
+							before: "top:50%;transform: translateY(-50%);right:0;",
+							after: `top:50%;transform: translateY(-50%);${tranceRight}`,
+						},
+						"bottom left": {
+							before: "bottom:0;left: 0;",
+							after: `bottom:0;${tranceLeft}`,
+						},
+						"bottom center": {
+							before: "bottom:0;left:50%;transform: translateX(-50%);",
+							after: `bottom:0;${tranceCenter}`,
+						},
+						"bottom right": {
+							before: "bottom:0;right: 0;",
+							after: `bottom:0;${tranceRight}`,
+						},
+					};
+				const alignmentPosition = normalizePositionKey(
+					alignment_copy,
+					"top left",
+				);
 				const alignStyle = alignMap[alignmentPosition];
 				//サブコピーのレンダリングスペースをパディングで確保
 				const copy_space_horizen = isIcon
@@ -876,7 +922,9 @@ export const createTitleStyleCss = (
 		headingType = "H2",
 		defaultHeadingSize = "16px",
 		mobileHeadingSize = "16px",
-		padding_heading,
+		align,
+		default_val,
+		mobile_val,
 		isVertical,
 		shadow_result,
 		is_shadow,
@@ -899,30 +947,29 @@ export const createTitleStyleCss = (
 		is_shadow && shadow_result
 			? cssValueToString(convertToScss(shadow_result))
 			: "";
-	const renderedPadding =
+	//スペースの設定
+	const default_padding_prm = space_prm(default_val.padding_heading);
+	const mobile_padding_prm = space_prm(mobile_val.padding_heading);
+
+	const default_renderedPadding =
 		linkKind === "submenu"
 			? adjustPadding(
-					space_prm(padding_heading),
+					default_padding_prm,
 					normalizePositionKey(menu_pos, "bottom right").split(" ")[1],
 					"center",
 			  )
-			: space_prm(padding_heading);
+			: default_padding_prm;
+	const mobile_renderedPadding =
+		linkKind === "submenu"
+			? adjustPadding(
+					mobile_padding_prm,
+					normalizePositionKey(menu_pos, "bottom right").split(" ")[1],
+					"center",
+			  )
+			: mobile_padding_prm;
 
 	const underlineCss = is_underLine
-		? `
-		${headingSelector}::after {
-			content:"";position:absolute;display:block;
-			width:${underLine_prop.is_anime ? "0" : underLine_prop.width};
-			height:${underLine_prop.height};bottom:${underLine_prop.distance};
-			background:${background};left:50%;transform:translateX(-50%);
-			transition:all .3s ease 0s;
-		}
-		${
-			underLine_prop.is_anime
-				? `${headingSelector}:hover::after { width:${underLine_prop.width}; }`
-				: ""
-		}
-	`
+		? createUnderLineCss(headingSelector, underLine_prop, background)
 		: "";
 	const submenuCss =
 		linkKind === "submenu"
@@ -941,10 +988,17 @@ export const createTitleStyleCss = (
 			${shadow}
 		}
 		${headingSelector} {
-			position:relative;padding:${renderedPadding};
+			box-sizing: border-box;
+			position:relative;padding:${default_renderedPadding};
+			width: ${default_val.width ?? "fit-content"};
+			text-align: ${align};
 			white-space:${is_wrap ? "pre-wrap" : "nowrap !important"};
 			margin:0;font-weight:inherit;
 			${isVertical ? "writing-mode:vertical-rl;text-orientation:upright;" : ""}
+			@media (max-width:767px) {
+				padding:${mobile_renderedPadding};
+				width: ${mobile_val.width ?? "fit-content"};
+			}
 		}
 		${scope} a { text-decoration:none !important; }
 		${underlineCss}

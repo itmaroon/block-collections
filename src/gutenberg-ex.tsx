@@ -137,6 +137,12 @@ const defaultBoxValues: BoxValues = {
 	bottom: "1em",
 };
 
+// 翻訳後の文字列をボタンの labelContent に渡す。
+const getMoreButtonLabel = (isExpanded: boolean): string =>
+	isExpanded
+		? __("Collapse...", "block-collections")
+		: __("See more...", "block-collections");
+
 // カスタマイズ対象とするブロック
 const allowedBlocks = [
 	"core/paragraph",
@@ -704,7 +710,7 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 							const buttonBlock = createBlock("itmar/design-button", {
 								className: "more_btn",
 								linkKind: "none",
-								labelContent: __("See more...", "block-collections"),
+								labelContent: getMoreButtonLabel(false),
 							});
 							insertBlocks(
 								buttonBlock,
@@ -785,30 +791,40 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 						//もっと見るを適用
 						if (name === "core/paragraph") {
 							if (moreButton) {
+								const expandedMaxHeight = blockElement
+									? `${blockElement.scrollHeight}px`
+									: undefined;
+
+								// max-height は none との間では補間できないため、展開時も
+								// コンテンツの実測値を使ってスムーズにアニメーションさせる。
+								extraStyle = {
+									...extraStyle,
+									overflow: "hidden",
+									maxHeight: isExpand
+										? expandedMaxHeight
+										: !isMobile
+											? defaultMaxHeight
+											: mobileMaxHeight,
+									transition: "max-height 0.4s ease",
+									willChange: "max-height",
+								};
+
 								//moreButtonが押されたらisExpandを反転
 								if (moreButton.attributes.isClick) {
+									const nextIsExpand = !isExpand;
 									updateBlockAttributes(clientId, {
-										isExpand: !isExpand,
+										isExpand: nextIsExpand,
 									});
 
 									//moreボタンのクリック属性を戻してボタンのラベルを更新
 									updateBlockAttributes(moreButton.clientId, {
 										isClick: false,
-										labelContent: isExpand
-											? __("See more...", "block-collections")
-											: __("Collapse...", "block-collections"),
+										labelContent: getMoreButtonLabel(nextIsExpand),
 									});
 								}
 								//isExpandのフラグによってスタイルをセット
 
 								if (!isExpand) {
-									//maxHeightをセット
-									extraStyle = {
-										...extraStyle,
-										overflow: "hidden",
-										maxHeight: !isMobile ? defaultMaxHeight : mobileMaxHeight,
-									};
-
 									//コアパラグラフがレンダリングされていること
 									if (blockElement) {
 										//コアパラグラフの背景色

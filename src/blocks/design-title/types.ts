@@ -3,11 +3,14 @@ import type { BoxValues } from "../../shared/types";
 
 export type TitleOptionStyle = Record<string, any>;
 
+export type UnderLineDirection = "center" | "right" | "left";
+
 export interface UnderLineProp {
 	width: string;
 	height: string;
 	distance: string;
 	is_anime: boolean;
+	direction?: UnderLineDirection;
 }
 
 export interface TitleAttributes {

@@ -56,7 +56,11 @@
       "type": "object",
       "default": {
         "direction": "horizen",
-        "flex": {},
+        "flex": {
+          "grow": null,
+          "shrink": null,
+          "basis": ""
+        },
         "reverse": false,
         "wrap": false,
         "inner_align": "flex-start",
@@ -110,7 +114,11 @@
       "type": "object",
       "default": {
         "direction": "vertical",
-        "flex": {},
+        "flex": {
+          "grow": null,
+          "shrink": null,
+          "basis": ""
+        },
         "reverse": false,
         "wrap": false,
         "inner_align": "flex-start",

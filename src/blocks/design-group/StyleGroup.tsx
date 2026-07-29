@@ -68,7 +68,7 @@ const StyledDiv = styled.div<{ $attr: GroupAttributes }>`
 			has_submenu,
 			anime_prm,
 		} = $attr;
-		
+
 		//FlexItemの設定
 		const default_flexItem =
 			default_val.flex && Object.keys(default_val.flex).length !== 0
@@ -164,9 +164,9 @@ const StyledDiv = styled.div<{ $attr: GroupAttributes }>`
 			`}
 			${default_width_style}
 			${default_max_width_style}
-      		${default_height_style}
-      		${default_block_align}
-      		align-self: ${default_val.outer_vertical};
+			${default_height_style}
+			${default_block_align}
+			align-self: ${default_val.outer_vertical};
 			@media (max-width: 767px) {
 				${mobile_flexItem}
 				${mobile_block_position}

@@ -4,13 +4,24 @@ import { styleDataApply } from "itmar-block-packages";
 import { createGroupStyleCss } from "./StyleGroup";
 import type { GroupAttributes } from "./types";
 
+const MORE_ANIMATION_DURATION = 400;
+const MORE_HEIGHT_TRANSITION = `max-height ${MORE_ANIMATION_DURATION}ms ease`;
+
+const getMoreButtonLabel = (isExpanded: boolean): string =>
+	isExpanded
+		? __("Collapse...", "block-collections")
+		: __("See more...", "block-collections");
+
 //保存済み属性から、React非依存のスコープ付きCSSを適用
 styleDataApply(createGroupStyleCss, ".wp-block-itmar-design-group", {
 	selector: ".itmar-wrap",
 	target: "outer",
 	classPrefix: "itmar-group-style-",
 	observe: true,
-	decorateTarget: (target: Element, attributes: GroupAttributes) => {
+	decorateTarget: (
+		target: Element,
+		attributes: GroupAttributes,
+	) => {
 		const parallax = attributes.parallax_obj;
 		if (!parallax?.type) return;
 
@@ -45,9 +56,13 @@ jQuery(function ($) {
 			//moreが適用されたときのcssオブジェクト
 			let moreStyle = $(this).data("more_style");
 			//もっと見るボタン
-			let $button = $(this).closest(".group_contents").find("button");
+			let $button = $(this)
+				.closest(".group_contents")
+				.find(".more_btn button");
 
 			let expand_flg = false; // 初期状態は非展開
+			let isAnimating = false;
+			let animationTimer: number | undefined;
 
 			let $wrapper: JQuery<HTMLElement> | null = null;
 			let $gradientOverlay: JQuery<HTMLElement> | null = null;
@@ -80,76 +95,162 @@ jQuery(function ($) {
 				});
 			}
 
-			// スタイルを設定し、必要に応じてグラデーションオーバーレイを追加/削除する関数
-			function setStyles($target: JQuery<HTMLElement>): void {
-				let maxHeight =
-					window.innerWidth >= 768
-						? moreStyle.defaultMaxHeight
-						: moreStyle.mobileMaxHeight;
+			// 折りたたみ時のグラデーションとボタン表示を更新する関数
+			function updateCollapsedDecoration(
+				$target: JQuery<HTMLElement>,
+				isTruncated: boolean,
+			): void {
+				const moreBtnDiv = $button.closest(".more_btn");
 
-				if (expand_flg) {
-					$target.css({ "max-height": "", overflow: "visible" });
-					// ラップとグラデーションオーバーレイを解除
-					if ($wrapper) {
-						$target.unwrap();
-						$wrapper = null;
+				if (isTruncated) {
+					if (!$wrapper) {
+						$wrapper = $(
+							'<div class="itmar_ex_block_wrapper" style="position: relative;"></div>',
+						);
+						$target.wrap($wrapper);
 					}
+					if (!$gradientOverlay) {
+						$gradientOverlay = createGradientOverlay($target);
+						$target.after($gradientOverlay);
+					}
+					moreBtnDiv.removeClass("more_hide");
+				} else {
 					if ($gradientOverlay) {
 						$gradientOverlay.remove();
 						$gradientOverlay = null;
 					}
-				} else {
-					//「もっと見る」のスタイルをセット
-					$target.css({ "max-height": maxHeight, overflow: "hidden" });
-					//ボタンを取得
-					const moreBtnDiv = $button.closest(".more_btn");
-
-					// scrollHeight と clientHeight を比較
-					if ($target[0].scrollHeight > $target[0].clientHeight) {
-						// pをラップ
-						if (!$wrapper) {
-							$wrapper = $(
-								'<div class="itmar_ex_block_wrapper" style="position: relative;"></div>',
-							);
-							$target.wrap($wrapper);
-						}
-						// グラデーションオーバーレイを追加
-						if (!$gradientOverlay) {
-							$gradientOverlay = createGradientOverlay($target);
-							$target.after($gradientOverlay);
-						}
-						//ボタンを表示
-						moreBtnDiv.removeClass("more_hide");
-					} else {
-						// コンテンツが切り詰められていない場合、グラデーションオーバーレイを削除
-						if ($gradientOverlay) {
-							$gradientOverlay.remove();
-							$gradientOverlay = null;
-						}
-						//ボタンを非表示
-						moreBtnDiv.addClass("more_hide");
-					}
+					moreBtnDiv.addClass("more_hide");
 				}
+			}
+
+			// スタイルを設定し、必要に応じてグラデーションオーバーレイを追加/削除する関数
+			function setStyles(
+				$target: JQuery<HTMLElement>,
+				animate = false,
+			): void {
+				const target = $target[0];
+				if (!target) return;
+
+				let maxHeight =
+					window.innerWidth >= 768
+						? moreStyle.defaultMaxHeight
+						: moreStyle.mobileMaxHeight;
+				const fullHeight = target.scrollHeight;
+
+				$target.off("transitionend.itmarMore");
+				if (animationTimer !== undefined) {
+					window.clearTimeout(animationTimer);
+					animationTimer = undefined;
+				}
+
+				if (expand_flg) {
+					if ($gradientOverlay) {
+						$gradientOverlay.remove();
+						$gradientOverlay = null;
+					}
+
+					if (!animate) {
+						$target.css({
+							"max-height": "none",
+							overflow: "visible",
+							transition: MORE_HEIGHT_TRANSITION,
+						});
+						if ($wrapper) {
+							$target.unwrap();
+							$wrapper = null;
+						}
+						return;
+					}
+
+					isAnimating = true;
+					$target.css({
+						"max-height": `${target.clientHeight}px`,
+						overflow: "hidden",
+						transition: "none",
+						"will-change": "max-height",
+					});
+					void target.offsetHeight;
+					$target.css({
+						"max-height": `${fullHeight}px`,
+						transition: MORE_HEIGHT_TRANSITION,
+					});
+				} else {
+					// 一度アニメーションなしで折りたたみ後の高さを測る。
+					$target.css({
+						"max-height": maxHeight,
+						overflow: "hidden",
+						transition: "none",
+						"will-change": "max-height",
+					});
+					const isTruncated = target.scrollHeight > target.clientHeight;
+					updateCollapsedDecoration($target, isTruncated);
+
+					if (!animate) {
+						$target.css({ transition: MORE_HEIGHT_TRANSITION });
+						return;
+					}
+
+					isAnimating = true;
+					$target.css({ "max-height": `${fullHeight}px` });
+					void target.offsetHeight;
+					$target.css({
+						"max-height": maxHeight,
+						transition: MORE_HEIGHT_TRANSITION,
+					});
+				}
+
+				const finishAnimation = (): void => {
+					if (!isAnimating) return;
+					isAnimating = false;
+					if (animationTimer !== undefined) {
+						window.clearTimeout(animationTimer);
+						animationTimer = undefined;
+					}
+					$target.off("transitionend.itmarMore");
+
+					if (expand_flg) {
+						$target.css({ "max-height": "none", overflow: "visible" });
+						if ($wrapper) {
+							$target.unwrap();
+							$wrapper = null;
+						}
+					}
+				};
+
+				$target.on("transitionend.itmarMore", (event) => {
+					const transitionEvent = event.originalEvent as
+						| TransitionEvent
+						| undefined;
+					if (
+						event.target === target &&
+						transitionEvent?.propertyName === "max-height"
+					) {
+						finishAnimation();
+					}
+				});
+				animationTimer = window.setTimeout(
+					finishAnimation,
+					MORE_ANIMATION_DURATION + 100,
+				);
 			}
 
 			// ボタンにクリックイベントリスナーを追加
 			$button.on("click", function () {
 				expand_flg = !expand_flg; // フラグを反転
 				const $target_p = $(this).closest(".group_contents").find("p");
-				setStyles($target_p); // スタイルを設定
-				// ボタンのテキストを変更（オプション）
-				$(this).text(
-					!expand_flg
-						? __("See more...", "block-collections")
-						: __("Collapse...", "block-collections"),
-				);
+				setStyles($target_p, true); // スタイルを設定
+				const translatedLabel = getMoreButtonLabel(expand_flg);
+				$(this).text(translatedLabel);
 			});
 
-			const ro = new ResizeObserver(() => setStyles($element));
+			const ro = new ResizeObserver(() => {
+				if (!isAnimating) setStyles($element);
+			});
 			ro.observe(el);
 			roMap.set(el, ro);
 
 			setStyles($element);
+			$button.text(getMoreButtonLabel(expand_flg));
 		});
 	}
 
@@ -172,7 +273,10 @@ jQuery(function ($) {
 	/* ------------------------------
  design-groupアニメーションイベント処理
  ------------------------------ */
-	const anime_parm_trigger = (flg: boolean, trigger: string): void => {
+	const anime_parm_trigger = (
+		flg: boolean,
+		trigger: string,
+	): void => {
 		$(".wp-block-itmar-design-group .group_contents")
 			.filter(function () {
 				// data-anime_prm属性が'visible'である要素を選択
@@ -223,23 +327,23 @@ jQuery(function ($) {
 				if (!elementOffset) return;
 				const elementTop = elementOffset.top;
 
-				const viewportHeight = $(window).height() ?? window.innerHeight;
-				const scrollPosition = $(window).scrollTop() ?? window.scrollY;
-				const animePattern = $element.data("anime_prm")?.pattern as
-					| string
-					| undefined;
+				const viewportHeight =
+					$(window).height() ?? window.innerHeight;
+				const scrollPosition =
+					$(window).scrollTop() ?? window.scrollY;
+				const animePattern = $element.data("anime_prm")
+					?.pattern as string | undefined;
 				if (!animePattern) return;
-
 				// 要素がビューポート内に入ったかどうかを判定
 				if (
 					elementTop < viewportHeight + scrollPosition &&
 					elementTop > scrollPosition
 				) {
 					// ここに要素がビューポートに入った時の処理
-					$(this).addClass(animePattern);
+					$element.addClass(animePattern);
 				} else {
 					// ここに要素がビューポートから出た時の処理
-					$(this).removeClass(animePattern);
+					$element.removeClass(animePattern);
 				}
 			});
 	});

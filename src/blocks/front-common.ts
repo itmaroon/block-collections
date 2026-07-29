@@ -1,5 +1,16 @@
 import type { CSSProperties } from "react";
 
+export const normalizeGroupLayout = (layout: any = {}) => ({
+	...layout,
+	flex: layout.flex && !Array.isArray(layout.flex) ? layout.flex : {},
+});
+
+export const normalizeGroupAttributes = (attributes: any = {}) => ({
+	...attributes,
+	default_val: normalizeGroupLayout(attributes.default_val),
+	mobile_val: normalizeGroupLayout(attributes.mobile_val),
+});
+
 export const setSelectValue = (
 	$: JQueryStatic,
 	select: JQuery,

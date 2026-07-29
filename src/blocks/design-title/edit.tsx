@@ -6,7 +6,7 @@ import {
 	useIsIframeMobile,
 	useElementStyleObject,
 	ShadowStyle,
-	align_prm,
+	//align_prm,
 	ShadowElm,
 	PageSelectControl,
 	ArchiveSelectControl,
@@ -18,6 +18,11 @@ import {
 } from "itmar-block-packages";
 
 import { StyleComp } from "./StyleWapper";
+import {
+	formatStoredTitleDate,
+	formatTitleDate,
+	getValidIsoDate,
+} from "./date";
 import apiFetch from "@wordpress/api-fetch";
 import { ReactComponent as Play } from "../../../assets/img/circle-play.svg";
 import { ReactComponent as Stop } from "../../../assets/img/circle-stop.svg";
@@ -66,6 +71,7 @@ import type {
 	TitleAttributes,
 	TitleEditProps,
 	TitleOptionStyle,
+	UnderLineDirection,
 } from "./types";
 
 type ShadowState = Parameters<typeof ShadowElm>[0];
@@ -170,7 +176,8 @@ export default function Edit({
 		titleType,
 		align,
 		isVertical,
-		padding_heading,
+		default_val,
+		mobile_val,
 		optionStyle,
 		shadow_element,
 		is_shadow,
@@ -195,9 +202,10 @@ export default function Edit({
 	} = attributes;
 
 	//テキストの配置
-	const align_style = align_prm(align, true);
-	const alignStyleObject =
-		typeof align_style === "object" && align_style !== null ? align_style : {};
+	// const align_style = align_prm(align, true);
+	// const alignStyleObject =
+	// 	typeof align_style === "object" && align_style !== null ? align_style : {};
+
 	const { createNotice } = useDispatch("core/notices") as NoticesActions;
 
 	//モバイルの判定
@@ -215,7 +223,7 @@ export default function Edit({
 
 	const blockStyle: CSSProperties = {
 		position: is_title_menu ? "relative" : "static",
-		...alignStyleObject,
+		//...alignStyleObject,
 	};
 
 	const blockProps = useBlockProps({
@@ -319,6 +327,10 @@ export default function Edit({
 			}
 
 			fetchUserName();
+		} else if (titleType === "date") {
+			setHeadingContentVal(
+				formatStoredTitleDate(headingContent, dateValue, userFormat),
+			);
 		} else {
 			const formatedValue = displayFormated(
 				headingContent,
@@ -916,18 +928,71 @@ export default function Edit({
 						}
 						value={!isMobile ? defaultHeadingSize : mobileHeadingSize}
 					/>
-					<BoxControl
-						label={__("Padding", "block-collections")}
-						values={padding_heading}
-						onChange={(value: BoxControlValue) =>
-							setAttributes({
-								padding_heading: toBoxValues(padding_heading, value),
-							})
+					<UnitControl
+						dragDirection="e"
+						onChange={(value?: string) => {
+							if (!isMobile) {
+								setAttributes({
+									default_val: {
+										...default_val,
+										width: value ?? "",
+									},
+								});
+							} else {
+								setAttributes({
+									mobile_val: {
+										...mobile_val,
+										width: value ?? "",
+									},
+								});
+							}
+						}}
+						label={
+							!isMobile
+								? __("Width Value(desk top)", "block-collections")
+								: __("Width Value(mobile)", "block-collections")
 						}
+						value={!isMobile ? default_val.width : mobile_val.width}
+					/>
+					<BoxControl
+						label={
+							!isMobile
+								? __("Padding settings(desk top)", "block-collections")
+								: __("Padding settings(mobile)", "block-collections")
+						}
+						values={
+							!isMobile
+								? default_val.padding_heading
+								: mobile_val.padding_heading
+						}
+						onChange={(value: BoxControlValue) => {
+							if (!isMobile) {
+								setAttributes({
+									default_val: {
+										...default_val,
+										padding_heading: {
+											...default_val.padding_heading,
+											...value,
+										},
+									},
+								});
+							} else {
+								setAttributes({
+									mobile_val: {
+										...mobile_val,
+										padding_heading: {
+											...mobile_val.padding_heading,
+											...value,
+										},
+									},
+								});
+							}
+						}}
 						units={units} // 許可する単位
 						allowReset={true} // リセットの可否
 						resetValues={padding_resetValues} // リセット時の値
 					/>
+
 					<ToggleControl
 						label={__("Is Shadow", "block-collections")}
 						checked={is_shadow}
@@ -1019,6 +1084,34 @@ export default function Edit({
 									},
 								]}
 							/>
+							<div className="itmar_link_type">
+								<RadioControl
+									label={__("Underline direction", "block-collections")}
+									selected={underLine_prop.direction ?? "center"}
+									options={[
+										{
+											label: __("Center", "block-collections"),
+											value: "center",
+										},
+										{
+											label: __("Right", "block-collections"),
+											value: "right",
+										},
+										{
+											label: __("Left", "block-collections"),
+											value: "left",
+										},
+									]}
+									onChange={(newVal) => {
+										setAttributes({
+											underLine_prop: {
+												...underLine_prop,
+												direction: newVal as UnderLineDirection,
+											},
+										});
+									}}
+								/>
+							</div>
 							<ToggleControl
 								label={__("Animation on hover", "block-collections")}
 								checked={underLine_prop.is_anime}
@@ -1573,13 +1666,19 @@ export default function Edit({
 							onRequestClose={() => setIsDateModal(false)}
 						>
 							<DateTimePicker
-								currentDate={dateValue}
+								currentDate={
+									getValidIsoDate(dateValue) ??
+									getValidIsoDate(headingContent) ??
+									new Date().toISOString()
+								}
 								onChange={(newDatetime: string | null) => {
-									if (!newDatetime) return;
+									const isoDate = getValidIsoDate(newDatetime);
+									if (!isoDate) return;
 									setAttributes({
-										headingContent: newDatetime,
+										headingContent: isoDate,
+										dateValue: isoDate,
 									});
-									const newDisp = format(userFormat, newDatetime);
+									const newDisp = formatTitleDate(isoDate, userFormat);
 									setHeadingContentVal(newDisp);
 									setIsDateModal(false);
 								}}

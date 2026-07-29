@@ -17,7 +17,6 @@ export default function save({ attributes }: GroupSaveProps) {
 	} = attributes;
 
 	const blockProps = useBlockProps.save({
-		//className: className,
 		"data-attributes": JSON.stringify(attributes),
 	});
 

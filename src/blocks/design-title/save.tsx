@@ -1,6 +1,7 @@
 import { useBlockProps, InnerBlocks, RichText } from "@wordpress/block-editor";
 import * as React from "react";
-import type { CSSProperties } from "react";
+
+import { formatStoredTitleDate } from "./date";
 
 import { displayFormated } from "itmar-block-packages";
 import type { TitleOptionStyle, TitleSaveProps } from "./types";
@@ -16,7 +17,7 @@ export default function save({ attributes }: TitleSaveProps) {
 	const {
 		headingType,
 		uniqueID,
-		align,
+		//align,
 		titleType,
 		headingContent,
 		optionStyle,
@@ -33,12 +34,12 @@ export default function save({ attributes }: TitleSaveProps) {
 	} = attributes;
 
 	//テキストの配置
-	const align_style: CSSProperties =
-		align === "center"
-			? { marginLeft: "auto", marginRight: "auto" }
-			: align === "right"
-			? { marginLeft: "auto" }
-			: {};
+	// const align_style: CSSProperties =
+	// 	align === "center"
+	// 		? { marginLeft: "auto", marginRight: "auto" }
+	// 		: align === "right"
+	// 		? { marginLeft: "auto" }
+	// 		: {};
 	const optionStyleObj = toOptionStyleObject(optionStyle);
 	const dataAttributes: Record<string, unknown> = {
 		...styleAttributes,
@@ -54,20 +55,20 @@ export default function save({ attributes }: TitleSaveProps) {
 		"data-attributes": JSON.stringify(dataAttributes),
 		style: {
 			position: `${is_title_menu ? "relative" : "static"}`,
-			...align_style,
+			//...align_style,
 		},
 	});
 
 	//リッチテキストをコンテンツにする
 	const renderRichText = () => {
 		//フォーマットを当てて表示
-		const formatedValue = displayFormated(
-			headingContent,
-			userFormat,
-			freeStrFormat,
-			decimal,
+		const formatedValue =
+			titleType === "date"
+				? formatStoredTitleDate(headingContent, dateValue, userFormat)
+				: displayFormated(headingContent, userFormat, freeStrFormat, decimal);
+		return (
+			<RichText.Content tagName={headingType as any} value={formatedValue} />
 		);
-		return <RichText.Content tagName={headingType as any} value={formatedValue} />;
 	};
 
 	//ヘッダー要素をコンテンツにする
@@ -97,13 +98,13 @@ export default function save({ attributes }: TitleSaveProps) {
 		content = React.createElement(React.Fragment, {}, content, iconImg);
 	}
 	//リンクをフロントエンドに出力
-	const linkContent = isBlank ? (
-		<a href={selectedPageUrl} target="_blank">
-			{content}
-		</a>
-	) : (
-		<a href={selectedPageUrl}>{content}</a>
-	);
+	// const linkContent = isBlank ? (
+	// 	<a href={selectedPageUrl} target="_blank">
+	// 		{content}
+	// 	</a>
+	// ) : (
+	// 	<a href={selectedPageUrl}>{content}</a>
+	// );
 
 	//ログオンボタン処理
 	const logon_btn = (
@@ -124,29 +125,19 @@ export default function save({ attributes }: TitleSaveProps) {
 
 	const wrappedContent =
 		linkKind === "none" || linkKind === "submenu" ? (
-		<div className="itmar-wrap">
-			{content}
-		</div>
-	) : linkKind === "login" ? (
-		<div className="itmar-wrap">
-			{logon_btn}
-		</div>
-	) : linkKind === "open" ? (
-		<div className="itmar-wrap">
-			{open_modal_btn}
-		</div>
-	) : isBlank ? (
-		<a href={selectedPageUrl} target="_blank" rel="noopener noreferrer">
-			<div className="itmar-wrap">
-				{content}
-			</div>
-		</a>
-	) : (
-		<a href={selectedPageUrl}>
-			<div className="itmar-wrap">
-				{content}
-			</div>
-		</a>
+			<div className="itmar-wrap">{content}</div>
+		) : linkKind === "login" ? (
+			<div className="itmar-wrap">{logon_btn}</div>
+		) : linkKind === "open" ? (
+			<div className="itmar-wrap">{open_modal_btn}</div>
+		) : isBlank ? (
+			<a href={selectedPageUrl} target="_blank" rel="noopener noreferrer">
+				<div className="itmar-wrap">{content}</div>
+			</a>
+		) : (
+			<a href={selectedPageUrl}>
+				<div className="itmar-wrap">{content}</div>
+			</a>
 		);
 
 	return (
