@@ -1,9 +1,7 @@
 import { __ } from "@wordpress/i18n";
-import { StyleComp } from "./StyleTable";
+import { createTableStyleCss } from "./StyleTable";
 import { useSelect } from "@wordpress/data";
 import { useEffect, useState, useCallback, useRef } from "@wordpress/element";
-import { useMergeRefs } from "@wordpress/compose";
-import { StyleSheetManager } from "styled-components";
 import {
 	useElementBackgroundColor,
 	useIsIframeMobile,
@@ -334,14 +332,17 @@ export default function Edit({
 
 	//ブロックの参照
 	const blockRef = useRef<HTMLDivElement | null>(null);
-	const [styleSheetTarget, setStyleSheetTarget] =
-		useState<HTMLHeadElement | null>(null);
-	const ownerDocumentRef = useCallback((node: HTMLDivElement | null) => {
-		setStyleSheetTarget(node?.ownerDocument.head ?? null);
-	}, []);
-	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
+	const editorStyleClass = `itmar-table-editor-${clientId.replace(
+		/[^a-zA-Z0-9_-]/g,
+		"",
+	)}`;
+	const editorStyleCss = createTableStyleCss(
+		attributes,
+		`.${editorStyleClass}`,
+	);
 	const blockProps = useBlockProps({
-		ref: mergedBlockRef,
+		ref: blockRef,
+		className: editorStyleClass,
 		style: { backgroundColor: bgColor },
 	});
 
@@ -1044,9 +1045,8 @@ export default function Edit({
 			</BlockControls>
 
 			<div {...blockProps}>
-				<StyleSheetManager target={styleSheetTarget ?? undefined}>
-					<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
-				</StyleSheetManager>
+				<style>{editorStyleCss}</style>
+				{renderContent()}
 			</div>
 		</>
 	);

@@ -1,6 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import "./editor.scss";
-import { StyleComp } from "./StyleProcess";
+import { createProcessStyleCss } from "./StyleProcess";
 import {
 	TypographyControls,
 	ShadowStyle,
@@ -25,14 +25,10 @@ import {
 
 import { useSelect, useDispatch } from "@wordpress/data";
 import {
-	useCallback,
 	useEffect,
 	useRef,
-	useState,
 	useMemo,
 } from "@wordpress/element";
-import { useMergeRefs } from "@wordpress/compose";
-import { StyleSheetManager } from "styled-components";
 import type { BlockInstance } from "@wordpress/blocks";
 import type { FigureBlockInfo, ProcessEditProps, RadiusValue } from "./types";
 import { toStyleRecord } from "../front-common";
@@ -110,14 +106,16 @@ export default function Edit({
 
 	//ブロックの参照
 	const blockRef = useRef<HTMLDivElement | null>(null);
-	const [styleSheetTarget, setStyleSheetTarget] =
-		useState<HTMLHeadElement | null>(null);
-	const ownerDocumentRef = useCallback((node: HTMLDivElement | null) => {
-		setStyleSheetTarget(node?.ownerDocument.head ?? null);
-	}, []);
-	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
+	const editorStyleClass = `itmar-process-editor-${clientId.replace(
+		/[^a-zA-Z0-9_-]/g,
+		"",
+	)}`;
+	const editorStyleCss = createProcessStyleCss(
+		attributes,
+		`.${editorStyleClass}`,
+	);
 	const blockProps = useBlockProps({
-		ref: mergedBlockRef,
+		ref: blockRef,
 		style: { backgroundColor: bgColor },
 	});
 
@@ -445,15 +443,14 @@ export default function Edit({
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<StyleSheetManager target={styleSheetTarget ?? undefined}>
-					<StyleComp attributes={attributes}>
-						{figureBlocks.map((block, index) => (
-							<li key={index} className={stage_index >= index ? "ready" : ""}>
-								{block.stage_info}
-							</li>
-						))}
-					</StyleComp>
-				</StyleSheetManager>
+				<style>{editorStyleCss}</style>
+				<ul className={`itmar-wrap ${editorStyleClass}`}>
+					{figureBlocks.map((block, index) => (
+						<li key={index} className={stage_index >= index ? "ready" : ""}>
+							{block.stage_info}
+						</li>
+					))}
+				</ul>
 			</div>
 		</>
 	);

@@ -1,10 +1,8 @@
 import { __ } from "@wordpress/i18n";
 
-import { StyleComp } from "./StyleSelect";
+import { createSelectStyleCss } from "./StyleSelect";
 import { NomalSelect } from "./initSelect";
-import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
-import { useMergeRefs } from "@wordpress/compose";
-import { StyleSheetManager } from "styled-components";
+import { useEffect, useRef, useState } from "@wordpress/element";
 import LabelBox from "../LabelBox";
 import OptionModal from "../OptionModal";
 import {
@@ -74,6 +72,7 @@ export default function Edit({
 	attributes,
 	setAttributes,
 	context,
+	clientId,
 }: SelectEditProps) {
 	const {
 		inputName,
@@ -103,14 +102,16 @@ export default function Edit({
 
 	//ブロックの参照
 	const blockRef = useRef<HTMLDivElement | null>(null);
-	const [styleSheetTarget, setStyleSheetTarget] =
-		useState<HTMLHeadElement | null>(null);
-	const ownerDocumentRef = useCallback((node: HTMLDivElement | null) => {
-		setStyleSheetTarget(node?.ownerDocument.head ?? null);
-	}, []);
-	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
+	const editorStyleClass = `itmar-select-editor-${clientId.replace(
+		/[^a-zA-Z0-9_-]/g,
+		"",
+	)}`;
+	const editorStyleCss = createSelectStyleCss(
+		attributes,
+		`.${editorStyleClass}`,
+	);
 	const blockProps = useBlockProps({
-		ref: mergedBlockRef,
+		ref: blockRef,
 		style: { backgroundColor: bgColor }, //背景色をブロックのルートにインラインでセット
 	});
 
@@ -486,9 +487,10 @@ export default function Edit({
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<StyleSheetManager target={styleSheetTarget ?? undefined}>
-					<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
-				</StyleSheetManager>
+				<div className={`itmar-wrap ${editorStyleClass}`}>
+					<style>{editorStyleCss}</style>
+					{renderContent()}
+				</div>
 			</div>
 		</>
 	);

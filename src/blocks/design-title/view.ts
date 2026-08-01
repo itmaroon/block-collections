@@ -3,7 +3,10 @@ import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import { styleDataApply } from "itmar-block-packages";
 
-import { createTitleStyleCss } from "./StyleWapper";
+import {
+	createTitleInnerScope,
+	createTitleStyleCss,
+} from "./StyleWapper";
 import type { CurrentUserResponse, SiteInfoResponse, TitleAttributes } from "./types";
 
 declare const itmar_block_option: {
@@ -12,10 +15,18 @@ declare const itmar_block_option: {
 	home_url: string;
 };
 
+const createTitleFrontendCss = (
+	attributes: TitleAttributes,
+	rootScope: string,
+): string =>
+	createTitleStyleCss(attributes, {
+		root: rootScope,
+		inner: createTitleInnerScope(rootScope),
+	});
+
 //保存済み属性から、React非依存のスコープ付きCSSを適用
-styleDataApply(createTitleStyleCss, ".wp-block-itmar-design-title", {
-	selector: ".itmar-wrap",
-	target: "inner",
+styleDataApply(createTitleFrontendCss, ".wp-block-itmar-design-title", {
+	target: "self",
 	classPrefix: "itmar-title-style-",
 	observe: true,
 });

@@ -1,8 +1,8 @@
 import { __ } from "@wordpress/i18n";
-import { StyleComp } from "./StyleCalender";
+import { createCalendarStyleCss } from "./StyleCalender";
 
 import ToolTips from "../ToolTips";
-import StyleTooltips from "../StyleTooltips";
+import { createTooltipStyleCss } from "../StyleTooltips";
 
 import {
 	useElementBackgroundColor,
@@ -38,12 +38,9 @@ import {
 	useEffect,
 	useRef,
 	useMemo,
-	useCallback,
 	createElement,
 } from "@wordpress/element";
-import { useMergeRefs } from "@wordpress/compose";
 import { useSelect, useDispatch, dispatch } from "@wordpress/data";
-import { StyleSheetManager } from "styled-components";
 import type { BlockInstance } from "@wordpress/blocks";
 import type {
 	CalendarEditProps,
@@ -151,7 +148,6 @@ export default function Edit({
 		shadow_week,
 		is_shadow_week,
 		tooltip_style,
-		className,
 	} = attributes;
 
 	//モバイルの判定
@@ -159,15 +155,17 @@ export default function Edit({
 
 	//ブロックの参照
 	const blockRef = useRef<HTMLDivElement | null>(null);
-	const styleRootRef = useRef<HTMLDivElement | null>(null);
-	const [styleSheetTarget, setStyleSheetTarget] =
-		useState<HTMLHeadElement | null>(null);
-	const ownerDocumentRef = useCallback((node: HTMLDivElement | null) => {
-		setStyleSheetTarget(node?.ownerDocument.head ?? null);
-	}, []);
-	const mergedStyleRootRef = useMergeRefs([styleRootRef, ownerDocumentRef]);
+	const editorStyleClass = `itmar-calendar-editor-${clientId.replace(
+		/[^a-zA-Z0-9_-]/g,
+		"",
+	)}`;
+	const editorScope = `.${editorStyleClass}`;
+	const editorStyleCss = `${createCalendarStyleCss(attributes, editorScope)}
+		${createTooltipStyleCss(
+			tooltip_style,
+			`${editorScope} [data-tooltip]`,
+		)}`;
 	const blockProps = useBlockProps({
-		ref: mergedStyleRootRef,
 		style: { width: "100%" },
 	});
 
@@ -711,11 +709,7 @@ export default function Edit({
 							? "saturday"
 							: "";
 					const dispSpan = item.holiday ? (
-						<StyleTooltips
-							attributes={{ ...tooltip_style, tooltip_text: item.holiday }}
-						>
-							{String(item.date)}
-						</StyleTooltips>
+						<span data-tooltip={item.holiday}>{String(item.date)}</span>
 					) : (
 						<span>{String(item.date)}</span>
 					);
@@ -1241,12 +1235,11 @@ export default function Edit({
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<StyleSheetManager target={styleSheetTarget ?? undefined}>
-					<StyleComp attributes={attributes}>
-						<div {...innerBlocksProps}></div>
-						{isDateArea && renderContent()}
-					</StyleComp>
-				</StyleSheetManager>
+				<div className={`itmar-wrap ${editorStyleClass}`}>
+					<style>{editorStyleCss}</style>
+					<div {...innerBlocksProps}></div>
+					{isDateArea && renderContent()}
+				</div>
 			</div>
 		</>
 	);

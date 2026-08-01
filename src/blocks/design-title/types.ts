@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties } from "react";
 import type { BoxValues } from "../../shared/types";
 
 export type TitleOptionStyle = Record<string, any>;
@@ -11,6 +11,11 @@ export interface UnderLineProp {
 	distance: string;
 	is_anime: boolean;
 	direction?: UnderLineDirection;
+}
+
+export interface TitleStyleScopes {
+	root: string;
+	inner: string;
 }
 
 export interface TitleAttributes {
@@ -60,12 +65,6 @@ export interface TitleEditProps {
 
 export interface TitleSaveProps {
 	attributes: TitleAttributes;
-}
-
-export interface StyleCompProps {
-	attributes: TitleAttributes;
-	children?: ReactNode;
-	onBurstEnd?: () => void;
 }
 
 export interface ShadowStyleResult {

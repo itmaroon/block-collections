@@ -17,7 +17,7 @@ import {
 	displayFormated,
 } from "itmar-block-packages";
 
-import { StyleComp } from "./StyleWapper";
+import { createTitleInnerScope, createTitleStyleCss } from "./StyleWapper";
 import {
 	formatStoredTitleDate,
 	formatTitleDate,
@@ -57,11 +57,8 @@ import {
 } from "@wordpress/block-editor";
 
 import "./editor.scss";
-import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
-import { useMergeRefs } from "@wordpress/compose";
-import { StyleSheetManager } from "styled-components";
+import { useEffect, useRef, useState } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
-import { format } from "@wordpress/date";
 import { toStyleRecord } from "../front-common";
 import type {
 	CurrentUserResponse,
@@ -213,13 +210,11 @@ export default function Edit({
 
 	//ブロックの参照
 	const blockRef = useRef<HTMLDivElement | null>(null);
-	const [styleSheetTarget, setStyleSheetTarget] = useState<HTMLElement | null>(
-		null,
-	);
-	const ownerDocumentRef = useCallback((node: HTMLDivElement | null) => {
-		setStyleSheetTarget(node?.ownerDocument.head ?? null);
-	}, []);
-	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
+	const editorRootClass = `itmar-title-editor-${clientId.replace(
+		/[^a-zA-Z0-9_-]/g,
+		"",
+	)}`;
+	const editorRootScope = `.${editorRootClass}`;
 
 	const blockStyle: CSSProperties = {
 		position: is_title_menu ? "relative" : "static",
@@ -227,8 +222,13 @@ export default function Edit({
 	};
 
 	const blockProps = useBlockProps({
-		ref: mergedBlockRef,
+		ref: blockRef,
 		style: blockStyle,
+		className: editorRootClass,
+	});
+	const editorStyleCss = createTitleStyleCss(attributes, {
+		root: editorRootScope,
+		inner: createTitleInnerScope(editorRootScope),
 	});
 
 	//ブロックのインナースタイルを取得
@@ -908,6 +908,31 @@ export default function Edit({
 
 			<InspectorControls group="styles">
 				<PanelBody
+					title={__("Shadow settings", "block-collections")}
+					initialOpen={true}
+					className="title_design_ctrl"
+				>
+					<ToggleControl
+						label={__("Is Shadow", "block-collections")}
+						checked={is_shadow}
+						onChange={(newVal: boolean) => {
+							setAttributes({ is_shadow: newVal });
+						}}
+					/>
+					{is_shadow && (
+						<ShadowStyle
+							shadowStyle={shadow_element as unknown as ShadowState}
+							onChange={(
+								newStyle: ShadowStyleResult,
+								newState: ShadowState,
+							) => {
+								setAttributes({ shadow_result: toStyleRecord(newStyle.style) });
+								setAttributes({ shadow_element: { ...newState } });
+							}}
+						/>
+					)}
+				</PanelBody>
+				<PanelBody
 					title={__("Title settings", "block-collections")}
 					initialOpen={true}
 					className="title_design_ctrl"
@@ -992,26 +1017,6 @@ export default function Edit({
 						allowReset={true} // リセットの可否
 						resetValues={padding_resetValues} // リセット時の値
 					/>
-
-					<ToggleControl
-						label={__("Is Shadow", "block-collections")}
-						checked={is_shadow}
-						onChange={(newVal: boolean) => {
-							setAttributes({ is_shadow: newVal });
-						}}
-					/>
-					{is_shadow && (
-						<ShadowStyle
-							shadowStyle={shadow_element as unknown as ShadowState}
-							onChange={(
-								newStyle: ShadowStyleResult,
-								newState: ShadowState,
-							) => {
-								setAttributes({ shadow_result: toStyleRecord(newStyle.style) });
-								setAttributes({ shadow_element: { ...newState } });
-							}}
-						/>
-					)}
 
 					<ToggleControl
 						label={__("Add an underline", "block-collections")}
@@ -1655,40 +1660,59 @@ export default function Edit({
 			)}
 
 			<div {...blockProps}>
-				<StyleSheetManager target={styleSheetTarget ?? undefined}>
-					<StyleComp attributes={attributes} onBurstEnd={handleBurstEnd}>
-						{renderContent()}
-					</StyleComp>
-					{linkKind === "submenu" && <div {...subMenuBlocksProps}></div>}
-					{isDateModal && (
-						<Modal
-							title={__("Select Date and Time", "block-collections")}
-							onRequestClose={() => setIsDateModal(false)}
-						>
-							<DateTimePicker
-								currentDate={
-									getValidIsoDate(dateValue) ??
-									getValidIsoDate(headingContent) ??
-									new Date().toISOString()
-								}
-								onChange={(newDatetime: string | null) => {
-									const isoDate = getValidIsoDate(newDatetime);
-									if (!isoDate) return;
-									setAttributes({
-										headingContent: isoDate,
-										dateValue: isoDate,
-									});
-									const newDisp = formatTitleDate(isoDate, userFormat);
-									setHeadingContentVal(newDisp);
-									setIsDateModal(false);
+				<style>{editorStyleCss}</style>
+				<div id={attributes.headingID} className="itmar-wrap">
+					{renderContent()}
+					{is_waiting && (
+						<>
+							<div className={`spinner ${waiting_state}`}></div>
+							<div
+								className={`particles ${waiting_state}`}
+								onAnimationEnd={(event) => {
+									if (
+										waiting_state === "done" &&
+										event.currentTarget === event.target
+									) {
+										handleBurstEnd();
+									}
 								}}
-							/>
-							<Button variant="primary" onClick={() => setIsDateModal(false)}>
-								Close
-							</Button>
-						</Modal>
+							>
+								{Array.from({ length: 8 }, (_, index) => (
+									<i key={index} />
+								))}
+							</div>
+						</>
 					)}
-				</StyleSheetManager>
+				</div>
+				{linkKind === "submenu" && <div {...subMenuBlocksProps}></div>}
+				{isDateModal && (
+					<Modal
+						title={__("Select Date and Time", "block-collections")}
+						onRequestClose={() => setIsDateModal(false)}
+					>
+						<DateTimePicker
+							currentDate={
+								getValidIsoDate(dateValue) ??
+								getValidIsoDate(headingContent) ??
+								new Date().toISOString()
+							}
+							onChange={(newDatetime: string | null) => {
+								const isoDate = getValidIsoDate(newDatetime);
+								if (!isoDate) return;
+								setAttributes({
+									headingContent: isoDate,
+									dateValue: isoDate,
+								});
+								const newDisp = formatTitleDate(isoDate, userFormat);
+								setHeadingContentVal(newDisp);
+								setIsDateModal(false);
+							}}
+						/>
+						<Button variant="primary" onClick={() => setIsDateModal(false)}>
+							Close
+						</Button>
+					</Modal>
+				)}
 			</div>
 		</>
 	);

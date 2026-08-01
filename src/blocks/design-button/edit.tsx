@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { StyleComp } from "./StyleButton";
+import { createButtonStyleCss } from "./StyleButton";
 import ToolTips from "../ToolTips";
 import StyleTooltips from "../StyleTooltips";
 
@@ -27,9 +27,7 @@ import {
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl,
 } from "@wordpress/block-editor";
-import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
-import { useMergeRefs } from "@wordpress/compose";
-import { StyleSheetManager } from "styled-components";
+import { useEffect, useRef } from "@wordpress/element";
 import { store as blockEditorStore } from "@wordpress/block-editor";
 import { useSelect } from "@wordpress/data";
 
@@ -86,7 +84,7 @@ const units = [
 ];
 
 export default function Edit(props: DesignButtonEditProps) {
-	const { attributes, setAttributes } = props;
+	const { attributes, setAttributes, clientId = "preview" } = props;
 	const {
 		buttonType,
 		displayType,
@@ -133,16 +131,16 @@ export default function Edit(props: DesignButtonEditProps) {
 
 	//ブロックの参照
 	const blockRef = useRef<HTMLDivElement | null>(null);
-
-	const [styleSheetTarget, setStyleSheetTarget] =
-		useState<HTMLHeadElement | null>(null);
-
-	const ownerDocumentRef = useCallback((node: HTMLDivElement | null) => {
-		setStyleSheetTarget(node?.ownerDocument.head ?? null);
-	}, []);
-	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
+	const editorStyleClass = `itmar-button-editor-${clientId.replace(
+		/[^a-zA-Z0-9_-]/g,
+		"",
+	)}`;
+	const editorStyleCss = createButtonStyleCss(
+		attributes,
+		`.${editorStyleClass}`,
+	);
 	const blockProps = useBlockProps({
-		ref: mergedBlockRef,
+		ref: blockRef,
 		style: { backgroundColor: bgColor, ...alignStyleObject },
 	});
 
@@ -861,9 +859,10 @@ export default function Edit(props: DesignButtonEditProps) {
 			</BlockControls>
 
 			<div {...blockProps}>
-				<StyleSheetManager target={styleSheetTarget ?? undefined}>
-					<StyleComp attributes={attributes}>{renderContent()}</StyleComp>
-				</StyleSheetManager>
+				<div className={`itmar-wrap ${editorStyleClass}`}>
+					<style>{editorStyleCss}</style>
+					{renderContent()}
+				</div>
 			</div>
 		</>
 	);

@@ -46,6 +46,7 @@ export interface CheckboxAttributes {
 export interface CheckboxEditProps {
 	attributes: CheckboxAttributes;
 	setAttributes: (attributes: Partial<CheckboxAttributes>) => void;
+	clientId: string;
 }
 
 export interface CheckboxSaveProps {

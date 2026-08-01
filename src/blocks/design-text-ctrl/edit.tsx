@@ -2,10 +2,8 @@ import { __ } from "@wordpress/i18n";
 import visibleIcon from "./visible.svg";
 import hideIcon from "./hide.svg";
 
-import { StyleComp } from "./StyleInput";
-import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
-import { useMergeRefs } from "@wordpress/compose";
-import { StyleSheetManager } from "styled-components";
+import { createInputStyleCss } from "./StyleInput";
+import { useEffect, useRef, useState } from "@wordpress/element";
 import { useDispatch } from "@wordpress/data";
 
 import LabelBox from "../LabelBox";
@@ -147,15 +145,16 @@ export default function Edit(props: TextCtrlEditProps) {
 
 	//ブロックの参照
 	const blockRef = useRef<HTMLDivElement | null>(null);
-	const [styleSheetTarget, setStyleSheetTarget] = useState<HTMLElement | null>(
-		null,
+	const editorStyleClass = `itmar-text-ctrl-editor-${clientId.replace(
+		/[^a-zA-Z0-9_-]/g,
+		"",
+	)}`;
+	const editorStyleCss = createInputStyleCss(
+		attributes,
+		`.${editorStyleClass}`,
 	);
-	const ownerDocumentRef = useCallback((node: HTMLDivElement | null) => {
-		setStyleSheetTarget(node?.ownerDocument.head ?? null);
-	}, []);
-	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
 	const blockProps = useBlockProps({
-		ref: mergedBlockRef,
+		ref: blockRef,
 		style: { backgroundColor: bgColor },
 	});
 
@@ -576,8 +575,8 @@ export default function Edit(props: TextCtrlEditProps) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<StyleSheetManager target={styleSheetTarget ?? undefined}>
-					<StyleComp attributes={attributes}>
+				<div className={`itmar-wrap ${editorStyleClass}`}>
+					<style>{editorStyleCss}</style>
 					{inputType === "text" && (
 						<input
 							type="text"
@@ -769,8 +768,7 @@ export default function Edit(props: TextCtrlEditProps) {
 							setAttributes({ [target]: newVal })
 						}
 					/>
-					</StyleComp>
-				</StyleSheetManager>
+				</div>
 			</div>
 		</>
 	);

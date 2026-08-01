@@ -2,7 +2,7 @@ process.env.WP_COPY_PHP_FILES_TO_DIST = true;
 
 const defaultConfig = require("@wordpress/scripts/config/webpack.config");
 
-const mode = "production"; // この行でproductionモードを指定
+//const mode = "production"; // この行でproductionモードを指定
 
 //コアブロック拡張モジュールのトランスパイル
 const path = require("path");
@@ -18,6 +18,6 @@ const newEntryConfig = async () => {
 
 module.exports = {
 	...defaultConfig,
-	mode: mode,
+	//mode: mode,
 	entry: newEntryConfig,
 };

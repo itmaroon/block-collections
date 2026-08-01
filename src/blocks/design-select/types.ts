@@ -62,6 +62,7 @@ export interface SelectEditProps {
 	attributes: SelectAttributes;
 	setAttributes: (attributes: Partial<SelectAttributes>) => void;
 	context: Record<string, unknown>;
+	clientId: string;
 }
 
 export interface SelectSaveProps {

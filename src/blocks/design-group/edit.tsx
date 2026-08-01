@@ -1,6 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import "./editor.scss";
-import { StyleComp } from "./StyleGroup";
+import { createGroupStyleCss } from "./StyleGroup";
 import { useSelect, dispatch } from "@wordpress/data";
 import {
 	useElementStyleObject,
@@ -36,9 +36,7 @@ import {
 	BoxControl,
 } from "@wordpress/components";
 
-import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
-import { useMergeRefs } from "@wordpress/compose";
-import { StyleSheetManager } from "styled-components";
+import { useEffect, useRef, useState } from "@wordpress/element";
 import type { FormEvent } from "react";
 import type { BlockInstance } from "@wordpress/blocks";
 import type { GroupDirection, GroupEditProps, MovePosition } from "./types";
@@ -184,12 +182,21 @@ export default function Edit(props: GroupEditProps) {
 
 	//ブロックの参照
 	const blockRef = useRef<HTMLDivElement | null>(null);
-	const [styleSheetTarget, setStyleSheetTarget] =
-		useState<HTMLHeadElement | null>(null);
-	const ownerDocumentRef = useCallback((node: HTMLDivElement | null) => {
-		setStyleSheetTarget(node?.ownerDocument.head ?? null);
-	}, []);
-	const mergedBlockRef = useMergeRefs([blockRef, ownerDocumentRef]);
+	const editorStyleClass = `itmar-group-editor-${clientId.replace(
+		/[^a-zA-Z0-9_-]/g,
+		"",
+	)}`;
+	const editorStyleCss = createGroupStyleCss(
+		attributes,
+		`.${editorStyleClass}`,
+	);
+	const swiperParallaxAttributes = parallax_obj
+		? {
+				[`data-swiper-parallax-${parallax_obj.type}`]: `${
+					parallax_obj.scale
+				}${parallax_obj.unit === "%" ? "%" : ""}`,
+		  }
+		: {};
 
 	//インナーブロックの参照
 	const innerRef = useRef<HTMLDivElement | null>(null);
@@ -202,7 +209,7 @@ export default function Edit(props: GroupEditProps) {
 
 	//blockPropsの参照
 	const blockProps = useBlockProps({
-		ref: mergedBlockRef,
+		ref: blockRef,
 	});
 
 	//ブロックのインナースタイルを取得
@@ -396,16 +403,20 @@ export default function Edit(props: GroupEditProps) {
 	};
 	//本体のレンダリング内容
 	const content = (
-		<StyleSheetManager target={styleSheetTarget ?? undefined}>
-			<StyleComp attributes={attributes} isMenuOpen={isMenuOpen}>
-				<div {...blockProps}>
-					{domType === "div" && <div {...innerBlocksProps}></div>}
-					{domType === "form" && (
-						<form onSubmit={handleSubmit} {...innerBlocksProps}></form>
-					)}
-				</div>
-			</StyleComp>
-		</StyleSheetManager>
+		<div
+			{...swiperParallaxAttributes}
+			className={`itmar-wrap ${editorStyleClass}${
+				isMenuOpen ? " open" : ""
+			}${is_submenu ? " sub_menu" : ""}`}
+		>
+			<style>{editorStyleCss}</style>
+			<div {...blockProps}>
+				{domType === "div" && <div {...innerBlocksProps}></div>}
+				{domType === "form" && (
+					<form onSubmit={handleSubmit} {...innerBlocksProps}></form>
+				)}
+			</div>
+		</div>
 	);
 
 	return (
