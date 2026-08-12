@@ -139,7 +139,7 @@ export const createGroupStyleCss = (
 			margin: ${space_prm(default_val.margin)};
 			padding: ${space_prm(default_val.padding)};
 			${is_menu || positionType === "absolute" ? "z-index: 100;" : ""}
-			${positionType === "fixed" ? "z-index: 999;" : ""}
+			${positionType === "fixed" ? "z-index: 100;" : ""}
 			${cssValueToString(width_prm(default_val.width_val, default_val.free_width))}
 			${cssValueToString(
 				max_width_prm(default_val.width_val, default_val.free_width),
