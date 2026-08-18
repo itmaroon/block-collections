@@ -2,8 +2,8 @@
 Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
-Tested up to:      6.8
-Stable tag:        1.7.3
+Tested up to:      7.0
+Stable tag:        2.0.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,10 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 2.0.1 =
+- Converted JavaScript to TypeScript.
+- I moved away from styled-components and switched to `useElementStyleObject` from my own custom npm component.
+
 = 1.7.3 =
 - Fixed an issue in the block editor where clicking the Design Button would not transfer focus to the block.
 - In the Design Table, when the parent block contains an itmar/reservation-block, clicking on a cell will no longer move the focus.
