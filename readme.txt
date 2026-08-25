@@ -2,8 +2,8 @@
 Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
-Tested up to:      7.0
-Stable tag:        2.0.1
+Tested up to:      7.1
+Stable tag:        2.0.2
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,9 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 2.0.2 =
+- Composer component fixed.
+
 = 2.0.1 =
 - Converted JavaScript to TypeScript.
 - I moved away from styled-components and switched to `useElementStyleObject` from my own custom npm component.
