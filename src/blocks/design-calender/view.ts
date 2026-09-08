@@ -34,6 +34,30 @@ jQuery(function ($) {
 	/* ------------------------------
 	design-calenderイベントハンドラ
   ------------------------------ */
+	//旧コンテンツで子ブロックの識別クラスが欠落していても操作対象を復元する
+	const ensureCalendarControlClasses = (rootBlock: JQuery): void => {
+		if (rootBlock.find(".itmar_select_month").length === 0) {
+			rootBlock
+				.find(".wp-block-itmar-design-select")
+				.first()
+				.addClass("itmar_select_month");
+		}
+
+		const buttons = rootBlock.find(".wp-block-itmar-design-button");
+		if (
+			buttons.length > 0 &&
+			rootBlock.find(".itmar_prev_month").length === 0
+		) {
+			buttons.eq(0).addClass("itmar_prev_month");
+		}
+		if (
+			buttons.length > 1 &&
+			rootBlock.find(".itmar_next_month").length === 0
+		) {
+			buttons.eq(buttons.length - 1).addClass("itmar_next_month");
+		}
+	};
+
 	//先月・次月ボタンが押されたとき
 	$(document).on(
 		"click",
@@ -218,6 +242,7 @@ jQuery(function ($) {
 
 	$(".wp-block-itmar-design-calender").each(function () {
 		const rootBlock = $(this);
+		ensureCalendarControlClasses(rootBlock);
 		const select = rootBlock.find(
 			".itmar_select_month .itmar_block_selectSingle",
 		);

@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      7.1
-Stable tag:        2.0.9
+Stable tag:        2.0.10
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,10 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 2.0.10 =
+- Restored missing Design Calendar control classes in the editor so they persist after saving.
+- Added a front-end fallback that renders legacy Design Calendar content when its control classes are missing.
+
 = 2.0.9 =
 - Updated the bundled `itmar-block-packages` dependency to version 3.2.2.
 

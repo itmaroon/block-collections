@@ -473,24 +473,68 @@ export default function Edit({
 		return innerFlattenedBlocks.find(
 			(block) => block.name === "itmar/design-select",
 		);
-	}, [innerBlocks]);
+	}, [innerFlattenedBlocks]);
+
+	const calendarButtonBlocks = useMemo(() => {
+		return innerFlattenedBlocks.filter(
+			(block) => block.name === "itmar/design-button",
+		);
+	}, [innerFlattenedBlocks]);
+
 	//インナーブロック内のDesign Button（前）
 	const prevButtonBlock = useMemo(() => {
-		return innerFlattenedBlocks.find(
-			(block) =>
-				block.attributes.className &&
-				block.attributes.className?.split(" ").includes("itmar_prev_month"),
+		return (
+			calendarButtonBlocks.find((block) =>
+				block.attributes.className
+					?.split(/\s+/)
+					.includes("itmar_prev_month"),
+			) ?? calendarButtonBlocks[0]
 		);
-	}, [innerBlocks]);
+	}, [calendarButtonBlocks]);
 
 	//インナーブロック内のDesign Button（後）
 	const nextButtonBlock = useMemo(() => {
-		return innerFlattenedBlocks.find(
-			(block) =>
-				block.attributes.className &&
-				block.attributes.className?.split(" ").includes("itmar_next_month"),
+		return (
+			calendarButtonBlocks.find((block) =>
+				block.attributes.className
+					?.split(/\s+/)
+					.includes("itmar_next_month"),
+			) ??
+			(calendarButtonBlocks.length > 1
+				? calendarButtonBlocks[calendarButtonBlocks.length - 1]
+				: undefined)
 		);
-	}, [innerBlocks]);
+	}, [calendarButtonBlocks]);
+
+	//旧コンテンツで欠落した操作用クラスを属性へ戻し、次回保存後も維持する
+	useEffect(() => {
+		const ensureBlockClass = (
+			block: BlockInstance | undefined,
+			requiredClass: string,
+		) => {
+			if (!block?.clientId) return;
+
+			const currentClassName =
+				typeof block.attributes.className === "string"
+					? block.attributes.className
+					: "";
+			const classNames = currentClassName.split(/\s+/).filter(Boolean);
+			if (classNames.includes(requiredClass)) return;
+
+			updateBlockAttributes(block.clientId, {
+				className: [...classNames, requiredClass].join(" "),
+			});
+		};
+
+		ensureBlockClass(prevButtonBlock, "itmar_prev_month");
+		ensureBlockClass(selectMonthBlock, "itmar_select_month");
+		ensureBlockClass(nextButtonBlock, "itmar_next_month");
+	}, [
+		prevButtonBlock,
+		selectMonthBlock,
+		nextButtonBlock,
+		updateBlockAttributes,
+	]);
 
 	//カレンダーの表示月範囲の更新
 	useEffect(() => {
