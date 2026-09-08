@@ -95,6 +95,36 @@ const isSelectInfo = (
 		value && typeof value === "object" && "slug" in value && "link" in value,
 	);
 
+const HOME_URL_TOKEN = "[home_url]";
+
+/**
+ * 現在のサイト内の絶対URLを、環境に依存しないURLへ変換する。
+ * 外部URLはそのまま返す。
+ */
+const toPortableUrl = (url: string, homeUrl: string): string => {
+	const value = String(url ?? "").trim();
+	const normalizedHomeUrl = String(homeUrl ?? "")
+		.trim()
+		.replace(/\/+$/, "");
+
+	if (!value || !normalizedHomeUrl) {
+		return value;
+	}
+
+	if (value === normalizedHomeUrl || value === `${normalizedHomeUrl}/`) {
+		return HOME_URL_TOKEN;
+	}
+
+	const isInternalUrl =
+		value.startsWith(`${normalizedHomeUrl}/`) ||
+		value.startsWith(`${normalizedHomeUrl}?`) ||
+		value.startsWith(`${normalizedHomeUrl}#`);
+
+	return isInternalUrl
+		? `${HOME_URL_TOKEN}${value.slice(normalizedHomeUrl.length)}`
+		: value;
+};
+
 //スペースのリセットバリュー
 const padding_resetValues = {
 	top: "10px",
@@ -595,7 +625,10 @@ export default function Edit({
 							//URLの形式を確認してリンク先をセット
 							setAttributes({
 								headingContent: headingContentVal,
-								selectedPageUrl: headingContentVal,
+								selectedPageUrl: toPortableUrl(
+									headingContentVal,
+									itmar_option.home_url,
+								),
 							});
 						}
 					} else {
@@ -749,9 +782,13 @@ export default function Edit({
 									//リンク種別がURLの場合
 									//URLのバリデーションチェック
 									if (isValidUrlWithUrlApi(headingContent ?? "")) {
-										setAttributes({ linkKind: changeOption });
-										//してリンク先に設定
-										setAttributes({ selectedPageUrl: headingContent ?? "" });
+										setAttributes({
+											linkKind: changeOption,
+											selectedPageUrl: toPortableUrl(
+												headingContent ?? "",
+												itmar_option.home_url,
+											),
+										});
 									} else {
 										//エラーの通知
 										createNotice(
@@ -808,12 +845,17 @@ export default function Edit({
 											"block-collections",
 									  )
 							}
-							homeUrl="[home_url]"
+							homeUrl={itmar_option.home_url}
 							onChange={(pageInfo: unknown) => {
 								if (isSelectInfo(pageInfo)) {
+									const portableUrl = toPortableUrl(
+										pageInfo.link,
+										itmar_option.home_url,
+									);
+									setUrlValue(portableUrl);
 									setAttributes({
 										selectedSlug: pageInfo.slug,
-										selectedPageUrl: pageInfo.link,
+										selectedPageUrl: portableUrl,
 									});
 								}
 							}}
@@ -823,12 +865,17 @@ export default function Edit({
 						<ArchiveSelectControl
 							selectedSlug={selectedSlug}
 							label={__("Select archive page to link to", "block-collections")}
-							homeUrl="[home_url]"
+							homeUrl={itmar_option.home_url}
 							onChange={(postInfo: unknown) => {
 								if (isSelectInfo(postInfo)) {
+									const portableUrl = toPortableUrl(
+										postInfo.link,
+										itmar_option.home_url,
+									);
+									setUrlValue(portableUrl);
 									setAttributes({
 										selectedSlug: postInfo.slug,
-										selectedPageUrl: postInfo.link,
+										selectedPageUrl: portableUrl,
 									});
 								}
 							}}
@@ -840,7 +887,12 @@ export default function Edit({
 							value={url_editing ?? ""}
 							onChange={(newVal: string) => setUrlValue(newVal)} // 一時的な編集値として保存する
 							onBlur={() => {
-								setAttributes({ selectedPageUrl: url_editing });
+								const portableUrl = toPortableUrl(
+									url_editing ?? "",
+									itmar_option.home_url,
+								);
+								setUrlValue(portableUrl);
+								setAttributes({ selectedPageUrl: portableUrl });
 							}}
 						/>
 					)}

@@ -12,8 +12,6 @@ import metadata from "./block.json";
 import { ReactComponent as Button } from "./button.svg";
 import type { DesignButtonAttributes } from "./types";
 
-declare const itmar_option: { home_url: string };
-
 const settings = {
 	...metadata,
 	icon: <Button />,
@@ -21,13 +19,6 @@ const settings = {
 		"A block that decorates buttons with designs.",
 		"block-collections",
 	),
-	attributes: {
-		...metadata.attributes,
-		selectedPageUrl: {
-			type: "string",
-			default: itmar_option.home_url,
-		},
-	},
 	edit: Edit,
 	save,
 } as unknown as BlockConfiguration<DesignButtonAttributes>;

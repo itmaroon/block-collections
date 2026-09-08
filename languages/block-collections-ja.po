@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Block Collections 0.1.0\n"
+"Project-Id-Version: Block Collections 2.0.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-"
 "collections\n"
 "POT-Creation-Date: 2026-08-15T03:31:50+02:00\n"

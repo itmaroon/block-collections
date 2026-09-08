@@ -5,7 +5,7 @@
  * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
  * Requires at least: 6.4
  * Requires PHP:      8.2.10
- * Version:           2.0.2
+ * Version:           2.0.9
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -40,6 +40,94 @@ add_action('init', function () use ($block_entry) {
 	$plugin_data = get_plugin_data(__FILE__);
 	$block_entry->block_init($plugin_data['TextDomain'], __FILE__);
 }, 1); //このプラグインは優先実行
+
+//Design Calendar専用のREST情報を、エディターとフロントの両スクリプトへ渡す
+function itmar_localize_calendar_options()
+{
+	$block_type = WP_Block_Type_Registry::get_instance()->get_registered('itmar/design-calender');
+	if (!$block_type instanceof WP_Block_Type) {
+		return;
+	}
+
+	$options = array(
+		'holidaysUrl' => esc_url_raw(rest_url('itmar/v1/get-holidays')),
+		'saveKeyUrl' => esc_url_raw(rest_url('itmar/v1/save-calendar-key')),
+		'apiConfigured' => '' !== trim((string) get_option('itmar_calendar_api_key', '')),
+	);
+	$handles = array_unique(array_filter(array_merge(
+		$block_type->editor_script_handles ?? array(),
+		$block_type->script_handles ?? array(),
+		$block_type->view_script_handles ?? array()
+	)));
+	foreach ($handles as $handle) {
+		wp_localize_script($handle, 'itmar_calendar_option', $options);
+	}
+}
+add_action('init', 'itmar_localize_calendar_options', 2);
+
+/**
+ * Restore legacy Design Calendar attributes before a migration tool serializes blocks.
+ *
+ * Older saved blocks omitted dateSpan and selectedMonth from the block comment because
+ * their editor defaults were calculated dynamically. The saved HTML is the authoritative
+ * value, so this block provider owns the compatibility conversion.
+ *
+ * @param array $blocks Parsed WordPress blocks.
+ * @return array
+ */
+function itmar_prepare_calendar_blocks_for_migration(array $blocks): array
+{
+	foreach ($blocks as &$block) {
+		if ('itmar/design-calender' === ($block['blockName'] ?? null)) {
+			$attrs = is_array($block['attrs'] ?? null) ? $block['attrs'] : array();
+			$html = is_string($block['innerHTML'] ?? null) ? $block['innerHTML'] : '';
+
+			if (!isset($attrs['dateSpan']) && preg_match('/\sdata-attributes\s*=\s*(["\'])(.*?)\1/is', $html, $match)) {
+				$decoded = html_entity_decode($match[2], ENT_QUOTES, 'UTF-8');
+				$data = json_decode($decoded);
+				if (JSON_ERROR_NONE === json_last_error() && is_object($data) && isset($data->dateSpan)) {
+					$span = (array) $data->dateSpan;
+					if (itmar_is_valid_calendar_date_span($span)) {
+						$attrs['dateSpan'] = $span;
+					}
+				}
+			}
+
+			if (!isset($attrs['selectedMonth']) && preg_match('/\sdata-selected_month\s*=\s*(["\'])(.*?)\1/is', $html, $match)) {
+				$selected_month = html_entity_decode($match[2], ENT_QUOTES, 'UTF-8');
+				if (preg_match('/^\d{4}\/(?:0[1-9]|1[0-2])$/', $selected_month)) {
+					$attrs['selectedMonth'] = $selected_month;
+				}
+			}
+
+			$block['attrs'] = $attrs;
+		}
+
+		if (!empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
+			$block['innerBlocks'] = itmar_prepare_calendar_blocks_for_migration($block['innerBlocks']);
+		}
+	}
+	unset($block);
+	return $blocks;
+}
+
+function itmar_is_valid_calendar_date_span(array $span): bool
+{
+	foreach (array('startYear', 'startMonth', 'endYear', 'endMonth') as $key) {
+		if (!isset($span[$key]) || !is_numeric($span[$key])) {
+			return false;
+		}
+		$span[$key] = (int) $span[$key];
+	}
+	return $span['startYear'] > 0
+		&& $span['endYear'] > 0
+		&& $span['startMonth'] >= 1
+		&& $span['startMonth'] <= 12
+		&& $span['endMonth'] >= 1
+		&& $span['endMonth'] <= 12;
+}
+
+add_filter('itmar_btm_prepare_blocks', 'itmar_prepare_calendar_blocks_for_migration', 10, 1);
 
 //独自プラグイン等のエンキュー
 function itmar_highlight_scripts_and_styles()
@@ -210,8 +298,7 @@ function itmar_save_calendar_key(WP_REST_Request $request)
 	return new WP_REST_Response(
 		array(
 			'success' => true,
-			'message' => 'APIキーを保存しました。',
-			'key'     => $api_key // 確認用に返す（任意）
+			'message' => 'APIキーを保存しました。'
 		),
 		200 // OK
 	);
@@ -220,8 +307,24 @@ function itmar_save_calendar_key(WP_REST_Request $request)
 //祝日情報の取得
 function itmar_get_holidays(WP_REST_Request $request)
 {
-	$month = $request->get_param('month'); // YYYY-MM
-	$api_key = get_option('itmar_calendar_api_key');
+	$month = sanitize_text_field((string) $request->get_param('month')); // YYYY-MM
+	$api_key = trim((string) get_option('itmar_calendar_api_key', ''));
+
+	if (!preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', $month)) {
+		return new WP_Error(
+			'itmar_invalid_calendar_month',
+			__('The requested calendar month is invalid.', 'block-collections'),
+			array('status' => 400)
+		);
+	}
+
+	if ($api_key === '') {
+		return new WP_Error(
+			'itmar_calendar_api_key_missing',
+			__('Google Calendar API key is not configured.', 'block-collections'),
+			array('status' => 503)
+		);
+	}
 
 	// 1. 開始日時 (月の1日 00:00:00)
 	$timeMin = $month . "-01T00:00:00Z";
@@ -253,18 +356,35 @@ function itmar_get_holidays(WP_REST_Request $request)
 
 	$response = wp_remote_get($url, $args);
 
-	if (is_wp_error($response)) return [];
+	if (is_wp_error($response)) {
+		error_log('Google Calendar API request failed: ' . $response->get_error_message());
+		return new WP_Error(
+			'itmar_google_calendar_unavailable',
+			__('Holiday information could not be retrieved.', 'block-collections'),
+			array('status' => 502)
+		);
+	}
 
 	$status_code = wp_remote_retrieve_response_code($response);
 	$body = wp_remote_retrieve_body($response);
 
 	if ($status_code !== 200) {
-		// ここでエラー内容をログに出せば、404の本当の理由（JSONメッセージ）が分かります
 		error_log("Google API Error: " . $body);
-		return [];
+		return new WP_Error(
+			'itmar_google_calendar_rejected',
+			__('Google Calendar rejected the API request. Check the API key and its restrictions.', 'block-collections'),
+			array('status' => 502)
+		);
 	}
 
 	$data = json_decode($body, true);
+	if (!is_array($data)) {
+		return new WP_Error(
+			'itmar_google_calendar_invalid_response',
+			__('Google Calendar returned an invalid response.', 'block-collections'),
+			array('status' => 502)
+		);
+	}
 
 	// 4. JS版の map 処理を再現
 	$holidays = [];
@@ -277,5 +397,5 @@ function itmar_get_holidays(WP_REST_Request $request)
 		}
 	}
 
-	return $holidays;
+	return rest_ensure_response($holidays);
 }

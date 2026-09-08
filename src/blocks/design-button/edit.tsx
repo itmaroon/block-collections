@@ -55,6 +55,39 @@ import {
 
 import { justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 import type { DesignButtonEditProps } from "./types";
+
+const HOME_URL_TOKEN = "[home_url]";
+const HOME_PAGE_SLUG = "__home__";
+const UNSELECTED_PAGE_SLUG = "__unselected__";
+
+/**
+ * 現在のサイト内の絶対URLを、環境に依存しないURLへ変換する。
+ * 外部URLはそのまま返す。
+ */
+const toPortableUrl = (url: string, homeUrl: string): string => {
+	const value = String(url ?? "").trim();
+	const normalizedHomeUrl = String(homeUrl ?? "")
+		.trim()
+		.replace(/\/+$/, "");
+
+	if (!value || !normalizedHomeUrl) {
+		return value;
+	}
+
+	if (value === normalizedHomeUrl || value === `${normalizedHomeUrl}/`) {
+		return HOME_URL_TOKEN;
+	}
+
+	const isInternalUrl =
+		value.startsWith(`${normalizedHomeUrl}/`) ||
+		value.startsWith(`${normalizedHomeUrl}?`) ||
+		value.startsWith(`${normalizedHomeUrl}#`);
+
+	return isInternalUrl
+		? `${HOME_URL_TOKEN}${value.slice(normalizedHomeUrl.length)}`
+		: value;
+};
+
 import type { BlockInstance } from "@wordpress/blocks";
 import type { TooltipAttributes } from "../../shared/types";
 
@@ -122,6 +155,15 @@ export default function Edit(props: DesignButtonEditProps) {
 		tooltip_style,
 		tooltip_text,
 	} = attributes;
+
+	// PageSelectControl uses an empty slug for its synthetic home option.
+	// Keep that distinct from a genuinely unselected destination in this block.
+	const pageControlSelectedSlug =
+		selectedSlug === HOME_PAGE_SLUG
+			? ""
+			: !selectedSlug && !selectedPageUrl
+				? UNSELECTED_PAGE_SLUG
+				: selectedSlug;
 
 	//ブロックの配置
 	const align_style = align_prm(outer_align, true);
@@ -370,16 +412,30 @@ export default function Edit(props: DesignButtonEditProps) {
 
 					{linkKind === "fixed" && (
 						<PageSelectControl
-							selectedSlug={selectedSlug}
+							selectedSlug={pageControlSelectedSlug}
 							label={__("Select a fixed page to link to", "block-collections")}
 							homeUrl={itmar_option.home_url}
 							onChange={(pageInfo) => {
-								if (pageInfo) {
+								if (!pageInfo) {
 									setAttributes({
-										selectedSlug: pageInfo.slug,
-										selectedPageUrl: pageInfo.link,
+										selectedSlug: "",
+										selectedPageUrl: "",
 									});
+									return;
 								}
+
+								const isHomePage = pageInfo.slug === "";
+								setAttributes({
+									selectedSlug: isHomePage
+										? HOME_PAGE_SLUG
+										: pageInfo.slug,
+									selectedPageUrl: isHomePage
+										? HOME_URL_TOKEN
+										: toPortableUrl(
+												pageInfo.link,
+												itmar_option.home_url,
+											),
+								});
 							}}
 						/>
 					)}
@@ -390,8 +446,10 @@ export default function Edit(props: DesignButtonEditProps) {
 							homeUrl={itmar_option.home_url}
 							onChange={(postInfo) => {
 								setAttributes({
-									selectedSlug: postInfo?.slug,
-									selectedPageUrl: postInfo?.link,
+									selectedSlug: postInfo?.slug ?? "",
+									selectedPageUrl: postInfo
+										? toPortableUrl(postInfo.link, itmar_option.home_url)
+										: "",
 								});
 							}}
 						/>
@@ -402,6 +460,14 @@ export default function Edit(props: DesignButtonEditProps) {
 							value={selectedPageUrl}
 							onChange={(newValue) => {
 								setAttributes({ selectedPageUrl: newValue });
+							}}
+							onBlur={() => {
+								setAttributes({
+									selectedPageUrl: toPortableUrl(
+										selectedPageUrl,
+										itmar_option.home_url,
+									),
+								});
 							}}
 						/>
 					)}

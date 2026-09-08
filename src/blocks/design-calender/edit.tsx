@@ -24,6 +24,7 @@ import {
 	RadioControl,
 	BoxControl,
 	BorderBoxControl,
+	Notice,
 } from "@wordpress/components";
 import {
 	useBlockProps,
@@ -51,6 +52,10 @@ import type {
 import type { TooltipAttributes } from "../../shared/types";
 
 import { toStyleRecord } from "../front-common";
+import {
+	fetchJapaneseHolidays,
+	saveCalendarApiKey,
+} from "./holiday-api";
 
 import "./editor.scss";
 
@@ -116,8 +121,8 @@ export default function Edit({
 		weekTop,
 		isHoliday,
 		calendarApiMask,
-		dateSpan,
-		selectedMonth,
+		dateSpan: savedDateSpan,
+		selectedMonth: savedSelectedMonth,
 		default_pos,
 		mobile_pos,
 		inputColor,
@@ -149,6 +154,42 @@ export default function Edit({
 		is_shadow_week,
 		tooltip_style,
 	} = attributes;
+
+	const initialCalendarValues = useMemo(() => {
+		const now = new Date();
+		const year = now.getFullYear();
+		const month = now.getMonth() + 1;
+		return {
+			dateSpan: {
+				startYear: year - 3,
+				startMonth: month,
+				endYear: year + 1,
+				endMonth: month,
+			},
+			selectedMonth: `${year}/${String(month).padStart(2, "0")}`,
+		};
+	}, []);
+
+	const dateSpan = savedDateSpan ?? initialCalendarValues.dateSpan;
+	const selectedMonth = savedSelectedMonth ?? initialCalendarValues.selectedMonth;
+
+	useEffect(() => {
+		const initialAttributes: Partial<CalendarAttributes> = {};
+		if (!savedDateSpan) {
+			initialAttributes.dateSpan = initialCalendarValues.dateSpan;
+		}
+		if (!savedSelectedMonth) {
+			initialAttributes.selectedMonth = initialCalendarValues.selectedMonth;
+		}
+		if (Object.keys(initialAttributes).length > 0) {
+			setAttributes(initialAttributes);
+		}
+	}, [
+		savedDateSpan,
+		savedSelectedMonth,
+		initialCalendarValues,
+		setAttributes,
+	]);
 
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
@@ -494,43 +535,45 @@ export default function Edit({
 	}, [selectMonthBlock]);
 
 	//CalenderAPIキーの一時保存
+	const initiallyConfigured = Boolean(itmar_calendar_option.apiConfigured);
 	const [calendar_key_editing, setCalendarApiVal] = useState<string>(
-		calendarApiMask ?? "",
+		initiallyConfigured ? (calendarApiMask ?? "**********") : "",
 	);
 	//wp_optionに保存するための変数
 	const [calendarKey, setCalendarKey] = useState("");
+	const [calendarApiState, setCalendarApiState] = useState<
+		"ready" | "missing" | "saving" | "error"
+	>(initiallyConfigured ? "ready" : "missing");
+	const [calendarApiMessage, setCalendarApiMessage] = useState(
+		initiallyConfigured
+			? ""
+			: __(
+					"Google Calendar API key is not configured. Holidays cannot be displayed until a key is saved.",
+					"block-collections",
+				),
+	);
 	//キーがあればサーバーに格納
 	useEffect(() => {
 		// 内部で async 関数を定義
 		const saveKey = async () => {
-			if (calendarKey) {
-				try {
-					const key_obj = {
-						calendar_api_key: calendarKey,
-					};
-					const res = await fetch(
-						"/wp-json/itmar/v1/save-calendar-key", // 'kay' は PHP 側の登録名と一致していますか？
-						{
-							method: "POST",
-							headers: {
-								"Content-Type": "application/json",
-								"X-WP-Nonce": itmar_option.nonce,
-							},
-							credentials: "include",
-							body: JSON.stringify(key_obj),
-						},
-					);
-
-					if (!res.ok) {
-						const errorData = await res.json();
-						console.error("保存失敗:", errorData.message);
-					} else {
-						const result = await res.json();
-						console.log("保存成功:", result);
-					}
-				} catch (err) {
-					console.error("ネットワークエラーなど:", err);
-				}
+			if (!calendarKey) return;
+			setCalendarApiState("saving");
+			setCalendarApiMessage(
+				__("Saving the Google Calendar API key…", "block-collections"),
+			);
+			try {
+				await saveCalendarApiKey(calendarKey);
+				setAttributes({ calendarApiMask: "**********" });
+				setCalendarApiVal("**********");
+				setCalendarApiState("ready");
+				setCalendarApiMessage("");
+			} catch (err) {
+				setCalendarApiState("error");
+				setCalendarApiMessage(
+					err instanceof Error
+						? err.message
+						: __("The API key could not be saved.", "block-collections"),
+				);
 			}
 		};
 
@@ -659,21 +702,30 @@ export default function Edit({
 	//選択された月の変更による書き換え
 	useEffect(() => {
 		if (selectedMonth) {
-			if (isHoliday) {
+			if (isHoliday && calendarApiState === "ready") {
 				//祝日の処理
 				const get_holiday_info = async () => {
-					// スラッシュ「/」をハイフン「-」に置換する
-					const formattedMonth = selectedMonth.replace(/\//g, "-");
-					const res = await fetch(
-						`/wp-json/itmar/v1/get-holidays?month=${formattedMonth}`,
-					);
-					const holidayList = await res.json();
-
-					const newDateValues = generateMonthCalendar(
-						selectedMonth,
-						holidayList,
-					);
-					setAttributes({ dateValues: newDateValues });
+					try {
+						const holidayList = await fetchJapaneseHolidays(selectedMonth);
+						const newDateValues = generateMonthCalendar(
+							selectedMonth,
+							holidayList,
+						);
+						setAttributes({ dateValues: newDateValues });
+					} catch (err) {
+						setCalendarApiState("error");
+						setCalendarApiMessage(
+							err instanceof Error
+								? err.message
+								: __(
+										"Holiday information could not be retrieved.",
+										"block-collections",
+									),
+						);
+						setAttributes({
+							dateValues: generateMonthCalendar(selectedMonth),
+						});
+					}
 				};
 				get_holiday_info();
 			} else {
@@ -681,7 +733,7 @@ export default function Edit({
 				setAttributes({ dateValues: newDateValues });
 			}
 		}
-	}, [selectedMonth, isHoliday]);
+	}, [selectedMonth, isHoliday, calendarApiState]);
 
 	const renderContent = () => {
 		return (
@@ -834,16 +886,33 @@ export default function Edit({
 						}}
 					/>
 					{isHoliday && (
-						<TextControl
-							label={__("Google Calendar API KEY", "block-collections")}
-							value={calendar_key_editing}
-							onChange={(newVal) => setCalendarApiVal(newVal)}
-							onBlur={() => {
-								setAttributes({ calendarApiMask: "**********" });
-								setCalendarKey(calendar_key_editing);
-							}}
-							help={helpTextCode}
-						/>
+						<>
+							{calendarApiState !== "ready" && (
+								<Notice
+									status={calendarApiState === "error" ? "error" : "warning"}
+									isDismissible={false}
+								>
+									{calendarApiMessage}
+								</Notice>
+							)}
+							<TextControl
+								label={__("Google Calendar API KEY", "block-collections")}
+								value={calendar_key_editing}
+								onFocus={() => {
+									if (calendar_key_editing === "**********") {
+										setCalendarApiVal("");
+									}
+								}}
+								onChange={(newVal) => setCalendarApiVal(newVal)}
+								onBlur={() => {
+									const newKey = calendar_key_editing.trim();
+									if (newKey && newKey !== "**********") {
+										setCalendarKey(newKey);
+									}
+								}}
+								help={helpTextCode}
+							/>
+						</>
 					)}
 				</PanelBody>
 				<PeriodCtrl
@@ -1235,6 +1304,14 @@ export default function Edit({
 			</InspectorControls>
 
 			<div {...blockProps}>
+				{isHoliday && calendarApiState !== "ready" && (
+					<Notice
+						status={calendarApiState === "error" ? "error" : "warning"}
+						isDismissible={false}
+					>
+						{calendarApiMessage}
+					</Notice>
+				)}
 				<div className={`itmar-wrap ${editorStyleClass}`}>
 					<style>{editorStyleCss}</style>
 					<div {...innerBlocksProps}></div>

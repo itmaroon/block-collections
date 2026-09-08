@@ -4,6 +4,11 @@ declare global {
 		nonce: string;
 		[key: string]: unknown;
 	};
+	const itmar_calendar_option: {
+		holidaysUrl?: string;
+		saveKeyUrl?: string;
+		apiConfigured?: boolean;
+	};
 }
 
 declare module "*.svg" {

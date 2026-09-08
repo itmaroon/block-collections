@@ -15,6 +15,36 @@ declare const itmar_block_option: {
 	home_url: string;
 };
 
+const HOME_URL_TOKEN = "[home_url]";
+
+const resolveHomeUrl = (storedUrl: string): string => {
+	const value = String(storedUrl ?? "").trim();
+
+	if (!value || !value.startsWith(HOME_URL_TOKEN)) {
+		return value;
+	}
+
+	const homeUrl = String(itmar_option.home_url ?? "")
+		.trim()
+		.replace(/\/+$/, "");
+
+	if (!homeUrl) {
+		return "";
+	}
+
+	const suffix = value.slice(HOME_URL_TOKEN.length);
+
+	if (!suffix || suffix === "/") {
+		return homeUrl;
+	}
+
+	if (suffix.startsWith("?") || suffix.startsWith("#")) {
+		return `${homeUrl}${suffix}`;
+	}
+
+	return `${homeUrl}/${suffix.replace(/^\/+/, "")}`;
+};
+
 const createTitleFrontendCss = (
 	attributes: TitleAttributes,
 	rootScope: string,
@@ -111,53 +141,39 @@ jQuery(function ($) {
 			};
 			fetchUserName();
 		}
-		//アーカイブ・固定ページのホームURL設定
-		// wp-block-itmar-design-titleクラスを持つ要素内の条件に合う<a>要素を抽出
-		$(".wp-block-itmar-design-title a")
-			.filter(function () {
-				const href = $(this).attr("href") ?? "";
-				return href.includes("[home_url]");
-			})
-			.each(function () {
-				// href属性を取得
-				const currentHref = $(this).attr("href") ?? "";
-				// href属性の[home_url]をhomeUrlに置き換え
-				const updatedHref = currentHref.replace(
-					"[home_url]",
-					itmar_option.home_url,
-				);
-				// href属性を更新
-				$(this).attr("href", updatedHref);
-			});
+		//保存された[home_url]を現在サイトのURLへ置き換える
+		$(".wp-block-itmar-design-title a").each(function () {
+			const storedHref = $(this).attr("href") ?? "";
+			const resolvedHref = resolveHomeUrl(storedHref);
+
+			if (resolvedHref && resolvedHref !== storedHref) {
+				$(this).attr("href", resolvedHref);
+			}
+		});
 
 		//ログアウト・ログインの処理
-		$("#itmar_logon_btn").on("click", function () {
+		$("#itmar_logon_btn").on("click", async function () {
 			if (isLogin) {
-				//ShopIDを持ったitmaroon-ec-relate-bloksがある場合のログアウト処理
+				// EC連携時はサーバー側に保存したIDトークンでShopifyログアウトURLを生成する。
 				const headlessShopId = $(".wp-block-itmar-product-block").data(
 					"shop_id",
 				);
-				const redirectUri = localStorage.getItem("shopify_redirect_uri");
-				const idToken = localStorage.getItem("shopify_client_id_token");
 
-				if (headlessShopId && redirectUri && idToken) {
-					//戻り先をlocalstrageに保存
-					localStorage.setItem(
-						"shopify_logout_redirect_to",
-						window.location.href,
-					);
-					//URLの生成
-					const url = new URL(
-						`https://shopify.com/authentication/${headlessShopId}/logout`,
-					);
-
-					url.searchParams.append("id_token_hint", idToken); // ← 取得済みのid_tokenをここに
-					url.searchParams.append(
-						"post_logout_redirect_uri",
-						`${redirectUri}?shopify_logout_completed=1`,
-					);
-
-					window.location.href = url.toString();
+				if (headlessShopId) {
+					try {
+						const response = (await apiFetch({
+							path: "/itmar-ec-relate/v1/customer/logout-url",
+							method: "POST",
+							data: { redirect_url: window.location.href },
+						})) as { success?: boolean; logout_url?: string };
+						if (response.success && response.logout_url) {
+							window.location.href = response.logout_url;
+							return;
+						}
+					} catch (error) {
+						console.warn("Shopify logout could not be started.", error);
+					}
+					window.location.href = itmar_block_option.logout_base_url;
 				} else {
 					//それ以外のログアウト処理
 					window.location.href = itmar_block_option.logout_base_url;
@@ -173,10 +189,7 @@ jQuery(function ($) {
 					window.location.href = itmar_block_option.login_url;
 				} else {
 					//カスタムログイン画面
-					const loginPageUrl = loginUrl.replace(
-						"[home_url]",
-						itmar_block_option.home_url,
-					);
+					const loginPageUrl = resolveHomeUrl(loginUrl);
 					//リダイレクト情報
 					const redirectUrl = window.location.href;
 					//その他付加情報

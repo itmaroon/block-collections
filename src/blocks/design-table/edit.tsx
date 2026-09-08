@@ -145,6 +145,19 @@ export default function Edit({
 	);
 
 	useEffect(() => {
+		// colspan を持つ行は、データなし表示などのプレースホルダーとして
+		// 1セルで複数列を表現する。cells.length を列数として扱うと、
+		// 保存済みのヘッダーが1列に切り詰められるため同期対象外にする。
+		const hasSpanningCell = tableSource?.some((row: TableRow) =>
+			row.cells?.some((cell) => {
+				const cellAttributes = cell.attributes as
+					| Record<string, unknown>
+					| undefined;
+				return Number(cellAttributes?.colspan ?? 1) > 1;
+			}),
+		);
+		if (is_data_form && hasSpanningCell) return;
+
 		// 1. 期待される列数（targetCols）を決定する
 		let targetCols = 0;
 		let targetRows = 0;

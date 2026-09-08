@@ -39,10 +39,6 @@ const settings = {
 	],
 	attributes: {
 		...metadata.attributes,
-		selectedPageUrl: {
-			type: "string",
-			default: itmar_option.home_url,
-		},
 		dateValue: {
 			type: "string",
 			default: new Date().toISOString(),

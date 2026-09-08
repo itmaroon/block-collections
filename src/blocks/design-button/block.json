@@ -25,6 +25,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"selectedPageUrl": {
+			"type": "string",
+			"default": ""
+		},
 		"modalClassName": {
 			"type": "string",
 			"default": ""

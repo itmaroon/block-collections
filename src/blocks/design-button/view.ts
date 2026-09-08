@@ -7,6 +7,40 @@ import { createTooltipStyleCss } from "../StyleTooltips";
 import { applyStretchAccordion } from "../front-common";
 import type { DesignButtonAttributes } from "./types";
 
+const HOME_URL_TOKEN = "[home_url]";
+
+const resolveRedirectUrl = (storedUrl: string): string => {
+	const value = String(storedUrl ?? "").trim();
+
+	if (!value) {
+		return "";
+	}
+
+	if (!value.startsWith(HOME_URL_TOKEN)) {
+		return value;
+	}
+
+	const homeUrl = String(itmar_option.home_url ?? "")
+		.trim()
+		.replace(/\/+$/, "");
+
+	if (!homeUrl) {
+		return "";
+	}
+
+	const suffix = value.slice(HOME_URL_TOKEN.length);
+
+	if (!suffix || suffix === "/") {
+		return homeUrl;
+	}
+
+	if (suffix.startsWith("?") || suffix.startsWith("#")) {
+		return `${homeUrl}${suffix}`;
+	}
+
+	return `${homeUrl}/${suffix.replace(/^\/+/, "")}`;
+};
+
 //ボタン本体とツールチップを、それぞれの保存属性から適用
 styleDataApply(createButtonStyleCss, ".wp-block-itmar-design-button", {
 	selector: ".itmar-wrap",
@@ -45,10 +79,11 @@ jQuery(function ($) {
 	/* ------------------------------
   design-buttonイベントハンドラ
   ------------------------------ */
-	$(document).on("click", ".itmar_design_button", function (e) {
+	$(document).on("click", ".itmar_design_button", function () {
 		//リダイレクトの処理
-		if ($(this).attr("data-selected_page")) {
-			const redirectUrl = $(this).attr("data-selected_page");
+		const storedRedirectUrl = $(this).attr("data-selected_page") ?? "";
+		const redirectUrl = resolveRedirectUrl(storedRedirectUrl);
+		if (redirectUrl) {
 			const isBlank = $(this).data("open_blank");
 			//リダイレクト
 			if (isBlank) {

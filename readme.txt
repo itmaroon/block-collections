@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      7.1
-Stable tag:        2.0.2
+Stable tag:        2.0.9
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,33 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 2.0.9 =
+- Updated the bundled `itmar-block-packages` dependency to version 3.2.2.
+
+= 2.0.8 =
+- Prevented Design Table headings from being truncated when a dynamic data placeholder uses a cell with `colspan`.
+
+= 2.0.7 =
+- Distinguished the Design Button home-page destination from an unselected fixed-page destination.
+- Store home-page links as the portable `[home_url]` token so they work after moving a site.
+
+= 2.0.6 =
+- Moved the legacy Design Calendar attribute migration into Block Collections, the plugin that owns the block.
+- Added integration with Theme Migration's generic block-preparation filter so saved `dateSpan` and `selectedMonth` values are restored without adding block-specific logic to the migration plugin.
+
+= 2.0.5 =
+- Fixed Design Calendar validation errors caused by recalculating the configured calendar period when the current month changed.
+- Preserved the saved `dateSpan` and `selectedMonth` settings as block attributes.
+
+= 2.0.4 =
+- Design Calendar now shows an editor warning when the Google Calendar API key is missing or rejected.
+- Holiday API failures now fall back to a normal calendar instead of leaving the calendar unrendered.
+- REST API URLs now support WordPress installations in subdirectories.
+- The saved Google Calendar API key is no longer returned in the REST response.
+
+= 2.0.3 =
+- Fixed an issue where the URL links for the Design Button and Design Title were not syncing with the site URL.
+
 = 2.0.2 =
 - Composer component fixed.
 

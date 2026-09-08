@@ -10,6 +10,7 @@ import {
 import { createCalendarStyleCss } from "./StyleCalender";
 import { createTooltipStyleCss } from "../StyleTooltips";
 import type { CalendarAttributes, CalendarDate } from "./types";
+import { fetchJapaneseHolidays } from "./holiday-api";
 
 const createCalendarFrontendCss = (
 	attributes: CalendarAttributes,
@@ -171,11 +172,7 @@ jQuery(function ($) {
 			if (isHoliday) {
 				try {
 					//祝日の表示処理
-					const formattedMonth = selectedMonth.replace(/\//g, "-");
-					const res = await fetch(
-						`/wp-json/itmar/v1/get-holidays?month=${formattedMonth}`,
-					);
-					const holidayList = await res.json();
+					const holidayList = await fetchJapaneseHolidays(selectedMonth);
 
 					// ここで祝日データを使用する処理を行う
 					const dateValues = generateMonthCalendar(selectedMonth, holidayList);
@@ -193,7 +190,12 @@ jQuery(function ($) {
 					)[0];
 					parentElement?.dispatchEvent(calenderRenderedEvent);
 				} catch (error) {
-					console.error("祝日取得中にエラーが発生しました:", error);
+					//祝日APIに問題があっても、カレンダー本体は通常表示する
+					const dateValues = generateMonthCalendar(selectedMonth);
+					calenderRender(dateArea, dateValues, name, weekTop, isClear);
+					const calenderRenderedEvent = new CustomEvent("calender_rendered");
+					rootBlock[0]?.dispatchEvent(calenderRenderedEvent);
+					console.warn("祝日情報を取得できなかったため通常表示にしました。", error);
 				}
 			} else {
 				const dateValues = generateMonthCalendar(selectedMonth);
