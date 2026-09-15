@@ -1,8 +1,8 @@
 import { __ } from "@wordpress/i18n";
-import visibleIcon from "../../../assets/img/visible.svg";
-import hideIcon from "../../../assets/img/hide.svg";
+import visibleIcon from "../../../assets/img/visible.svg?url";
+import hideIcon from "../../../assets/img/hide.svg?url";
 
-import { fetchZipToAddress, styleDataApply } from "itmar-block-packages";
+import { fetchZipToAddress, styleDataApply } from "itmar-block-packages/front";
 import { createInputStyleCss } from "./StyleInput";
 import type { ZipAddress } from "./types";
 

@@ -15,28 +15,51 @@
 
   .group_contents {
     height: inherit;
+    /*
+     * padding を高さに含める。content-box のままだと、height（親から inherit した値）
+     * に padding が加算されて親の箱からはみ出し、背景（ガラス質など）が次の
+     * ブロックの上に描かれてしまう。
+     * 例：メニュー本体の下にあるボタンが、メニューの背景に覆われて見えなくなる。
+     */
+    box-sizing: border-box;
   }
 }
 
 //ハンバーガーボタン
+//
+//色は save() が要素へCSS変数として載せる。未設定なら従来どおり
+//--itmar-content（テーマの本文色）にフォールバックする。
 .itmar_hamberger_btn {
   position: fixed;
   display: none;
   top: 2em;
   right: 2em;
+  //テーマの blockGap（:where(...) > * の margin-block-start）を拾わないようにする。
+  //position:fixed の装飾要素がフローの余白を持つと、メニュー本体と位置がずれる。
+  margin: 0 !important;
   width: 25px;
   height: 20px;
+  padding: 0;
+  border: 0;
+  background: none;
+  appearance: none;
   cursor: pointer;
   transition: all .5s;
   box-sizing: border-box;
   z-index: 100;
+
+  //キーボード操作で位置が分かるように
+  &:focus-visible {
+    outline: 2px solid var(--itmar-hamburger-bar, var(--itmar-content));
+    outline-offset: 6px;
+  }
 
   span {
     position: absolute;
     left: 0;
     width: 100%;
     height: 3px;
-    background-color: var(--wp--preset--color--content);
+    background-color: var(--itmar-hamburger-bar, var(--itmar-content));
     border-radius: 4px;
     display: inline-block;
     transition: all .5s;
@@ -61,7 +84,7 @@
     transform: rotate(360deg);
 
     span {
-      background-color: #ffffff;
+      background-color: var(--itmar-hamburger-bar-open, var(--itmar-content-back));
 
       &:nth-of-type(1) {
         transform: translateY(320%) rotate(-45deg);
@@ -90,9 +113,10 @@
   width: 100vw;
   height: 100vh;
   max-width: none;
-  background-color: #000;
+  background-color: var(--itmar-hamburger-backdrop, #000);
   opacity: 0;
   display: none;
+  margin: 0 !important;
   transition: all .5s;
   z-index: 80;
   margin-top: 0;
@@ -100,8 +124,12 @@
   @include reset.mq(sp) {
     &.open {
       display: block;
-      opacity: 0.7;
+      opacity: var(--itmar-hamburger-backdrop-opacity, 0.7);
     }
+  }
 
+  //hidden 属性が付いていても、上の display:block に負けないようにする
+  &[hidden] {
+    display: none;
   }
 }

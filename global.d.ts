@@ -1,5 +1,10 @@
 declare module "*.scss";
 
+declare module "*.svg?url" {
+	const src: string;
+	export default src;
+}
+
 declare module "*.svg" {
 	import type { ComponentType, SVGProps } from "react";
 	export const ReactComponent: ComponentType<SVGProps<SVGSVGElement>>;

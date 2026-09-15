@@ -8,7 +8,7 @@ import {
 } from "itmar-block-packages";
 
 import { createCalendarStyleCss } from "./StyleCalender";
-import { createTooltipStyleCss } from "../StyleTooltips";
+import { createTooltipStyleCss } from "../tooltipCss";
 import type { CalendarAttributes, CalendarDate } from "./types";
 import { fetchJapaneseHolidays } from "./holiday-api";
 

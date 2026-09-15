@@ -4,8 +4,9 @@ import {
 	convertToScss,
 	borderProperty,
 	cssValueToString,
-} from "itmar-block-packages";
+} from "itmar-block-packages/front";
 import type { CheckboxAttributes } from "./types";
+import { MEDIA_MOBILE } from "../breakpoints";
 
 /**
  * チェックボックスのエディタ・フロントエンド共通のスコープ付きCSSを生成する。
@@ -63,7 +64,7 @@ export const createCheckboxStyleCss = (
 		${scopeSelector} label { display:flex; }
 		${spanSelector} {
 			font-size:${font_style_label.default_fontSize};
-			border:.2em solid var(--wp--preset--color--background);
+			border:.2em solid var(--itmar-background);
 			height:1.2em;
 			width:1.2em;
 			background-color:transparent;
@@ -119,7 +120,7 @@ export const createCheckboxStyleCss = (
 			100% { height:1.2em; }
 		}
 
-		@media (max-width:767px) {
+		${MEDIA_MOBILE} {
 			${scopeSelector} {
 				margin:${space_prm(mobile_pos.margin_value)};
 				padding:${space_prm(mobile_pos.padding_value)};

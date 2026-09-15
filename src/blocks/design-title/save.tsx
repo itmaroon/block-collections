@@ -27,6 +27,7 @@ export default function save({ attributes }: TitleSaveProps) {
 		linkKind,
 		menu_pos,
 		is_title_menu,
+		mobile_submenu,
 		selectedPageUrl,
 		isBlank,
 		dateValue,
@@ -153,8 +154,8 @@ export default function save({ attributes }: TitleSaveProps) {
 
 			{linkKind === "submenu" && (
 				<div
-					className={`submenu-block ${menu_pos.replace(/ /g, "_")} ${
-						!is_title_menu ? "mobile_horizen" : "mobile_virtical"
+					className={`submenu-block ${menu_pos.replace(/ /g, "_")} mobile_${
+						mobile_submenu ?? (is_title_menu ? "virtical" : "horizen")
 					}`}
 				>
 					<InnerBlocks.Content />

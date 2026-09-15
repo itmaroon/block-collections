@@ -315,8 +315,8 @@ export const createStretchPseudoCss = (stretchInfo) => {
       display: block;
       width: ${stretchInfo.arrowSize};
       height: ${stretchInfo.arrowSize};
-      border-top: 2px solid var(--wp--preset--color--accent-2);
-      border-right: 2px solid var(--wp--preset--color--accent-2);
+      border-top: 2px solid var(--itmar-accent-2);
+      border-right: 2px solid var(--itmar-accent-2);
       top: 50%;
       left: 90%;
       transform: translate(-50%, -50%) rotate(var(--stretch-arrow-rotate,${rotate}));

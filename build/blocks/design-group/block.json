@@ -265,6 +265,15 @@
     "block_style": {
       "type": "object",
       "default": null
+    },
+    "menuId": {
+      "type": "string"
+    },
+    "hamburger_style": {
+      "type": "object"
+    },
+    "zIndex": {
+      "type": "number"
     }
   },
   "textdomain": "block-collections",

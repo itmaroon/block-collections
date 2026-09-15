@@ -212,6 +212,9 @@
     "block_style": {
       "type": "object",
       "default": null
+    },
+    "mobile_submenu": {
+      "type": "string"
     }
   },
   "textdomain": "block-collections",

@@ -4,9 +4,10 @@ import {
 	convertToScss,
 	borderProperty,
 	cssValueToString,
-} from "itmar-block-packages";
+} from "itmar-block-packages/front";
 import type { FontStyle } from "../../shared/types";
 import type { ProcessAttributes } from "./types";
+import { MEDIA_MOBILE } from "../breakpoints";
 
 const resolveFontStyle = (fontStyle: FontStyle): string =>
 	fontStyle?.isItalic ? "italic" : "normal";
@@ -47,7 +48,7 @@ const createCommonCss = (
 			${shadow}
 		}
 
-		@media (max-width: 767px) {
+		${MEDIA_MOBILE} {
 			${scopeSelector} {
 				margin: ${space_prm(mobile_pos?.margin_form)};
 				padding: ${space_prm(mobile_pos?.padding_form)};
@@ -139,7 +140,7 @@ const createBarCss = (
 			color: #fff;
 		}
 
-		@media (max-width: 767px) {
+		${MEDIA_MOBILE} {
 			${scopeSelector} li {
 				font-size: ${font_style_process?.mobile_fontSize};
 			}
@@ -260,7 +261,7 @@ const createCardCss = (
 			border-left: 1em solid ${bgColor_num};
 		}
 
-		@media (max-width: 767px) {
+		${MEDIA_MOBILE} {
 			${scopeSelector} li {
 				font-size: ${font_style_process?.mobile_fontSize};
 				padding-top: 15px;

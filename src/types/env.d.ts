@@ -11,6 +11,11 @@ declare global {
 	};
 }
 
+declare module "*.svg?url" {
+	const src: string;
+	export default src;
+}
+
 declare module "*.svg" {
 	import type { FC, SVGProps } from "react";
 

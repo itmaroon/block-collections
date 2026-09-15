@@ -6,8 +6,9 @@ import {
 	hslToRgb16,
 	rgb16ToHsl,
 	cssValueToString,
-} from "itmar-block-packages";
+} from "itmar-block-packages/front";
 import type { DesignTableAttributes } from "./types";
+import { MEDIA_MOBILE } from "../breakpoints";
 
 interface HSL {
 	hue: number;
@@ -158,7 +159,7 @@ export const createTableStyleCss = (
 
 		${stripeCss}
 
-		@media (max-width:767px) {
+		${MEDIA_MOBILE} {
 			${scopeSelector} {
 				margin:${space_prm(mobile_pos.margin_value)};
 				padding:${space_prm(mobile_pos.padding_value)};

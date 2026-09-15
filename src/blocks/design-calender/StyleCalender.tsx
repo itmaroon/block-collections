@@ -5,8 +5,9 @@ import {
 	borderProperty,
 	generateGridAreas,
 	cssValueToString,
-} from "itmar-block-packages";
+} from "itmar-block-packages/front";
 import type { CalendarAttributes } from "./types";
+import { MEDIA_MOBILE } from "../breakpoints";
 
 /**
  * カレンダー本体のエディタ・フロントエンド共通のスコープ付きCSSを生成する。
@@ -162,7 +163,7 @@ export const createCalendarStyleCss = (
 			box-sizing: border-box;
 		}
 
-		@media (max-width: 767px) {
+		${MEDIA_MOBILE} {
 			${dateArea} {
 				margin: ${space_prm(mobile_pos.margin)};
 				padding: ${space_prm(mobile_pos.padding)};

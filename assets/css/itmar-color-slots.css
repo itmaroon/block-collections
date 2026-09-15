@@ -1,0 +1,53 @@
+/**
+ * itmaroon ブロックが使う色スロットのフォールバック層。
+ *
+ * ブロックは `--wp--preset--color--content` のようなプリセット色を参照するが、
+ * これらは WordPress コアのスロットではなく itmaroon 側の命名である。
+ * テーマが定義していないと var() が解決できず、その宣言ごと無効になり、
+ * サブメニューの三角やアンダーラインが「透明＝不可視」になる。
+ *
+ * そこで、ブロック側は生のプリセット名ではなく必ず `--itmar-*` を参照する。
+ * ここでテーマのスロット → コアに近いスロット → 実色 の順に段階的に
+ * フォールバックさせるので、
+ *
+ *   - スロットを持つテーマ（develope-theme 等）… 従来どおりテーマの色
+ *   - 持たないテーマ（Twenty Twenty-*, kiln-theme 等）… 破綻せず見える色
+ *
+ * のどちらでも成立する。値を変えるときはここだけを直す。
+ */
+:root,
+.editor-styles-wrapper {
+	/* 本文・線・アイコンの色。contrast はコアのテーマが広く持つ */
+	--itmar-content: var(
+		--wp--preset--color--content,
+		var(--wp--preset--color--contrast, currentColor)
+	);
+
+	/* パネルやドロワーの下地 */
+	--itmar-content-back: var(
+		--wp--preset--color--content-back,
+		var(--wp--preset--color--base, #ffffff)
+	);
+
+	/* ページ全体の背景 */
+	--itmar-background: var(
+		--wp--preset--color--background,
+		var(--wp--preset--color--base, #ffffff)
+	);
+
+	/* 強調色。accent-1 / accent-2 は Twenty Twenty-Four 以降にはある */
+	--itmar-accent-1: var(
+		--wp--preset--color--accent-1,
+		var(--wp--preset--color--contrast, currentColor)
+	);
+	--itmar-accent-2: var(
+		--wp--preset--color--accent-2,
+		var(--wp--preset--color--accent-1, var(--wp--preset--color--contrast, currentColor))
+	);
+
+	/* エラー表示。テーマ任せにすると読めない色になりうるので実色で止める */
+	--itmar-err-message: var(--wp--preset--color--err-message, #d63638);
+
+	/* プレースホルダ。同上 */
+	--itmar-placeholder: var(--wp--preset--color--placeholder, #757575);
+}

@@ -18,6 +18,11 @@ export interface TitleStyleScopes {
 	inner: string;
 }
 
+/** モバイルでのサブメニューの開き方。
+ *  "virtical" = アコーディオン（真下に展開）／"horizen" = 横からスライドする板。
+ *  未設定のときは is_title_menu から導く（既存ブロックの保存内容を変えないため）。 */
+export type MobileSubmenuMode = "virtical" | "horizen";
+
 export interface TitleAttributes {
 	headingContent?: string;
 	uniqueID?: string;
@@ -32,6 +37,7 @@ export interface TitleAttributes {
 	headingID?: string;
 	linkKind: string;
 	menu_pos: string;
+	mobile_submenu?: MobileSubmenuMode;
 	is_title_menu: boolean;
 	selectedSlug: string;
 	selectedPageUrl: string;

@@ -52,7 +52,6 @@
 			"type": "boolean",
 			"default": false
 		},
-		
 		"default_val": {
 			"type": "object",
 			"default": {
@@ -62,8 +61,8 @@
 					"shrink": null,
 					"basis": ""
 				},
-				"reverse":false,
-				"wrap":false,
+				"reverse": false,
+				"wrap": false,
 				"inner_align": "flex-start",
 				"inner_items": "flex-start",
 				"outer_align": "center",
@@ -120,8 +119,8 @@
 					"shrink": null,
 					"basis": ""
 				},
-				"reverse":false,
-				"wrap":false,
+				"reverse": false,
+				"wrap": false,
 				"inner_align": "flex-start",
 				"inner_items": "flex-start",
 				"outer_align": "center",
@@ -259,16 +258,23 @@
 			"type": "boolean",
 			"default": true
 		},
-		
 		"has_submenu": {
 			"type": "boolean",
 			"default": false
 		},
-		"block_style":{
-			"type":"object",
-			"default":null
+		"block_style": {
+			"type": "object",
+			"default": null
+		},
+		"menuId": {
+			"type": "string"
+		},
+		"hamburger_style": {
+			"type": "object"
+		},
+		"zIndex": {
+			"type": "number"
 		}
-
 	},
 	"textdomain": "block-collections",
 	"editorScript": "file:./index.js",

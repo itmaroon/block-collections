@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      7.1
-Stable tag:        2.0.10
+Stable tag:        2.1.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,20 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 2.1.0 =
+- Hamburger menu: replaced the toggle `<div>` with a real `<button>` and wired `aria-expanded` / `aria-controls`, so the menu can be opened from the keyboard and its state is announced.
+- Hamburger menu: added Escape to close, focus trapping while open, body scroll lock, and `inert` on the closed drawer so it leaves the tab order and screen reader output.
+- Hamburger menu: the toggle no longer resolves its target by walking sibling elements, which could toggle unrelated blocks placed in the same container.
+- Hamburger menu: bar color, open-state bar color, backdrop color and opacity, and the button position are now settable from the inspector.
+- Design Group: added a Stacking Order (z-index) control, and kept the z-index from being dropped inside the mobile breakpoint.
+- Design Group: the "block" direction (flex off) is now selectable, and a desktop flex value no longer leaks into the mobile breakpoint where it overrode height settings.
+- Design Group: a grid container no longer overrides each child's own margin setting.
+- Design Group: group contents now use `border-box`, so padding no longer pushes the background over the following block.
+- Design Title: the submenu arrow follows how the submenu opens on mobile, submenus can be opened by tapping, and a submenu that would run off screen flips to the other side.
+- Colors: blocks now read `--itmar-*` slots with theme-independent fallbacks, so decorations stay visible on themes that do not define itmaroon's palette.
+- Front-end payload: view scripts import from `itmar-block-packages/front`, which stops the block editor bundle from being served to visitors.
+- Added the first deprecated block definition, so existing menu blocks keep validating after the markup change.
+
 = 2.0.10 =
 - Restored missing Design Calendar control classes in the editor so they persist after saving.
 - Added a front-end fallback that renders legacy Design Calendar content when its control classes are missing.

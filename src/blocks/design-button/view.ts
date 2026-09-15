@@ -1,9 +1,9 @@
 import { __ } from "@wordpress/i18n";
 
-import { styleDataApply } from "itmar-block-packages";
+import { styleDataApply } from "itmar-block-packages/front";
 
 import { createButtonStyleCss } from "./StyleButton";
-import { createTooltipStyleCss } from "../StyleTooltips";
+import { createTooltipStyleCss } from "../tooltipCss";
 import { applyStretchAccordion } from "../front-common";
 import type { DesignButtonAttributes } from "./types";
 

@@ -3,12 +3,13 @@ import {
 	space_prm,
 	convertToScss,
 	cssValueToString,
-} from "itmar-block-packages";
+} from "itmar-block-packages/front";
 import type {
 	TitleAttributes,
 	TitleStyleScopes,
 	UnderLineProp,
 } from "./types";
+import { MEDIA_MOBILE } from "../breakpoints";
 
 type PositionKey =
 	| "top left"
@@ -239,11 +240,11 @@ const createOptionStyleCss = (
 		const circleColor =
 			optionStyle.colorVal_circle ||
 			optionStyle.gradientVal_circle ||
-			"var(--wp--preset--color--accent-1)";
+			"var(--itmar-accent-1)";
 		const secondColor =
 			optionStyle.colorVal_second ||
 			optionStyle.gradientVal_second ||
-			"var(--wp--preset--color--accent-2)";
+			"var(--itmar-accent-2)";
 
 		return `
 			${scope}::before {
@@ -292,7 +293,7 @@ const createOptionStyleCss = (
 	const background =
 		color_background_copy ||
 		gradient_background_copy ||
-		"var(--wp--preset--color--accent-1)";
+		"var(--itmar-accent-1)";
 	const fontStyle = font_style_copy.isItalic ? "italic" : "normal";
 	const iconSpace = icon_style.icon_space || "0px";
 	const copyPadding = !isIcon
@@ -390,7 +391,7 @@ const createOptionStyleCss = (
 			color:${color_text_copy};border-radius:${radius_prm(radius_copy)};
 			background:${background};padding:${copyPadding};line-height:1;
 		}
-		@media (max-width:767px) {
+		${MEDIA_MOBILE} {
 			${scope}::before { font-size:${font_style_copy.mobile_fontSize}; }
 		}
 		${awesomeIcon}
@@ -430,7 +431,7 @@ export const createTitleStyleCss = (
 	const background =
 		bgColor_underLine ||
 		bgGradient_underLine ||
-		"var(--wp--preset--color--content)";
+		"var(--itmar-content)";
 	const shadow =
 		is_shadow && shadow_result
 			? cssValueToString(convertToScss(shadow_result))
@@ -464,7 +465,7 @@ export const createTitleStyleCss = (
 			? `
 		${headingSelector}::before {
 			content:"";position:absolute;top:50%;transform:translateY(-50%);
-			background:var(--wp--preset--color--content);
+			background:var(--itmar-content);
 			${menuArrowDirections[normalizePositionKey(menu_pos, "bottom right")] || ""}
 		}
 	`
@@ -485,7 +486,7 @@ export const createTitleStyleCss = (
 			white-space:${is_wrap ? "pre-wrap" : "nowrap !important"};
 			margin:0;font-weight:inherit;
 			${isVertical ? "writing-mode:vertical-rl;text-orientation:upright;" : ""}
-			@media (max-width:767px) {
+			${MEDIA_MOBILE} {
 				padding:${mobile_renderedPadding};
 				width: ${mobile_val.width ?? "fit-content"};
 			}
@@ -495,7 +496,7 @@ export const createTitleStyleCss = (
 		${submenuCss}
 		${is_waiting ? createWaitingCss(innerScope) : ""}
 		${createOptionStyleCss(attributes, innerScope)}
-		@media (max-width:767px) {
+		${MEDIA_MOBILE} {
 			${innerScope} { font-size:${mobileHeadingSize}; }
 		}
 	`;

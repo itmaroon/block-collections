@@ -62,15 +62,15 @@
 			"type": "string",
 			"default": "plaine"
 		},
-		"userFormat": { 
+		"userFormat": {
 			"type": "string",
 			"default": ""
 		},
-		"freeStrFormat": { 
+		"freeStrFormat": {
 			"type": "string",
 			"default": "%s"
 		},
-		"decimal": { 
+		"decimal": {
 			"type": "number",
 			"default": 0
 		},
@@ -116,7 +116,7 @@
 		"default_val": {
 			"type": "object",
 			"default": {
-				"width":"100%",
+				"width": "100%",
 				"padding_heading": {
 					"top": "10px",
 					"left": "10px",
@@ -128,7 +128,7 @@
 		"mobile_val": {
 			"type": "object",
 			"default": {
-				"width":"100%",
+				"width": "100%",
 				"padding_heading": {
 					"top": "10px",
 					"left": "10px",
@@ -139,11 +139,11 @@
 		},
 		"optionStyle": {
 			"type": "object",
-			"default":{}
+			"default": {}
 		},
-		"isIdle":{
-			"type":"boolean",
-			"default":false
+		"isIdle": {
+			"type": "boolean",
+			"default": false
 		},
 		"shadow_element": {
 			"type": "object",
@@ -209,12 +209,14 @@
 		"bgGradient_underLine": {
 			"type": "string"
 		},
-		"block_style":{
-			"type":"object",
-			"default":null
+		"block_style": {
+			"type": "object",
+			"default": null
+		},
+		"mobile_submenu": {
+			"type": "string"
 		}
 	},
-
 	"textdomain": "block-collections",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

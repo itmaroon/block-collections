@@ -1,4 +1,4 @@
-import { styleDataApply } from "itmar-block-packages";
+import { styleDataApply } from "itmar-block-packages/front";
 import { createRadioStyleCss } from "./StyleRadio";
 
 styleDataApply(createRadioStyleCss, ".wp-block-itmar-design-radio", {

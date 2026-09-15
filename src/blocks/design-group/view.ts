@@ -1,5 +1,6 @@
 import { __ } from "@wordpress/i18n";
-import { styleDataApply } from "itmar-block-packages";
+import { styleDataApply } from "itmar-block-packages/front";
+import { MOBILE_QUERY } from "../breakpoints";
 
 import { createGroupStyleCss } from "./StyleGroup";
 import type { GroupAttributes } from "./types";
@@ -348,15 +349,209 @@ jQuery(function ($) {
 			});
 	});
 
-	/* ------------------------------
-  design-groupのハンバーガー
-  ------------------------------ */
-	$(document).on(
-		"click",
-		".itmar_hamberger_btn, .itmar_back_ground ",
-		function (e) {
-			$(this).toggleClass("open");
-			$(this).siblings("div").toggleClass("open");
-		},
-	);
 });
+
+/* ------------------------------
+  design-group のハンバーガーメニュー
+  ------------------------------
+
+  開閉対象はボタンの aria-controls で名指しする。以前は
+  `$(this).siblings("div")` で兄弟をたどっていたが、save() が
+  ボタン・背景・メニュー本体をフラグメントで並べて出すため、同じ親に
+  別のブロックがあるとそれも巻き込んで .open が付いていた。
+
+  旧マークアップ（<div class="itmar_hamberger_btn"> で id 無し）は
+  deprecated 経由でそのまま残るので、その場合だけ従来の兄弟探索に落とす。 */
+
+const MENU_OPEN_CLASS = "open";
+
+const findMenuBody = (btn: HTMLElement): HTMLElement | null => {
+	const id = btn.getAttribute("aria-controls");
+	if (id) {
+		const el = document.getElementById(id);
+		if (el) return el;
+	}
+	//旧マークアップ向けのフォールバック：直後の .itmar-wrap
+	let sib = btn.nextElementSibling;
+	while (sib) {
+		if (sib.classList.contains("itmar-wrap")) return sib as HTMLElement;
+		sib = sib.nextElementSibling;
+	}
+	return null;
+};
+
+const findBackdrop = (btn: HTMLElement, body: HTMLElement | null): HTMLElement | null => {
+	const id = btn.getAttribute("aria-controls");
+	if (id) {
+		const el = document.querySelector<HTMLElement>(
+			`.itmar_back_ground[data-menu-target="${CSS.escape(id)}"]`,
+		);
+		if (el) return el;
+	}
+	let sib = btn.nextElementSibling;
+	while (sib && sib !== body) {
+		if (sib.classList.contains("itmar_back_ground")) return sib as HTMLElement;
+		sib = sib.nextElementSibling;
+	}
+	return null;
+};
+
+const FOCUSABLE =
+	'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+class HamburgerMenu {
+	private btn: HTMLElement;
+	private body: HTMLElement | null;
+	private backdrop: HTMLElement | null;
+	private mql: MediaQueryList;
+	private open = false;
+	private lastFocused: HTMLElement | null = null;
+
+	constructor(btn: HTMLElement) {
+		this.btn = btn;
+		this.body = findMenuBody(btn);
+		this.backdrop = findBackdrop(btn, this.body);
+		this.mql = window.matchMedia(MOBILE_QUERY);
+
+		//save() には翻訳文字列を入れられない（言語を変えると検証エラーになる）ので実行時に付ける
+		if (!btn.getAttribute("aria-label")) {
+			btn.setAttribute("aria-label", __("Menu", "block-collections"));
+		}
+		if (btn.tagName !== "BUTTON") {
+			//旧マークアップの <div> をキーボードで扱えるようにする
+			btn.setAttribute("role", "button");
+			btn.setAttribute("tabindex", "0");
+			if (!btn.hasAttribute("aria-expanded"))
+				btn.setAttribute("aria-expanded", "false");
+		}
+
+		btn.addEventListener("click", this.toggle);
+		btn.addEventListener("keydown", this.onButtonKey);
+		this.backdrop?.addEventListener("click", this.close);
+		document.addEventListener("keydown", this.onDocumentKey);
+		this.mql.addEventListener("change", this.syncToViewport);
+
+		this.syncToViewport();
+	}
+
+	private setBodyScrollLock(lock: boolean) {
+		document.body.style.overflow = lock ? "hidden" : "";
+	}
+
+	/** モバイル幅でだけ「閉じている＝画面外」になる。デスクトップでは常に見えているので
+	 *  タブ順から外してはいけない。 */
+	private syncToViewport = () => {
+		if (!this.body) return;
+		if (this.mql.matches) {
+			this.applyHiddenState(!this.open);
+		} else {
+			this.body.removeAttribute("aria-hidden");
+			(this.body as HTMLElement & { inert?: boolean }).inert = false;
+			this.backdrop?.setAttribute("hidden", "");
+			this.setBodyScrollLock(false);
+		}
+	};
+
+	private applyHiddenState(hidden: boolean) {
+		if (!this.body) return;
+		//画面外にあるだけの要素は読み上げとタブ順に残るので、閉じている間は外す
+		(this.body as HTMLElement & { inert?: boolean }).inert = hidden;
+		if (hidden) this.body.setAttribute("aria-hidden", "true");
+		else this.body.removeAttribute("aria-hidden");
+	}
+
+	private toggle = (e: Event) => {
+		e.preventDefault();
+		this.open ? this.close() : this.openMenu();
+	};
+
+	private onButtonKey = (e: KeyboardEvent) => {
+		//旧マークアップの <div> はEnter/Spaceが効かないので補う
+		if (this.btn.tagName === "BUTTON") return;
+		if (e.key === "Enter" || e.key === " ") {
+			e.preventDefault();
+			this.toggle(e);
+		}
+	};
+
+	private onDocumentKey = (e: KeyboardEvent) => {
+		if (!this.open) return;
+		if (e.key === "Escape") {
+			e.preventDefault();
+			this.close();
+			return;
+		}
+		if (e.key === "Tab") this.trapFocus(e);
+	};
+
+	private trapFocus(e: KeyboardEvent) {
+		if (!this.body) return;
+		const items = [
+			this.btn,
+			...Array.from(this.body.querySelectorAll<HTMLElement>(FOCUSABLE)),
+		].filter((el) => el.offsetParent !== null || el === this.btn);
+		if (!items.length) return;
+		const first = items[0];
+		const last = items[items.length - 1];
+		if (e.shiftKey && document.activeElement === first) {
+			e.preventDefault();
+			last.focus();
+		} else if (!e.shiftKey && document.activeElement === last) {
+			e.preventDefault();
+			first.focus();
+		}
+	}
+
+	private openMenu = () => {
+		if (!this.body || this.open) return;
+		this.open = true;
+		this.lastFocused = document.activeElement as HTMLElement | null;
+		this.btn.classList.add(MENU_OPEN_CLASS);
+		this.btn.setAttribute("aria-expanded", "true");
+		this.body.classList.add(MENU_OPEN_CLASS);
+		if (this.backdrop) {
+			this.backdrop.removeAttribute("hidden");
+			this.backdrop.classList.add(MENU_OPEN_CLASS);
+		}
+		this.applyHiddenState(false);
+		this.setBodyScrollLock(true);
+		const firstItem = this.body.querySelector<HTMLElement>(FOCUSABLE);
+		(firstItem ?? this.btn).focus();
+	};
+
+	private close = () => {
+		if (!this.body || !this.open) return;
+		this.open = false;
+		this.btn.classList.remove(MENU_OPEN_CLASS);
+		this.btn.setAttribute("aria-expanded", "false");
+		this.body.classList.remove(MENU_OPEN_CLASS);
+		if (this.backdrop) {
+			this.backdrop.classList.remove(MENU_OPEN_CLASS);
+			this.backdrop.setAttribute("hidden", "");
+		}
+		this.setBodyScrollLock(false);
+		if (this.mql.matches) this.applyHiddenState(true);
+		//閉じたあとの行き先。開く前の位置が無ければボタンへ戻す（フォーカスを失わせない）
+		const back =
+			this.lastFocused && this.lastFocused !== document.body
+				? this.lastFocused
+				: this.btn;
+		back.focus?.();
+	};
+}
+
+const initHamburgers = () => {
+	document
+		.querySelectorAll<HTMLElement>(".itmar_hamberger_btn")
+		.forEach((btn) => {
+			if (btn.dataset.itmarHamburgerBound) return;
+			btn.dataset.itmarHamburgerBound = "1";
+			new HamburgerMenu(btn);
+		});
+};
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", initHamburgers);
+} else {
+	initHamburgers();
+}

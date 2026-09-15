@@ -7,6 +7,7 @@ import { __ } from "@wordpress/i18n";
  */
 import Edit from "./edit";
 import save from "./save";
+import deprecated from "./deprecated";
 import metadata from "./block.json";
 import { ReactComponent as Group } from "./group.svg";
 import type { GroupAttributes } from "./types";
@@ -20,6 +21,7 @@ const settings = {
 	icon: <Group />,
 	edit: Edit,
 	save,
+	deprecated,
 } as unknown as BlockConfiguration<GroupAttributes>;
 
 registerBlockType<GroupAttributes>(metadata.name, settings);

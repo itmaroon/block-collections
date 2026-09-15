@@ -1,4 +1,4 @@
-import { styleDataApply } from "itmar-block-packages";
+import { styleDataApply } from "itmar-block-packages/front";
 import { createSelectStyleCss } from "./StyleSelect";
 import { setSelectValue } from "../front-common";
 

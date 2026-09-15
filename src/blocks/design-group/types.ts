@@ -26,7 +26,8 @@ export interface GridElement {
 	latAlign?: string;
 }
 
-export type GroupDirection = "horizen" | "vertical" | "grid";
+/** "block" はフレックス解除（通常フロー）。BlockPlace の左端のボタン。 */
+export type GroupDirection = "block" | "horizen" | "vertical" | "grid";
 
 export interface GroupLayout {
 	direction: GroupDirection;
@@ -76,6 +77,21 @@ export interface ParallaxValue {
 	unit: string;
 }
 
+/** ハンバーガーボタンと背景の色。スコープCSSが届かない位置にあるため、
+ *  save() が要素へCSS変数として載せ、style.scss が var() で受ける。 */
+export interface HamburgerStyle {
+	barColor?: string;
+	barOpenColor?: string;
+	backdropColor?: string;
+	backdropOpacity?: number;
+	/** 表示位置。position:fixed の基準辺と、その辺からの距離。
+	 *  BlockPlace の posValue と同じ形にそろえてある。 */
+	vertBase?: "top" | "bottom";
+	vertValue?: string;
+	horBase?: "left" | "right";
+	horValue?: string;
+}
+
 export interface GroupAttributes {
 	className: string;
 	domType: "div" | "form";
@@ -93,6 +109,10 @@ export interface GroupAttributes {
 	is_moveable: boolean;
 	position: MovePosition;
 	is_menu: boolean;
+	/** 重ね順。未設定なら従来どおり自動（メニュー/絶対配置は100） */
+	zIndex?: number;
+	menuId?: string;
+	hamburger_style?: HamburgerStyle;
 	is_swiper: boolean;
 	parallax_obj: ParallaxValue | null;
 	is_submenu: boolean;

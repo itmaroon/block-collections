@@ -8,8 +8,9 @@ import {
 	convertToScss,
 	anime_comp,
 	cssValueToString,
-} from "itmar-block-packages";
+} from "itmar-block-packages/front";
 import type { GridElement, GroupAttributes, GroupLayout } from "./types";
+import { MEDIA_MOBILE } from "../breakpoints";
 
 const createGridItemCss = (gridElms: GridElement[] = []): string =>
 	gridElms
@@ -51,8 +52,12 @@ const createDirectionCss = (scope: string, values: GroupLayout): string => {
 				grid-template-rows: ${(grid.rowUnit ?? []).join(" ")};
 				gap: ${grid.rowGap ?? "0"} ${grid.colGap ?? "0"};
 			}
-			${contentSelector} > div,
-			${contentSelector} > figure {
+			/*
+			 * グリッドの既定として子の余白を落とす。ただし :where() で詳細度を 0 にして
+			 * おかないと、子ブロック自身の margin 設定（.itmar-group-style-* 側）を
+			 * 上書きしてしまい、インスペクタで余白を変えても効かなくなる。
+			 */
+			:where(${contentSelector}) > :is(div, figure) {
 				margin: 0;
 			}
 			${createGridItemCss(grid.gridElms).replaceAll("&", `${contentSelector} > div`)}
@@ -60,6 +65,18 @@ const createDirectionCss = (scope: string, values: GroupLayout): string => {
 				"&",
 				`${contentSelector} > figure`,
 			)}
+		`;
+	}
+
+	/*
+	 * "block" はフレックス解除。何も出さないとデスクトップの display:flex が
+	 * メディアクエリの外に残ったまま効いてしまうので、明示的に戻す。
+	 */
+	if (direction === "block") {
+		return `
+			${contentSelector} {
+				display: block;
+			}
 		`;
 	}
 
@@ -74,8 +91,8 @@ const createDirectionCss = (scope: string, values: GroupLayout): string => {
 			display: flex;
 			flex-direction: ${values.reverse ? reverseAxis : axis};
 			flex-wrap: ${values.wrap ? "wrap" : "nowrap"};
-			justify-content: ${values.inner_align};
-			align-items: ${values.inner_items};
+			justify-content: ${values.inner_align ?? "flex-start"};
+			align-items: ${values.inner_items ?? "stretch"};
 		}
 	`;
 };
@@ -100,17 +117,33 @@ export const createGroupStyleCss = (
 		is_submenu,
 		isAppear = true,
 		has_submenu,
+		zIndex,
 		anime_prm,
 	} = attributes;
 
-	const defaultFlex =
-		default_val.flex && Object.keys(default_val.flex).length
-			? `flex: ${default_val.flex.grow} ${default_val.flex.shrink} ${default_val.flex.basis}; min-width: 0; min-height: 0;`
-			: "";
+	/*
+	 * flex は3つの値が揃っていないと `flex: null null ;` のような不正な宣言になる。
+	 * キーの有無ではなく、値が入っているかで判定する。
+	 */
+	const flexCss = (layout: GroupLayout): string => {
+		const f = layout?.flex;
+		if (!f) return "";
+		const grow = f.grow ?? "";
+		const shrink = f.shrink ?? "";
+		const basis = f.basis ?? "";
+		if (grow === "" && shrink === "" && basis === "") return "";
+		return `flex: ${grow || 0} ${shrink || 0} ${basis || "auto"}; min-width: 0; min-height: 0;`;
+	};
+	const defaultFlex = flexCss(default_val);
+	/*
+	 * モバイルに指定が無いとき、デスクトップの flex が（メディアクエリの外にあるため）
+	 * そのまま効いてしまう。flex はフレックスアイテムの主軸サイズを決めるので、
+	 * 高さ・幅の指定より優先され、インスペクタで直しても変わらなくなる。
+	 * 指定が無ければ初期値へ明示的に戻す。
+	 */
 	const mobileFlex =
-		mobile_val.flex && Object.keys(mobile_val.flex).length
-			? `flex: ${mobile_val.flex.grow} ${mobile_val.flex.shrink} ${mobile_val.flex.basis}; min-width: 0; min-height: 0;`
-			: "";
+		flexCss(mobile_val) ||
+		(defaultFlex ? "flex: 0 1 auto; min-width: auto; min-height: auto;" : "");
 
 	const defaultPosition = cssValueToString(
 		position_prm(isPosCenter || default_val.posValue, positionType),
@@ -125,6 +158,19 @@ export const createGroupStyleCss = (
 	const overflow = has_submenu ? "visible" : "scroll";
 	const contentSelector = `${scope} > div > .group_contents`;
 
+	/*
+	 * 重ね順。position_prm は absolute のとき `z-index: auto` を出すので、
+	 * その後ろで上書きする必要がある。モバイル側のブロックでも同じ指定を
+	 * 入れないと @media の中で `z-index: auto` に戻ってしまい、前面に出したい
+	 * グループ（ログオンバーなど）が背面に沈む。
+	 */
+	const stackingCss =
+		typeof zIndex === "number"
+			? `z-index: ${zIndex};`
+			: is_menu || positionType === "absolute" || positionType === "fixed"
+				? "z-index: 100;"
+				: "";
+
 	const defaultDirection = createDirectionCss(scope, default_val);
 	const mobileDirection = createDirectionCss(scope, mobile_val);
 	const animationCss = cssValueToString(anime_comp(anime_prm));
@@ -138,8 +184,25 @@ export const createGroupStyleCss = (
 			${defaultPosition}
 			margin: ${space_prm(default_val.margin)};
 			padding: ${space_prm(default_val.padding)};
-			${is_menu || positionType === "absolute" ? "z-index: 100;" : ""}
-			${positionType === "fixed" ? "z-index: 100;" : ""}
+			${stackingCss}
+			${
+				/*
+				 * サブメニューを持つグループは、兄弟のグループより手前に置く。
+				 * サブメニュー自身は z-index:1000 を持つが、glassmorphism の影を
+				 * 付けると .group_contents に backdrop-filter が乗って積層コンテキストが
+				 * できるため、その z-index はグループの外まで効かない。結果として
+				 * DOM順で後ろにある兄弟グループ（ボタン列など）にサブメニューが
+				 * 隠れる。ここで持ち上げておけば、影の設定に関わらず前面に出る。
+				 */
+				/*
+				 * 30 なのは、design-title の内側ラッパが全て z-index:10 を持つため
+				 * （StyleWapper の innerScope）。同値だとDOM順で後ろの項目（LINEボタン等）
+				 * が前に来てしまい、開いたサブメニューが下に潜る。
+				 */
+				has_submenu && !is_menu && positionType === "relative"
+					? "z-index: 30;"
+					: ""
+			}
 			${cssValueToString(width_prm(default_val.width_val, default_val.free_width))}
 			${cssValueToString(
 				max_width_prm(default_val.width_val, default_val.free_width),
@@ -161,10 +224,11 @@ export const createGroupStyleCss = (
 
 		${defaultDirection}
 
-		@media (max-width: 767px) {
+		${MEDIA_MOBILE} {
 			${scope} {
 				${mobileFlex}
 				${mobilePosition}
+				${stackingCss}
 				margin: ${space_prm(mobile_val.margin)};
 				padding: ${space_prm(mobile_val.padding)};
 				${cssValueToString(width_prm(mobile_val.width_val, mobile_val.free_width))}
@@ -193,7 +257,7 @@ export const createGroupStyleCss = (
 					z-index: 120;
 					height: 100vh;
 					width: 80% !important;
-					background-color: var(--wp--preset--color--content-back);
+					background-color: var(--itmar-content-back);
 				}
 				${scope} > div,
 				${scope} > div > .group_contents {

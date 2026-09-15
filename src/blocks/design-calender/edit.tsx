@@ -2,7 +2,7 @@ import { __ } from "@wordpress/i18n";
 import { createCalendarStyleCss } from "./StyleCalender";
 
 import ToolTips from "../ToolTips";
-import { createTooltipStyleCss } from "../StyleTooltips";
+import { createTooltipStyleCss } from "../tooltipCss";
 
 import {
 	useElementBackgroundColor,

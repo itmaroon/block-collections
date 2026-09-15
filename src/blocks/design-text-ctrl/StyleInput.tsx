@@ -4,9 +4,10 @@ import {
 	convertToScss,
 	borderProperty,
 	cssValueToString,
-} from "itmar-block-packages";
-import { createLabelStyleCss } from "../StyleLabel";
+} from "itmar-block-packages/front";
+import { createLabelStyleCss } from "../labelCss";
 import type { TextCtrlAttributes } from "./types";
+import { MEDIA_MOBILE } from "../breakpoints";
 
 //配置場所
 const alignMap: Record<string, string> = {
@@ -91,7 +92,7 @@ export const createInputStyleCss = (
 		}
 		${scopeSelector} input::placeholder,
 		${scopeSelector} textarea::placeholder {
-			color: var(--wp--preset--color--placeholder);
+			color: var(--itmar-placeholder);
 		}
 		${scopeSelector} input {
 			width: ${defaultWidth};
@@ -115,7 +116,7 @@ export const createInputStyleCss = (
 			width: 100%;
 		}
 
-		@media (max-width: 767px) {
+		${MEDIA_MOBILE} {
 			${scopeSelector} {
 				margin: ${mobileFormMargin};
 				padding: ${mobileFormPadding};
@@ -189,7 +190,7 @@ export const createInputStyleCss = (
 			${scopeSelector} {
 				${createAlignCss(default_pos?.labelPos)}
 			}
-			@media (max-width: 767px) {
+			${MEDIA_MOBILE} {
 				${scopeSelector} {
 					${createAlignCss(mobile_pos?.labelPos)}
 				}

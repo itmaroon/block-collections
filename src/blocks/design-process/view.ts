@@ -1,4 +1,4 @@
-import { styleDataApply } from "itmar-block-packages";
+import { styleDataApply } from "itmar-block-packages/front";
 import { createProcessStyleCss } from "./StyleProcess";
 
 styleDataApply(createProcessStyleCss, ".wp-block-itmar-design-process", {

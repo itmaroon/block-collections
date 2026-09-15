@@ -20,10 +20,15 @@ import {
 	InspectorControls,
 	BlockControls,
 	store as blockEditorStore,
+	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 } from "@wordpress/block-editor";
 
 import {
 	PanelBody,
+	PanelRow,
+	ComboboxControl,
+	__experimentalUnitControl as UnitControl,
+	__experimentalNumberControl as NumberControl,
 	ToggleControl,
 	RadioControl,
 	RangeControl,
@@ -150,7 +155,10 @@ const mergeDefined = <T extends object>(base: T, updates: Partial<T>): T => {
 };
 
 const isGroupDirection = (value: string): value is GroupDirection =>
-	value === "horizen" || value === "vertical" || value === "grid";
+	value === "block" ||
+	value === "horizen" ||
+	value === "vertical" ||
+	value === "grid";
 
 export default function Edit(props: GroupEditProps) {
 	const { attributes, setAttributes, clientId } = props;
@@ -169,6 +177,9 @@ export default function Edit(props: GroupEditProps) {
 		is_moveable,
 		position,
 		is_menu,
+		zIndex,
+		menuId,
+		hamburger_style,
 		parallax_obj,
 		is_submenu,
 		is_link,
@@ -179,6 +190,49 @@ export default function Edit(props: GroupEditProps) {
 
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
+
+	/*
+	 * メニュー本体のIDを採番する。ハンバーガーは aria-controls でこのIDを名指しし、
+	 * view.ts はそれを頼りに開閉対象を特定する。以前は兄弟要素をたどっていたが、
+	 * 同じ親に別のブロックがあると巻き込むため、IDで結ぶ形に変えた。
+	 */
+	useEffect(() => {
+		if (is_menu && !is_submenu && !menuId) {
+			setAttributes({
+				menuId: `itmar-menu-${clientId.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 12)}`,
+			});
+		}
+	}, [is_menu, is_submenu, menuId, clientId]);
+
+	/*
+	 * ハンバーガーの色。save() と同じCSS変数をエディタ側の ToggleElement にも渡す。
+	 * これを渡さないと、インスペクタで色を変えてもエディタでは既定色のままになる。
+	 */
+	const hamburgerVars: Record<string, string> = {};
+	if (hamburger_style?.barColor)
+		hamburgerVars["--itmar-hamburger-bar"] = hamburger_style.barColor;
+	if (hamburger_style?.barOpenColor)
+		hamburgerVars["--itmar-hamburger-bar-open"] = hamburger_style.barOpenColor;
+	//位置。save() と同じ計算をして、エディタでも同じ場所に出す
+	if (hamburger_style?.vertBase || hamburger_style?.vertValue) {
+		const base = hamburger_style.vertBase ?? "top";
+		const val = hamburger_style.vertValue ?? "2em";
+		hamburgerVars.top = base === "top" ? val : "auto";
+		hamburgerVars.bottom = base === "bottom" ? val : "auto";
+	}
+	if (hamburger_style?.horBase || hamburger_style?.horValue) {
+		const base = hamburger_style.horBase ?? "right";
+		const val = hamburger_style.horValue ?? "2em";
+		hamburgerVars.left = base === "left" ? val : "auto";
+		hamburgerVars.right = base === "right" ? val : "auto";
+	}
+	const backdropVars: Record<string, string> = {};
+	if (hamburger_style?.backdropColor)
+		backdropVars["--itmar-hamburger-backdrop"] = hamburger_style.backdropColor;
+	if (typeof hamburger_style?.backdropOpacity === "number")
+		backdropVars["--itmar-hamburger-backdrop-opacity"] = String(
+			hamburger_style.backdropOpacity,
+		);
 
 	//ブロックの参照
 	const blockRef = useRef<HTMLDivElement | null>(null);
@@ -483,7 +537,164 @@ export default function Edit(props: GroupEditProps) {
 							}
 						}}
 					/>
+					{is_menu && !is_submenu && (
+						<>
+							<PanelColorGradientSettings
+								title={__("Hamburger Button", "block-collections")}
+								settings={[
+									{
+										colorValue: hamburger_style?.barColor,
+										label: __("Bar Color", "block-collections"),
+										onColorChange: (newValue?: string) =>
+											setAttributes({
+												hamburger_style: {
+													...(hamburger_style ?? {}),
+													barColor: newValue ?? "",
+												},
+											}),
+									},
+									{
+										colorValue: hamburger_style?.barOpenColor,
+										label: __("Bar Color (Open)", "block-collections"),
+										onColorChange: (newValue?: string) =>
+											setAttributes({
+												hamburger_style: {
+													...(hamburger_style ?? {}),
+													barOpenColor: newValue ?? "",
+												},
+											}),
+									},
+									{
+										colorValue: hamburger_style?.backdropColor,
+										label: __("Backdrop Color", "block-collections"),
+										onColorChange: (newValue?: string) =>
+											setAttributes({
+												hamburger_style: {
+													...(hamburger_style ?? {}),
+													backdropColor: newValue ?? "",
+												},
+											}),
+									},
+								]}
+							/>
+							{/*
+							 * ハンバーガーは position:fixed で画面の隅に固定される。
+							 * 基準にする辺と、その辺からの距離を指定する。
+							 * BlockPlace の「ブロックの位置」と同じ操作感にそろえてある。
+							 */}
+							<p>{__("Hamburger Position", "block-collections")}</p>
+							<PanelRow className="position_row itmar_hamburger_pos">
+								<ComboboxControl
+									options={[
+										{ value: "top", label: __("Top", "block-collections") },
+										{
+											value: "bottom",
+											label: __("Bottom", "block-collections"),
+										},
+									]}
+									value={hamburger_style?.vertBase || "top"}
+									onChange={(newValue) => {
+										setAttributes({
+											hamburger_style: {
+												...(hamburger_style ?? {}),
+												vertBase: (newValue as "top" | "bottom") ?? "top",
+											},
+										});
+									}}
+								/>
+								<UnitControl
+									dragDirection="s"
+									onChange={(newValue?: string) => {
+										setAttributes({
+											hamburger_style: {
+												...(hamburger_style ?? {}),
+												vertValue: newValue ?? "2em",
+											},
+										});
+									}}
+									value={hamburger_style?.vertValue || "2em"}
+								/>
+							</PanelRow>
+							<PanelRow className="position_row itmar_hamburger_pos">
+								<ComboboxControl
+									options={[
+										{ value: "left", label: __("Left", "block-collections") },
+										{ value: "right", label: __("Right", "block-collections") },
+									]}
+									value={hamburger_style?.horBase || "right"}
+									onChange={(newValue) => {
+										setAttributes({
+											hamburger_style: {
+												...(hamburger_style ?? {}),
+												horBase: (newValue as "left" | "right") ?? "right",
+											},
+										});
+									}}
+								/>
+								<UnitControl
+									dragDirection="e"
+									onChange={(newValue?: string) => {
+										setAttributes({
+											hamburger_style: {
+												...(hamburger_style ?? {}),
+												horValue: newValue ?? "2em",
+											},
+										});
+									}}
+									value={hamburger_style?.horValue || "2em"}
+								/>
+							</PanelRow>
+							<RangeControl
+								label={__("Backdrop Opacity", "block-collections")}
+								value={hamburger_style?.backdropOpacity ?? 0.7}
+								min={0}
+								max={1}
+								step={0.05}
+								onChange={(newVal) =>
+									setAttributes({
+										hamburger_style: {
+											...(hamburger_style ?? {}),
+											backdropOpacity: newVal ?? 0.7,
+										},
+									})
+								}
+							/>
+						</>
+					)}
 				</PanelBody>
+				{(is_menu ||
+					positionType === "absolute" ||
+					positionType === "fixed" ||
+					positionType === "sticky") && (
+					<PanelBody
+						title={__("Stacking Order", "block-collections")}
+						initialOpen={false}
+						className="form_design_ctrl"
+					>
+						{/*
+						 * 重ね順。position:absolute などのグループは既定で z-index:100 になるが、
+						 * 同じ値どうしではDOM順で後ろにあるほうが前面に出る。前後を入れ替えたい
+						 * ときにここで指定する。未設定なら従来の既定値のまま。
+						 */}
+						<NumberControl
+							label={__("z-index", "block-collections")}
+							value={zIndex}
+							onChange={(newValue?: string) => {
+								const num =
+									newValue === undefined || newValue === ""
+										? undefined
+										: Number(newValue);
+								setAttributes({
+									zIndex: Number.isNaN(num as number) ? undefined : num,
+								});
+							}}
+							help={__(
+								"Leave empty to use the default (100 for menus and positioned groups). Larger values come to the front.",
+								"block-collections",
+							)}
+						/>
+					</PanelBody>
+				)}
 				<PanelBody
 					title={__("Link Setting", "block-collections")}
 					initialOpen={true}
@@ -1007,6 +1218,7 @@ export default function Edit(props: GroupEditProps) {
 					<ToggleElement
 						onToggle={handleHambergerToggle}
 						className="itmar_hamberger_btn"
+						style={hamburgerVars}
 						openFlg={isMenuOpen}
 					>
 						<span></span>
@@ -1017,6 +1229,7 @@ export default function Edit(props: GroupEditProps) {
 						onToggle={handleHambergerToggle}
 						openFlg={isMenuOpen}
 						className="itmar_back_ground"
+						style={backdropVars}
 					/>
 				</>
 			)}

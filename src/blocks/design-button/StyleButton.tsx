@@ -7,10 +7,11 @@ import {
 	Arrow,
 	ShadowElm,
 	cssValueToString,
-} from "itmar-block-packages";
+} from "itmar-block-packages/front";
 import { toStyleRecord } from "../front-common";
 
 import type { DesignButtonAttributes } from "./types";
+import { MEDIA_MOBILE } from "../breakpoints";
 
 type ShadowState = Parameters<typeof ShadowElm>[0];
 type ArrowDirection = NonNullable<Parameters<typeof Arrow>[0]["direction"]>;
@@ -141,7 +142,7 @@ export const createButtonStyleCss = (
 		${pseudoCss}
 		${iconCss}
 
-		@media (max-width:767px) {
+		${MEDIA_MOBILE} {
 			${buttonSelector} {
 				width:${mobile_pos.width};
 				height:${mobile_pos.height};

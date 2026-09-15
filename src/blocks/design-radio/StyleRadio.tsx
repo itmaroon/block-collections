@@ -4,8 +4,9 @@ import {
 	convertToScss,
 	borderProperty,
 	cssValueToString,
-} from "itmar-block-packages";
+} from "itmar-block-packages/front";
 import type { RadioAttributes, RadioDirection } from "./types";
+import { MEDIA_MOBILE } from "../breakpoints";
 
 const resolveFontStyle = (fontStyle: RadioAttributes["font_style_input"]): string =>
 	fontStyle?.isItalic ? "italic" : "normal";
@@ -101,7 +102,7 @@ const createCommonCss = (
 			border: none;
 		}
 
-		@media (max-width: 767px) {
+		${MEDIA_MOBILE} {
 			${scopeSelector} {
 				${createDirectionCss(mobile_pos.direction)}
 				flex-wrap: ${mobile_pos.wrap ? "wrap" : "nowrap"};
@@ -258,7 +259,7 @@ const createDefaultCss = (
 			line-height: 2.5em;
 		}
 
-		@media (max-width: 767px) {
+		${MEDIA_MOBILE} {
 			${scopeSelector} label input {
 				width: ${mobile_pos.button_scale};
 				height: ${mobile_pos.button_scale};

@@ -14,3 +14,20 @@
 	}
 	
 }
+
+/**
+ * ハンバーガーの表示位置の行。
+ * 既定のままだと左のセレクトが狭く、選んだ文字（Bottom など）が切れてしまう。
+ * 距離の入力を固定幅にして、余った分をセレクトに回す。
+ */
+.components-panel__row.itmar_hamburger_pos {
+	.components-combobox-control {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.components-unit-control-wrapper {
+		flex: 0 0 110px;
+		width: 110px;
+	}
+}

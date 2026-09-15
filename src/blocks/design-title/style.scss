@@ -86,10 +86,48 @@
 			}
 		}
 
+		/**
+		 * 画面外へはみ出すときの左右反転。
+		 * view.ts が幅を測って .is-flipped を付ける。
+		 * 例: 右寄せメニューの右へ開くと画面外に出るので、左へ開かせる。
+		 */
+		&.center_right.is-flipped {
+			left: auto;
+			right: 100%;
+			transform-origin: right top;
+		}
+
+		&.center_left.is-flipped {
+			right: auto;
+			left: 100%;
+			transform-origin: left top;
+		}
+
+		&.bottom_right.is-flipped {
+			right: auto;
+			left: 0;
+		}
+
+		&.bottom_left.is-flipped {
+			left: auto;
+			right: 0;
+		}
+
+		&.bottom_center.is-flipped {
+			left: auto;
+			right: 0;
+			transform: scaleY(0);
+			transform-origin: right top;
+		}
+
 		@include reset.mq(sp) {
 			&.mobile_virtical {
 				position: static;
 				max-height: 0;
+				//クリップしないと、max-height を超えた中身が溢れて後続のメニュー項目に
+				//重なる。モバイルの縦並び（mobile_val.direction が vertical）では画像が
+				//全幅で積まれて非常に高くなるため、必ず要る。
+				overflow: hidden;
 				transition: all 0.8s ease 0s;
 			}
 
@@ -102,6 +140,81 @@
 				transition: all 0.8s ease 0s;
 			}
 		}
+	}
+
+	/**
+	 * サブメニューが反転したら、見出しに出している三角も向きを合わせる。
+	 * 三角は styleDataApply が menu_pos から生成するので、ここでは
+	 * :has() で「反転したサブメニューを持つ見出し」を後ろから拾って上書きする。
+	 */
+	&:has(> .submenu-block.center_right.is-flipped)
+		:is(h1, h2, h3, h4, h5, h6)::before {
+		right: auto;
+		left: 10px;
+		clip-path: polygon(100% 0, 100% 100%, 0 50%);
+	}
+
+	&:has(> .submenu-block.center_left.is-flipped)
+		:is(h1, h2, h3, h4, h5, h6)::before {
+		left: auto;
+		right: 10px;
+		clip-path: polygon(100% 50%, 0 100%, 0 0);
+	}
+
+	/**
+	 * モバイルではサブメニューはアコーディオンで「真下」に開く。
+	 * menu_pos から生成される三角（右向きなど）は実際の開き方と食い違うので、
+	 * 下向きに固定し、開いている間は上向き（畳む合図）にする。
+	 *
+	 * styleDataApply が実行時に注入するCSSより後に評価される必要があるため、
+	 * クラスを重ねて詳細度を上げている。
+	 */
+	@include reset.mq(sp) {
+		&.wp-block-itmar-design-title:has(> .submenu-block)
+			:is(h1, h2, h3, h4, h5, h6) {
+			//三角を右へ出すぶんの余白。menu_pos に応じた余白（adjustPadding）は
+			//デスクトップの向き基準なので、モバイルでは右側に取り直す。
+			//これが無いと bottom left などで三角が文字に重なる。
+			padding-right: calc(10px + 1em);
+		}
+
+		//アコーディオン（真下に展開）：閉じている間は下向き
+		&.wp-block-itmar-design-title:has(> .submenu-block.mobile_virtical)
+			:is(h1, h2, h3, h4, h5, h6)::before {
+			left: auto;
+			right: 10px;
+			width: 12px;
+			height: calc(12px / 2);
+			clip-path: polygon(0 0, 100% 0, 50% 100%);
+		}
+
+		//アコーディオンが開いたら上向き（畳む合図）
+		&.wp-block-itmar-design-title:has(> .submenu-block.mobile_virtical.visible)
+			:is(h1, h2, h3, h4, h5, h6)::before {
+			clip-path: polygon(50% 0, 100% 100%, 0 100%);
+		}
+
+		//横からスライド：開く方向に合わせて右向き
+		&.wp-block-itmar-design-title:has(> .submenu-block.mobile_horizen)
+			:is(h1, h2, h3, h4, h5, h6)::before {
+			left: auto;
+			right: 10px;
+			width: calc(12px / 2);
+			height: 12px;
+			clip-path: polygon(100% 50%, 0 100%, 0 0);
+		}
+	}
+
+	/**
+	 * サブメニューを開いている項目は、兄弟のメニュー項目より前面に出す。
+	 * .submenu-block 自身の z-index はこの要素の積層コンテキストの中でしか
+	 * 効かないため、項目ごと持ち上げる必要がある。
+	 * （position:static のとき＝「タイトルを基準にする」がオフのときは効かないが、
+	 *   その場合は配置基準が親メニュー側なので、そちらの重なり順で決まる）
+	 */
+	&:has(> .submenu-block.visible),
+	&:hover {
+		z-index: 20;
 	}
 
 	&:hover>.submenu-block,
@@ -128,6 +241,14 @@
 
 		}
 
+		&.bottom_center.is-flipped {
+			transform: scale(1, 1);
+
+			@include reset.mq(sp) {
+				transform: none;
+			}
+		}
+
 		&.bottom_left {
 			transform: scale(1, 1);
 
@@ -137,6 +258,8 @@
 		}
 
 		@include reset.mq(sp) {
+			//実際の高さは view.ts が中身を測って inline で入れる。
+			//100vh は JS が動かないときの保険。
 			&.mobile_virtical {
 				max-height: 100vh;
 			}

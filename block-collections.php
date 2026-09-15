@@ -5,7 +5,7 @@
  * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
  * Requires at least: 6.4
  * Requires PHP:      8.2.10
- * Version:           2.0.10
+ * Version:           2.1.0
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -208,6 +208,19 @@ add_action('enqueue_block_editor_assets', function () {
 	);
 });
 
+
+//色スロットのフォールバック層（テーマが itmaroon 独自スロットを持たなくても破綻させない）
+function itmar_block_collections_color_slots()
+{
+	$path = plugin_dir_path(__FILE__) . 'assets/css/itmar-color-slots.css';
+	wp_enqueue_style(
+		'itmar-color-slots',
+		plugins_url('/assets/css/itmar-color-slots.css', __FILE__),
+		array(),
+		file_exists($path) ? filemtime($path) : false
+	);
+}
+add_action('enqueue_block_assets', 'itmar_block_collections_color_slots');
 
 //Googleフォント,FontAwesomeの読み込み
 function itmar_block_collections_font_init()

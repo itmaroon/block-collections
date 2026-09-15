@@ -4,8 +4,9 @@ import {
 	convertToScss,
 	borderProperty,
 	cssValueToString,
-} from "itmar-block-packages";
+} from "itmar-block-packages/front";
 import type { SelectAttributes } from "./types";
+import { MEDIA_MOBILE } from "../breakpoints";
 
 const resolveFontStyle = (
 	fontStyle: SelectAttributes["font_style_option"],
@@ -91,10 +92,10 @@ const createLabelStyleCss = (
 			${createLabelMarginCss(default_pos?.labelPos, labelSpace)}
 		}
 		${scopeSelector} label span {
-			color: var(--wp--preset--color--accent-1);
+			color: var(--itmar-accent-1);
 		}
 
-		@media (max-width: 767px) {
+		${MEDIA_MOBILE} {
 			${scopeSelector} label {
 				font-size: ${font_style_label?.mobile_fontSize || font_style_label?.default_fontSize || "inherit"};
 				${createLabelMarginCss(mobile_pos?.labelPos, labelSpace)}
@@ -182,7 +183,7 @@ export const createSelectStyleCss = (
 			transition: all 0.3s ease;
 		}
 		${scopeSelector} .itmar_block_select > div > span {
-			color: var(--wp--preset--color--placeholder);
+			color: var(--itmar-placeholder);
 			display: block;
 			position: absolute;
 			left: 12px;
@@ -402,7 +403,7 @@ export const createSelectStyleCss = (
 			display: none;
 		}
 
-		@media (max-width: 767px) {
+		${MEDIA_MOBILE} {
 			${scopeSelector} {
 				margin: ${space_prm(mobile_pos?.margin_value)};
 				padding: ${space_prm(mobile_pos?.padding_value)};

@@ -218,6 +218,7 @@ export default function Edit({
 		linkKind,
 		menu_pos,
 		is_title_menu,
+		mobile_submenu,
 		selectedSlug,
 		selectedPageUrl,
 		isBlank,
@@ -378,8 +379,8 @@ export default function Edit({
 		if (className?.split(" ").includes("is-style-circle_marker")) {
 			reset_style = {
 				styleName: "is-style-circle_marker",
-				colorVal_circle: "var(--wp--preset--color--accent-1)",
-				colorVal_second: "var(--wp--preset--color--accent-2)",
+				colorVal_circle: "var(--itmar-accent-1)",
+				colorVal_second: "var(--itmar-accent-2)",
 				circleScale: "3em",
 				secondScale: "1.5em",
 				second_opacity: 0.7,
@@ -393,8 +394,8 @@ export default function Edit({
 			reset_style = {
 				styleName: "is-style-sub_copy",
 				alignment_copy: "top left",
-				color_text_copy: "var(--wp--preset--color--content)",
-				color_background_copy: "var(--wp--preset--color--accent-1)",
+				color_text_copy: "var(--itmar-content)",
+				color_background_copy: "var(--itmar-accent-1)",
 				copy_content: "SAMPLE",
 				copy_width: 0,
 				font_style_copy: {
@@ -561,8 +562,8 @@ export default function Edit({
 		{
 			className: `submenu-block ${
 				hasSelectedInnerBlock ? "visible" : ""
-			} ${menu_pos.replace(/ /g, "_")} ${
-				!is_title_menu ? "mobile_horizen" : "mobile_virtical"
+			} ${menu_pos.replace(/ /g, "_")} mobile_${
+				mobile_submenu ?? (is_title_menu ? "virtical" : "horizen")
 			}`,
 		},
 		{
@@ -922,15 +923,21 @@ export default function Edit({
 						<PanelBody
 							title={__("Submenu position settings", "block-collections")}
 						>
-							<PanelRow className="imgPos_row">
-								<label>{__("Menu Alignment", "block-collections")}</label>
-								<AlignmentMatrixControl
-									value={menu_pos as AlignmentMatrixValue}
-									onChange={(newVal: AlignmentMatrixValue) => {
-										setAttributes({ menu_pos: newVal ?? "bottom right" });
-									}}
-								/>
-							</PanelRow>
+							{/*
+							 * モバイルではサブメニューはアコーディオンで真下に開くので、
+							 * 位置の指定は効かない。誤解を招くのでコントロールごと隠す。
+							 */}
+							{!isMobile && (
+								<PanelRow className="imgPos_row">
+									<label>{__("Menu Alignment", "block-collections")}</label>
+									<AlignmentMatrixControl
+										value={menu_pos as AlignmentMatrixValue}
+										onChange={(newVal: AlignmentMatrixValue) => {
+											setAttributes({ menu_pos: newVal ?? "bottom right" });
+										}}
+									/>
+								</PanelRow>
+							)}
 							<ToggleControl
 								label={__("Based on title", "block-collections")}
 								checked={is_title_menu}
@@ -942,6 +949,38 @@ export default function Edit({
 									setAttributes({ is_title_menu: newVal });
 								}}
 							/>
+							{/*
+							 * モバイルでの開き方。以前は「Based on title」がデスクトップの
+							 * 配置基準とモバイルの開き方を兼ねていたため、片方を選ぶと
+							 * もう片方も変わってしまった。独立して選べるように分けている。
+							 */}
+							<div className="itmar_link_type">
+								<RadioControl
+									label={__("Submenu on mobile", "block-collections")}
+									selected={
+										mobile_submenu ?? (is_title_menu ? "virtical" : "horizen")
+									}
+									options={[
+										{
+											label: __(
+												"Accordion (expand below)",
+												"block-collections",
+											),
+											value: "virtical",
+										},
+										{
+											label: __("Slide in from the side", "block-collections"),
+											value: "horizen",
+										},
+									]}
+									onChange={(newVal) =>
+										setAttributes({
+											mobile_submenu:
+												newVal === "horizen" ? "horizen" : "virtical",
+										})
+									}
+								/>
+							</div>
 						</PanelBody>
 					)}
 					<TextControl
@@ -1208,7 +1247,7 @@ export default function Edit({
 									colorValue:
 										optionStyle && optionStyle.colorVal_circle
 											? optionStyle.colorVal_circle
-											: "var(--wp--preset--color--accent-1)",
+											: "var(--itmar-accent-1)",
 									gradientValue:
 										optionStyle && optionStyle.gradientVal_circle
 											? optionStyle.gradientVal_circle
@@ -1318,7 +1357,7 @@ export default function Edit({
 											colorValue:
 												optionStyle && optionStyle.colorVal_second
 													? optionStyle.colorVal_second
-													: "var(--wp--preset--color--accent-2)",
+													: "var(--itmar-accent-2)",
 											gradientValue:
 												optionStyle && optionStyle.gradientVal_second
 													? optionStyle.gradientVal_second
@@ -1436,7 +1475,7 @@ export default function Edit({
 									colorValue:
 										optionStyle && optionStyle.color_text_copy
 											? optionStyle.color_text_copy
-											: "var(--wp--preset--color--content)",
+											: "var(--itmar-content)",
 									label: __("Choose Text color", "block-collections"),
 									onColorChange: (newValue?: string) => {
 										setLocalOptionStyle((prev) => ({
@@ -1449,7 +1488,7 @@ export default function Edit({
 									colorValue:
 										optionStyle && optionStyle.color_background_copy
 											? optionStyle.color_background_copy
-											: "var(--wp--preset--color--accent-2)",
+											: "var(--itmar-accent-2)",
 									gradientValue:
 										optionStyle && optionStyle.gradient_background_copy
 											? optionStyle.gradient_background_copy
@@ -1615,7 +1654,7 @@ export default function Edit({
 														icon_name: "f030",
 														icon_pos: "left",
 														icon_size: "24px",
-														icon_color: "var(--wp--preset--color--content)",
+														icon_color: "var(--itmar-content)",
 														icon_space: "5px",
 												  }
 										}

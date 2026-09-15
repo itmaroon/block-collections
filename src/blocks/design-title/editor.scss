@@ -36,3 +36,16 @@
 	font-size: 11px;
 	padding-bottom: 10px;
 }
+
+/**
+ * エディタでのサブメニュー（モバイルプレビュー時）
+ *
+ * フロントでは view.ts が中身を測って max-height を入れるが、エディタは
+ * view.ts を読み込まない。CSSの max-height:100vh のままだと、画像付きの
+ * 縦並びサブメニューがエディタの高さを超えて切れてしまう。
+ * 編集中は全体が見えたほうがよいので、高さの制限を外す。
+ */
+.editor-styles-wrapper .submenu-block.mobile_virtical.visible {
+	max-height: none;
+	overflow: visible;
+}
