@@ -2485,3 +2485,47 @@ msgstr ""
 msgctxt "block title"
 msgid "Design Title"
 msgstr ""
+
+#: src/blocks/design-group/edit.tsx
+msgid "HTML element"
+msgstr ""
+
+#: src/blocks/design-group/edit.tsx
+msgid "div (generic)"
+msgstr ""
+
+#: src/blocks/design-group/edit.tsx
+msgid "form (form submission)"
+msgstr ""
+
+#: src/blocks/design-group/edit.tsx
+msgid "main (main content)"
+msgstr ""
+
+#: src/blocks/design-group/edit.tsx
+msgid "section (thematic group)"
+msgstr ""
+
+#: src/blocks/design-group/edit.tsx
+msgid "article (self-contained content)"
+msgstr ""
+
+#: src/blocks/design-group/edit.tsx
+msgid "aside (supplementary)"
+msgstr ""
+
+#: src/blocks/design-group/edit.tsx
+msgid "header (introductory content)"
+msgstr ""
+
+#: src/blocks/design-group/edit.tsx
+msgid "footer (closing content)"
+msgstr ""
+
+#: src/blocks/design-group/edit.tsx
+msgid "nav (navigation)"
+msgstr ""
+
+#: src/blocks/design-group/edit.tsx
+msgid "Use main only once per page, for the main content."
+msgstr ""

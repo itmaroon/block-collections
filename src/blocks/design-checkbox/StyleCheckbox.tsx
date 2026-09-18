@@ -64,7 +64,12 @@ export const createCheckboxStyleCss = (
 		${scopeSelector} label { display:flex; }
 		${spanSelector} {
 			font-size:${font_style_label.default_fontSize};
-			border:.2em solid var(--itmar-background);
+			/*
+			 * 未チェックの枠。以前はページ背景色（--itmar-background）で、
+			 * フォームの背景とページ背景が同じ色のテーマ（kiln-theme 等）では
+			 * 枠が見えなかった。文字色を半透明にして、どの背景でも見えるようにする。
+			 */
+			border:.2em solid color-mix(in srgb, ${labelColor || "currentColor"} 45%, transparent);
 			height:1.2em;
 			width:1.2em;
 			background-color:transparent;

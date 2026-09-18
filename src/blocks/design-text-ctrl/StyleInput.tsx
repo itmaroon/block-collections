@@ -82,6 +82,8 @@ export const createInputStyleCss = (
 		${scopeSelector} input,
 		${scopeSelector} textarea {
 			flex-grow: 1;
+			/* ラベルではなく入力欄の側が縮む */
+			min-width: 0;
 			background: ${bgInputColor};
 			border-radius: ${inputRadius};
 			color: ${textColor_input || "inherit"};
@@ -96,9 +98,16 @@ export const createInputStyleCss = (
 		}
 		${scopeSelector} input {
 			width: ${defaultWidth};
+			/* textarea・design-select と同じく、枠線と余白を幅に含める（100%からはみ出さない） */
+			box-sizing: border-box;
 			line-height: ${default_pos?.inputLineHeight || "normal"};
 		}
 		${scopeSelector} textarea {
+			/*
+			 * 以前は幅の指定が無く、ブラウザ既定の幅（約180px）が伸び縮みの基準になって
+			 * いたため、input の行とラベルの縮み方が違い、縦の並びがそろわなかった。
+			 */
+			width: ${defaultWidth};
 			min-height: 60px;
 			box-sizing: border-box;
 			padding: 6px 10px;
@@ -128,6 +137,9 @@ export const createInputStyleCss = (
 					font_style_input?.default_fontSize ||
 					"inherit"
 				};
+			}
+			${scopeSelector} textarea {
+				width: ${mobileWidth};
 			}
 			${scopeSelector} input {
 				width: ${mobileWidth};

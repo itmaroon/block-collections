@@ -94,6 +94,13 @@ export const createLabelStyleCss = (
 			`
 			: `
 				width: ${labelWidth || "auto"};
+				/*
+				 * 入力フォーム（input-figure-block）が全項目のラベル幅をそろえるので、
+				 * 行の幅が足りなくてもラベルは縮ませない。縮むと入力欄の左端がずれる。
+				 * 幅は内容の幅（padding は外側に足す）として扱う。design-select と揃える。
+				 */
+				flex-shrink: 0;
+				box-sizing: content-box;
 				${createLabelMarginCss(default_pos?.labelPos, labelSpace)}
 			`;
 

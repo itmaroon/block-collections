@@ -1,5 +1,6 @@
 import { useBlockProps, InnerBlocks } from "@wordpress/block-editor";
 import type { GroupSaveProps } from "./types";
+import { isSectioningDomType } from "./domTypes";
 
 export default function save({ attributes }: GroupSaveProps) {
 	const {
@@ -50,6 +51,24 @@ export default function save({ attributes }: GroupSaveProps) {
 			>
 				<InnerBlocks.Content />
 			</form>
+		) : isSectioningDomType(domType) ? (
+			/*
+			 * main / section など、ページの構造を表す要素。
+			 * div / form の分岐より後に置き、既存ブロックの出力を変えない。
+			 */
+			(() => {
+				const SectionTag = domType;
+				return (
+					<SectionTag
+						id={formID || undefined}
+						className={`group_contents${is_anime ? " fadeTrigger" : ""}`}
+						data-is_anime={is_anime}
+						data-anime_prm={JSON.stringify(anime_prm)}
+					>
+						<InnerBlocks.Content />
+					</SectionTag>
+				);
+			})()
 		) : (
 			<form
 				method="POST"

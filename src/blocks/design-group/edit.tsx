@@ -31,6 +31,7 @@ import {
 	__experimentalNumberControl as NumberControl,
 	ToggleControl,
 	RadioControl,
+	SelectControl,
 	RangeControl,
 	TextControl,
 	Toolbar,
@@ -46,6 +47,7 @@ import type { FormEvent } from "react";
 import type { BlockInstance } from "@wordpress/blocks";
 import type { GroupDirection, GroupEditProps, MovePosition } from "./types";
 import { toStyleRecord } from "../front-common";
+import { isGroupDomType, isSectioningDomType } from "./domTypes";
 
 type ShadowState = Parameters<typeof ShadowElm>[0];
 
@@ -469,6 +471,11 @@ export default function Edit(props: GroupEditProps) {
 				{domType === "form" && (
 					<form onSubmit={handleSubmit} {...innerBlocksProps}></form>
 				)}
+				{isSectioningDomType(domType) &&
+					(() => {
+						const SectionTag = domType;
+						return <SectionTag {...innerBlocksProps}></SectionTag>;
+					})()}
 			</div>
 		</div>
 	);
@@ -482,26 +489,35 @@ export default function Edit(props: GroupEditProps) {
 					initialOpen={true}
 					className="form_design_ctrl"
 				>
-					<div className="itmar_title_type">
-						<RadioControl
-							selected={domType}
-							options={[
-								{
-									label: "DIV",
-									value: "div",
-								},
-								{
-									label: "FORM",
-									value: "form",
-								},
-							]}
-							onChange={(newVal) => {
-								if (newVal === "div" || newVal === "form") {
-									setAttributes({ domType: newVal });
-								}
-							}}
-						/>
-					</div>
+					<SelectControl
+						label={__("HTML element", "block-collections")}
+						value={domType}
+						options={[
+							{ label: __("div (generic)", "block-collections"), value: "div" },
+							{ label: __("form (form submission)", "block-collections"), value: "form" },
+							{ label: __("main (main content)", "block-collections"), value: "main" },
+							{ label: __("section (thematic group)", "block-collections"), value: "section" },
+							{ label: __("article (self-contained content)", "block-collections"), value: "article" },
+							{ label: __("aside (supplementary)", "block-collections"), value: "aside" },
+							{ label: __("header (introductory content)", "block-collections"), value: "header" },
+							{ label: __("footer (closing content)", "block-collections"), value: "footer" },
+							{ label: __("nav (navigation)", "block-collections"), value: "nav" },
+						]}
+						help={
+							domType === "main"
+								? __(
+										"Use main only once per page, for the main content.",
+										"block-collections",
+								  )
+								: undefined
+						}
+						onChange={(newVal) => {
+							if (isGroupDomType(newVal)) {
+								setAttributes({ domType: newVal });
+							}
+						}}
+						__nextHasNoMarginBottom
+					/>
 
 					<TextControl
 						label={__("BLOCK ID", "block-collections")}

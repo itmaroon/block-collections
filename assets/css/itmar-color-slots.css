@@ -15,6 +15,38 @@
  *
  * のどちらでも成立する。値を変えるときはここだけを直す。
  */
+/*
+ * 生のスロット名そのもののフォールバック。
+ *
+ * block.json の既定値や、保存済みのブロック属性（data-attributes・インライン style）は
+ * `var(--wp--preset--color--content)` のように生の名前を直接持っている。
+ * 保存内容なので --itmar-* へは置き換えられない（置き換えるとブロック検証が壊れる）。
+ *
+ * :where() で詳細度を 0 にして定義する。WordPress はテーマのプリセットを
+ * :root（詳細度 0,1,0）に出力するので、テーマが同名のスロットを持つときは
+ * 読み込み順に関係なく必ずテーマの値が勝ち、持たないときだけここが使われる。
+ *
+ * .editor-styles-wrapper には付けないこと。エディタの iframe では body が
+ * .editor-styles-wrapper で、テーマのプリセットは html（:root）にしかない。
+ * body で再定義すると、詳細度に関係なく body 以下ではこちらが使われ、
+ * base を持たないテーマ（develope-theme 等）で背景が #ffffff になる。
+ * このファイルは iframe 内にも読み込まれるので :root だけで足りる。
+ */
+:where(:root) {
+	--wp--preset--color--content: var(--wp--preset--color--contrast, currentColor);
+	--wp--preset--color--content-back: var(--wp--preset--color--base, #ffffff);
+	--wp--preset--color--background: var(--wp--preset--color--base, #ffffff);
+	/* 強調色は、accent / primary を持つテーマ（kiln-theme 等）ならそれを使う */
+	--wp--preset--color--accent-1: var(
+		--wp--preset--color--accent,
+		var(--wp--preset--color--primary, var(--wp--preset--color--contrast, currentColor))
+	);
+	/* テーマが accent-1 だけを持つ場合はそれに合わせる */
+	--wp--preset--color--accent-2: var(--wp--preset--color--accent-1);
+	--wp--preset--color--err-message: #d63638;
+	--wp--preset--color--placeholder: #757575;
+}
+
 :root,
 .editor-styles-wrapper {
 	/* 本文・線・アイコンの色。contrast はコアのテーマが広く持つ */

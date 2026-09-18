@@ -12,6 +12,22 @@ import {
 import type { GridElement, GroupAttributes, GroupLayout } from "./types";
 import { MEDIA_MOBILE } from "../breakpoints";
 
+/*
+ * 最大幅のCSSを作る。
+ * max_width は block.json の既定値が "100%" で、これはインスペクタからは
+ * 選べない値（設定できるのは full / fit / wideSize / contentSize / free の5つ）。
+ * つまり "100%" は「最大幅が未設定」を意味する。
+ * max_width_prm は未知の値をすべて fit-content に落とすため、そのまま渡すと
+ * 未設定のグループにまで max-width: fit-content が付き、幅が 0 に潰れる。
+ * 設定済みの値のときだけ宣言を出す。
+ */
+const MAX_WIDTH_VALUES = ["full", "fit", "wideSize", "contentSize", "free"];
+
+const maxWidthCss = (max_width?: string, max_free_width?: string): string =>
+	max_width && MAX_WIDTH_VALUES.includes(max_width)
+		? cssValueToString(max_width_prm(max_width, max_free_width))
+		: "";
+
 const createGridItemCss = (gridElms: GridElement[] = []): string =>
 	gridElms
 		.map((element, index) => {
@@ -204,9 +220,7 @@ export const createGroupStyleCss = (
 					: ""
 			}
 			${cssValueToString(width_prm(default_val.width_val, default_val.free_width))}
-			${cssValueToString(
-				max_width_prm(default_val.width_val, default_val.free_width),
-			)}
+			${maxWidthCss(default_val.max_width, default_val.max_free_width)}
 			${cssValueToString(height_prm(default_val.height_val, default_val.free_height))}
 			${cssValueToString(align_prm(default_val.outer_align))}
 			align-self: ${default_val.outer_vertical};
@@ -232,7 +246,7 @@ export const createGroupStyleCss = (
 				margin: ${space_prm(mobile_val.margin)};
 				padding: ${space_prm(mobile_val.padding)};
 				${cssValueToString(width_prm(mobile_val.width_val, mobile_val.free_width))}
-				${cssValueToString(max_width_prm(mobile_val.width_val, mobile_val.free_width))}
+				${maxWidthCss(mobile_val.max_width, mobile_val.max_free_width)}
 				${cssValueToString(height_prm(mobile_val.height_val, mobile_val.free_height))}
 				${cssValueToString(align_prm(mobile_val.outer_align))}
 			}

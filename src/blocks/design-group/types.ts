@@ -1,3 +1,5 @@
+import type { GroupDomType } from "./domTypes";
+
 export interface BoxValues {
 	top: string;
 	left: string;
@@ -94,7 +96,7 @@ export interface HamburgerStyle {
 
 export interface GroupAttributes {
 	className: string;
-	domType: "div" | "form";
+	domType: GroupDomType;
 	formID: string;
 	positionType: string;
 	isPosCenter: boolean;

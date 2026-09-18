@@ -20,7 +20,8 @@ const alignMap: Record<string, string> = {
 		"display: flex;flex-direction: column-reverse;align-items: center;",
 	"top right":
 		"display: flex;flex-direction: column-reverse;align-items: flex-end;",
-	"center left": "display: flex;flex-direction: row-reverse;align-items: center;",
+	"center left":
+		"display: flex;flex-direction: row-reverse;justify-content: flex-end;align-items: center;",
 	"center center": "label{display: none;}",
 	"center right": "display: flex;align-items: center;",
 	"bottom left": "display: flex;flex-direction: column;align-items: flex-start;",
@@ -79,6 +80,14 @@ const createLabelStyleCss = (
 		${scopeSelector} label {
 			white-space: nowrap;
 			width: ${labelWidth || "auto"};
+			/*
+			 * design-text-ctrl のラベルと同じ寸法にする（幅は内容の幅、padding は外側）。
+			 * style.scss の「* { box-sizing: border-box }」のままだと padding の分だけ
+			 * 外形が狭くなり、入力フォーム内で選択欄の左端が他の入力欄とずれる。
+			 * 行が狭くてもラベルは縮ませない。
+			 */
+			box-sizing: content-box;
+			flex-shrink: 0;
 			background: ${bgLabelColor};
 			border-radius: ${labelRadius};
 			color: ${textColor_label || "inherit"};
@@ -144,6 +153,10 @@ export const createSelectStyleCss = (
 		}
 		${scopeSelector} .itmar_block_select {
 			position: relative;
+			/* テキスト入力の input と同じく、残りの幅いっぱいに伸ばす */
+			flex-grow: 1;
+			min-width: 0;
+			width: 100%;
 			font-size: ${font_style_option?.default_fontSize};
 			font-family: ${font_style_option?.fontFamily};
 			font-weight: ${font_style_option?.fontWeight};
