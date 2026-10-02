@@ -53,6 +53,7 @@ import type { TooltipAttributes } from "../../shared/types";
 
 import { toStyleRecord } from "../front-common";
 import {
+	fetchCalendarKeyStatus,
 	fetchJapaneseHolidays,
 	saveCalendarApiKey,
 } from "./holiday-api";
@@ -581,7 +582,7 @@ export default function Edit({
 	//CalenderAPIキーの一時保存
 	const initiallyConfigured = Boolean(itmar_calendar_option.apiConfigured);
 	const [calendar_key_editing, setCalendarApiVal] = useState<string>(
-		initiallyConfigured ? (calendarApiMask ?? "**********") : "",
+		initiallyConfigured ? "**********" : "",
 	);
 	//wp_optionに保存するための変数
 	const [calendarKey, setCalendarKey] = useState("");
@@ -596,6 +597,33 @@ export default function Edit({
 					"block-collections",
 				),
 	);
+	/*
+	 * 保存済みかどうかをサーバーに確かめる。
+	 * 埋め込みのフラグはページ読み込み時の値なので、保存後に開き直したときに
+	 * 「未設定」と出てしまうことがあった。
+	 */
+	useEffect(() => {
+		let alive = true;
+		(async () => {
+			try {
+				const configured = await fetchCalendarKeyStatus();
+				if (!alive) return;
+				if (configured) {
+					setCalendarApiVal("**********");
+					setCalendarApiState("ready");
+					setCalendarApiMessage("");
+				} else if (!initiallyConfigured) {
+					setCalendarApiState("missing");
+				}
+			} catch {
+				// 確認できないときは埋め込みのフラグのままにする
+			}
+		})();
+		return () => {
+			alive = false;
+		};
+	}, [initiallyConfigured]);
+
 	//キーがあればサーバーに格納
 	useEffect(() => {
 		// 内部で async 関数を定義

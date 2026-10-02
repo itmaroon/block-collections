@@ -52,6 +52,7 @@ function itmar_localize_calendar_options()
 	$options = array(
 		'holidaysUrl' => esc_url_raw(rest_url('itmar/v1/get-holidays')),
 		'saveKeyUrl' => esc_url_raw(rest_url('itmar/v1/save-calendar-key')),
+		'keyStatusUrl' => esc_url_raw(rest_url('itmar/v1/calendar-key-status')),
 		'apiConfigured' => '' !== trim((string) get_option('itmar_calendar_api_key', '')),
 	);
 	$handles = array_unique(array_filter(array_merge(
@@ -209,7 +210,19 @@ add_action('enqueue_block_editor_assets', function () {
 });
 
 
-//色スロットのフォールバック層（テーマが itmaroon 独自スロットを持たなくても破綻させない）
+/**
+ * 色について。
+ *
+ * ブロックは「本文の色」「面の色」といった**役割**だけを前提にし、実際の色名は持たない。
+ * block.json の既定値やブロックのCSSは `var(--itmar-content)` のような役割変数を参照し、
+ * その変数を配布先テーマのプリセット色へ橋渡しするのが assets/css/itmar-color-slots.css。
+ *
+ * 以前はここで theme.json のフィルターを使い、`content` `content-back` などのスロットを
+ * テーマのパレットへ補っていたが、テーマが自前の色名（base / surface / contrast …）を
+ * 持っている場合に**同じ色が二重に並ぶ**ため取りやめた。プラグインは色名を一切持たない。
+ */
+
+//ブロックのCSSが参照する --itmar-* を、テーマの色へ橋渡しする層
 function itmar_block_collections_color_slots()
 {
 	$path = plugin_dir_path(__FILE__) . 'assets/css/itmar-color-slots.css';
@@ -246,6 +259,24 @@ add_action('rest_api_init', function () {
 		'callback' => 'itmar_save_calendar_key',
 		'permission_callback' => function () {
 			// 'manage_options' 権限（通常は管理者）を持っているかチェック
+			return current_user_can('manage_options');
+		},
+	]);
+
+	/*
+	 * APIキーが保存されているかを返す。
+	 * エディターは読み込み時に埋め込まれたフラグだけを見ていたため、
+	 * 保存したあとに開き直すと「未設定」のままに見えることがあった。
+	 */
+	register_rest_route('itmar/v1', '/calendar-key-status', [
+		'methods'  => 'GET',
+		'callback' => function () {
+			return new WP_REST_Response(
+				array('configured' => '' !== trim((string) get_option('itmar_calendar_api_key', ''))),
+				200
+			);
+		},
+		'permission_callback' => function () {
 			return current_user_can('manage_options');
 		},
 	]);

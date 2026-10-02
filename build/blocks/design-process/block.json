@@ -15,7 +15,7 @@
     },
     "bgColor": {
       "type": "string",
-      "default": "var(--wp--preset--color--content-back)"
+      "default": "var(--itmar-content-back)"
     },
     "bgColor_form": {
       "type": "string"
@@ -82,11 +82,11 @@
     },
     "textColor_num": {
       "type": "string",
-      "default": "var(--wp--preset--color--content)"
+      "default": "var(--itmar-content)"
     },
     "bgColor_num": {
       "type": "string",
-      "default": "var(--wp--preset--color--accent-1)"
+      "default": "var(--itmar-accent-1)"
     },
     "font_style_process": {
       "type": "object",
@@ -100,7 +100,7 @@
     },
     "textColor_process": {
       "type": "string",
-      "default": "var(--wp--preset--color--content)"
+      "default": "var(--itmar-content)"
     },
     "shadow_element": {
       "type": "object",

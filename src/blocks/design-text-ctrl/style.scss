@@ -74,6 +74,15 @@
   			text-align: right;
 			padding-right: 1em;
 		}
+		/*
+		 * 増減のボタンは縮めない。
+		 * 幅が足りないとき flex がボタンまで縮め、文字が潰れて読めなくなる。
+		 * 縮むべきなのは入力欄のほう。
+		 */
+		.number-stepper-minus,
+		.number-stepper-plus {
+			flex-shrink: 0;
+		}
 		//ナンバー要素の上下ボタンを消す
 		/* Chrome, Safari, Edge, Opera */
 		input[type="number"]::-webkit-inner-spin-button,

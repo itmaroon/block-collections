@@ -295,6 +295,13 @@ const createOptionStyleCss = (
 		gradient_background_copy ||
 		"var(--itmar-accent-1)";
 	const fontStyle = font_style_copy.isItalic ? "italic" : "normal";
+	// コピーの文字サイズ。タイポグラフィーの設定が書くのは default_fontSize で、
+	// 古い保存内容は fontSize を持つ。値が無いときに font-size:undefined を出さない。
+	const copyFontSize =
+		font_style_copy.default_fontSize || font_style_copy.fontSize || "16px";
+	const copyMobileFontSize = font_style_copy.mobile_fontSize || copyFontSize;
+	// 場所の確保に使うサイズは、これまでの計算に合わせて fontSize を優先する
+	const copySpaceFontSize = font_style_copy.fontSize || copyFontSize;
 	const iconSpace = icon_style.icon_space || "0px";
 	const copyPadding = !isIcon
 		? space_prm(padding_copy)
@@ -345,7 +352,11 @@ const createOptionStyleCss = (
 	const horizontalSpace = isIcon
 		? `${textWidth}px + ${padding_copy.right} + ${padding_copy.left} + ${icon_style.icon_size} + ${iconSpace}`
 		: `${textWidth}px + ${padding_copy.right} + ${padding_copy.left}`;
-	const verticalSpace = `${font_style_copy.fontSize} + ${padding_copy.top} + ${padding_copy.bottom}`;
+	// コピーとアイコンは同じ側に置かれるので、大きいほうのぶんだけ場所を空ける。
+	// アイコンを入れていなかったときの計算は変えない。
+	const verticalSpace = isIcon
+		? `max(${copySpaceFontSize}, ${icon_style.icon_size}) + ${padding_copy.top} + ${padding_copy.bottom}`
+		: `${copySpaceFontSize} + ${padding_copy.top} + ${padding_copy.bottom}`;
 	const copySpace =
 		alignmentPosition.split(" ")[0] === "center"
 			? horizontalSpace
@@ -383,7 +394,7 @@ const createOptionStyleCss = (
 	return `
 		${scope} { padding:${rootPadding}; }
 		${scope}::before {
-			font-size:${font_style_copy.default_fontSize};
+			font-size:${copyFontSize};
 			font-family:${font_style_copy.fontFamily};
 			font-weight:${font_style_copy.fontWeight};
 			font-style:${fontStyle};position:absolute;${beforePosition}
@@ -392,7 +403,7 @@ const createOptionStyleCss = (
 			background:${background};padding:${copyPadding};line-height:1;
 		}
 		${MEDIA_MOBILE} {
-			${scope}::before { font-size:${font_style_copy.mobile_fontSize}; }
+			${scope}::before { font-size:${copyMobileFontSize}; }
 		}
 		${awesomeIcon}
 		${imageIcon}
@@ -401,6 +412,10 @@ const createOptionStyleCss = (
 
 /**
  * エディタとフロントエンドで共有するスコープ付きCSSを生成する。
+ *
+ * 見出しの文字サイズはここでは出さない。テーマの theme.json が
+ * styles.elements.h1〜h6 で持つ（要素セレクタが見出しに直接当たるため、
+ * ブロック側でラッパーに指定しても負ける）。文字サイズはテーマの役割とする。
  */
 export const createTitleStyleCss = (
 	attributes: TitleAttributes,
@@ -409,8 +424,6 @@ export const createTitleStyleCss = (
 	const { root: rootScope, inner: innerScope } = scopes;
 	const {
 		headingType = "H2",
-		defaultHeadingSize = "16px",
-		mobileHeadingSize = "16px",
 		align,
 		default_val,
 		mobile_val,
@@ -476,7 +489,7 @@ export const createTitleStyleCss = (
 			${shadow}
 		}
 		${innerScope} {
-			position:relative;z-index:10;font-size:${defaultHeadingSize};
+			position:relative;z-index:10;
 		}
 		${headingSelector} {
 			box-sizing: border-box;
@@ -496,8 +509,5 @@ export const createTitleStyleCss = (
 		${submenuCss}
 		${is_waiting ? createWaitingCss(innerScope) : ""}
 		${createOptionStyleCss(attributes, innerScope)}
-		${MEDIA_MOBILE} {
-			${innerScope} { font-size:${mobileHeadingSize}; }
-		}
 	`;
 };

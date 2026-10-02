@@ -10,7 +10,7 @@
   width: fit-content;
 }
 .wp-block-itmar-design-button input:disabled {
-  color: var(--wp--preset--color--background);
+  color: var(--itmar-background);
 }
 .wp-block-itmar-design-button input:disabled:hover {
   cursor: not-allowed;

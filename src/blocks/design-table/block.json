@@ -51,7 +51,7 @@
 		},
 		"bgColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content-back)"
+			"default": "var(--itmar-content-back)"
 		},
 		"font_style_th": {
 			"type": "object",
@@ -75,33 +75,33 @@
 		},
 		"th_color": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content)"
+			"default": "var(--itmar-content)"
 		},
 		"bgColor_th": {
 			"type": "string",
-			"default": "var(--wp--preset--color--background)"
+			"default": "var(--itmar-background)"
 		},
 		"bgGradient_th": {
 			"type": "string"
 		},
 		"td_color": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content)"
+			"default": "var(--itmar-content)"
 		},
 		"bgColor_td": {
 			"type": "string",
-			"default": "var(--wp--preset--color--background)"
+			"default": "var(--itmar-background)"
 		},
 		"bgGradient_td": {
 			"type": "string"
 		},
 		"sel_color": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content)"
+			"default": "var(--itmar-content)"
 		},
 		"bgColor_sel": {
 			"type": "string",
-			"default": "var(--wp--preset--color--background)"
+			"default": "var(--itmar-background)"
 		},
 		"bgGradient_sel": {
 			"type": "string"
@@ -121,7 +121,7 @@
 			"default": {
 				"width": "1px",
 				"style": "solid",
-				"color": "var(--wp--preset--color--content)"
+				"color": "var(--itmar-content)"
 			}
 		},
 		"default_pos": {

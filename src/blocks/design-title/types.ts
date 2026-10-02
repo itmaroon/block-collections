@@ -27,7 +27,13 @@ export interface TitleAttributes {
 	headingContent?: string;
 	uniqueID?: string;
 	headingType: string;
+	/**
+	 * 見出しの文字サイズ。もう使っていない（サイズはテーマの theme.json が
+	 * styles.elements.h1〜h6 で持つ）。save() が全属性を data-attributes に
+	 * 書き出すため、消すと既存ブロックの検証が壊れる。互換のために残す。
+	 */
 	defaultHeadingSize: string;
+	/** @deprecated defaultHeadingSize と同じ理由で残している。 */
 	mobileHeadingSize: string;
 	titleType: string;
 	userFormat: string;

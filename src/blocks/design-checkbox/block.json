@@ -28,7 +28,7 @@
 		},
 		"bgColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content-back)"
+			"default": "var(--itmar-content-back)"
 		},
 		"labelContent": {
 			"type": "string"
@@ -45,7 +45,7 @@
 		},
 		"labelColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content)"
+			"default": "var(--itmar-content)"
 		},
 		"default_pos": {
 			"type": "object",
@@ -86,11 +86,11 @@
 		},
 		"boxColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--accent-1)"
+			"default": "var(--itmar-accent-1)"
 		},
 		"boxBgColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--accent-1)"
+			"default": "var(--itmar-accent-1)"
 		},
 		"radius_heading": {
 			"type": "object",

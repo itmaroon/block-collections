@@ -65,6 +65,28 @@ export const fetchJapaneseHolidays = async (
 	);
 };
 
+/**
+ * APIキーが保存済みかをサーバーに確かめる。
+ *
+ * エディターに埋め込まれるフラグはページ読み込み時の値なので、保存した直後や
+ * 別の画面で保存した場合に食い違う。開いたときに問い合わせて合わせる。
+ */
+export const fetchCalendarKeyStatus = async (): Promise< boolean > => {
+	const endpoint = itmar_calendar_option.keyStatusUrl;
+	if ( typeof endpoint !== 'string' || endpoint === '' ) {
+		return false;
+	}
+	const response = await fetch( endpoint, {
+		credentials: 'same-origin',
+		headers: { 'X-WP-Nonce': itmar_option.nonce },
+	} );
+	const data = await readResponse( response );
+	if ( ! response.ok || ! data || typeof data !== 'object' ) {
+		return false;
+	}
+	return Boolean( ( data as { configured?: boolean } ).configured );
+};
+
 export const saveCalendarApiKey = async ( apiKey: string ): Promise< void > => {
 	const endpoint = itmar_calendar_option.saveKeyUrl;
 	if ( typeof endpoint !== 'string' || endpoint === '' ) {

@@ -102,6 +102,25 @@ const createDirectionCss = (scope: string, values: GroupLayout): string => {
 	const reverseAxis =
 		direction === "horizen" ? "row-reverse" : "column-reverse";
 
+	/*
+	 * フレックスの子は既定で min-width / min-height が auto、つまり
+	 * 「中身の最小幅より小さくならない」。中身が大きいブロック（投稿一覧の
+	 * カードなど）を横並びに入れると、グループが縮もうとしてもそこで止まり、
+	 * 親からはみ出す。並びの方向にだけ 0 を入れて縮めるようにする。
+	 * :where() で詳細度を 0 にしてあるので、子ブロック側の指定が勝つ。
+	 */
+	/*
+	 * 縦並びのときは、子の横幅が「中身の幅」で決まる（align-items が flex-start の
+	 * ため）。中に自分で幅を計算して書き込むもの（Swiper のスライダーなど）が
+	 * あると、「子が広がる → 親が広がる → 子がさらに広がる」の連鎖になり、
+	 * ブラウザの上限（33,554,432px）まで膨れ上がる。
+	 * 親より横に広がらない上限を置いて、この連鎖を止める。
+	 */
+	const shrinkAxis =
+		direction === "horizen"
+			? "min-width: 0;"
+			: "min-height: 0; max-width: 100%;";
+
 	return `
 		${contentSelector} {
 			display: flex;
@@ -109,6 +128,9 @@ const createDirectionCss = (scope: string, values: GroupLayout): string => {
 			flex-wrap: ${values.wrap ? "wrap" : "nowrap"};
 			justify-content: ${values.inner_align ?? "flex-start"};
 			align-items: ${values.inner_items ?? "stretch"};
+		}
+		:where(${contentSelector}) > * {
+			${shrinkAxis}
 		}
 	`;
 };
@@ -161,6 +183,15 @@ export const createGroupStyleCss = (
 		flexCss(mobile_val) ||
 		(defaultFlex ? "flex: 0 1 auto; min-width: auto; min-height: auto;" : "");
 
+	/*
+	 * 幅「fit（中身に合わせる）」は「中身の幅にする」という指定なので、横並びの中で
+	 * 中身より小さく潰れないようにする。日本語は文字単位で折り返せるため、
+	 * これが無いと1文字幅まで縮んで縦に積まれてしまう。
+	 * フレックスを自分で指定しているブロックは、そちらの意図を優先して何も足さない。
+	 */
+	const fitShrinkCss = (layout: GroupLayout, hasOwnFlex: boolean): string =>
+		layout?.width_val === "fit" && !hasOwnFlex ? "flex-shrink: 0;" : "";
+
 	const defaultPosition = cssValueToString(
 		position_prm(isPosCenter || default_val.posValue, positionType),
 	);
@@ -171,7 +202,12 @@ export const createGroupStyleCss = (
 	const transform = is_moveable
 		? `transform: translate(${position.x}, ${position.y});`
 		: "";
-	const overflow = has_submenu ? "visible" : "scroll";
+	/*
+	 * モバイルで中身を縦スクロールさせるのは、画面いっぱいに開くメニューのため。
+	 * すべてのグループに付けるとスクロール領域ができてしまい、中に置いた
+	 * position: sticky がページではなくその領域を基準にする＝効かなくなる。
+	 */
+	const overflow = is_menu && !has_submenu ? "scroll" : "visible";
 	const contentSelector = `${scope} > div > .group_contents`;
 
 	/*
@@ -195,11 +231,11 @@ export const createGroupStyleCss = (
 		${scope} {
 			${!isAppear ? "display: none;" : ""}
 			${defaultFlex}
+			${fitShrinkCss(default_val, !!defaultFlex)}
 			box-sizing: border-box;
 			position: ${positionType};
 			${defaultPosition}
 			margin: ${space_prm(default_val.margin)};
-			padding: ${space_prm(default_val.padding)};
 			${stackingCss}
 			${
 				/*
@@ -226,7 +262,15 @@ export const createGroupStyleCss = (
 			align-self: ${default_val.outer_vertical};
 		}
 
+		/*
+		 * padding は背景色・枠線が乗る内側の要素に当てる。
+		 * 外側（.itmar-wrap）に当てていた頃は、余白が背景の外側にできてしまい、
+		 * 「余白を足したのに背景が広がらない」という見え方になっていた。
+		 * margin は外側のまま（背景の外に置くのが正しい）。
+		 */
 		${scope} > div {
+			box-sizing: border-box;
+			padding: ${space_prm(default_val.padding)};
 			${transform}
 		}
 
@@ -241,14 +285,18 @@ export const createGroupStyleCss = (
 		${MEDIA_MOBILE} {
 			${scope} {
 				${mobileFlex}
+				${fitShrinkCss(mobile_val, !!flexCss(mobile_val))}
 				${mobilePosition}
 				${stackingCss}
 				margin: ${space_prm(mobile_val.margin)};
-				padding: ${space_prm(mobile_val.padding)};
 				${cssValueToString(width_prm(mobile_val.width_val, mobile_val.free_width))}
 				${maxWidthCss(mobile_val.max_width, mobile_val.max_free_width)}
 				${cssValueToString(height_prm(mobile_val.height_val, mobile_val.free_height))}
 				${cssValueToString(align_prm(mobile_val.outer_align))}
+			}
+
+			${scope} > div {
+				padding: ${space_prm(mobile_val.padding)};
 			}
 
 			${contentSelector} {

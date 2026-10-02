@@ -38,7 +38,7 @@
 		},
 		"bgColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content-back)"
+			"default": "var(--itmar-content-back)"
 		},
 		"font_style_input": {
 			"type": "object",
@@ -58,7 +58,7 @@
 		},
 		"textColor_input": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content)"
+			"default": "var(--itmar-content)"
 		},
 		"radius_input": {
 			"type": "object",
@@ -75,7 +75,7 @@
 			"default": {
 				"width": "1px",
 				"style": "solid",
-				"color": "var(--wp--preset--color--content)"
+				"color": "var(--itmar-content)"
 			}
 		},
 		"default_pos": {
@@ -148,7 +148,7 @@
 		},
 		"textColor_label": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content)"
+			"default": "var(--itmar-content)"
 		},
 		"radius_label": {
 			"type": "object",

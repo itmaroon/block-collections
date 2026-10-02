@@ -69,7 +69,7 @@
     },
     "bgColor": {
       "type": "string",
-      "default": "var(--wp--preset--color--content-back)"
+      "default": "var(--itmar-content-back)"
     },
     "labelContent": {
       "type": "string"
@@ -102,7 +102,7 @@
       "default": {
         "icon_name": "f030",
         "icon_size": "24px",
-        "icon_color": "var(--wp--preset--color--content)",
+        "icon_color": "var(--itmar-content)",
         "icon_family": "Font Awesome 6 Free"
       }
     },
@@ -118,11 +118,11 @@
     },
     "labelColor": {
       "type": "string",
-      "default": "var(--wp--preset--color--content)"
+      "default": "var(--itmar-content)"
     },
     "disableLabelColor": {
       "type": "string",
-      "default": "var(--wp--preset--color--content)"
+      "default": "var(--itmar-content)"
     },
     "default_pos": {
       "type": "object",
@@ -164,14 +164,14 @@
     },
     "buttonColor": {
       "type": "string",
-      "default": "var(--wp--preset--color--background)"
+      "default": "var(--itmar-background)"
     },
     "buttonGradient": {
       "type": "string"
     },
     "disableButtonColor": {
       "type": "string",
-      "default": "var(--wp--preset--color--accent-1)"
+      "default": "var(--itmar-accent-1)"
     },
     "disableButtonGradient": {
       "type": "string"
@@ -231,8 +231,8 @@
           "fontWeight": "500",
           "isItalic": false
         },
-        "color": "var(--wp--preset--color--content)",
-        "bgColor": "var(--wp--preset--color--content-back)",
+        "color": "var(--itmar-content)",
+        "bgColor": "var(--itmar-content-back)",
         "bgGradient": "",
         "border": {
           "top": "0px",

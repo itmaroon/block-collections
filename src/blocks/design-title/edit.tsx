@@ -149,18 +149,37 @@ const getIconForLevel = (level: number) => {
 		</svg>
 	);
 };
-//コピーの長さ
+/**
+ * コピーの長さ。
+ *
+ * canvas の font には `var(--wp--preset--font-family--gothic)` のような CSS 変数を
+ * 書けない。指定が不正だと canvas は既定の 10px sans-serif のまま測るため、
+ * テーマのフォントをプリセット参照で持たせていると実寸より狭い値になる。
+ * host（ブロックの要素）のある文書に実際の要素を置いて測る。
+ */
 const measureTextWidth = (
 	text: string,
 	fontSize = "16px",
 	fontFamily = "sans-serif",
+	fontWeight?: string,
+	host?: HTMLElement | null,
 ) => {
-	const canvas = document.createElement("canvas");
-	const context = canvas.getContext("2d");
-	if (!context) return 0;
-	context.font = `${fontSize} ${fontFamily} `;
-	const metrics = context.measureText(text);
-	return metrics.width;
+	if (!text) return 0;
+	const doc = host?.ownerDocument ?? document;
+	const parent = doc.body;
+	if (!parent) return 0;
+	const probe = doc.createElement("span");
+	probe.textContent = text;
+	probe.setAttribute("aria-hidden", "true");
+	probe.style.cssText =
+		"position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre;pointer-events:none;";
+	if (fontSize) probe.style.fontSize = fontSize;
+	if (fontFamily) probe.style.fontFamily = fontFamily;
+	if (fontWeight) probe.style.fontWeight = fontWeight;
+	parent.appendChild(probe);
+	const width = probe.getBoundingClientRect().width;
+	probe.remove();
+	return width;
 };
 
 const toStyleObject = (value: unknown): Record<string, unknown> => {
@@ -198,8 +217,6 @@ export default function Edit({
 		headingContent,
 		uniqueID,
 		headingType,
-		defaultHeadingSize,
-		mobileHeadingSize,
 		titleType,
 		align,
 		isVertical,
@@ -306,6 +323,8 @@ export default function Edit({
 				optionStyle.copy_content,
 				optionStyle.font_style_copy?.fontSize,
 				optionStyle.font_style_copy?.fontFamily,
+				optionStyle.font_style_copy?.fontWeight,
+				blockRef.current,
 			);
 		}
 		const setOption = optionStyle?.copy_content
@@ -1028,22 +1047,6 @@ export default function Edit({
 					initialOpen={true}
 					className="title_design_ctrl"
 				>
-					<UnitControl
-						dragDirection="e"
-						onChange={(value?: string) =>
-							setAttributes(
-								!isMobile
-									? { defaultHeadingSize: value ?? "" }
-									: { mobileHeadingSize: value ?? "" },
-							)
-						}
-						label={
-							!isMobile
-								? __("Font Size(desk top)", "block-collections")
-								: __("Font Size(mobile)", "block-collections")
-						}
-						value={!isMobile ? defaultHeadingSize : mobileHeadingSize}
-					/>
 					<UnitControl
 						dragDirection="e"
 						onChange={(value?: string) => {

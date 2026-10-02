@@ -49,7 +49,7 @@
 		
 		"bgColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content-back)"
+			"default": "var(--itmar-content-back)"
 		},
 		
 		"font_style_input": {
@@ -177,11 +177,11 @@
 		
 		"inputColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content)"
+			"default": "var(--itmar-content)"
 		},
 		"inputBgColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--content-back)"
+			"default": "var(--itmar-content-back)"
 		},
 		"radius_input": {
 			"type": "object",
@@ -230,11 +230,11 @@
 		},
 		"buttonColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--accent-2)"
+			"default": "var(--itmar-accent-2)"
 		},
 		"buttonBgColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--placeholder)"
+			"default": "var(--itmar-placeholder)"
 		},
 		"shadow_select": {
 			"type": "object",

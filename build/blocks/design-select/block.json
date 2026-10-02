@@ -102,7 +102,7 @@
     },
     "bgColor": {
       "type": "string",
-      "default": "var(--wp--preset--color--content-back)"
+      "default": "var(--itmar-content-back)"
     },
     "bgSelectColor": {
       "type": "string",
@@ -151,7 +151,7 @@
     },
     "textColor_label": {
       "type": "string",
-      "default": "var(--wp--preset--color--content)"
+      "default": "var(--itmar-content)"
     },
     "radius_label": {
       "type": "object",

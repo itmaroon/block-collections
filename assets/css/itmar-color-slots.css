@@ -1,85 +1,72 @@
 /**
- * itmaroon ブロックが使う色スロットのフォールバック層。
+ * itmaroon ブロックが使う色の受け渡し層。
  *
- * ブロックは `--wp--preset--color--content` のようなプリセット色を参照するが、
- * これらは WordPress コアのスロットではなく itmaroon 側の命名である。
- * テーマが定義していないと var() が解決できず、その宣言ごと無効になり、
- * サブメニューの三角やアンダーラインが「透明＝不可視」になる。
+ * ブロックは「本文の色」「面の色」といった**役割**だけを前提にし、色名を持たない。
+ * block.json の既定値も、ブロックのCSSも、保存されるコンテンツも `--itmar-*` を参照し、
+ * ここがその値を**配布先テーマのプリセット色**へ橋渡しする。このファイルは色そのものを
+ * 決めない（実色 #xxxxxx はゼロ）。
  *
- * そこで、ブロック側は生のプリセット名ではなく必ず `--itmar-*` を参照する。
- * ここでテーマのスロット → コアに近いスロット → 実色 の順に段階的に
- * フォールバックさせるので、
+ * 探す順番は「テーマが itmar と同じ名前を持っていればそれ」→「よくある名前」→ 受け皿。
+ * 最後の受け皿は currentColor と transparent。テーマが何も持っていないときは、
+ * 勝手な色を当てるより「塗らない・文字色に従う」ほうが安全なため。
  *
- *   - スロットを持つテーマ（develope-theme 等）… 従来どおりテーマの色
- *   - 持たないテーマ（Twenty Twenty-*, kiln-theme 等）… 破綻せず見える色
- *
- * のどちらでも成立する。値を変えるときはここだけを直す。
+ * :root だけでなく .editor-styles-wrapper にも置く。エディターが iframe でない場合、
+ * テーマのプリセットは :root ではなくこのクラスに出るため、片方だけだと解決できない。
+ * ここでプリセット（--wp--preset--*）そのものを再定義してはいけない。テーマの指定を
+ * 上書きしてしまい、エディターの背景が真っ白になる。
  */
-/*
- * 生のスロット名そのもののフォールバック。
- *
- * block.json の既定値や、保存済みのブロック属性（data-attributes・インライン style）は
- * `var(--wp--preset--color--content)` のように生の名前を直接持っている。
- * 保存内容なので --itmar-* へは置き換えられない（置き換えるとブロック検証が壊れる）。
- *
- * :where() で詳細度を 0 にして定義する。WordPress はテーマのプリセットを
- * :root（詳細度 0,1,0）に出力するので、テーマが同名のスロットを持つときは
- * 読み込み順に関係なく必ずテーマの値が勝ち、持たないときだけここが使われる。
- *
- * .editor-styles-wrapper には付けないこと。エディタの iframe では body が
- * .editor-styles-wrapper で、テーマのプリセットは html（:root）にしかない。
- * body で再定義すると、詳細度に関係なく body 以下ではこちらが使われ、
- * base を持たないテーマ（develope-theme 等）で背景が #ffffff になる。
- * このファイルは iframe 内にも読み込まれるので :root だけで足りる。
- */
-:where(:root) {
-	--wp--preset--color--content: var(--wp--preset--color--contrast, currentColor);
-	--wp--preset--color--content-back: var(--wp--preset--color--base, #ffffff);
-	--wp--preset--color--background: var(--wp--preset--color--base, #ffffff);
-	/* 強調色は、accent / primary を持つテーマ（kiln-theme 等）ならそれを使う */
-	--wp--preset--color--accent-1: var(
-		--wp--preset--color--accent,
-		var(--wp--preset--color--primary, var(--wp--preset--color--contrast, currentColor))
-	);
-	/* テーマが accent-1 だけを持つ場合はそれに合わせる */
-	--wp--preset--color--accent-2: var(--wp--preset--color--accent-1);
-	--wp--preset--color--err-message: #d63638;
-	--wp--preset--color--placeholder: #757575;
-}
 
 :root,
 .editor-styles-wrapper {
-	/* 本文・線・アイコンの色。contrast はコアのテーマが広く持つ */
+	/* 本文・線・アイコンの色 */
 	--itmar-content: var(
 		--wp--preset--color--content,
 		var(--wp--preset--color--contrast, currentColor)
 	);
 
-	/* パネルやドロワーの下地 */
+	/* パネルやドロワーの下地。面の色を持つテーマならそれ、無ければページ背景 */
 	--itmar-content-back: var(
 		--wp--preset--color--content-back,
-		var(--wp--preset--color--base, #ffffff)
+		var(
+			--wp--preset--color--surface,
+			var(--wp--preset--color--base, transparent)
+		)
 	);
 
 	/* ページ全体の背景 */
 	--itmar-background: var(
 		--wp--preset--color--background,
-		var(--wp--preset--color--base, #ffffff)
+		var(--wp--preset--color--base, transparent)
 	);
 
-	/* 強調色。accent-1 / accent-2 は Twenty Twenty-Four 以降にはある */
+	/* 強調色。accent / primary はコアのテーマが広く持つ */
 	--itmar-accent-1: var(
 		--wp--preset--color--accent-1,
-		var(--wp--preset--color--contrast, currentColor)
+		var(
+			--wp--preset--color--accent,
+			var(--wp--preset--color--primary, var(--wp--preset--color--contrast, currentColor))
+		)
 	);
 	--itmar-accent-2: var(
 		--wp--preset--color--accent-2,
-		var(--wp--preset--color--accent-1, var(--wp--preset--color--contrast, currentColor))
+		var(
+			--wp--preset--color--primary,
+			var(--wp--preset--color--accent, var(--wp--preset--color--contrast, currentColor))
+		)
 	);
 
-	/* エラー表示。テーマ任せにすると読めない色になりうるので実色で止める */
-	--itmar-err-message: var(--wp--preset--color--err-message, #d63638);
+	/* エラー表示。テーマが専用の色を持たなければ強調色に従う */
+	--itmar-err-message: var(
+		--wp--preset--color--err-message,
+		var(
+			--wp--preset--color--accent-1,
+			var(--wp--preset--color--accent, var(--wp--preset--color--contrast, currentColor))
+		)
+	);
 
-	/* プレースホルダ。同上 */
-	--itmar-placeholder: var(--wp--preset--color--placeholder, #757575);
+	/* プレースホルダ。テーマの控えめな色があればそれを使う */
+	--itmar-placeholder: var(
+		--wp--preset--color--placeholder,
+		var(--wp--preset--color--muted, var(--wp--preset--color--contrast, currentColor))
+	);
 }
