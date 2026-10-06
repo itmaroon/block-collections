@@ -31,3 +31,9 @@
 		width: 110px;
 	}
 }
+
+// イベントで開くメニューの閉じるボタンは、エディターでは飾り（押せない）。モバイル表示のときだけ描画される
+.itmar-wrap > .itmar_menu_close {
+	display: block;
+	pointer-events: none;
+}

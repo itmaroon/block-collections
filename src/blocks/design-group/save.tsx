@@ -1,6 +1,7 @@
 import { useBlockProps, InnerBlocks } from "@wordpress/block-editor";
 import type { GroupSaveProps } from "./types";
 import { isSectioningDomType } from "./domTypes";
+import { menuIconVars } from "./menuIcon";
 
 export default function save({ attributes }: GroupSaveProps) {
 	const {
@@ -17,10 +18,26 @@ export default function save({ attributes }: GroupSaveProps) {
 		is_swiper,
 		menuId,
 		hamburger_style,
+		menuTrigger,
+		menuIcon,
 	} = attributes;
 
+	/*
+	 * 後から足した属性。編集した順にキーが末尾へ足される一方、読み直したときの再生成は
+	 * 定義順になり、並びが食い違って無効になる。出力位置を最後に固定する。
+	 * 未設定のときは出さないので、既存のブロックの保存内容は変わらない。
+	 */
+	const {
+		menuTrigger: _menuTrigger,
+		menuIcon: _menuIcon,
+		...otherAttributes
+	} = attributes;
 	const blockProps = useBlockProps.save({
-		"data-attributes": JSON.stringify(attributes),
+		"data-attributes": JSON.stringify({
+			...otherAttributes,
+			...(menuTrigger !== undefined && { menuTrigger }),
+			...(menuTrigger === "icon" && menuIcon !== undefined && { menuIcon }),
+		}),
 	});
 
 	const contentDom =
@@ -83,16 +100,34 @@ export default function save({ attributes }: GroupSaveProps) {
 	//メニュー本体はハンバーガーから aria-controls で名指しできるようにIDを持つ
 	const isMenuBody = is_menu && !is_submenu && !!menuId;
 	const wrapId = isMenuBody ? menuId : undefined;
+	//イベントで開くメニューは、ハンバーガーボタンの代わりに、パネル内の閉じるボタンで閉じる
+	const isEventMenu = isMenuBody && menuTrigger === "event";
+	//アイコンで開くメニュー。ボタンの形は同じで、3本線の代わりにアイコンを出す
+	const isIconMenu = menuTrigger === "icon";
+	//閉じるボタンの色は Bar Color に合わせる。設定したときだけ出す
+	const closeVars: Record<string, string> | undefined = hamburger_style?.barColor
+		? { "--itmar-hamburger-bar": hamburger_style.barColor }
+		: undefined;
+	const closeButton = isEventMenu ? (
+		<button
+			type="button"
+			className="itmar_menu_close"
+			style={closeVars}
+			aria-controls={wrapId}
+		></button>
+	) : null;
 
 	const innerContent = is_swiper ? (
 		<div className="swiper-slide">
 			<div className="itmar-wrap" id={wrapId}>
 				<div {...blockProps}>{contentDom}</div>
+				{closeButton}
 			</div>
 		</div>
 	) : (
 		<div className="itmar-wrap" id={wrapId}>
 			<div {...blockProps}>{contentDom}</div>
+			{closeButton}
 		</div>
 	);
 
@@ -152,17 +187,19 @@ export default function save({ attributes }: GroupSaveProps) {
 					 * 埋めると、サイトの言語を変えた瞬間に保存済みHTMLと一致しなくなり
 					 * ブロック検証エラーになるため。
 					 */}
-					<button
-						type="button"
-						className="itmar_hamberger_btn"
-						style={hamburgerVars}
-						aria-expanded="false"
-						aria-controls={wrapId}
-					>
-						<span></span>
-						<span></span>
-						<span></span>
-					</button>
+					{!isEventMenu && (
+						<button
+							type="button"
+							className={`itmar_hamberger_btn${isIconMenu ? " itmar_icon_btn" : ""}`}
+							style={isIconMenu ? { ...hamburgerVars, ...menuIconVars(menuIcon) } : hamburgerVars}
+							aria-expanded="false"
+							aria-controls={wrapId}
+						>
+							<span></span>
+							<span></span>
+							<span></span>
+						</button>
+					)}
 					<div
 						className="itmar_back_ground"
 						data-menu-target={wrapId}

@@ -45,7 +45,27 @@ export interface CalendarSelectItem {
 	[key: string]: unknown;
 }
 
+/** 月の切り替え部分の作り。"select"=design-select、"dialog"=年月の表示をクリックしてダイアログで選ぶ */
+export type MonthNavStyle = "select" | "dialog";
+
 export interface CalendarAttributes {
+	monthNavStyle: MonthNavStyle;
+	yearLabelFormat: string;
+	monthLabelFormat: string;
+	dialogBgColor: string;
+	dialogColor: string;
+	radius_dialog?: RadiusValue;
+	border_dialog?: Record<string, any>;
+	is_shadow_dialog: boolean;
+	shadow_dialog: Record<string, any>;
+	shadow_result_dialog?: Record<string, string | number>;
+	/** ダイアログの年の文字。未設定なら既定の大きさ（保存内容を増やさないため、既定値は持たない） */
+	font_style_dialog?: FontStyle;
+	/** ダイアログの背景（::backdrop）の色。未設定なら半透明の黒 */
+	dialogBackdropColor?: string;
+	/** ダイアログで選択中の月の文字色・背景色。未設定なら日付ボタンの「選択済み」の設定に従う */
+	dialogSelectedColor?: string;
+	dialogSelectedBgColor?: string;
 	inputName: string;
 	selectedValue: number;
 	dateValues: CalendarDate[];

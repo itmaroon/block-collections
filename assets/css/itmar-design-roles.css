@@ -1,0 +1,47 @@
+/**
+ * itmaroon ブロックとサンプル（パターン）が使う、色以外の「役割」の受け渡し層。
+ *
+ * 色は itmar-color-slots.css が担当する。ここでは、フォント・余白・幅を扱う。
+ * サンプルは、テーマ固有のプリセット名（spacing--40 や font-family--gothic）を書かず、
+ * ここで定義する役割変数だけを参照する。そうすれば、どのテーマに挿入しても崩れない。
+ *
+ * 探す順番は「テーマが itmar 用の値を持っていればそれ」→「よくあるプリセット名」→ 受け皿の固定値。
+ * テーマが itmar 用の値を持つときは、theme.json の settings.custom.itmar に書く:
+ *
+ *   "custom": { "itmar": {
+ *       "fontBody": "...", "fontHeading": "...",
+ *       "space": { "s": "...", "m": "...", "l": "..." }
+ *   } }
+ *
+ * WordPress は、これを --wp--custom--itmar--space--m のような変数にする。
+ *
+ * このファイルは色を決めない。余白の受け皿は、テーマの余白プリセット（番号が環境で違う）に
+ * 頼らず、固定の値にしてある。
+ */
+
+:root,
+.editor-styles-wrapper {
+	/* 本文のフォント。ゴシック系 */
+	--itmar-font-body: var(
+		--wp--custom--itmar--font-body,
+		var(
+			--wp--preset--font-family--gothic,
+			var(--wp--preset--font-family--body, var(--wp--preset--font-family--system-font, system-ui, sans-serif))
+		)
+	);
+
+	/* 見出しのフォント。明朝系など。無ければ本文のフォント */
+	--itmar-font-heading: var(
+		--wp--custom--itmar--font-heading,
+		var(--wp--preset--font-family--mincho, var(--wp--preset--font-family--heading, var(--itmar-font-body)))
+	);
+
+	/* 余白（小・中・大）。ブロックの内側・外側の余白に使う */
+	--itmar-space-s: var(--wp--custom--itmar--space--s, clamp(0.5rem, 1.5vw, 0.75rem));
+	--itmar-space-m: var(--wp--custom--itmar--space--m, clamp(1rem, 2vw, 1.5rem));
+	--itmar-space-l: var(--wp--custom--itmar--space--l, clamp(1.5rem, 3vw, 2.25rem));
+
+	/* コンテンツ幅と、ワイド幅。テーマのレイアウト設定があればそれ */
+	--itmar-width-content: var(--wp--style--global--content-size, 720px);
+	--itmar-width-wide: var(--wp--style--global--wide-size, 1180px);
+}

@@ -22,3 +22,11 @@
 .itmar_next_month {
 	flex-shrink: 0;
 }
+
+/*
+ * 月の切り替えをダイアログにしたときの、月の値を持つだけの <select>。
+ * 予約ブロックなどが値を読むので消さずに、見えないところへ置く。
+ */
+.wp-block-itmar-design-calender .itmar_month_state {
+	display: none !important;
+}

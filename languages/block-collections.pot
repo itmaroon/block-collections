@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Block Collections 2.0.9\n"
+"Project-Id-Version: Block Collections 2.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-collections\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-15T03:31:50+02:00\n"
+"POT-Creation-Date: 2026-10-06T05:07:06+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: block-collections\n"
@@ -29,401 +29,346 @@ msgstr ""
 msgid "Web Creator ITmaroon"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
+#: block-collections.php:373
+msgid "The requested calendar month is invalid."
+msgstr ""
+
+#: block-collections.php:381
+msgid "Google Calendar API key is not configured."
+msgstr ""
+
+#: block-collections.php:420
+#: build/blocks/design-calender/index.js:1
+msgid "Holiday information could not be retrieved."
+msgstr ""
+
+#: block-collections.php:432
+msgid "Google Calendar rejected the API request. Check the API key and its restrictions."
+msgstr ""
+
+#: block-collections.php:441
+msgid "Google Calendar returned an invalid response."
+msgstr ""
+
+#: build/398.js:1
+#: build/607.js:1
 msgid "Required Settings"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
+#: build/607.js:1
 msgid "Required input"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
+#: build/607.js:1
 msgid "Show 'required'"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
+#: build/607.js:1
 msgid "Label Settings"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
+#: build/607.js:1
 msgid "Text of Label"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
+#: build/607.js:1
 msgid "Label Alignment(mobile)"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
+#: build/607.js:1
 msgid "Label Alignment(desk top)"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
+#: build/607.js:1
 msgid "Selecting the center vertically or horizontally will hide it."
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
+#: build/398.js:1
+#: build/607.js:1
 #: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Label style settings"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
+#: build/398.js:1
+#: build/607.js:1
 #: build/blocks/design-button/index.js:1
-#: build/blocks/design-button/index.js:14
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Typography"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-button/index.js:14
+#: build/398.js:1
+#: build/607.js:1
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Label Color Setting"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
+#: build/398.js:1
+#: build/607.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Choose Text color"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
+#: build/398.js:1
+#: build/607.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Choose Background color"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
+#: build/398.js:1
+#: build/607.js:1
 #: build/blocks/design-button/index.js:1
-#: build/blocks/design-button/index.js:14
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Border Settings"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
+#: build/398.js:1
+#: build/607.js:1
 #: build/blocks/code-highlight/index.js:1
 #: build/blocks/design-title/index.js:1
 #: build/gutenberg-ex.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Padding settings"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
+#: build/607.js:1
 msgid "Spacing with textbox"
 msgstr ""
 
-#: build/341.js:1
+#: build/398.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-radio/index.js:1
-#: build/blocks/design-text-ctrl/index.js
 msgid "Input element information setting"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "ID and Name attribute name"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "PlaceHolder"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Kind of Input Element"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Number Options"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Minimum value (min)"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Set the minimum allowed value."
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Maximum value (max)"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Set the maximum allowed value."
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Step"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Change the increment/decrement step for the value."
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "The minimum value (min) should not be greater than the maximum value (max)."
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Address text box"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-button/index.js:14
+#: build/398.js:1
+#: build/607.js:1
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Global settings"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-button/index.js:14
+#: build/398.js:1
+#: build/607.js:1
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Background Color Setting"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Focus Color Setting"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Choose Focus color"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-button/index.js:14
+#: build/398.js:1
+#: build/607.js:1
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Margin settings(mobile)"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-button/index.js:14
+#: build/398.js:1
+#: build/607.js:1
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Margin settings(desk top)"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
+#: build/398.js:1
+#: build/607.js:1
 #: build/blocks/design-button/index.js:1
-#: build/blocks/design-button/index.js:14
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Padding settings(mobile)"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
+#: build/398.js:1
+#: build/607.js:1
 #: build/blocks/design-button/index.js:1
-#: build/blocks/design-button/index.js:14
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Padding settings(desk top)"
 msgstr ""
 
-#: build/341.js:1
-#: build/709.js:1
-#: build/blocks/design-button/index.js:14
+#: build/398.js:1
+#: build/607.js:1
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Is Shadow"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Input Box style settings"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Free Width(mobile)"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Free Width(desk top)"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Line Height(mobile)"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Line Height(desk top)"
 msgstr ""
 
-#: build/341.js:1
-#: build/blocks/design-text-ctrl/index.js
+#: build/398.js:1
 msgid "Color Settings"
 msgstr ""
 
-#: build/341.js:1
+#: build/398.js:1
 #: build/blocks/design-text-ctrl/index.js:1
 msgid "example"
 msgstr ""
 
-#: build/341.js:1
+#: build/398.js:1
 #: build/blocks/design-text-ctrl/view.js:1
-#: build/blocks/design-text-ctrl/index.js
 msgid "Please enter your postal code as 7 digits without hyphens."
 msgstr ""
 
-#: build/341.js:1
+#: build/398.js:1
 #: build/blocks/design-text-ctrl/view.js:1
-#: build/blocks/design-text-ctrl/index.js
 msgid "Error fetching address"
 msgstr ""
 
-#: build/341.js:1
+#: build/398.js:1
 #: build/blocks/design-text-ctrl/view.js:1
-#: build/blocks/design-text-ctrl/index.js
 msgid "No matching address found"
 msgstr ""
 
-#: build/341.js:1
+#: build/398.js:1
 #: build/blocks/design-text-ctrl/view.js:1
-#: build/blocks/design-text-ctrl/index.js
 msgid "Communication failed"
 msgstr ""
 
-#: build/341.js:1
+#: build/398.js:1
 #: build/blocks/design-text-ctrl/view.js:1
-#: build/blocks/design-text-ctrl/index.js
 msgid "The block to enter the address cannot be found."
 msgstr ""
 
-#: build/341.js:1
+#: build/398.js:1
 #: build/blocks/design-text-ctrl/index.js:1
 msgid "Address Search"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -432,12 +377,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Shadow Type"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -446,12 +389,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Normal"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -460,12 +401,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Neumorphism"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -474,12 +413,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Claymorphism"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -488,12 +425,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Glassmorphism"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -502,12 +437,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "unevenness"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -516,12 +449,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Normal settings"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -530,12 +461,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Spread"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -544,12 +473,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Lateral direction"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -558,12 +485,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Longitudinal direction"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -572,12 +497,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Blur"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -586,12 +509,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Shadow Color Setting"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -600,12 +521,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Choose Shadow color"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -614,12 +533,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Neumorphism settings"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -628,12 +545,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Distance"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -642,12 +557,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Intensity"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -656,27 +569,22 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Claymorphism settings"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-group/index.js:1
-#: build/blocks/design-group/index.js:12
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Opacity"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -685,12 +593,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Grassmophism settings"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -699,12 +605,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Glass blur"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -713,12 +617,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Glass Opacity"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -727,12 +629,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Show outline"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -740,12 +640,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Size(mobile)"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -753,12 +651,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Size(desktop)"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -766,12 +662,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "font family"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -779,12 +673,10 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "font weight"
 msgstr ""
 
-#: build/633.js:1
+#: build/447.js:1
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
@@ -792,144 +684,120 @@ msgstr ""
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
-#: build/blocks/design-text-ctrl/index.js
 msgid "Italic display"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-radio/index.js:1
-#: build/blocks/design-select/index.js
 msgid "add"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-radio/index.js:1
-#: build/blocks/design-select/index.js
 msgid "Option Info Edit"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-radio/index.js:1
-#: build/blocks/design-select/index.js
 msgid "Display Label"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-radio/index.js:1
-#: build/blocks/design-select/index.js
 msgid "Option Value"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-radio/index.js:1
-#: build/blocks/design-select/index.js
 msgid "Class Name"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-radio/index.js:1
-#: build/blocks/design-select/index.js
 msgid "Save Changes"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
 msgid "Confirm Deletion"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-radio/index.js:1
-#: build/blocks/design-select/index.js
 msgid "Are you sure you want to delete this item?"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-radio/index.js:1
-#: build/blocks/design-select/index.js
 msgid "Yes, Delete"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-title/index.js:1
-#: build/blocks/design-select/index.js
 msgid "Cancel"
 msgstr ""
 
-#: build/709.js:1
-#: build/blocks/design-select/index.js
+#: build/607.js:1
 msgid "Select Element Settings"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-radio/index.js:1
-#: build/blocks/design-select/index.js
 msgid "name attribute name"
 msgstr ""
 
-#: build/709.js:1
-#: build/blocks/design-select/index.js
+#: build/607.js:1
 msgid "Select Pattern"
 msgstr ""
 
-#: build/709.js:1
-#: build/blocks/design-select/index.js
+#: build/607.js:1
 msgid "Single Select"
 msgstr ""
 
-#: build/709.js:1
-#: build/blocks/design-select/index.js
+#: build/607.js:1
 msgid "Nulti Select"
 msgstr ""
 
-#: build/709.js:1
-#: build/blocks/design-select/index.js
+#: build/607.js:1
 msgid "Place Folder Display"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-radio/index.js:1
-#: build/blocks/design-select/index.js
 msgid "Option info Setting"
 msgstr ""
 
-#: build/709.js:1
-#: build/blocks/design-button/index.js:14
+#: build/607.js:1
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-process/index.js:1
 #: build/blocks/design-radio/index.js:1
 #: build/blocks/design-table/index.js:1
-#: build/blocks/design-select/index.js
 msgid "Choose Block Background color"
 msgstr ""
 
-#: build/709.js:1
-#: build/blocks/design-select/index.js
+#: build/607.js:1
 msgid "Choose Select Background color"
 msgstr ""
 
-#: build/709.js:1
-#: build/blocks/design-select/index.js
+#: build/607.js:1
 msgid "Option Style Settings"
 msgstr ""
 
-#: build/709.js:1
-#: build/blocks/design-select/index.js
+#: build/607.js:1
 msgid "Option Color Setting"
 msgstr ""
 
-#: build/709.js:1
-#: build/blocks/design-select/index.js
+#: build/607.js:1
 msgid "Choose Background color on mouse hover"
 msgstr ""
 
-#: build/709.js:1
+#: build/607.js:1
 #: build/blocks/design-select/index.js:1
 msgid "Please Select."
 msgstr ""
@@ -1014,78 +882,91 @@ msgid "Tooltip Color Setting"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Select the icon from and enter Unicode (the upper right four digits of the selection dialog). "
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Enter the URL for the image."
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Please select the first class name shown in the HTML code field of the selection dialog. "
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Icon Types"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Awesome"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Image"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Avatar"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "icon name"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Icon Family"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "icon url"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Size"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "spacing to end"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Arrangement"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "left"
 msgstr ""
 
 #: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "right"
 msgstr ""
@@ -1094,253 +975,254 @@ msgstr ""
 msgid "A block that decorates buttons with designs."
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Button Type setting"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Select Button Type"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-radio/index.js:1
 msgid "Button"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Submit"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Link type"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Fixed Page"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Archive Page"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Free URL"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Close Modal"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Stretchable"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Forward Page"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Back Page"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "No Link"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Link to the selected fixed page."
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Link to the selected archive page"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Enter the URL freely. If you add [home_url]/ at the beginning, it will become the URL from the top of the site."
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Hides child elements with the specified ID or class name. If not specified, hides the parent element of the button."
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "This button is used to switch between multiple forms."
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Select a fixed page to link to"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Select archive page to link to"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 msgid "Link to URL"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Modal Child ID or ClassName"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Stretch setting"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Target ID"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Is Arrow Display"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Open Button Text"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Close Button Tex"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
 msgid "Open in new tab"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Button Identification Key"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Display Type setting"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "String"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Pseudo"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-group/index.js:1
 msgid "Icon"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Tool Hint setting"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Is Tool Hint"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Hint wording"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Disabled Opacity"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Scale settings(mobile)"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Scale settings(desk top)"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-title/index.js:1
 #: build/gutenberg-ex.js:1
 msgid "Width"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-title/index.js:1
 #: build/gutenberg-ex.js:1
 msgid "Height"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Button alignment"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-group/index.js:1
 #: build/blocks/design-radio/index.js:1
 msgid "left alignment"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-group/index.js:1
 #: build/blocks/design-radio/index.js:1
 msgid "center alignment"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-group/index.js:1
 #: build/blocks/design-radio/index.js:1
 msgid "right alignment"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Blue"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Black"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "White"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Button style settings"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-checkbox/index.js:1
 #: build/blocks/design-radio/index.js:1
 msgid "Choose Input color"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Choose Disabled Input color"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 #: build/blocks/design-radio/index.js:1
 msgid "Choose Button Background color"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Choose Disable Button Background color"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Finish Editing"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Edit Label"
 msgstr ""
 
-#: build/blocks/design-button/index.js:14
+#: build/blocks/design-button/index.js:1
 msgid "Button Name..."
 msgstr ""
 
@@ -1365,11 +1247,59 @@ msgid "End of period"
 msgstr ""
 
 #: build/blocks/design-calender/index.js:1
+#: build/blocks/design-calender/view.js:1
+msgid "September (English)"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+#: build/blocks/design-calender/view.js:1
+msgid "Sep (English)"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+#: build/blocks/design-calender/view.js:1
+msgid "Month name in the site language"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+#: build/blocks/design-calender/view.js:1
+msgid "Short month name in the site language"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
 msgid "Go to the Google Cloud Console, create a new project, enable the Google Calendar API in the project, and enter the API key you just created. "
 msgstr ""
 
 #: build/blocks/design-calender/index.js:1
 msgid "A block for display calender with designs"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Google Calendar API key is not configured. Holidays cannot be displayed until a key is saved."
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Saving the Google Calendar API key…"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "The API key could not be saved."
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+#: build/blocks/design-calender/view.js:1
+msgid "Previous year"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+#: build/blocks/design-calender/view.js:1
+msgid "Next year"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+#: build/blocks/design-calender/view.js:1
+#: build/blocks/design-group/view.js:1
+msgid "Close"
 msgstr ""
 
 #: build/blocks/design-calender/index.js:1
@@ -1407,6 +1337,34 @@ msgstr ""
 
 #: build/blocks/design-calender/index.js:1
 msgid "Google Calendar API KEY"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Month selector setting"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Month selector style"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Select box"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Dialog"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "With the dialog style, clicking the year and month titles opens a dialog to choose the year and month."
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Year display format"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Month display format"
 msgstr ""
 
 #: build/blocks/design-calender/index.js:1
@@ -1462,6 +1420,34 @@ msgid "Choose Selected Button color"
 msgstr ""
 
 #: build/blocks/design-calender/index.js:1
+msgid "Month dialog style settings"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Preview the dialog"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Dialog Color Setting"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Choose Backdrop color (behind the dialog)"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Choose Selected Month Text color"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Choose Selected Month Background color"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Year Typography"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
 msgid "Week Label style settings"
 msgstr ""
 
@@ -1474,6 +1460,10 @@ msgstr ""
 #: build/blocks/design-group/index.js:1
 #: build/blocks/design-radio/index.js:1
 msgid "Clear"
+msgstr ""
+
+#: build/blocks/design-calender/index.js:1
+msgid "Switching the month selector replaces the current month control. Any design changes made to it will be lost. Continue?"
 msgstr ""
 
 #: build/blocks/design-checkbox/index.js:1
@@ -1499,6 +1489,22 @@ msgstr ""
 
 #: build/blocks/design-checkbox/index.js:1
 msgid "Write Checkbox Label..."
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Position Setting"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Vertical"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Horizen"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Reset"
 msgstr ""
 
 #: build/blocks/design-group/index.js:1
@@ -1531,22 +1537,6 @@ msgstr ""
 
 #: build/blocks/design-group/index.js:1
 msgid "Enter Visible"
-msgstr ""
-
-#: build/blocks/design-group/index.js:1
-msgid "Position Setting"
-msgstr ""
-
-#: build/blocks/design-group/index.js:1
-msgid "Vertical"
-msgstr ""
-
-#: build/blocks/design-group/index.js:1
-msgid "Horizen"
-msgstr ""
-
-#: build/blocks/design-group/index.js:1
-msgid "Reset"
 msgstr ""
 
 #: build/blocks/design-group/index.js:1
@@ -1771,84 +1761,206 @@ msgstr ""
 msgid "A block for storing and arranging multiple blocks. The position can be adjusted."
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "DOM Type"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
+msgid "HTML element"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "div (generic)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "form (form submission)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "main (main content)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "section (thematic group)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "article (self-contained content)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "aside (supplementary)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "header (introductory content)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "footer (closing content)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "nav (navigation)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Use main only once per page, for the main content."
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
 msgid "BLOCK ID"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Menu or Group"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Is Menu"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
+msgid "Open by"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Hamburger button"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Event"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "With Icon, the button shows the chosen icon and turns into a cross when open. With Event, no button is shown. Other blocks open the panel, for example when a date is clicked in the reservation calendar. It is closed with the close button, the backdrop or the Esc key."
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Hamburger Button"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Bar Color"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Bar Color (Open)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Backdrop Color"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Hamburger Position"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Top"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Bottom"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+#: build/blocks/design-title/index.js:1
+msgid "Left"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+#: build/blocks/design-title/index.js:1
+msgid "Right"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Backdrop Opacity"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Stacking Order"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "z-index"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Leave empty to use the default (100 for menus and positioned groups). Larger values come to the front."
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
 msgid "Link Setting"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Is Link"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Slide Parallax"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Is Parallax"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Parallax Type"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Lateral"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Longitudinal"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Scale"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Value"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "unit"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Dimensions"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Content Style"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "Position moveable"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "make it moveable"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "To Back"
 msgstr ""
 
-#: build/blocks/design-group/index.js:12
+#: build/blocks/design-group/index.js:1
 msgid "To Front"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Hide panel"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Show panel"
 msgstr ""
 
 #: build/blocks/design-group/view.js:1
@@ -1859,6 +1971,10 @@ msgstr ""
 #: build/blocks/design-group/view.js:1
 #: build/gutenberg-ex.js:1
 msgid "See more..."
+msgstr ""
+
+#: build/blocks/design-group/view.js:1
+msgid "Menu"
 msgstr ""
 
 #: build/blocks/design-process/index.js:1
@@ -1967,6 +2083,14 @@ msgid "Stripe"
 msgstr ""
 
 #: build/blocks/design-table/index.js:1
+msgid "Circle"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "List"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
 msgid "Table Structure setting"
 msgstr ""
 
@@ -2019,11 +2143,87 @@ msgid "Data style settings"
 msgstr ""
 
 #: build/blocks/design-table/index.js:1
+msgid "Inside a reservation block, the cell background follows the availability colors set in the reservation block. The background color here is used only for states that have no color there. The text color applies as usual."
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
 msgid "Data Color Setting"
 msgstr ""
 
 #: build/blocks/design-table/index.js:1
 msgid "Select Cell Color Setting"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Cell size (mobile)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Cell size (desk top)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Sets the width and height of each cell to the same value so that the cells become circles."
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Cell gap (mobile)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Cell gap (desk top)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Space between the circles."
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Cell width (mobile)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Cell width (desk top)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Cell height (mobile)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Cell height (desk top)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Row gap (mobile)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Row gap (desk top)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Space between the rows."
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Column gap (mobile)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Column gap (desk top)"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Space between the cells of a row. Leave empty to show each row as one item; with a value, every cell is rounded on its own."
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Row corner radius"
+msgstr ""
+
+#: build/blocks/design-table/index.js:1
+msgid "Rounds the left end of the first cell and the right end of the last cell in each row."
 msgstr ""
 
 #: build/blocks/design-table/index.js:1
@@ -2189,6 +2389,18 @@ msgid "If unchecked, the parent menu will be used as the reference. If there is 
 msgstr ""
 
 #: build/blocks/design-title/index.js:1
+msgid "Submenu on mobile"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Accordion (expand below)"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Slide in from the side"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
 msgid "Unique ID"
 msgstr ""
 
@@ -2205,11 +2417,23 @@ msgid "Title settings"
 msgstr ""
 
 #: build/blocks/design-title/index.js:1
-msgid "Font Size(mobile)"
+msgid "Heading size (mobile)"
 msgstr ""
 
 #: build/blocks/design-title/index.js:1
-msgid "Font Size(desk top)"
+msgid "Heading size (desk top)"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Same as the tag (theme default)"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "size"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Uses the size the theme defines for the chosen heading level. The HTML tag stays the same."
 msgstr ""
 
 #: build/blocks/design-title/index.js:1
@@ -2242,14 +2466,6 @@ msgstr ""
 
 #: build/blocks/design-title/index.js:1
 msgid "Center"
-msgstr ""
-
-#: build/blocks/design-title/index.js:1
-msgid "Right"
-msgstr ""
-
-#: build/blocks/design-title/index.js:1
-msgid "Left"
 msgstr ""
 
 #: build/blocks/design-title/index.js:1
@@ -2484,48 +2700,4 @@ msgstr ""
 #: src/blocks/design-title/block.json
 msgctxt "block title"
 msgid "Design Title"
-msgstr ""
-
-#: src/blocks/design-group/edit.tsx
-msgid "HTML element"
-msgstr ""
-
-#: src/blocks/design-group/edit.tsx
-msgid "div (generic)"
-msgstr ""
-
-#: src/blocks/design-group/edit.tsx
-msgid "form (form submission)"
-msgstr ""
-
-#: src/blocks/design-group/edit.tsx
-msgid "main (main content)"
-msgstr ""
-
-#: src/blocks/design-group/edit.tsx
-msgid "section (thematic group)"
-msgstr ""
-
-#: src/blocks/design-group/edit.tsx
-msgid "article (self-contained content)"
-msgstr ""
-
-#: src/blocks/design-group/edit.tsx
-msgid "aside (supplementary)"
-msgstr ""
-
-#: src/blocks/design-group/edit.tsx
-msgid "header (introductory content)"
-msgstr ""
-
-#: src/blocks/design-group/edit.tsx
-msgid "footer (closing content)"
-msgstr ""
-
-#: src/blocks/design-group/edit.tsx
-msgid "nav (navigation)"
-msgstr ""
-
-#: src/blocks/design-group/edit.tsx
-msgid "Use main only once per page, for the main content."
 msgstr ""

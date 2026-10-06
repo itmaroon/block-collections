@@ -133,3 +133,101 @@
     display: none;
   }
 }
+
+//アイコンで開くメニュー（menuTrigger = "icon"）。ボタンの形と開閉の動きはハンバーガーと同じで、
+//閉じているときは3本線の代わりにアイコンを出し、開くと×に変わる（バーは閉じている間は隠す）。
+.itmar_hamberger_btn.itmar_icon_btn {
+  width: auto;
+  min-width: 25px;
+  height: auto;
+  min-height: 20px;
+
+  &::before {
+    content: var(--itmar-menu-icon);
+    font-family: var(--itmar-menu-icon-family);
+    font-weight: var(--itmar-menu-icon-weight, 900);
+    font-size: var(--itmar-menu-icon-size, 24px);
+    color: var(--itmar-menu-icon-color, var(--itmar-content));
+    line-height: 1;
+    display: block;
+    transition: opacity .3s;
+  }
+
+  span {
+    opacity: 0;
+  }
+
+  &.open {
+    //開いたときの×は、3本線のときと同じ位置・大きさで出す
+    width: 25px;
+    height: 20px;
+
+    &::before {
+      opacity: 0;
+    }
+
+    span:nth-of-type(1),
+    span:nth-of-type(2) {
+      opacity: 1;
+    }
+
+    span:nth-of-type(3) {
+      opacity: 0;
+    }
+  }
+}
+
+//イベントで開くメニュー（menuTrigger = "event"）の、パネル内の閉じるボタン。
+//モバイル幅でパネルが開いているときだけ使うので、デスクトップでは出さない。
+//パネルの中身（.group_contents）の外に置いてあるので、中身がスクロールしても動かない。
+.itmar_menu_close {
+  display: none;
+  position: absolute;
+  //em の基準を固定する（<button> の既定の文字サイズに頼ると、エディターの <span> と大きさがずれる）
+  font-size: 13.3333px;
+  top: 1.5em;
+  right: 1.5em;
+  z-index: 5;
+  width: 2.2em;
+  height: 2.2em;
+  margin: 0 !important;
+  padding: 0;
+  border: 0;
+  background: none;
+  appearance: none;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.2em;
+    height: 3px;
+    border-radius: 4px;
+    background-color: var(--itmar-hamburger-bar, var(--itmar-content));
+  }
+
+  &::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--itmar-hamburger-bar, var(--itmar-content));
+    outline-offset: 2px;
+  }
+
+  @include reset.mq(sp) {
+    display: block;
+  }
+}
+
+//イベントで開くメニュー本体へ、開いたときにフォーカスを移す（枠線は出さない）
+.itmar-wrap[tabindex="-1"]:focus {
+  outline: none;
+}

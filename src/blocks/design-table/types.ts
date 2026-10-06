@@ -66,6 +66,18 @@ export interface DesignTableAttributes {
 	sel_color: string;
 	bgColor_sel?: string;
 	bgGradient_sel?: string;
+	/**
+	 * セルの大きさと間隔。未設定の項目は従来どおり（表の幅に任せる）。
+	 * 以下の属性はどれも既定値を持たない。既定値を持たせると、既存の保存内容の
+	 * data-attributes と一致しなくなりブロックが無効になるため。
+	 */
+	cell_size?: CellSize;
+	/** データ要素（セル）の影。未設定なら影なし */
+	is_shadow_td?: boolean;
+	shadow_td?: Record<string, any>;
+	shadow_result_td?: Record<string, string | number>;
+	/** リストスタイルで、行の両端（最初と最後のセル）に付ける角丸（CSSの長さ）。未設定は 8px */
+	row_radius?: string;
 	radius_value: RadiusValue;
 	border_value?: Record<string, any>;
 	default_pos: TablePosition;
@@ -79,6 +91,19 @@ export interface DesignTableAttributes {
 	is_shadow: boolean;
 	className?: string;
 	[key: string]: unknown;
+}
+
+/** セルの幅・高さ・間隔（CSSの長さ。例 "3em"）。mobile は画面幅が狭いときの値 */
+export interface CellSizeValues {
+	width?: string;
+	height?: string;
+	gap?: string;
+	/** リストスタイルの列の間隔。未設定なら0（行を1つの項目として見せる）。設定すると各セルが独立して見える */
+	colGap?: string;
+}
+
+export interface CellSize extends CellSizeValues {
+	mobile?: CellSizeValues;
 }
 
 export interface DesignTableEditProps {

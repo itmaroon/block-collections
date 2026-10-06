@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      7.1
-Stable tag:        2.1.0
+Stable tag:        2.2.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,13 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 2.2.0 =
+- Colors now come from the `--itmar-*` role variables (content, content-back, background, accents) in the block styles as well as in the saved defaults, so the blocks follow the active theme's palette. The theme.json color-slot filter was removed because it listed the same colors twice in themes that have their own palette names.
+- Added `itmar-design-roles.css`: font, spacing and width roles (`--itmar-font-*`, `--itmar-space-*`, `--itmar-width-*`) with theme-independent fallbacks, so ready-made patterns look right in any theme.
+- Calendar: the editor now asks the server whether the API key is saved (new REST route `itmar/v1/calendar-key-status`), so a saved key no longer looks "not set" after reopening the page.
+- Rebuilt the design blocks (Group, Title, Button, Table, Calendar, Text Control, Checkbox, Radio, Select, Process, Code Highlight) with the latest shared packages and fixes.
+- Updated the Japanese translation.
+
 = 2.1.0 =
 - Hamburger menu: replaced the toggle `<div>` with a real `<button>` and wired `aria-expanded` / `aria-controls`, so the menu can be opened from the keyboard and its state is announced.
 - Hamburger menu: added Escape to close, focus trapping while open, body scroll lock, and `inert` on the closed drawer so it leaves the tab order and screen reader output.
@@ -350,6 +357,10 @@ This is a new block added in this version.
 = 1.0.0 =
 First public release
 
+
+== Upgrade Notice ==
+= 2.2.0 =
+Colors now follow the active theme through the --itmar-* role variables, and the design blocks were rebuilt. Please check pages that use the Design Group, Title or Button blocks after updating.
 
 == Arbitrary section ==
 1. In this version, style settings that may require responsiveness can be set separately in desktop mode (displayed on devices with a width of 768px or more) and mobile mode (displayed on devices with a width of 767px or less). It becomes. To tell which setting is set, when you switch the display mode in the block editor or site editor, "(Desktop)" and "(Mobile)" will be displayed in the side menu display.

@@ -21,8 +21,22 @@ export default function save({ attributes }: DesignTableSaveProps) {
 		tableLayout,
 		clickCellPos,
 		bgColor,
+		// 後から足した属性。編集した順にキーが末尾へ足されるため、そのまま出すと
+		// 読み直したときの再生成（定義順）と並びが食い違って無効になる。出力位置を固定する。
+		cell_size,
+		is_shadow_td,
+		shadow_td,
+		shadow_result_td,
+		row_radius,
 		...styleAttr
 	} = attributes;
+	const addedAttr = {
+		...(cell_size !== undefined && { cell_size }),
+		...(is_shadow_td !== undefined && { is_shadow_td }),
+		...(shadow_result_td !== undefined && { shadow_result_td }),
+		...(shadow_td !== undefined && { shadow_td }),
+		...(row_radius !== undefined && { row_radius }),
+	};
 
 	//ヘッダー情報を生成
 	const heading_props = {
@@ -33,7 +47,7 @@ export default function save({ attributes }: DesignTableSaveProps) {
 	};
 
 	const blockProps = useBlockProps.save({
-		"data-attributes": JSON.stringify(styleAttr),
+		"data-attributes": JSON.stringify({ ...styleAttr, ...addedAttr }),
 		...heading_props,
 		style: { backgroundColor: bgColor, overflow: "hidden" },
 	});

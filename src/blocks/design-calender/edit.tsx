@@ -25,6 +25,8 @@ import {
 	BoxControl,
 	BorderBoxControl,
 	Notice,
+	SelectControl,
+	__experimentalConfirmDialog as ConfirmDialog,
 } from "@wordpress/components";
 import {
 	useBlockProps,
@@ -41,14 +43,28 @@ import {
 	useMemo,
 	createElement,
 } from "@wordpress/element";
-import { useSelect, useDispatch, dispatch } from "@wordpress/data";
+import {
+	useSelect,
+	useDispatch,
+	dispatch,
+	select as dataSelect,
+} from "@wordpress/data";
+import { createBlock } from "@wordpress/blocks";
 import type { BlockInstance } from "@wordpress/blocks";
 import type {
 	CalendarEditProps,
 	CalendarSelectItem,
 	CalendarPosition,
 	BoxValues,
+	MonthNavStyle,
 } from "./types";
+import {
+	buildMonthList,
+	buildMonthDialogHtml,
+	formatMonthPart,
+	YEAR_LABEL_FORMATS,
+	MONTH_LABEL_FORMATS,
+} from "./months";
 import type { TooltipAttributes } from "../../shared/types";
 
 import { toStyleRecord } from "../front-common";
@@ -103,6 +119,213 @@ const helpTextCode = createElement(
 	),
 );
 
+const NAV_GROUP_DEFAULT_VAL = {
+	direction: "horizen",
+	reverse: false,
+	wrap: false,
+	inner_align: "flex-start",
+	outer_align: "center",
+	outer_vertical: "center",
+	width_val: "full",
+	max_width: "full",
+	free_width: "400px",
+	max_free_width: "100%",
+	height_val: "fit",
+	free_height: "300px",
+	posValue: {
+		vertBase: "top",
+		horBase: "left",
+		vertValue: "3em",
+		horValue: "3em",
+		isVertCenter: false,
+		isHorCenter: false,
+	},
+	margin: {
+		top: "0px",
+		left: "0px",
+		bottom: "0px",
+		right: "0px",
+	},
+	padding: {
+		top: "0px",
+		left: "0px",
+		bottom: "0px",
+		right: "0px",
+	},
+	padding_content: {
+		top: "0px",
+		left: "0px",
+		bottom: "0px",
+		right: "0px",
+	},
+	grid_info: {
+		gridElms: [],
+		rowNum: 2,
+		colNum: 2,
+		rowGap: "5px",
+		colGap: "5px",
+		rowUnit: [],
+		colUnit: [],
+	},
+};
+
+const NAV_GROUP_MOBILE_VAL = {
+	direction: "vertical",
+	reverse: false,
+	wrap: false,
+	inner_align: "flex-start",
+	outer_align: "center",
+	outer_vertical: "center",
+	width_val: "full",
+	max_width: "100%",
+	free_width: "200px",
+	max_free_width: "100%",
+	height_val: "fit",
+	free_height: "300px",
+	posValue: {
+		vertBase: "top",
+		horBase: "left",
+		vertValue: "2em",
+		horValue: "1em",
+		isVertCenter: false,
+		isHorCenter: false,
+	},
+	margin: {
+		top: "0px",
+		left: "0px",
+		bottom: "0px",
+		right: "0px",
+	},
+	padding: {
+		top: "0px",
+		left: "0px",
+		bottom: "0px",
+		right: "0px",
+	},
+	padding_content: {
+		top: "20px",
+		left: "10px",
+		bottom: "20px",
+		right: "10px",
+	},
+	grid_info: {
+		gridElms: [],
+		rowNum: 2,
+		colNum: 2,
+		rowGap: "5px",
+		colGap: "5px",
+	},
+};
+
+/** 月の切り替えに置く design-select の初期属性 */
+const SELECT_BLOCK_ATTRS = {
+	isSetSelect: false,
+	default_pos: {
+		margin_value: {
+			top: "0",
+			left: "0",
+			bottom: "0",
+			right: "0",
+		},
+		padding_value: {
+			top: "0.5em",
+			left: "1em",
+			bottom: "0.5em",
+			right: "1em",
+		},
+		labelPos: "center center",
+	},
+
+	mobile_pos: {
+		margin_value: {
+			top: "0",
+			left: "0",
+			bottom: "0",
+			right: "0",
+		},
+		padding_value: {
+			top: "0.5em",
+			left: "0em",
+			bottom: "0.5em",
+			right: "0em",
+		},
+		labelPos: "center center",
+	},
+	className: "itmar_select_month",
+};
+
+/** ダイアログの年の文字を調整するときの出発点（未設定のときの見た目と同じ大きさ） */
+const DEFAULT_DIALOG_FONT = {
+	default_fontSize: "1.4em",
+	mobile_fontSize: "1.4em",
+	fontFamily: "inherit",
+	fontWeight: "600",
+	isItalic: false,
+};
+
+/** 年と月の表示をまとめる design-group。クリックで年月を選ぶダイアログを開く */
+const MONTH_PICKER_GROUP_ATTRS = {
+	className: "itmar_month_picker",
+	default_val: {
+		...NAV_GROUP_DEFAULT_VAL,
+		width_val: "fit",
+		inner_align: "center",
+		outer_align: "center",
+	},
+	mobile_val: {
+		...NAV_GROUP_MOBILE_VAL,
+		direction: "horizen",
+		width_val: "fit",
+		inner_align: "center",
+		outer_align: "center",
+	},
+};
+
+/** 年・月の表示に使う design-title の属性。文字は月が変わるたびに書き換える */
+const monthLabelAttrs = (className: string, text: string) => ({
+	className,
+	headingType: "H3",
+	titleType: "plaine",
+	headingContent: text,
+	default_val: {
+		width: "fit-content",
+		padding_heading: { top: "0", left: "0.15em", bottom: "0", right: "0.15em" },
+	},
+	mobile_val: {
+		width: "fit-content",
+		padding_heading: { top: "0", left: "0.15em", bottom: "0", right: "0.15em" },
+	},
+});
+
+/** 年月の表示ブロック一式（design-group の中に design-title を2つ）を作る */
+const createMonthPickerBlock = (
+	selectedMonth: string,
+	yearFormat: string,
+	monthFormat: string,
+) =>
+	createBlock("itmar/design-group", MONTH_PICKER_GROUP_ATTRS, [
+		createBlock(
+			"itmar/design-title",
+			monthLabelAttrs(
+				"itmar_year_label",
+				formatMonthPart(selectedMonth, yearFormat),
+			),
+		),
+		createBlock(
+			"itmar/design-title",
+			monthLabelAttrs(
+				"itmar_month_label",
+				formatMonthPart(selectedMonth, monthFormat),
+			),
+		),
+	]);
+
+const hasClassName = (block: BlockInstance | undefined, name: string) =>
+	Boolean(
+		typeof block?.attributes?.className === "string" &&
+			block.attributes.className.split(/\s+/).includes(name),
+	);
+
 type InnerBlocksTemplate = NonNullable<
 	NonNullable<Parameters<typeof useInnerBlocksProps>[1]>["template"]
 >;
@@ -154,6 +377,19 @@ export default function Edit({
 		shadow_week,
 		is_shadow_week,
 		tooltip_style,
+		monthNavStyle,
+		yearLabelFormat,
+		monthLabelFormat,
+		dialogBgColor,
+		dialogColor,
+		radius_dialog,
+		border_dialog,
+		is_shadow_dialog,
+		shadow_dialog,
+		font_style_dialog,
+		dialogBackdropColor,
+		dialogSelectedColor,
+		dialogSelectedBgColor,
 	} = attributes;
 
 	const initialCalendarValues = useMemo(() => {
@@ -213,106 +449,11 @@ export default function Edit({
 
 	//インナーブロックのひな型を用意
 	const TEMPLATE: InnerBlocksTemplate = [
-		//同一ブロックを２つ以上入れないこと（名称の文字列が重ならないこと）
 		[
 			"itmar/design-group",
 			{
-				default_val: {
-					direction: "horizen",
-					reverse: false,
-					wrap: false,
-					inner_align: "flex-start",
-					outer_align: "center",
-					outer_vertical: "center",
-					width_val: "full",
-					max_width: "full",
-					free_width: "400px",
-					max_free_width: "100%",
-					height_val: "fit",
-					free_height: "300px",
-					posValue: {
-						vertBase: "top",
-						horBase: "left",
-						vertValue: "3em",
-						horValue: "3em",
-						isVertCenter: false,
-						isHorCenter: false,
-					},
-					margin: {
-						top: "0px",
-						left: "0px",
-						bottom: "0px",
-						right: "0px",
-					},
-					padding: {
-						top: "0px",
-						left: "0px",
-						bottom: "0px",
-						right: "0px",
-					},
-					padding_content: {
-						top: "0px",
-						left: "0px",
-						bottom: "0px",
-						right: "0px",
-					},
-					grid_info: {
-						gridElms: [],
-						rowNum: 2,
-						colNum: 2,
-						rowGap: "5px",
-						colGap: "5px",
-						rowUnit: [],
-						colUnit: [],
-					},
-				},
-				mobile_val: {
-					direction: "vertical",
-					reverse: false,
-					wrap: false,
-					inner_align: "flex-start",
-					outer_align: "center",
-					outer_vertical: "center",
-					width_val: "full",
-					max_width: "100%",
-					free_width: "200px",
-					max_free_width: "100%",
-					height_val: "fit",
-					free_height: "300px",
-					posValue: {
-						vertBase: "top",
-						horBase: "left",
-						vertValue: "2em",
-						horValue: "1em",
-						isVertCenter: false,
-						isHorCenter: false,
-					},
-					margin: {
-						top: "0px",
-						left: "0px",
-						bottom: "0px",
-						right: "0px",
-					},
-					padding: {
-						top: "0px",
-						left: "0px",
-						bottom: "0px",
-						right: "0px",
-					},
-					padding_content: {
-						top: "20px",
-						left: "10px",
-						bottom: "20px",
-						right: "10px",
-					},
-					grid_info: {
-						gridElms: [],
-						rowNum: 2,
-						colNum: 2,
-						rowGap: "5px",
-						colGap: "5px",
-					},
-				},
+				default_val: NAV_GROUP_DEFAULT_VAL,
+				mobile_val: NAV_GROUP_MOBILE_VAL,
 			},
 			[
 				[
@@ -359,41 +500,7 @@ export default function Edit({
 				],
 				[
 					"itmar/design-select",
-					{
-						isSetSelect: false,
-						default_pos: {
-							margin_value: {
-								top: "0",
-								left: "0",
-								bottom: "0",
-								right: "0",
-							},
-							padding_value: {
-								top: "0.5em",
-								left: "1em",
-								bottom: "0.5em",
-								right: "1em",
-							},
-							labelPos: "center center",
-						},
-
-						mobile_pos: {
-							margin_value: {
-								top: "0",
-								left: "0",
-								bottom: "0",
-								right: "0",
-							},
-							padding_value: {
-								top: "0.5em",
-								left: "0em",
-								bottom: "0.5em",
-								right: "0em",
-							},
-							labelPos: "center center",
-						},
-						className: "itmar_select_month",
-					},
+					SELECT_BLOCK_ATTRS,
 				],
 				[
 					"itmar/design-button",
@@ -449,7 +556,8 @@ export default function Edit({
 	);
 
 	//属性変更関数を取得
-	const { updateBlockAttributes } = useDispatch("core/block-editor");
+	const { updateBlockAttributes, replaceBlock, insertBlock } =
+		useDispatch("core/block-editor");
 
 	//エディタ内ブロックの取得
 	const { innerBlocks } = useSelect(
@@ -475,6 +583,35 @@ export default function Edit({
 			(block) => block.name === "itmar/design-select",
 		);
 	}, [innerFlattenedBlocks]);
+
+	//年月の表示（ダイアログ方式）。同じ種類のブロックが複数あるので、クラス名で見分ける
+	const monthPickerBlock = useMemo(
+		() =>
+			innerFlattenedBlocks.find(
+				(block) =>
+					block.name === "itmar/design-group" &&
+					hasClassName(block, "itmar_month_picker"),
+			),
+		[innerFlattenedBlocks],
+	);
+	const yearLabelBlock = useMemo(
+		() =>
+			innerFlattenedBlocks.find(
+				(block) =>
+					block.name === "itmar/design-title" &&
+					hasClassName(block, "itmar_year_label"),
+			),
+		[innerFlattenedBlocks],
+	);
+	const monthLabelBlock = useMemo(
+		() =>
+			innerFlattenedBlocks.find(
+				(block) =>
+					block.name === "itmar/design-title" &&
+					hasClassName(block, "itmar_month_label"),
+			),
+		[innerFlattenedBlocks],
+	);
 
 	const calendarButtonBlocks = useMemo(() => {
 		return innerFlattenedBlocks.filter(
@@ -654,6 +791,24 @@ export default function Edit({
 
 	//前後ボタンによる表示月の更新
 	useEffect(() => {
+		//ダイアログ方式は design-select を持たない。dateSpan から作った月の一覧で前後へ動かす
+		if (monthNavStyle === "dialog" && !selectMonthBlock) {
+			const months = buildMonthList(dateSpan);
+			const current = months.findIndex((item) => item.value === selectedMonth);
+			const move = (button: BlockInstance | undefined, step: number) => {
+				if (!button?.attributes.isClick) return;
+				const target =
+					months[Math.min(Math.max(current + step, 0), months.length - 1)];
+				if (target) {
+					setAttributes({ selectedMonth: target.value });
+				}
+				//ボタンのクリックフラグを元に戻す
+				updateBlockAttributes(button.clientId, { isClick: false });
+			};
+			move(prevButtonBlock, -1);
+			move(nextButtonBlock, 1);
+			return;
+		}
 		if (prevButtonBlock && nextButtonBlock && selectMonthBlock) {
 			const selectMonthAttr = selectMonthBlock.attributes;
 			const selectIndex = selectMonthAttr.selectValues.findIndex(
@@ -697,6 +852,149 @@ export default function Edit({
 			}
 		}
 	}, [prevButtonBlock, nextButtonBlock]);
+
+	//年月の表示（design-title）の文字を、選択中の月に合わせて書き換える
+	useEffect(() => {
+		if (monthNavStyle !== "dialog" || !selectedMonth) return;
+		const sync = (block: BlockInstance | undefined, dateFormat: string) => {
+			if (!block) return;
+			const text = formatMonthPart(selectedMonth, dateFormat);
+			if (block.attributes.headingContent !== text) {
+				updateBlockAttributes(block.clientId, { headingContent: text });
+			}
+		};
+		sync(yearLabelBlock, yearLabelFormat);
+		sync(monthLabelBlock, monthLabelFormat);
+	}, [
+		monthNavStyle,
+		selectedMonth,
+		yearLabelFormat,
+		monthLabelFormat,
+		yearLabelBlock,
+		monthLabelBlock,
+	]);
+
+	//年・月のタイトルをまとめるグループから itmar_month_picker のクラスが外れているとき、
+	//年と月のタイトルの共通の親グループへ付け直す（このクラスがダイアログを開く目印）
+	useEffect(() => {
+		if (
+			monthNavStyle !== "dialog" ||
+			monthPickerBlock ||
+			!yearLabelBlock ||
+			!monthLabelBlock
+		) {
+			return;
+		}
+		const store = dataSelect("core/block-editor") as unknown as {
+			getBlockParents: (clientId: string) => string[];
+			getBlock: (clientId: string) => BlockInstance | null;
+		};
+		const yearParents = store.getBlockParents(yearLabelBlock.clientId);
+		const monthParents = store.getBlockParents(monthLabelBlock.clientId);
+		//親は外側から順に並んでいるので、後ろから探して、最も内側の共通の親を取る
+		const commonId = [...yearParents]
+			.reverse()
+			.find((id) => monthParents.includes(id));
+		if (!commonId) return;
+		const group = store.getBlock(commonId);
+		if (group?.name !== "itmar/design-group") return;
+		const classNames =
+			typeof group.attributes.className === "string"
+				? group.attributes.className.split(/\s+/).filter(Boolean)
+				: [];
+		updateBlockAttributes(commonId, {
+			className: [...classNames, "itmar_month_picker"].join(" "),
+		});
+	}, [
+		monthNavStyle,
+		monthPickerBlock,
+		yearLabelBlock?.clientId,
+		monthLabelBlock?.clientId,
+	]);
+
+	/* ------------------------------
+	月の切り替えの作り（select / dialog）の切り替え
+	前後のボタンはそのまま残し、真ん中の1つだけを入れ替える
+	------------------------------ */
+	const [pendingNavStyle, setPendingNavStyle] = useState<MonthNavStyle | null>(
+		null,
+	);
+	const [isDialogPreview, setIsDialogPreview] = useState(false);
+
+	//入れ替え先のブロックが見つからないとき、前後ボタンと同じグループの真ん中に差し込む
+	const insertIntoNav = (block: BlockInstance) => {
+		const root = prevButtonBlock
+			? dataSelect("core/block-editor").getBlockRootClientId(
+					prevButtonBlock.clientId,
+			  )
+			: null;
+		insertBlock(block, 1, root || clientId);
+	};
+
+	const applyNavStyle = (style: MonthNavStyle) => {
+		if (style === "dialog") {
+			const block = createMonthPickerBlock(
+				selectedMonth,
+				yearLabelFormat,
+				monthLabelFormat,
+			);
+			if (selectMonthBlock) {
+				replaceBlock(selectMonthBlock.clientId, block);
+			} else {
+				insertIntoNav(block);
+			}
+		} else {
+			const block = createBlock("itmar/design-select", SELECT_BLOCK_ATTRS);
+			if (monthPickerBlock) {
+				replaceBlock(monthPickerBlock.clientId, block);
+			} else {
+				insertIntoNav(block);
+			}
+		}
+		setAttributes({ monthNavStyle: style });
+		setIsDialogPreview(false);
+	};
+
+	//入れ替えるブロックに加えた調整は失われるので、確認してから切り替える
+	const requestNavStyle = (style: MonthNavStyle) => {
+		if (style === monthNavStyle) return;
+		const target = style === "dialog" ? selectMonthBlock : monthPickerBlock;
+		if (target) {
+			setPendingNavStyle(style);
+		} else {
+			applyNavStyle(style);
+		}
+	};
+
+	//ダイアログのプレビュー（実際は view.ts が開くので、エディターでは見た目の調整用に静的に出す）
+	const dialogPreviewHtml = useMemo(
+		() =>
+			buildMonthDialogHtml({
+				months: buildMonthList(dateSpan),
+				selected: selectedMonth,
+				year:
+					Number(String(selectedMonth).split("/")[0]) ||
+					new Date().getFullYear(),
+				monthFormat: monthLabelFormat,
+				yearFormat: yearLabelFormat,
+			}),
+		[dateSpan, selectedMonth, monthLabelFormat, yearLabelFormat],
+	);
+
+	//ダイアログの背景色が直接指定の色のとき、影の色をそれに合わせる（CSS変数の色は計算できないので触らない）
+	useEffect(() => {
+		if (!dialogBgColor || dialogBgColor.startsWith("var(")) return;
+		setAttributes({
+			shadow_dialog: { ...shadow_dialog, baseColor: dialogBgColor },
+		});
+		const new_shadow = ShadowElm({
+			...(shadow_dialog as ShadowState),
+			baseColor: dialogBgColor,
+		});
+		if (new_shadow) {
+			setAttributes({ shadow_result_dialog: toStyleRecord(new_shadow.style) });
+		}
+	}, [dialogBgColor]);
 
 	//ラベルの参照
 	const labelRef = useRef(null); //レンダリングで参照の設定を忘れないこと
@@ -987,6 +1285,53 @@ export default function Edit({
 						</>
 					)}
 				</PanelBody>
+				<PanelBody
+					title={__("Month selector setting", "block-collections")}
+					initialOpen={true}
+					className="form_setteing_ctrl"
+				>
+					<div className="itmar_title_type">
+						<RadioControl
+							label={__("Month selector style", "block-collections")}
+							selected={monthNavStyle}
+							options={[
+								{
+									label: __("Select box", "block-collections"),
+									value: "select",
+								},
+								{
+									label: __("Dialog", "block-collections"),
+									value: "dialog",
+								},
+							]}
+							onChange={(newStyle) =>
+								requestNavStyle(newStyle as MonthNavStyle)
+							}
+							help={__(
+								"With the dialog style, clicking the year and month titles opens a dialog to choose the year and month.",
+								"block-collections",
+							)}
+						/>
+					</div>
+					{monthNavStyle === "dialog" && (
+						<>
+							<SelectControl
+								label={__("Year display format", "block-collections")}
+								value={yearLabelFormat}
+								options={YEAR_LABEL_FORMATS}
+								onChange={(newVal) => setAttributes({ yearLabelFormat: newVal })}
+							/>
+							<SelectControl
+								label={__("Month display format", "block-collections")}
+								value={monthLabelFormat}
+								options={MONTH_LABEL_FORMATS}
+								onChange={(newVal) =>
+									setAttributes({ monthLabelFormat: newVal })
+								}
+							/>
+						</>
+					)}
+				</PanelBody>
 				<PeriodCtrl
 					startYear={2000}
 					endYear={today.getFullYear() + 3}
@@ -1266,6 +1611,115 @@ export default function Edit({
 					)}
 				</PanelBody>
 
+				{monthNavStyle === "dialog" && (
+					<PanelBody
+						title={__("Month dialog style settings", "block-collections")}
+						initialOpen={false}
+						className="check_design_ctrl"
+					>
+						<ToggleControl
+							label={__("Preview the dialog", "block-collections")}
+							checked={isDialogPreview}
+							onChange={(newVal) => setIsDialogPreview(newVal)}
+						/>
+						<PanelColorGradientSettings
+							title={__("Dialog Color Setting", "block-collections")}
+							settings={[
+								{
+									colorValue: dialogColor,
+									label: __("Choose Text color", "block-collections"),
+									onColorChange: (newValue: string | undefined) =>
+										setAttributes({ dialogColor: newValue }),
+								},
+								{
+									colorValue: dialogBgColor,
+									label: __("Choose Background color", "block-collections"),
+									onColorChange: (newValue: string | undefined) =>
+										setAttributes({ dialogBgColor: newValue }),
+								},
+								{
+									colorValue: dialogBackdropColor,
+									label: __(
+										"Choose Backdrop color (behind the dialog)",
+										"block-collections",
+									),
+									onColorChange: (newValue: string | undefined) =>
+										setAttributes({ dialogBackdropColor: newValue }),
+								},
+								{
+									colorValue: dialogSelectedColor,
+									label: __(
+										"Choose Selected Month Text color",
+										"block-collections",
+									),
+									onColorChange: (newValue: string | undefined) =>
+										setAttributes({ dialogSelectedColor: newValue }),
+								},
+								{
+									colorValue: dialogSelectedBgColor,
+									label: __(
+										"Choose Selected Month Background color",
+										"block-collections",
+									),
+									onColorChange: (newValue: string | undefined) =>
+										setAttributes({ dialogSelectedBgColor: newValue }),
+								},
+							]}
+							enableAlpha
+						/>
+						<TypographyControls
+							title={__("Year Typography", "block-collections")}
+							fontStyle={font_style_dialog ?? DEFAULT_DIALOG_FONT}
+							isMobile={isMobile}
+							onChange={(newStyle) => {
+								setAttributes({ font_style_dialog: newStyle });
+							}}
+							initialOpen={false}
+						/>
+						<PanelBody
+							title={__("Border Settings", "block-collections")}
+							initialOpen={false}
+							className="border_design_ctrl"
+						>
+							<BorderBoxControl
+								onChange={(newValue) => setAttributes({ border_dialog: newValue })}
+								value={border_dialog}
+								allowReset={true} // リセットの可否
+								resetValues={border_resetValues} // リセット時の値
+							/>
+							<BorderRadiusControl
+								values={radius_dialog}
+								onChange={(newBrVal: string | { value: string } | undefined) =>
+									setAttributes({
+										radius_dialog:
+											typeof newBrVal === "string"
+												? { value: newBrVal }
+												: newBrVal,
+									})
+								}
+							/>
+						</PanelBody>
+						<ToggleControl
+							label={__("Is Shadow", "block-collections")}
+							checked={is_shadow_dialog}
+							onChange={(newVal) => {
+								setAttributes({ is_shadow_dialog: newVal });
+							}}
+						/>
+						{is_shadow_dialog && (
+							<ShadowStyle
+								shadowStyle={shadow_dialog as ShadowState}
+								onChange={(newStyle, newState) => {
+									setAttributes({
+										shadow_result_dialog: toStyleRecord(newStyle.style),
+									});
+									setAttributes({ shadow_dialog: newState });
+								}}
+							/>
+						)}
+					</PanelBody>
+				)}
+
 				<PanelBody
 					title={__("Week Label style settings", "block-collections")}
 					initialOpen={false}
@@ -1387,8 +1841,30 @@ export default function Edit({
 				<div className={`itmar-wrap ${editorStyleClass}`}>
 					<style>{editorStyleCss}</style>
 					<div {...innerBlocksProps}></div>
+					{monthNavStyle === "dialog" && isDialogPreview && (
+						<div className="itmar_month_dialog_backdrop">
+							<div
+								className="itmar_month_dialog is-preview"
+								dangerouslySetInnerHTML={{ __html: dialogPreviewHtml }}
+							/>
+						</div>
+					)}
 					{isDateArea && renderContent()}
 				</div>
+				{pendingNavStyle && (
+					<ConfirmDialog
+						onConfirm={() => {
+							applyNavStyle(pendingNavStyle);
+							setPendingNavStyle(null);
+						}}
+						onCancel={() => setPendingNavStyle(null)}
+					>
+						{__(
+							"Switching the month selector replaces the current month control. Any design changes made to it will be lost. Continue?",
+							"block-collections",
+						)}
+					</ConfirmDialog>
+				)}
 			</div>
 		</>
 	);

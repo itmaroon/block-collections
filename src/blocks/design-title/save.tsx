@@ -31,6 +31,8 @@ export default function save({ attributes }: TitleSaveProps) {
 		selectedPageUrl,
 		isBlank,
 		dateValue,
+		headingSizeDesktop,
+		headingSizeMobile,
 		...styleAttributes
 	} = attributes;
 
@@ -51,6 +53,17 @@ export default function save({ attributes }: TitleSaveProps) {
 
 	if (Object.keys(optionStyleObj).length > 0) {
 		dataAttributes.optionStyle = optionStyleObj;
+	}
+	/*
+	 * 後から足した属性。編集した順にキーが末尾へ足される一方、読み直したときの再生成は
+	 * 定義順になり、並びが食い違って無効になる。出力位置を最後に固定し、
+	 * 未設定のときは出さない（既存のブロックの保存内容は変わらない）。
+	 */
+	if (headingSizeDesktop !== undefined) {
+		dataAttributes.headingSizeDesktop = headingSizeDesktop;
+	}
+	if (headingSizeMobile !== undefined) {
+		dataAttributes.headingSizeMobile = headingSizeMobile;
 	}
 	const blockProps = useBlockProps.save({
 		"data-attributes": JSON.stringify(dataAttributes),

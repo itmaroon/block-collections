@@ -215,6 +215,12 @@
     },
     "mobile_submenu": {
       "type": "string"
+    },
+    "headingSizeDesktop": {
+      "type": "string"
+    },
+    "headingSizeMobile": {
+      "type": "string"
     }
   },
   "textdomain": "block-collections",

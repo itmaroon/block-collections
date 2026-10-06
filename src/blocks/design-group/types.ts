@@ -1,3 +1,4 @@
+import type { IconStyle } from "itmar-block-packages";
 import type { GroupDomType } from "./domTypes";
 
 export interface BoxValues {
@@ -115,6 +116,14 @@ export interface GroupAttributes {
 	zIndex?: number;
 	menuId?: string;
 	hamburger_style?: HamburgerStyle;
+	/**
+	 * メニューの開き方。未設定は "button"（ハンバーガーボタン）。
+	 * "event" は、ボタンを出さず外からの合図で開閉する。既定値を持たせないのは、
+	 * 既存のメニューの保存内容を変えないため。
+	 */
+	menuTrigger?: "button" | "icon" | "event";
+	/** 開き方がアイコンのときのアイコン。未設定なら既定のアイコン。同じく既定値なし */
+	menuIcon?: IconStyle;
 	is_swiper: boolean;
 	parallax_obj: ParallaxValue | null;
 	is_submenu: boolean;

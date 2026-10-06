@@ -37,6 +37,7 @@ import {
 	Modal,
 	DateTimePicker,
 	TextControl,
+	SelectControl,
 	ToolbarDropdownMenu,
 	ToolbarGroup,
 	ToolbarButton,
@@ -57,6 +58,7 @@ import {
 } from "@wordpress/block-editor";
 
 import "./editor.scss";
+import { HEADING_SIZE_LEVELS } from "./headingSize";
 import { useEffect, useRef, useState } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { toStyleRecord } from "../front-common";
@@ -217,6 +219,8 @@ export default function Edit({
 		headingContent,
 		uniqueID,
 		headingType,
+		headingSizeDesktop,
+		headingSizeMobile,
 		titleType,
 		align,
 		isVertical,
@@ -601,6 +605,23 @@ export default function Edit({
 	const [headingContentVal, setHeadingContentVal] = useState(
 		headingContent ?? "",
 	);
+
+	//他のブロック（design-calender の年月の表示、予約ブロックの選択日など）が headingContent を書き換えたとき、入力欄の表示へ反映する。
+	//数値などの書式を使うタイトルは表示が属性と一致しないので対象にしない（日付形式は別に扱う）
+	useEffect(() => {
+		//日付形式のタイトルは、保存されている日付を書式に当てた文字を表示する
+		if (titleType === "date") {
+			const shown = formatStoredTitleDate(headingContent, dateValue, userFormat);
+			if (shown !== headingContentVal) {
+				setHeadingContentVal(shown);
+			}
+			return;
+		}
+		if (titleType !== "plaine" || userFormat) return;
+		if ((headingContent ?? "") !== headingContentVal) {
+			setHeadingContentVal(headingContent ?? "");
+		}
+	}, [headingContent]);
 
 	//リッチテキストをコンテンツにする
 	const renderRichText = () => {
@@ -1047,6 +1068,37 @@ export default function Edit({
 					initialOpen={true}
 					className="title_design_ctrl"
 				>
+					<SelectControl
+						label={
+							!isMobile
+								? __("Heading size (desk top)", "block-collections")
+								: __("Heading size (mobile)", "block-collections")
+						}
+						value={
+							(!isMobile ? headingSizeDesktop : headingSizeMobile) ?? ""
+						}
+						options={[
+							{
+								label: __("Same as the tag (theme default)", "block-collections"),
+								value: "",
+							},
+							...HEADING_SIZE_LEVELS.map((level) => ({
+								label: `${level.toUpperCase()} ${__("size", "block-collections")}`,
+								value: level,
+							})),
+						]}
+						onChange={(value) =>
+							setAttributes(
+								!isMobile
+									? { headingSizeDesktop: value || undefined }
+									: { headingSizeMobile: value || undefined },
+							)
+						}
+						help={__(
+							"Uses the size the theme defines for the chosen heading level. The HTML tag stays the same.",
+							"block-collections",
+						)}
+					/>
 					<UnitControl
 						dragDirection="e"
 						onChange={(value?: string) => {

@@ -269,6 +269,12 @@
     },
     "zIndex": {
       "type": "number"
+    },
+    "menuTrigger": {
+      "type": "string"
+    },
+    "menuIcon": {
+      "type": "object"
     }
   },
   "textdomain": "block-collections",

@@ -25,6 +25,14 @@ const settings = {
 		{
 			name: "stripe",
 			label: __('Stripe', 'block-collections')
+		},
+		{
+			name: "circle",
+			label: __('Circle', 'block-collections')
+		},
+		{
+			name: "list",
+			label: __('List', 'block-collections')
 		}
 	],
 

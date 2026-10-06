@@ -109,6 +109,21 @@
     "bgGradient_sel": {
       "type": "string"
     },
+    "cell_size": {
+      "type": "object"
+    },
+    "is_shadow_td": {
+      "type": "boolean"
+    },
+    "shadow_td": {
+      "type": "object"
+    },
+    "shadow_result_td": {
+      "type": "object"
+    },
+    "row_radius": {
+      "type": "string"
+    },
     "radius_value": {
       "type": "object",
       "default": {

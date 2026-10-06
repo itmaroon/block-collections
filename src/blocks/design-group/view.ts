@@ -352,7 +352,7 @@ jQuery(function ($) {
 });
 
 /* ------------------------------
-  design-group のハンバーガーメニュー
+  design-group のメニュー（モバイルの引き出しパネル）
   ------------------------------
 
   開閉対象はボタンの aria-controls で名指しする。以前は
@@ -361,7 +361,14 @@ jQuery(function ($) {
   別のブロックがあるとそれも巻き込んで .open が付いていた。
 
   旧マークアップ（<div class="itmar_hamberger_btn"> で id 無し）は
-  deprecated 経由でそのまま残るので、その場合だけ従来の兄弟探索に落とす。 */
+  deprecated 経由でそのまま残るので、その場合だけ従来の兄弟探索に落とす。
+
+  メニューの開き方は2通り。
+    - ボタン（既定）: ハンバーガーボタンで開閉する。
+    - イベント（menuTrigger = "event"）: ボタンを出さず、外からの合図で開閉する。
+      document へ itmar:menu-open / itmar:menu-close を、detail に { id: メニューのID }
+      を付けて送る。パネル内の閉じるボタン、背景のタップ、Esc でも閉じる。
+      （例: 予約カレンダーの日付をクリックしたら、時間管理のパネルを開く） */
 
 const MENU_OPEN_CLASS = "open";
 
@@ -380,15 +387,18 @@ const findMenuBody = (btn: HTMLElement): HTMLElement | null => {
 	return null;
 };
 
-const findBackdrop = (btn: HTMLElement, body: HTMLElement | null): HTMLElement | null => {
-	const id = btn.getAttribute("aria-controls");
+const findBackdrop = (
+	btn: HTMLElement | null,
+	body: HTMLElement | null,
+): HTMLElement | null => {
+	const id = btn?.getAttribute("aria-controls") ?? body?.id;
 	if (id) {
 		const el = document.querySelector<HTMLElement>(
 			`.itmar_back_ground[data-menu-target="${CSS.escape(id)}"]`,
 		);
 		if (el) return el;
 	}
-	let sib = btn.nextElementSibling;
+	let sib = btn?.nextElementSibling ?? null;
 	while (sib && sib !== body) {
 		if (sib.classList.contains("itmar_back_ground")) return sib as HTMLElement;
 		sib = sib.nextElementSibling;
@@ -400,38 +410,60 @@ const FOCUSABLE =
 	'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 class HamburgerMenu {
-	private btn: HTMLElement;
+	private btn: HTMLElement | null;
 	private body: HTMLElement | null;
 	private backdrop: HTMLElement | null;
 	private mql: MediaQueryList;
 	private open = false;
 	private lastFocused: HTMLElement | null = null;
 
-	constructor(btn: HTMLElement) {
+	constructor(
+		btn: HTMLElement | null,
+		body: HTMLElement | null,
+		backdrop: HTMLElement | null,
+	) {
 		this.btn = btn;
-		this.body = findMenuBody(btn);
-		this.backdrop = findBackdrop(btn, this.body);
+		this.body = body;
+		this.backdrop = backdrop;
 		this.mql = window.matchMedia(MOBILE_QUERY);
 
-		//save() には翻訳文字列を入れられない（言語を変えると検証エラーになる）ので実行時に付ける
-		if (!btn.getAttribute("aria-label")) {
-			btn.setAttribute("aria-label", __("Menu", "block-collections"));
-		}
-		if (btn.tagName !== "BUTTON") {
-			//旧マークアップの <div> をキーボードで扱えるようにする
-			btn.setAttribute("role", "button");
-			btn.setAttribute("tabindex", "0");
-			if (!btn.hasAttribute("aria-expanded"))
-				btn.setAttribute("aria-expanded", "false");
+		if (btn) {
+			//save() には翻訳文字列を入れられない（言語を変えると検証エラーになる）ので実行時に付ける
+			if (!btn.getAttribute("aria-label")) {
+				btn.setAttribute("aria-label", __("Menu", "block-collections"));
+			}
+			if (btn.tagName !== "BUTTON") {
+				//旧マークアップの <div> をキーボードで扱えるようにする
+				btn.setAttribute("role", "button");
+				btn.setAttribute("tabindex", "0");
+				if (!btn.hasAttribute("aria-expanded"))
+					btn.setAttribute("aria-expanded", "false");
+			}
+			btn.addEventListener("click", this.toggle);
+			btn.addEventListener("keydown", this.onButtonKey);
 		}
 
-		btn.addEventListener("click", this.toggle);
-		btn.addEventListener("keydown", this.onButtonKey);
+		//イベントで開くメニューの、パネル内の閉じるボタン
+		const closeBtn = body?.querySelector<HTMLElement>(
+			":scope > .itmar_menu_close",
+		);
+		if (closeBtn) {
+			if (!closeBtn.getAttribute("aria-label")) {
+				closeBtn.setAttribute("aria-label", __("Close", "block-collections"));
+			}
+			closeBtn.addEventListener("click", this.close);
+		}
+
 		this.backdrop?.addEventListener("click", this.close);
 		document.addEventListener("keydown", this.onDocumentKey);
 		this.mql.addEventListener("change", this.syncToViewport);
 
 		this.syncToViewport();
+	}
+
+	/** モバイル幅か（イベントでの開閉は、モバイル幅でだけ行う） */
+	isMobile(): boolean {
+		return this.mql.matches;
 	}
 
 	private setBodyScrollLock(lock: boolean) {
@@ -467,7 +499,7 @@ class HamburgerMenu {
 
 	private onButtonKey = (e: KeyboardEvent) => {
 		//旧マークアップの <div> はEnter/Spaceが効かないので補う
-		if (this.btn.tagName === "BUTTON") return;
+		if (!this.btn || this.btn.tagName === "BUTTON") return;
 		if (e.key === "Enter" || e.key === " ") {
 			e.preventDefault();
 			this.toggle(e);
@@ -487,7 +519,7 @@ class HamburgerMenu {
 	private trapFocus(e: KeyboardEvent) {
 		if (!this.body) return;
 		const items = [
-			this.btn,
+			...(this.btn ? [this.btn] : []),
 			...Array.from(this.body.querySelectorAll<HTMLElement>(FOCUSABLE)),
 		].filter((el) => el.offsetParent !== null || el === this.btn);
 		if (!items.length) return;
@@ -502,12 +534,12 @@ class HamburgerMenu {
 		}
 	}
 
-	private openMenu = () => {
+	openMenu = () => {
 		if (!this.body || this.open) return;
 		this.open = true;
 		this.lastFocused = document.activeElement as HTMLElement | null;
-		this.btn.classList.add(MENU_OPEN_CLASS);
-		this.btn.setAttribute("aria-expanded", "true");
+		this.btn?.classList.add(MENU_OPEN_CLASS);
+		this.btn?.setAttribute("aria-expanded", "true");
 		this.body.classList.add(MENU_OPEN_CLASS);
 		if (this.backdrop) {
 			this.backdrop.removeAttribute("hidden");
@@ -515,15 +547,22 @@ class HamburgerMenu {
 		}
 		this.applyHiddenState(false);
 		this.setBodyScrollLock(true);
+		//ボタンのないメニュー（イベントで開く）は、閉じるボタンへ飛ばさずパネル自体へフォーカスする。
+		//閉じるボタンへ移すと、マウス操作でも枠線が出てしまう。タブ操作ではボタンの枠線が出る。
+		if (!this.btn) {
+			this.body.setAttribute("tabindex", "-1");
+			this.body.focus({ preventScroll: true });
+			return;
+		}
 		const firstItem = this.body.querySelector<HTMLElement>(FOCUSABLE);
-		(firstItem ?? this.btn).focus();
+		(firstItem ?? this.btn)?.focus();
 	};
 
-	private close = () => {
+	close = () => {
 		if (!this.body || !this.open) return;
 		this.open = false;
-		this.btn.classList.remove(MENU_OPEN_CLASS);
-		this.btn.setAttribute("aria-expanded", "false");
+		this.btn?.classList.remove(MENU_OPEN_CLASS);
+		this.btn?.setAttribute("aria-expanded", "false");
 		this.body.classList.remove(MENU_OPEN_CLASS);
 		if (this.backdrop) {
 			this.backdrop.classList.remove(MENU_OPEN_CLASS);
@@ -536,17 +575,34 @@ class HamburgerMenu {
 			this.lastFocused && this.lastFocused !== document.body
 				? this.lastFocused
 				: this.btn;
-		back.focus?.();
+		back?.focus?.();
 	};
 }
 
+//メニューのIDからメニューを引く（外からの合図で開閉するため）
+const menuRegistry = new Map<string, HamburgerMenu>();
+
 const initHamburgers = () => {
+	//ボタンで開くメニュー
 	document
 		.querySelectorAll<HTMLElement>(".itmar_hamberger_btn")
 		.forEach((btn) => {
 			if (btn.dataset.itmarHamburgerBound) return;
 			btn.dataset.itmarHamburgerBound = "1";
-			new HamburgerMenu(btn);
+			const body = findMenuBody(btn);
+			const menu = new HamburgerMenu(btn, body, findBackdrop(btn, body));
+			if (body?.id) menuRegistry.set(body.id, menu);
+		});
+
+	//イベントで開くメニュー（ボタンがなく、背景だけがある）
+	document
+		.querySelectorAll<HTMLElement>(".itmar_back_ground[data-menu-target]")
+		.forEach((backdrop) => {
+			const id = backdrop.getAttribute("data-menu-target");
+			if (!id || menuRegistry.has(id)) return;
+			const body = document.getElementById(id);
+			if (!body) return;
+			menuRegistry.set(id, new HamburgerMenu(null, body, backdrop));
 		});
 };
 
@@ -555,3 +611,14 @@ if (document.readyState === "loading") {
 } else {
 	initHamburgers();
 }
+
+//外からの合図。モバイル幅でだけ開く（デスクトップではパネルは常に見えている）
+document.addEventListener("itmar:menu-open", (event) => {
+	const id = (event as CustomEvent<{ id?: string }>).detail?.id;
+	const menu = id ? menuRegistry.get(id) : undefined;
+	if (menu?.isMobile()) menu.openMenu();
+});
+document.addEventListener("itmar:menu-close", (event) => {
+	const id = (event as CustomEvent<{ id?: string }>).detail?.id;
+	if (id) menuRegistry.get(id)?.close();
+});

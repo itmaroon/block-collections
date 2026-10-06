@@ -19,6 +19,7 @@ import {
 	BoxControl,
 	BorderBoxControl,
 	__experimentalNumberControl as NumberControl,
+	__experimentalUnitControl as UnitControl,
 } from "@wordpress/components";
 import {
 	useBlockProps,
@@ -38,6 +39,7 @@ import type {
 	BlockEditorSelectors,
 	DesignTableAttributes,
 	DesignTableEditProps,
+	CellSizeValues,
 	RadiusValue,
 	TableCell,
 	TableRow,
@@ -75,6 +77,30 @@ const units = [
 	{ value: "em", label: "em" },
 	{ value: "rem", label: "rem" },
 ];
+
+/** セルの影を設定するときの出発点。他のブロックの影の既定値と同じ */
+const DEFAULT_TD_SHADOW = {
+	shadowType: "nomal",
+	spread: 2,
+	lateral: 2,
+	longitude: 2,
+	nomalBlur: 3,
+	shadowColor: "#9F9F9F",
+	distance: 5,
+	intensity: 5,
+	opacity: 0.5,
+	depth: 5,
+	blur: 5,
+	bdBlur: 5,
+	expand: 5,
+	glassblur: 5,
+	glassopa: 0.5,
+	newDirection: "top_left",
+	clayDirection: "top",
+	embos: "swell",
+	hasOutline: true,
+	baseColor: "#ffffff",
+};
 
 export default function Edit({
 	attributes,
@@ -114,6 +140,11 @@ export default function Edit({
 		intensity,
 		shadow_element,
 		is_shadow,
+		cell_size,
+		is_shadow_td,
+		shadow_td,
+		shadow_result_td,
+		row_radius,
 		className,
 	} = attributes;
 
@@ -378,6 +409,47 @@ export default function Edit({
 		}
 	}, [baseColor]);
 
+	//セルの影の元になる色。セルの背景が直接指定の色ならそれ、そうでなければブロックの背景色
+	useEffect(() => {
+		if (!is_shadow_td) return;
+		const base =
+			bgColor_td && !bgColor_td.startsWith("var(") ? bgColor_td : baseColor;
+		if (!base) return;
+		const current = shadow_td ?? DEFAULT_TD_SHADOW;
+		if (current.baseColor === base && shadow_result_td) return;
+		setAttributes({ shadow_td: { ...current, baseColor: base } });
+		const new_shadow = ShadowElm({
+			...(current as ShadowState),
+			baseColor: base,
+		});
+		if (new_shadow) {
+			setAttributes({ shadow_result_td: toStyleRecord(new_shadow.style) });
+		}
+	}, [is_shadow_td, baseColor, bgColor_td]);
+
+	//セルの大きさ（デスクトップとモバイルで別々に持つ）
+	const isCircleStyle = (className ?? "")
+		.split(/\s+/)
+		.includes("is-style-circle");
+	const isListStyle = (className ?? "")
+		.split(/\s+/)
+		.includes("is-style-list");
+	const cellSizeNow: CellSizeValues = isMobile
+		? cell_size?.mobile ?? {}
+		: cell_size ?? {};
+	const updateCellSize = (patch: Partial<CellSizeValues>) => {
+		const next: CellSizeValues = { ...cellSizeNow, ...patch };
+		(Object.keys(next) as Array<keyof CellSizeValues>).forEach((key) => {
+			if (!next[key]) delete next[key];
+		});
+		const { mobile, ...desktop } = cell_size ?? {};
+		setAttributes({
+			cell_size: isMobile
+				? { ...desktop, mobile: next }
+				: { ...next, ...(mobile ? { mobile } : {}) },
+		});
+	};
+
 	const CellHtml = ({ html }: { html?: string }) => (
 		<span
 			className="cell-html"
@@ -507,11 +579,19 @@ export default function Edit({
 													<CellTag
 														key={colIndex}
 														className={
-															CellTag === "td" &&
-															clickCellPos.row === rowIndex &&
-															clickCellPos.col === colIndex
-																? "currentSel"
-																: undefined
+															[
+																CellTag === "td" &&
+																clickCellPos.row === rowIndex &&
+																clickCellPos.col === colIndex
+																	? "currentSel"
+																	: "",
+																//データ側がセルに付けたクラス（予約カレンダーの空きセルなど）
+																typeof cell.attributes?.class === "string"
+																	? cell.attributes.class
+																	: "",
+															]
+																.filter(Boolean)
+																.join(" ") || undefined
 														}
 														style={{
 															position: "relative",
@@ -965,6 +1045,14 @@ export default function Edit({
 						initialOpen={false}
 					/>
 
+					{isInsideParent && (
+						<p className="components-base-control__help">
+							{__(
+								"Inside a reservation block, the cell background follows the availability colors set in the reservation block. The background color here is used only for states that have no color there. The text color applies as usual.",
+								"block-collections",
+							)}
+						</p>
+					)}
 					<PanelColorGradientSettings
 						title={__("Data Color Setting", "block-collections")}
 						settings={[
@@ -1038,6 +1126,135 @@ export default function Edit({
 							}
 						}}
 					/>
+					{isCircleStyle ? (
+						<>
+							<UnitControl
+								label={
+									!isMobile
+										? __("Cell size (desk top)", "block-collections")
+										: __("Cell size (mobile)", "block-collections")
+								}
+								value={cellSizeNow.width ?? ""}
+								units={units}
+								onChange={(newVal: string | undefined) =>
+									updateCellSize({ width: newVal, height: newVal })
+								}
+								help={__(
+									"Sets the width and height of each cell to the same value so that the cells become circles.",
+									"block-collections",
+								)}
+							/>
+							<UnitControl
+								label={
+									!isMobile
+										? __("Cell gap (desk top)", "block-collections")
+										: __("Cell gap (mobile)", "block-collections")
+								}
+								value={cellSizeNow.gap ?? ""}
+								units={units}
+								onChange={(newVal: string | undefined) =>
+									updateCellSize({ gap: newVal })
+								}
+								help={__(
+									"Space between the circles.",
+									"block-collections",
+								)}
+							/>
+						</>
+					) : (
+						<>
+							<UnitControl
+								label={
+									!isMobile
+										? __("Cell width (desk top)", "block-collections")
+										: __("Cell width (mobile)", "block-collections")
+								}
+								value={cellSizeNow.width ?? ""}
+								units={units}
+								onChange={(newVal: string | undefined) =>
+									updateCellSize({ width: newVal })
+								}
+							/>
+							<UnitControl
+								label={
+									!isMobile
+										? __("Cell height (desk top)", "block-collections")
+										: __("Cell height (mobile)", "block-collections")
+								}
+								value={cellSizeNow.height ?? ""}
+								units={units}
+								onChange={(newVal: string | undefined) =>
+									updateCellSize({ height: newVal })
+								}
+							/>
+							{isListStyle && (
+								<>
+									<UnitControl
+										label={
+											!isMobile
+												? __("Row gap (desk top)", "block-collections")
+												: __("Row gap (mobile)", "block-collections")
+										}
+										value={cellSizeNow.gap ?? ""}
+										units={units}
+										onChange={(newVal: string | undefined) =>
+											updateCellSize({ gap: newVal })
+										}
+										help={__("Space between the rows.", "block-collections")}
+									/>
+									<UnitControl
+										label={
+											!isMobile
+												? __("Column gap (desk top)", "block-collections")
+												: __("Column gap (mobile)", "block-collections")
+										}
+										value={cellSizeNow.colGap ?? ""}
+										units={units}
+										onChange={(newVal: string | undefined) =>
+											updateCellSize({ colGap: newVal })
+										}
+										help={__(
+											"Space between the cells of a row. Leave empty to show each row as one item; with a value, every cell is rounded on its own.",
+											"block-collections",
+										)}
+									/>
+									<UnitControl
+										label={__("Row corner radius", "block-collections")}
+										value={row_radius ?? ""}
+										units={units}
+										onChange={(newVal: string | undefined) =>
+											setAttributes({ row_radius: newVal || undefined })
+										}
+										help={__(
+											"Rounds the left end of the first cell and the right end of the last cell in each row.",
+											"block-collections",
+										)}
+									/>
+								</>
+							)}
+						</>
+					)}
+					<ToggleControl
+						label={__("Is Shadow", "block-collections")}
+						checked={Boolean(is_shadow_td)}
+						onChange={(newVal) => {
+							setAttributes({ is_shadow_td: newVal || undefined });
+						}}
+					/>
+					{is_shadow_td && (
+						<ShadowStyle
+							shadowStyle={(shadow_td ?? DEFAULT_TD_SHADOW) as ShadowState}
+							onChange={(
+								newStyle: ShadowStyleResult,
+								newState: ShadowState,
+							) => {
+								setAttributes({
+									shadow_result_td: toStyleRecord(newStyle.style),
+								});
+								setAttributes({ shadow_td: newState });
+							}}
+						/>
+					)}
 				</PanelBody>
 			</InspectorControls>
 

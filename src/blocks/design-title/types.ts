@@ -44,6 +44,10 @@ export interface TitleAttributes {
 	linkKind: string;
 	menu_pos: string;
 	mobile_submenu?: MobileSubmenuMode;
+	/** 見出しの文字サイズを、テーマの H1〜H6 のサイズで指定する（"h1"〜"h6"）。未設定ならタグ本来のサイズ。
+	 *  既存ブロックの保存内容を変えないため、既定値は持たない */
+	headingSizeDesktop?: string;
+	headingSizeMobile?: string;
 	is_title_menu: boolean;
 	selectedSlug: string;
 	selectedPageUrl: string;

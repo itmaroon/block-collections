@@ -10,6 +10,7 @@ import type {
 	UnderLineProp,
 } from "./types";
 import { MEDIA_MOBILE } from "../breakpoints";
+import { createHeadingSizeCss } from "./headingSize";
 
 type PositionKey =
 	| "top left"
@@ -424,6 +425,8 @@ export const createTitleStyleCss = (
 	const { root: rootScope, inner: innerScope } = scopes;
 	const {
 		headingType = "H2",
+		headingSizeDesktop,
+		headingSizeMobile,
 		align,
 		default_val,
 		mobile_val,
@@ -498,6 +501,7 @@ export const createTitleStyleCss = (
 			text-align: ${align};
 			white-space:${is_wrap ? "pre-wrap" : "nowrap !important"};
 			margin:0;font-weight:inherit;
+			${createHeadingSizeCss(headingSizeDesktop, headingSizeMobile, MEDIA_MOBILE)}
 			${isVertical ? "writing-mode:vertical-rl;text-orientation:upright;" : ""}
 			${MEDIA_MOBILE} {
 				padding:${mobile_renderedPadding};

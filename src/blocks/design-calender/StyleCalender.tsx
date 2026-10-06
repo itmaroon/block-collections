@@ -48,6 +48,17 @@ export const createCalendarStyleCss = (
 		is_shadow_select,
 		color_select,
 		bgColor_select,
+		monthNavStyle,
+		dialogBgColor,
+		dialogColor,
+		radius_dialog,
+		border_dialog,
+		is_shadow_dialog,
+		shadow_result_dialog,
+		font_style_dialog,
+		dialogBackdropColor,
+		dialogSelectedColor,
+		dialogSelectedBgColor,
 	} = attributes;
 
 	const dateArea = `${scopeSelector} .itmar_date_area`;
@@ -78,7 +89,161 @@ export const createCalendarStyleCss = (
 			? cssValueToString(convertToScss(shadow_result_select))
 			: "";
 
+	const dialogShadow =
+		is_shadow_dialog && shadow_result_dialog
+			? cssValueToString(convertToScss(shadow_result_dialog))
+			: "";
+	const dialog = `${scopeSelector} .itmar_month_dialog`;
+	//年月の選択ダイアログ（月の切り替えを「dialog」にしたときだけ出す）
+	const dialogCss =
+		monthNavStyle === "dialog"
+			? `
+		${scopeSelector} .itmar_month_picker {
+			cursor: pointer;
+		}
+		${scopeSelector} .itmar_month_picker:focus-visible {
+			outline: 2px solid currentColor;
+			outline-offset: 2px;
+		}
+
+		${dialog} {
+			position: relative;
+			box-sizing: border-box;
+			width: min(22em, calc(100vw - 2em));
+			margin: auto;
+			padding: 2.4em 1.25em 1.25em;
+			border: none;
+			${cssValueToString(borderProperty(border_dialog))}
+			border-radius: ${radius_prm(radius_dialog)};
+			background-color: ${dialogBgColor};
+			color: ${dialogColor};
+			${dialogShadow}
+		}
+		${dialog}::backdrop {
+			background: ${dialogBackdropColor || "rgb(0 0 0 / 0.4)"};
+		}
+		/* エディターのプレビュー。フロントの <dialog> と同じく、画面の中央に背景ごと重ねる */
+		${scopeSelector} .itmar_month_dialog_backdrop {
+			position: fixed;
+			inset: 0;
+			z-index: 100;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: ${dialogBackdropColor || "rgb(0 0 0 / 0.4)"};
+			pointer-events: none;
+		}
+		${dialog}.is-preview {
+			margin: 0;
+		}
+		${dialog} .itmar_month_dialog_head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		${dialog} .itmar_dialog_year {
+			font-size: ${font_style_dialog?.default_fontSize ?? "1.4em"};
+			${font_style_dialog ? `font-family: ${font_style_dialog.fontFamily};` : ""}
+			font-weight: ${font_style_dialog?.fontWeight ?? "600"};
+			font-style: ${font_style_dialog?.isItalic ? "italic" : "normal"};
+			line-height: 1.2;
+		}
+		${dialog} .itmar_month_grid .itmar_radio.checked span {
+			font-weight: 700;
+		}
+		${
+			dialogSelectedBgColor
+				? `${dialog} .itmar_month_grid .itmar_radio.checked { background: ${dialogSelectedBgColor}; }`
+				: ""
+		}
+		${
+			dialogSelectedColor
+				? `${dialog} .itmar_month_grid .itmar_radio.checked span { color: ${dialogSelectedColor}; }`
+				: ""
+		}
+		${dialog} .itmar_dialog_year_prev,
+		${dialog} .itmar_dialog_year_next,
+		${dialog} .itmar_dialog_close {
+			position: relative;
+			flex-shrink: 0;
+			width: 2.2em;
+			height: 2.2em;
+			padding: 0;
+			border: none;
+			border-radius: 50%;
+			background: transparent;
+			color: inherit;
+			cursor: pointer;
+		}
+		${dialog} .itmar_dialog_year_prev::before,
+		${dialog} .itmar_dialog_year_next::before {
+			content: "";
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 0.55em;
+			height: 0.55em;
+			border-top: 2px solid currentColor;
+			border-left: 2px solid currentColor;
+		}
+		${dialog} .itmar_dialog_year_prev::before {
+			transform: translate(-30%, -50%) rotate(-45deg);
+		}
+		${dialog} .itmar_dialog_year_next::before {
+			transform: translate(-70%, -50%) rotate(135deg);
+		}
+		${dialog} .itmar_dialog_year_prev:disabled,
+		${dialog} .itmar_dialog_year_next:disabled {
+			opacity: 0.3;
+			cursor: default;
+		}
+		${dialog} .itmar_dialog_close {
+			position: absolute;
+			top: 0.4em;
+			right: 0.4em;
+			width: 1.8em;
+			height: 1.8em;
+		}
+		${dialog} .itmar_dialog_close::before,
+		${dialog} .itmar_dialog_close::after {
+			content: "";
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 1em;
+			height: 2px;
+			background: currentColor;
+		}
+		${dialog} .itmar_dialog_close::before {
+			transform: translate(-50%, -50%) rotate(45deg);
+		}
+		${dialog} .itmar_dialog_close::after {
+			transform: translate(-50%, -50%) rotate(-45deg);
+		}
+		${dialog} .itmar_month_grid {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 0.4em;
+			margin-top: 1em;
+		}
+		${dialog} .itmar_month_grid .itmar_radio {
+			justify-content: center;
+			margin: 0;
+			cursor: pointer;
+		}
+		${dialog} .itmar_month_grid .itmar_radio.is-disabled {
+			opacity: 0.3;
+			pointer-events: none;
+		}
+		${dialog} .itmar_month_grid .itmar_radio:focus-visible {
+			outline: 2px solid currentColor;
+			outline-offset: 2px;
+		}
+	`
+			: "";
+
 	return `
+		${dialogCss}
 		${dateArea} {
 			display: grid;
 			grid-template-areas: ${gridAreas};
@@ -164,6 +329,11 @@ export const createCalendarStyleCss = (
 		}
 
 		${MEDIA_MOBILE} {
+			${
+				monthNavStyle === "dialog" && font_style_dialog
+					? `${dialog} .itmar_dialog_year { font-size: ${font_style_dialog.mobile_fontSize}; }`
+					: ""
+			}
 			${dateArea} {
 				margin: ${space_prm(mobile_pos.margin)};
 				padding: ${space_prm(mobile_pos.padding)};

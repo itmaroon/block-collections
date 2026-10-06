@@ -11,6 +11,8 @@ import { createCalendarStyleCss } from "./StyleCalender";
 import { createTooltipStyleCss } from "../tooltipCss";
 import type { CalendarAttributes, CalendarDate } from "./types";
 import { fetchJapaneseHolidays } from "./holiday-api";
+import { buildMonthDialogHtml, formatMonthPart } from "./months";
+import type { MonthItem } from "./months";
 
 const createCalendarFrontendCss = (
 	attributes: CalendarAttributes,
@@ -68,6 +70,17 @@ jQuery(function ($) {
 				".itmar_select_month .itmar_block_selectSingle",
 			);
 			let selectedOption = select.find("select").find("option:selected");
+
+			//ダイアログ方式は design-select を持たない。値の置き場の <select> を直接動かす
+			if (rootBlock.attr("data-month_nav") === "dialog") {
+				const target = $(this).hasClass("itmar_prev_month")
+					? selectedOption.prev("option")
+					: selectedOption.next("option");
+				if (target.length !== 0) {
+					select.find("select").val(target.attr("value") ?? "").trigger("change");
+				}
+				return;
+			}
 
 			//前後の月の取得
 			let changeOption = null;
@@ -172,6 +185,155 @@ jQuery(function ($) {
 		dateArea.css("grid-template-areas", areas);
 	};
 
+	/* ------------------------------
+	年月の表示とダイアログ（月の切り替えを「dialog」にしたとき）
+  ------------------------------ */
+	const HEADING_SELECTOR = "h1, h2, h3, h4, h5, h6";
+
+	//保存されたスタイル属性（年月ラベルの書式）を取り出す
+	const getLabelFormats = (rootBlock: JQuery) => {
+		const attrs = (rootBlock.data("attributes") ?? {}) as Partial<CalendarAttributes>;
+		return {
+			yearFormat: attrs.yearLabelFormat || "Y",
+			monthFormat: attrs.monthLabelFormat || "F",
+		};
+	};
+
+	//クラス名で見つけた design-title に年・月の文字を入れる
+	const syncMonthLabels = (rootBlock: JQuery, ym: string): void => {
+		const yearLabel = rootBlock.find(".itmar_year_label");
+		const monthLabel = rootBlock.find(".itmar_month_label");
+		if (yearLabel.length === 0 && monthLabel.length === 0) return;
+		const { yearFormat, monthFormat } = getLabelFormats(rootBlock);
+		yearLabel.find(HEADING_SELECTOR).text(formatMonthPart(ym, yearFormat));
+		monthLabel.find(HEADING_SELECTOR).text(formatMonthPart(ym, monthFormat));
+	};
+
+	//置き場の <select> から、選べる月の一覧を作る
+	const getMonthItems = (rootBlock: JQuery): MonthItem[] =>
+		rootBlock
+			.find(".itmar_month_state select option")
+			.map(function () {
+				const value = $(this).attr("value") ?? "";
+				const [year, month] = value.split("/").map(Number);
+				return { value, year, month };
+			})
+			.get();
+
+	const getCurrentMonth = (rootBlock: JQuery): string =>
+		(rootBlock.find(".itmar_month_state select").val() as string) || "";
+
+	//ダイアログの中身を、指定した年で描き直す
+	const renderMonthDialog = (
+		rootBlock: JQuery,
+		dialog: JQuery,
+		year: number,
+	): void => {
+		const { yearFormat, monthFormat } = getLabelFormats(rootBlock);
+		dialog.html(
+			buildMonthDialogHtml({
+				months: getMonthItems(rootBlock),
+				selected: getCurrentMonth(rootBlock),
+				year,
+				monthFormat,
+				yearFormat,
+			}),
+		);
+	};
+
+	const openMonthDialog = (rootBlock: JQuery): void => {
+		const wrap = rootBlock.children(".itmar-wrap").first();
+		if (wrap.length === 0) return;
+		let dialog = wrap.children("dialog.itmar_month_dialog");
+		if (dialog.length === 0) {
+			dialog = $('<dialog class="itmar_month_dialog"></dialog>');
+			wrap.append(dialog);
+		}
+		const current = getCurrentMonth(rootBlock);
+		const year = Number(current.split("/")[0]) || new Date().getFullYear();
+		renderMonthDialog(rootBlock, dialog, year);
+		const element = dialog[0] as HTMLDialogElement;
+		if (typeof element.showModal === "function" && !element.open) {
+			element.showModal();
+		}
+	};
+
+	//年・月の表示をクリック（キーボードの Enter / Space も）でダイアログを開く
+	$(document).on(
+		"click",
+		".wp-block-itmar-design-calender .itmar_month_picker",
+		function (this: HTMLElement) {
+			const rootBlock = $(this).closest(".wp-block-itmar-design-calender");
+			if (rootBlock.attr("data-month_nav") !== "dialog") return;
+			openMonthDialog(rootBlock);
+		},
+	);
+	$(document).on(
+		"keydown",
+		".wp-block-itmar-design-calender .itmar_month_picker",
+		function (this: HTMLElement, event: JQuery.KeyDownEvent) {
+			if (event.key !== "Enter" && event.key !== " ") return;
+			event.preventDefault();
+			$(this).trigger("click");
+		},
+	);
+
+	//ダイアログ内の操作
+	const MONTH_DIALOG = ".wp-block-itmar-design-calender dialog.itmar_month_dialog";
+	const closeMonthDialog = (dialog: JQuery): void => {
+		const element = dialog[0] as HTMLDialogElement | undefined;
+		if (element?.open) element.close();
+	};
+
+	//背景（::backdrop）のクリックは dialog 自身へのクリックになる
+	$(document).on("click", MONTH_DIALOG, function (this: HTMLElement, event: JQuery.ClickEvent) {
+		if (event.target === this) closeMonthDialog($(this));
+	});
+
+	$(document).on("click", `${MONTH_DIALOG} .itmar_dialog_close`, function () {
+		closeMonthDialog($(this).closest("dialog"));
+	});
+
+	//年の前後
+	$(document).on(
+		"click",
+		`${MONTH_DIALOG} .itmar_dialog_year_prev, ${MONTH_DIALOG} .itmar_dialog_year_next`,
+		function () {
+			const dialog = $(this).closest("dialog");
+			const rootBlock = dialog.closest(".wp-block-itmar-design-calender");
+			const shown = Number(dialog.find(".itmar_dialog_year").attr("data-year"));
+			const next = $(this).hasClass("itmar_dialog_year_prev")
+				? shown - 1
+				: shown + 1;
+			renderMonthDialog(rootBlock, dialog, next);
+		},
+	);
+
+	//月の選択
+	const chooseMonth = (cell: JQuery): void => {
+		if (cell.hasClass("is-disabled")) return;
+		const dialog = cell.closest("dialog");
+		const rootBlock = dialog.closest(".wp-block-itmar-design-calender");
+		const month = cell.attr("data-month") ?? "";
+		const select = rootBlock.find(".itmar_month_state select");
+		if (month && select.val() !== month) {
+			select.val(month).trigger("change");
+		}
+		closeMonthDialog(dialog);
+	};
+	$(document).on("click", `${MONTH_DIALOG} .itmar_month_grid .itmar_radio`, function () {
+		chooseMonth($(this));
+	});
+	$(document).on(
+		"keydown",
+		`${MONTH_DIALOG} .itmar_month_grid .itmar_radio`,
+		function (this: HTMLElement, event: JQuery.KeyDownEvent) {
+			if (event.key !== "Enter" && event.key !== " ") return;
+			event.preventDefault();
+			chooseMonth($(this));
+		},
+	);
+
 	//セレクトブロックのセレクト要素に変更があったとき
 	$(document).on(
 		"change",
@@ -190,6 +352,8 @@ jQuery(function ($) {
 			let selectedOption = $(this).find("option:selected");
 			const selectedMonth = selectedOption.attr("value");
 			if (!selectedMonth) return;
+			//年月の表示ブロックがあれば書き換える
+			syncMonthLabels(rootBlock, selectedMonth);
 
 			//祝日表示の有無
 			const isHoliday = rootBlock.data("is_holiday");
@@ -243,6 +407,27 @@ jQuery(function ($) {
 	$(".wp-block-itmar-design-calender").each(function () {
 		const rootBlock = $(this);
 		ensureCalendarControlClasses(rootBlock);
+		//年月の表示をボタンとして扱えるようにする（保存内容には持たせられない）
+		if (rootBlock.attr("data-month_nav") === "dialog") {
+			//年・月のタイトルをまとめるグループから itmar_month_picker のクラスが外れていても、
+			//年と月のタイトルの共通の親グループを、ダイアログを開く部分として扱う
+			if (rootBlock.find(".itmar_month_picker").length === 0) {
+				const yearEl = rootBlock.find(".itmar_year_label").first();
+				const monthEl = rootBlock.find(".itmar_month_label").first();
+				if (yearEl.length && monthEl.length) {
+					yearEl
+						.parents()
+						.filter((_i, el) => $.contains(el, monthEl[0]))
+						.first()
+						.addClass("itmar_month_picker");
+				}
+			}
+			rootBlock.find(".itmar_month_picker").attr({
+				role: "button",
+				tabindex: "0",
+				"aria-haspopup": "dialog",
+			});
+		}
 		const select = rootBlock.find(
 			".itmar_select_month .itmar_block_selectSingle",
 		);

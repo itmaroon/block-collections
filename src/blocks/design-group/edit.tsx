@@ -12,6 +12,7 @@ import {
 	AnimationBlock,
 	BlockPlace,
 	ToggleElement,
+	IconSelectControl,
 } from "itmar-block-packages";
 
 import {
@@ -48,6 +49,7 @@ import type { BlockInstance } from "@wordpress/blocks";
 import type { GroupDirection, GroupEditProps, MovePosition } from "./types";
 import { toStyleRecord } from "../front-common";
 import { isGroupDomType, isSectioningDomType } from "./domTypes";
+import { DEFAULT_MENU_ICON, menuIconVars } from "./menuIcon";
 
 type ShadowState = Parameters<typeof ShadowElm>[0];
 
@@ -182,6 +184,8 @@ export default function Edit(props: GroupEditProps) {
 		zIndex,
 		menuId,
 		hamburger_style,
+		menuTrigger,
+		menuIcon,
 		parallax_obj,
 		is_submenu,
 		is_link,
@@ -477,6 +481,20 @@ export default function Edit(props: GroupEditProps) {
 						return <SectionTag {...innerBlocksProps}></SectionTag>;
 					})()}
 			</div>
+			{/* 前面の閉じるボタンの見た目。エディターでは押せない飾り */}
+			{is_menu && !is_submenu && menuTrigger === "event" && isMobile && (
+				<span
+					className="itmar_menu_close"
+					aria-hidden="true"
+					style={
+						hamburger_style?.barColor
+							? ({
+									"--itmar-hamburger-bar": hamburger_style.barColor,
+								} as React.CSSProperties)
+							: undefined
+					}
+				></span>
+			)}
 		</div>
 	);
 
@@ -555,6 +573,36 @@ export default function Edit(props: GroupEditProps) {
 					/>
 					{is_menu && !is_submenu && (
 						<>
+							<div className="itmar_title_type">
+								<RadioControl
+									label={__("Open by", "block-collections")}
+									selected={menuTrigger ?? "button"}
+									options={[
+										{ label: __("Hamburger button", "block-collections"), value: "button" },
+										{ label: __("Icon", "block-collections"), value: "icon" },
+										{ label: __("Event", "block-collections"), value: "event" },
+									]}
+									onChange={(value) =>
+										setAttributes({
+											menuTrigger:
+												value === "event" || value === "icon" ? value : undefined,
+										})
+									}
+									help={__(
+										"With Icon, the button shows the chosen icon and turns into a cross when open. With Event, no button is shown. Other blocks open the panel, for example when a date is clicked in the reservation calendar. It is closed with the close button, the backdrop or the Esc key.",
+										"block-collections",
+									)}
+								/>
+							</div>
+							{menuTrigger === "icon" && (
+								<IconSelectControl
+									iconStyle={menuIcon ?? DEFAULT_MENU_ICON}
+									setPosition={false}
+									onChange={(newValue) => {
+										setAttributes({ menuIcon: newValue });
+									}}
+								/>
+							)}
 							<PanelColorGradientSettings
 								title={__("Hamburger Button", "block-collections")}
 								settings={[
@@ -598,6 +646,8 @@ export default function Edit(props: GroupEditProps) {
 							 * 基準にする辺と、その辺からの距離を指定する。
 							 * BlockPlace の「ブロックの位置」と同じ操作感にそろえてある。
 							 */}
+							{menuTrigger !== "event" && (
+								<>
 							<p>{__("Hamburger Position", "block-collections")}</p>
 							<PanelRow className="position_row itmar_hamburger_pos">
 								<ComboboxControl
@@ -660,6 +710,8 @@ export default function Edit(props: GroupEditProps) {
 									value={hamburger_style?.horValue || "2em"}
 								/>
 							</PanelRow>
+								</>
+							)}
 							<RangeControl
 								label={__("Backdrop Opacity", "block-collections")}
 								value={hamburger_style?.backdropOpacity ?? 0.7}
@@ -1228,19 +1280,42 @@ export default function Edit(props: GroupEditProps) {
 					</ToolbarGroup>
 				</BlockControls>
 			)}
+			{/* イベントで開くメニューは、エディターにボタンがないので、ツールバーから開閉する */}
+			{is_menu && !is_submenu && menuTrigger === "event" && (
+				<BlockControls>
+					<ToolbarGroup>
+						<ToolbarButton
+							icon={isMenuOpen ? "hidden" : "visibility"}
+							label={
+								isMenuOpen
+									? __("Hide panel", "block-collections")
+									: __("Show panel", "block-collections")
+							}
+							showTooltip
+							onClick={() => handleHambergerToggle(!isMenuOpen)}
+						/>
+					</ToolbarGroup>
+				</BlockControls>
+			)}
 			{/* ブロックエディタ領域内 */}
 			{is_menu && !is_submenu && (
 				<>
+					{menuTrigger !== "event" && (
 					<ToggleElement
 						onToggle={handleHambergerToggle}
-						className="itmar_hamberger_btn"
-						style={hamburgerVars}
+						className={`itmar_hamberger_btn${menuTrigger === "icon" ? " itmar_icon_btn" : ""}`}
+						style={
+							menuTrigger === "icon"
+								? { ...hamburgerVars, ...menuIconVars(menuIcon) }
+								: hamburgerVars
+						}
 						openFlg={isMenuOpen}
 					>
 						<span></span>
 						<span></span>
 						<span></span>
 					</ToggleElement>
+					)}
 					<ToggleElement
 						onToggle={handleHambergerToggle}
 						openFlg={isMenuOpen}
