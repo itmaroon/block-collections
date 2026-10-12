@@ -3,7 +3,13 @@ import { __ } from "@wordpress/i18n";
 import type { CSSProperties } from "react";
 import type { CodeHighlightSaveProps } from "./types";
 
-export default function save({ attributes }: CodeHighlightSaveProps) {
+/**
+ * save() の出力は、サイトの言語で変えない（言語が違うサイトに移すと、保存された内容と食い違って、ブロックが無効になるため）。
+ * ラベルは英語で保存し、表示のときに、サーバー側（block-collections.php の render_block フィルター）で、サイトの言語に訳す。
+ * 翻訳ありで保存した昔の内容は、legacySave（deprecated）で読む。
+ */
+export function createSave(t: (text: string) => string) {
+	return function save({ attributes }: CodeHighlightSaveProps) {
 	const {
 		codeArea,
 		linenums,
@@ -70,8 +76,14 @@ export default function save({ attributes }: CodeHighlightSaveProps) {
 				<pre className={"prettyprint" + add_pre_class}>
 					{codeArea}
 				</pre>
-				<button className="code_copy">{__("Copy", "block-collections")}</button>
+				<button className="code_copy">{t("Copy")}</button>
 			</div>
 		</div>
 	);
+	};
 }
+
+export default createSave((text) => text);
+
+/** 昔の save()（サイトの言語で訳した文言を保存していたもの） */
+export const legacySave = createSave((text) => __(text, "block-collections"));

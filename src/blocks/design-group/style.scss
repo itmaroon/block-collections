@@ -112,6 +112,8 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  /* iPhone の Safari は、vh が、ツールバーを除いた高さになる。全面を覆うので、最大の高さ（lvh）にする */
+  height: 100lvh;
   max-width: none;
   background-color: var(--itmar-hamburger-backdrop, #000);
   opacity: 0;

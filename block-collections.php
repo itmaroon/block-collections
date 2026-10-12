@@ -5,7 +5,7 @@
  * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
  * Requires at least: 6.4
  * Requires PHP:      8.2.10
- * Version:           2.2.0
+ * Version:           2.3.4
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -129,6 +129,38 @@ function itmar_is_valid_calendar_date_span(array $span): bool
 }
 
 add_filter('itmar_btm_prepare_blocks', 'itmar_prepare_calendar_blocks_for_migration', 10, 1);
+
+/**
+ * ブロックの保存内容のラベルは、サイトの言語で訳さず、英語で保存している（言語が違うサイトに移しても、ブロックが無効にならないように）。
+ * 表示のときに、ここで、サイトの言語に訳す。昔の内容（訳した文言を保存したもの）には、英語が無いので、何も起きない。
+ *
+ * @param string $block_content 描画された HTML
+ * @param array  $block         ブロック
+ */
+function itmar_block_collections_translate_saved_labels($block_content, $block)
+{
+	switch ($block['blockName'] ?? '') {
+		case 'itmar/design-radio':
+			$pairs = array('>Clear<' => '>' . esc_html__('Clear', 'block-collections') . '<');
+			break;
+		case 'itmar/design-select':
+			$pairs = array('>Please Select.<' => '>' . esc_html__('Please Select.', 'block-collections') . '<');
+			break;
+		case 'itmar/design-text-ctrl':
+			$pairs = array(
+				'>Address Search<' => '>' . esc_html__('Address Search', 'block-collections') . '<',
+				'placeholder="example) 1234567"' => 'placeholder="' . esc_attr__('example', 'block-collections') . ') 1234567"',
+			);
+			break;
+		case 'itmar/code-highlight':
+			$pairs = array('>Copy<' => '>' . esc_html__('Copy', 'block-collections') . '<');
+			break;
+		default:
+			return $block_content;
+	}
+	return strtr($block_content, $pairs);
+}
+add_filter('render_block', 'itmar_block_collections_translate_saved_labels', 10, 2);
 
 //独自プラグイン等のエンキュー
 function itmar_highlight_scripts_and_styles()

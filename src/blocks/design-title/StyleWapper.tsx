@@ -502,7 +502,7 @@ export const createTitleStyleCss = (
 			white-space:${is_wrap ? "pre-wrap" : "nowrap !important"};
 			margin:0;font-weight:inherit;
 			${createHeadingSizeCss(headingSizeDesktop, headingSizeMobile, MEDIA_MOBILE)}
-			${isVertical ? "writing-mode:vertical-rl;text-orientation:upright;" : ""}
+			${isVertical ? "writing-mode:vertical-rl;text-orientation:upright;height:max-content;" : ""}
 			${MEDIA_MOBILE} {
 				padding:${mobile_renderedPadding};
 				width: ${mobile_val.width ?? "fit-content"};

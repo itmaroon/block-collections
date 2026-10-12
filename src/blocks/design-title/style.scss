@@ -6,6 +6,18 @@
  */
 @use "../reset.scss" as reset;
 
+// ブロックの「タイポグラフィ」で指定した値は、外側の div に付く（フォントは has-◯◯-font-family のクラス、ほかは style 属性）。
+// 中の見出しは、テーマの見出しの規則（theme.json の h1〜h6）に負けず、それを引き継ぐ。指定されたものだけを引き継ぐので、指定しないものは、テーマのまま。
+.wp-block-itmar-design-title[class*="-font-family"] :is(h1, h2, h3, h4, h5, h6) {
+	font-family: inherit;
+}
+
+@each $prop in (letter-spacing, line-height, font-weight, font-style, text-transform, text-decoration) {
+	.wp-block-itmar-design-title[style*="#{$prop}"] :is(h1, h2, h3, h4, h5, h6) {
+		#{$prop}: inherit;
+	}
+}
+
 .wp-block-itmar-design-title {
 	box-sizing: border-box;
 	width: fit-content;

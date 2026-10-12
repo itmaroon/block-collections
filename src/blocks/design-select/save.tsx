@@ -2,7 +2,13 @@ import { __ } from "@wordpress/i18n";
 import { useBlockProps } from "@wordpress/block-editor";
 import type { SelectOption, SelectSaveProps } from "./types";
 
-export default function save({ attributes }: SelectSaveProps) {
+/**
+ * save() の出力は、サイトの言語で変えない（言語が違うサイトに移すと、保存された内容と食い違って、ブロックが無効になるため）。
+ * ラベルは英語で保存し、表示のときに、サーバー側（block-collections.php の render_block フィルター）で、サイトの言語に訳す。
+ * 翻訳ありで保存した昔の内容は、legacySave（deprecated）で読む。
+ */
+export function createSave(t: (text: string) => string) {
+	return function save({ attributes }: SelectSaveProps) {
 	const {
 		inputName,
 		bgColor,
@@ -102,7 +108,7 @@ export default function save({ attributes }: SelectSaveProps) {
 							>
 								{selPattern === "single" && (
 									<option value="">
-										{__("Please Select.", "block-collections")}
+										{t("Please Select.")}
 									</option>
 								)}
 								{selectValues.map((optionItem: SelectOption) => {
@@ -134,7 +140,7 @@ export default function save({ attributes }: SelectSaveProps) {
 					<ul>
 						{selPattern === "single" && (
 							<li data-value="">
-								{__("Please Select.", "block-collections")}
+								{t("Please Select.")}
 							</li>
 						)}
 							{listOptions.map((optionItem: SelectOption) => (
@@ -162,4 +168,10 @@ export default function save({ attributes }: SelectSaveProps) {
 			</div>
 		</div>
 	);
+	};
 }
+
+export default createSave((text) => text);
+
+/** 昔の save()（サイトの言語で訳した文言を保存していたもの） */
+export const legacySave = createSave((text) => __(text, "block-collections"));

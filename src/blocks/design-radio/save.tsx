@@ -2,7 +2,13 @@ import { __ } from "@wordpress/i18n";
 import { useBlockProps } from "@wordpress/block-editor";
 import type { RadioOption, RadioSaveProps } from "./types";
 
-export default function save({ attributes }: RadioSaveProps) {
+/**
+ * save() の出力は、サイトの言語で変えない（言語が違うサイトに移すと、保存された内容と食い違って、ブロックが無効になるため）。
+ * ラベルは英語で保存し、表示のときに、サーバー側（block-collections.php の render_block フィルター）で、サイトの言語に訳す。
+ * 翻訳ありで保存した昔の内容は、legacySave（deprecated）で読む。
+ */
+export function createSave(t: (text: string) => string) {
+	return function save({ attributes }: RadioSaveProps) {
 	const {
 		bgColor,
 		inputName,
@@ -93,7 +99,7 @@ export default function save({ attributes }: RadioSaveProps) {
 				})}
 				{isReleaseButton && (
 					<label className="itmar_radio">
-						<button>{__("Clear", "block-collections")}</button>
+						<button>{t("Clear")}</button>
 					</label>
 				)}
 			</>
@@ -105,4 +111,10 @@ export default function save({ attributes }: RadioSaveProps) {
 			<div className="itmar-wrap">{renderContent()}</div>
 		</div>
 	);
+	};
 }
+
+export default createSave((text) => text);
+
+/** 昔の save()（サイトの言語で訳した文言を保存していたもの） */
+export const legacySave = createSave((text) => __(text, "block-collections"));

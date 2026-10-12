@@ -395,16 +395,21 @@ export default function Edit({
 
 	//背景色変更によるシャドー属性の書き換え
 	useEffect(() => {
-		if (baseColor) {
-			setAttributes({
-				shadow_element: { ...shadow_element, baseColor: baseColor },
-			});
+		if (baseColor && !/^(transparent|rgba\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+\s*,\s*0(\.0+)?\s*\))$/.test(String(baseColor))) {
+			if ((attributes.shadow_element as { baseColor?: string } | undefined)?.baseColor !== baseColor) {
+				setAttributes({
+					shadow_element: { ...shadow_element, baseColor: baseColor },
+				});
+			}
 			const new_shadow = ShadowElm({
 				...(shadow_element as ShadowState),
 				baseColor,
 			});
 			if (new_shadow) {
-				setAttributes({ shadow_result: toStyleRecord(new_shadow.style) });
+				const nextShadow = toStyleRecord(new_shadow.style);
+				if (JSON.stringify(nextShadow) !== JSON.stringify(attributes.shadow_result)) {
+					setAttributes({ shadow_result: nextShadow });
+				}
 			}
 		}
 	}, [baseColor]);
@@ -423,7 +428,10 @@ export default function Edit({
 			baseColor: base,
 		});
 		if (new_shadow) {
-			setAttributes({ shadow_result_td: toStyleRecord(new_shadow.style) });
+			const nextShadow = toStyleRecord(new_shadow.style);
+			if (JSON.stringify(nextShadow) !== JSON.stringify(attributes.shadow_result_td)) {
+				setAttributes({ shadow_result_td: nextShadow });
+			}
 		}
 	}, [is_shadow_td, baseColor, bgColor_td]);
 

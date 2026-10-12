@@ -281,22 +281,27 @@ export default function Edit(props: GroupEditProps) {
 			if (Object.keys(parseObj).length !== 0) {
 				//背景色変更によるシャドー属性の書き換え
 				const baseColor = parseObj.backgroundColor;
-				if (baseColor) {
-					setAttributes({
-						shadow_element: { ...shadow_element, baseColor: baseColor },
-					});
+				if (baseColor && !/^(transparent|rgba\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+\s*,\s*0(\.0+)?\s*\))$/.test(String(baseColor))) {
+					if ((attributes.shadow_element as { baseColor?: string } | undefined)?.baseColor !== baseColor) {
+						setAttributes({
+							shadow_element: { ...shadow_element, baseColor: baseColor },
+						});
+					}
 					const new_shadow = ShadowElm({
 						...(shadow_element as ShadowState),
 						baseColor: baseColor,
 					});
 					if (new_shadow) {
-						setAttributes({
-							shadow_result: toStyleRecord(new_shadow.style),
-						});
+						const nextShadow = toStyleRecord(new_shadow.style);
+						if (JSON.stringify(nextShadow) !== JSON.stringify(attributes.shadow_result)) {
+							setAttributes({ shadow_result: nextShadow });
+						}
 					}
 				}
 				//スタイルオブジェクトをブロックの属性に書き込む
-				setAttributes({ block_style: parseObj });
+				if (JSON.stringify(parseObj) !== JSON.stringify(attributes.block_style)) {
+					setAttributes({ block_style: parseObj });
+				}
 			}
 		}
 	}, [styleObject]);
@@ -346,7 +351,10 @@ export default function Edit(props: GroupEditProps) {
 	);
 
 	useEffect(() => {
-		setAttributes({ has_submenu: isSubmenuInclude });
+		// 値が変わらないときは書き込まない（開いただけで「変更あり」にしない）
+		if (Boolean(attributes.has_submenu) !== Boolean(isSubmenuInclude)) {
+			setAttributes({ has_submenu: isSubmenuInclude });
+		}
 	}, [isSubmenuInclude]);
 
 	//ブロックの監視（オープニングブロックが含まれているか）

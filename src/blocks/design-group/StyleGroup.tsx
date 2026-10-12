@@ -209,6 +209,16 @@ export const createGroupStyleCss = (
 	 */
 	const overflow = is_menu && !has_submenu ? "scroll" : "visible";
 	const contentSelector = `${scope} > div > .group_contents`;
+	/*
+	 * 高さが fit / auto のグループは、内側の要素の高さも auto にする。
+	 * 内側は、既定で height:100% / inherit を持つ。親の高さが内容で決まる（fit-content）とき、
+	 * Chrome は、その % を auto として扱うが、iPhone の Safari（iOS 26）は 0 として扱い、
+	 * 中身がはみ出して、position:fixed のバーなどが、潰れて、見切れる。
+	 */
+	const fitInnerHeightCss = (heightVal?: string) =>
+		heightVal === "fit" || heightVal === "auto"
+			? `${scope} > div, ${contentSelector} { height: auto; }`
+			: "";
 
 	/*
 	 * 重ね順。position_prm は absolute のとき `z-index: auto` を出すので、
@@ -274,6 +284,8 @@ export const createGroupStyleCss = (
 			${transform}
 		}
 
+		${fitInnerHeightCss(default_val.height_val)}
+
 		${contentSelector} {
 			${animationCss}
 			${cssValueToString(shadow)};
@@ -299,6 +311,8 @@ export const createGroupStyleCss = (
 				padding: ${space_prm(mobile_val.padding)};
 			}
 
+			${fitInnerHeightCss(mobile_val.height_val)}
+
 			${contentSelector} {
 				padding: ${space_prm(mobile_val.padding_content)};
 				overflow-y: ${overflow};
@@ -318,6 +332,7 @@ export const createGroupStyleCss = (
 					transition: all 0.5s ease 0s;
 					z-index: 120;
 					height: 100vh;
+					height: 100lvh;
 					width: 80% !important;
 					background-color: var(--itmar-content-back);
 				}

@@ -191,16 +191,22 @@ export default function Edit(props: DesignButtonEditProps) {
 
 	//背景色変更によるシャドー属性の書き換え
 	useEffect(() => {
-		if (baseColor) {
-			setAttributes({
-				shadow_element: { ...shadow_element, baseColor: baseColor },
-			});
+		if (baseColor && !/^(transparent|rgba\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+\s*,\s*0(\.0+)?\s*\))$/.test(String(baseColor))) {
+			// 値が変わらないときは書き込まない（開いただけで「変更あり」にしない）
+			if ((shadow_element as unknown as ShadowState)?.baseColor !== baseColor) {
+				setAttributes({
+					shadow_element: { ...shadow_element, baseColor: baseColor },
+				});
+			}
 			const new_shadow = ShadowElm({
 				...(shadow_element as ShadowState),
 				baseColor: baseColor,
 			});
 			if (new_shadow) {
-				setAttributes({ shadow_result: toStyleRecord(new_shadow.style) });
+				const nextShadow = toStyleRecord(new_shadow.style);
+				if (JSON.stringify(nextShadow) !== JSON.stringify(attributes.shadow_result)) {
+					setAttributes({ shadow_result: nextShadow });
+				}
 			}
 		}
 	}, [baseColor]);

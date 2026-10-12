@@ -984,15 +984,20 @@ export default function Edit({
 	//ダイアログの背景色が直接指定の色のとき、影の色をそれに合わせる（CSS変数の色は計算できないので触らない）
 	useEffect(() => {
 		if (!dialogBgColor || dialogBgColor.startsWith("var(")) return;
-		setAttributes({
-			shadow_dialog: { ...shadow_dialog, baseColor: dialogBgColor },
-		});
+		if ((attributes.shadow_dialog as { baseColor?: string } | undefined)?.baseColor !== dialogBgColor) {
+			setAttributes({
+				shadow_dialog: { ...shadow_dialog, baseColor: dialogBgColor },
+			});
+		}
 		const new_shadow = ShadowElm({
 			...(shadow_dialog as ShadowState),
 			baseColor: dialogBgColor,
 		});
 		if (new_shadow) {
-			setAttributes({ shadow_result_dialog: toStyleRecord(new_shadow.style) });
+			const nextShadow = toStyleRecord(new_shadow.style);
+			if (JSON.stringify(nextShadow) !== JSON.stringify(attributes.shadow_result_dialog)) {
+				setAttributes({ shadow_result_dialog: nextShadow });
+			}
 		}
 	}, [dialogBgColor]);
 
@@ -1015,56 +1020,74 @@ export default function Edit({
 
 	//背景色変更によるシャドー属性の書き換え
 	useEffect(() => {
-		if (baseColor) {
-			setAttributes({
-				shadow_box: { ...shadow_box, baseColor: baseColor },
-			});
+		if (baseColor && !/^(transparent|rgba\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+\s*,\s*0(\.0+)?\s*\))$/.test(String(baseColor))) {
+			if ((attributes.shadow_box as { baseColor?: string } | undefined)?.baseColor !== baseColor) {
+				setAttributes({
+					shadow_box: { ...shadow_box, baseColor: baseColor },
+				});
+			}
 			const new_shadow = ShadowElm({
 				...(shadow_box as ShadowState),
 				baseColor: baseColor,
 			});
 			if (new_shadow) {
-				setAttributes({ shadow_result_box: toStyleRecord(new_shadow.style) });
+				const nextShadow = toStyleRecord(new_shadow.style);
+				if (JSON.stringify(nextShadow) !== JSON.stringify(attributes.shadow_result_box)) {
+					setAttributes({ shadow_result_box: nextShadow });
+				}
 			}
 		}
-		if (labelBaseColor) {
-			setAttributes({
-				shadow_input: { ...shadow_input, baseColor: labelBaseColor },
-			});
+		if (labelBaseColor && !/^(transparent|rgba\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+\s*,\s*0(\.0+)?\s*\))$/.test(String(labelBaseColor))) {
+			if ((attributes.shadow_input as { baseColor?: string } | undefined)?.baseColor !== labelBaseColor) {
+				setAttributes({
+					shadow_input: { ...shadow_input, baseColor: labelBaseColor },
+				});
+			}
 			const new_shadow = ShadowElm({
 				...(shadow_input as ShadowState),
 				baseColor: labelBaseColor,
 			});
 			if (new_shadow) {
-				setAttributes({ shadow_result_input: toStyleRecord(new_shadow.style) });
+				const nextShadow = toStyleRecord(new_shadow.style);
+				if (JSON.stringify(nextShadow) !== JSON.stringify(attributes.shadow_result_input)) {
+					setAttributes({ shadow_result_input: nextShadow });
+				}
 			}
 		}
 
-		if (weekBaseColor) {
-			setAttributes({
-				shadow_week: { ...shadow_week, baseColor: weekBaseColor },
-			});
+		if (weekBaseColor && !/^(transparent|rgba\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+\s*,\s*0(\.0+)?\s*\))$/.test(String(weekBaseColor))) {
+			if ((attributes.shadow_week as { baseColor?: string } | undefined)?.baseColor !== weekBaseColor) {
+				setAttributes({
+					shadow_week: { ...shadow_week, baseColor: weekBaseColor },
+				});
+			}
 			const new_shadow = ShadowElm({
 				...(shadow_week as ShadowState),
 				baseColor: weekBaseColor,
 			});
 			if (new_shadow) {
-				setAttributes({ shadow_result_week: toStyleRecord(new_shadow.style) });
+				const nextShadow = toStyleRecord(new_shadow.style);
+				if (JSON.stringify(nextShadow) !== JSON.stringify(attributes.shadow_result_week)) {
+					setAttributes({ shadow_result_week: nextShadow });
+				}
 			}
 		}
 
-		if (bgColor_select) {
-			setAttributes({
-				shadow_select: { ...shadow_select, baseColor: bgColor_select },
-			});
+		if (bgColor_select && !/^(transparent|rgba\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+\s*,\s*0(\.0+)?\s*\))$/.test(String(bgColor_select))) {
+			if ((attributes.shadow_select as { baseColor?: string } | undefined)?.baseColor !== bgColor_select) {
+				setAttributes({
+					shadow_select: { ...shadow_select, baseColor: bgColor_select },
+				});
+			}
 			const new_shadow = ShadowElm({
 				...(shadow_select as ShadowState),
 				baseColor: bgColor_select,
 			});
 			if (new_shadow) {
-				setAttributes({
-					shadow_result_select: toStyleRecord(new_shadow.style),
-				});
+				const nextShadow = toStyleRecord(new_shadow.style);
+				if (JSON.stringify(nextShadow) !== JSON.stringify(attributes.shadow_result_select)) {
+					setAttributes({ shadow_result_select: nextShadow });
+				}
 			}
 		}
 	}, [baseColor, labelBaseColor, weekBaseColor, bgColor_select]);

@@ -3,7 +3,13 @@ import hideIcon from "./hide.svg";
 import { useBlockProps } from "@wordpress/block-editor";
 import type { TextCtrlSaveProps } from "./types";
 
-export default function save({ attributes }: TextCtrlSaveProps) {
+/**
+ * save() の出力は、サイトの言語で変えない（言語が違うサイトに移すと、保存された内容と食い違って、ブロックが無効になるため）。
+ * ラベルは英語で保存し、表示のときに、サーバー側（block-collections.php の render_block フィルター）で、サイトの言語に訳す。
+ * 翻訳ありで保存した昔の内容は、legacySave（deprecated）で読む。
+ */
+export function createSave(t: (text: string) => string) {
+	return function save({ attributes }: TextCtrlSaveProps) {
 	const {
 		inputName,
 		addressInput,
@@ -144,12 +150,12 @@ export default function save({ attributes }: TextCtrlSaveProps) {
 							type="text"
 							id={inputName}
 							name={inputName}
-							placeholder={`${__("example", "block-collections")}) 1234567`}
+							placeholder={`${t("example")}) 1234567`}
 							className="contact_text empty"
 							data-address-target={addressInput}
 						/>
 						<button type="button" className="zip-search-button">
-							{__("Address Search", "block-collections")}
+							{t("Address Search")}
 						</button>
 					</div>
 				)}
@@ -176,4 +182,10 @@ export default function save({ attributes }: TextCtrlSaveProps) {
 			</div>
 		</div>
 	);
+	};
 }
+
+export default createSave((text) => text);
+
+/** 昔の save()（サイトの言語で訳した文言を保存していたもの） */
+export const legacySave = createSave((text) => __(text, "block-collections"));

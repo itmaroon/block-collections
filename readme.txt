@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      7.1
-Stable tag:        2.2.0
+Stable tag:        2.3.4
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,27 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 2.3.4 =
+- Fixed: a Design Group whose height is "fit" or "auto" collapsed to a few pixels on iPhone (Safari 26), so a fixed bar at the top of the page was squashed and cut off. The inner elements now also use an automatic height in that case.
+
+= 2.3.3 =
+- Added: svh, dvh and lvh units for the free height of Design Group (and other blocks using the shared height control). They follow the browser toolbars on phones, so a full-screen block is not hidden behind the bottom bar on iPhone.
+
+= 2.3.2 =
+- Fixed: the hamburger menu backdrop and slide-in panel did not reach the bottom of the screen on iPhone (Safari). They now use the large viewport height (100lvh).
+- Fixed: vertical text in Design Title wrapped after a few characters on iPhone (Safari) when the parent is sized by its content. The heading now takes the length of its content.
+
+= 2.3.1 =
+- Fixed: the typography chosen for a Title block (font, letter spacing, line height, font weight, font style, text transform, text decoration) now reaches the heading inside the block. Before, a theme that sets these for headings (h1 to h6) overrode the values chosen for the block.
+
+= 2.3.0 =
+- Changed: the Radio, Select, Text Control and Code Highlight blocks no longer save translated labels ("Clear", "Please Select.", "Address Search", "Copy", the zip-code placeholder). They are saved in English and translated when the page is shown, so a block does not become invalid when its content is moved to a site that uses another language. Content saved by earlier versions still opens without any warning (it is read by the older save, and updated when you save).
+- Changed: the Title block saves numbers and amounts in a fixed format that does not depend on the site language (amounts are Japanese yen). Earlier content is read as before.
+- Fixed: the label of the first option of a Select block is shown in the language of the site, on the front end.
+
+= 2.2.1 =
+- Fixed: opening a template or template part in the Site Editor no longer marks it as changed. Blocks that wrote their own attributes on load (shadow colors, menu flags, block style) now write only when the value really changes, and a transparent background is no longer saved as the shadow base color.
+
 = 2.2.0 =
 - Colors now come from the `--itmar-*` role variables (content, content-back, background, accents) in the block styles as well as in the saved defaults, so the blocks follow the active theme's palette. The theme.json color-slot filter was removed because it listed the same colors twice in themes that have their own palette names.
 - Added `itmar-design-roles.css`: font, spacing and width roles (`--itmar-font-*`, `--itmar-space-*`, `--itmar-width-*`) with theme-independent fallbacks, so ready-made patterns look right in any theme.
@@ -359,6 +380,24 @@ First public release
 
 
 == Upgrade Notice ==
+= 2.3.4 =
+Fixes fixed header bars being squashed and cut off on iPhone. No configuration changes are required.
+
+= 2.3.3 =
+Adds svh, dvh and lvh units to the free height setting. No configuration changes are required.
+
+= 2.3.2 =
+Fixes vertical Design Title text on iPhone. No configuration changes are required.
+
+= 2.3.1 =
+Fixes the typography chosen for a Title block (font, letter spacing, line height) being ignored in themes that style headings. No configuration changes are required.
+
+= 2.3.0 =
+Labels in the Radio, Select, Text Control, Code Highlight and Title blocks are now saved in a language-independent form. Existing pages keep working; blocks are converted when you save them in the editor. Back up before updating a large site.
+
+= 2.2.1 =
+Fixes the Site Editor showing "changes to review" just from opening a template. No configuration changes are required.
+
 = 2.2.0 =
 Colors now follow the active theme through the --itmar-* role variables, and the design blocks were rebuilt. Please check pages that use the Design Group, Title or Button blocks after updating.
 

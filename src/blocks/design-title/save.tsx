@@ -13,7 +13,43 @@ const toOptionStyleObject = (value: unknown): TitleOptionStyle => {
 	return {};
 };
 
-export default function save({ attributes }: TitleSaveProps) {
+/**
+ * 保存する数値・金額の書式は、サイトの言語で変えない（共有パッケージの displayFormated は、サイトの言語で書式を決めるので、
+ * 言語が違うサイトに移すと、保存された内容と食い違って、ブロックが無効になる）。金額は日本円なので、日本語の書式にそろえる。
+ * サイトの言語での表示は、表示のとき（query-blocks などの front）に整える。サイトの言語で保存した昔の内容は、legacySave（deprecated）で読む。
+ */
+const NUMBER_FORMATS: Record<string, Intl.NumberFormatOptions> = {
+	num_comma: { style: "decimal", useGrouping: true },
+	num_no_comma: { style: "decimal", useGrouping: false },
+	num_amount: { style: "currency", currency: "JPY" },
+};
+export const displayFormatedForSave = (
+	content: any,
+	userFormat: string | undefined,
+	freeStrFormat: string,
+	decimal: number,
+): string => {
+	const base = userFormat ? NUMBER_FORMATS[userFormat] : undefined;
+	if (!base) {
+		return displayFormated(content, userFormat, freeStrFormat, decimal);
+	}
+	if (content === undefined || content === null) return "";
+	const numeric = typeof content === "number" ? content : parseFloat(content);
+	if (isNaN(numeric)) return String(content);
+	const options: Intl.NumberFormatOptions = { ...base };
+	if (typeof decimal === "number" && decimal > 0) {
+		options.minimumFractionDigits = decimal;
+		options.maximumFractionDigits = decimal;
+	}
+	try {
+		return new Intl.NumberFormat("ja", options).format(numeric);
+	} catch (e) {
+		return String(content);
+	}
+};
+
+export function createSave(format: typeof displayFormated) {
+	return function save({ attributes }: TitleSaveProps) {
 	const {
 		headingType,
 		uniqueID,
@@ -79,7 +115,7 @@ export default function save({ attributes }: TitleSaveProps) {
 		const formatedValue =
 			titleType === "date"
 				? formatStoredTitleDate(headingContent, dateValue, userFormat)
-				: displayFormated(headingContent, userFormat, freeStrFormat, decimal);
+				: format(headingContent, userFormat, freeStrFormat, decimal);
 		return (
 			<RichText.Content tagName={headingType as any} value={formatedValue} />
 		);
@@ -176,4 +212,10 @@ export default function save({ attributes }: TitleSaveProps) {
 			)}
 		</div>
 	);
+	};
 }
+
+export default createSave(displayFormatedForSave);
+
+/** 昔の save()（サイトの言語で書式を決めていたもの） */
+export const legacySave = createSave(displayFormated);
