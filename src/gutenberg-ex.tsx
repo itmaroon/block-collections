@@ -375,6 +375,12 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit: ComponentTyp
 											"block-collections",
 										)}
 									</p>
+									<p>
+										{__(
+											"The image fills the block and is cropped (cover) when its aspect ratio differs. To show the whole image, set Scale to Contain in Dimensions. A percentage height only works when the parent element has a set height.",
+											"block-collections",
+										)}
+									</p>
 								<ToggleControl
 									label={__("Fit Parent Element", "block-collections")}
 									checked={isFitScale}
@@ -404,7 +410,7 @@ const withInspectorControl = createHigherOrderComponent((BlockEdit: ComponentTyp
 												label={__("Height", "block-collections")}
 												value={scaleHeight}
 												help={__(
-													"If left blank, it will not be set.",
+													"If left blank, the height follows the image.",
 													"block-collections",
 												)}
 											/>
@@ -924,6 +930,8 @@ const applyExtraAttributesInEditor = createHigherOrderComponent(
 								extraStyle = {
 									...extraStyle,
 									boxSizing: "border-box",
+									// 保存側（applyExtraAttributesInFrontEnd）と同じ。絶対配置の画像の基準にする
+									position: "relative",
 									...(setWidth !== undefined && { width: setWidth }),
 									...(setHeight !== undefined && { height: setHeight }),
 								};

@@ -20,6 +20,7 @@ export default function save({ attributes }: GroupSaveProps) {
 		hamburger_style,
 		menuTrigger,
 		menuIcon,
+		zIndex,
 	} = attributes;
 
 	/*
@@ -28,6 +29,7 @@ export default function save({ attributes }: GroupSaveProps) {
 	 * 未設定のときは出さないので、既存のブロックの保存内容は変わらない。
 	 */
 	const {
+		zIndex: _zIndex,
 		menuTrigger: _menuTrigger,
 		menuIcon: _menuIcon,
 		...otherAttributes
@@ -35,6 +37,8 @@ export default function save({ attributes }: GroupSaveProps) {
 	const blockProps = useBlockProps.save({
 		"data-attributes": JSON.stringify({
 			...otherAttributes,
+			// block.json の定義順（zIndex → menuTrigger → menuIcon）に固定する。編集で後から足したときの並びの食い違いを防ぐ
+			...(zIndex !== undefined && { zIndex }),
 			...(menuTrigger !== undefined && { menuTrigger }),
 			...(menuTrigger === "icon" && menuIcon !== undefined && { menuIcon }),
 		}),

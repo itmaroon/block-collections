@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      7.1
-Stable tag:        2.3.4
+Stable tag:        2.3.9
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,25 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 2.3.9 =
+- Fixed: an image with "Fit Parent Element" turned on disappeared when its height was left blank. The image now follows its own height in that case.
+- Fixed: the image block in the editor now has the same position setting as the saved page, so the editor and the front end look the same.
+- Improved: the "Fit Parent Element" panel now explains that the image is cropped to fill the block, how to show the whole image (Scale: Contain), and that a percentage height needs a parent with a set height.
+
+= 2.3.8 =
+- Fixed: changing the new "z-index" setting of Design Group and saving made the block invalid the next time the page was opened (block recovery was requested once). The value is now written to the saved markup in a fixed position, like menuTrigger and menuIcon. Blocks that are already saved are not affected.
+- Fixed: on iPhone (Safari 26) the lower part of a mobile slide-in panel (for example the reservation time table) was hidden under the bottom toolbar and could not be scrolled to. The panel height now follows the visible screen (100dvh).
+
+= 2.3.7 =
+- Fixed: a Design Table wider than its block (large text, many columns) was clipped and could not be scrolled. It now scrolls horizontally.
+
+= 2.3.6 =
+- Changed: Design Table column widths are now changed from the border between two columns. Dragging a border moves it left or right, making one column wider and its neighbour narrower, so the total stays 100% and every column (including the last one) can be adjusted. Before, only the column whose right edge was dragged changed, and the last column had no handle.
+- Fixed: text inside a Design Table looked larger on iPhone (Safari) than on other devices because of automatic text enlargement. It is now turned off for the table.
+
+= 2.3.5 =
+- Changed: on mobile, the top margin of a slide-in panel (a Design Group used as a menu) now moves the panel down; it used to be forced to 0, so the setting had no effect. The panel height is reduced by the same amount so it does not run off the bottom of the screen. The default (0) behaves as before.
+
 = 2.3.4 =
 - Fixed: a Design Group whose height is "fit" or "auto" collapsed to a few pixels on iPhone (Safari 26), so a fixed bar at the top of the page was squashed and cut off. The inner elements now also use an automatic height in that case.
 
@@ -380,6 +399,21 @@ First public release
 
 
 == Upgrade Notice ==
+= 2.3.9 =
+Images with Fit Parent Element no longer disappear when the height is blank. New help text needs the translation files to be updated.
+
+= 2.3.8 =
+Fixes the block validation error after changing z-index, and slide-in panels being cut off at the bottom on iPhone.
+
+= 2.3.7 =
+A Design Table wider than its block can now be scrolled sideways instead of being cut off.
+
+= 2.3.6 =
+Design Table column widths are adjusted from the border between two columns, and text no longer looks enlarged on iPhone. Existing tables keep their saved widths.
+
+= 2.3.5 =
+The top margin of a mobile slide-in panel now takes effect. Panels whose mobile top margin is not 0 will move down by that amount.
+
 = 2.3.4 =
 Fixes fixed header bars being squashed and cut off on iPhone. No configuration changes are required.
 

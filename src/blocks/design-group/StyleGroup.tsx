@@ -208,6 +208,15 @@ export const createGroupStyleCss = (
 	 * position: sticky がページではなくその領域を基準にする＝効かなくなる。
 	 */
 	const overflow = is_menu && !has_submenu ? "scroll" : "visible";
+	/*
+	 * せりだしパネル（is_menu）は、モバイルで、画面の左の外に置いた固定の位置から出てくる。
+	 * 位置（top/left）は固定だが、上のマージンは、パネルを下へ下げる量として使う（既定は 0）。
+	 * 高さは、その分を引いて、画面の下にはみ出さないようにする。
+	 */
+	const menuTopMargin = (() => {
+		const top = String(mobile_val?.margin?.top ?? "").trim();
+		return top && top !== "0" ? top : "0px";
+	})();
 	const contentSelector = `${scope} > div > .group_contents`;
 	/*
 	 * 高さが fit / auto のグループは、内側の要素の高さも auto にする。
@@ -327,12 +336,18 @@ export const createGroupStyleCss = (
 					position: fixed !important;
 					top: 0;
 					left: 0;
-					margin-top: 0;
+					margin-top: ${menuTopMargin};
 					transform: translateX(-100%);
 					transition: all 0.5s ease 0s;
 					z-index: 120;
-					height: 100vh;
-					height: 100lvh;
+					height: calc(100vh - ${menuTopMargin});
+					/*
+					 * パネルの高さは、「実際に見える高さ」にする。iPhone の Safari（iOS 26）は、
+					 * 下のツールバーの下に、position:fixed の要素を描画しない。lvh（ツールバーが引っ込んだ高さ）だと、
+					 * パネルの下端がツールバーの下に隠れ、中身が、見えず、スクロールもできない。
+					 */
+					height: calc(100svh - ${menuTopMargin});
+					height: calc(100dvh - ${menuTopMargin});
 					width: 80% !important;
 					background-color: var(--itmar-content-back);
 				}

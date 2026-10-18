@@ -254,6 +254,8 @@ export default function Edit({
 	]);
 
 	//マウスドラッグの処理（カラム幅の変更）
+	// index は、列と列の境目（index 列目と index+1 列目の間）。境目を動かすと、左右の 2 列の幅が、反対向きに変わる。
+	// 合計は 100% のまま変わらないので、どの列も、境目の取っ手で調整できる。
 	const handleMouseDown = useCallback(
 		(index: number) => (e: ReactMouseEvent<HTMLElement>) => {
 			e.preventDefault();
@@ -261,7 +263,16 @@ export default function Edit({
 
 			const ownerDocument = e.currentTarget.ownerDocument;
 
-			// ✅ 1. 画面全体を覆う透明なガードパネルを作成
+			const tableElement = e.currentTarget.closest("table");
+			if (!tableElement) return;
+
+			const cols =
+				tableElement.querySelectorAll<HTMLTableColElement>("colgroup col");
+			const leftCol = cols[index];
+			const rightCol = cols[index + 1];
+			if (!leftCol || !rightCol) return;
+
+			// 画面全体を覆う透明なガードパネル（マウスが表の外に出ても追従するため）
 			const overlay = ownerDocument.createElement("div");
 			Object.assign(overlay.style, {
 				position: "fixed",
@@ -276,61 +287,41 @@ export default function Edit({
 			});
 			ownerDocument.body.appendChild(overlay);
 
-			// ✅ 2. columWidth の初期化（依存関係を安全に処理）
-			const currentCount = tableHeading.length;
-			let safeWidths = Array.isArray(columWidth) ? [...columWidth] : [];
-			if (safeWidths.length < currentCount) {
-				const defaultW = `${Math.floor(100 / currentCount)}%`;
-				safeWidths = Array.from(
-					{ length: currentCount },
-					(_, i) => columWidth[i] || defaultW,
-				);
-			}
-
-			const tableElement = e.currentTarget.closest("table");
-			if (!tableElement) {
-				if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-				return;
-			}
-
 			const tableRect = tableElement.getBoundingClientRect();
 			const startX = e.pageX;
 
-			const cols =
-				tableElement.querySelectorAll<HTMLTableColElement>("colgroup col");
-			const targetCol = cols[index];
+			// 開始時の、全列の実際の幅（px）。保存する値は、ここから割合を作る（全列に、明示的な幅が入る）
+			const startPx = Array.from(cols).map(
+				(col) => col.getBoundingClientRect().width,
+			);
+			const pairPx = startPx[index] + startPx[index + 1];
+			// 最小幅は、表の 15%。ただし、2 列の合計が小さいときは、その半分まで
+			const minPx = Math.min(tableRect.width * 0.15, pairPx / 2);
 
-			if (!targetCol) {
-				if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-				return;
-			}
+			const calcPair = (clientDiff: number): [number, number] => {
+				const leftPx = Math.min(
+					pairPx - minPx,
+					Math.max(minPx, startPx[index] + clientDiff),
+				);
+				return [leftPx, pairPx - leftPx];
+			};
+			const toPercent = (px: number) =>
+				`${((px / tableRect.width) * 100).toFixed(2)}%`;
 
-			// 開始時の物理幅(px)を基準として取得
-			const startWidthPx = targetCol.getBoundingClientRect().width;
-
-			// ✅ マウス移動時の処理
+			// マウス移動時の処理（DOMへ即時反映）
 			const handleMouseMove = (moveEvent: MouseEvent) => {
-				const diffX = moveEvent.pageX - startX;
-				const currentWidthPx = startWidthPx + diffX;
-
-				// テーブル幅に対する割合を計算
-				let finalPercent = (currentWidthPx / tableRect.width) * 100;
-				finalPercent = Math.max(15, finalPercent); // 最小幅15%
-
-				// DOMへ即時反映
-				targetCol.style.width = `${finalPercent.toFixed(2)}%`;
+				const [leftPx, rightPx] = calcPair(moveEvent.pageX - startX);
+				leftCol.style.width = toPercent(leftPx);
+				rightCol.style.width = toPercent(rightPx);
 			};
 
-			// ✅ マウスを離した時の処理
+			// マウスを離した時の処理（属性の保存）
 			const handleMouseUp = (upEvent: MouseEvent) => {
-				const diffX = upEvent.pageX - startX;
-				let finalPercent = ((startWidthPx + diffX) / tableRect.width) * 100;
-				finalPercent = Math.max(15, finalPercent);
-
-				// 属性の保存
-				const newColWidths = [...safeWidths];
-				newColWidths[index] = `${finalPercent.toFixed(2)}%`;
-				setAttributes({ columWidth: newColWidths });
+				const [leftPx, rightPx] = calcPair(upEvent.pageX - startX);
+				const widthsPx = [...startPx];
+				widthsPx[index] = leftPx;
+				widthsPx[index + 1] = rightPx;
+				setAttributes({ columWidth: widthsPx.map(toPercent) });
 
 				// クリーンアップ
 				if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
@@ -338,13 +329,13 @@ export default function Edit({
 				ownerDocument.removeEventListener("mouseup", handleMouseUp);
 			};
 
-			// ✅ 登録先を ownerDocument に統一（overlay越しでも確実に拾うため）
+			// 登録先を ownerDocument に統一（overlay越しでも確実に拾うため）
 			ownerDocument.addEventListener("mousemove", handleMouseMove, {
 				passive: true,
 			});
 			ownerDocument.addEventListener("mouseup", handleMouseUp);
 		},
-		[columWidth, tableHeading, setAttributes],
+		[setAttributes],
 	);
 
 	//クリックされたセルの取得

@@ -3,9 +3,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Block Collections 2.0.9\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-collections\n"
-"POT-Creation-Date: 2026-10-06T05:07:06+02:00\n"
-"PO-Revision-Date: 2026-10-06 12:09+0900\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/block-"
+"collections\n"
+"POT-Creation-Date: 2026-10-14T03:05:19+02:00\n"
+"PO-Revision-Date: 2026-10-14 10:08+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -25,33 +26,59 @@ msgstr "Block Collections"
 msgid ""
 "A plug-in collects multiple blocks of small-scale user interface "
 "functionality."
-msgstr "小さな規模のユーザーインタフェースの機能を持った複数のブロックをプラグインに集めました。"
+msgstr ""
+"小さな規模のユーザーインタフェースの機能を持った複数のブロックをプラグインに"
+"集めました。"
 
 #. Author of the plugin
 #: block-collections.php
 msgid "Web Creator ITmaroon"
 msgstr "WebクリエイターITmaroon"
 
-#: block-collections.php:373
+#: block-collections.php:144 build/blocks/design-calender/index.js:1
+#: build/blocks/design-calender/view.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-radio/index.js:1
+msgid "Clear"
+msgstr "クリア"
+
+#: block-collections.php:147 build/607.js:1
+#: build/blocks/design-select/index.js:1
+msgid "Please Select."
+msgstr "選択してください。"
+
+#: block-collections.php:151 build/398.js:1
+msgid "Address Search"
+msgstr "住所検索"
+
+#: block-collections.php:152 build/398.js:1
+msgid "example"
+msgstr "例"
+
+#: block-collections.php:156
+msgid "Copy"
+msgstr "コピー"
+
+#: block-collections.php:405
 msgid "The requested calendar month is invalid."
 msgstr "指定されたカレンダーの月が正しくありません。"
 
-#: block-collections.php:381
-#| msgid "Google Calendar API KEY"
+#: block-collections.php:413
 msgid "Google Calendar API key is not configured."
 msgstr "Google Calendar API キーが設定されていません。"
 
-#: block-collections.php:420 build/blocks/design-calender/index.js:1
+#: block-collections.php:452 build/blocks/design-calender/index.js:1
 msgid "Holiday information could not be retrieved."
 msgstr "祝日情報を取得できませんでした。"
 
-#: block-collections.php:432
+#: block-collections.php:464
 msgid ""
 "Google Calendar rejected the API request. Check the API key and its "
 "restrictions."
-msgstr "Google カレンダーが API リクエストを拒否しました。API キーとその制限を確認してください。"
+msgstr ""
+"Google カレンダーが API リクエストを拒否しました。API キーとその制限を確認し"
+"てください。"
 
-#: block-collections.php:441
+#: block-collections.php:473
 msgid "Google Calendar returned an invalid response."
 msgstr "Google カレンダーから正しくない応答が返されました。"
 
@@ -114,8 +141,8 @@ msgid "Choose Text color"
 msgstr "テキスト色を選択"
 
 #: build/398.js:1 build/607.js:1 build/blocks/design-button/index.js:1
-#: build/blocks/design-calender/index.js:1
-#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
+#: build/blocks/design-calender/index.js:1 build/blocks/design-table/index.js:1
+#: build/blocks/design-title/index.js:1
 msgid "Choose Background color"
 msgstr "背景色を選択"
 
@@ -137,8 +164,7 @@ msgid "Spacing with textbox"
 msgstr "テキストボックスとの距離"
 
 #: build/398.js:1 build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-radio/index.js:1
 msgid "Input element information setting"
 msgstr "インプット要素情報設定"
 
@@ -217,44 +243,41 @@ msgstr "フォーカス時の色を選択"
 
 #: build/398.js:1 build/607.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1
 msgid "Margin settings(mobile)"
 msgstr "マージン設定(モバイル)"
 
 #: build/398.js:1 build/607.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1
 msgid "Margin settings(desk top)"
 msgstr "マージン設定(デスクトップ)"
 
 #: build/398.js:1 build/607.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Padding settings(mobile)"
 msgstr "パディング設定(モバイル)"
 
 #: build/398.js:1 build/607.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Padding settings(desk top)"
 msgstr "パディング設定(デスクトップ)"
 
 #: build/398.js:1 build/607.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Is Shadow"
 msgstr "シャドーをつける"
 
@@ -282,10 +305,6 @@ msgstr "行の高さ(デスクトップ)"
 msgid "Color Settings"
 msgstr "色設定"
 
-#: build/398.js:1 build/blocks/design-text-ctrl/index.js:1
-msgid "example"
-msgstr "例"
-
 #: build/398.js:1 build/blocks/design-text-ctrl/view.js:1
 msgid "Please enter your postal code as 7 digits without hyphens."
 msgstr "郵便番号はハイフン抜きの7桁で入力してください。"
@@ -306,205 +325,179 @@ msgstr "通信に失敗しました"
 msgid "The block to enter the address cannot be found."
 msgstr "アドレスを入力するブロックが見つかりません。"
 
-#: build/398.js:1 build/blocks/design-text-ctrl/index.js:1
-msgid "Address Search"
-msgstr "住所検索"
-
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Shadow Type"
 msgstr "シャドータイプ"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Normal"
 msgstr "ノーマル"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Neumorphism"
 msgstr "ニューモフィズム"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Claymorphism"
 msgstr "クレイモフィズム"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Glassmorphism"
 msgstr "グラスモフィズム"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "unevenness"
 msgstr "凹凸"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Normal settings"
 msgstr "ノーマルの設定"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Spread"
 msgstr "広がり"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Lateral direction"
 msgstr "横方向"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Longitudinal direction"
 msgstr "縦方向"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Blur"
 msgstr "ぼかし"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Shadow Color Setting"
 msgstr "色設定"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Choose Shadow color"
 msgstr "影の色を選択"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Neumorphism settings"
 msgstr "ニューモフィズム設定"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Distance"
 msgstr "距離"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Intensity"
 msgstr "強度"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Claymorphism settings"
 msgstr "クレイモフィズム設定"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Opacity"
 msgstr "透明度"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Grassmophism settings"
 msgstr "グラスモフィズム設定"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Glass blur"
 msgstr "ぼかし"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Glass Opacity"
 msgstr "透明度"
 
 #: build/447.js:1 build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-group/index.js:1 build/blocks/design-process/index.js:1
-#: build/blocks/design-radio/index.js:1 build/blocks/design-table/index.js:1
-#: build/blocks/design-title/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-group/index.js:1
+#: build/blocks/design-process/index.js:1 build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1 build/blocks/design-title/index.js:1
 msgid "Show outline"
 msgstr "アウトライン"
 
@@ -595,8 +588,7 @@ msgid "Select Element Settings"
 msgstr "セレクト要素設定"
 
 #: build/607.js:1 build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-radio/index.js:1
 msgid "name attribute name"
 msgstr "name属性の名称"
 
@@ -643,10 +635,6 @@ msgstr "オプション色設定"
 #: build/607.js:1
 msgid "Choose Background color on mouse hover"
 msgstr "マウスホバー時の背景色を選択"
-
-#: build/607.js:1 build/blocks/design-select/index.js:1
-msgid "Please Select."
-msgstr "選択してください。"
 
 #: build/blocks/code-highlight/index.js:1
 msgid "A block that highlights code."
@@ -708,10 +696,6 @@ msgstr "コード:"
 msgid "edit mode"
 msgstr "編集モード"
 
-#: build/blocks/code-highlight/index.js:1
-msgid "Copy"
-msgstr "コピー"
-
 #: build/blocks/code-highlight/view.js:1
 msgid "copied"
 msgstr "コピーしました"
@@ -743,7 +727,9 @@ msgstr "画像のURLを入力してください。"
 msgid ""
 "Please select the first class name shown in the HTML code field of the "
 "selection dialog. "
-msgstr "選択ダイアログのHTMLコードフィールドに表示される最初のクラス名を選択してください。"
+msgstr ""
+"選択ダイアログのHTMLコードフィールドに表示される最初のクラス名を選択してくだ"
+"さい。"
 
 #: build/blocks/design-button/index.js:1 build/blocks/design-group/index.js:1
 #: build/blocks/design-title/index.js:1
@@ -873,13 +859,17 @@ msgstr "選択したアーカイブページへのリンク"
 msgid ""
 "Enter the URL freely. If you add [home_url]/ at the beginning, it will "
 "become the URL from the top of the site."
-msgstr "URLを自由に入力してください。先頭に `[home_url]/` を追加すると、サイトのトップページを起点としたURLになります。"
+msgstr ""
+"URLを自由に入力してください。先頭に `[home_url]/` を追加すると、サイトのトッ"
+"プページを起点としたURLになります。"
 
 #: build/blocks/design-button/index.js:1
 msgid ""
 "Hides child elements with the specified ID or class name. If not specified, "
 "hides the parent element of the button."
-msgstr "指定されたIDまたはクラス名を持つ子要素を非表示にします。指定がない場合は、ボタンの親要素を非表示にします。"
+msgstr ""
+"指定されたIDまたはクラス名を持つ子要素を非表示にします。指定がない場合は、ボ"
+"タンの親要素を非表示にします。"
 
 #: build/blocks/design-button/index.js:1
 msgid "This button is used to switch between multiple forms."
@@ -1017,8 +1007,7 @@ msgstr "ボタンスタイル設定"
 
 #: build/blocks/design-button/index.js:1
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-radio/index.js:1
 msgid "Choose Input color"
 msgstr "インプット要素色を選択"
 
@@ -1091,8 +1080,8 @@ msgid ""
 "Go to the Google Cloud Console, create a new project, enable the Google "
 "Calendar API in the project, and enter the API key you just created. "
 msgstr ""
-"Google Cloud Console にアクセスし、新しいプロジェクトを作成し、プロジェクトで Google Calendar API "
-"を有効にして、作成した API キーを入力します。"
+"Google Cloud Console にアクセスし、新しいプロジェクトを作成し、プロジェクト"
+"で Google Calendar API を有効にして、作成した API キーを入力します。"
 
 #: build/blocks/design-calender/index.js:1
 msgid "A block for display calender with designs"
@@ -1102,10 +1091,11 @@ msgstr "デザインをあしらったカレンダーを作成するブロック
 msgid ""
 "Google Calendar API key is not configured. Holidays cannot be displayed "
 "until a key is saved."
-msgstr "Google Calendar API キーが設定されていません。キーを保存するまで祝日は表示できません。"
+msgstr ""
+"Google Calendar API キーが設定されていません。キーを保存するまで祝日は表示で"
+"きません。"
 
 #: build/blocks/design-calender/index.js:1
-#| msgid "Google Calendar API KEY"
 msgid "Saving the Google Calendar API key…"
 msgstr "Google Calendar API キーを保存しています…"
 
@@ -1115,7 +1105,6 @@ msgstr "API キーを保存できませんでした。"
 
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-calender/view.js:1
-#| msgid "Preview"
 msgid "Previous year"
 msgstr "前年"
 
@@ -1126,7 +1115,6 @@ msgstr "翌年"
 
 #: build/blocks/design-calender/index.js:1
 #: build/blocks/design-calender/view.js:1 build/blocks/design-group/view.js:1
-#| msgid "Close Modal"
 msgid "Close"
 msgstr "閉じる"
 
@@ -1148,12 +1136,10 @@ msgstr "月曜"
 
 #: build/blocks/design-calender/index.js:1
 msgid ""
-"Select the day of the week that you want to place at the top of the "
-"calendar."
+"Select the day of the week that you want to place at the top of the calendar."
 msgstr "カレンダーの最初に配置する曜日を選択します。"
 
-#: build/blocks/design-calender/index.js:1
-#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-calender/index.js:1 build/blocks/design-radio/index.js:1
 msgid "Is Select Release Button"
 msgstr "リリースボタンをセット"
 
@@ -1170,17 +1156,14 @@ msgid "Google Calendar API KEY"
 msgstr "Google Calender APIキー"
 
 #: build/blocks/design-calender/index.js:1
-#| msgid "Input style settings"
 msgid "Month selector setting"
 msgstr "月セレクターの設定"
 
 #: build/blocks/design-calender/index.js:1
-#| msgid "Content Style"
 msgid "Month selector style"
 msgstr "月セレクターのスタイル"
 
 #: build/blocks/design-calender/index.js:1
-#| msgid "Select Format"
 msgid "Select box"
 msgstr "セレクトボックス"
 
@@ -1192,7 +1175,9 @@ msgstr "ダイアログ"
 msgid ""
 "With the dialog style, clicking the year and month titles opens a dialog to "
 "choose the year and month."
-msgstr "ダイアログ形式では、年や月のタイトルをクリックすると、年月を選ぶダイアログが開きます。"
+msgstr ""
+"ダイアログ形式では、年や月のタイトルをクリックすると、年月を選ぶダイアログが"
+"開きます。"
 
 #: build/blocks/design-calender/index.js:1
 msgid "Year display format"
@@ -1207,14 +1192,12 @@ msgid "Day style settings"
 msgstr "日付スタイル設定"
 
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-radio/index.js:1
 msgid "Input Color Setting"
 msgstr "インプット要素色設定"
 
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-radio/index.js:1
 msgid "Choose Input Background color"
 msgstr "インプット要素背景色を選択"
 
@@ -1234,28 +1217,23 @@ msgstr "土曜日の文字色を選択"
 msgid "Choose Saturday Background color"
 msgstr "土曜日の背景色を選択"
 
-#: build/blocks/design-calender/index.js:1
-#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-calender/index.js:1 build/blocks/design-radio/index.js:1
 msgid "Selected Button settings"
 msgstr "選択されたボタンの設定"
 
-#: build/blocks/design-calender/index.js:1
-#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-calender/index.js:1 build/blocks/design-radio/index.js:1
 msgid "Selected Button Color Setting"
 msgstr "ボタン色設定"
 
-#: build/blocks/design-calender/index.js:1
-#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-calender/index.js:1 build/blocks/design-radio/index.js:1
 msgid "Choose Selected Text color"
 msgstr "文字色を選択"
 
-#: build/blocks/design-calender/index.js:1
-#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-calender/index.js:1 build/blocks/design-radio/index.js:1
 msgid "Choose Selected Button color"
 msgstr "ボタン色を選択"
 
 #: build/blocks/design-calender/index.js:1
-#| msgid "Input Box style settings"
 msgid "Month dialog style settings"
 msgstr "月ダイアログのスタイル設定"
 
@@ -1264,27 +1242,22 @@ msgid "Preview the dialog"
 msgstr "ダイアログをプレビュー"
 
 #: build/blocks/design-calender/index.js:1
-#| msgid "Data Color Setting"
 msgid "Dialog Color Setting"
 msgstr "ダイアログの色設定"
 
 #: build/blocks/design-calender/index.js:1
-#| msgid "Choose Background color on mouse hover"
 msgid "Choose Backdrop color (behind the dialog)"
 msgstr "背景（ダイアログの後ろ）の色を選択"
 
 #: build/blocks/design-calender/index.js:1
-#| msgid "Choose Selected Text color"
 msgid "Choose Selected Month Text color"
 msgstr "選択中の月の文字色を選択"
 
 #: build/blocks/design-calender/index.js:1
-#| msgid "Choose Select Background color"
 msgid "Choose Selected Month Background color"
 msgstr "選択中の月の背景色を選択"
 
 #: build/blocks/design-calender/index.js:1
-#| msgid "Typography"
 msgid "Year Typography"
 msgstr "年のタイポグラフィ"
 
@@ -1297,16 +1270,12 @@ msgid "Choose Label Background color"
 msgstr "背景色を選択"
 
 #: build/blocks/design-calender/index.js:1
-#: build/blocks/design-calender/view.js:1 build/blocks/design-group/index.js:1
-#: build/blocks/design-radio/index.js:1
-msgid "Clear"
-msgstr "クリア"
-
-#: build/blocks/design-calender/index.js:1
 msgid ""
 "Switching the month selector replaces the current month control. Any design "
 "changes made to it will be lost. Continue?"
-msgstr "月の選択方法を切り替えると、現在の月のコントロールが置き換えられ、そのデザインの変更は失われます。続けますか？"
+msgstr ""
+"月の選択方法を切り替えると、現在の月のコントロールが置き換えられ、そのデザイ"
+"ンの変更は失われます。続けますか？"
 
 #: build/blocks/design-checkbox/index.js:1
 msgid "A block for creating check boxes with designs"
@@ -1316,7 +1285,9 @@ msgstr "デザインをあしらったチェックボックスを作成するブ
 msgid ""
 "When using another design-checkbox as one of the options as an inner block, "
 "please use the same name."
-msgstr "他のdesign-checkboxとインナーブロックとして選択肢の一つにするときは同じ名称に併せて下さい。"
+msgstr ""
+"他のdesign-checkboxとインナーブロックとして選択肢の一つにするときは同じ名称に"
+"併せて下さい。"
 
 #: build/blocks/design-checkbox/index.js:1
 msgid "Check to proceed"
@@ -1326,10 +1297,11 @@ msgstr "続行のためのチェック"
 msgid ""
 "When it is the inner block of the block where the submit button is placed, "
 "the submit button is enabled by checking it."
-msgstr "送信ボタンが配置されているブロックのインナーブロックの場合、チェックを入れることで送信ボタンが有効になります。"
+msgstr ""
+"送信ボタンが配置されているブロックのインナーブロックの場合、チェックを入れる"
+"ことで送信ボタンが有効になります。"
 
-#: build/blocks/design-checkbox/index.js:1
-#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-checkbox/index.js:1 build/blocks/design-radio/index.js:1
 msgid "Input style settings"
 msgstr "インプット要素スタイル設定"
 
@@ -1682,10 +1654,11 @@ msgid ""
 "example when a date is clicked in the reservation calendar. It is closed "
 "with the close button, the backdrop or the Esc key."
 msgstr ""
-"アイコンを選ぶと、選んだアイコンのボタンで開閉し、開くと×に変わります。イベントを選ぶと、ボタンは表示されません。予約カレンダーで日付をクリックしたときなど、ほかのブロックがパネルを開きます。閉じるボタン、背景、Escキーで閉じます。"
+"アイコンを選ぶと、選んだアイコンのボタンで開閉し、開くと×に変わります。イベン"
+"トを選ぶと、ボタンは表示されません。予約カレンダーで日付をクリックしたときな"
+"ど、ほかのブロックがパネルを開きます。閉じるボタン、背景、Escキーで閉じます。"
 
 #: build/blocks/design-group/index.js:1
-#| msgid "Hamburger button"
 msgid "Hamburger Button"
 msgstr "ハンバーガーボタン"
 
@@ -1694,17 +1667,14 @@ msgid "Bar Color"
 msgstr "バーの色"
 
 #: build/blocks/design-group/index.js:1
-#| msgid "Background Color Setting"
 msgid "Bar Color (Open)"
 msgstr "バーの色（開いたとき）"
 
 #: build/blocks/design-group/index.js:1
-#| msgid "Background Color Setting"
 msgid "Backdrop Color"
 msgstr "バックドロップの色"
 
 #: build/blocks/design-group/index.js:1
-#| msgid "Hamburger button"
 msgid "Hamburger Position"
 msgstr "ハンバーガーの位置"
 
@@ -1725,7 +1695,6 @@ msgid "Right"
 msgstr "右"
 
 #: build/blocks/design-group/index.js:1
-#| msgid "Disabled Opacity"
 msgid "Backdrop Opacity"
 msgstr "バックドロップの不透明度"
 
@@ -1739,9 +1708,11 @@ msgstr "z-index"
 
 #: build/blocks/design-group/index.js:1
 msgid ""
-"Leave empty to use the default (100 for menus and positioned groups). Larger"
-" values come to the front."
-msgstr "空欄の場合は既定値（メニューと位置指定のグループは 100）になります。値が大きいほど前面に表示されます。"
+"Leave empty to use the default (100 for menus and positioned groups). Larger "
+"values come to the front."
+msgstr ""
+"空欄の場合は既定値（メニューと位置指定のグループは 100）になります。値が大き"
+"いほど前面に表示されます。"
 
 #: build/blocks/design-group/index.js:1
 msgid "Link Setting"
@@ -1824,7 +1795,6 @@ msgid "See more..."
 msgstr "もっと見る..."
 
 #: build/blocks/design-group/view.js:1
-#| msgid "Is Menu"
 msgid "Menu"
 msgstr "メニュー"
 
@@ -1847,7 +1817,9 @@ msgstr "工程の進行状況をスタイリッシュに表示するブロック
 msgid ""
 "This block will not work unless the Form Send plugin block is a sibling "
 "block."
-msgstr "このブロックはForm Sendプラグインのブロックを兄弟ブロックとしなければ機能しません。"
+msgstr ""
+"このブロックはForm Sendプラグインのブロックを兄弟ブロックとしなければ機能しま"
+"せん。"
 
 #: build/blocks/design-process/index.js:1
 msgid "Choose Form Background color"
@@ -1935,7 +1907,6 @@ msgid "Stripe"
 msgstr "ストライプ"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Second Circle"
 msgid "Circle"
 msgstr "円"
 
@@ -2001,7 +1972,9 @@ msgid ""
 "colors set in the reservation block. The background color here is used only "
 "for states that have no color there. The text color applies as usual."
 msgstr ""
-"予約ブロックの中では、セルの背景は予約ブロックで設定した空き状況の色が優先されます。ここで設定する背景色は、予約ブロック側に色のない状態にだけ使われます。文字色はそのまま反映されます。"
+"予約ブロックの中では、セルの背景は予約ブロックで設定した空き状況の色が優先さ"
+"れます。ここで設定する背景色は、予約ブロック側に色のない状態にだけ使われま"
+"す。文字色はそのまま反映されます。"
 
 #: build/blocks/design-table/index.js:1
 msgid "Data Color Setting"
@@ -2012,12 +1985,10 @@ msgid "Select Cell Color Setting"
 msgstr "選択セルの色設定"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Heading size (mobile)"
 msgid "Cell size (mobile)"
 msgstr "セルのサイズ（モバイル）"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Heading size (desk top)"
 msgid "Cell size (desk top)"
 msgstr "セルのサイズ（デスクトップ）"
 
@@ -2028,12 +1999,10 @@ msgid ""
 msgstr "各セルの幅と高さを同じ値にして、セルを円形にします。"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Size(mobile)"
 msgid "Cell gap (mobile)"
 msgstr "セルの間隔（モバイル）"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Line Height(desk top)"
 msgid "Cell gap (desk top)"
 msgstr "セルの間隔（デスクトップ）"
 
@@ -2042,32 +2011,26 @@ msgid "Space between the circles."
 msgstr "円と円の間隔です。"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Free Width(mobile)"
 msgid "Cell width (mobile)"
 msgstr "セルの幅（モバイル）"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Free Width(desk top)"
 msgid "Cell width (desk top)"
 msgstr "セルの幅（デスクトップ）"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Line Height(mobile)"
 msgid "Cell height (mobile)"
 msgstr "セルの高さ（モバイル）"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Line Height(desk top)"
 msgid "Cell height (desk top)"
 msgstr "セルの高さ（デスクトップ）"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Ratio of gradation(mobile)"
 msgid "Row gap (mobile)"
 msgstr "行の間隔（モバイル）"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Ratio of gradation(desk top)"
 msgid "Row gap (desk top)"
 msgstr "行の間隔（デスクトップ）"
 
@@ -2076,12 +2039,10 @@ msgid "Space between the rows."
 msgstr "行と行の間隔です。"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Button Scale(mobile)"
 msgid "Column gap (mobile)"
 msgstr "列の間隔（モバイル）"
 
 #: build/blocks/design-table/index.js:1
-#| msgid "Button Scale(desk top)"
 msgid "Column gap (desk top)"
 msgstr "列の間隔（デスクトップ）"
 
@@ -2089,7 +2050,9 @@ msgstr "列の間隔（デスクトップ）"
 msgid ""
 "Space between the cells of a row. Leave empty to show each row as one item; "
 "with a value, every cell is rounded on its own."
-msgstr "1行内のセル同士の間隔です。空欄にすると各行が1つのまとまりとして表示され、値を指定すると各セルがそれぞれ丸くなります。"
+msgstr ""
+"1行内のセル同士の間隔です。空欄にすると各行が1つのまとまりとして表示され、値"
+"を指定すると各セルがそれぞれ丸くなります。"
 
 #: build/blocks/design-table/index.js:1
 msgid "Row corner radius"
@@ -2187,9 +2150,11 @@ msgstr "ログインユーザー"
 
 #: build/blocks/design-title/index.js:1
 msgid ""
-"The Site Title and Chatch Phrase provide the ability to display whatever you"
-" set in the WordPress General Settings."
-msgstr "サイトタイトルとチャットフレーズは、WordPress の一般設定で設定した内容を表示します。"
+"The Site Title and Chatch Phrase provide the ability to display whatever you "
+"set in the WordPress General Settings."
+msgstr ""
+"サイトタイトルとチャットフレーズは、WordPress の一般設定で設定した内容を表示"
+"します。"
 
 #: build/blocks/design-title/index.js:1
 msgid "Select the date format from the select box."
@@ -2226,9 +2191,11 @@ msgstr "入力文字列が URL 形式ではありません。"
 #: build/blocks/design-title/index.js:1
 msgid ""
 "By specifying the title and two lines, the first line will be a link to the "
-"specified custom login static page, and the second line will be used for the"
-" logout process."
-msgstr "タイトルと2行のテキストを指定すると、1行目は指定したカスタムログイン用静的ページへのリンクとなり、2行目はログアウト処理に使用されます。"
+"specified custom login static page, and the second line will be used for the "
+"logout process."
+msgstr ""
+"タイトルと2行のテキストを指定すると、1行目は指定したカスタムログイン用静的"
+"ページへのリンクとなり、2行目はログアウト処理に使用されます。"
 
 #: build/blocks/design-title/index.js:1
 msgid "Brings the element with the specified ID to the front."
@@ -2240,9 +2207,11 @@ msgstr "タイトルにサブメニューを持たせることができます。
 
 #: build/blocks/design-title/index.js:1
 msgid ""
-"Choose a static page to display when you log in (Home will display the "
-"built-in login page)."
-msgstr "ログイン時に表示する固定ページを選択します (ホームの場合は組み込みのログイン ページが表示されます)。"
+"Choose a static page to display when you log in (Home will display the built-"
+"in login page)."
+msgstr ""
+"ログイン時に表示する固定ページを選択します (ホームの場合は組み込みのログイン "
+"ページが表示されます)。"
 
 #: build/blocks/design-title/index.js:1
 msgid "Link URL"
@@ -2268,7 +2237,9 @@ msgstr "タイトルのベース"
 msgid ""
 "If unchecked, the parent menu will be used as the reference. If there is no "
 "parent menu, do not uncheck it."
-msgstr "チェックを外した場合、親メニューが参照として使用されます。 親メニューがない場合はチェックを外さないでください。"
+msgstr ""
+"チェックを外した場合、親メニューが参照として使用されます。 親メニューがない場"
+"合はチェックを外さないでください。"
 
 #: build/blocks/design-title/index.js:1
 msgid "Submenu on mobile"
@@ -2290,7 +2261,9 @@ msgstr "ユニークID"
 msgid ""
 "Set an ID for this block. Since this is an ID, please be careful not to "
 "duplicate it on the page by duplicating it, etc."
-msgstr "このブロックにIDを設定してください。IDですので、複製などによってページ内で重複しないようご注意ください。"
+msgstr ""
+"このブロックにIDを設定してください。IDですので、複製などによってページ内で重"
+"複しないようご注意ください。"
 
 #: build/blocks/design-title/index.js:1
 msgid "Shadow settings"
@@ -2320,7 +2293,9 @@ msgstr "のサイズ"
 msgid ""
 "Uses the size the theme defines for the chosen heading level. The HTML tag "
 "stays the same."
-msgstr "選んだ見出しレベルについて、テーマが定めているサイズを使います。HTMLのタグは変わりません。"
+msgstr ""
+"選んだ見出しレベルについて、テーマが定めているサイズを使います。HTMLのタグは"
+"変わりません。"
 
 #: build/blocks/design-title/index.js:1
 msgid "Width Value(mobile)"
@@ -2432,7 +2407,8 @@ msgstr "ヘディングレベル変更"
 
 #: build/blocks/design-title/index.js:1
 msgid "Changing a style resets the style-specific settings. Are you sure?"
-msgstr "スタイルを変更するとそのスタイル固有の設定は初期化されます。よろしいか？"
+msgstr ""
+"スタイルを変更するとそのスタイル固有の設定は初期化されます。よろしいか？"
 
 #: build/blocks/design-title/index.js:1
 msgid "Yes, Change"
@@ -2471,12 +2447,27 @@ msgid "Sets the size of the image to fit the parent element."
 msgstr "親要素を基に画像のサイズを設定します。"
 
 #: build/gutenberg-ex.js:1
+msgid ""
+"The image fills the block and is cropped (cover) when its aspect ratio "
+"differs. To show the whole image, set Scale to Contain in Dimensions. A "
+"percentage height only works when the parent element has a set height."
+msgstr ""
+"画像はブロック全体を埋めるように表示され、アスペクト比が異なる場合はトリミン"
+"グ（カバー）されます。画像全体を表示するには、「サイズ（Dimensions）」設定で"
+"「スケール（Scale）」を「Contain」に設定してください。高さにパーセンテージを"
+"指定する場合、親要素の高さが設定されている必要があります。"
+
+#: build/gutenberg-ex.js:1
 msgid "Fit Parent Element"
 msgstr "親要素に合わせる"
 
 #: build/gutenberg-ex.js:1
 msgid "If left blank, it will not be set."
 msgstr "空白のままにすると設定されません。"
+
+#: build/gutenberg-ex.js:1
+msgid "If left blank, the height follows the image."
+msgstr "空欄のままにすると、高さは画像に合わせられます。"
 
 #: build/gutenberg-ex.js:1
 msgid "See More"
@@ -2529,21 +2520,18 @@ msgid "Code HighLight"
 msgstr "コードハイライト"
 
 #: build/blocks/design-button/block.json src/blocks/design-button/block.json
-#| msgid "Single Select"
 msgctxt "block title"
 msgid "Design Button"
 msgstr "デザインボタン"
 
 #: build/blocks/design-calender/block.json
 #: src/blocks/design-calender/block.json
-#| msgid "Single Select"
 msgctxt "block title"
 msgid "Design Calender"
 msgstr "デザインカレンダー"
 
 #: build/blocks/design-checkbox/block.json
 #: src/blocks/design-checkbox/block.json
-#| msgid "Single Select"
 msgctxt "block title"
 msgid "Design CheckBox"
 msgstr "デザインチェックボックス"
@@ -2559,19 +2547,16 @@ msgid "Design Process"
 msgstr "デザインプロセス"
 
 #: build/blocks/design-radio/block.json src/blocks/design-radio/block.json
-#| msgid "Single Select"
 msgctxt "block title"
 msgid "Design Radio"
 msgstr "デザインラジオ"
 
 #: build/blocks/design-select/block.json src/blocks/design-select/block.json
-#| msgid "Single Select"
 msgctxt "block title"
 msgid "Design Select"
 msgstr "デザインセレクト"
 
 #: build/blocks/design-table/block.json src/blocks/design-table/block.json
-#| msgid "Single Select"
 msgctxt "block title"
 msgid "Design Table"
 msgstr "デザインテーブル"
@@ -2594,28 +2579,34 @@ msgstr "デザインタイトル"
 #~ msgstr "フォントサイズ（デスクトップ）"
 
 #~ msgid ""
-#~ "With Event, no hamburger button is shown. Other blocks open the panel, for "
-#~ "example when a date is clicked in the reservation calendar. It is closed "
-#~ "with the close button, the backdrop or the Esc key."
+#~ "With Event, no hamburger button is shown. Other blocks open the panel, "
+#~ "for example when a date is clicked in the reservation calendar. It is "
+#~ "closed with the close button, the backdrop or the Esc key."
 #~ msgstr ""
-#~ "イベントを選ぶと、ハンバーガーボタンは表示されません。予約カレンダーで日付をクリックしたときなど、ほかのブロックがパネルを開きます。閉じるボタン、背景、Escキーで閉じます。"
+#~ "イベントを選ぶと、ハンバーガーボタンは表示されません。予約カレンダーで日付"
+#~ "をクリックしたときなど、ほかのブロックがパネルを開きます。閉じるボタン、背"
+#~ "景、Escキーで閉じます。"
 
 #~ msgid "URL"
 #~ msgstr "URL"
 
 #~ msgid ""
-#~ "You can select the type of URL to link to the title. If you add a line break"
-#~ " to the Login title text, the upper line will be the text displayed when "
-#~ "logged in and the lower line will be the text displayed when logged out."
+#~ "You can select the type of URL to link to the title. If you add a line "
+#~ "break to the Login title text, the upper line will be the text displayed "
+#~ "when logged in and the lower line will be the text displayed when logged "
+#~ "out."
 #~ msgstr ""
-#~ "タイトルにリンクするURLの種類を選択できます。ログインタイトルのテキストに改行を追加すると、上段はログイン時に表示されるテキスト、下段はログアウト時に表示されるテキストになります。"
+#~ "タイトルにリンクするURLの種類を選択できます。ログインタイトルのテキストに"
+#~ "改行を追加すると、上段はログイン時に表示されるテキスト、下段はログアウト時"
+#~ "に表示されるテキストになります。"
 
 #~ msgid "Padding"
 #~ msgstr "パディング"
 
 #~ msgid ""
 #~ "A new block cannot be inserted because a block has already been placed."
-#~ msgstr "ブロックがすでに配置されているため、新しいブロックを挿入できません。"
+#~ msgstr ""
+#~ "ブロックがすでに配置されているため、新しいブロックを挿入できません。"
 
 #~ msgid "Display"
 #~ msgstr "表示"
@@ -2635,7 +2626,8 @@ msgstr "デザインタイトル"
 #~ msgid ""
 #~ "If no block is specified, a link will be set to the parent block, Design "
 #~ "Group."
-#~ msgstr "ブロックの設定がなければ親ブロックのDesign Groupにリンクが設定されます。"
+#~ msgstr ""
+#~ "ブロックの設定がなければ親ブロックのDesign Groupにリンクが設定されます。"
 
 #~ msgid "Custom Field"
 #~ msgstr "カスタムフィールド"
@@ -2657,7 +2649,8 @@ msgstr "デザインタイトル"
 
 #~ msgid ""
 #~ "Please specify the form object that will be the data source for the table."
-#~ msgstr "テーブルのデータソースとなるフォームのオブジェクト名を入力してください。"
+#~ msgstr ""
+#~ "テーブルのデータソースとなるフォームのオブジェクト名を入力してください。"
 
 #~ msgid "Turn this on if you want to add a table header."
 #~ msgstr "テーブルにヘッダーを追加"
@@ -2683,7 +2676,9 @@ msgstr "デザインタイトル"
 #~ msgid ""
 #~ "You can display the site title and catchphrase in addition to the blank "
 #~ "title."
-#~ msgstr "空白のタイトルに加えて、サイトタイトルやキャッチコピーを表示することもできます。"
+#~ msgstr ""
+#~ "空白のタイトルに加えて、サイトタイトルやキャッチコピーを表示することもでき"
+#~ "ます。"
 
 #~ msgid "Block Height"
 #~ msgstr "高さ"
@@ -2698,8 +2693,8 @@ msgstr "デザインタイトル"
 #~ msgstr "遷移先の固定ページ"
 
 #~ msgid ""
-#~ "If the background color of the cell is set to gradient, stripes will not be "
-#~ "applied."
+#~ "If the background color of the cell is set to gradient, stripes will not "
+#~ "be applied."
 #~ msgstr "背景色をグラデーションにするとストライプは適用されません。"
 
 #~ msgid "Block horizen alignment(Mobile)"
@@ -2732,7 +2727,8 @@ msgstr "デザインタイトル"
 #~ msgid "Moving distance"
 #~ msgstr "移動距離"
 
-#~ msgid "It is a block that has a function to adjust the placement by dragging."
+#~ msgid ""
+#~ "It is a block that has a function to adjust the placement by dragging."
 #~ msgstr "ドラッグで配置調整する機能をもつブロックです。"
 
 #~ msgid "A block that highlights code"

@@ -471,6 +471,14 @@ figure.itmar_ex_block {
 			width: 100%;
 			height: 100%;
 		}
+		//高さを指定していないとき（空欄）は、図に高さがなく、絶対配置の画像だけでは、高さが 0 になって消える。
+		//その場合は、画像の高さで、図の高さが決まるようにする
+		&:not([style*="height"]) img {
+			position: static;
+			transform: none;
+			width: 100% !important;
+			height: auto !important;
+		}
 		//wrapper内のimg以外もスタイルを当てるためwrapper内には入れないこと
 		img {
 			width: 100% !important;

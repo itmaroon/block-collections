@@ -247,6 +247,19 @@ export const createTableStyleCss = (
 			padding:${space_prm(default_pos.padding_value)};
 			border-radius:${radius_prm(radius_value)};
 			${shadow}
+			/*
+			 * iPhone の Safari は、表の中の文字を、勝手に大きくすることがある（テキストの自動拡大）。
+			 * 指定した font-size どおりに表示するため、自動拡大を止める。
+			 */
+			-webkit-text-size-adjust:100%;
+			text-size-adjust:100%;
+			/*
+			 * 表が、ブロックの幅より広いとき（文字が大きい、列が多いなど）、はみ出た部分が、
+			 * 隠れるだけで、スクロールできなかった。横にスクロールできるようにする。
+			 * save() が出す style 属性に overflow:hidden があるため、!important で上書きする。
+			 */
+			overflow-x:auto !important;
+			-webkit-overflow-scrolling:touch;
 		}
 
 		${tableSelector} {
