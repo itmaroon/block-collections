@@ -46,6 +46,22 @@ export const createButtonStyleCss = (
 	} = attributes;
 
 	const buttonSelector = `${scopeSelector} button`;
+	/*
+	 * 画像の寸法。ボタンの幅・高さが auto のときに img へ 100% を指定すると、
+	 * 置換要素の割合指定は最小幅が 0 になり、flex 内で画像がつぶれる。
+	 * 寸法を指定した辺だけ 100% にし、auto の辺は画像の比率に任せる。
+	 */
+	const imgSize = (pos: { width?: string; height?: string }) =>
+		`width:${pos.width && pos.width !== "auto" ? "100%" : "auto"};height:${
+			pos.height && pos.height !== "auto" ? "100%" : "auto"
+		};`;
+	/*
+	 * ボーダーが未設定のときは border:0 を明示する。何も出さないと <button> の既定値
+	 * （2px outset）が残り、Chrome では見えて iPhone の Safari では消えるという差が出る。
+	 * ボーダーが必要なときは、インスペクタで設定する。
+	 */
+	const borderDeclared = cssValueToString(borderProperty(border_value)).trim();
+	const borderCss = borderDeclared || "border:0;";
 	const background = buttonColor || buttonGradient || "transparent";
 	const disabledBackground =
 		disableButtonColor || disableButtonGradient || "transparent";
@@ -76,8 +92,8 @@ export const createButtonStyleCss = (
 			? `
 			${buttonSelector}::after {
 				content:"\\${iconStyle.icon_name}";
-				font-family:"${iconStyle.icon_family}";
-				font-weight:${iconStyle.icon_family === "Font Awesome 6 Free" ? "900" : "400"};
+				font-family:"${iconStyle.icon_family || "Font Awesome 6 Free"}";
+				font-weight:${!iconStyle.icon_family || iconStyle.icon_family === "Font Awesome 6 Free" ? "900" : "400"};
 				position:absolute;
 				top:50%;
 				left:50%;
@@ -103,9 +119,10 @@ export const createButtonStyleCss = (
 			padding:${space_prm(default_pos.padding_value)};
 			background:${background};
 			border-radius:${radius_prm(radius_value)};
-			${cssValueToString(borderProperty(border_value))}
+			${borderCss}
 			display:flex;
 			align-items:center;
+			white-space:nowrap;
 			${shadow}
 			font-size:${font_style_label.default_fontSize};
 			font-family:${font_style_label.fontFamily};
@@ -118,6 +135,11 @@ export const createButtonStyleCss = (
 			cursor:pointer;
 			${hoverShadow}
 		}
+		/* エディターでは、画像選択の div が figure との間に入る。寸法を引き継がせる */
+		${buttonSelector} .block-container {
+			width:100%;
+			height:100%;
+		}
 		${buttonSelector} figure {
 			margin:0;
 			width:100%;
@@ -125,9 +147,12 @@ export const createButtonStyleCss = (
 			position:relative;
 		}
 		${buttonSelector} figure img {
-			width:100%;
-			height:100%;
+			display:block;
 			margin:0;
+			max-width:100%;
+			max-height:100%;
+			object-fit:contain;
+			${imgSize(default_pos)}
 		}
 		${buttonSelector}[disabled] {
 			color:${disableLabelColor};
@@ -149,6 +174,9 @@ export const createButtonStyleCss = (
 				margin:${space_prm(mobile_pos.margin_value)};
 				padding:${space_prm(mobile_pos.padding_value)};
 				font-size:${font_style_label.mobile_fontSize};
+			}
+			${buttonSelector} figure img {
+				${imgSize(mobile_pos)}
 			}
 		}
 	`;

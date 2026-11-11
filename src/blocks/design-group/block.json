@@ -221,6 +221,9 @@
 				"y": "0px"
 			}
 		},
+		"mobile_position": {
+			"type": "object"
+		},
 		"is_menu": {
 			"type": "boolean",
 			"default": false
@@ -274,6 +277,12 @@
 			"type": "string"
 		},
 		"menuIcon": {
+			"type": "object"
+		},
+		"scrollInside": {
+			"type": "boolean"
+		},
+		"scrollScale": {
 			"type": "object"
 		}
 	},

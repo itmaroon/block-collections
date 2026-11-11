@@ -5,6 +5,74 @@ import hideIcon from "../../../assets/img/hide.svg?url";
 import { fetchZipToAddress, styleDataApply } from "itmar-block-packages/front";
 import { createInputStyleCss } from "./StyleInput";
 import type { ZipAddress } from "./types";
+import { currentViewLang, defaultText, textForLang } from "../design-title/langCore";
+
+/* ------------------------------
+  表示する言語の文字へ差し替え
+  ------------------------------
+  保存された HTML には既定の言語の文字が入っている。言語ごとの文字は data-lang-texts に持っているので、
+  表示している言語（URL → Cookie → 既定）の文字に差し替える。 */
+const applyTextCtrlLang = (): void => {
+	const lang = currentViewLang();
+	document
+		.querySelectorAll<HTMLElement>(".wp-block-itmar-design-text-ctrl[data-lang-texts]")
+		.forEach((block) => {
+			let texts: Record<string, Record<string, string> | undefined>;
+			try {
+				texts = JSON.parse(block.getAttribute("data-lang-texts") || "{}");
+			} catch (e) {
+				return;
+			}
+			const pick = (key: string): { base: string; text: string } | null => {
+				const map = texts[key];
+				if (!map) return null;
+				return { base: defaultText(map), text: textForLang(map, lang) };
+			};
+			const label = pick("labelContent");
+			const required = pick("requiredDisplay");
+			const place = pick("placeFolder");
+			const isRequired = block.getAttribute("data-required") === "true";
+			const isLine = block.classList.contains("is-style-line");
+
+			//ラベル（必須のときは、文字のあとに (必須) の span が続く）
+			const labelElm = block.querySelector<HTMLElement>("label");
+			if (labelElm) {
+				if (label) {
+					const first = labelElm.firstChild;
+					if (first && first.nodeType === Node.TEXT_NODE) {
+						first.textContent = label.text;
+					} else if (!isRequired) {
+						labelElm.textContent = label.text;
+					}
+				}
+				const span = labelElm.querySelector<HTMLElement>("span");
+				if (span && required) span.textContent = `(${required.text})`;
+			}
+
+			//プレースホルダー（ライン表示のときはラベルと同じ文字。住所検索などの固定の文言は触らない）
+			const baseLabel = label?.base ?? "";
+			const baseRequired = required?.base ?? "";
+			const lineBase = isRequired ? `${baseLabel}(${baseRequired})` : baseLabel;
+			const lineText = isRequired
+				? `${label?.text ?? baseLabel}(${required?.text ?? baseRequired})`
+				: (label?.text ?? baseLabel);
+			block
+				.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea")
+				.forEach((field) => {
+					const current = field.getAttribute("placeholder");
+					if (isLine && current === lineBase) {
+						field.setAttribute("placeholder", lineText);
+					} else if (!isLine && place && current === place.base) {
+						field.setAttribute("placeholder", place.text);
+					}
+				});
+		});
+};
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", applyTextCtrlLang);
+} else {
+	applyTextCtrlLang();
+}
 
 styleDataApply(createInputStyleCss, ".wp-block-itmar-design-text-ctrl", {
 	target: "auto",

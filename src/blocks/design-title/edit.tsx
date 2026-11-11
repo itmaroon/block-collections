@@ -23,6 +23,18 @@ import {
 	formatTitleDate,
 	getValidIsoDate,
 } from "./date";
+import {
+	DEFAULT_LANG,
+	canTranslateBlock,
+	defaultText,
+	isLangMap,
+	setEditLang,
+	textForLang,
+	translateText,
+	useEditLang,
+	useTranslationConfig,
+	withLangText,
+} from "./lang";
 import apiFetch from "@wordpress/api-fetch";
 import { ReactComponent as Play } from "../../../assets/img/circle-play.svg";
 import { ReactComponent as Stop } from "../../../assets/img/circle-stop.svg";
@@ -37,6 +49,7 @@ import {
 	Modal,
 	DateTimePicker,
 	TextControl,
+	TextareaControl,
 	SelectControl,
 	ToolbarDropdownMenu,
 	ToolbarGroup,
@@ -58,8 +71,25 @@ import {
 } from "@wordpress/block-editor";
 
 import "./editor.scss";
-import { HEADING_SIZE_LEVELS } from "./headingSize";
-import { useEffect, useRef, useState } from "@wordpress/element";
+import {
+	CHAR_ANIME_DEFAULT,
+	charAnimeVars,
+	normalizeCharAnime,
+	splitCharsHtml,
+	type CharAnime,
+} from "./charAnime";
+import {
+	FLUID_SIZE_DEFAULT,
+	HEADING_SIZE_FLUID,
+	HEADING_SIZE_LEVELS,
+	type FluidSize,
+} from "./headingSize";
+import {
+	circleMarkerDefaults,
+	completeOptionStyle,
+	subCopyDefaults,
+} from "./optionStyleDefaults";
+import { useEffect, useMemo, useRef, useState } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { toStyleRecord } from "../front-common";
 import type {
@@ -134,6 +164,25 @@ const padding_resetValues = {
 	right: "10px",
 	bottom: "10px",
 };
+
+/**
+ * インスペクターの入力欄用。RichText の値は HTML で、"&" は "&amp;" で入っている。
+ * 太字などの書式（タグ）を含まない文字は、エンティティを戻して見せ、入力されたときに戻す。
+ * タグを含む文字は、書式を壊さないよう、そのままの文字で見せて、そのまま書き込む。
+ */
+const hasMarkup = (html: string) => /<[^>]+>/.test(html);
+const htmlToPlain = (html: string) =>
+	hasMarkup(html)
+		? html
+		: html
+				.replace(/&nbsp;/g, " ")
+				.replace(/&lt;/g, "<")
+				.replace(/&gt;/g, ">")
+				.replace(/&amp;/g, "&");
+const plainToHtml = (plain: string, current: string) =>
+	hasMarkup(current)
+		? plain
+		: plain.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 //リセットバリュー
 
@@ -221,6 +270,9 @@ export default function Edit({
 		headingType,
 		headingSizeDesktop,
 		headingSizeMobile,
+		headingFluidDesktop,
+		headingFluidMobile,
+		charAnime,
 		titleType,
 		align,
 		isVertical,
@@ -248,7 +300,26 @@ export default function Edit({
 		freeStrFormat,
 		decimal,
 		className,
+		langSwitch,
+		langManual,
 	} = attributes;
+
+	//言語ごとの文字を持てるのは、書式を使わない通常のタイトルだけ
+	const canMultiLang = titleType === "plaine" && !userFormat;
+	//翻訳する言語と対象は、slug-translater の設定。プラグインがないときは、手入力の JP と EN だけ
+	const translationConfig = useTranslationConfig();
+	const langOptions = translationConfig.languages;
+	const canAutoTranslate =
+		canMultiLang && canTranslateBlock(translationConfig, "itmar/design-title");
+	const editLang = useEditLang();
+	const activeLang = canMultiLang ? editLang : DEFAULT_LANG;
+	//入力欄に出す、編集中の言語の文字
+	const shownText = textForLang(headingContent, activeLang);
+	//非同期の翻訳が終わったときに、最新の属性を読むための参照
+	const latestRef = useRef({ headingContent, langManual });
+	latestRef.current = { headingContent, langManual };
+	const translateTimer = useRef<number>(0);
+	useEffect(() => () => window.clearTimeout(translateTimer.current), []);
 
 	//テキストの配置
 	// const align_style = align_prm(align, true);
@@ -256,6 +327,39 @@ export default function Edit({
 	// 	typeof align_style === "object" && align_style !== null ? align_style : {};
 
 	const { createNotice } = useDispatch("core/notices") as NoticesActions;
+
+	/**
+	 * 既定の言語の文字を、指定した言語に自動翻訳して入れる。
+	 * 手で直した言語（langManual）は、force が true のとき（ボタンで頼んだとき）以外は上書きしない。
+	 */
+	const autoTranslate = async (langs: string[], force: boolean) => {
+		const source = defaultText(latestRef.current.headingContent);
+		if (!source.trim()) return;
+		const results: Record<string, string> = {};
+		for (const lang of langs) {
+			if (!force && latestRef.current.langManual?.[lang]) continue;
+			const res = await translateText(source, lang);
+			if (!res.ok) {
+				createNotice("error", res.message, {
+					type: "snackbar",
+					isDismissible: true,
+				});
+				return;
+			}
+			results[lang] = res.text;
+		}
+		if (Object.keys(results).length === 0) return;
+		let next = latestRef.current.headingContent;
+		const manual = { ...(latestRef.current.langManual ?? {}) };
+		Object.entries(results).forEach(([lang, text]) => {
+			next = withLangText(next, lang, text);
+			delete manual[lang];
+		});
+		setAttributes({
+			headingContent: next,
+			langManual: Object.keys(manual).length ? manual : undefined,
+		});
+	};
 
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
@@ -281,6 +385,7 @@ export default function Edit({
 	const editorStyleCss = createTitleStyleCss(attributes, {
 		root: editorRootScope,
 		inner: createTitleInnerScope(editorRootScope),
+		lang: activeLang,
 	});
 
 	//ブロックのインナースタイルを取得
@@ -328,18 +433,31 @@ export default function Edit({
 	// localOptionStyle の変更があるたびに setAttributes を呼び出す
 	useEffect(() => {
 		let textWidth;
-		if (optionStyle?.copy_content) {
-			// textWidthの計算
-			textWidth = measureTextWidth(
-				optionStyle.copy_content,
+		let copyWidths: Record<string, number> | undefined;
+		const copyValue = optionStyle?.copy_content;
+		const measureCopy = (text: string) =>
+			measureTextWidth(
+				text,
 				optionStyle.font_style_copy?.fontSize,
 				optionStyle.font_style_copy?.fontFamily,
 				optionStyle.font_style_copy?.fontWeight,
 				blockRef.current,
 			);
+		if (defaultText(copyValue)) {
+			// textWidthの計算（既定の言語）
+			textWidth = measureCopy(defaultText(copyValue));
+			//ほかの言語は、言語ごとの文字で幅が違うので、別に測る
+			if (isLangMap(copyValue)) {
+				copyWidths = {};
+				Object.entries(copyValue).forEach(([code, text]) => {
+					if (code !== DEFAULT_LANG && text) {
+						copyWidths![code] = measureCopy(text);
+					}
+				});
+			}
 		}
-		const setOption = optionStyle?.copy_content
-			? { ...localOptionStyle, copy_width: textWidth }
+		const setOption = defaultText(copyValue)
+			? { ...localOptionStyle, copy_width: textWidth, copy_widths: copyWidths }
 			: localOptionStyle;
 
 		// 値が変わらないときは書き込まない（開いただけで「変更あり」にしない）
@@ -397,7 +515,7 @@ export default function Edit({
 			);
 		} else {
 			const formatedValue = displayFormated(
-				headingContent,
+				defaultText(headingContent),
 				userFormat,
 				freeStrFormat,
 				decimal,
@@ -410,57 +528,9 @@ export default function Edit({
 	const execHandle = () => {
 		let reset_style;
 		if (className?.split(" ").includes("is-style-circle_marker")) {
-			reset_style = {
-				styleName: "is-style-circle_marker",
-				colorVal_circle: "var(--itmar-accent-1)",
-				colorVal_second: "var(--itmar-accent-2)",
-				circleScale: "3em",
-				secondScale: "1.5em",
-				second_opacity: 0.7,
-				first_long: 10,
-				first_lat: -5,
-				second_long: -10,
-				second_lat: 10,
-				isSecond: true,
-			};
+			reset_style = circleMarkerDefaults();
 		} else if (className?.split(" ").includes("is-style-sub_copy")) {
-			reset_style = {
-				styleName: "is-style-sub_copy",
-				alignment_copy: "top left",
-				color_text_copy: "var(--itmar-content)",
-				color_background_copy: "var(--itmar-accent-1)",
-				copy_content: "SAMPLE",
-				copy_width: 0,
-				font_style_copy: {
-					fontSize: "16px",
-					fontFamily: "Arial, sans-serif",
-					fontWeight: "500",
-					isItalic: false,
-				},
-				radius_copy: {
-					topLeft: "10px",
-					topRight: "10px",
-					bottomRight: "0px",
-					bottomLeft: "0px",
-					value: "0px",
-				},
-				padding_copy: {
-					top: "10px",
-					left: "10px",
-					bottom: "10px",
-					right: "10px",
-				},
-				isIcon: false,
-				icon_style: {
-					icon_name: "f030",
-					icon_pos: "left",
-					icon_size: "24px",
-					icon_color: "#000",
-					icon_space: "5px",
-					icon_family: "Font Awesome 6 Free",
-				},
-			};
-			setCopyInputValue("SAMPLE");
+			reset_style = subCopyDefaults();
 		} else {
 			reset_style = {};
 		}
@@ -535,6 +605,11 @@ export default function Edit({
 			setIsChangeModalOpen(true);
 		} else {
 			prevClassRef.current = className ?? null;
+			//最初からスタイルのクラスが付いていて、optionStyle の初期化が済んでいないブロックを補う
+			const completed = completeOptionStyle(className, optionStyle);
+			if (completed && completed !== optionStyle) {
+				setLocalOptionStyle(completed);
+			}
 		}
 	}, [className]);
 
@@ -543,11 +618,47 @@ export default function Edit({
 
 	//TextControlの表示用変数
 
-	const [copyInputValue, setCopyInputValue] = useState(
-		optionStyle && optionStyle.copy_content !== undefined
-			? optionStyle.copy_content
-			: "SAMPLE",
+	//サブタイトルの文字は、言語ごとに持てる。入力欄には、編集中の言語の文字を出す
+	const copyInputValue = textForLang(
+		localOptionStyle.copy_content ?? "SAMPLE",
+		activeLang,
 	);
+	const copyLatest = useRef(localOptionStyle);
+	copyLatest.current = localOptionStyle;
+	const copyTimer = useRef<number>(0);
+	useEffect(() => () => window.clearTimeout(copyTimer.current), []);
+	//サブタイトルの自動翻訳（このブロックが翻訳の対象で、エンジンが使えるとき）
+	const canTranslateCopy = canTranslateBlock(
+		translationConfig,
+		"itmar/design-title",
+	);
+	const autoTranslateCopy = async () => {
+		const source = defaultText(copyLatest.current.copy_content);
+		if (!source.trim()) return;
+		const results: Record<string, string> = {};
+		for (const lang of langOptions.map((l) => l.value)) {
+			if (lang === DEFAULT_LANG) continue;
+			//手で直した言語は、上書きしない
+			if (copyLatest.current.copy_manual?.[lang]) continue;
+			const res = await translateText(source, lang);
+			if (!res.ok) {
+				createNotice("error", res.message, {
+					type: "snackbar",
+					isDismissible: true,
+				});
+				return;
+			}
+			results[lang] = res.text;
+		}
+		if (Object.keys(results).length === 0) return;
+		setLocalOptionStyle((prev) => {
+			let next: unknown = prev.copy_content;
+			Object.entries(results).forEach(([lang, text]) => {
+				next = withLangText(next, lang, text);
+			});
+			return { ...prev, copy_content: next };
+		});
+	};
 
 	//サブメニュー（インナーブロック）
 	const hasSelectedInnerBlock = useSelect(
@@ -615,9 +726,7 @@ export default function Edit({
 		},
 	);
 
-	const [headingContentVal, setHeadingContentVal] = useState(
-		headingContent ?? "",
-	);
+	const [headingContentVal, setHeadingContentVal] = useState(shownText);
 
 	//他のブロック（design-calender の年月の表示、予約ブロックの選択日など）が headingContent を書き換えたとき、入力欄の表示へ反映する。
 	//数値などの書式を使うタイトルは表示が属性と一致しないので対象にしない（日付形式は別に扱う）
@@ -631,13 +740,124 @@ export default function Edit({
 			return;
 		}
 		if (titleType !== "plaine" || userFormat) return;
-		if ((headingContent ?? "") !== headingContentVal) {
-			setHeadingContentVal(headingContent ?? "");
+		if (shownText !== headingContentVal) {
+			setHeadingContentVal(shownText);
 		}
-	}, [headingContent]);
+	}, [headingContent, activeLang]);
+
+	/**
+	 * 文字アニメーションのプレビュー。キャンバスの入力欄（RichText）を、いったん分割済みの見出しに
+	 * 置き換えて動かし、終わったら入力欄に戻す。ready: 初期状態を描く / play: 動かす / off: 通常表示
+	 */
+	const [charPhase, setCharPhase] = useState<"off" | "ready" | "play">("off");
+	const charPreviewTimer = useRef<number>(0);
+	useEffect(() => () => window.clearTimeout(charPreviewTimer.current), []);
+	const charCfg = normalizeCharAnime(charAnime);
+	const charSplit = useMemo(
+		() =>
+			charPhase !== "off" && charCfg
+				? splitCharsHtml(headingContentVal)
+				: { html: "", count: 0 },
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[charPhase === "off", headingContentVal],
+	);
+	useEffect(() => {
+		if (charPhase !== "ready") return;
+		let frame2 = 0;
+		const frame1 = requestAnimationFrame(() => {
+			frame2 = requestAnimationFrame(() => {
+				//分割した見出しを、強制的に配置させて、初期状態を確定させる
+				blockRef.current
+					?.querySelector<HTMLElement>(".itmar-char-anime")
+					?.getBoundingClientRect();
+				setCharPhase("play");
+			});
+		});
+		return () => {
+			cancelAnimationFrame(frame1);
+			cancelAnimationFrame(frame2);
+		};
+	}, [charPhase]);
+	const startCharPreview = () => {
+		if (!charCfg) return;
+		window.clearTimeout(charPreviewTimer.current);
+		//初期状態を描かせてから動かす（同じ描画に入れると transition が走らず、いきなり終わりの状態になる）
+		setCharPhase("ready");
+		const total = charCfg.delay + charCfg.stagger * 40 + charCfg.duration;
+		charPreviewTimer.current = window.setTimeout(
+			() => setCharPhase("off"),
+			(Math.min(total, 8) + 0.8) * 1000,
+		);
+	};
+	const setCharAnime = (patch: Partial<CharAnime> | null) => {
+		if (patch === null) {
+			setAttributes({ charAnime: undefined });
+			return;
+		}
+		setAttributes({
+			charAnime: { ...CHAR_ANIME_DEFAULT, ...(charAnime ?? {}), ...patch },
+		});
+	};
+
+	/**
+	 * インスペクターの入力欄の下書き。打つたびに属性へ書くと、そのたびにブロックが
+	 * 描き直されて、文字ごとのアニメーションが走ってしまう。入力欄から外れたときに書き込む。
+	 */
+	const [titleDraft, setTitleDraft] = useState(() => htmlToPlain(headingContentVal));
+	const titleDraftEditing = useRef(false);
+	useEffect(() => {
+		if (!titleDraftEditing.current) {
+			setTitleDraft(htmlToPlain(headingContentVal));
+		}
+	}, [headingContentVal]);
+
+	/**
+	 * タイトルの文字を、編集中の言語へ書き込む。キャンバスの入力欄（RichText）と、
+	 * インスペクターの入力欄の両方から使う。
+	 */
+	const commitHeadingText = (processedContent: string) => {
+		const nextContent = withLangText(
+			headingContent,
+			activeLang,
+			processedContent,
+		);
+		if (activeLang === DEFAULT_LANG) {
+			setAttributes({ headingContent: nextContent });
+			//既定の言語を書き換えたら、少し待って、ほかの言語を自動翻訳する
+			if (canAutoTranslate) {
+				window.clearTimeout(translateTimer.current);
+				translateTimer.current = window.setTimeout(() => {
+					autoTranslate(
+						langOptions
+							.map((l) => l.value)
+							.filter((code) => code !== DEFAULT_LANG),
+						false,
+					);
+				}, 1500);
+			}
+		} else {
+			//ほかの言語を手で直したら、自動翻訳で上書きしない印を付ける
+			setAttributes({
+				headingContent: nextContent,
+				langManual: { ...(langManual ?? {}), [activeLang]: true },
+			});
+		}
+		setHeadingContentVal(processedContent);
+	};
 
 	//リッチテキストをコンテンツにする
 	const renderRichText = () => {
+		if (charPhase !== "off" && charCfg) {
+			const Tag = headingType.toLowerCase() as "h2";
+			return (
+				<Tag
+					className={`itmar-char-anime${charPhase === "play" ? " is-char-playing" : ""}`}
+					data-char-anime={charCfg.pattern}
+					style={charAnimeVars(charCfg)}
+					dangerouslySetInnerHTML={{ __html: charSplit.html }}
+				/>
+			);
+		}
 		return (
 			<RichText
 				tagName={headingType.toLowerCase() as keyof HTMLElementTagNameMap}
@@ -652,8 +872,7 @@ export default function Edit({
 						// 文字列の場合はそのまま使用
 						processedContent = newContent;
 					}
-					setAttributes({ headingContent: processedContent });
-					setHeadingContentVal(processedContent);
+					commitHeadingText(processedContent);
 				}}
 				onFocus={() => {
 					if (titleType === "date") {
@@ -674,7 +893,7 @@ export default function Edit({
 								{ type: "snackbar", isDismissible: true },
 							);
 							// バリデーションエラーがある場合、表示を元の値に戻す
-							setHeadingContentVal(headingContent ?? "");
+							setHeadingContentVal(shownText);
 						} else {
 							//URLの形式を確認してリンク先をセット
 							setAttributes({
@@ -750,6 +969,32 @@ export default function Edit({
 		<>
 			<InspectorControls group="settings">
 				<PanelBody title={__("Title Source Setting", "block-collections")}>
+					{titleType === "plaine" && (
+						<TextareaControl
+							label={
+								canMultiLang
+									? `${__("Title text", "block-collections")} (${activeLang})`
+									: __("Title text", "block-collections")
+							}
+							value={titleDraft}
+							rows={2}
+							onFocus={() => {
+								titleDraftEditing.current = true;
+							}}
+							onChange={(newValue: string) => setTitleDraft(newValue)}
+							onBlur={() => {
+								titleDraftEditing.current = false;
+								const html = plainToHtml(titleDraft, headingContentVal);
+								if (html !== headingContentVal) {
+									commitHeadingText(html);
+								}
+							}}
+							help={__(
+								"Enter the text here when it is hard to click it on the canvas, such as inside a slide. It is applied when you leave this field.",
+								"block-collections",
+							)}
+						/>
+					)}
 					<div className="itmar_title_type">
 						<RadioControl
 							label={__("Title type", "block-collections")}
@@ -827,6 +1072,10 @@ export default function Edit({
 								{ label: __("Login", "block-collections"), value: "login" },
 								{ label: __("Modal Open", "block-collections"), value: "open" },
 								{
+									label: __("Language Switch", "block-collections"),
+									value: "lang",
+								},
+								{
 									label: __("Sub Menu", "block-collections"),
 									value: "submenu",
 								},
@@ -835,11 +1084,11 @@ export default function Edit({
 								if (changeOption === "url") {
 									//リンク種別がURLの場合
 									//URLのバリデーションチェック
-									if (isValidUrlWithUrlApi(headingContent ?? "")) {
+									if (isValidUrlWithUrlApi(defaultText(headingContent))) {
 										setAttributes({
 											linkKind: changeOption,
 											selectedPageUrl: toPortableUrl(
-												headingContent ?? "",
+												defaultText(headingContent),
 												itmar_option.home_url,
 											),
 										});
@@ -854,6 +1103,12 @@ export default function Edit({
 											{ type: "snackbar", isDismissible: true },
 										);
 									}
+								} else if (changeOption === "lang") {
+									//言語切替は、選ぶ言語の既定を入れておく
+									setAttributes({
+										linkKind: changeOption,
+										langSwitch: langSwitch ?? DEFAULT_LANG,
+									});
 								} else {
 									setAttributes({ linkKind: changeOption });
 								}
@@ -876,6 +1131,11 @@ export default function Edit({
 									: linkKind === "open"
 									? __(
 											"Brings the element with the specified ID to the front.",
+											"block-collections",
+									  )
+									: linkKind === "lang"
+									? __(
+											"When clicked, the site is shown in the selected language. The choice is remembered in a cookie.",
 											"block-collections",
 									  )
 									: linkKind === "submenu"
@@ -948,6 +1208,17 @@ export default function Edit({
 								setUrlValue(portableUrl);
 								setAttributes({ selectedPageUrl: portableUrl });
 							}}
+						/>
+					)}
+					{linkKind === "lang" && (
+						<SelectControl
+							label={__("Language to switch to", "block-collections")}
+							value={langSwitch ?? DEFAULT_LANG}
+							options={langOptions.map((lang) => ({
+								label: `${lang.label} (${lang.value})`,
+								value: lang.value,
+							}))}
+							onChange={(value: string) => setAttributes({ langSwitch: value })}
 						/>
 					)}
 					{linkKind === "open" && (
@@ -1077,6 +1348,91 @@ export default function Edit({
 					)}
 				</PanelBody>
 				<PanelBody
+					title={__("Character animation", "block-collections")}
+					initialOpen={false}
+					className="title_design_ctrl"
+				>
+					<SelectControl
+						label={__("Animation type", "block-collections")}
+						value={charCfg?.pattern ?? ""}
+						options={[
+							{ label: __("None", "block-collections"), value: "" },
+							{
+								label: __("Appear one by one", "block-collections"),
+								value: "fade",
+							},
+							{ label: __("Rise up", "block-collections"), value: "rise" },
+						]}
+						onChange={(value: string) =>
+							setCharAnime(
+								value ? { pattern: value as CharAnime["pattern"] } : null,
+							)
+						}
+						help={__(
+							"The text is split into characters when the page is displayed. Screen readers read the original text.",
+							"block-collections",
+						)}
+					/>
+					{charCfg && (
+						<>
+							<SelectControl
+								label={__("Start when", "block-collections")}
+								value={charCfg.trigger}
+								options={[
+									{
+										label: __("Visible on screen", "block-collections"),
+										value: "visible",
+									},
+									{
+										label: __("Slide Shown", "block-collections"),
+										value: "slide",
+									},
+								]}
+								onChange={(value: string) =>
+									setCharAnime({ trigger: value as CharAnime["trigger"] })
+								}
+							/>
+							<RangeControl
+								label={__("Delay between characters (sec)", "block-collections")}
+								value={charCfg.stagger}
+								min={0}
+								max={0.3}
+								step={0.01}
+								onChange={(value?: number) =>
+									setCharAnime({ stagger: value ?? CHAR_ANIME_DEFAULT.stagger })
+								}
+							/>
+							<RangeControl
+								label={__("Duration of each character (sec)", "block-collections")}
+								value={charCfg.duration}
+								min={0.1}
+								max={2}
+								step={0.05}
+								onChange={(value?: number) =>
+									setCharAnime({ duration: value ?? CHAR_ANIME_DEFAULT.duration })
+								}
+							/>
+							<RangeControl
+								label={__("Start delay (sec)", "block-collections")}
+								value={charCfg.delay}
+								min={0}
+								max={3}
+								step={0.1}
+								onChange={(value?: number) =>
+									setCharAnime({ delay: value ?? CHAR_ANIME_DEFAULT.delay })
+								}
+							/>
+							<Button
+								variant="secondary"
+								disabled={titleType !== "plaine" && titleType !== "date"}
+								onClick={startCharPreview}
+							>
+								{__("Play preview", "block-collections")}
+							</Button>
+						</>
+					)}
+				</PanelBody>
+				<PanelBody
 					title={__("Title settings", "block-collections")}
 					initialOpen={true}
 					className="title_design_ctrl"
@@ -1099,7 +1455,11 @@ export default function Edit({
 								label: `${level.toUpperCase()} ${__("size", "block-collections")}`,
 								value: level,
 							})),
-						]}
+							{
+								label: __("Fluid (min / screen width / max)", "block-collections"),
+								value: HEADING_SIZE_FLUID,
+							},
+						] as { label: string; value: string }[]}
 						onChange={(value) =>
 							setAttributes(
 								!isMobile
@@ -1112,6 +1472,58 @@ export default function Edit({
 							"block-collections",
 						)}
 					/>
+					{(!isMobile ? headingSizeDesktop : headingSizeMobile) ===
+						HEADING_SIZE_FLUID &&
+						(() => {
+							const current: FluidSize =
+								(!isMobile ? headingFluidDesktop : headingFluidMobile) ??
+								(!isMobile ? undefined : headingFluidDesktop) ??
+								FLUID_SIZE_DEFAULT;
+							const setFluid = (patch: FluidSize) => {
+								const next = { ...FLUID_SIZE_DEFAULT, ...current, ...patch };
+								setAttributes(
+									!isMobile
+										? { headingFluidDesktop: next }
+										: { headingFluidMobile: next },
+								);
+							};
+							return (
+								<>
+									<UnitControl
+										label={__("Minimum size", "block-collections")}
+										value={current.min ?? FLUID_SIZE_DEFAULT.min}
+										units={[
+											{ value: "rem", label: "rem" },
+											{ value: "px", label: "px" },
+											{ value: "em", label: "em" },
+										]}
+										onChange={(value?: string) => setFluid({ min: value })}
+									/>
+									<RangeControl
+										label={__("Screen width ratio (vw)", "block-collections")}
+										value={current.vw ?? FLUID_SIZE_DEFAULT.vw}
+										min={0.5}
+										max={30}
+										step={0.1}
+										onChange={(value?: number) => setFluid({ vw: value })}
+									/>
+									<UnitControl
+										label={__("Maximum size", "block-collections")}
+										value={current.max ?? FLUID_SIZE_DEFAULT.max}
+										units={[
+											{ value: "rem", label: "rem" },
+											{ value: "px", label: "px" },
+											{ value: "em", label: "em" },
+										]}
+										onChange={(value?: string) => setFluid({ max: value })}
+										help={__(
+											"The size follows the screen width and stops at the minimum and the maximum. Narrow screens use the mobile settings.",
+											"block-collections",
+										)}
+									/>
+								</>
+							);
+						})()}
 					<UnitControl
 						dragDirection="e"
 						onChange={(value?: string) => {
@@ -1584,11 +1996,28 @@ export default function Edit({
 								label={__("Copy Text", "block-collections")}
 								value={copyInputValue}
 								onChange={(newValue: string) => {
-									setCopyInputValue(newValue);
 									setLocalOptionStyle((prev) => ({
 										...prev,
-										copy_content: newValue,
+										copy_content: withLangText(
+											prev.copy_content ?? "",
+											activeLang,
+											newValue,
+										),
+										//ほかの言語を手で直したら、自動翻訳で上書きしない印を付ける
+										...(activeLang !== DEFAULT_LANG
+											? {
+													copy_manual: {
+														...(prev.copy_manual ?? {}),
+														[activeLang]: true,
+													},
+											  }
+											: {}),
 									}));
+									//既定の言語を書き換えたら、少し待って、ほかの言語を自動翻訳する
+									if (activeLang === DEFAULT_LANG && canTranslateCopy) {
+										window.clearTimeout(copyTimer.current);
+										copyTimer.current = window.setTimeout(autoTranslateCopy, 1500);
+									}
 								}}
 							/>
 						</PanelRow>
@@ -1763,6 +2192,29 @@ export default function Edit({
 						setAttributes({ align: nextAlign ?? "left" });
 					}}
 				/>
+				{canAutoTranslate && activeLang !== DEFAULT_LANG && (
+					<ToolbarButton
+						label={__("Translate again automatically", "block-collections")}
+						showTooltip
+						onClick={() => autoTranslate([activeLang], true)}
+					>
+						{langManual?.[activeLang]
+							? __("Manual", "block-collections")
+							: __("Auto", "block-collections")}
+					</ToolbarButton>
+				)}
+				{canMultiLang && (
+					<ToolbarDropdownMenu
+						label={__("Editing language", "block-collections")}
+						text={activeLang}
+						icon={null}
+						controls={langOptions.map((lang) => ({
+							title: lang.label,
+							isActive: activeLang === lang.value,
+							onClick: () => setEditLang(lang.value),
+						}))}
+					/>
+				)}
 				<ToolbarDropdownMenu
 					label={__("Change heading level", "block-collections")}
 					icon={getIconForLevel(parseInt(headingType.slice(1), 10))}

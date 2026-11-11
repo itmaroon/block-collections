@@ -319,8 +319,11 @@ jQuery(function ($) {
 	$(window).on("scroll", function () {
 		$(".wp-block-itmar-design-group .group_contents")
 			.filter(function () {
-				// data-anime_prm属性が'visible'である要素を選択
-				return $(this).data("anime_prm")?.trigger === "visible";
+				// data-anime_prm属性が'visible'である要素を選択。アニメーションのスイッチ（is_anime）がオフなら対象にしない
+				return (
+					$(this).data("is_anime") &&
+					$(this).data("anime_prm")?.trigger === "visible"
+				);
 			})
 			.each(function () {
 				const $element = $(this);
@@ -348,6 +351,70 @@ jQuery(function ($) {
 				}
 			});
 	});
+
+	//スライドが表示された時のアニメーション
+	//Swiperが付けるswiper-slide-activeクラスの増減を見るので、Swiperのイベントには依存しない。
+	//ループ用の複製スライドのように、後から作られるスライドにも効く。
+	const SLIDE_ACTIVE_CLASS = "swiper-slide-active";
+
+	const getSlideAnimeGroups = (slide: Element): HTMLElement[] =>
+		Array.from(
+			slide.querySelectorAll<HTMLElement>(
+				".wp-block-itmar-design-group .group_contents.fadeTrigger",
+			),
+		).filter((group) => {
+			if (group.closest(".swiper-slide") !== slide) return false;
+			try {
+				const prm = JSON.parse(group.dataset.anime_prm ?? "{}");
+				return prm.trigger === "slide" && !!prm.pattern;
+			} catch {
+				return false;
+			}
+		});
+
+	//オープニングがある間は、終わるまで開始を待つ
+	let slideAnimeReady =
+		$fixbg.length === 0 || !!$fixbg.data("openAnimationEnded");
+
+	const syncSlideAnime = (slide: Element): void => {
+		const isActive = slide.classList.contains(SLIDE_ACTIVE_CLASS);
+		getSlideAnimeGroups(slide).forEach((group) => {
+			const pattern = JSON.parse(group.dataset.anime_prm ?? "{}").pattern;
+			if (isActive && slideAnimeReady) {
+				group.classList.add(pattern);
+			} else {
+				group.classList.remove(pattern);
+			}
+		});
+	};
+
+	const syncAllSlideAnime = (): void => {
+		document
+			.querySelectorAll(".swiper-slide")
+			.forEach((slide) => syncSlideAnime(slide));
+	};
+
+	if (document.querySelector(".group_contents.fadeTrigger[data-anime_prm*='\"slide\"']")) {
+		new MutationObserver((mutations) => {
+			mutations.forEach((m) => {
+				if (m.target instanceof Element && m.target.matches(".swiper-slide")) {
+					syncSlideAnime(m.target);
+				}
+			});
+		}).observe(document.body, {
+			attributes: true,
+			attributeFilter: ["class"],
+			subtree: true,
+		});
+
+		$fixbg.on("openAnimationEnd", () => {
+			slideAnimeReady = true;
+			syncAllSlideAnime();
+		});
+
+		//すでにSwiperが初期化されていた場合に追いつく
+		syncAllSlideAnime();
+	}
 
 });
 
@@ -406,6 +473,8 @@ const findBackdrop = (
 	return null;
 };
 
+
+
 const FOCUSABLE =
 	'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -461,8 +530,8 @@ class HamburgerMenu {
 		this.syncToViewport();
 	}
 
-	/** モバイル幅か（イベントでの開閉は、モバイル幅でだけ行う） */
-	isMobile(): boolean {
+	/** 引き出しパネルとして動いているか（モバイル幅の引き出し） */
+	isDrawer(): boolean {
 		return this.mql.matches;
 	}
 
@@ -470,11 +539,11 @@ class HamburgerMenu {
 		document.body.style.overflow = lock ? "hidden" : "";
 	}
 
-	/** モバイル幅でだけ「閉じている＝画面外」になる。デスクトップでは常に見えているので
+	/** 引き出しとして動いているときだけ「閉じている＝画面外」になる。デスクトップの通常表示では常に見えているので
 	 *  タブ順から外してはいけない。 */
 	private syncToViewport = () => {
 		if (!this.body) return;
-		if (this.mql.matches) {
+		if (this.isDrawer()) {
 			this.applyHiddenState(!this.open);
 		} else {
 			this.body.removeAttribute("aria-hidden");
@@ -569,7 +638,7 @@ class HamburgerMenu {
 			this.backdrop.setAttribute("hidden", "");
 		}
 		this.setBodyScrollLock(false);
-		if (this.mql.matches) this.applyHiddenState(true);
+		if (this.isDrawer()) this.applyHiddenState(true);
 		//閉じたあとの行き先。開く前の位置が無ければボタンへ戻す（フォーカスを失わせない）
 		const back =
 			this.lastFocused && this.lastFocused !== document.body
@@ -612,13 +681,75 @@ if (document.readyState === "loading") {
 	initHamburgers();
 }
 
-//外からの合図。モバイル幅でだけ開く（デスクトップではパネルは常に見えている）
+//外からの合図。引き出しとして動いているときだけ開く（デスクトップの通常表示ではパネルは常に見えている）
 document.addEventListener("itmar:menu-open", (event) => {
 	const id = (event as CustomEvent<{ id?: string }>).detail?.id;
 	const menu = id ? menuRegistry.get(id) : undefined;
-	if (menu?.isMobile()) menu.openMenu();
+	if (menu?.isDrawer()) menu.openMenu();
 });
 document.addEventListener("itmar:menu-close", (event) => {
 	const id = (event as CustomEvent<{ id?: string }>).detail?.id;
 	if (id) menuRegistry.get(id)?.close();
 });
+
+/* ------------------------------
+  対象の要素が画面から外れたら、グループを拡大する（scrollScale）
+  ハンバーガーを固定しておき、メニュー本体がスクロールで見えなくなったら、大きくして目立たせる使い方を想定している。
+  位置は動かさず、独立した scale プロパティだけを変える。対象が見つからない、または表示されていないときは何もしない。
+  ------------------------------ */
+const initScrollScale = (): void => {
+	const items: { wrap: HTMLElement; target: string; scale: number }[] = [];
+	document
+		.querySelectorAll<HTMLElement>(".wp-block-itmar-design-group[data-attributes]")
+		.forEach((group) => {
+			let attrs: { scrollScale?: { target?: string; scale?: number; duration?: number; origin?: string } };
+			try {
+				attrs = JSON.parse(group.getAttribute("data-attributes") ?? "{}");
+			} catch {
+				return;
+			}
+			const cfg = attrs.scrollScale;
+			if (!cfg?.target) return;
+			const wrap = group.closest<HTMLElement>(".itmar-wrap") ?? group;
+			const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+			wrap.style.transformOrigin = cfg.origin ?? "center";
+			wrap.style.transition = reduce ? "none" : `scale ${cfg.duration ?? 300}ms ease`;
+			items.push({ wrap, target: cfg.target, scale: cfg.scale ?? 1.3 });
+		});
+	if (items.length === 0) return;
+
+	const update = (): void => {
+		items.forEach(({ wrap, target, scale }) => {
+			let el: Element | null = null;
+			try {
+				el = document.querySelector(target);
+			} catch {
+				el = null;
+			}
+			let hidden = false;
+			if (el && el.getClientRects().length > 0) {
+				const rect = el.getBoundingClientRect();
+				hidden = rect.bottom <= 0 || rect.top >= window.innerHeight;
+			}
+			wrap.style.scale = hidden ? String(scale) : "";
+		});
+	};
+	let ticking = false;
+	const onChange = (): void => {
+		if (ticking) return;
+		ticking = true;
+		window.requestAnimationFrame(() => {
+			ticking = false;
+			update();
+		});
+	};
+	window.addEventListener("scroll", onChange, { passive: true });
+	window.addEventListener("resize", onChange, { passive: true });
+	update();
+};
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", initScrollScale);
+} else {
+	initScrollScale();
+}

@@ -7,11 +7,86 @@
 
 .wp-block-itmar-design-button {
 	width: fit-content;
+	/* 横並びの行が狭いとき、縮んで潰れない。入りきらなければ行（wrap）が折り返す */
+	flex-shrink: 0;
 	input:disabled {
 		color: var(--itmar-background);
 
 		&:hover {
 			cursor: not-allowed;
+		}
+	}
+}
+/**
+ * リンク種別 overlay のメニュー。全画面の配置（position:fixed など）はグループ側の設定で行い、
+ * ここでは、出し入れ（フェードと上からの降下）だけを受け持つ。
+ * view.ts がメニューのグループに .itmar-overlay-menu を付ける。
+ */
+.itmar-wrap.itmar-overlay-menu {
+	// グループの「To Back」（isAppear=false）で保存されていても display:none を引き継がない。
+	// 出し入れは visibility で行うので、display は常に block にしておく（none だとアニメーションも動かない）。
+	display: block;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transform: translateY(-24px);
+	transition:
+		opacity 0.4s ease,
+		transform 0.4s ease,
+		visibility 0s linear 0.4s;
+
+	&.is-overlay-open {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transform: none;
+		transition:
+			opacity 0.4s ease,
+			transform 0.4s ease,
+			visibility 0s;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&,
+		&.is-overlay-open {
+			transition: none;
+			transform: none;
+		}
+	}
+}
+
+html.itmar-overlay-lock {
+	overflow: hidden;
+}
+
+/**
+ * リンク種別 scrolltop（ページの先頭へ戻るボタン）。
+ * 先頭にいるときは消え、上へスクロールできるようになると、フェードで現れる。
+ * 消えている間は、クリックを受け付けない。出し入れの切り替えは、view.ts が .is-scrolltop-visible を付け外しして行う。
+ * 編集画面のブロックには data-attributes が無いので、この指定は届かず、常に表示される。
+ * ページを開いた直後に、JS が動く前の一瞬だけ見えてしまうのを防ぐため、CSS だけで、最初から消しておく。
+ */
+.wp-block-itmar-design-button[data-attributes*='"linkKind":"scrolltop"'] {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition:
+		opacity 0.4s ease,
+		visibility 0s linear 0.4s;
+
+	&.is-scrolltop-visible {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transition:
+			opacity 0.4s ease,
+			visibility 0s;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&,
+		&.is-scrolltop-visible {
+			transition: none;
 		}
 	}
 }

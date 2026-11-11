@@ -309,7 +309,7 @@ export const createTableStyleCss = (
 				padding:${space_prm(mobile_pos.padding_value)};
 			}
 			${headingSelector} {
-				font-size:${font_style_td.mobile_fontSize};
+				font-size:${font_style_th.mobile_fontSize};
 				padding:${space_prm(mobile_pos.padding_th)};
 				min-width:${mobile_pos.headding_min_width}px;
 			}

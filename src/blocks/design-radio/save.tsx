@@ -1,6 +1,8 @@
 import { __ } from "@wordpress/i18n";
 import { useBlockProps } from "@wordpress/block-editor";
 import type { RadioOption, RadioSaveProps } from "./types";
+import { defaultText } from "../design-title/langCore";
+import { buildLangTexts } from "../useLangFields";
 
 /**
  * save() の出力は、サイトの言語で変えない（言語が違うサイトに移すと、保存された内容と食い違って、ブロックが無効になるため）。
@@ -59,8 +61,23 @@ export function createSave(t: (text: string) => string) {
 		className,
 	};
 
+	/*
+	 * 選択肢の表示名は、言語を分けているものだけ、送信される値（value）をキーにして data-lang-texts に持つ。
+	 * 保存する HTML には既定の言語の文字を入れる。文字列のままなら出さない（昔の保存内容は変わらない）。
+	 */
+	const optionTexts: Record<string, Record<string, string>> = {};
+	optionValues.forEach((item: RadioOption) => {
+		if (item.label && typeof item.label === "object") {
+			optionTexts[item.value] = item.label;
+		}
+	});
+	const langTexts = buildLangTexts({
+		options: Object.keys(optionTexts).length ? optionTexts : undefined,
+	});
+
 	const blockProps = useBlockProps.save({
 		"data-attributes": JSON.stringify(styleAttributes),
+		"data-lang-texts": langTexts,
 		style: { backgroundColor: bgColor, overflow: "hidden" },
 	});
 
@@ -93,7 +110,7 @@ export function createSave(t: (text: string) => string) {
 								value={item.value}
 								defaultChecked={isChecked}
 							/>
-							<span>{item.label}</span>
+							<span>{defaultText(item.label)}</span>
 						</label>
 					);
 				})}

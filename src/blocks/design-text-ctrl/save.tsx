@@ -2,6 +2,8 @@ import { __ } from "@wordpress/i18n";
 import hideIcon from "./hide.svg";
 import { useBlockProps } from "@wordpress/block-editor";
 import type { TextCtrlSaveProps } from "./types";
+import { defaultText } from "../design-title/langCore";
+import { buildLangTexts } from "../useLangFields";
 
 /**
  * save() の出力は、サイトの言語で変えない（言語が違うサイトに移すと、保存された内容と食い違って、ブロックが無効になるため）。
@@ -23,10 +25,10 @@ export function createSave(t: (text: string) => string) {
 		border_input,
 		default_pos,
 		mobile_pos,
-		placeFolder,
+		placeFolder: rawPlaceFolder,
 		inputType,
-		required,
-		labelContent,
+		required: rawRequired,
+		labelContent: rawLabelContent,
 		labelWidth,
 		font_style_label,
 		bgColor_label,
@@ -41,6 +43,19 @@ export function createSave(t: (text: string) => string) {
 		numberOption,
 		className,
 	} = attributes;
+	/*
+	 * 言語ごとの文字（{JP, EN}）を持つ項目は、保存する HTML には既定の言語の文字を入れる。
+	 * 全言語の文字は data-lang-texts に持ち、表示のとき（view.ts）に、表示言語の文字へ差し替える。
+	 * 文字列のままの項目だけなら data-lang-texts は出さない（昔のブロックの保存内容は変わらない）。
+	 */
+	const labelContent = defaultText(rawLabelContent);
+	const placeFolder = defaultText(rawPlaceFolder);
+	const required = { ...rawRequired, display: defaultText(rawRequired.display) };
+	const langTexts = buildLangTexts({
+		labelContent: rawLabelContent,
+		placeFolder: rawPlaceFolder,
+		requiredDisplay: rawRequired.display,
+	});
 	const styleAttributes = {
 		focusColor,
 		bgColor,
@@ -68,6 +83,7 @@ export function createSave(t: (text: string) => string) {
 	const blockProps = useBlockProps.save({
 		"data-attributes": JSON.stringify(styleAttributes),
 		"data-required": required.flg,
+		"data-lang-texts": langTexts,
 		style: { backgroundColor: bgColor, overflow: "hidden" },
 	});
 

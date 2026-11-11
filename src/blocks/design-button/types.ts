@@ -1,4 +1,5 @@
 import type { TooltipAttributes, FontStyle } from "../../shared/types";
+import type { LangMap } from "../design-title/langCore";
 import type { ArrowDirection, IconStyle } from "itmar-block-packages";
 
 export type ButtonType = "button" | "submit" | "reset";
@@ -16,8 +17,8 @@ export interface StretchInfo {
 	isOpen: boolean;
 	isArrow: boolean;
 	arrowSize: string;
-	openText: string;
-	closeText: string;
+	openText: string | LangMap;
+	closeText: string | LangMap;
 }
 
 export interface DesignButtonAttributes {
@@ -35,7 +36,9 @@ export interface DesignButtonAttributes {
 	align: string;
 	outer_align: string;
 	bgColor: string;
-	labelContent?: string;
+	labelContent?: string | LangMap;
+	/** 手で直した言語（項目ごと）。{ labelContent: { EN: true } } */
+	langManual?: Record<string, Record<string, boolean>>;
 	disabled: boolean;
 	disableOpacity: number;
 	mediaID: number;
@@ -61,7 +64,7 @@ export interface DesignButtonAttributes {
 	is_shadow: boolean;
 	is_tooltip: boolean;
 	tooltip_style: TooltipAttributes;
-	tooltip_text: string;
+	tooltip_text: string | LangMap;
 	[key: string]: unknown;
 }
 

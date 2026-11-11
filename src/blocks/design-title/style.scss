@@ -34,6 +34,13 @@
 		}
 	}
 
+	//言語切替（押せることを示す）
+	.lang_switch_btn{
+		&:hover{
+			cursor: pointer;
+		}
+	}
+
 	.submenu-block {
 		position: absolute;
 		width: fit-content;
@@ -229,9 +236,10 @@
 		z-index: 20;
 	}
 
-	&:hover>.submenu-block,
-	.submenu-block:hover,
-	.submenu-block.visible {
+	// 表示状態。.visible は JS（モバイルのタップ）が付け外しする。
+	// :hover はマウスのある環境だけに限る。タッチ端末はタップした要素が
+	// :hover のまま残り、.visible を外しても閉じなくなるため。
+	@mixin submenu-shown {
 		transform: scale(1, 1);
 		opacity: 1;
 		visibility: visible;
@@ -282,8 +290,89 @@
 		}
 
 	}
-	
+
+	.submenu-block.visible {
+		@include submenu-shown;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+
+		&:hover>.submenu-block,
+		.submenu-block:hover {
+			@include submenu-shown;
+		}
+	}
 }
 
 
 
+
+/**
+ * 文字ごとのアニメーション（charAnime.ts / view.ts）。
+ * 見出しの文字を 1 文字ずつの .itmar-char に分け、.is-char-playing が付くと、
+ * 文字ごとにずらした遅延（--i × --char-stagger）で、元の位置へ戻る。
+ * 付いていないときは transition を切って、即座に初期状態へ戻す（スライドを離れたときの巻き戻し）。
+ */
+// JS が分割を済ませるまで、保存された文字を見せない（分割の瞬間のちらつきを防ぐ）
+.wp-block-itmar-design-title[data-attributes*='"charAnime"']
+	:is(h1, h2, h3, h4, h5, h6, p):not(.itmar-char-anime) {
+	visibility: hidden;
+}
+
+.itmar-char-anime {
+	.itmar-char {
+		display: inline-block;
+	}
+
+	.itmar-char-word {
+		display: inline-block;
+		white-space: nowrap;
+	}
+
+	.itmar-char-in {
+		display: inline-block;
+		will-change: transform, opacity;
+	}
+
+	&[data-char-anime="fade"] .itmar-char-in {
+		opacity: 0;
+		transform: translateY(0.5em);
+	}
+
+	// せり上がり。文字の枠で切り抜き、下から上がってくる。下に出る文字（g、y など）が切れないよう、上下に余白を足して打ち消す
+	&[data-char-anime="rise"] .itmar-char {
+		overflow: hidden;
+		vertical-align: top;
+		padding-block: 0.12em;
+		margin-block: -0.12em;
+	}
+
+	&[data-char-anime="rise"] .itmar-char-in {
+		transform: translateY(115%);
+	}
+
+	&.is-char-playing .itmar-char-in {
+		opacity: 1;
+		transform: none;
+		transition:
+			transform var(--char-duration, 0.7s) cubic-bezier(0.22, 1, 0.36, 1)
+				calc(var(--char-delay, 0s) + var(--i, 0) * var(--char-stagger, 0.05s)),
+			opacity var(--char-duration, 0.7s) ease-out
+				calc(var(--char-delay, 0s) + var(--i, 0) * var(--char-stagger, 0.05s));
+	}
+
+	// 静止表示（視覚効果を減らす設定）
+	&.is-char-static .itmar-char-in {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.itmar-char-anime .itmar-char-in {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}

@@ -53,11 +53,11 @@ const units = [
 ];
 
 export default function LabelBox(props: LabelBoxProps) {
-	const { attributes } = props;
+	const { attributes, lang } = props;
 
 	const {
 		required,
-		labelContent,
+		labelContent: rawLabelContent,
 		default_pos,
 		mobile_pos,
 		font_style_label,
@@ -70,6 +70,18 @@ export default function LabelBox(props: LabelBoxProps) {
 		labelSpace,
 		isMobile,
 	} = attributes;
+
+	/*
+	 * 言語ごとの文字を持つブロックでは、lang から、編集中の言語の文字を読み書きする。
+	 * lang が無いブロックは、従来どおり属性をそのまま扱う。
+	 */
+	const labelContent: string = lang
+		? lang.text("labelContent")
+		: String(rawLabelContent ?? "");
+	const requiredDisplay: string = lang
+		? lang.text("requiredDisplay")
+		: String(required.display ?? "");
+	const langSuffix = lang ? ` (${lang.active})` : "";
 
 	return (
 		<>
@@ -93,10 +105,14 @@ export default function LabelBox(props: LabelBoxProps) {
 					{required.flg && (
 						<PanelRow>
 							<TextControl
-								label={__("Show 'required'", "block-collections")}
-								value={required.display}
+								label={`${__("Show 'required'", "block-collections")}${langSuffix}`}
+								value={requiredDisplay}
 								isPressEnterToChange
 								onChange={(newVal: string) => {
+									if (lang) {
+										lang.set("requiredDisplay", newVal);
+										return;
+									}
 									const newObj = { ...required, display: newVal };
 
 									props.onChange("required", newObj);
@@ -112,12 +128,14 @@ export default function LabelBox(props: LabelBoxProps) {
 				>
 					<PanelRow className="labelInfo_row">
 						<TextControl
-							label={__("Text of Label", "block-collections")}
+							label={`${__("Text of Label", "block-collections")}${langSuffix}`}
 							labelPosition="top"
 							value={labelContent}
 							isPressEnterToChange
 							onChange={(newValue: string) =>
-								props.onChange("labelContent", newValue)
+								lang
+									? lang.set("labelContent", newValue)
+									: props.onChange("labelContent", newValue)
 							}
 						/>
 					</PanelRow>
@@ -241,7 +259,7 @@ export default function LabelBox(props: LabelBoxProps) {
 				{required.flg ? (
 					<>
 						{labelContent}
-						<span>({required.display})</span>
+						<span>({requiredDisplay})</span>
 					</>
 				) : (
 					labelContent

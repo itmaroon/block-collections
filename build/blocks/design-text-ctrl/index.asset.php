@@ -3,6 +3,7 @@
 		'react',
 		'react-dom',
 		'react-jsx-runtime',
+		'wp-api-fetch',
 		'wp-block-editor',
 		'wp-blocks',
 		'wp-components',
@@ -10,5 +11,5 @@
 		'wp-element',
 		'wp-i18n'
 	),
-	'version' => 'f4e2686b8a0f739ff141'
+	'version' => 'cf730712baa9aa9c1c08'
 );

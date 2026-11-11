@@ -113,6 +113,83 @@ const createLabelStyleCss = (
 	`;
 };
 
+
+/**
+ * 「ライン」スタイル（design-text-ctrl の is-style-line と同じ考え方）。
+ * 下線だけの入力欄にして、ラベルは入力欄の中に置く。
+ * 未選択で閉じているときはプレースホルダーの位置、開いたとき・選択済みのときは上へ小さく浮く。
+ * 選択の状態は label の兄弟要素にあるので、:has() で拾う。
+ * 通常スタイルの規則と同じセレクターを後ろに置いて上書きするので、createSelectStyleCss の最後に足すこと。
+ */
+const createLineStyleCss = (
+	scopeSelector: string,
+	lineColor: string | undefined,
+): string => {
+	const border = lineColor || "currentColor";
+	/*
+	 * エディターでは StyleLabel（共有の labelCss）が、ライン用に opacity:0 と left/bottom を足してくる。
+	 * それより強いセレクター（兄弟結合子の分だけ詳細度を上げる）で上書きする。
+	 */
+	const labelSel = `${scopeSelector} .itmar_block_select ~ label`;
+	const openLabelSel = `${scopeSelector}:has(.itmar_block_select.open) .itmar_block_select ~ label`;
+	const selectedLabelSel = `${scopeSelector}:has(.itmar_block_select > div > span.hide) .itmar_block_select ~ label`;
+	return `
+		${scopeSelector} {
+			display: flex;
+			flex-direction: row;
+			align-items: stretch;
+			justify-content: normal;
+			height: auto;
+		}
+		${scopeSelector} .itmar_block_select > div {
+			background: transparent;
+			box-shadow: none;
+			border: 0;
+			border-bottom: 2px solid ${border};
+			border-radius: 0;
+			padding: 1.3em 3em 0.3em 8px;
+			min-height: 3.6em;
+			transition: border-color 0.45s ease 0s;
+		}
+		${scopeSelector} .itmar_block_select.open > div {
+			box-shadow: none;
+			border-bottom-color: var(--itmar-accent-1, currentColor);
+		}
+		${scopeSelector} .itmar_block_select > div > span {
+			display: none;
+		}
+		/* 位置は指定せず、フレックスコンテナ内の静的な位置（内容の左上）から transform で動かす */
+		${labelSel} {
+			display: block;
+			position: absolute;
+			top: auto;
+			left: auto;
+			bottom: auto;
+			opacity: 1;
+			width: fit-content;
+			margin: 0;
+			padding: 0;
+			background: transparent;
+			border: 0;
+			box-shadow: none;
+			pointer-events: none;
+			z-index: 3;
+			color: var(--itmar-placeholder);
+			transform-origin: left top;
+			transform: translate(8px, 1.2em);
+			transition: all 0.4s ease 0s;
+		}
+		${openLabelSel},
+		${selectedLabelSel} {
+			color: inherit;
+			transform: translate(8px, 0.1em) scale(0.8);
+		}
+		${openLabelSel} {
+			color: var(--itmar-accent-1, inherit);
+		}
+	`;
+};
+
 /**
  * エディタ・フロントエンド共通のスコープ付きCSSを生成する。
  */
@@ -132,7 +209,10 @@ export const createSelectStyleCss = (
 		border_value,
 		shadow_result,
 		is_shadow,
+		className,
 	} = attributes;
+	const lineColorSource = bgSelectColor;
+	const isLineStyle = Boolean(className?.split(" ").includes("is-style-line"));
 
 	const bgColor = bgSelectColor || bgSelectGradient || "#fff";
 	const fontStyleOption = resolveFontStyle(font_style_option);
@@ -430,5 +510,6 @@ export const createSelectStyleCss = (
 		}
 
 		${createLabelStyleCss(attributes, scopeSelector)}
+		${isLineStyle ? createLineStyleCss(scopeSelector, lineColorSource) : ""}
 	`;
 };

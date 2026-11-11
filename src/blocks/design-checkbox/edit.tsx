@@ -26,7 +26,9 @@ import {
 } from "@wordpress/block-editor";
 
 import { useEffect, useRef } from "@wordpress/element";
-import type { CheckboxEditProps, RadiusValue } from "./types";
+import type { CheckboxAttributes, CheckboxEditProps, RadiusValue } from "./types";
+import { LangToolbar } from "../design-title/LangToolbar";
+import { useLangFields, type LangFieldDef } from "../useLangFields";
 import { toStyleRecord } from "../front-common";
 
 type ShadowState = Parameters<typeof ShadowElm>[0];
@@ -66,7 +68,6 @@ export default function Edit({
 		proceedCheck,
 		bgColor,
 		align,
-		labelContent,
 		font_style_label,
 		default_pos,
 		mobile_pos,
@@ -79,6 +80,21 @@ export default function Edit({
 		shadow_element,
 		is_shadow,
 	} = attributes;
+
+	//ラベルは言語ごとに持てる（編集言語の切り替えと自動翻訳は useLangFields）
+	const langFields: Record<"labelContent", LangFieldDef<CheckboxAttributes>> = {
+		labelContent: {
+			get: (a) => a.labelContent,
+			patch: (_a, v) => ({ labelContent: v }),
+		},
+	};
+	const lang = useLangFields({
+		blockName: "itmar/design-checkbox",
+		attributes,
+		setAttributes,
+		fields: langFields,
+	});
+	const labelText = lang.fieldText("labelContent");
 
 	//テキストの配置
 	const align_style =
@@ -146,9 +162,9 @@ export default function Edit({
 				</label>
 				<RichText
 					onChange={(newContent) => {
-						setAttributes({ labelContent: newContent });
+						lang.setFieldText("labelContent", newContent);
 					}}
-					value={labelContent ?? ""}
+					value={labelText}
 					placeholder={__("Write Checkbox Label...", "block-collections")}
 				/>
 			</>
@@ -376,6 +392,17 @@ export default function Edit({
 				</PanelBody>
 			</InspectorControls>
 
+			{lang.hasMultiLang && (
+				<BlockControls>
+					<LangToolbar
+						langOptions={lang.langOptions}
+						activeLang={lang.activeLang}
+						canAutoTranslate={lang.canAutoTranslate}
+						isManual={lang.isManualLang}
+						onRetranslate={lang.retranslateAll}
+					/>
+				</BlockControls>
+			)}
 			<BlockControls>
 				<AlignmentToolbar
 					value={align}

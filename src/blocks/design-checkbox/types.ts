@@ -26,7 +26,10 @@ export interface CheckboxAttributes {
 	proceedCheck: boolean;
 	align: string;
 	bgColor: string;
-	labelContent?: string;
+	/** 文字列なら言語を分けていない。{JP, EN} なら言語ごとの文字 */
+	labelContent?: string | Record<string, string>;
+	/** 手で直した言語の印。{ 項目キー: { 言語: true } } */
+	langManual?: Record<string, Record<string, boolean>>;
 	font_style_label: FontStyle;
 	labelColor: string;
 	default_pos: CheckboxPosition;

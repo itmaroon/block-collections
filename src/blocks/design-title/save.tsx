@@ -2,6 +2,7 @@ import { useBlockProps, InnerBlocks, RichText } from "@wordpress/block-editor";
 import * as React from "react";
 
 import { formatStoredTitleDate } from "./date";
+import { defaultText, isLangMap } from "./lang";
 
 import { displayFormated } from "itmar-block-packages";
 import type { TitleOptionStyle, TitleSaveProps } from "./types";
@@ -48,7 +49,20 @@ export const displayFormatedForSave = (
 	}
 };
 
-export function createSave(format: typeof displayFormated) {
+/**
+ * data-lang-texts の JSON を属性に入れるときの &。
+ * WordPress の属性の出力は、&quot; のような文字参照に見える & を、そのまま残す（&amp; にしない）。
+ * 翻訳エンジンが返した &quot; などが JSON の中にあると、読み込んだときに " に戻って、JSON が壊れる。
+ * 文字参照に見える & だけ \u0026 にして、JSON のまま運ぶ（ふつうの & は、これまでどおり &amp; になるので、保存内容は変わらない）。
+ */
+const ENTITY_AMPERSAND = /&(?=([a-z0-9]+|#[0-9]+|#x[a-f0-9]+);)/gi;
+const protectEntities = (json: string): string =>
+	json.replace(ENTITY_AMPERSAND, "\\u0026");
+
+export function createSave(
+	format: typeof displayFormated,
+	protectLangEntities = true,
+) {
 	return function save({ attributes }: TitleSaveProps) {
 	const {
 		headingType,
@@ -69,8 +83,38 @@ export function createSave(format: typeof displayFormated) {
 		dateValue,
 		headingSizeDesktop,
 		headingSizeMobile,
+		headingFluidDesktop,
+		headingFluidMobile,
+		charAnime,
+		langSwitch,
+		langManual,
 		...styleAttributes
 	} = attributes;
+
+	/*
+	 * 言語ごとの文字を持つタイトル。保存する文字は既定の言語のもの。全言語の文字は data-lang-texts に持ち、
+	 * 表示のとき（view.ts）に Cookie の言語へ差し替える。
+	 * 言語を分けていないタイトルには、どちらの属性も出さない（既存のブロックの保存内容は変わらない）。
+	 */
+	const langMap =
+		titleType === "plaine" && isLangMap(headingContent) ? headingContent : null;
+	const shownContent = isLangMap(headingContent)
+		? defaultText(headingContent)
+		: headingContent;
+	const langTextsJson = langMap
+		? JSON.stringify(
+				Object.fromEntries(
+					Object.entries(langMap).map(([code, text]) => [
+						code,
+						format(text, userFormat, freeStrFormat, decimal),
+					]),
+				),
+		  )
+		: undefined;
+	const langTexts =
+		langTextsJson !== undefined && protectLangEntities
+			? protectEntities(langTextsJson)
+			: langTextsJson;
 
 	//テキストの配置
 	// const align_style: CSSProperties =
@@ -101,6 +145,15 @@ export function createSave(format: typeof displayFormated) {
 	if (headingSizeMobile !== undefined) {
 		dataAttributes.headingSizeMobile = headingSizeMobile;
 	}
+	if (headingFluidDesktop !== undefined) {
+		dataAttributes.headingFluidDesktop = headingFluidDesktop;
+	}
+	if (headingFluidMobile !== undefined) {
+		dataAttributes.headingFluidMobile = headingFluidMobile;
+	}
+	if (charAnime !== undefined) {
+		dataAttributes.charAnime = charAnime;
+	}
 	const blockProps = useBlockProps.save({
 		"data-attributes": JSON.stringify(dataAttributes),
 		style: {
@@ -114,8 +167,8 @@ export function createSave(format: typeof displayFormated) {
 		//フォーマットを当てて表示
 		const formatedValue =
 			titleType === "date"
-				? formatStoredTitleDate(headingContent, dateValue, userFormat)
-				: format(headingContent, userFormat, freeStrFormat, decimal);
+				? formatStoredTitleDate(shownContent, dateValue, userFormat)
+				: format(shownContent, userFormat, freeStrFormat, decimal);
 		return (
 			<RichText.Content tagName={headingType as any} value={formatedValue} />
 		);
@@ -173,9 +226,23 @@ export function createSave(format: typeof displayFormated) {
 		</div>
 	);
 
+	//言語切替。押すと、表示言語を data-lang の言語に切り替える（view.ts）
+	const lang_switch_btn = (
+		<div
+			className="lang_switch_btn"
+			data-lang={langSwitch}
+			role="button"
+			tabIndex={0}
+		>
+			{content}
+		</div>
+	);
+
 	const wrappedContent =
 		linkKind === "none" || linkKind === "submenu" ? (
 			<div className="itmar-wrap">{content}</div>
+		) : linkKind === "lang" ? (
+			<div className="itmar-wrap">{lang_switch_btn}</div>
 		) : linkKind === "login" ? (
 			<div className="itmar-wrap">{logon_btn}</div>
 		) : linkKind === "open" ? (
@@ -198,6 +265,7 @@ export function createSave(format: typeof displayFormated) {
 			data-free_format={freeStrFormat}
 			data-decimal={decimal}
 			data-unique_id={uniqueID}
+				data-lang-texts={langTexts}
 		>
 			{wrappedContent}
 
@@ -219,3 +287,6 @@ export default createSave(displayFormatedForSave);
 
 /** 昔の save()（サイトの言語で書式を決めていたもの） */
 export const legacySave = createSave(displayFormated);
+
+/** 文字参照の & を守る前の save()（&quot; などを含む翻訳で、data-lang-texts の JSON が壊れていたもの） */
+export const entityLegacySave = createSave(displayFormatedForSave, false);

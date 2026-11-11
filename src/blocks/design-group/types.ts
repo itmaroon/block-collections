@@ -33,6 +33,10 @@ export interface GridElement {
 export type GroupDirection = "block" | "horizen" | "vertical" | "grid";
 
 export interface GroupLayout {
+	/** モバイルだけ、ポジションタイプを変えるときの値（mobile_val のみ）。未設定ならデスクトップと同じ */
+	positionType?: string;
+	/** このデバイス幅で非表示（display: none）にする */
+	hidden?: boolean;
 	direction: GroupDirection;
 	flex: { grow?: number; shrink?: number; basis?: string };
 	reverse: boolean;
@@ -111,9 +115,20 @@ export interface GroupAttributes {
 	blockNum: number;
 	is_moveable: boolean;
 	position: MovePosition;
+	/** モバイルの移動量。未設定（undefined）ならデスクトップの position に従う */
+	mobile_position?: MovePosition;
 	is_menu: boolean;
 	/** 重ね順。未設定なら従来どおり自動（メニュー/絶対配置は100） */
 	zIndex?: number;
+	/** Scroll only this group when its contents do not fit. Unset does nothing */
+	scrollInside?: boolean;
+	/** 対象の要素が画面から外れたとき、このグループを拡大する */
+	scrollScale?: {
+		target?: string;
+		scale?: number;
+		duration?: number;
+		origin?: string;
+	};
 	menuId?: string;
 	hamburger_style?: HamburgerStyle;
 	/**

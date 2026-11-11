@@ -1,5 +1,34 @@
 import { styleDataApply } from "itmar-block-packages/front";
 import { createRadioStyleCss } from "./StyleRadio";
+import { currentViewLang, textForLang } from "../design-title/langCore";
+
+/* 選択肢の表示名を、表示する言語の文字へ差し替え（保存された HTML には既定の言語の文字が入っている） */
+const applyRadioLang = (): void => {
+	const lang = currentViewLang();
+	document
+		.querySelectorAll<HTMLElement>(".wp-block-itmar-design-radio[data-lang-texts]")
+		.forEach((block) => {
+			try {
+				const texts = JSON.parse(block.getAttribute("data-lang-texts") || "{}");
+				Object.entries(texts.options ?? {}).forEach(([value, map]) => {
+					block
+						.querySelectorAll<HTMLInputElement>("input[type=radio]")
+						.forEach((input) => {
+							if (input.value !== value) return;
+							const span = input.parentElement?.querySelector("span");
+							if (span) span.textContent = textForLang(map, lang);
+						});
+				});
+			} catch (e) {
+				/* 壊れた値は無視 */
+			}
+		});
+};
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", applyRadioLang);
+} else {
+	applyRadioLang();
+}
 
 styleDataApply(createRadioStyleCss, ".wp-block-itmar-design-radio", {
 	target: "auto",

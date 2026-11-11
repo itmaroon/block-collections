@@ -3,7 +3,28 @@ import { useBlockProps, RichText } from "@wordpress/block-editor";
 
 import { align_prm } from "itmar-block-packages";
 import { createStretchPseudoCss } from "../front-common";
+import { defaultText } from "../design-title/langCore";
 import type { DesignButtonSaveProps } from "./types";
+import metadata from "./block.json";
+
+/*
+ * data-attributes のキーを、block.json の定義順にそろえる。
+ * 編集で後から足した属性（ラベルや画像など）は、キーが末尾に足される。一方、読み直したときの再生成は
+ * 定義順になるので、保存時の並びが定義順でないと、新設直後のリロードで無効になる。
+ */
+const SCHEMA_KEYS = Object.keys(metadata.attributes);
+const inSchemaOrder = (
+	attrs: Record<string, unknown>,
+): Record<string, unknown> => {
+	const ordered: Record<string, unknown> = {};
+	SCHEMA_KEYS.forEach((key) => {
+		if (key in attrs) ordered[key] = attrs[key];
+	});
+	Object.keys(attrs).forEach((key) => {
+		if (!(key in ordered)) ordered[key] = attrs[key];
+	});
+	return ordered;
+};
 
 export default function save({ attributes }: DesignButtonSaveProps) {
 	const {
@@ -30,7 +51,7 @@ export default function save({ attributes }: DesignButtonSaveProps) {
 
 	const blockProps = useBlockProps.save({
 		style: { backgroundColor: bgColor, ...alignStyleObject },
-		"data-attributes": JSON.stringify(attributes),
+		"data-attributes": JSON.stringify(inSchemaOrder(attributes as Record<string, unknown>)),
 	});
 
 	const isCloseButton = buttonType === "button" && linkKind === "close";
@@ -44,7 +65,9 @@ export default function save({ attributes }: DesignButtonSaveProps) {
 			data-selected_page={
 				linkKind != "none" &&
 				linkKind !== "stretch" &&
-				linkKind != "close" &&
+					linkKind !== "overlay" &&
+					linkKind !== "scrolltop" &&
+					linkKind != "close" &&
 				linkKind !== "back" &&
 				linkKind !== "forward"
 					? selectedPageUrl
@@ -60,13 +83,13 @@ export default function save({ attributes }: DesignButtonSaveProps) {
 							<style>{createStretchPseudoCss(stretchInfo)}</style>
 						)}
 						<div className={stretchInfo.isArrow ? "stretch_pseudo" : ""}>
-							{stretchInfo.isOpen
-								? stretchInfo.openText
-								: stretchInfo.closeText}
+							{defaultText(
+								stretchInfo.isOpen ? stretchInfo.openText : stretchInfo.closeText,
+							)}
 						</div>
 					</>
 				) : (
-					<RichText.Content value={labelContent ?? ""} />
+					<RichText.Content value={defaultText(labelContent)} />
 				))}
 
 			{displayType === "image" && media && (
@@ -90,7 +113,7 @@ export default function save({ attributes }: DesignButtonSaveProps) {
 				...tooltip_style,
 				tooltip_text: tooltip_text,
 			})}
-			data-tooltip={tooltip_text}
+			data-tooltip={defaultText(tooltip_text)}
 		>
 			{buttonContent}
 		</span>

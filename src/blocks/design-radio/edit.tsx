@@ -1,6 +1,9 @@
 import { __ } from "@wordpress/i18n";
 import { createRadioStyleCss } from "./StyleRadio";
 import OptionModal from "../OptionModal";
+import { LangToolbar } from "../design-title/LangToolbar";
+import { DEFAULT_LANG, textForLang } from "../design-title/langCore";
+import { useEditLang, useTranslationConfig } from "../design-title/lang";
 
 import {
 	useElementBackgroundColor,
@@ -27,6 +30,7 @@ import {
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl,
+	BlockControls,
 } from "@wordpress/block-editor";
 
 import { useEffect, useRef } from "@wordpress/element";
@@ -97,6 +101,11 @@ export default function Edit({
 	setAttributes,
 	clientId,
 }: RadioEditProps) {
+	//選択肢の表示名は、言語ごとに持てる（編集言語の切り替えは、ツールバー）
+	const translationConfig = useTranslationConfig();
+	const hasMultiLang = translationConfig.languages.length > 1;
+	const editLang = useEditLang();
+	const activeLang = hasMultiLang ? editLang : DEFAULT_LANG;
 	const {
 		inputName,
 		optionValues,
@@ -248,7 +257,7 @@ export default function Edit({
 									setAttributes({ selectedValues: item.value });
 								}}
 							/>
-							<span>{item.label}</span>
+							<span>{textForLang(item.label, activeLang)}</span>
 						</label>
 					);
 				})}
@@ -332,6 +341,17 @@ export default function Edit({
 
 	return (
 		<>
+			{hasMultiLang && (
+				<BlockControls>
+					<LangToolbar
+						langOptions={translationConfig.languages}
+						activeLang={activeLang}
+						canAutoTranslate={false}
+						isManual={false}
+						onRetranslate={() => undefined}
+					/>
+				</BlockControls>
+			)}
 			<InspectorControls group="settings">
 				<PanelBody
 					title={__("Input element information setting", "block-collections")}

@@ -1,5 +1,6 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import type { ProcessSaveProps } from "./types";
+import { defaultText } from "../design-title/langCore";
 
 export default function save({ attributes }: ProcessSaveProps) {
 	const {
@@ -53,7 +54,7 @@ export default function save({ attributes }: ProcessSaveProps) {
 								block.block_type
 							} ${index === 0 ? "ready" : ""}`}
 						>
-							{block.stage_info}
+							{defaultText(block.stage_info)}
 						</li>
 					);
 				})}

@@ -6,7 +6,10 @@
 	"title": "Design Select",
 	"category": "design",
 	"supports": {
-		"html": false
+		"html": false,
+		"itmarTranslatable": {
+			"attributes": []
+		}
 	},
 	"attributes": {
 		"inputName": {
@@ -126,8 +129,11 @@
 			}
 		},
 		"labelContent": {
-			"type": "string",
+			"type": ["string", "object"],
 			"default": "Label Name"
+		},
+		"langManual": {
+			"type": "object"
 		},
 		"labelWidth": {
 			"type": "string",

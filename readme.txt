@@ -3,7 +3,7 @@ Contributors: itmaroon
 Tags: block, Gutenberg, design, textbox, input
 Requires at least: 6.4
 Tested up to:      7.1
-Stable tag:        2.3.9
+Stable tag:        2.4.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.2.10
@@ -113,6 +113,17 @@ OR…
 12. Design Radio
 
 == Changelog ==
+= 2.4.0 =
+- Added: Design Button now has a "Scroll to Top" link type. The button fades out while the page is at the top and fades in when the page can be scrolled up. Put it in a Design Group and set the group's position to fixed. It is always shown in the editor, and it respects the "reduce motion" setting of the visitor.
+- Added: Design Group has a new "Scale when target is hidden" setting (Scroll panel). While the target element (a CSS selector, for example the menu body's class) is scrolled out of view, the group is enlarged, and it returns to normal size when the target comes back. Scale, duration and origin can be set. Use it to make a fixed hamburger button stand out when the menu bar has scrolled away.
+- Added: the position values of Design Group (top / left / right / bottom) now accept CSS expressions such as calc() and max() through the new "fx" button, so a fixed block can follow a centered menu bar whose edge changes with the screen width.
+- Added: grid cells of Design Group can be set to "Stretch" so that a cell fills the full height of its row.
+- Added: the "Stacking Order" (z-index) panel is also shown when the position type is "relative".
+- Fixed: the Autoplay setting of the Slide block did not start sliding, because the Swiper Autoplay module was not loaded.
+- Fixed: a group whose width is "wide size" or "content size" is no longer wider than the screen on narrow screens, which could shift sticky and background positions on Android browsers.
+- Improved: Japanese translations were added for the new settings.
+- Compatibility: the new settings are saved only when they are used, so blocks that are already saved are not affected.
+
 = 2.3.9 =
 - Fixed: an image with "Fit Parent Element" turned on disappeared when its height was left blank. The image now follows its own height in that case.
 - Fixed: the image block in the editor now has the same position setting as the saved page, so the editor and the front end look the same.

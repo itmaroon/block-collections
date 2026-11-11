@@ -1,6 +1,8 @@
 import { __ } from "@wordpress/i18n";
 import { useBlockProps } from "@wordpress/block-editor";
 import type { SelectOption, SelectSaveProps } from "./types";
+import { defaultText } from "../design-title/langCore";
+import { buildLangTexts } from "../useLangFields";
 
 /**
  * save() の出力は、サイトの言語で変えない（言語が違うサイトに移すと、保存された内容と食い違って、ブロックが無効になるため）。
@@ -16,8 +18,8 @@ export function createSave(t: (text: string) => string) {
 		selectValues,
 		selectedValues = [],
 		folder_val,
-		required,
-		labelContent,
+		required: rawRequired,
+		labelContent: rawLabelContent,
 		optionColor,
 		hoverBgColor,
 		font_style_option,
@@ -40,6 +42,26 @@ export function createSave(t: (text: string) => string) {
 		is_shadow,
 		className,
 	} = attributes;
+
+	/*
+	 * 言語ごとの文字（{JP, EN}）を持つ項目は、保存する HTML には既定の言語の文字を入れ、
+	 * 全言語の文字は data-lang-texts に持つ（表示のとき view.ts で差し替える）。
+	 * 文字列のままなら data-lang-texts は出さない（昔のブロックの保存内容は変わらない）。
+	 */
+	const labelContent = defaultText(rawLabelContent);
+	const required = { ...rawRequired, display: defaultText(rawRequired.display) };
+	//選択肢の表示名。言語を分けているものだけ、id をキーにして持つ（送信される値 value は変えない）
+	const optionTexts: Record<string, Record<string, string>> = {};
+	selectValues.forEach((item: SelectOption) => {
+		if (item.label && typeof item.label === "object") {
+			optionTexts[String(item.id)] = item.label;
+		}
+	});
+	const langTexts = buildLangTexts({
+		labelContent: rawLabelContent,
+		requiredDisplay: rawRequired.display,
+		options: Object.keys(optionTexts).length ? optionTexts : undefined,
+	});
 
 	const selectedIds = Array.isArray(selectedValues) ? selectedValues : [];
 	const isSelected = (id: SelectOption["id"]) => selectedIds.includes(id);
@@ -74,6 +96,7 @@ export function createSave(t: (text: string) => string) {
 
 	const blockProps = useBlockProps.save({
 		"data-attributes": JSON.stringify(styleAttributes),
+		"data-lang-texts": langTexts,
 		style: { backgroundColor: bgColor, overflow: "hidden" },
 	});
 
@@ -119,7 +142,7 @@ export function createSave(t: (text: string) => string) {
 											className={optionItem.classname}
 											value={optionItem.value}
 										>
-											{optionItem.label}
+											{defaultText(optionItem.label)}
 										</option>
 									);
 								})}
@@ -131,7 +154,7 @@ export function createSave(t: (text: string) => string) {
 									id={String(optionItem.id)}
 								data-value={optionItem.value}
 							>
-								<em className={optionItem.classname}>{optionItem.label}</em>
+								<em className={optionItem.classname}>{defaultText(optionItem.label)}</em>
 								<i></i>
 							</a>
 						))}
@@ -150,7 +173,7 @@ export function createSave(t: (text: string) => string) {
 								className={optionItem.classname}
 								data-value={optionItem.value}
 							>
-								{optionItem.label}
+								{defaultText(optionItem.label)}
 							</li>
 						))}
 					</ul>

@@ -34,7 +34,7 @@ const settings = {
 	attributes: {
 		...metadata.attributes,
 		placeFolder: {
-			type: "string",
+			type: ["string", "object"],
 			default: __("Please Input ...", "block-collections"),
 		},
 		required: {

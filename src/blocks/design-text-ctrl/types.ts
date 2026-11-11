@@ -15,9 +15,12 @@ export interface NumberOption {
 	step: number;
 }
 
+/** 言語ごとの文字を持てる値。文字列なら言語を分けていない */
+export type LangText = string | Record<string, string>;
+
 export interface RequiredInfo {
 	flg: boolean;
-	display: string;
+	display: LangText;
 }
 
 export interface RadiusValue {
@@ -45,7 +48,7 @@ export interface TextCtrlAttributes {
 	inputType: TextCtrlInputType;
 	numberOption: NumberOption;
 	addressInput: string;
-	placeFolder: string;
+	placeFolder: LangText;
 	required: RequiredInfo;
 	focusColor?: string;
 	bgColor: string;
@@ -57,7 +60,9 @@ export interface TextCtrlAttributes {
 	border_input?: BorderValue;
 	default_pos: TextCtrlPosition;
 	mobile_pos: TextCtrlPosition;
-	labelContent: string;
+	labelContent: LangText;
+	/** 手で直した言語の印。{ 項目キー: { 言語: true } } */
+	langManual?: Record<string, Record<string, boolean>>;
 	labelWidth: string;
 	labelVertAlign?: string;
 	font_style_label: FontStyle;

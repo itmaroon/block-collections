@@ -21,6 +21,17 @@ const settings = {
 	...metadata,
 	description: __("A block for designing select elements", "block-collections"),
 	icon: <Select />,
+	styles: [
+		{
+			name: "nomal",
+			label: __("Default", "block-collections"),
+			isDefault: true,
+		},
+		{
+			name: "line",
+			label: __("Line", "block-collections"),
+		},
+	],
 	attributes: {
 		...metadata.attributes,
 		required: {

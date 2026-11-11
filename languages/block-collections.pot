@@ -1542,6 +1542,10 @@ msgid "Enter Visible"
 msgstr ""
 
 #: build/blocks/design-group/index.js:1
+msgid "Slide Shown"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
 msgid "Number of Row "
 msgstr ""
 
@@ -2710,4 +2714,136 @@ msgstr ""
 #: src/blocks/design-title/block.json
 msgctxt "block title"
 msgid "Design Title"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Title text"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Enter the text here when it is hard to click it on the canvas, such as inside a slide. It is applied when you leave this field."
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Fluid (min / screen width / max)"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Minimum size"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Screen width ratio (vw)"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Maximum size"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "The size follows the screen width and stops at the minimum and the maximum. Narrow screens use the mobile settings."
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Character animation"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Animation type"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Appear one by one"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Rise up"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "The text is split into characters when the page is displayed. Screen readers read the original text."
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Start when"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Visible on screen"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Delay between characters (sec)"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Duration of each character (sec)"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Start delay (sec)"
+msgstr ""
+
+#: build/blocks/design-title/index.js:1
+msgid "Play preview"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Stretch"
+msgstr ""
+
+#: build/blocks/design-button/index.js:1
+msgid "Scroll to Top"
+msgstr ""
+
+#: build/blocks/design-button/index.js:1
+msgid "Scrolls the page to the top. The button fades out when the page is at the top, and fades in when the page can be scrolled up. Put it in a group and set the group's position to fixed. It is always shown in the editor."
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Scale when target is hidden"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Enlarges this group while the target element is scrolled out of view, and returns it to normal size when the target comes back. The group is not moved, only scaled."
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Target (CSS selector)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "The element to watch, for example the menu body group's additional CSS class. Nothing happens when it is not found or not displayed."
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Duration (ms)"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Scale origin"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Top left"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Top right"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Bottom left"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Bottom right"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Position expression"
+msgstr ""
+
+#: build/blocks/design-group/index.js:1
+msgid "Enter a CSS expression such as calc()"
 msgstr ""

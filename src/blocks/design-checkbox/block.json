@@ -6,7 +6,10 @@
 	"title": "Design CheckBox",
 	"category": "design",
 	"supports": {
-		"html": false
+		"html": false,
+		"itmarTranslatable": {
+			"attributes": []
+		}
 	},
 	"attributes": {
 		"inputName": {
@@ -31,7 +34,10 @@
 			"default": "var(--itmar-content-back)"
 		},
 		"labelContent": {
-			"type": "string"
+			"type": ["string", "object"]
+		},
+		"langManual": {
+			"type": "object"
 		},
 		"font_style_label": {
 			"type": "object",

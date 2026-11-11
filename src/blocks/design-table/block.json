@@ -6,7 +6,10 @@
 	"title": "Design Table",
 	"category": "design",
 	"supports": {
-		"html": false
+		"html": false,
+		"itmarTranslatable": {
+			"attributes": []
+		}
 	},
 	"attributes": {
 		"is_data_form": {

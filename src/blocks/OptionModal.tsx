@@ -2,11 +2,21 @@ import { __ } from "@wordpress/i18n";
 import { useState } from "@wordpress/element";
 import { nanoid } from "nanoid";
 import { Button, Notice, Modal, TextControl } from "@wordpress/components";
+import {
+	DEFAULT_LANG,
+	canTranslateBlock,
+	textForLang,
+	translateText,
+	useEditLang,
+	useTranslationConfig,
+	withLangText,
+} from "./design-title/lang";
 
 export interface OptionItem {
 	id: string | number;
 	value: string;
-	label: string;
+	/** 文字列なら言語を分けていない。{JP, EN} なら言語ごとの表示名 */
+	label: string | Record<string, string>;
 	classname?: string;
 }
 
@@ -14,6 +24,11 @@ interface OptionModalProps {
 	optionValues: OptionItem[];
 	onAddOption: (option: OptionItem) => void;
 	onUpdateOption: (options: OptionItem[]) => void;
+	/**
+	 * 渡すと、表示名を言語ごとに持てる（編集言語の文字を読み書きする）。
+	 * 送信される値（Option Value）は言語で変えない。
+	 */
+	blockName?: string;
 }
 
 type OptionField = "label" | "value" | "classname";
@@ -22,7 +37,17 @@ export default function OptionModal({
 	optionValues,
 	onAddOption,
 	onUpdateOption,
+	blockName,
 }: OptionModalProps) {
+	//表示名の多言語。blockName が無いブロックは、従来どおり文字列のまま扱う
+	const translationConfig = useTranslationConfig();
+	const editLang = useEditLang();
+	const multiLang = !!blockName && translationConfig.languages.length > 1;
+	const activeLang = multiLang ? editLang : DEFAULT_LANG;
+	const canAutoTranslate =
+		!!blockName && canTranslateBlock(translationConfig, blockName);
+	const labelOf = (item: OptionItem): string => textForLang(item.label, activeLang);
+
 	//オプション要素の情報編集モーダルの操作
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedOption, setSelectedOption] = useState<OptionItem | null>(null);
@@ -46,9 +71,13 @@ export default function OptionModal({
 	};
 	//オプション値の編集ハンドラ
 	const handleOptionChange = (key: OptionField, value: string) => {
-		setSelectedOption((prevData) =>
-			prevData ? { ...prevData, [key]: value } : prevData,
-		);
+		setSelectedOption((prevData) => {
+			if (!prevData) return prevData;
+			if (key === "label" && multiLang) {
+				return { ...prevData, label: withLangText(prevData.label, activeLang, value) };
+			}
+			return { ...prevData, [key]: value };
+		});
 	};
 
 	//オプション新規追加
@@ -74,15 +103,35 @@ export default function OptionModal({
 	};
 
 	//オプション値の保存
-	const handleOptionSave = () => {
+	const handleOptionSave = async () => {
 		if (!selectedOption) return;
+		let option = selectedOption;
+		/*
+		 * 自動翻訳が使えるときは、既定の言語の表示名から、まだ入っていない言語だけを訳して埋める。
+		 * すでに入っている言語（手で入れたもの）は上書きしない。
+		 */
+		if (canAutoTranslate) {
+			const source = textForLang(option.label, DEFAULT_LANG).trim();
+			if (source) {
+				let next = option.label;
+				for (const lang of translationConfig.languages.map((l) => l.value)) {
+					if (lang === DEFAULT_LANG) continue;
+					const filled =
+						typeof next === "object" && String(next[lang] ?? "").trim() !== "";
+					if (filled) continue;
+					const res = await translateText(source, lang);
+					if (res.ok) next = withLangText(next, lang, res.text);
+				}
+				option = { ...option, label: next };
+			}
+		}
 		if (
-			optionValues.some((item) => item.id === selectedOption.id)
+			optionValues.some((item) => item.id === option.id)
 		) {
 			// Update existing item
 			const updatedValues = optionValues.map((item): OptionItem => {
-				if (item.id === selectedOption.id) {
-					return selectedOption;
+				if (item.id === option.id) {
+					return option;
 				}
 				return item;
 			});
@@ -90,7 +139,7 @@ export default function OptionModal({
 			//setAttributes({ selectValues: updatedValues });
 		} else {
 			// Add new item
-			onAddOption(selectedOption);
+			onAddOption(option);
 			//setAttributes({ selectValues: [...selectValues, selectedOption] });
 		}
 
@@ -110,7 +159,7 @@ export default function OptionModal({
 					status="info"
 					onRemove={() => openDeleteModal(item)}
 				>
-					<span onClick={() => handleNoticeClick(item)}>{item.label}</span>
+					<span onClick={() => handleNoticeClick(item)}>{labelOf(item)}</span>
 				</Notice>
 			))}
 			{isModalOpen && selectedOption && (
@@ -119,8 +168,8 @@ export default function OptionModal({
 					onRequestClose={closeModal}
 				>
 					<TextControl
-						label={__("Display Label", "block-collections")}
-						value={selectedOption.label}
+						label={`${__("Display Label", "block-collections")}${multiLang ? ` (${activeLang})` : ""}`}
+						value={labelOf(selectedOption)}
 						onChange={(newVal: string) => handleOptionChange("label", newVal)}
 					/>
 					<TextControl

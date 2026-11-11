@@ -11,6 +11,8 @@ import type {
 } from "./types";
 import { MEDIA_MOBILE } from "../breakpoints";
 import { createHeadingSizeCss } from "./headingSize";
+import { completeOptionStyle } from "./optionStyleDefaults";
+import { currentViewLang, textForLang } from "./langCore";
 
 type PositionKey =
 	| "top left"
@@ -229,9 +231,12 @@ const createWaitingCss = (scope: string): string => {
 const createOptionStyleCss = (
 	attributes: TitleAttributes,
 	scope: string,
+	lang: string,
 ): string => {
-	const { optionStyle, className } = attributes;
+	const { className } = attributes;
 	const classes = String(className || "").split(/\s+/);
+	//初期化が走っていないブロック（クラスだけ付いて optionStyle が空・一部）は、足りない項目を補って描く
+	const optionStyle = completeOptionStyle(className, attributes.optionStyle);
 
 	if (!optionStyle || !classes.includes(optionStyle.styleName)) {
 		return "";
@@ -309,7 +314,10 @@ const createOptionStyleCss = (
 		: icon_style.icon_pos === "left"
 		? `${padding_copy.top} ${padding_copy.right} ${padding_copy.bottom} calc(${padding_copy.left} + ${icon_style.icon_size} + ${iconSpace})`
 		: `${padding_copy.top} calc(${padding_copy.right} + ${icon_style.icon_size} + ${iconSpace}) ${padding_copy.bottom} ${padding_copy.left}`;
-	const textWidth = optionStyle.copy_width ? Number(optionStyle.copy_width) : 0;
+	//サブタイトルの幅は、言語ごとの文字で違う（copy_widths）。測っていない言語は、既定の言語の幅で代える
+	const langWidth = optionStyle.copy_widths?.[lang];
+	const textWidth = Number(langWidth ?? optionStyle.copy_width ?? 0) || 0;
+	const copyText = textForLang(copy_content, lang);
 	const leftPosition =
 		icon_style.icon_pos !== "left"
 			? `left:calc(${padding_copy.left} + ${padding_copy.right} + ${textWidth}px);`
@@ -369,13 +377,16 @@ const createOptionStyleCss = (
 		copySpace,
 	);
 
+	//アイコンのファミリーが保存されていないブロックがある（インスペクタは未設定を Font Awesome 6 Free として表示する）。
+	//そのまま使うと font-family:"undefined" になりアイコンが出ないので、表示と同じ既定値に揃える
+	const iconFamily = icon_style?.icon_family || "Font Awesome 6 Free";
 	const awesomeIcon =
 		isIcon && icon_style.icon_type === "awesome"
 			? `
 			${scope}::after {
 				content:"\\${icon_style.icon_name}";
-				font-family:"${escapeCssContent(icon_style.icon_family)}";
-				font-weight:${icon_style.icon_family === "Font Awesome 6 Free" ? "900" : "400"};
+				font-family:"${escapeCssContent(iconFamily)}";
+				font-weight:${iconFamily === "Font Awesome 6 Free" ? "900" : "400"};
 				position:absolute;font-size:${icon_style.icon_size};
 				color:${icon_style.icon_color};${afterPosition}
 			}
@@ -399,9 +410,11 @@ const createOptionStyleCss = (
 			font-family:${font_style_copy.fontFamily};
 			font-weight:${font_style_copy.fontWeight};
 			font-style:${fontStyle};position:absolute;${beforePosition}
-			content:"${escapeCssContent(copy_content)}";
+			content:"${escapeCssContent(copyText)}";
 			color:${color_text_copy};border-radius:${radius_prm(radius_copy)};
 			background:${background};padding:${copyPadding};line-height:1;
+				/* コピーは position:absolute なので、改行しないと、タイトルの幅（親の幅）で折り返される。1行の幅で測って場所を取っている（copy_width）のとも合わせる */
+				white-space:nowrap;
 		}
 		${MEDIA_MOBILE} {
 			${scope}::before { font-size:${copyMobileFontSize}; }
@@ -427,6 +440,8 @@ export const createTitleStyleCss = (
 		headingType = "H2",
 		headingSizeDesktop,
 		headingSizeMobile,
+		headingFluidDesktop,
+		headingFluidMobile,
 		align,
 		default_val,
 		mobile_val,
@@ -487,31 +502,62 @@ export const createTitleStyleCss = (
 	`
 			: "";
 
+	/*
+	 * 幅を％で指定したときは、見出しの親（ブロックと内側のラッパー）が中身に合わせた幅（fit-content）だと、
+	 * 100% が「中身の幅」になり、親のグループに広がらない。％のときは、ブロック自身にその幅を持たせ、
+	 * 内側と見出しはそれを100%で受ける（％は、親のグループに対する割合になる）。
+	 * px などのときは、これまでどおり。
+	 */
+	const percentOf = (w?: string): string | null => {
+		const v = (w ?? "").trim();
+		return /^\d+(\.\d+)?%$/.test(v) ? v : null;
+	};
+	const defaultPercent = percentOf(default_val.width);
+	const mobilePercent = percentOf(mobile_val.width);
+	const rootWidthCss = (percent: string | null): string =>
+		`${rootScope}${rootScope} { width: ${percent ?? "fit-content"}; }
+		${innerScope} { width: ${percent ? "100%" : "fit-content"}; ${
+			//内側の右の余白（矢印の分など）が、幅の外にはみ出さないようにする
+			percent ? "box-sizing: border-box;" : "box-sizing: content-box;"
+		} }`;
+	const headingWidth = (percent: string | null, w?: string): string =>
+		percent ? "100%" : (w ?? "fit-content");
+
 	return `
 		${rootScope} {
 			${shadow}
 		}
+		${defaultPercent ? rootWidthCss(defaultPercent) : ""}
 		${innerScope} {
 			position:relative;z-index:10;
 		}
 		${headingSelector} {
 			box-sizing: border-box;
 			position:relative;padding:${default_renderedPadding};
-			width: ${default_val.width ?? "fit-content"};
+			width: ${headingWidth(defaultPercent, default_val.width)};
 			text-align: ${align};
 			white-space:${is_wrap ? "pre-wrap" : "nowrap !important"};
 			margin:0;font-weight:inherit;
-			${createHeadingSizeCss(headingSizeDesktop, headingSizeMobile, MEDIA_MOBILE)}
+			${createHeadingSizeCss(
+				headingSizeDesktop,
+				headingSizeMobile,
+				MEDIA_MOBILE,
+				headingFluidDesktop,
+				headingFluidMobile,
+			)}
 			${isVertical ? "writing-mode:vertical-rl;text-orientation:upright;height:max-content;" : ""}
 			${MEDIA_MOBILE} {
 				padding:${mobile_renderedPadding};
-				width: ${mobile_val.width ?? "fit-content"};
+				width: ${headingWidth(mobilePercent, mobile_val.width)};
 			}
 		}
+		${defaultPercent || mobilePercent ? `${MEDIA_MOBILE} { ${rootWidthCss(mobilePercent)} }` : ""}
 		${innerScope} a { text-decoration:none !important; }
+		/* リンクで包んだときの外側の a。ブラウザ既定の青・下線・訪問済みの色が出ないようにする */
+		${rootScope} > a, ${rootScope} > a:visited { text-decoration:none !important; color:inherit; }
 		${underlineCss}
 		${submenuCss}
 		${is_waiting ? createWaitingCss(innerScope) : ""}
-		${createOptionStyleCss(attributes, innerScope)}
+		${createOptionStyleCss(attributes, innerScope, scopes.lang ?? currentViewLang())}
 	`;
 };

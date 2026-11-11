@@ -3,6 +3,14 @@ import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import { styleDataApply } from "itmar-block-packages/front";
 import { MOBILE_QUERY } from "../breakpoints";
+import { localizeInternalUrl } from "../langUrl";
+import { currentViewLang } from "./langCore";
+import {
+	charAnimeVars,
+	normalizeCharAnime,
+	splitCharsHtml,
+	type CharAnime,
+} from "./charAnime";
 
 import {
 	createTitleInnerScope,
@@ -138,6 +146,7 @@ const closeOtherSubmenus = (keep: Element | null): void => {
 			if (el !== keep) {
 				el.classList.remove(SUBMENU_OPEN_CLASS);
 				setAccordionHeight(el, false);
+				el.parentElement?.setAttribute("aria-expanded", "false");
 			}
 		});
 };
@@ -149,6 +158,16 @@ const initSubmenuTouchToggle = (): void => {
 			if (!window.matchMedia(MOBILE_QUERY).matches) return;
 			const target = e.target;
 			if (!(target instanceof Element)) return;
+
+			//メニューの外を押したら、開いているサブメニューを畳む
+			if (
+				!target.closest(
+					".submenu-block, .wp-block-itmar-design-title:has(> .submenu-block)",
+				)
+			) {
+				closeOtherSubmenus(null);
+				return;
+			}
 
 			//サブメニューの中身を押したときは何もしない（そのまま遷移させる）
 			if (target.closest(".submenu-block")) return;
@@ -256,6 +275,129 @@ const initSubmenuOverflowGuard = (): void => {
 	});
 };
 
+/* ------------------------------
+  表示言語の切り替え
+  ------------------------------
+  言語ごとの文字を持つタイトルは、保存された HTML に既定の言語の文字を入れ、
+  全言語の文字を data-lang-texts に持つ。言語は URL（/en/ など。サーバーが <html data-itmar-lang> で知らせる）が先で、
+  URL で決めていないサイトでは Cookie に覚えた言語を使い、その言語の文字に差し替える。リンクタイプが「言語切替」のタイトル（.lang_switch_btn）を押すと、
+  その data-lang の言語に切り替える。 */
+const LANG_COOKIE = "itmar_lang";
+const DEFAULT_LANG = "JP";
+//言語コードと <html lang> の値（slug-translater の言語一覧と同じ。ないコードは、小文字にして使う）
+const LANG_HTML_LANG: Record<string, string> = {
+	JP: "ja",
+	EN: "en",
+	ZH: "zh-CN",
+	"ZH-TW": "zh-TW",
+	KO: "ko",
+	FR: "fr",
+	DE: "de",
+	ES: "es",
+};
+
+const readLangCookie = (): string => {
+	const match = document.cookie.match(
+		new RegExp(`(?:^|; )${LANG_COOKIE}=([^;]*)`),
+	);
+	return match ? decodeURIComponent(match[1]) : "";
+};
+
+/** サーバー（slug-translater）が URL から決めた言語。多言語の URL を使っていないサイトでは空 */
+const readUrlLang = (): string =>
+	document.documentElement.dataset.itmarLang ?? "";
+
+/** 指定した言語でいまのページを開く URL（サーバーが rel="itmar-lang" で知らせる） */
+const findLangUrl = (lang: string): string => {
+	const link = Array.from(
+		document.querySelectorAll<HTMLLinkElement>('link[rel="itmar-lang"]'),
+	).find((el) => el.dataset.itmarLang === lang);
+	return link?.href ?? "";
+};
+
+/** 言語を切り替えて見出しの文字を差し替えたとき、文字ごとのアニメーションに、分割し直すよう伝える */
+const CHAR_RETEXT_EVENT = "itmar:title-retext";
+
+const TITLE_TEXT_SELECTOR = ":scope > .itmar-wrap, :scope > a > .itmar-wrap";
+
+const applyLang = (lang: string): void => {
+	if (!lang) return;
+	document
+		.querySelectorAll<HTMLElement>(".wp-block-itmar-design-title[data-lang-texts]")
+		.forEach((title) => {
+			let texts: Record<string, string> = {};
+			try {
+				texts = JSON.parse(title.dataset.langTexts || "{}");
+			} catch (e) {
+				return;
+			}
+			const text = texts[lang];
+			//その言語の文字がないときは、保存された文字（既定の言語）のまま
+			if (text === undefined) return;
+			const wrap = title.querySelector<HTMLElement>(TITLE_TEXT_SELECTOR);
+			const heading = wrap?.querySelector<HTMLElement>("h1,h2,h3,h4,h5,h6,p");
+			//文字ごとのアニメーションで分割済みの見出しは、分割されているので、毎回入れ直して、分割し直してもらう
+			const isSplit = !!heading?.classList.contains("itmar-char-anime");
+			if (heading && (isSplit || heading.innerHTML !== text)) {
+				heading.innerHTML = text;
+				if (isSplit) title.dispatchEvent(new CustomEvent(CHAR_RETEXT_EVENT));
+			}
+		});
+	document.documentElement.lang = LANG_HTML_LANG[lang] ?? lang.toLowerCase();
+};
+
+/** 言語切替ボタンのうち、今の表示言語のものに目印を付ける（装飾はテーマ側で行う） */
+const markCurrentLang = (lang: string): void => {
+	document
+		.querySelectorAll<HTMLElement>(".lang_switch_btn")
+		.forEach((button) => {
+			const isCurrent = button.dataset.lang === lang;
+			button.classList.toggle("is-current-lang", isCurrent);
+			if (isCurrent) button.setAttribute("aria-current", "true");
+			else button.removeAttribute("aria-current");
+		});
+};
+
+const switchLang = (lang: string): void => {
+	document.cookie = `${LANG_COOKIE}=${encodeURIComponent(lang)}; path=/; max-age=31536000; SameSite=Lax`;
+	//言語を URL で決めているサイトは、その言語のページへ移る
+	if (readUrlLang()) {
+		const url = findLangUrl(lang);
+		if (url) {
+			window.location.href = url;
+			return;
+		}
+	}
+	applyLang(lang);
+	markCurrentLang(lang);
+};
+
+const initLangSwitch = (): void => {
+	//URL の言語が先。なければ Cookie、それもなければ既定の言語（保存された HTML の言語）
+	const current = readUrlLang() || readLangCookie() || DEFAULT_LANG;
+	applyLang(current);
+	markCurrentLang(current);
+
+	const langFromEvent = (target: EventTarget | null): string => {
+		if (!(target instanceof Element)) return "";
+		return (
+			target.closest<HTMLElement>(".lang_switch_btn")?.dataset.lang ?? ""
+		);
+	};
+	document.addEventListener("click", (e) => {
+		const lang = langFromEvent(e.target);
+		if (lang) switchLang(lang);
+	});
+	//キーボード（Enter / Space）でも押せるようにする
+	document.addEventListener("keydown", (e) => {
+		if (e.key !== "Enter" && e.key !== " ") return;
+		const lang = langFromEvent(e.target);
+		if (!lang) return;
+		e.preventDefault();
+		switchLang(lang);
+	});
+};
+
 const initSubmenus = (): void => {
 	initSubmenuOverflowGuard();
 	initSubmenuTouchToggle();
@@ -263,8 +405,10 @@ const initSubmenus = (): void => {
 
 if (document.readyState === "loading") {
 	document.addEventListener("DOMContentLoaded", initSubmenus);
+	document.addEventListener("DOMContentLoaded", initLangSwitch);
 } else {
 	initSubmenus();
+	initLangSwitch();
 }
 
 jQuery(function ($) {
@@ -303,7 +447,11 @@ jQuery(function ($) {
 			// '.itmar_site_title' クラスを持つ要素が読み込まれたときの処理
 			const fetchSiteInfo = async () => {
 				try {
-					const response = (await apiFetch({ path: "/" })) as SiteInfoResponse;
+					//表示している言語のサイト名・説明を読む（多言語プラグインがなければ、言語の指定は無視される）
+					const lang = currentViewLang();
+					const response = (await apiFetch({
+						path: lang === "JP" ? "/" : `/?lang=${encodeURIComponent(lang)}`,
+					})) as SiteInfoResponse;
 					$(".itmar_site_title").text(response.name ?? "");
 					$(".itmar_catch_title").text(response.description ?? "");
 				} catch (error) {
@@ -350,7 +498,10 @@ jQuery(function ($) {
 		//保存された[home_url]を現在サイトのURLへ置き換える
 		$(".wp-block-itmar-design-title a").each(function () {
 			const storedHref = $(this).attr("href") ?? "";
-			const resolvedHref = resolveHomeUrl(storedHref);
+			const resolvedHref = localizeInternalUrl(
+				resolveHomeUrl(storedHref),
+				itmar_option.home_url,
+			);
 
 			if (resolvedHref && resolvedHref !== storedHref) {
 				$(this).attr("href", resolvedHref);
@@ -432,5 +583,171 @@ jQuery(function ($) {
 				}
 			});
 		}
+	}
+});
+
+/* ------------------------------
+  文字ごとのアニメーション（順次表示・せり上がり）
+  ------------------------------
+  見出しの文字を 1 文字ずつの span に分け、条件がそろったら .is-char-playing を付ける（動きは style.scss）。
+    visible: 画面に入ったとき（1 回だけ）
+    slide  : 入っているスライドが表示されている間（離れると戻し、次に表示されたときにまた動く）
+  オープニングがあるときは、終わるまで待つ。
+  Swiper のループで複製されたスライドは、あとから増えるので、少し遅れてもう一度探す。 */
+jQuery(function ($) {
+	const TITLE_ATTR = `.wp-block-itmar-design-title[data-attributes*='"charAnime"']`;
+	const HEADING = "h1,h2,h3,h4,h5,h6,p";
+	const SLIDE = ".swiper-slide";
+	const SLIDE_ACTIVE = "swiper-slide-active";
+	const PLAYING = "is-char-playing";
+
+	if (!document.querySelector(TITLE_ATTR)) return;
+
+	const reduceMotion = window.matchMedia(
+		"(prefers-reduced-motion: reduce)",
+	).matches;
+	const $fixbg = $(".fixbg");
+	let ready = $fixbg.length === 0 || !!$fixbg.data("openAnimationEnded");
+
+	interface Item {
+		heading: HTMLElement;
+		trigger: "visible" | "slide";
+		slide: Element | null;
+		visible: boolean;
+		played: boolean;
+	}
+	const items: Item[] = [];
+	const registered = new WeakSet<Element>();
+	const slideObservers = new WeakMap<Element, MutationObserver>();
+
+	const setPlaying = (item: Item, on: boolean): void => {
+		const h = item.heading;
+		if (on === h.classList.contains(PLAYING)) return;
+		if (on) {
+			//戻した状態を一度描画してから、動かす（同じフレームだと transition が走らない）
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => h.classList.add(PLAYING));
+			});
+		} else {
+			h.classList.remove(PLAYING);
+		}
+	};
+
+	const sync = (item: Item): void => {
+		if (!ready) return;
+		if (item.trigger === "visible") {
+			if (item.visible && !item.played) {
+				item.played = true;
+				setPlaying(item, true);
+			}
+			return;
+		}
+		const active = !!item.slide?.classList.contains(SLIDE_ACTIVE);
+		setPlaying(item, active);
+	};
+
+	const io =
+		"IntersectionObserver" in window
+			? new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							const item = items.find((i) => i.heading === entry.target);
+							if (!item) return;
+							item.visible = entry.isIntersecting;
+							sync(item);
+						});
+					},
+					{ threshold: 0.2 },
+				)
+			: null;
+
+	const watchSlide = (item: Item): void => {
+		if (!item.slide) return;
+		const slide = item.slide;
+		if (slideObservers.has(slide)) return;
+		const mo = new MutationObserver(() => {
+			items.filter((i) => i.slide === slide).forEach(sync);
+		});
+		mo.observe(slide, { attributes: true, attributeFilter: ["class"] });
+		slideObservers.set(slide, mo);
+	};
+
+	const prepare = (item: Item, cfg: CharAnime): void => {
+		const h = item.heading;
+		const text = (h.textContent ?? "").trim();
+		h.classList.add("itmar-char-anime");
+		if (!text) return;
+		if (reduceMotion) {
+			h.classList.add("is-char-static");
+			return;
+		}
+		//元の文字は、読み上げ用に残す
+		h.setAttribute("aria-label", text);
+		h.innerHTML = splitCharsHtml(h.innerHTML).html;
+		h.dataset.charAnime = cfg.pattern;
+		Object.entries(charAnimeVars(cfg)).forEach(([k, v]) =>
+			h.style.setProperty(k, String(v)),
+		);
+	};
+
+	const register = (title: HTMLElement): void => {
+		if (registered.has(title)) return;
+		registered.add(title);
+		let cfg: CharAnime | null = null;
+		try {
+			cfg = normalizeCharAnime(
+				JSON.parse(title.dataset.attributes ?? "{}").charAnime,
+			);
+		} catch {
+			return;
+		}
+		const heading = title
+			.querySelector<HTMLElement>(TITLE_TEXT_SELECTOR)
+			?.querySelector<HTMLElement>(HEADING);
+		if (!cfg || !heading) return;
+
+		const slide = title.closest(SLIDE);
+		const item: Item = {
+			heading,
+			//スライドの外にあるタイトルに「スライド表示時」が選ばれていても、動かなくならないよう、画面に入ったときにする
+			trigger: cfg.trigger === "slide" && slide ? "slide" : "visible",
+			slide,
+			visible: false,
+			played: false,
+		};
+		items.push(item);
+		//Swiper が複製したスライドの見出しは、すでに分割されている
+		if (!heading.classList.contains("itmar-char-anime")) {
+			prepare(item, cfg);
+		}
+
+		//言語切替で文字が差し替わったら、分割し直して、動かし直す
+		title.addEventListener(CHAR_RETEXT_EVENT, () => {
+			heading.classList.remove(PLAYING);
+			item.played = false;
+			prepare(item, cfg);
+			sync(item);
+		});
+
+		if (item.trigger === "slide") watchSlide(item);
+		else if (io) io.observe(heading);
+		else item.visible = true;
+		sync(item);
+	};
+
+	const scan = (): void => {
+		document.querySelectorAll<HTMLElement>(TITLE_ATTR).forEach(register);
+	};
+
+	scan();
+	//ループの複製や、あとから描かれるスライドを拾う
+	setTimeout(scan, 600);
+	setTimeout(scan, 2500);
+
+	if (!ready) {
+		$fixbg.on("openAnimationEnd", () => {
+			ready = true;
+			items.forEach(sync);
+		});
 	}
 });

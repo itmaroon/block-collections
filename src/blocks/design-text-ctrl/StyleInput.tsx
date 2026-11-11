@@ -181,6 +181,31 @@ export const createInputStyleCss = (
 				box-shadow: none;
 				border-color: ${focusColor || "currentColor"};
 			}
+			/*
+			 * 未入力のときは、ブラウザ標準のプレースホルダーを透明にして、代わりにラベルを同じ位置に出す。
+			 * プレースホルダーは一部だけ色を変えられないので、「(必須)」の色を design-select と
+			 * そろえるにはラベル側で出す必要がある。パスワード等の wrapper 内の input は、
+			 * ラベルが兄弟にならず浮かせられないので、従来どおりプレースホルダーを残す。
+			 */
+			${scopeSelector} > input::placeholder,
+			${scopeSelector} > textarea::placeholder {
+				color: transparent;
+			}
+			${scopeSelector} > input.empty ~ label,
+			${scopeSelector} > textarea.empty ~ label {
+				opacity: 1;
+				color: var(--itmar-placeholder);
+			}
+			${scopeSelector} > input ~ label,
+			${scopeSelector} > textarea ~ label {
+				left: auto;
+				margin-left: 8px;
+			}
+			/* 必須エラー(.err_msg)は form-send-blocks が top:90% で置くため、下線に文字がかかる。
+			 * design-select と同じく下線の下に余白をあけて出す（フォーム側の #id 指定に勝つため !important） */
+			${scopeSelector} .err_msg {
+				top: calc(100% + 5px) !important;
+			}
 			${scopeSelector} input:focus ~ label,
 			${scopeSelector} textarea:focus ~ label,
 			${scopeSelector} input:not(.empty) ~ label,

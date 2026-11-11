@@ -18,9 +18,12 @@ export interface SelectPosition {
 	labelPos: string;
 }
 
+/** 言語ごとの文字を持てる値。文字列なら言語を分けていない */
+export type LangText = string | Record<string, string>;
+
 export interface RequiredInfo {
 	flg: boolean;
-	display: string;
+	display: LangText;
 }
 
 export interface SelectAttributes {
@@ -41,7 +44,9 @@ export interface SelectAttributes {
 	bgSelectGradient?: string;
 	radius_value: RadiusValue;
 	border_value?: Record<string, any>;
-	labelContent: string;
+	labelContent: LangText;
+	/** 手で直した言語の印。{ 項目キー: { 言語: true } } */
+	langManual?: Record<string, Record<string, boolean>>;
 	labelWidth: string;
 	font_style_label: FontStyle;
 	bgColor_label?: string;

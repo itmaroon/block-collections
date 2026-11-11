@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
 import type { BoxValues } from "../../shared/types";
+import type { FluidSize } from "./headingSize";
+import type { CharAnime } from "./charAnime";
 
 export type TitleOptionStyle = Record<string, any>;
 
@@ -16,6 +18,8 @@ export interface UnderLineProp {
 export interface TitleStyleScopes {
 	root: string;
 	inner: string;
+	/** サブタイトルなどの文字を出す言語。省略すると、いま表示している言語 */
+	lang?: string;
 }
 
 /** モバイルでのサブメニューの開き方。
@@ -24,7 +28,12 @@ export interface TitleStyleScopes {
 export type MobileSubmenuMode = "virtical" | "horizen";
 
 export interface TitleAttributes {
-	headingContent?: string;
+	/** 文字列、または言語コードをキーにした文字列のオブジェクト（lang.ts） */
+	headingContent?: string | Record<string, string>;
+	/** クリックしたときに、表示言語をこの言語（"JP" "EN" など）に切り替える。既存ブロックの保存内容を変えないため、既定値は持たない */
+	langSwitch?: string;
+	/** 手で直した翻訳の言語（{EN:true}）。自動翻訳で上書きしない。既定値は持たない */
+	langManual?: Record<string, boolean>;
 	uniqueID?: string;
 	headingType: string;
 	/**
@@ -48,6 +57,11 @@ export interface TitleAttributes {
 	 *  既存ブロックの保存内容を変えないため、既定値は持たない */
 	headingSizeDesktop?: string;
 	headingSizeMobile?: string;
+	/** headingSizeDesktop / headingSizeMobile が "fluid" のときの、最小・画面幅の割合・最大 */
+	headingFluidDesktop?: FluidSize;
+	headingFluidMobile?: FluidSize;
+	/** 文字ごとのアニメーション（順次表示・せり上がり）。未設定ならなし */
+	charAnime?: CharAnime;
 	is_title_menu: boolean;
 	selectedSlug: string;
 	selectedPageUrl: string;

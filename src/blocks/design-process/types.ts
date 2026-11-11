@@ -23,7 +23,8 @@ export interface RadiusValue {
 export interface FigureBlockInfo {
 	block_name: string;
 	block_type: string;
-	stage_info: string;
+	/** 文字列なら言語を分けていない。{JP, EN} なら言語ごとの文字（各ステップのブロックの stage_info） */
+	stage_info: string | Record<string, string>;
 }
 
 export interface ProcessAttributes {

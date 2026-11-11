@@ -29,7 +29,7 @@ import {
 } from "@wordpress/block-editor";
 import { useEffect, useRef } from "@wordpress/element";
 import { store as blockEditorStore } from "@wordpress/block-editor";
-import { useSelect } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 
 import "./editor.scss";
 import {
@@ -54,7 +54,54 @@ import {
 } from "../front-common";
 
 import { justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
-import type { DesignButtonEditProps } from "./types";
+import type { DesignButtonEditProps, DesignButtonAttributes } from "./types";
+import {
+	DEFAULT_LANG,
+	canTranslateBlock,
+	defaultText,
+	textForLang,
+	translateText,
+	useEditLang,
+	useTranslationConfig,
+	withLangText,
+} from "../design-title/lang";
+import { LangToolbar } from "../design-title/LangToolbar";
+
+/* 言語ごとの文字を持つ項目 */
+type LangFieldKey = "labelContent" | "stretchOpen" | "stretchClose" | "tooltip";
+const LANG_FIELD_KEYS: LangFieldKey[] = [
+	"labelContent",
+	"stretchOpen",
+	"stretchClose",
+	"tooltip",
+];
+const LANG_FIELDS: Record<
+	LangFieldKey,
+	{
+		get: (a: DesignButtonAttributes) => unknown;
+		patch: (
+			a: DesignButtonAttributes,
+			v: any,
+		) => Partial<DesignButtonAttributes>;
+	}
+> = {
+	labelContent: {
+		get: (a) => a.labelContent,
+		patch: (_a, v) => ({ labelContent: v }),
+	},
+	stretchOpen: {
+		get: (a) => a.stretchInfo.openText,
+		patch: (a, v) => ({ stretchInfo: { ...a.stretchInfo, openText: v } }),
+	},
+	stretchClose: {
+		get: (a) => a.stretchInfo.closeText,
+		patch: (a, v) => ({ stretchInfo: { ...a.stretchInfo, closeText: v } }),
+	},
+	tooltip: {
+		get: (a) => a.tooltip_text,
+		patch: (_a, v) => ({ tooltip_text: v }),
+	},
+};
 
 const HOME_URL_TOKEN = "[home_url]";
 const HOME_PAGE_SLUG = "__home__";
@@ -154,6 +201,7 @@ export default function Edit(props: DesignButtonEditProps) {
 		is_tooltip,
 		tooltip_style,
 		tooltip_text,
+		langManual,
 	} = attributes;
 
 	// PageSelectControl uses an empty slug for its synthetic home option.
@@ -170,6 +218,122 @@ export default function Edit(props: DesignButtonEditProps) {
 	const alignStyleObject = typeof align_style === "string" ? {} : align_style;
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
+
+	/*
+	 * ラベル・伸縮ボタンの文字・ツールチップは、言語ごとに持てる。
+	 * 翻訳する言語と対象は、slug-translater の設定。プラグインがないときは、手入力の JP と EN だけ。
+	 */
+	const translationConfig = useTranslationConfig();
+	const langOptions = translationConfig.languages;
+	const hasMultiLang = langOptions.length > 1;
+	const canAutoTranslate = canTranslateBlock(
+		translationConfig,
+		"itmar/design-button",
+	);
+	const editLang = useEditLang();
+	const activeLang = hasMultiLang ? editLang : DEFAULT_LANG;
+	const otherLangs = langOptions
+		.map((l) => l.value)
+		.filter((code) => code !== DEFAULT_LANG);
+	//非同期の翻訳が終わったときに、最新の属性を読むための参照
+	const latestRef = useRef(attributes);
+	latestRef.current = attributes;
+	const translateTimers = useRef<Record<string, number>>({});
+	useEffect(
+		() => () =>
+			Object.values(translateTimers.current).forEach((t) =>
+				window.clearTimeout(t),
+			),
+		[],
+	);
+	const { createNotice } = useDispatch("core/notices") as {
+		createNotice: (
+			status: string,
+			content: string,
+			options?: Record<string, unknown>,
+		) => void;
+	};
+
+	/**
+	 * 既定の言語の文字を、指定した言語に自動翻訳して入れる。
+	 * 手で直した言語（langManual）は、force が true のとき（ボタンで頼んだとき）以外は上書きしない。
+	 */
+	const autoTranslateField = async (
+		key: LangFieldKey,
+		langs: string[],
+		force: boolean,
+	) => {
+		const field = LANG_FIELDS[key];
+		const source = defaultText(field.get(latestRef.current));
+		if (!source.trim()) return;
+		const results: Record<string, string> = {};
+		for (const lang of langs) {
+			if (!force && latestRef.current.langManual?.[key]?.[lang]) continue;
+			const res = await translateText(source, lang);
+			if (!res.ok) {
+				createNotice("error", res.message, {
+					type: "snackbar",
+					isDismissible: true,
+				});
+				return;
+			}
+			results[lang] = res.text;
+		}
+		if (Object.keys(results).length === 0) return;
+		const cur = latestRef.current;
+		let next = field.get(cur);
+		const manual = { ...(cur.langManual ?? {}) };
+		const fieldManual = { ...(manual[key] ?? {}) };
+		Object.entries(results).forEach(([lang, text]) => {
+			next = withLangText(next, lang, text);
+			delete fieldManual[lang];
+		});
+		if (Object.keys(fieldManual).length) manual[key] = fieldManual;
+		else delete manual[key];
+		const patch = {
+			...field.patch(cur, next),
+			langManual: Object.keys(manual).length ? manual : undefined,
+		};
+		latestRef.current = { ...cur, ...patch } as DesignButtonAttributes;
+		setAttributes(patch);
+	};
+
+	//編集中の言語の文字を書き込む
+	const setFieldText = (key: LangFieldKey, text: string) => {
+		const field = LANG_FIELDS[key];
+		const next = withLangText(field.get(attributes), activeLang, text);
+		if (activeLang === DEFAULT_LANG) {
+			setAttributes(field.patch(attributes, next));
+			//既定の言語を書き換えたら、少し待って、ほかの言語を自動翻訳する
+			if (canAutoTranslate) {
+				window.clearTimeout(translateTimers.current[key]);
+				translateTimers.current[key] = window.setTimeout(() => {
+					autoTranslateField(key, otherLangs, false);
+				}, 1500);
+			}
+		} else {
+			//ほかの言語を手で直したら、自動翻訳で上書きしない印を付ける
+			setAttributes({
+				...field.patch(attributes, next),
+				langManual: {
+					...(langManual ?? {}),
+					[key]: { ...(langManual?.[key] ?? {}), [activeLang]: true },
+				},
+			});
+		}
+	};
+
+	//編集中の言語を、全項目まとめて翻訳し直す
+	const retranslateAll = async () => {
+		for (const key of LANG_FIELD_KEYS) {
+			await autoTranslateField(key, [activeLang], true);
+		}
+	};
+	const isManualLang = LANG_FIELD_KEYS.some(
+		(key) => langManual?.[key]?.[activeLang],
+	);
+	const hasLangText =
+		displayType === "string" || is_tooltip || linkKind === "stretch";
 
 	//ブロックの参照
 	const blockRef = useRef<HTMLDivElement | null>(null);
@@ -233,7 +397,9 @@ export default function Edit(props: DesignButtonEditProps) {
 
 	//アコーデオンボタンのアニメーション処理
 	useEffect(() => {
-		if (!stretchClientId) return;
+		//リンクタイプが overlay のボタンも同じ groupId を持つが、これは出し入れの対象の指定で、アコーディオンの対象ではない。
+		//ここで高さを触ると、overlay のグループの高さが 0 になる
+		if (!stretchClientId || linkKind !== "stretch") return;
 
 		const iframeInstance = document.querySelector<HTMLIFrameElement>(
 			'iframe[name="editor-canvas"]',
@@ -253,7 +419,7 @@ export default function Edit(props: DesignButtonEditProps) {
 		const isOpen = stretchInfo?.isOpen ?? true;
 
 		return applyStretchAccordion(el, isOpen);
-	}, [stretchInfo?.isOpen, stretchClientId]);
+	}, [stretchInfo?.isOpen, stretchClientId, linkKind]);
 
 	function renderContent() {
 		// ボタンの中身を変数に格納
@@ -290,17 +456,20 @@ export default function Edit(props: DesignButtonEditProps) {
 								<style>{createStretchPseudoCss(stretchInfo)}</style>
 							)}
 							<div className={stretchInfo.isArrow ? "stretch_pseudo" : ""}>
-								{stretchInfo.isOpen
-									? stretchInfo.openText
-									: stretchInfo.closeText}
+								{textForLang(
+									stretchInfo.isOpen
+										? stretchInfo.openText
+										: stretchInfo.closeText,
+									activeLang,
+								)}
 							</div>
 						</>
 					) : (
 						<RichText
 							onChange={(newContent) => {
-								setAttributes({ labelContent: newContent });
+								setFieldText("labelContent", newContent);
 							}}
-							value={labelContent ?? ""}
+							value={textForLang(labelContent, activeLang)}
 							placeholder={__("Button Name...", "block-collections")}
 						/>
 					))}
@@ -321,7 +490,10 @@ export default function Edit(props: DesignButtonEditProps) {
 		);
 		return is_tooltip ? (
 			<StyleTooltips
-				attributes={{ ...tooltip_style, tooltip_text: tooltip_text }}
+				attributes={{
+					...tooltip_style,
+					tooltip_text: textForLang(tooltip_text, activeLang),
+				}}
 			>
 				{buttonContent}
 			</StyleTooltips>
@@ -378,13 +550,21 @@ export default function Edit(props: DesignButtonEditProps) {
 									label: __("Stretchable", "block-collections"),
 									value: "stretch",
 								},
-								{
-									label: __("Forward Page", "block-collections"),
+									{
+										label: __("Overlay Menu", "block-collections"),
+										value: "overlay",
+									},
+									{
+										label: __("Forward Page", "block-collections"),
 									value: "forward",
 								},
 								{
 									label: __("Back Page", "block-collections"),
 									value: "back",
+								},
+								{
+									label: __("Scroll to Top", "block-collections"),
+									value: "scrolltop",
 								},
 								{ label: __("No Link", "block-collections"), value: "none" },
 							]}
@@ -406,9 +586,19 @@ export default function Edit(props: DesignButtonEditProps) {
 											"Hides child elements with the specified ID or class name. If not specified, hides the parent element of the button.",
 											"block-collections",
 									  )
+									: linkKind === "overlay"
+									? __(
+											"Shows or hides the group with the specified form ID over the whole screen. Put a button of the same type with the same ID inside the group to close it.",
+											"block-collections",
+									  )
 									: linkKind === "back" || linkKind === "forward"
 									? __(
 											"This button is used to switch between multiple forms.",
+											"block-collections",
+									  )
+									: linkKind === "scrolltop"
+									? __(
+											"Scrolls the page to the top. The button fades out when the page is at the top, and fades in when the page can be scrolled up. Put it in a group and set the group's position to fixed. It is always shown in the editor.",
 											"block-collections",
 									  )
 									: ""
@@ -488,6 +678,18 @@ export default function Edit(props: DesignButtonEditProps) {
 						/>
 					)}
 
+					{linkKind === "overlay" && (
+						<TextControl
+							label={__("Target ID", "block-collections")}
+							value={stretchInfo.groupId}
+							onChange={(newValue) => {
+								setAttributes({
+									stretchInfo: { ...stretchInfo, groupId: newValue },
+								});
+							}}
+						/>
+					)}
+
 					{linkKind === "stretch" && (
 						<PanelBody
 							title={__("Stretch setting", "block-collections")}
@@ -523,21 +725,13 @@ export default function Edit(props: DesignButtonEditProps) {
 							/>
 							<TextControl
 								label={__("Open Button Text", "block-collections")}
-								value={stretchInfo.openText}
-								onChange={(newValue) => {
-									setAttributes({
-										stretchInfo: { ...stretchInfo, openText: newValue },
-									});
-								}}
+								value={textForLang(stretchInfo.openText, activeLang)}
+								onChange={(newValue) => setFieldText("stretchOpen", newValue)}
 							/>
 							<TextControl
 								label={__("Close Button Tex", "block-collections")}
-								value={stretchInfo.closeText}
-								onChange={(newValue) => {
-									setAttributes({
-										stretchInfo: { ...stretchInfo, closeText: newValue },
-									});
-								}}
+								value={textForLang(stretchInfo.closeText, activeLang)}
+								onChange={(newValue) => setFieldText("stretchClose", newValue)}
 							/>
 						</PanelBody>
 					)}
@@ -546,7 +740,9 @@ export default function Edit(props: DesignButtonEditProps) {
 						linkKind !== "close" &&
 						linkKind !== "back" &&
 						linkKind !== "forward" &&
-						linkKind !== "stretch" && (
+						linkKind !== "stretch" &&
+						linkKind !== "scrolltop" &&
+						linkKind !== "overlay" && (
 							<ToggleControl
 								label={__("Open in new tab", "block-collections")}
 								checked={isBlank}
@@ -624,8 +820,8 @@ export default function Edit(props: DesignButtonEditProps) {
 						<>
 							<TextControl
 								label={__("Hint wording", "block-collections")}
-								value={tooltip_text}
-								onChange={(newVal) => setAttributes({ tooltip_text: newVal })}
+								value={textForLang(tooltip_text, activeLang)}
+								onChange={(newVal) => setFieldText("tooltip", newVal)}
 							/>
 							<ToolTips
 								attributes={tooltip_style}
@@ -651,7 +847,7 @@ export default function Edit(props: DesignButtonEditProps) {
 								colorValue: bgColor,
 								label: __("Choose Block Background color", "block-collections"),
 								onColorChange: (newValue: string | undefined) =>
-									setAttributes({ bgColor: newValue }),
+									setAttributes({ bgColor: newValue ?? "" }),
 							},
 						]}
 					/>
@@ -926,6 +1122,15 @@ export default function Edit(props: DesignButtonEditProps) {
 						}
 						onClick={() => setAttributes({ isEditing: !isEditing })}
 						isPressed={isEditing}
+					/>
+				)}
+				{hasMultiLang && hasLangText && (
+					<LangToolbar
+						langOptions={langOptions}
+						activeLang={activeLang}
+						canAutoTranslate={canAutoTranslate}
+						isManual={isManualLang}
+						onRetranslate={retranslateAll}
 					/>
 				)}
 			</BlockControls>

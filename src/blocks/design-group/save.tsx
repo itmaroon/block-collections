@@ -2,8 +2,36 @@ import { useBlockProps, InnerBlocks } from "@wordpress/block-editor";
 import type { GroupSaveProps } from "./types";
 import { isSectioningDomType } from "./domTypes";
 import { menuIconVars } from "./menuIcon";
+import metadata from "./block.json";
 
-export default function save({ attributes }: GroupSaveProps) {
+/*
+ * data-attributes のキーを、block.json の定義順にそろえる。
+ * 編集で後から足した属性は、キーが末尾に足される。一方、読み直したときの再生成は定義順になるので、
+ * 保存時の並びが定義順でないと、読み込み時に並びが食い違って無効になる。
+ * block.json に無いもの（style など、サポート機能が足す属性）は、定義順のあとに、元の順で並べる。
+ */
+const SCHEMA_KEYS = Object.keys(metadata.attributes);
+const inSchemaOrder = (
+	attrs: Record<string, unknown>,
+): Record<string, unknown> => {
+	const ordered: Record<string, unknown> = {};
+	SCHEMA_KEYS.forEach((key) => {
+		if (key in attrs) ordered[key] = attrs[key];
+	});
+	Object.keys(attrs).forEach((key) => {
+		if (!(key in ordered)) ordered[key] = attrs[key];
+	});
+	return ordered;
+};
+
+/**
+ * @param legacyMenuKeyOrder true のとき、menuId と hamburger_style を style の後ろへ並べる
+ *   （この並びで保存された旧いブロックを、deprecated.tsx から検証するため）
+ */
+export default function save(
+	{ attributes }: GroupSaveProps,
+	legacyMenuKeyOrder = false,
+) {
 	const {
 		className,
 		domType,
@@ -21,6 +49,8 @@ export default function save({ attributes }: GroupSaveProps) {
 		menuTrigger,
 		menuIcon,
 		zIndex,
+		scrollInside,
+		scrollScale,
 	} = attributes;
 
 	/*
@@ -32,15 +62,29 @@ export default function save({ attributes }: GroupSaveProps) {
 		zIndex: _zIndex,
 		menuTrigger: _menuTrigger,
 		menuIcon: _menuIcon,
+		scrollInside: _scrollInside,
+		scrollScale: _scrollScale,
 		...otherAttributes
 	} = attributes;
+	const schemaOrdered = inSchemaOrder(otherAttributes as Record<string, unknown>);
+	const { menuId: _legacyMenuId, hamburger_style: _legacyHamburger, ...ordinary } =
+		schemaOrdered;
+	const orderedAttributes = legacyMenuKeyOrder
+		? {
+				...ordinary,
+				...(menuId !== undefined && { menuId }),
+				...(hamburger_style !== undefined && { hamburger_style }),
+			}
+		: schemaOrdered;
 	const blockProps = useBlockProps.save({
 		"data-attributes": JSON.stringify({
-			...otherAttributes,
+			...orderedAttributes,
 			// block.json の定義順（zIndex → menuTrigger → menuIcon）に固定する。編集で後から足したときの並びの食い違いを防ぐ
 			...(zIndex !== undefined && { zIndex }),
 			...(menuTrigger !== undefined && { menuTrigger }),
 			...(menuTrigger === "icon" && menuIcon !== undefined && { menuIcon }),
+			...(scrollInside && { scrollInside }),
+			...(scrollScale !== undefined && { scrollScale }),
 		}),
 	});
 

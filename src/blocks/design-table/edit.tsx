@@ -1,6 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import { createTableStyleCss } from "./StyleTable";
-import { useSelect } from "@wordpress/data";
+import { useSelect, useDispatch } from "@wordpress/data";
 import { useEffect, useState, useCallback, useRef } from "@wordpress/element";
 import {
 	useElementBackgroundColor,
@@ -45,6 +45,17 @@ import type {
 	TableRow,
 } from "./types";
 import { toStyleRecord } from "../front-common";
+import { LangToolbar } from "../design-title/LangToolbar";
+import { defaultText } from "../design-title/langCore";
+import {
+	DEFAULT_LANG,
+	canTranslateBlock,
+	textForLang,
+	translateText,
+	useEditLang,
+	useTranslationConfig,
+	withLangText,
+} from "../design-title/lang";
 
 import "./editor.scss";
 
@@ -216,7 +227,7 @@ export default function Edit({
 
 		// 3. 現在のヘッダー長と比較して調整
 		const setHeading = (
-			newHeading: string[],
+			newHeading: Array<string | Record<string, string>>,
 			targetCells: number,
 			attrName: "tableHeading" | "rowTableHeading",
 		) => {
@@ -472,6 +483,148 @@ export default function Edit({
 		),
 	});
 
+	/*
+	 * 見出し・セルの文字は、言語ごとに持てる（{JP, EN}）。編集言語の文字を読み書きする。
+	 * 自動翻訳は、日本語を直して 1.5 秒後に、直したセルだけを、まだ文字が入っていない言語へ訳す。
+	 * すでに入っている言語は上書きしない。数字・記号だけのセルは訳さない。
+	 * データを流し込む表（is_data_form）の本体セルは、データなので対象にしない（見出しだけ）。
+	 */
+	type LangKey =
+		| { kind: "col"; i: number }
+		| { kind: "row"; i: number }
+		| { kind: "cell"; r: number; c: number };
+	const translationConfig = useTranslationConfig();
+	const hasMultiLang = translationConfig.languages.length > 1;
+	const canAutoTranslate = canTranslateBlock(
+		translationConfig,
+		"itmar/design-table",
+	);
+	const editLang = useEditLang();
+	const activeLang = hasMultiLang ? editLang : DEFAULT_LANG;
+	const latestRef = useRef(attributes);
+	latestRef.current = attributes;
+	const translateTimers = useRef<Record<string, number>>({});
+	useEffect(
+		() => () =>
+			Object.values(translateTimers.current).forEach((t) =>
+				window.clearTimeout(t),
+			),
+		[],
+	);
+	const { createNotice } = useDispatch("core/notices") as {
+		createNotice: (
+			status: string,
+			content: string,
+			options?: Record<string, unknown>,
+		) => void;
+	};
+	const langKeyId = (k: LangKey): string =>
+		k.kind === "cell" ? `c:${k.r},${k.c}` : `${k.kind}:${k.i}`;
+	const readLang = (a: DesignTableAttributes, k: LangKey): unknown =>
+		k.kind === "col"
+			? a.tableHeading?.[k.i]
+			: k.kind === "row"
+				? a.rowTableHeading?.[k.i]
+				: a.tableSource?.[k.r]?.cells?.[k.c]?.content;
+	const writeLang = (
+		a: DesignTableAttributes,
+		k: LangKey,
+		value: unknown,
+	): Partial<DesignTableAttributes> => {
+		if (k.kind === "col" || k.kind === "row") {
+			const attr = k.kind === "col" ? "tableHeading" : "rowTableHeading";
+			const arr = [...(a[attr] ?? [])];
+			while (arr.length <= k.i) arr.push("");
+			arr[k.i] = value as string;
+			return { [attr]: arr } as Partial<DesignTableAttributes>;
+		}
+		const source = [...(a.tableSource ?? [])];
+		const row = { ...(source[k.r] ?? {}), cells: [...(source[k.r]?.cells ?? [])] };
+		row.cells[k.c] = {
+			...(row.cells[k.c] ?? {}),
+			content: value as string,
+			tag: row.cells[k.c]?.tag ?? "td",
+		};
+		source[k.r] = row;
+		return { tableSource: source };
+	};
+	//数字・記号だけの文字（日付や金額など）は、訳さない
+	const isTranslatable = (text: string): boolean =>
+		/[^\s\d.,:;\-/+()%¥$€#*]/.test(text.replace(/<[^>]*>/g, ""));
+	//既定の言語の文字を、指定した言語のうち、まだ文字が入っていないものへ訳して入れる
+	const fillEmptyLangs = async (k: LangKey, langs: string[]) => {
+		const raw = readLang(latestRef.current, k);
+		const source = defaultText(raw);
+		if (!source.trim() || !isTranslatable(source)) return;
+		let next: unknown = raw;
+		for (const lang of langs) {
+			if (lang === DEFAULT_LANG) continue;
+			const filled =
+				typeof next === "object" &&
+				next !== null &&
+				String((next as Record<string, string>)[lang] ?? "").trim() !== "";
+			if (filled) continue;
+			const res = await translateText(source, lang);
+			if (!res.ok) {
+				createNotice("error", res.message, {
+					type: "snackbar",
+					isDismissible: true,
+				});
+				return;
+			}
+			next = withLangText(next, lang, res.text);
+		}
+		if (next === raw) return;
+		//翻訳を待つ間に、ほかのセルが直されていても消えないよう、最新の属性に書き込む
+		const patch = writeLang(latestRef.current, k, next);
+		latestRef.current = { ...latestRef.current, ...patch };
+		setAttributes(patch);
+	};
+	const otherLangs = translationConfig.languages
+		.map((l) => l.value)
+		.filter((code) => code !== DEFAULT_LANG);
+	//編集中の言語の文字
+	const langText = (value: unknown): string => textForLang(value, activeLang);
+	//編集中の言語の文字を書き込む
+	const setLangText = (k: LangKey, text: string) => {
+		const next = withLangText(readLang(attributes, k), activeLang, text);
+		const patch = writeLang(attributes, k, next);
+		latestRef.current = { ...latestRef.current, ...patch };
+		setAttributes(patch);
+		if (activeLang === DEFAULT_LANG && canAutoTranslate) {
+			const id = langKeyId(k);
+			window.clearTimeout(translateTimers.current[id]);
+			translateTimers.current[id] = window.setTimeout(() => {
+				fillEmptyLangs(k, otherLangs);
+			}, 1500);
+		}
+	};
+	//編集中の言語で、まだ文字が入っていない見出し・セルを、まとめて訳す
+	const translateAllEmpty = async () => {
+		if (activeLang === DEFAULT_LANG) return;
+		if (
+			!window.confirm(
+				__(
+					"Translate every heading and cell that has no text in this language yet? Existing text is kept.",
+					"block-collections",
+				),
+			)
+		)
+			return;
+		const a = latestRef.current;
+		const keys: LangKey[] = [];
+		(a.tableHeading ?? []).forEach((_h, i) => keys.push({ kind: "col", i }));
+		(a.rowTableHeading ?? []).forEach((_h, i) => keys.push({ kind: "row", i }));
+		if (!a.is_data_form) {
+			(a.tableSource ?? []).forEach((row, r) =>
+				(row?.cells ?? []).forEach((_c, c) => keys.push({ kind: "cell", r, c })),
+			);
+		}
+		for (const k of keys) {
+			await fillEmptyLangs(k, [activeLang]);
+		}
+	};
+
 	function renderContent() {
 		//レンダリングするテーブル
 		return (
@@ -486,7 +639,7 @@ export default function Edit({
 							</colgroup>
 							<thead>
 								<tr>
-									{tableHeading.map((cell: string, index: number) => (
+									{tableHeading.map((_cell: unknown, index: number) => (
 										<th
 											key={index}
 											style={{
@@ -498,14 +651,10 @@ export default function Edit({
 											onClick={() => setIsSelHeader(true)}
 										>
 											<RichText
-												onChange={(newContent: string) => {
-													const updatedTableHeading = [...tableHeading];
-													updatedTableHeading[index] = newContent;
-													setAttributes({
-														tableHeading: updatedTableHeading,
-													});
-												}}
-												value={tableHeading[index]}
+												onChange={(newContent: string) =>
+													setLangText({ kind: "col", i: index }, newContent)
+												}
+												value={langText(tableHeading[index])}
 												placeholder={__("Enter header...", "block-collections")}
 											/>
 											{index !== tableHeading.length - 1 && (
@@ -537,20 +686,10 @@ export default function Edit({
 												onClick={() => setIsSelHeader(true)}
 											>
 												<RichText
-													onChange={(newContent: string) => {
-														const updatedRowTableHeading = [...rowTableHeading];
-
-														// 不足分を空文字で埋めてから代入
-														while (updatedRowTableHeading.length <= rowIndex) {
-															updatedRowTableHeading.push("");
-														}
-														updatedRowTableHeading[rowIndex] = newContent;
-
-														setAttributes({
-															rowTableHeading: updatedRowTableHeading,
-														});
-													}}
-													value={rowTableHeading[rowIndex]}
+													onChange={(newContent: string) =>
+														setLangText({ kind: "row", i: rowIndex }, newContent)
+													}
+													value={langText(rowTableHeading[rowIndex])}
 													placeholder={__(
 														"Enter row header...",
 														"block-collections",
@@ -610,7 +749,7 @@ export default function Edit({
 															)
 														}
 													>
-														<CellHtml html={cell.content || ""} />
+														<CellHtml html={langText(cell.content)} />
 														{/* ボディ側にもリサイズハンドルが必要な場合はここに追加 */}
 													</CellTag>
 												);
@@ -633,14 +772,10 @@ export default function Edit({
 												onClick={() => setIsSelHeader(true)}
 											>
 												<RichText
-													value={rowTableHeading[rowIndex] || ""}
-													onChange={(newContent: string) => {
-														const updatedRowTableHeading = [...rowTableHeading];
-														updatedRowTableHeading[rowIndex] = newContent;
-														setAttributes({
-															rowTableHeading: updatedRowTableHeading,
-														});
-													}}
+													value={langText(rowTableHeading[rowIndex])}
+													onChange={(newContent: string) =>
+														setLangText({ kind: "row", i: rowIndex }, newContent)
+													}
 													placeholder={__(
 														"Enter row header...",
 														"block-collections",
@@ -667,23 +802,15 @@ export default function Edit({
 													>
 														{/* 自分で入力できるように RichText を配置 */}
 														<RichText
-															value={
-																tableSource[rowIndex]?.cells?.[colIndex]
-																	?.content || ""
+															value={langText(
+																tableSource[rowIndex]?.cells?.[colIndex]?.content,
+															)}
+															onChange={(newContent: string) =>
+																setLangText(
+																	{ kind: "cell", r: rowIndex, c: colIndex },
+																	newContent,
+																)
 															}
-															onChange={(newContent: string) => {
-																// tableSource を手動で更新するロジック
-																const newSource = [...tableSource];
-																if (!newSource[rowIndex])
-																	newSource[rowIndex] = { cells: [] };
-																if (!newSource[rowIndex].cells)
-																	newSource[rowIndex].cells = [];
-																newSource[rowIndex].cells[colIndex] = {
-																	content: newContent,
-																	tag: "td",
-																};
-																setAttributes({ tableSource: newSource });
-															}}
 															placeholder={__("...", "itmar")}
 														/>
 													</td>
@@ -1257,6 +1384,17 @@ export default function Edit({
 				</PanelBody>
 			</InspectorControls>
 
+			{hasMultiLang && (
+				<BlockControls>
+					<LangToolbar
+						langOptions={translationConfig.languages}
+						activeLang={activeLang}
+						canAutoTranslate={canAutoTranslate}
+						isManual={false}
+						onRetranslate={translateAllEmpty}
+					/>
+				</BlockControls>
+			)}
 			<BlockControls>
 				<AlignmentToolbar
 					value={isSelHeader ? columAlignTH : columAlign[selCulumn]}

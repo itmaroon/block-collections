@@ -95,6 +95,9 @@ const units = [
 	{ value: "rem", label: "rem" },
 ];
 
+//マージンとパディングは、親の幅に対する割合（%）を使える。マージンは負の値も使える。画像の上に本文を重ねるときなどに、左マージンを -60%、画像の右パディングを 60% のように指定する
+const unitsWithPercent = [...units, { value: "%", label: "%" }];
+
 function checkInnerGroupBlocks(blocks: BlockInstance[]): boolean {
 	for (const block of blocks) {
 		// itmar/design-group ブロックで is_menu が true の場合
@@ -180,8 +183,11 @@ export default function Edit(props: GroupEditProps) {
 		is_swiper,
 		is_moveable,
 		position,
+		mobile_position,
 		is_menu,
 		zIndex,
+		scrollInside,
+		scrollScale,
 		menuId,
 		hamburger_style,
 		menuTrigger,
@@ -196,6 +202,8 @@ export default function Edit(props: GroupEditProps) {
 
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
+	//いま編集しているデバイス幅で非表示になっているか
+	const isHiddenNow = isMobile ? !!mobile_val?.hidden : !!default_val?.hidden;
 
 	/*
 	 * メニュー本体のIDを採番する。ハンバーガーは aria-controls でこのIDを名指しし、
@@ -249,6 +257,7 @@ export default function Edit(props: GroupEditProps) {
 	const editorStyleCss = createGroupStyleCss(
 		attributes,
 		`.${editorStyleClass}`,
+		true,
 	);
 	const swiperParallaxAttributes = parallax_obj
 		? {
@@ -322,12 +331,20 @@ export default function Edit(props: GroupEditProps) {
 	);
 
 	//移動可能ブロックならドラッグのカスタムフックを付加
+	// 編集中の幅（デスクトップ/モバイル）に応じて、書き込む先を切り替える。
+	// モバイルは未設定ならデスクトップの値から始める
+	const activePosition: MovePosition = isMobile
+		? mobile_position ?? position
+		: position;
 	const handlePositionChange = (newPosition: MovePosition): void => {
-		setAttributes({ position: newPosition });
+		setAttributes(
+			isMobile ? { mobile_position: newPosition } : { position: newPosition },
+		);
 	};
-	useDraggingMove(is_moveable, blockRef, position, handlePositionChange);
+	useDraggingMove(is_moveable, blockRef, activePosition, handlePositionChange);
 
 	//ブロックの監視（メニューに設定されているitmar/design-groupが存在するかのチェック
+
 	const isMenuBlockPresent = useSelect((select) => {
 		const { getBlocks } = select(
 			"core/block-editor",
@@ -441,6 +458,27 @@ export default function Edit(props: GroupEditProps) {
 			// コンポーネントのアンマウント時にオブザーバーをクリーンアップ
 			return () => observer.disconnect();
 		}
+	}, [is_anime, anime_prm.trigger]);
+
+	useEffect(() => {
+		//スライドが表示されたことによるアニメスタート
+		if (!is_anime || anime_prm.trigger !== "slide") return;
+		//Swiperの初期化でスライドのクラスが後から付くので、スライドブロック全体を見て、その都度、自分のスライドを探す
+		const slideBlock = blockRef.current?.closest(".wp-block-itmar-slide-mv");
+		if (!slideBlock) return;
+		const sync = () => {
+			const slide = blockRef.current?.closest(".swiper-slide");
+			if (!slide) return;
+			setStartAnime(slide.classList.contains("swiper-slide-active"));
+		};
+		sync();
+		const observer = new MutationObserver(sync);
+		observer.observe(slideBlock, {
+			attributes: true,
+			attributeFilter: ["class"],
+			subtree: true,
+		});
+		return () => observer.disconnect();
 	}, [is_anime, anime_prm.trigger]);
 
 	//親ブロックにis_swiperが設定されているか
@@ -738,39 +776,6 @@ export default function Edit(props: GroupEditProps) {
 						</>
 					)}
 				</PanelBody>
-				{(is_menu ||
-					positionType === "absolute" ||
-					positionType === "fixed" ||
-					positionType === "sticky") && (
-					<PanelBody
-						title={__("Stacking Order", "block-collections")}
-						initialOpen={false}
-						className="form_design_ctrl"
-					>
-						{/*
-						 * 重ね順。position:absolute などのグループは既定で z-index:100 になるが、
-						 * 同じ値どうしではDOM順で後ろにあるほうが前面に出る。前後を入れ替えたい
-						 * ときにここで指定する。未設定なら従来の既定値のまま。
-						 */}
-						<NumberControl
-							label={__("z-index", "block-collections")}
-							value={zIndex}
-							onChange={(newValue?: string) => {
-								const num =
-									newValue === undefined || newValue === ""
-										? undefined
-										: Number(newValue);
-								setAttributes({
-									zIndex: Number.isNaN(num as number) ? undefined : num,
-								});
-							}}
-							help={__(
-								"Leave empty to use the default (100 for menus and positioned groups). Larger values come to the front.",
-								"block-collections",
-							)}
-						/>
-					</PanelBody>
-				)}
 				<PanelBody
 					title={__("Link Setting", "block-collections")}
 					initialOpen={true}
@@ -969,7 +974,8 @@ export default function Edit(props: GroupEditProps) {
 								});
 							}
 						}}
-						units={units} // 許可する単位
+						inputProps={{ min: -Infinity }} // 負の値を許可する（既定は 0 以上）
+						units={unitsWithPercent} // 許可する単位
 						allowReset={true} // リセットの可否
 						resetValues={padding_resetValues} // リセット時の値
 					/>
@@ -1003,13 +1009,19 @@ export default function Edit(props: GroupEditProps) {
 								});
 							}
 						}}
-						units={units} // 許可する単位
+						units={unitsWithPercent} // 許可する単位（%を含む）
 						allowReset={true} // リセットの可否
 						resetValues={padding_resetValues} // リセット時の値
 					/>
 				</PanelBody>
 				<BlockPlace
-					attributes={attributes}
+					//ポジションタイプはデバイスごと。モバイルは、未設定ならデスクトップと同じ
+					attributes={{
+						...attributes,
+						positionType: isMobile
+							? mobile_val?.positionType || positionType
+							: positionType,
+					}}
 					clientId={clientId}
 					blockRef={blockRef}
 					isMobile={isMobile}
@@ -1155,7 +1167,17 @@ export default function Edit(props: GroupEditProps) {
 						}
 					}}
 					onPositionChange={(value) => {
-						setAttributes({ positionType: value });
+						if (!isMobile) {
+							setAttributes({ positionType: value });
+						} else {
+							//デスクトップと同じ値のときは、未設定に戻す
+							setAttributes({
+								mobile_val: {
+									...mobile_val,
+									positionType: value === positionType ? undefined : value,
+								},
+							});
+						}
 					}}
 					onIsPosCenterChange={(value) => {
 						setAttributes({ isPosCenter: value });
@@ -1218,7 +1240,7 @@ export default function Edit(props: GroupEditProps) {
 									  },
 							);
 						}}
-						units={units} // 許可する単位
+						units={unitsWithPercent} // 許可する単位（%を含む）
 						allowReset={true} // リセットの可否
 						resetValues={
 							!isMobile ? padding_resetValues : padding_mobile_resetValues
@@ -1245,6 +1267,125 @@ export default function Edit(props: GroupEditProps) {
 					)}
 				</PanelBody>
 
+				{(is_menu ||
+					positionType === "relative" ||
+					positionType === "absolute" ||
+					positionType === "fixed" ||
+					positionType === "sticky") && (
+					<PanelBody
+						title={__("Stacking Order", "block-collections")}
+						initialOpen={false}
+						className="form_design_ctrl"
+					>
+						{/*
+						 * 重ね順。position:absolute などのグループは既定で z-index:100 になるが、
+						 * 同じ値どうしではDOM順で後ろにあるほうが前面に出る。前後を入れ替えたい
+						 * ときにここで指定する。未設定なら従来の既定値のまま。
+						 */}
+						<NumberControl
+							label={__("z-index", "block-collections")}
+							value={zIndex}
+							onChange={(newValue?: string) => {
+								const num =
+									newValue === undefined || newValue === ""
+										? undefined
+										: Number(newValue);
+								setAttributes({
+									zIndex: Number.isNaN(num as number) ? undefined : num,
+								});
+							}}
+							help={__(
+								"Leave empty to use the default (100 for menus and positioned groups). Larger values come to the front.",
+								"block-collections",
+							)}
+						/>
+					</PanelBody>
+				)}
+				<PanelBody
+					title={__("Scroll", "block-collections")}
+					initialOpen={false}
+					className="form_design_ctrl"
+				>
+					<ToggleControl
+						label={__("Scroll inside", "block-collections")}
+						checked={!!scrollInside}
+						help={__(
+							"Scrolls only this group when its contents do not fit. The group needs a fixed height: full or a vh value, or the flex item setting (grow 1, shrink 1, basis 0) inside a column.",
+							"block-collections",
+						)}
+						onChange={(newVal: boolean) =>
+							setAttributes({ scrollInside: newVal ? true : undefined })
+						}
+					/>
+					<ToggleControl
+						label={__("Scale when target is hidden", "block-collections")}
+						checked={scrollScale !== undefined}
+						help={__(
+							"Enlarges this group while the target element is scrolled out of view, and returns it to normal size when the target comes back. The group is not moved, only scaled.",
+							"block-collections",
+						)}
+						onChange={(newVal: boolean) =>
+							setAttributes({
+								scrollScale: newVal
+									? { target: "", scale: 1.3, duration: 300, origin: "center" }
+									: undefined,
+							})
+						}
+					/>
+					{scrollScale !== undefined && (
+						<>
+							<TextControl
+								label={__("Target (CSS selector)", "block-collections")}
+								value={scrollScale.target ?? ""}
+								help={__(
+									"The element to watch, for example the menu body group's additional CSS class. Nothing happens when it is not found or not displayed.",
+									"block-collections",
+								)}
+								onChange={(val: string) =>
+									setAttributes({ scrollScale: { ...scrollScale, target: val } })
+								}
+							/>
+							<RangeControl
+								label={__("Scale", "block-collections")}
+								value={scrollScale.scale ?? 1.3}
+								min={1}
+								max={3}
+								step={0.05}
+								onChange={(val?: number) =>
+									setAttributes({
+										scrollScale: { ...scrollScale, scale: val ?? 1.3 },
+									})
+								}
+							/>
+							<RangeControl
+								label={__("Duration (ms)", "block-collections")}
+								value={scrollScale.duration ?? 300}
+								min={0}
+								max={1500}
+								step={50}
+								onChange={(val?: number) =>
+									setAttributes({
+										scrollScale: { ...scrollScale, duration: val ?? 300 },
+									})
+								}
+							/>
+							<SelectControl
+								label={__("Scale origin", "block-collections")}
+								value={scrollScale.origin ?? "center"}
+								options={[
+									{ label: __("Center", "block-collections"), value: "center" },
+									{ label: __("Top left", "block-collections"), value: "top left" },
+									{ label: __("Top right", "block-collections"), value: "top right" },
+									{ label: __("Bottom left", "block-collections"), value: "bottom left" },
+									{ label: __("Bottom right", "block-collections"), value: "bottom right" },
+								]}
+								onChange={(val: string) =>
+									setAttributes({ scrollScale: { ...scrollScale, origin: val } })
+								}
+							/>
+						</>
+					)}
+				</PanelBody>
 				<PanelBody
 					title={__("Position moveable", "block-collections")}
 					initialOpen={true}
@@ -1257,16 +1398,63 @@ export default function Edit(props: GroupEditProps) {
 						}}
 					/>
 					{is_moveable && (
+							<p style={{ margin: "0 0 8px", fontSize: "12px", opacity: 0.8 }}>
+								{isMobile
+									? __("Editing the mobile position (until moved, it follows the desktop position).", "block-collections")
+									: __("Editing the desktop position (mobile follows it unless set separately).", "block-collections")}
+							</p>
+						)}
+						{is_moveable && (
 						<DraggableBox
-							attributes={attributes.position}
-							onPositionChange={(position) =>
-								setAttributes({ position: position })
-							}
+							attributes={activePosition}
+							labelSuffix={isMobile ? "(Mobile)" : "(DeskTop)"}
+							onPositionChange={handlePositionChange}
 						/>
 					)}
 				</PanelBody>
 			</InspectorControls>
-			{(positionType === "absolute" || positionType === "fixed") && (
+				{/* 表示するデバイス幅ごとの非表示。いま編集している幅（デスクトップ/モバイル）の設定を切り替える */}
+				<BlockControls>
+					<ToolbarGroup>
+						<ToolbarButton
+							icon={isHiddenNow ? "hidden" : "visibility"}
+							label={
+								isMobile
+									? isHiddenNow
+										? __("Show on mobile", "block-collections")
+										: __("Hide on mobile", "block-collections")
+									: isHiddenNow
+										? __("Show on desktop", "block-collections")
+										: __("Hide on desktop", "block-collections")
+							}
+							isPressed={isHiddenNow}
+							showTooltip
+							onClick={() => {
+								if (!isMobile) {
+									setAttributes({
+										default_val: {
+											...default_val,
+											hidden: isHiddenNow ? undefined : true,
+										},
+									});
+								} else {
+									setAttributes({
+										mobile_val: {
+											...mobile_val,
+											hidden: isHiddenNow ? undefined : true,
+										},
+									});
+								}
+							}}
+						/>
+					</ToolbarGroup>
+				</BlockControls>
+			{/* 隠した（To Back）あとでポジションタイプを relative に変えても、戻せなくならないよう、隠れている間は常に出す */}
+			{(positionType === "absolute" ||
+				positionType === "fixed" ||
+				mobile_val?.positionType === "absolute" ||
+				mobile_val?.positionType === "fixed" ||
+				!isAppear) && (
 				<BlockControls>
 					<ToolbarGroup>
 						<ToolbarButton

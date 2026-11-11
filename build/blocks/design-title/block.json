@@ -8,6 +8,11 @@
   "icon": "tag",
   "supports": {
     "html": false,
+    "itmarTranslatable": {
+      "attributes": [
+        "headingContent"
+      ]
+    },
     "color": {},
     "typography": {
       "fontSize": false,
@@ -41,7 +46,10 @@
   "example": {},
   "attributes": {
     "headingContent": {
-      "type": "string"
+      "type": [
+        "string",
+        "object"
+      ]
     },
     "uniqueID": {
       "type": "string"
@@ -221,6 +229,21 @@
     },
     "headingSizeMobile": {
       "type": "string"
+    },
+    "headingFluidDesktop": {
+      "type": "object"
+    },
+    "headingFluidMobile": {
+      "type": "object"
+    },
+    "charAnime": {
+      "type": "object"
+    },
+    "langSwitch": {
+      "type": "string"
+    },
+    "langManual": {
+      "type": "object"
     }
   },
   "textdomain": "block-collections",

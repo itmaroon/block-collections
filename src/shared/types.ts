@@ -42,6 +42,14 @@ export interface LabelBoxProps {
 	attributes: Record<string, any>;
 	onChange: (key: string, value: unknown) => void;
 	children?: ReactNode;
+	/** 言語ごとの文字を持つブロックが渡す。編集中の言語の文字を、ラベルと必須の表示に読み書きする */
+	lang?: LabelLang;
+}
+
+export interface LabelLang {
+	active: string;
+	text: (key: "labelContent" | "requiredDisplay") => string;
+	set: (key: "labelContent" | "requiredDisplay", value: string) => void;
 }
 
 export interface OptionItem {

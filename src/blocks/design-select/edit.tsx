@@ -4,6 +4,9 @@ import { createSelectStyleCss } from "./StyleSelect";
 import { NomalSelect } from "./initSelect";
 import { useEffect, useRef, useState } from "@wordpress/element";
 import LabelBox from "../LabelBox";
+import { LangToolbar } from "../design-title/LangToolbar";
+import { textForLang } from "../design-title/langCore";
+import { useLangFields, type LangFieldDef } from "../useLangFields";
 import OptionModal from "../OptionModal";
 import {
 	useElementBackgroundColor,
@@ -24,6 +27,7 @@ import {
 } from "@wordpress/components";
 import {
 	useBlockProps,
+	BlockControls,
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl,
@@ -96,6 +100,37 @@ export default function Edit({
 		is_shadow,
 		className,
 	} = attributes;
+
+	/*
+	 * ラベルと必須の表示は、言語ごとに持てる（編集言語の切り替えと自動翻訳は useLangFields）。
+	 */
+	const langFields: Record<
+		"labelContent" | "requiredDisplay",
+		LangFieldDef<SelectAttributes>
+	> = {
+		labelContent: {
+			get: (a) => a.labelContent,
+			patch: (_a, v) => ({ labelContent: v }),
+		},
+		requiredDisplay: {
+			get: (a) => a.required.display,
+			patch: (a, v) => ({ required: { ...a.required, display: v } }),
+		},
+	};
+	const lang = useLangFields({
+		blockName: "itmar/design-select",
+		attributes,
+		setAttributes,
+		fields: langFields,
+	});
+	const labelLang = lang.hasMultiLang
+		? {
+				active: lang.activeLang,
+				text: (key: "labelContent" | "requiredDisplay") => lang.fieldText(key),
+				set: (key: "labelContent" | "requiredDisplay", value: string) =>
+					lang.setFieldText(key, value),
+			}
+		: undefined;
 
 	//モバイルの判定
 	const isMobile = useIsIframeMobile();
@@ -213,7 +248,7 @@ export default function Edit({
 									value={option_item.value}
 									selected={selectedValues.includes(option_item.id)}
 								>
-									{option_item.label}
+									{textForLang(option_item.label, lang.activeLang)}
 								</option>
 							);
 						})}
@@ -221,6 +256,7 @@ export default function Edit({
 				</NomalSelect>
 
 				<LabelBox
+					lang={labelLang}
 					attributes={{ ...attributes, isMobile: isMobile }}
 					onChange={(target, newVal) => setAttributes({ [target]: newVal })}
 				/>
@@ -230,6 +266,17 @@ export default function Edit({
 
 	return (
 		<>
+			{lang.hasMultiLang && (
+				<BlockControls>
+					<LangToolbar
+						langOptions={lang.langOptions}
+						activeLang={lang.activeLang}
+						canAutoTranslate={lang.canAutoTranslate}
+						isManual={lang.isManualLang}
+						onRetranslate={lang.retranslateAll}
+					/>
+				</BlockControls>
+			)}
 			<InspectorControls group="settings">
 				<PanelBody
 					title={__("Select Element Settings", "block-collections")}
@@ -282,6 +329,7 @@ export default function Edit({
 							title={__("Option info Setting", "block-collections")}
 						>
 							<OptionModal
+								blockName="itmar/design-select"
 								optionValues={selectValues}
 								onAddOption={(selectedOption: SelectOption) => {
 									setAttributes({

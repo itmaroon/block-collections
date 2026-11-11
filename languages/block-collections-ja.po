@@ -1358,6 +1358,10 @@ msgid "Enter Visible"
 msgstr "可視領域表示時"
 
 #: build/blocks/design-group/index.js:1
+msgid "Slide Shown"
+msgstr "スライド表示時"
+
+#: build/blocks/design-group/index.js:1
 msgid "Number of Row "
 msgstr "行番号"
 
@@ -2572,6 +2576,66 @@ msgctxt "block title"
 msgid "Design Title"
 msgstr "デザインタイトル"
 
+#: build/blocks/design-group/index.js:1
+msgid "Stretch"
+msgstr "引き伸ばし"
+
+#: build/blocks/design-button/index.js:1
+msgid "Scroll to Top"
+msgstr "ページの先頭へ戻る"
+
+#: build/blocks/design-button/index.js:1
+msgid "Scrolls the page to the top. The button fades out when the page is at the top, and fades in when the page can be scrolled up. Put it in a group and set the group's position to fixed. It is always shown in the editor."
+msgstr "ページを先頭までスクロールします。ページが先頭にあるときはフェードで消え、上へスクロールできるようになるとフェードで現れます。グループに入れ、グループの位置を固定にして使います。編集画面では常に表示されます。"
+
+#: build/blocks/design-group/index.js:1
+msgid "Scale when target is hidden"
+msgstr "対象が隠れたら拡大する"
+
+#: build/blocks/design-group/index.js:1
+msgid "Enlarges this group while the target element is scrolled out of view, and returns it to normal size when the target comes back. The group is not moved, only scaled."
+msgstr "対象の要素がスクロールで画面から外れている間、このグループを拡大し、対象が戻ると元の大きさに戻します。位置は動かさず、大きさだけを変えます。"
+
+#: build/blocks/design-group/index.js:1
+msgid "Target (CSS selector)"
+msgstr "対象（CSSセレクター）"
+
+#: build/blocks/design-group/index.js:1
+msgid "The element to watch, for example the menu body group's additional CSS class. Nothing happens when it is not found or not displayed."
+msgstr "監視する要素です。たとえばメニュー本体のグループに付けた追加CSSクラスを指定します。見つからない、または表示されていないときは何もしません。"
+
+#: build/blocks/design-group/index.js:1
+msgid "Duration (ms)"
+msgstr "所要時間（ミリ秒）"
+
+#: build/blocks/design-group/index.js:1
+msgid "Scale origin"
+msgstr "拡大の基点"
+
+#: build/blocks/design-group/index.js:1
+msgid "Top left"
+msgstr "左上"
+
+#: build/blocks/design-group/index.js:1
+msgid "Top right"
+msgstr "右上"
+
+#: build/blocks/design-group/index.js:1
+msgid "Bottom left"
+msgstr "左下"
+
+#: build/blocks/design-group/index.js:1
+msgid "Bottom right"
+msgstr "右下"
+
+#: build/blocks/design-group/index.js:1
+msgid "Position expression"
+msgstr "位置の式"
+
+#: build/blocks/design-group/index.js:1
+msgid "Enter a CSS expression such as calc()"
+msgstr "calc() などのCSSの式を入力する"
+
 #~ msgid "Font Size(mobile)"
 #~ msgstr "フォントサイズ（モバイル）"
 
@@ -2742,3 +2806,183 @@ msgstr "デザインタイトル"
 
 #~ msgid " Background Color Setting"
 #~ msgstr "背景色設定"
+
+#: build/blocks/design-title/index.js:1
+msgid "Title text"
+msgstr "タイトルの文字"
+
+#: build/blocks/design-title/index.js:1
+msgid "Enter the text here when it is hard to click it on the canvas, such as inside a slide. It is applied when you leave this field."
+msgstr "スライドの中など、画面上でクリックしにくいときは、ここで文字を入力できます。入力欄から外れたときに反映されます。"
+
+#: build/blocks/design-title/index.js:1
+msgid "Fluid (min / screen width / max)"
+msgstr "画面幅に連動（最小・画面幅・最大）"
+
+#: build/blocks/design-title/index.js:1
+msgid "Minimum size"
+msgstr "最小サイズ"
+
+#: build/blocks/design-title/index.js:1
+msgid "Screen width ratio (vw)"
+msgstr "画面幅に対する割合（vw）"
+
+#: build/blocks/design-title/index.js:1
+msgid "Maximum size"
+msgstr "最大サイズ"
+
+#: build/blocks/design-title/index.js:1
+msgid "The size follows the screen width and stops at the minimum and the maximum. Narrow screens use the mobile settings."
+msgstr "画面幅に合わせて大きさが変わり、最小と最大で止まります。狭い画面ではモバイルの設定を使います。"
+
+#: build/blocks/design-title/index.js:1
+msgid "Character animation"
+msgstr "文字アニメーション"
+
+#: build/blocks/design-title/index.js:1
+msgid "Animation type"
+msgstr "アニメーションの種類"
+
+#: build/blocks/design-title/index.js:1
+msgid "Appear one by one"
+msgstr "1文字ずつ表示"
+
+#: build/blocks/design-title/index.js:1
+msgid "Rise up"
+msgstr "せり上がり"
+
+#: build/blocks/design-title/index.js:1
+msgid "The text is split into characters when the page is displayed. Screen readers read the original text."
+msgstr "ページの表示時に、文字を1文字ずつに分けて動かします。読み上げには、元の文字が使われます。"
+
+#: build/blocks/design-title/index.js:1
+msgid "Start when"
+msgstr "開始のタイミング"
+
+#: build/blocks/design-title/index.js:1
+msgid "Visible on screen"
+msgstr "画面に表示されたとき"
+
+#: build/blocks/design-title/index.js:1
+msgid "Delay between characters (sec)"
+msgstr "文字ごとのずらし幅（秒）"
+
+#: build/blocks/design-title/index.js:1
+msgid "Duration of each character (sec)"
+msgstr "1文字の動きの長さ（秒）"
+
+#: build/blocks/design-title/index.js:1
+msgid "Start delay (sec)"
+msgstr "開始までの遅延（秒）"
+
+#: build/blocks/design-title/index.js:1
+msgid "Play preview"
+msgstr "プレビュー再生"
+
+#: build/17.js:1
+#: build/399.js:1
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:1
+#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1
+#: build/blocks/design-title/index.js:1
+msgid "Translate again automatically"
+msgstr "自動翻訳をやり直す"
+
+#: build/17.js:1
+#: build/399.js:1
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:1
+#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1
+#: build/blocks/design-title/index.js:1
+msgid "Manual"
+msgstr "手入力"
+
+#: build/17.js:1
+#: build/399.js:1
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:1
+#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1
+#: build/blocks/design-title/index.js:1
+msgid "Auto"
+msgstr "自動"
+
+#: build/17.js:1
+#: build/399.js:1
+#: build/blocks/design-button/index.js:1
+#: build/blocks/design-checkbox/index.js:1
+#: build/blocks/design-radio/index.js:1
+#: build/blocks/design-table/index.js:1
+#: build/blocks/design-title/index.js:1
+msgid "Editing language"
+msgstr "編集する言語"
+
+#: build/blocks/design-button/index.js:1
+msgid "Overlay Menu"
+msgstr "オーバーレイメニュー"
+
+#: build/blocks/design-button/index.js:1
+msgid "Shows or hides the group with the specified form ID over the whole screen. Put a button of the same type with the same ID inside the group to close it."
+msgstr "指定したフォームIDのグループを、画面全体に重ねて表示・非表示にします。閉じるには、同じIDの同じ種類のボタンをグループの中に置きます。"
+
+#: build/blocks/design-group/index.js:1
+msgid "Position Type(Mobile)"
+msgstr "ポジションタイプ(モバイル)"
+
+#: build/blocks/design-group/index.js:1
+msgid "Position Type(DeskTop)"
+msgstr "ポジションタイプ(デスクトップ)"
+
+#: build/blocks/design-group/index.js:1
+msgid "Scroll"
+msgstr "スクロール"
+
+#: build/blocks/design-group/index.js:1
+msgid "Scroll inside"
+msgstr "内側をスクロール"
+
+#: build/blocks/design-group/index.js:1
+msgid "Scrolls only this group when its contents do not fit. The group needs a fixed height: full or a vh value, or the flex item setting (grow 1, shrink 1, basis 0) inside a column."
+msgstr "中身が収まらないとき、このグループの中だけをスクロールします。グループの高さを決めておく必要があります（full または vh の値。縦並びの中では、フレックスアイテムの設定 grow 1・shrink 1・basis 0）。"
+
+#: build/blocks/design-group/index.js:1
+msgid "Editing the mobile position (until moved, it follows the desktop position)."
+msgstr "モバイルの位置を編集中です（動かすまでは、デスクトップの位置に従います）。"
+
+#: build/blocks/design-group/index.js:1
+msgid "Editing the desktop position (mobile follows it unless set separately)."
+msgstr "デスクトップの位置を編集中です（モバイルは、別に設定しなければ、これに従います）。"
+
+#: build/blocks/design-group/index.js:1
+msgid "Show on mobile"
+msgstr "モバイルで表示する"
+
+#: build/blocks/design-group/index.js:1
+msgid "Hide on mobile"
+msgstr "モバイルで非表示にする"
+
+#: build/blocks/design-group/index.js:1
+msgid "Show on desktop"
+msgstr "デスクトップで表示する"
+
+#: build/blocks/design-group/index.js:1
+msgid "Hide on desktop"
+msgstr "デスクトップで非表示にする"
+
+#: build/blocks/design-table/index.js:1
+msgid "Translate every heading and cell that has no text in this language yet? Existing text is kept."
+msgstr "この言語の文字がまだ入っていない見出しとセルを、すべて翻訳しますか？ すでにある文字は残ります。"
+
+#: build/blocks/design-title/index.js:1
+msgid "Language Switch"
+msgstr "言語の切り替え"
+
+#: build/blocks/design-title/index.js:1
+msgid "When clicked, the site is shown in the selected language. The choice is remembered in a cookie."
+msgstr "クリックすると、選んだ言語でサイトを表示します。選んだ言語は、Cookie に記憶されます。"
+
+#: build/blocks/design-title/index.js:1
+msgid "Language to switch to"
+msgstr "切り替える言語"

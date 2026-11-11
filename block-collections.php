@@ -5,7 +5,7 @@
  * Description:       A plug-in collects multiple blocks of small-scale user interface functionality.
  * Requires at least: 6.4
  * Requires PHP:      8.2.10
- * Version:           2.3.9
+ * Version:           2.4.0
  * Author:            Web Creator ITmaroon
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -290,6 +290,37 @@ function itmar_block_collections_font_init()
 	wp_enqueue_style('awesome-solid', plugins_url('/assets/css/solid.css', __FILE__), array(), '6.5.0');
 }
 add_action('enqueue_block_assets', 'itmar_block_collections_font_init');
+
+/**
+ * スタイルが当たる前の崩れた表示を見せない。
+ *
+ * itmar のブロックは、見た目の CSS を各 view.js が実行時に組み立てて差し込む。
+ * 実行が終わるまでの一瞬、スタイルの無いレイアウトが見えてしまうので、
+ * itmar のブロックを含むページに限り、DOMContentLoaded の次の描画まで本文を隠す。
+ * 背景は隠さない（body の visibility だけ）。タイムアウトと noscript で必ず解除する。
+ * ブロックテーマは本文を wp_head より先に描画するので、そのときに使用を検知できる。
+ */
+function itmar_block_collections_mark_used($block_content, $block)
+{
+	if (!empty($block['blockName']) && strpos($block['blockName'], 'itmar/') === 0) {
+		$GLOBALS['itmar_block_collections_page_uses_blocks'] = true;
+	}
+	return $block_content;
+}
+add_filter('render_block', 'itmar_block_collections_mark_used', 5, 2);
+
+function itmar_block_collections_paint_guard()
+{
+	if (is_admin() || is_feed() || is_customize_preview() || empty($GLOBALS['itmar_block_collections_page_uses_blocks'])) {
+		return;
+	}
+?>
+<style id="itmar-paint-guard">html:not(.itmar-ready) body{visibility:hidden}</style>
+<noscript><style>html:not(.itmar-ready) body{visibility:visible}</style></noscript>
+<script>(function(d){var h=d.documentElement,done=function(){h.classList.add('itmar-ready')};setTimeout(done,3000);d.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(function(){requestAnimationFrame(done)})})})(document)</script>
+<?php
+}
+add_action('wp_head', 'itmar_block_collections_paint_guard', 1);
 
 //ユーザー情報取得のためのカスタムエンドポイント
 add_action('rest_api_init', function () {

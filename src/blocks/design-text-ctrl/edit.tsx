@@ -7,6 +7,9 @@ import { useEffect, useRef, useState } from "@wordpress/element";
 import { useDispatch } from "@wordpress/data";
 
 import LabelBox from "../LabelBox";
+import { LangToolbar } from "../design-title/LangToolbar";
+import { defaultText } from "../design-title/langCore";
+import { useLangFields, type LangFieldDef } from "../useLangFields";
 import {
 	useElementBackgroundColor,
 	useIsIframeMobile,
@@ -33,6 +36,7 @@ import {
 } from "@wordpress/components";
 import {
 	useBlockProps,
+	BlockControls,
 	InspectorControls,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	__experimentalBorderRadiusControl as BorderRadiusControl,
@@ -182,10 +186,39 @@ export default function Edit(props: TextCtrlEditProps) {
 		}
 	}, [baseColor]);
 
+	/*
+	 * ラベル・必須の表示・プレースホルダーは、言語ごとに持てる。
+	 * 編集言語の切り替えと自動翻訳は、design-button と同じ仕組み（useLangFields）。
+	 */
+	const langFields: Record<
+		"labelContent" | "requiredDisplay" | "placeFolder",
+		LangFieldDef<TextCtrlAttributes>
+	> = {
+		labelContent: {
+			get: (a) => a.labelContent,
+			patch: (_a, v) => ({ labelContent: v }),
+		},
+		requiredDisplay: {
+			get: (a) => a.required.display,
+			patch: (a, v) => ({ required: { ...a.required, display: v } }),
+		},
+		placeFolder: {
+			get: (a) => a.placeFolder,
+			patch: (_a, v) => ({ placeFolder: v }),
+		},
+	};
+	const lang = useLangFields({
+		blockName: "itmar/design-text-ctrl",
+		attributes,
+		setAttributes,
+		fields: langFields,
+	});
+	const labelText = lang.fieldText("labelContent");
+	const requiredText = lang.fieldText("requiredDisplay");
+	const placeText = lang.fieldText("placeFolder");
+
 	//必須項目の表示
-	const dispLabel = required.flg
-		? `${labelContent}(${required.display})`
-		: labelContent;
+	const dispLabel = required.flg ? `${labelText}(${requiredText})` : labelText;
 
 	//親コンポーネントからのラベル幅の指定があればそれを採用して記録する
 	const label_width = String(props.context["itmar/label_width"] || "auto");
@@ -218,7 +251,7 @@ export default function Edit(props: TextCtrlEditProps) {
 		"itmar/design-text-ctrl",
 	) as TargetTextBlock[];
 	const targetArray = targetblocks.map((block) => ({
-		label: String(block.attributes.labelContent ?? ""),
+		label: defaultText(block.attributes.labelContent),
 		value: String(block.attributes.inputName ?? ""),
 	}));
 	//住所の代入対象のブロック
@@ -234,6 +267,17 @@ export default function Edit(props: TextCtrlEditProps) {
 
 	return (
 		<>
+			{lang.hasMultiLang && (
+				<BlockControls>
+					<LangToolbar
+						langOptions={lang.langOptions}
+						activeLang={lang.activeLang}
+						canAutoTranslate={lang.canAutoTranslate}
+						isManual={lang.isManualLang}
+						onRetranslate={lang.retranslateAll}
+					/>
+				</BlockControls>
+			)}
 			<InspectorControls group="settings">
 				<PanelBody
 					title={__("Input element information setting", "block-collections")}
@@ -249,9 +293,9 @@ export default function Edit(props: TextCtrlEditProps) {
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label={__("PlaceHolder", "block-collections")}
-							value={placeFolder}
-							onChange={(newVal: string) => setAttributes({ placeFolder: newVal })}
+							label={`${__("PlaceHolder", "block-collections")}${lang.hasMultiLang ? ` (${lang.activeLang})` : ""}`}
+							value={placeText}
+							onChange={(newVal: string) => lang.setFieldText("placeFolder", newVal)}
 						/>
 					</PanelRow>
 					<PanelRow className="itmar_weight_row">
@@ -587,7 +631,7 @@ export default function Edit(props: TextCtrlEditProps) {
 							type="text"
 							name={inputName}
 							placeholder={
-								className?.includes("is-style-line") ? dispLabel : placeFolder
+								className?.includes("is-style-line") ? dispLabel : placeText
 							}
 							className={`contact_text ${stateValue ? "" : "empty"}`}
 							value={stateValue}
@@ -601,7 +645,7 @@ export default function Edit(props: TextCtrlEditProps) {
 						<input
 							type="email"
 							placeholder={
-								className?.includes("is-style-line") ? dispLabel : placeFolder
+								className?.includes("is-style-line") ? dispLabel : placeText
 							}
 							className={`contact_text ${stateValue ? "" : "empty"}`}
 							value={stateValue}
@@ -617,7 +661,7 @@ export default function Edit(props: TextCtrlEditProps) {
 							<input
 								type={showPassword ? "text" : "password"}
 								placeholder={
-									className?.includes("is-style-line") ? dispLabel : placeFolder
+									className?.includes("is-style-line") ? dispLabel : placeText
 								}
 								className={`contact_text ${stateValue ? "" : "empty"}`}
 								value={stateValue}
@@ -755,7 +799,7 @@ export default function Edit(props: TextCtrlEditProps) {
 							style={{ height }}
 							name={inputName}
 							placeholder={
-								className?.includes("is-style-line") ? dispLabel : placeFolder
+								className?.includes("is-style-line") ? dispLabel : placeText
 							}
 							className={`contact_text ${stateValue ? "" : "empty"}`}
 							value={stateValue}
@@ -768,6 +812,15 @@ export default function Edit(props: TextCtrlEditProps) {
 						/>
 					)}
 					<LabelBox
+						lang={
+							lang.hasMultiLang
+								? {
+										active: lang.activeLang,
+										text: (key) => lang.fieldText(key),
+										set: (key, value) => lang.setFieldText(key, value),
+									}
+								: undefined
+						}
 						attributes={{ ...attributes, isMobile: isMobile }}
 						onChange={(target: string, newVal: unknown) =>
 							setAttributes({ [target]: newVal })

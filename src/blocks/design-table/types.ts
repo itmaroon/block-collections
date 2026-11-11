@@ -13,8 +13,11 @@ export interface CellPosition {
 
 export type TableCellTag = "td" | "th";
 
+/** 文字列なら言語を分けていない。{JP, EN} なら言語ごとの文字 */
+export type LangText = string | Record<string, string>;
+
 export interface TableCell {
-	content?: string;
+	content?: LangText;
 	tag?: TableCellTag;
 	style?: CSSProperties;
 	[key: string]: unknown;
@@ -52,8 +55,8 @@ export interface DesignTableAttributes {
 	tableLayout: TableLayout;
 	is_heading: boolean;
 	is_rowHeading: boolean;
-	tableHeading: string[];
-	rowTableHeading: string[];
+	tableHeading: LangText[];
+	rowTableHeading: LangText[];
 	bgColor: string;
 	font_style_th: FontStyle;
 	font_style_td: FontStyle;

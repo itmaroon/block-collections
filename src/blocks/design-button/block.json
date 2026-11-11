@@ -6,7 +6,10 @@
 	"title": "Design Button",
 	"category": "design",
 	"supports": {
-		"html": false
+		"html": false,
+		"itmarTranslatable": {
+			"attributes": []
+		}
 	},
 	"attributes": {
 		"buttonType": {
@@ -75,7 +78,10 @@
 		},
 		
 		"labelContent": {
-			"type": "string"
+			"type": ["string", "object"]
+		},
+		"langManual": {
+			"type": "object"
 		},
 		"disabled": {
 			"type": "boolean",
@@ -265,7 +271,7 @@
 			}
 		},
 		"tooltip_text":{
-			"type":"string",
+			"type":["string", "object"],
 			"default":""
 		}
 	},

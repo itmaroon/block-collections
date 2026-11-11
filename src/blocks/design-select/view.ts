@@ -1,6 +1,57 @@
 import { styleDataApply } from "itmar-block-packages/front";
 import { createSelectStyleCss } from "./StyleSelect";
 import { setSelectValue } from "../front-common";
+import { currentViewLang, textForLang } from "../design-title/langCore";
+
+/* ------------------------------
+  表示する言語の文字へ差し替え
+  ------------------------------
+  保存された HTML には既定の言語の文字が入っている。言語ごとの文字は data-lang-texts に持っているので、
+  表示している言語（URL → Cookie → 既定）の文字に差し替える。 */
+const applySelectLang = (): void => {
+	const lang = currentViewLang();
+	document
+		.querySelectorAll<HTMLElement>(".wp-block-itmar-design-select[data-lang-texts]")
+		.forEach((block) => {
+			let texts: Record<string, any>;
+			try {
+				texts = JSON.parse(block.getAttribute("data-lang-texts") || "{}");
+			} catch (e) {
+				return;
+			}
+			//選択肢の表示名（option・選択済みの表示・リスト）。id で対応づける
+			const options = (texts as { options?: Record<string, Record<string, string>> }).options;
+			if (options) {
+				Object.entries(options).forEach(([id, map]) => {
+					const text = textForLang(map, lang);
+					const esc = id.replace(/"/g, '\\"');
+					block
+						.querySelectorAll<HTMLElement>(`option[id="${esc}"], li[id="${esc}"]`)
+						.forEach((el) => (el.textContent = text));
+					block
+						.querySelectorAll<HTMLElement>(`a[id="${esc}"] em`)
+						.forEach((el) => (el.textContent = text));
+				});
+			}
+			const labelElm = block.querySelector<HTMLElement>("label");
+			if (!labelElm) return;
+			if (texts.labelContent) {
+				const first = labelElm.firstChild;
+				const text = textForLang(texts.labelContent, lang);
+				if (first && first.nodeType === Node.TEXT_NODE) first.textContent = text;
+				else if (!labelElm.querySelector("span")) labelElm.textContent = text;
+			}
+			const span = labelElm.querySelector<HTMLElement>("span");
+			if (span && texts.requiredDisplay) {
+				span.textContent = `(${textForLang(texts.requiredDisplay, lang)})`;
+			}
+		});
+};
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", applySelectLang);
+} else {
+	applySelectLang();
+}
 
 styleDataApply(createSelectStyleCss, ".wp-block-itmar-design-select", {
 	target: "auto",

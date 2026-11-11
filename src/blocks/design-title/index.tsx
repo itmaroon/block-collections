@@ -7,7 +7,7 @@ import "./style.scss";
  * Internal dependencies
  */
 import Edit from "./edit";
-import save, { legacySave } from "./save";
+import save, { legacySave, entityLegacySave } from "./save";
 import metadata from "./block.json";
 import { ReactComponent as Title } from "./title.svg";
 import type { TitleAttributes, TitleEditProps } from "./types";
@@ -63,6 +63,14 @@ const settings = {
 			(metadata as { attributes?: unknown }).attributes,
 		supports: (metadata as { supports?: unknown }).supports,
 		save: legacySave,
+	},
+	{
+		apiVersion: (metadata as { apiVersion?: number }).apiVersion,
+		attributes:
+			(settings as unknown as { attributes?: unknown }).attributes ??
+			(metadata as { attributes?: unknown }).attributes,
+		supports: (metadata as { supports?: unknown }).supports,
+		save: entityLegacySave,
 	},
 ];
 

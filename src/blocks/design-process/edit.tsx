@@ -1,6 +1,8 @@
 import { __ } from "@wordpress/i18n";
 import "./editor.scss";
 import { createProcessStyleCss } from "./StyleProcess";
+import { textForLang } from "../design-title/langCore";
+import { useEditLang, useTranslationConfig } from "../design-title/lang";
 import {
 	TypographyControls,
 	ShadowStyle,
@@ -144,6 +146,10 @@ export default function Edit({
 	}, [baseColor]);
 
 	//親のcontextから今のステップ数を取得
+	//各ステップの名前は、言語ごとに持てる。編集言語に合わせて表示する
+	const translationConfig = useTranslationConfig();
+	const editLang = useEditLang();
+	const activeLang = translationConfig.languages.length > 1 ? editLang : "JP";
 	const stage_index = context["itmar/current_step"] ?? 0;
 
 	// 兄弟ブロックの取得。JSON文字列を返し、内容が同じ場合の再レンダーを防ぐ。
@@ -176,7 +182,8 @@ export default function Edit({
 					block_type: String(
 						block.attributes.info_type || block.attributes.form_type || "",
 					),
-					stage_info: String(block.attributes.stage_info ?? ""),
+					//言語ごとの文字（{JP, EN}）のときは、そのまま持つ（保存する HTML には既定の言語を出し、表示のときに差し替える）
+					stage_info: (block.attributes.stage_info ?? "") as FigureBlockInfo["stage_info"],
 				}));
 
 			return JSON.stringify(blocks);
@@ -450,7 +457,7 @@ export default function Edit({
 				<ul className={`itmar-wrap ${editorStyleClass}`}>
 					{figureBlocks.map((block, index) => (
 						<li key={index} className={stage_index >= index ? "ready" : ""}>
-							{block.stage_info}
+							{textForLang(block.stage_info, activeLang)}
 						</li>
 					))}
 				</ul>

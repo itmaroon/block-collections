@@ -10,7 +10,7 @@ import {
 	cssValueToString,
 } from "itmar-block-packages/front";
 import type { GridElement, GroupAttributes, GroupLayout } from "./types";
-import { MEDIA_MOBILE } from "../breakpoints";
+import { MEDIA_MOBILE, MEDIA_TABLET_UP } from "../breakpoints";
 
 /*
  * 最大幅のCSSを作る。
@@ -28,6 +28,20 @@ const maxWidthCss = (max_width?: string, max_free_width?: string): string =>
 		? cssValueToString(max_width_prm(max_width, max_free_width))
 		: "";
 
+/*
+ * 左右の負のマージン。「コンテナの配置」（align_prm）は margin-left / margin-right を auto や 0 で
+ * 書くので、そのままでは、マージン設定の左右の値が上書きされて効かない。
+ * 画像の上に本文を重ねる、のような配置に使う負の値だけは、配置のあとに書き直す。
+ * 正の値は、これまでどおり、配置が優先される（既存のブロックの見た目を変えない）。
+ */
+const negativeSideMarginCss = (margin?: { left?: string | number; right?: string | number }): string =>
+	(["left", "right"] as const)
+		.map((side) => {
+			const value = String(margin?.[side] ?? "").trim();
+			return /^-\s*\d/.test(value) ? `margin-${side}: ${value};` : "";
+		})
+		.join(" ");
+
 const createGridItemCss = (gridElms: GridElement[] = []): string =>
 	gridElms
 		.map((element, index) => {
@@ -42,7 +56,24 @@ const createGridItemCss = (gridElms: GridElement[] = []): string =>
 					? "center"
 					: element.vertAlign === "lower"
 					? "end"
+					: element.vertAlign === "stretch"
+					? "stretch"
 					: "start";
+
+			/*
+			 * 縦に引き伸ばすとき：子の height が auto でないと、align-self: stretch は効かない。
+			 * さらに、背景を持つ内側の要素（> div と .group_contents）が、中身の高さのままだと、
+			 * 枠だけが伸びて背景が伸びないので、内側も 100% にする。
+			 * 子の高さが「内容に合わせる」だと、内側に auto を入れる指定があるので、詳細度の高いこの指定で上書きする。
+			 */
+			const stretchInnerCss =
+				vertical === "stretch"
+					? `
+					&:nth-child(${index + 1}) { height: auto; }
+					&:nth-child(${index + 1}) > div,
+					&:nth-child(${index + 1}) > div > .group_contents { height: 100%; }
+				`
+					: "";
 
 			return `
 				&:nth-child(${index + 1}) {
@@ -51,6 +82,7 @@ const createGridItemCss = (gridElms: GridElement[] = []): string =>
 					align-self: ${vertical};
 					justify-self: ${element.latAlign};
 				}
+				${stretchInnerCss}
 			`;
 		})
 		.join("");
@@ -141,6 +173,8 @@ const createDirectionCss = (scope: string, values: GroupLayout): string => {
 export const createGroupStyleCss = (
 	attributes: GroupAttributes,
 	scope: string,
+	//エディターでは、非表示のグループも消さずに、薄く表示する（消すと選べなくなる）
+	isEditor = false,
 ): string => {
 	const {
 		positionType = "relative",
@@ -151,11 +185,13 @@ export const createGroupStyleCss = (
 		is_shadow,
 		is_moveable,
 		position = { x: "0px", y: "0px" },
+		mobile_position,
 		is_menu,
 		is_submenu,
 		isAppear = true,
 		has_submenu,
 		zIndex,
+		scrollInside,
 		anime_prm,
 	} = attributes;
 
@@ -195,13 +231,34 @@ export const createGroupStyleCss = (
 	const defaultPosition = cssValueToString(
 		position_prm(isPosCenter || default_val.posValue, positionType),
 	);
+	/*
+	 * モバイルだけ、ポジションタイプを変えられる（未設定ならデスクトップと同じ）。
+	 * 位置指定のあるタイプから無いタイプへ変えるときは、デスクトップの top/left などが
+	 * そのまま効いてしまうので、モバイル側で戻す。
+	 */
+	const isPositionedType = (t?: string): boolean =>
+		t === "absolute" || t === "fixed" || t === "sticky";
+	const mobilePositionType = mobile_val?.positionType || positionType;
+	const mobilePositionTypeCss =
+		mobilePositionType === positionType
+			? ""
+			: `position: ${mobilePositionType};${
+					isPositionedType(positionType) && !isPositionedType(mobilePositionType)
+						? "top: auto; right: auto; bottom: auto; left: auto; transform: none;"
+						: ""
+				}`;
 	const mobilePosition = cssValueToString(
-		position_prm(isPosCenter || mobile_val.posValue, positionType),
+		position_prm(isPosCenter || mobile_val.posValue, mobilePositionType),
 	);
 	const shadow = is_shadow && shadow_result ? convertToScss(shadow_result) : "";
 	const transform = is_moveable
 		? `transform: translate(${position.x}, ${position.y});`
 		: "";
+	// モバイルだけ別の移動量を持てる。未設定ならデスクトップと同じ（メディアクエリに何も足さない）
+	const mobileTransform =
+		is_moveable && mobile_position
+			? `transform: translate(${mobile_position.x}, ${mobile_position.y});`
+			: "";
 	/*
 	 * モバイルで中身を縦スクロールさせるのは、画面いっぱいに開くメニューのため。
 	 * すべてのグループに付けるとスクロール領域ができてしまい、中に置いた
@@ -213,125 +270,16 @@ export const createGroupStyleCss = (
 	 * 位置（top/left）は固定だが、上のマージンは、パネルを下へ下げる量として使う（既定は 0）。
 	 * 高さは、その分を引いて、画面の下にはみ出さないようにする。
 	 */
-	const menuTopMargin = (() => {
-		const top = String(mobile_val?.margin?.top ?? "").trim();
+	const menuTopMarginOf = (layout?: GroupLayout): string => {
+		const top = String(layout?.margin?.top ?? "").trim();
 		return top && top !== "0" ? top : "0px";
-	})();
-	const contentSelector = `${scope} > div > .group_contents`;
+	};
 	/*
-	 * 高さが fit / auto のグループは、内側の要素の高さも auto にする。
-	 * 内側は、既定で height:100% / inherit を持つ。親の高さが内容で決まる（fit-content）とき、
-	 * Chrome は、その % を auto として扱うが、iPhone の Safari（iOS 26）は 0 として扱い、
-	 * 中身がはみ出して、position:fixed のバーなどが、潰れて、見切れる。
+	 * 引き出しパネルのCSS（モバイル幅でだけ引き出しにするメニュー用）。
 	 */
-	const fitInnerHeightCss = (heightVal?: string) =>
-		heightVal === "fit" || heightVal === "auto"
-			? `${scope} > div, ${contentSelector} { height: auto; }`
-			: "";
-
-	/*
-	 * 重ね順。position_prm は absolute のとき `z-index: auto` を出すので、
-	 * その後ろで上書きする必要がある。モバイル側のブロックでも同じ指定を
-	 * 入れないと @media の中で `z-index: auto` に戻ってしまい、前面に出したい
-	 * グループ（ログオンバーなど）が背面に沈む。
-	 */
-	const stackingCss =
-		typeof zIndex === "number"
-			? `z-index: ${zIndex};`
-			: is_menu || positionType === "absolute" || positionType === "fixed"
-				? "z-index: 100;"
-				: "";
-
-	const defaultDirection = createDirectionCss(scope, default_val);
-	const mobileDirection = createDirectionCss(scope, mobile_val);
-	const animationCss = cssValueToString(anime_comp(anime_prm));
-
-	return `
-		${scope} {
-			${!isAppear ? "display: none;" : ""}
-			${defaultFlex}
-			${fitShrinkCss(default_val, !!defaultFlex)}
-			box-sizing: border-box;
-			position: ${positionType};
-			${defaultPosition}
-			margin: ${space_prm(default_val.margin)};
-			${stackingCss}
-			${
-				/*
-				 * サブメニューを持つグループは、兄弟のグループより手前に置く。
-				 * サブメニュー自身は z-index:1000 を持つが、glassmorphism の影を
-				 * 付けると .group_contents に backdrop-filter が乗って積層コンテキストが
-				 * できるため、その z-index はグループの外まで効かない。結果として
-				 * DOM順で後ろにある兄弟グループ（ボタン列など）にサブメニューが
-				 * 隠れる。ここで持ち上げておけば、影の設定に関わらず前面に出る。
-				 */
-				/*
-				 * 30 なのは、design-title の内側ラッパが全て z-index:10 を持つため
-				 * （StyleWapper の innerScope）。同値だとDOM順で後ろの項目（LINEボタン等）
-				 * が前に来てしまい、開いたサブメニューが下に潜る。
-				 */
-				has_submenu && !is_menu && positionType === "relative"
-					? "z-index: 30;"
-					: ""
-			}
-			${cssValueToString(width_prm(default_val.width_val, default_val.free_width))}
-			${maxWidthCss(default_val.max_width, default_val.max_free_width)}
-			${cssValueToString(height_prm(default_val.height_val, default_val.free_height))}
-			${cssValueToString(align_prm(default_val.outer_align))}
-			align-self: ${default_val.outer_vertical};
-		}
-
-		/*
-		 * padding は背景色・枠線が乗る内側の要素に当てる。
-		 * 外側（.itmar-wrap）に当てていた頃は、余白が背景の外側にできてしまい、
-		 * 「余白を足したのに背景が広がらない」という見え方になっていた。
-		 * margin は外側のまま（背景の外に置くのが正しい）。
-		 */
-		${scope} > div {
-			box-sizing: border-box;
-			padding: ${space_prm(default_val.padding)};
-			${transform}
-		}
-
-		${fitInnerHeightCss(default_val.height_val)}
-
-		${contentSelector} {
-			${animationCss}
-			${cssValueToString(shadow)};
-			padding: ${space_prm(default_val.padding_content)};
-		}
-
-		${defaultDirection}
-
-		${MEDIA_MOBILE} {
-			${scope} {
-				${mobileFlex}
-				${fitShrinkCss(mobile_val, !!flexCss(mobile_val))}
-				${mobilePosition}
-				${stackingCss}
-				margin: ${space_prm(mobile_val.margin)};
-				${cssValueToString(width_prm(mobile_val.width_val, mobile_val.free_width))}
-				${maxWidthCss(mobile_val.max_width, mobile_val.max_free_width)}
-				${cssValueToString(height_prm(mobile_val.height_val, mobile_val.free_height))}
-				${cssValueToString(align_prm(mobile_val.outer_align))}
-			}
-
-			${scope} > div {
-				padding: ${space_prm(mobile_val.padding)};
-			}
-
-			${fitInnerHeightCss(mobile_val.height_val)}
-
-			${contentSelector} {
-				padding: ${space_prm(mobile_val.padding_content)};
-				overflow-y: ${overflow};
-			}
-
-			${mobileDirection}
-
-			${
-				is_menu
-					? `
+	const drawerCss = (layout: GroupLayout): string => {
+		const menuTopMargin = menuTopMarginOf(layout);
+		return `
 				${scope} {
 					position: fixed !important;
 					top: 0;
@@ -370,9 +318,204 @@ export const createGroupStyleCss = (
 				`
 						: ""
 				}
-			`
+			`;
+	};
+	const contentSelector = `${scope} > div > .group_contents`;
+	/*
+	 * 高さが fit / auto のグループは、内側の要素の高さも auto にする。
+	 * 内側は、既定で height:100% / inherit を持つ。親の高さが内容で決まる（fit-content）とき、
+	 * Chrome は、その % を auto として扱うが、iPhone の Safari（iOS 26）は 0 として扱い、
+	 * 中身がはみ出して、position:fixed のバーなどが、潰れて、見切れる。
+	 */
+	const fitInnerHeightCss = (heightVal?: string) =>
+		heightVal === "fit" || heightVal === "auto"
+			? `${scope} > div, ${contentSelector} { height: auto; }`
+			: "";
+
+	/*
+	 * 重ね順。position_prm は absolute のとき `z-index: auto` を出すので、
+	 * その後ろで上書きする必要がある。モバイル側のブロックでも同じ指定を
+	 * 入れないと @media の中で `z-index: auto` に戻ってしまい、前面に出したい
+	 * グループ（ログオンバーなど）が背面に沈む。
+	 */
+	const stackingCss =
+		typeof zIndex === "number"
+			? `z-index: ${zIndex};`
+			: is_menu || positionType === "absolute" || positionType === "fixed"
+				? "z-index: 100;"
+				: "";
+
+	//モバイルのポジションタイプに合わせた重ね順。タイプを変えたときは、デスクトップの指定を戻す
+	const mobileStackingCss =
+		mobilePositionType === positionType
+			? stackingCss
+			: typeof zIndex === "number"
+				? `z-index: ${zIndex};`
+				: is_menu ||
+					  mobilePositionType === "absolute" ||
+					  mobilePositionType === "fixed"
+					? "z-index: 100;"
+					: stackingCss
+						? "z-index: auto;"
+						: "";
+
+	/*
+	 * デバイスごとの非表示。デスクトップはタブレット以上の幅だけ、モバイルはモバイル幅だけ消す。
+	 * エディターでは、消さずに薄く表示する。
+	 */
+	const hideCss = (hidden?: boolean): string =>
+		!hidden
+			? ""
+			: isEditor
+				? `${scope} { opacity: 0.35; outline: 1px dashed rgba(128, 128, 128, 0.7); outline-offset: -1px; }`
+				: `${scope} { display: none !important; }`;
+	const defaultHideCss = default_val?.hidden
+		? `${MEDIA_TABLET_UP} { ${hideCss(true)} }`
+		: "";
+
+	/*
+	 * サブメニューの入れ物（design-title の .submenu-block）は、中身に合わせた幅（fit-content）。
+	 * その中のグループの width:100% は入れ物の幅に対する割合で、親のタイトルまで届かない。
+	 * 幅が「full」のグループは、入れ物のほうを親のタイトルの幅（100%）にする。
+	 * 入れ物の幅は、デバイスごとに、グループの幅に合わせる。
+	 */
+	const submenuHolder = `.submenu-block:has(> ${scope})`;
+	const defaultFull = default_val.width_val === "full";
+	const mobileFull = mobile_val.width_val === "full";
+	const submenuWidthCss = is_submenu
+		? `${defaultFull ? `${submenuHolder} { width: 100%; }` : ""}
+		${
+			mobileFull !== defaultFull
+				? `${MEDIA_MOBILE} { ${submenuHolder} { width: ${mobileFull ? "100%" : "fit-content"}; } }`
+				: ""
+		}`
+		: "";
+
+	/*
+	 * 「中でスクロール」を選んだグループは、中身が収まらないとき、グループの中だけをスクロールさせる。
+	 * 高さが決まっていること（full・vh の値、または、親の中で余りを埋めるフレックス指定）が前提。
+	 * 外へ出る影やサブメニューは切れるので、選んだときだけ有効にする。
+	 */
+	const scrollCss = scrollInside
+		? "overflow-y: auto; overscroll-behavior: contain;"
+		: "";
+
+	const defaultDirection = createDirectionCss(scope, default_val);
+	const mobileDirection = createDirectionCss(scope, mobile_val);
+	const animationCss = cssValueToString(anime_comp(anime_prm));
+
+	return `
+		${scope} {
+			${!isAppear ? "display: none;" : ""}
+			${defaultFlex}
+			${fitShrinkCss(default_val, !!defaultFlex)}
+			box-sizing: border-box;
+			position: ${positionType};
+			${defaultPosition}
+			margin: ${space_prm(default_val.margin)};
+			${stackingCss}
+			${
+				/*
+				 * サブメニューを持つグループは、兄弟のグループより手前に置く。
+				 * サブメニュー自身は z-index:1000 を持つが、glassmorphism の影を
+				 * 付けると .group_contents に backdrop-filter が乗って積層コンテキストが
+				 * できるため、その z-index はグループの外まで効かない。結果として
+				 * DOM順で後ろにある兄弟グループ（ボタン列など）にサブメニューが
+				 * 隠れる。ここで持ち上げておけば、影の設定に関わらず前面に出る。
+				 */
+				/*
+				 * 30 なのは、design-title の内側ラッパが全て z-index:10 を持つため
+				 * （StyleWapper の innerScope）。同値だとDOM順で後ろの項目（LINEボタン等）
+				 * が前に来てしまい、開いたサブメニューが下に潜る。
+				 */
+				has_submenu && !is_menu && positionType === "relative"
+					? "z-index: 30;"
 					: ""
 			}
+			${cssValueToString(width_prm(default_val.width_val, default_val.free_width))}
+			${maxWidthCss(default_val.max_width, default_val.max_free_width)}
+			${cssValueToString(height_prm(default_val.height_val, default_val.free_height))}
+			${cssValueToString(align_prm(default_val.outer_align))}
+			${negativeSideMarginCss(default_val.margin)}
+			align-self: ${default_val.outer_vertical};
+				${scrollCss}
+		}
+
+		/*
+		 * padding は背景色・枠線が乗る内側の要素に当てる。
+		 * 外側（.itmar-wrap）に当てていた頃は、余白が背景の外側にできてしまい、
+		 * 「余白を足したのに背景が広がらない」という見え方になっていた。
+		 * margin は外側のまま（背景の外に置くのが正しい）。
+		 */
+		${scope} > div {
+			box-sizing: border-box;
+			padding: ${space_prm(default_val.padding)};
+			${transform}
+		}
+
+		${fitInnerHeightCss(default_val.height_val)}
+
+		${contentSelector} {
+			/* 角丸はブロックのサポート機能が外側（.wp-block-itmar-design-group）に付ける。影はこの内側の要素に付くので、角丸を引き継がないと、影が四角いままになる */
+			border-radius: inherit;
+			${animationCss}
+			${cssValueToString(shadow)};
+			padding: ${space_prm(default_val.padding_content)};
+		}
+
+		${defaultDirection}
+
+		${
+			/*
+			 * 高さが決まったグループの中で、子は既定で縮める（min-height:0）。そのままだと、中身が
+			 * 収まらないとき、スクロールする前に子が潰れて重なり合う。縮めないようにして、はみ出した分を
+			 * スクロールで受ける。子が自分でフレックスを指定していれば、そちらを優先する（:where で詳細度0）。
+			 * 内側の要素は高さを中身に合わせる（最小は枠いっぱい）。height:100% のままだと、はみ出した中身の
+			 * 後ろに下の余白が付かず、最後の項目が枠の下端に付く。
+			 */
+			scrollInside
+				? `:where(${contentSelector}) > * { flex-shrink: 0; }
+					${scope} > div { height: auto; min-height: 100%; }
+					${contentSelector} { height: auto; }`
+				: ""
+		}
+
+		${defaultHideCss}
+
+		${submenuWidthCss}
+
+		${MEDIA_MOBILE} {
+			${scope} {
+				${mobileFlex}
+				${fitShrinkCss(mobile_val, !!flexCss(mobile_val))}
+				${mobilePositionTypeCss}
+				${mobilePosition}
+				${mobileStackingCss}
+				margin: ${space_prm(mobile_val.margin)};
+				${cssValueToString(width_prm(mobile_val.width_val, mobile_val.free_width))}
+				${maxWidthCss(mobile_val.max_width, mobile_val.max_free_width)}
+				${cssValueToString(height_prm(mobile_val.height_val, mobile_val.free_height))}
+				${cssValueToString(align_prm(mobile_val.outer_align))}
+				${negativeSideMarginCss(mobile_val.margin)}
+			}
+
+			${scope} > div {
+				padding: ${space_prm(mobile_val.padding)};
+				${mobileTransform}
+			}
+
+			${fitInnerHeightCss(mobile_val.height_val)}
+
+			${contentSelector} {
+				padding: ${space_prm(mobile_val.padding_content)};
+				overflow-y: ${overflow};
+			}
+
+			${mobileDirection}
+
+			${hideCss(mobile_val?.hidden)}
+
+			${is_menu ? drawerCss(mobile_val) : ""}
 		}
 	`;
 };

@@ -14,6 +14,7 @@ import { useBlockProps, InnerBlocks } from "@wordpress/block-editor";
 import type { BlockDeprecation } from "@wordpress/blocks";
 import metadata from "./block.json";
 import type { GroupAttributes, GroupSaveProps } from "./types";
+import save from "./save";
 
 function saveV1({ attributes }: GroupSaveProps) {
 	const {
@@ -120,4 +121,12 @@ const v1: BlockDeprecation<GroupAttributes> = {
 	save: saveV1 as never,
 };
 
-export default [v1];
+//v2: data-attributes の並びが、style のあとに menuId / hamburger_style が続く形で保存されていた頃
+//（編集で後から足した順に保存されていて、読み直すと定義順の再生成と食い違った）
+const v2: BlockDeprecation<GroupAttributes> = {
+	attributes: metadata.attributes as never,
+	supports: metadata.supports as never,
+	save: ((props: GroupSaveProps) => save(props, true)) as never,
+};
+
+export default [v2, v1];
